@@ -1,14 +1,31 @@
+import { useState, useEffect } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { GlobalStyle } from "theme/globalStyle";
+import { theme } from "theme/theme";
+import { ThemeProvider } from "styled-components";
 import Router from "../routes/Router";
-import { useState } from "react";
-import { authService } from "../firebase";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(authService.currentUser);
+  const [init, setInit] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+      setInit(true);
+    });
+  }, []);
+
   return (
-    <>
-      <Router isLoggedIn={isLoggedIn} />
-      <footer>&copy; {new Date().getFullYear()} Han Book Club </footer>
-    </>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      {init ? <Router isLoggedIn={isLoggedIn} /> : "Initializing..."}
+    </ThemeProvider>
   );
 }
 
