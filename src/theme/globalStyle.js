@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   body {
@@ -134,4 +134,31 @@ export const GlobalStyle = createGlobalStyle`
     border-collapse: collapse;
     border-spacing: 0;
   }
+`;
+
+export const Container = styled.div`
+  margin: 20px 15px 80px;
+  width: 290px;
+`;
+
+export const Box = styled.div`
+  background-color: ${(props) => props.theme.container.default};
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 10px 15px;
+`;
+
+export const BigBox = styled(Box)`
+  width: 290px;
+  min-height: 165px;
+`;
+
+export const MediumBox = styled(Box)`
+  width: 260px;
+  min-height: 200px;
+`;
+
+export const SmallBox = styled(Box)`
+  width: 220px;
+  min-height: 250px;
 `;

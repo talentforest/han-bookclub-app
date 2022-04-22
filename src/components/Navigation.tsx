@@ -8,7 +8,6 @@ import styled from "styled-components";
 
 const Navigation = () => {
   const pathname = useLocation().pathname;
-  console.log(pathname);
   return (
     <Nav>
       <ul>
@@ -63,6 +62,7 @@ const Nav = styled.nav`
   width: 100%;
   padding: 3px 0;
   z-index: 99;
+  background-color: ${(props) => props.theme.bgColor};
   ul {
     display: flex;
     justify-content: space-evenly;

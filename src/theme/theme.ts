@@ -11,7 +11,7 @@ export const theme: DefaultTheme = {
     white: "#fff",
   },
   container: {
-    default: "#FCFCFC",
+    default: "#FEFEFE",
     lightBlue: "#D8E3FF",
     blue: "#5D8AFE",
     orange: "#FFAE34",
