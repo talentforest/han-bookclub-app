@@ -1,10 +1,8 @@
-import { Link } from "react-router-dom";
 import { Container, Header } from "theme/globalStyle";
 import { ReactComponent as Search } from "assets/search.svg";
 import { ReactComponent as Setting } from "assets/settings.svg";
-import { ReactComponent as ArrowRight } from "assets/chevron_right.svg";
+import LinkButton from "components/common/LinkButton";
 import Subtitle from "components/common/Subtitle";
-import BookDescBox from "components/common/BookDescBox";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
 import VoteBox from "components/common/VoteBox";
 import Title from "components/common/Title";
@@ -21,26 +19,29 @@ const Home = () => {
         </div>
       </NewHeader>
       <NewContainer>
-        <Subtitle title="4월의 책" />
-        <BookDescBox />
-        <Link to="/book">
-          <Button>발제문 작성하러 가기</Button>
-          <ArrowRight width={16} height={18} />
-        </Link>
-        <Subtitle title="4월의 모임" />
-        <ScrollCon>
-          <div>
-            <MeetingInfoBox />
-            <MeetingInfoBox />
-          </div>
-        </ScrollCon>
-        <Subtitle title="4월의 투표" />
-        <ScrollCon>
-          <div>
-            <VoteBox />
-            <VoteBox />
-          </div>
-        </ScrollCon>
+        <section>
+          <Subtitle title="4월의 책" />
+          <Book>
+            <img src={require("assets/떨림과_울림.jpeg")} alt="Book" />
+            <h3>떨림과 울림</h3>
+          </Book>
+          <LinkButton link={"/book"} title="발제하러 가기" />
+        </section>
+        <section>
+          <Subtitle title="4월의 모임" />
+          <MeetingInfoBox />
+          <LinkButton link={"/meeting"} title="모임 후기 작성하러 가기" />
+        </section>
+        <section>
+          <Subtitle title="4월의 투표" />
+          <ScrollContainer>
+            <div>
+              <VoteBox />
+              <VoteBox />
+            </div>
+          </ScrollContainer>
+          <LinkButton link={"/vote"} title="투표하러 가기" />
+        </section>
       </NewContainer>
     </>
   );
@@ -55,39 +56,47 @@ const NewHeader = styled(Header)`
     align-items: center;
     > svg {
       margin-left: 5px;
-      fill: ${(props) => props.theme.text.lightBlue};
+      fill: ${(props) => props.theme.text.gray};
       cursor: pointer;
     }
   }
 `;
 
 const NewContainer = styled(Container)`
-  position: relative;
   overflow: hidden;
-  > a {
-    position: absolute;
-    top: 202px;
-    right: 15px;
-    display: flex;
-    align-items: center;
-    svg {
-      padding-top: 2px;
-      fill: ${(props) => props.theme.text.lightBlue};
+  > section {
+    margin: 0 auto 30px;
+    > a {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      svg {
+        padding-top: 2px;
+        fill: ${(props) => props.theme.text.lightBlue};
+      }
     }
   }
 `;
 
-const Button = styled.button`
-  padding: 5px 0;
-  border: none;
-  background-color: transparent;
-  font-size: 11px;
-  color: ${(props) => props.theme.text.lightBlue};
+const Book = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  img {
+    height: 135px;
+    width: auto;
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
+    margin: 10px 0;
+  }
+  h3 {
+    font-size: 14px;
+  }
 `;
 
-const ScrollCon = styled.div`
+const ScrollContainer = styled.div`
   overflow: scroll;
-  margin: -5px -3px 30px;
+  margin: -5px -3px;
   padding: 5px 3px;
   > div {
     display: flex;

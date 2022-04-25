@@ -140,7 +140,7 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export const Header = styled.header`
-  color: ${(props) => props.theme.text.lightBlue};
+  color: ${(props) => props.theme.text.gray};
   font-weight: 700;
   @media screen and (max-width: 500px) {
     padding: 20px 15px 10px;
@@ -168,9 +168,4 @@ export const BigBox = styled(Box)`
 export const MediumBox = styled(Box)`
   width: 260px;
   min-height: 200px;
-`;
-
-export const SmallBox = styled(Box)`
-  width: 220px;
-  min-height: 250px;
 `;
