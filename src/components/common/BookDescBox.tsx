@@ -1,9 +1,9 @@
 import { BigBox } from "theme/globalStyle";
 import styled from "styled-components";
 
-const BookInfoBox = () => {
+const BookDescBox = () => {
   return (
-    <InfoBox>
+    <Book>
       <img src={require("assets/떨림과_울림.jpeg")} alt="Book" />
       <div>
         <h3>떨림과 울림</h3>
@@ -14,15 +14,15 @@ const BookInfoBox = () => {
           <span>출간일: 2018년 11월 07일</span>
         </BookDesc>
       </div>
-    </InfoBox>
+    </Book>
   );
 };
 
-const InfoBox = styled(BigBox)`
+const Book = styled(BigBox)`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 50px;
+  margin: 0 auto 40px;
   img {
     height: 135px;
     width: auto;
@@ -52,4 +52,4 @@ const BookDesc = styled.div`
   }
 `;
 
-export default BookInfoBox;
+export default BookDescBox;

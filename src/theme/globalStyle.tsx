@@ -7,6 +7,9 @@ export const GlobalStyle = createGlobalStyle`
   * {
     font-family: "Noto Sans KR", sans-serif;
     box-sizing: border-box;
+    &::-webkit-scrollbar {
+    display: none;
+    }
   }
   a {
     text-decoration: none;
@@ -136,9 +139,18 @@ export const GlobalStyle = createGlobalStyle`
   }
 `;
 
+export const Header = styled.header`
+  color: ${(props) => props.theme.text.lightBlue};
+  font-weight: 700;
+  @media screen and (max-width: 500px) {
+    padding: 20px 15px 10px;
+  }
+`;
+
 export const Container = styled.div`
-  margin: 20px 15px 80px;
-  width: 290px;
+  @media screen and (max-width: 500px) {
+    padding: 10px 15px 80px;
+  }
 `;
 
 export const Box = styled.div`

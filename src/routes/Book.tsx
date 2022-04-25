@@ -1,16 +1,21 @@
+import { Container, Header } from "theme/globalStyle";
 import Title from "components/common/Title";
-import BookInfoBox from "components/common/BookInfoBox";
-import { Container } from "theme/globalStyle";
+import BookInfoBox from "components/common/BookDescBox";
 import SubjectBox from "components/book/SubjectBox";
+import Subtitle from "components/common/Subtitle";
 
 const Book = () => {
   return (
-    <Container>
-      <Title title="의 책" />
-      <hr></hr>
-      <BookInfoBox />
-      <SubjectBox />
-    </Container>
+    <>
+      <Header>
+        <Title title="의 책" />
+      </Header>
+      <Container>
+        <BookInfoBox />
+        <Subtitle title="발제문 작성하기" />
+        <SubjectBox />
+      </Container>
+    </>
   );
 };
 

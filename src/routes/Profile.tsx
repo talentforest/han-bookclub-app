@@ -1,6 +1,6 @@
 import { authService } from "fbase";
 import { useNavigate } from "react-router-dom";
-import { Container } from "theme/globalStyle";
+import { Container, Header } from "theme/globalStyle";
 import BackBtn from "components/BackBtn";
 import Title from "components/common/Title";
 import styled from "styled-components";
@@ -13,11 +13,13 @@ const Profile = () => {
   };
   return (
     <>
-      <Container>
+      <Header>
         <Title title="나의 정보" />
+      </Header>
+      <Container>
+        <BackBtn />
+        <LogOutBtn onClick={onLogOutClick}>Log out</LogOutBtn>
       </Container>
-      <BackBtn />
-      <LogOutBtn onClick={onLogOutClick}>Log out</LogOutBtn>
     </>
   );
 };

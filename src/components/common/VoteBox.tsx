@@ -1,19 +1,19 @@
 import { MediumBox } from "theme/globalStyle";
 import styled from "styled-components";
 
-const VoteInfoBox = () => {
+const VoteBox = () => {
   return (
-    <InfoBox>
+    <Vote>
       <span>모임날짜</span>
-    </InfoBox>
+    </Vote>
   );
 };
 
-const InfoBox = styled(MediumBox)`
+const Vote = styled(MediumBox)`
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 15px;
 `;
 
-export default VoteInfoBox;
+export default VoteBox;
