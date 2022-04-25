@@ -46,6 +46,21 @@ const Home = () => {
   );
 };
 
+const NewHeader = styled(Header)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  > div {
+    display: flex;
+    align-items: center;
+    > svg {
+      margin-left: 5px;
+      fill: ${(props) => props.theme.text.lightBlue};
+      cursor: pointer;
+    }
+  }
+`;
+
 const NewContainer = styled(Container)`
   position: relative;
   overflow: hidden;
@@ -58,21 +73,6 @@ const NewContainer = styled(Container)`
     svg {
       padding-top: 2px;
       fill: ${(props) => props.theme.text.lightBlue};
-    }
-  }
-`;
-
-const NewHeader = styled(Header)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  > div {
-    display: flex;
-    align-items: center;
-    > svg {
-      margin-left: 5px;
-      fill: ${(props) => props.theme.text.lightBlue};
-      cursor: pointer;
     }
   }
 `;

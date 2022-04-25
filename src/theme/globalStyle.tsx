@@ -147,7 +147,7 @@ export const Header = styled.header`
   }
 `;
 
-export const Container = styled.div`
+export const Container = styled.main`
   @media screen and (max-width: 500px) {
     padding: 10px 15px 80px;
   }
