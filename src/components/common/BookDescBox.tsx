@@ -22,7 +22,7 @@ const BookDescBox = () => {
 };
 
 const Box = styled.div`
-  padding: 0px 10px 10px;
+  padding: 0px 10px;
 `;
 
 const Details = styled.details`

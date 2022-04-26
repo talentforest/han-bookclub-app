@@ -2,7 +2,9 @@ import { useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { UserData } from "./SubjectBox";
+
 import styled from "styled-components";
+import { SubmitBtn } from "theme/globalStyle";
 
 const SubjectCreateBox = ({ uid }: UserData) => {
   const [subject, setSubject] = useState("");
@@ -33,20 +35,26 @@ const SubjectCreateBox = ({ uid }: UserData) => {
         value={subject}
         onChange={onChange}
       />
-      <SubmitBtn type="submit" value="남기기" />
+      <div>
+        <SubmitBtn type="submit" value="남기기" />
+      </div>
     </Form>
   );
 };
 
 const Form = styled.form`
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 290px;
-  padding: 10px;
+  width: 100%;
+  padding: 10px 15px;
   border-radius: 5px;
   background-color: ${(props) => props.theme.container.lightBlue};
+  > div {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+  }
 `;
 
 const Textarea = styled.textarea`
@@ -55,24 +63,11 @@ const Textarea = styled.textarea`
   border: none;
   border-radius: 5px;
   background-color: ${(props) => props.theme.container.default};
-  margin-bottom: 35px;
+  margin-bottom: 10px;
   padding: 10px;
   &:focus {
     outline: none;
   }
-`;
-
-const SubmitBtn = styled.input`
-  position: absolute;
-  right: 15px;
-  bottom: 10px;
-  border: none;
-  background-color: ${(props) => props.theme.container.blue};
-  color: ${(props) => props.theme.text.white};
-  font-size: 14px;
-  padding: 3px 8px;
-  border-radius: 5px;
-  cursor: pointer;
 `;
 
 export default SubjectCreateBox;

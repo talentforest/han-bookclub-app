@@ -68,7 +68,7 @@ const NewHeader = styled(Header)`
 const NewContainer = styled(Container)`
   overflow: hidden;
   > section {
-    margin: 0 auto 30px;
+    margin: 0 auto;
     > a {
       display: flex;
       align-items: center;

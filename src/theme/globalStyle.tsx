@@ -6,6 +6,7 @@ export const GlobalStyle = createGlobalStyle`
   }
   * {
     font-family: "Noto Sans KR", sans-serif;
+    color: ${(props) => props.theme.text.default};
     box-sizing: border-box;
     &::-webkit-scrollbar {
     display: none;
@@ -162,10 +163,20 @@ export const Box = styled.div`
 
 export const BigBox = styled(Box)`
   width: 290px;
-  min-height: 165px;
+  min-height: 100px;
 `;
 
 export const MediumBox = styled(Box)`
   width: 260px;
   min-height: 200px;
+`;
+
+export const SubmitBtn = styled.input`
+  border: none;
+  background-color: ${(props) => props.theme.container.blue};
+  color: ${(props) => props.theme.text.white};
+  font-size: 14px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  cursor: pointer;
 `;
