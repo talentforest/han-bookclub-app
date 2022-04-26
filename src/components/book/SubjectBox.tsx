@@ -1,74 +1,107 @@
-import React, { useState } from "react";
-import { dbService } from "fbase";
-import { addDoc, collection } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import { authService, dbService } from "fbase";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import SubjectCreateBox from "./SubjectCreateBox";
 import styled from "styled-components";
 
+export interface SubjectData {
+  text: string;
+  createdAt: number;
+  creatorId: string;
+  id: string;
+}
+export interface UserData {
+  uid: string;
+}
+
 const SubjectBox = () => {
-  const [subject, setSubject] = useState("");
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (subject === "") return;
-    try {
-      const docRef = await addDoc(collection(dbService, "book_subjects"), {
-        subject,
-        createdAt: Date.now(),
+  const [subjects, setSubjects] = useState<SubjectData[]>([]);
+  const [userData, setUserData] = useState<UserData>({
+    uid: "",
+  });
+
+  useEffect(() => {
+    onAuthStateChanged(authService, (user) => {
+      if (user) {
+        setUserData(user);
+      }
+    });
+    const q = query(
+      collection(dbService, "bookSubjects"),
+      orderBy("createdAt", "desc")
+    );
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const newArray = querySnapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
       });
-      console.log("Document written with ID:", docRef.id);
-    } catch (error) {
-      console.error("Error adding document:", error);
-    }
-    setSubject("");
-  };
-  const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
-    setSubject(event.currentTarget.value);
-  };
+      setSubjects(newArray as any);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [subjects]);
+
   return (
-    <Form onSubmit={onSubmit}>
-      <Textarea
-        placeholder="책을 읽으며 이야기하고 싶었던 주제들을 자유롭게 작성해주세요."
-        value={subject}
-        onChange={onChange}
-      />
-      <SubmitBtn type="submit" value="남기기" />
-    </Form>
+    <div>
+      <SubjectCreateBox uid={userData.uid} />
+      <Subject>
+        {subjects.map(({ text, createdAt, creatorId, id }) => (
+          <Text key={id}>
+            <div>
+              <span>발제자 </span>
+              <span>전예림</span>
+            </div>
+            <pre>{text}</pre>
+            <div>
+              <span>등록일자: </span>
+              <span>{createdAt}</span>
+            </div>
+          </Text>
+        ))}
+      </Subject>
+    </div>
   );
 };
 
-const Form = styled.form`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 290px;
-  padding: 10px;
+const Subject = styled.div`
   border-radius: 5px;
+  margin: 10px 0;
+  padding: 10px 15px;
+  font-size: 13px;
   background-color: ${(props) => props.theme.container.lightBlue};
 `;
 
-const Textarea = styled.textarea`
-  width: 260px;
-  min-height: 200px;
-  border: none;
-  border-radius: 5px;
-  background-color: ${(props) => props.theme.container.default};
-  margin-bottom: 35px;
+const Text = styled.div`
+  margin: 10px 0;
   padding: 10px;
-  &:focus {
-    outline: none;
-  }
-`;
-
-const SubmitBtn = styled.input`
-  position: absolute;
-  right: 15px;
-  bottom: 10px;
-  border: none;
-  background-color: ${(props) => props.theme.container.blue};
-  color: ${(props) => props.theme.text.white};
-  font-size: 14px;
-  padding: 3px 8px;
+  background-color: ${(props) => props.theme.container.default};
   border-radius: 5px;
-  cursor: pointer;
+  > div:first-child {
+    color: ${(props) => props.theme.text.accent};
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
+    span:last-child {
+      background-color: ${(props) => props.theme.container.yellow};
+      color: ${(props) => props.theme.text.accent};
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+  }
+  pre {
+    white-space: pre-wrap;
+  }
+  > div:last-child {
+    font-size: 12px;
+    text-align: end;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid ${(props) => props.theme.text.lightGray};
+  }
 `;
 
 export default SubjectBox;
