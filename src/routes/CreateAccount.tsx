@@ -4,7 +4,7 @@ import { authService } from "fbase";
 import { useNavigate } from "react-router-dom";
 import AccountForm from "components/AccountForm";
 import styled from "styled-components";
-import BackBtn from "components/BackBtn";
+import BackBtn from "components/BackButton";
 
 const CreateAccount = () => {
   const navigate = useNavigate();

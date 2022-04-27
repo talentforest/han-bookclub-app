@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
-import { UserData } from "./SubjectBox";
-
-import styled from "styled-components";
 import { SubmitBtn } from "theme/globalStyle";
+import { UserData } from "routes/Book";
+import styled from "styled-components";
 
 const SubjectCreateBox = ({ uid }: UserData) => {
   const [subject, setSubject] = useState("");
@@ -13,7 +12,7 @@ const SubjectCreateBox = ({ uid }: UserData) => {
     event.preventDefault();
     if (subject === "") return;
     try {
-      const docRef = await addDoc(collection(dbService, "bookSubjects"), {
+      await addDoc(collection(dbService, "bookSubjects"), {
         text: subject,
         createdAt: Date.now(),
         creatorId: uid,
@@ -59,7 +58,7 @@ const Form = styled.form`
 
 const Textarea = styled.textarea`
   width: 260px;
-  min-height: 200px;
+  min-height: 100px;
   border: none;
   border-radius: 5px;
   background-color: ${(props) => props.theme.container.default};

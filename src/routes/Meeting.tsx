@@ -16,6 +16,8 @@ const Meeting = () => {
         <Subtitle title="모임 후기 작성하기" />
         <ReviewCreateBox />
         <Reviews />
+        <Reviews />
+        <Reviews />
       </Container>
     </>
   );

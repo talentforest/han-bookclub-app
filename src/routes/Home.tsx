@@ -1,6 +1,6 @@
 import { Container, Header } from "theme/globalStyle";
-import { ReactComponent as Search } from "assets/search.svg";
 import { ReactComponent as Setting } from "assets/settings.svg";
+import { ReactComponent as Hamburger } from "assets/view_headline.svg";
 import LinkButton from "components/common/LinkButton";
 import Subtitle from "components/common/Subtitle";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
@@ -14,8 +14,8 @@ const Home = () => {
       <NewHeader>
         <Title title="독서모임 한 페이지" />
         <div>
-          <Search width="22px" height="22px" />
           <Setting width="20px" height="20px" />
+          <Hamburger width="24px" height="24px" />
         </div>
       </NewHeader>
       <NewContainer>
@@ -54,6 +54,7 @@ const NewHeader = styled(Header)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   > div {
     display: flex;
     align-items: center;
@@ -66,7 +67,6 @@ const NewHeader = styled(Header)`
 `;
 
 const NewContainer = styled(Container)`
-  overflow: hidden;
   > section {
     margin: 0 auto;
     > a {
@@ -77,6 +77,11 @@ const NewContainer = styled(Container)`
         padding-top: 2px;
         fill: ${(props) => props.theme.text.lightBlue};
       }
+    }
+  }
+  > section:first-child {
+    > h1 {
+      margin-top: 0;
     }
   }
 `;

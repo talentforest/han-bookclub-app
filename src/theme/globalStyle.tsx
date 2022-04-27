@@ -143,6 +143,9 @@ export const GlobalStyle = createGlobalStyle`
 export const Header = styled.header`
   color: ${(props) => props.theme.text.gray};
   font-weight: 700;
+  height: 40px;
+  display: flex;
+  align-items: center;
   @media screen and (max-width: 500px) {
     padding: 20px 15px 10px;
   }
