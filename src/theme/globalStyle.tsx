@@ -178,8 +178,9 @@ export const SubmitBtn = styled.input`
   border: none;
   background-color: ${(props) => props.theme.container.blue};
   color: ${(props) => props.theme.text.white};
-  font-size: 14px;
-  padding: 3px 8px;
+  font-size: 13px;
+  width: 65px;
+  height: 28px;
   border-radius: 5px;
   cursor: pointer;
 `;

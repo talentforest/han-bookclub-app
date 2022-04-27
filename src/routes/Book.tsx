@@ -2,13 +2,14 @@ import { Container, Header } from "theme/globalStyle";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { authService, dbService } from "fbase";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { ReactComponent as Plus } from "assets/plus.svg";
 import Title from "components/common/Title";
 import BookDescBox from "components/book/BookDescBox";
 import SubjectBox from "components/book/SubjectBox";
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
 import SubjectCreateBox from "components/book/SubjectCreateBox";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 
 export interface SubjectData {
   text: string;
@@ -22,10 +23,15 @@ export interface UserData {
 }
 
 const Book = () => {
+  const [modalOpen, setModalOpen] = useState(false);
   const [subjects, setSubjects] = useState<SubjectData[]>([]);
   const [userData, setUserData] = useState<UserData>({
     uid: "",
   });
+
+  const openModalClick = () => {
+    setModalOpen((prev) => !prev);
+  };
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
@@ -56,15 +62,37 @@ const Book = () => {
       <Header>
         <Title title="의 책" />
       </Header>
-      <Container>
+      <NewContainer>
         <BookInfo>
           <img src={require("assets/떨림과_울림.jpeg")} alt="Book" />
           <h3>떨림과 울림</h3>
         </BookInfo>
         <BookDescBox />
         <Subtitle title="발제문 작성하기" />
-        <div>
-          <SubjectCreateBox uid={userData.uid} />
+        <>
+          {subjects.length !== 0 ? (
+            <></>
+          ) : (
+            <>
+              <Guide>
+                <div>발제문</div>
+                <span>아직 발제문이 작성되지 않았어요.</span>
+                <PlusSubject onClick={openModalClick}>
+                  <Plus width="12" height="12" />
+                  <span>발제문 추가하기</span>
+                </PlusSubject>
+              </Guide>
+            </>
+          )}
+          {modalOpen ? (
+            <SubjectCreateBox
+              uid={userData.uid}
+              modalOpen={modalOpen}
+              setModalOpen={setModalOpen}
+            />
+          ) : (
+            <></>
+          )}
           <Subject>
             {subjects.map(({ text, createdAt, creatorId, id }) => (
               <SubjectBox
@@ -77,16 +105,67 @@ const Book = () => {
               />
             ))}
           </Subject>
-        </div>
-      </Container>
+        </>
+        {subjects.length !== 0 ? (
+          <PlusSubject onClick={openModalClick}>
+            <Plus width="12" height="12" />
+            <span>발제문 추가하기</span>
+          </PlusSubject>
+        ) : (
+          <></>
+        )}
+      </NewContainer>
     </>
   );
 };
+
+const NewContainer = styled(Container)`
+  position: relative;
+`;
 
 const Subject = styled.div`
   border-radius: 5px;
   margin: 10px 0;
   font-size: 13px;
+`;
+
+const Guide = styled.div`
+  width: 100%;
+  background-color: ${(props) => props.theme.container.lightBlue};
+  border-radius: 5px;
+  padding: 10px 15px 20px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  > div:first-child {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  > span {
+    width: 100%;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+`;
+
+const PlusSubject = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 3px;
+  margin-top: 10px;
+  cursor: pointer;
+  span {
+    font-size: 13px;
+    font-weight: 700;
+    margin-left: 5px;
+  }
 `;
 
 const BookInfo = styled.section`
