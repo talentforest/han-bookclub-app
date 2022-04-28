@@ -1,9 +1,10 @@
 import { Container, Header } from "theme/globalStyle";
 import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { authService, dbService } from "fbase";
+import { dbService } from "fbase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { ReactComponent as Plus } from "assets/plus.svg";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "data/atom";
 import Title from "components/common/Title";
 import BookDescBox from "components/book/BookDescBox";
 import SubjectBox from "components/book/SubjectBox";
@@ -18,27 +19,20 @@ export interface SubjectData {
   id: string;
 }
 
-export interface UserData {
-  uid: string;
+export interface AuthUser {
+  uid: string | undefined;
 }
 
 const Book = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [subjects, setSubjects] = useState<SubjectData[]>([]);
-  const [userData, setUserData] = useState<UserData>({
-    uid: "",
-  });
+  const userData = useRecoilValue<AuthUser | null>(currentUserState);
 
   const openModalClick = () => {
     setModalOpen((prev) => !prev);
   };
 
   useEffect(() => {
-    onAuthStateChanged(authService, (user) => {
-      if (user) {
-        setUserData(user);
-      }
-    });
     const q = query(
       collection(dbService, "bookSubjects"),
       orderBy("createdAt", "desc")
@@ -85,11 +79,7 @@ const Book = () => {
             </>
           )}
           {modalOpen ? (
-            <SubjectCreateBox
-              uid={userData.uid}
-              modalOpen={modalOpen}
-              setModalOpen={setModalOpen}
-            />
+            <SubjectCreateBox uid={userData?.uid} setModalOpen={setModalOpen} />
           ) : (
             <></>
           )}
@@ -98,7 +88,7 @@ const Book = () => {
               <SubjectBox
                 key={id}
                 id={id}
-                uid={userData.uid}
+                uid={userData?.uid}
                 creatorId={creatorId}
                 text={text}
                 createdAt={createdAt}

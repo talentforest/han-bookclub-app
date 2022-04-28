@@ -12,11 +12,7 @@ function App() {
   useEffect(() => {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
+      user ? setIsLoggedIn(true) : setIsLoggedIn(false);
       setInit(true);
     });
   }, []);

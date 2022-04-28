@@ -2,16 +2,15 @@ import { useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { Container, SubmitBtn } from "theme/globalStyle";
-import { UserData } from "routes/Book";
+import { AuthUser } from "routes/Book";
 import { ReactComponent as CloseIcon } from "assets/close.svg";
 import styled from "styled-components";
 
-interface PropsType extends UserData {
-  modalOpen: boolean;
+interface PropsType extends AuthUser {
   setModalOpen: (modalOpen: boolean) => void;
 }
 
-const SubjectCreateBox = ({ uid, modalOpen, setModalOpen }: PropsType) => {
+const SubjectCreateBox = ({ uid, setModalOpen }: PropsType) => {
   const [subject, setSubject] = useState("");
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -110,12 +109,6 @@ const Textarea = styled.textarea`
   &:focus {
     outline: none;
   }
-`;
-
-const DeleteBtn = styled.button`
-  color: ${(props) => props.theme.text.accent};
-  width: fit-content;
-  padding-bottom: 8px;
 `;
 
 export default SubjectCreateBox;
