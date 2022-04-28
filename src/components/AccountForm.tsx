@@ -70,7 +70,6 @@ const INPUT = styled.input`
 `;
 const Error = styled.span`
   font-size: 12px;
-  /* display: block; */
   padding-bottom: 10px;
 `;
 const Button = styled.input`
@@ -81,7 +80,7 @@ const Button = styled.input`
   background-color: ${(props) => props.theme.container.yellow};
   color: ${(props) => props.theme.text.lightBlue};
   font-weight: 700;
-  margin: 20px 0;
+  margin-bottom: 30px;
   cursor: pointer;
 `;
 

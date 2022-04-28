@@ -1,7 +1,6 @@
 import { BigBox } from "theme/globalStyle";
 import { ReactComponent as Clock } from "assets/calendar_month.svg";
 import { ReactComponent as Place } from "assets/place.svg";
-// import { ReactComponent as Edit } from "assets/edit.svg";
 import styled from "styled-components";
 
 const MeetingInfoBox = () => {

@@ -18,6 +18,11 @@ const SubjectBox = ({ text, createdAt, creatorId, id, uid }: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(text);
 
+  const onDeleteClick = async () => {
+    const SubjectTextRef = doc(dbService, "bookSubjects", `${id}`);
+    await deleteDoc(SubjectTextRef);
+  };
+
   const toggleEditing = () => setEditing((prev) => !prev);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -29,11 +34,6 @@ const SubjectBox = ({ text, createdAt, creatorId, id, uid }: PropsType) => {
 
   const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
     setNewText(event.currentTarget.value);
-  };
-
-  const onDeleteClick = async () => {
-    const SubjectTextRef = doc(dbService, "bookSubjects", `${id}`);
-    await deleteDoc(SubjectTextRef);
   };
 
   return (

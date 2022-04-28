@@ -18,11 +18,7 @@ const Auth = () => {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const data = await signInWithEmailAndPassword(
-        authService,
-        email,
-        password
-      );
+      await signInWithEmailAndPassword(authService, email, password);
     } catch (error) {
       setError((error as Error).message);
     }
@@ -41,7 +37,9 @@ const Auth = () => {
 
   return (
     <Main>
-      <H1>한겨레 독서모임</H1>
+      <H1>
+        한 페이지 <span>Han Page</span>
+      </H1>
       <Logo />
       <AccountForm
         email={email}
@@ -77,6 +75,15 @@ const H1 = styled.h1`
   text-align: center;
   padding: 24px 0;
   color: ${(props) => props.theme.text.lightBlue};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  span {
+    width: fit-content;
+    font-size: 12px;
+    color: ${(props) => props.theme.text.gray};
+    border-bottom: 1px solid #aaa;
+  }
 `;
 const Logo = styled.div`
   width: 100px;
@@ -86,6 +93,7 @@ const Logo = styled.div`
   background-color: ${(props) => props.theme.container.lightBlue};
 `;
 const SocialLogIn = styled.button`
+  border: 1px solid red;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,7 +102,7 @@ const SocialLogIn = styled.button`
   border-radius: 10px;
   border: none;
   background-color: ${(props) => props.theme.container.blue};
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   cursor: pointer;
   span {
     color: ${(props) => props.theme.text.white};

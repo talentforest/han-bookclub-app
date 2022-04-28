@@ -11,7 +11,7 @@ const ReviewCreateBox = () => {
     event.preventDefault();
     if (review === "") return;
     try {
-      const docRef = await addDoc(collection(dbService, "meetingReview"), {
+      await addDoc(collection(dbService, "meetingReview"), {
         text: review,
         createdAt: Date.now(),
       });
