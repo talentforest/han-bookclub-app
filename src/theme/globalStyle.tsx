@@ -152,6 +152,7 @@ export const Header = styled.header`
 `;
 
 export const Container = styled.main`
+  min-height: 100vh;
   @media screen and (max-width: 500px) {
     padding: 10px 15px 80px;
   }

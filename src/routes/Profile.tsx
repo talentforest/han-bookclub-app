@@ -1,25 +1,21 @@
-import { authService } from "fbase";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Container, Header } from "theme/globalStyle";
-import BackBtn from "components/BackButton";
+import { ReactComponent as SettingIcon } from "assets/settings.svg";
 import Title from "components/common/Title";
 import styled from "styled-components";
+import ProfileImage from "components/common/ProfileImage";
 
 const Profile = () => {
-  const navigate = useNavigate();
-  const onLogOutClick = () => {
-    authService.signOut();
-    navigate("/");
-  };
   return (
     <>
       <NewHeader>
-        <Title title="나의 정보" />
-        <span>프로필 편집</span>
+        <Title title="나의 책장" />
+        <Link to="/setting">
+          <SettingIcon />
+        </Link>
       </NewHeader>
       <Container>
-        <BackBtn />
-        <LogOutBtn onClick={onLogOutClick}>Log Out</LogOutBtn>
+        <ProfileImage />
       </Container>
     </>
   );
@@ -29,16 +25,15 @@ const NewHeader = styled(Header)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  span {
-    font-size: 12px;
-    font-weight: 500;
+  > a {
+    display: flex;
+    align-items: center;
+    svg {
+      margin-top: 2px;
+      width: 20px;
+      height: 20px;
+    }
   }
-`;
-
-const LogOutBtn = styled.button`
-  border: none;
-  border-radius: 5px;
-  background-color: ${(props) => props.theme.container.blue};
 `;
 
 export default Profile;

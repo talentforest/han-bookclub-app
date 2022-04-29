@@ -20,6 +20,8 @@ export interface SubjectData {
 }
 
 export interface AuthUser {
+  email?: string;
+  displayName?: string;
   uid: string | undefined;
 }
 
