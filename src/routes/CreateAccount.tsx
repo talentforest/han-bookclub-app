@@ -4,7 +4,7 @@ import { authService } from "fbase";
 import { useNavigate } from "react-router-dom";
 import AccountForm from "components/AccountForm";
 import styled from "styled-components";
-import BackBtn from "components/BackButton";
+import BackBtn from "components/common/BackButton";
 
 const CreateAccount = () => {
   const navigate = useNavigate();
@@ -15,11 +15,7 @@ const CreateAccount = () => {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const data = await createUserWithEmailAndPassword(
-        authService,
-        email,
-        password
-      );
+      await createUserWithEmailAndPassword(authService, email, password);
       navigate("/");
     } catch (error) {
       setError((error as Error).message);

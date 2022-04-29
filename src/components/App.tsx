@@ -6,7 +6,7 @@ import { ThemeProvider } from "styled-components";
 import Router from "../routes/Router";
 
 function App() {
-  const [init, setInit] = useState(false);
+  const [init, setInit] = useState(false); // user가 null이 되지 않기 위해 초기화
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {

@@ -1,5 +1,4 @@
 import { Container, Header } from "theme/globalStyle";
-import { ReactComponent as Setting } from "assets/settings.svg";
 import { ReactComponent as Hamburger } from "assets/view_headline.svg";
 import LinkButton from "components/common/LinkButton";
 import Subtitle from "components/common/Subtitle";
@@ -13,10 +12,7 @@ const Home = () => {
     <>
       <NewHeader>
         <Title title="독서모임 한 페이지" />
-        <div>
-          <Setting width="20px" height="20px" />
-          <Hamburger width="24px" height="24px" />
-        </div>
+        <Hamburger width="24px" height="24px" />
       </NewHeader>
       <NewContainer>
         <section>

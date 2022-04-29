@@ -5,9 +5,10 @@ import Profile from "./Profile";
 import Book from "./Book";
 import Meeting from "./Meeting";
 import Vote from "./Vote";
-import Navigation from "components/Navigation";
+import Setting from "./Setting";
+import Navigation from "components/common/Navigation";
 import CreateAccount from "./CreateAccount";
-import styled from "styled-components";
+import EditProfile from "./EditProfile";
 
 interface propsType {
   isLoggedIn: boolean;
@@ -15,30 +16,24 @@ interface propsType {
 
 function Router({ isLoggedIn }: propsType) {
   return (
-    <Container>
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <Routes>
-          {isLoggedIn ? (
-            <Route path="/" element={<Home />} />
-          ) : (
-            <Route path="/" element={<Auth />} />
-          )}
-          <Route path="/book" element={<Book />} />
-          <Route path="/meeting" element={<Meeting />} />
-          <Route path="/vote" element={<Vote />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/create_account" element={<CreateAccount />} />
-        </Routes>
-        {isLoggedIn && <Navigation />}
-      </BrowserRouter>
-    </Container>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <Routes>
+        {isLoggedIn ? (
+          <Route path="/" element={<Home />} />
+        ) : (
+          <Route path="/" element={<Auth />} />
+        )}
+        <Route path="/create_account" element={<CreateAccount />} />
+        <Route path="/book" element={<Book />} />
+        <Route path="/meeting" element={<Meeting />} />
+        <Route path="/vote" element={<Vote />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/setting" element={<Setting />} />
+        <Route path="/setting/editprofile" element={<EditProfile />} />
+      </Routes>
+      {isLoggedIn && <Navigation />}
+    </BrowserRouter>
   );
 }
-
-const Container = styled.div`
-  width: 100%;
-  height: 100vh;
-  overflow: scroll;
-`;
 
 export default Router;
