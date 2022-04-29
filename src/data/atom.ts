@@ -9,25 +9,16 @@ export const currentUserState = atom<AuthUser | null>({
   default: null,
   effects: [
     ({ setSelf, onSet }) => {
-      let resolvePromise: (value: AuthUser | null) => void;
-      const initialValue = new Promise<AuthUser | null>((resolve) => {
-        resolvePromise = resolve;
-      });
-      setSelf(initialValue);
-
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
           const { uid, email, displayName } = user;
-
           const authUser = {
             uid,
             email,
             displayName,
           };
-          resolvePromise(authUser);
           setSelf(authUser);
         } else {
-          resolvePromise(null);
           setSelf(null);
         }
       });
