@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ReactComponent as EditIcon } from "assets/edit-regular.svg";
+import { ReactComponent as EditIcon } from "assets/edit.svg";
 import { ReactComponent as DeleteIcon } from "assets/delete.svg";
 import { dbService } from "fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";

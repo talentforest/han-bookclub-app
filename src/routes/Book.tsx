@@ -39,6 +39,7 @@ const Book = () => {
       collection(dbService, "bookSubjects"),
       orderBy("createdAt", "desc")
     );
+
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const newArray = querySnapshot.docs.map((doc) => {
         return {
@@ -64,7 +65,7 @@ const Book = () => {
           <h3>떨림과 울림</h3>
         </BookInfo>
         <BookDescBox />
-        <Subtitle title="발제문 작성하기" />
+        <Subtitle title="이달의 발제문 작성하기" />
         <>
           {subjects.length !== 0 ? (
             <></>
@@ -160,7 +161,7 @@ const PlusSubject = styled.div`
   }
 `;
 
-const BookInfo = styled.section`
+export const BookInfo = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
