@@ -8,18 +8,11 @@ interface PropsType {
   uid: string;
 }
 
-const ByRecord = ({ text, createdAt, creatorId, uid }: PropsType) => {
+const ByRecord = ({ text, createdAt }: PropsType) => {
   return (
     <TextBox>
-      <form>
-        <Writer>
-          <User>
-            <ProfileImg />
-            <span>username</span>
-          </User>
-        </Writer>
-      </form>
-      <div>{text}</div>
+      <h4>발제문</h4>
+      <p>{text}</p>
       <RegisterTime>{Time(createdAt)}</RegisterTime>
     </TextBox>
   );
@@ -31,38 +24,23 @@ const TextBox = styled.div`
   padding: 10px;
   background-color: ${(props) => props.theme.container.default};
   border-radius: 5px;
-  pre {
+  h4 {
+    font-size: 10px;
+    color: ${(props) => props.theme.text.gray};
+    padding-bottom: 5px;
+  }
+  p {
     white-space: pre-wrap;
     line-height: 22px;
+    font-size: 14px;
   }
-`;
-
-const Writer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 5px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
-`;
-
-const User = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const ProfileImg = styled.div`
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background-color: ${(props) => props.theme.container.lightBlue};
-  margin-right: 5px;
 `;
 
 const RegisterTime = styled.div`
   font-size: 10px;
   color: ${(props) => props.theme.text.gray};
   text-align: end;
-  padding: 15px 0 10px;
+  padding-top: 15px;
 `;
 
 export default ByRecord;

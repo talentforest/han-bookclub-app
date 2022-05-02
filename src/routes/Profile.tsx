@@ -1,7 +1,7 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Container, Header } from "theme/globalStyle";
 import { ReactComponent as SettingIcon } from "assets/settings.svg";
-import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/atom";
 import { AuthUser } from "./Book";
@@ -20,9 +20,10 @@ import ProfileImage from "components/common/ProfileImage";
 import Subtitle from "components/common/Subtitle";
 import ByBook from "components/profile/ByBook";
 import ByRecord from "components/profile/ByRecord";
+import CategoryButton from "components/profile/CategoryButton";
 
 const Profile = () => {
-  const [own, setOwn] = useState([]);
+  const [ownRecord, setOwnRecord] = useState([]);
   const [category, setCategory] = useState("byBook");
   const userData = useRecoilValue<AuthUser | null>(currentUserState);
 
@@ -39,10 +40,10 @@ const Profile = () => {
       ownSubjects.push(doc.data());
     });
 
-    setOwn(ownSubjects);
+    setOwnRecord(ownSubjects);
   };
 
-  console.log(own);
+  console.log(ownRecord);
 
   useEffect(() => {
     getMySubjects();
@@ -62,18 +63,11 @@ const Profile = () => {
         </div>
 
         <Subtitle title="나의 기록" />
-        <SortButton>
-          <button name="byBook" onClick={() => setCategory("byBook")}>
-            책별
-          </button>
-          <button name="byRecord" onClick={() => setCategory("byRecord")}>
-            기록별
-          </button>
-        </SortButton>
+        <CategoryButton category={category} setCategory={setCategory} />
         {category === "byBook" && <ByBook />}
         {category === "byRecord" && (
           <div>
-            {own.map((item) => (
+            {ownRecord.map((item) => (
               <ByRecord
                 key={item.createdAt}
                 uid={userData?.uid}
@@ -109,14 +103,6 @@ const NewHeader = styled(Header)`
       width: 20px;
       height: 20px;
     }
-  }
-`;
-
-const SortButton = styled.div`
-  margin-bottom: 10px;
-  button {
-    font-size: 12px;
-    margin-right: 5px;
   }
 `;
 
