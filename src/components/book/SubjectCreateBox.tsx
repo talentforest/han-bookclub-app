@@ -2,7 +2,7 @@ import { useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { Container, SubmitBtn } from "theme/globalStyle";
-import { AuthUser } from "routes/Book";
+import { AuthUser } from "data/atom";
 import { ReactComponent as CloseIcon } from "assets/close.svg";
 import styled from "styled-components";
 

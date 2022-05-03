@@ -19,16 +19,10 @@ export interface SubjectData {
   id: string;
 }
 
-export interface AuthUser {
-  email?: string;
-  displayName?: string;
-  uid: string | undefined;
-}
-
 const Book = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [subjects, setSubjects] = useState<SubjectData[]>([]);
-  const userData = useRecoilValue<AuthUser | null>(currentUserState);
+  const userData = useRecoilValue(currentUserState);
 
   const openModalClick = () => {
     setModalOpen((prev) => !prev);

@@ -12,11 +12,13 @@ import EditProfile from "./EditProfile";
 
 interface propsType {
   isLoggedIn: boolean;
+  loggedInUserObj: object;
+  refreshUser: () => void;
 }
 
-function Router({ isLoggedIn }: propsType) {
+function Router({ isLoggedIn, loggedInUserObj, refreshUser }: propsType) {
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <BrowserRouter>
       <Routes>
         {isLoggedIn ? (
           <Route path="/" element={<Home />} />
@@ -29,7 +31,15 @@ function Router({ isLoggedIn }: propsType) {
         <Route path="/vote" element={<Vote />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/setting" element={<Setting />} />
-        <Route path="/setting/editprofile" element={<EditProfile />} />
+        <Route
+          path="/setting/editprofile"
+          element={
+            <EditProfile
+              refreshUser={refreshUser}
+              loggedInUserObj={loggedInUserObj}
+            />
+          }
+        />
       </Routes>
       {isLoggedIn && <Navigation />}
     </BrowserRouter>

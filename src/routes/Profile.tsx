@@ -4,7 +4,7 @@ import { Container, Header } from "theme/globalStyle";
 import { ReactComponent as SettingIcon } from "assets/settings.svg";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/atom";
-import { AuthUser } from "./Book";
+import { AuthUser } from "../data/atom";
 import { dbService } from "fbase";
 import {
   collection,
@@ -43,10 +43,9 @@ const Profile = () => {
     setOwnRecord(ownSubjects);
   };
 
-  console.log(ownRecord);
-
   useEffect(() => {
     getMySubjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 
   return (

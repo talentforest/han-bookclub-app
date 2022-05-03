@@ -5,22 +5,50 @@ import { theme } from "theme/theme";
 import { ThemeProvider } from "styled-components";
 import Router from "../routes/Router";
 
+export interface UserInfo {
+  uid: string;
+  displayName: string | null;
+}
+
 function App() {
   const [init, setInit] = useState(false); // user가 null이 되지 않기 위해 초기화
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loggedInUserObj, setLoggedInUserObj] = useState<UserInfo>({
+    uid: "",
+    displayName: null,
+  });
 
+  const auth = getAuth();
   useEffect(() => {
-    const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
-      user ? setIsLoggedIn(true) : setIsLoggedIn(false);
+      if (user) {
+        setLoggedInUserObj({
+          uid: user.uid,
+          displayName: user.displayName,
+        });
+      } else {
+        setLoggedInUserObj(null);
+      }
       setInit(true);
     });
   }, []);
 
+  const refreshUser = () => {
+    const user = auth.currentUser;
+    setLoggedInUserObj({ ...user });
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      {init ? <Router isLoggedIn={isLoggedIn} /> : "Initializing..."}
+      {init ? (
+        <Router
+          isLoggedIn={Boolean(loggedInUserObj)}
+          loggedInUserObj={loggedInUserObj}
+          refreshUser={refreshUser}
+        />
+      ) : (
+        "Initializing..."
+      )}
     </ThemeProvider>
   );
 }

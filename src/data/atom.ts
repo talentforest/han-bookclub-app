@@ -1,12 +1,25 @@
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { atom, useRecoilValue } from "recoil";
-import { AuthUser } from "routes/Book";
+import { authService } from "fbase";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+import { atom } from "recoil";
+import { v4 } from "uuid";
+
+export interface AuthUser {
+  uid: string;
+  email?: string;
+  displayName?: string;
+}
 
 const auth = getAuth();
 
-export const currentUserState = atom<AuthUser | null>({
-  key: "currentUser",
+export const refreshUserState = atom({
+  key: `refreshUser/${v4}`,
+  default: authService.currentUser?.displayName,
+});
+
+export const currentUserState = atom<User | null>({
+  key: `currentUser/${v4}`,
   default: null,
+
   effects: [
     ({ setSelf, onSet }) => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -17,7 +30,8 @@ export const currentUserState = atom<AuthUser | null>({
             email,
             displayName,
           };
-          setSelf(authUser);
+
+          setSelf(authUser as User);
         } else {
           setSelf(null);
         }
@@ -29,7 +43,3 @@ export const currentUserState = atom<AuthUser | null>({
     },
   ],
 });
-
-export function useAuthUser() {
-  return useRecoilValue(currentUserState);
-}
