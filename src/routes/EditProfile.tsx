@@ -48,34 +48,25 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
       <NewContainer>
         <ProfileImage />
         {editing ? (
-          <>
-            <Form onSubmit={onSubmit}>
-              <input type="submit" value="수정완료" />
-              <UserInfo>
-                <li>
-                  <span>이름</span>
-                  <span>전예림</span>
-                </li>
-                <li>
-                  <span>별명</span>
-                </li>
+          <Form onSubmit={onSubmit}>
+            <Btn type="submit" value="수정완료" />
+            <UserInfo>
+              <li>
+                <span>별명</span>
                 <input
                   onChange={onChange}
                   type="text"
                   placeholder="닉네임을 입력해주세요"
                   value={newDisplayName}
                 />
-              </UserInfo>
-            </Form>
-          </>
+              </li>
+            </UserInfo>
+          </Form>
         ) : (
           <>
-            <input onClick={toggleEditing} type="button" value="수정하기" />
+            <Btn onClick={toggleEditing} type="button" value="수정하기" />
+
             <UserInfo>
-              <li>
-                <span>이름</span>
-                <span>전예림</span>
-              </li>
               <li>
                 <span>별명</span>
                 <span>{newDisplayName}</span>
@@ -95,6 +86,7 @@ const NewContainer = styled(Container)`
 `;
 
 const NewHeader = styled(Header)`
+  position: relative;
   justify-content: space-between;
   align-items: center;
   > div {
@@ -113,6 +105,15 @@ const Form = styled.form`
   width: 100%;
 `;
 
+const Btn = styled.input`
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  border: none;
+  background-color: transparent;
+  color: ${(props) => props.theme.text.accent};
+`;
+
 const UserInfo = styled.ul`
   width: 90%;
   margin: 20px auto 0;
@@ -120,19 +121,23 @@ const UserInfo = styled.ul`
     margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
+    align-items: center;
+    font-size: 16px;
     > span:first-child {
       font-weight: 700;
       font-size: 12px;
+    }
+    > span:last-child {
+      height: 25px;
     }
     > input {
       width: fit-content;
       border: none;
       text-align: end;
+      height: 25px;
+      font-size: 16px;
       &:focus {
         outline: none;
-        &::placeholder {
-        }
       }
     }
   }
