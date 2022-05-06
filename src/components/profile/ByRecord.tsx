@@ -13,7 +13,13 @@ const ByRecord = ({ text, createdAt }: PropsType) => {
     <TextBox>
       <h4>발제문</h4>
       <p>{text}</p>
-      <RegisterTime>{Time(createdAt)}</RegisterTime>
+      <div>
+        <BookInfo>
+          <img src={require("assets/떨림과_울림.jpeg")} alt="Book" />
+          <h3>떨림과 울림</h3>
+        </BookInfo>
+        <RegisterTime>{Time(createdAt)}</RegisterTime>
+      </div>
     </TextBox>
   );
 };
@@ -33,6 +39,25 @@ const TextBox = styled.div`
     white-space: pre-wrap;
     line-height: 22px;
     font-size: 14px;
+  }
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+`;
+
+const BookInfo = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  img {
+    height: 25px;
+    width: auto;
+    margin-right: 8px;
+  }
+  h3 {
+    font-size: 10px;
   }
 `;
 

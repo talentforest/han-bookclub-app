@@ -4,10 +4,14 @@ import { GlobalStyle } from "theme/globalStyle";
 import { theme } from "theme/theme";
 import { ThemeProvider } from "styled-components";
 import Router from "../routes/Router";
+import { authService } from "fbase";
 
 export interface UserInfo {
   uid: string;
   displayName: string | null;
+  email?: string;
+  phoneNumber?: string;
+  photoURL?: string;
 }
 
 function App() {
@@ -15,6 +19,9 @@ function App() {
   const [loggedInUserObj, setLoggedInUserObj] = useState<UserInfo>({
     uid: "",
     displayName: null,
+    email: "",
+    phoneNumber: "",
+    photoURL: "",
   });
 
   const auth = getAuth();
@@ -24,6 +31,9 @@ function App() {
         setLoggedInUserObj({
           uid: user.uid,
           displayName: user.displayName,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          photoURL: user.photoURL,
         });
       } else {
         setLoggedInUserObj(null);

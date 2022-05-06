@@ -49,8 +49,12 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
         <ProfileImage />
         {editing ? (
           <Form onSubmit={onSubmit}>
-            <Btn type="submit" value="수정완료" />
+            <EditBtn type="submit" value="수정완료" />
             <UserInfo>
+              <li>
+                <span>이메일</span>
+                <span>{loggedInUserObj.email}</span>
+              </li>
               <li>
                 <span>별명</span>
                 <input
@@ -64,9 +68,12 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
           </Form>
         ) : (
           <>
-            <Btn onClick={toggleEditing} type="button" value="수정하기" />
-
+            <EditBtn onClick={toggleEditing} type="button" value="수정하기" />
             <UserInfo>
+              <li>
+                <span>이메일</span>
+                <span>{loggedInUserObj.email}</span>
+              </li>
               <li>
                 <span>별명</span>
                 <span>{newDisplayName}</span>
@@ -105,7 +112,7 @@ const Form = styled.form`
   width: 100%;
 `;
 
-const Btn = styled.input`
+const EditBtn = styled.input`
   position: absolute;
   top: 15px;
   right: 15px;

@@ -5,7 +5,7 @@ import { ReactComponent as SettingIcon } from "assets/settings.svg";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/atom";
 import { AuthUser } from "../data/atom";
-import { dbService } from "fbase";
+import { dbService, storageService } from "fbase";
 import {
   collection,
   DocumentData,
@@ -21,10 +21,17 @@ import Subtitle from "components/common/Subtitle";
 import ByBook from "components/profile/ByBook";
 import ByRecord from "components/profile/ByRecord";
 import CategoryButton from "components/profile/CategoryButton";
+import { ref, uploadString } from "firebase/storage";
+import { v4 } from "uuid";
 
-const Profile = () => {
+interface PropsType {
+  loggedInUserObj: any;
+}
+
+const Profile = ({ loggedInUserObj }: PropsType) => {
   const [ownRecord, setOwnRecord] = useState([]);
   const [category, setCategory] = useState("byBook");
+  const [attachment, setAttachment] = useState(null);
   const userData = useRecoilValue<AuthUser | null>(currentUserState);
 
   const getMySubjects = async () => {
@@ -46,8 +53,33 @@ const Profile = () => {
   useEffect(() => {
     getMySubjects();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData]);
+  }, []);
 
+  const onFileChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const {
+      currentTarget: { files },
+    } = event;
+
+    const theFile = files[0];
+    const reader = new FileReader();
+    reader.onloadend = (finishedEvent) => {
+      const {
+        target: { result },
+      } = finishedEvent;
+      setAttachment(result);
+    };
+
+    reader.readAsDataURL(theFile);
+  };
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const fileRef = ref(storageService, `${loggedInUserObj.uid}/${v4()}`);
+    const response = await uploadString(fileRef, attachment, "data_url");
+    console.log(response);
+  };
+
+  const onClearAttachmentClick = () => setAttachment(null);
   return (
     <>
       <NewHeader>
@@ -77,7 +109,23 @@ const Profile = () => {
             ))}
           </div>
         )}
+
         <Subtitle title="내가 읽은 책 추천하기" />
+        <form onSubmit={onSubmit}>
+          <input type="file" accept="image/*" onChange={onFileChange} />
+          <input type="submit" value="Upload" />
+          {attachment && (
+            <div>
+              <img
+                src={attachment}
+                width="auto"
+                height="50px"
+                alt="user file"
+              />
+              <button onClick={onClearAttachmentClick}>Clear</button>
+            </div>
+          )}
+        </form>
       </NewContainer>
     </>
   );

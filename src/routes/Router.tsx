@@ -29,7 +29,10 @@ function Router({ isLoggedIn, loggedInUserObj, refreshUser }: propsType) {
         <Route path="/book" element={<Book />} />
         <Route path="/meeting" element={<Meeting />} />
         <Route path="/vote" element={<Vote />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/profile"
+          element={<Profile loggedInUserObj={loggedInUserObj} />}
+        />
         <Route path="/setting" element={<Setting />} />
         <Route
           path="/setting/editprofile"

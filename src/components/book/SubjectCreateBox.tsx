@@ -63,12 +63,12 @@ const SubjectCreateBox = ({ uid, setModalOpen }: PropsType) => {
 };
 
 const NewContainer = styled(Container)`
-  height: 100vh;
+  min-height: 300vh;
   margin: -15px;
   width: 100%;
   position: absolute;
   top: -25px;
-  height: fit-content;
+
   background-color: rgba(0, 0, 0, 0.6);
 `;
 
