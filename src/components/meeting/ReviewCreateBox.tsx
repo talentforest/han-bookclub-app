@@ -4,7 +4,11 @@ import { addDoc, collection } from "firebase/firestore";
 import { SubmitBtn } from "theme/globalStyle";
 import styled from "styled-components";
 
-const ReviewCreateBox = () => {
+interface PropsType {
+  uid: string;
+}
+
+const ReviewCreateBox = ({ uid }: PropsType) => {
   const [review, setReview] = useState("");
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -14,6 +18,7 @@ const ReviewCreateBox = () => {
       await addDoc(collection(dbService, "meetingReview"), {
         text: review,
         createdAt: Date.now(),
+        creatorId: uid,
       });
     } catch (error) {
       console.error("Error adding document:", error);
@@ -44,6 +49,7 @@ const Form = styled.form`
   box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.2);
   padding: 10px 15px 5px;
   border-radius: 5px;
+  margin-bottom: 5px;
 `;
 
 const Button = styled.div`
