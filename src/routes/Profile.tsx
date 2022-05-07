@@ -6,6 +6,8 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/atom";
 import { AuthUser } from "../data/atom";
 import { dbService, storageService } from "fbase";
+import { ReactComponent as LinkIcon } from "assets/link.svg";
+import { ReactComponent as CloseIcon } from "assets/close.svg";
 import {
   collection,
   DocumentData,
@@ -111,21 +113,30 @@ const Profile = ({ loggedInUserObj }: PropsType) => {
         )}
 
         <Subtitle title="내가 읽은 책 추천하기" />
-        <form onSubmit={onSubmit}>
-          <input type="file" accept="image/*" onChange={onFileChange} />
-          <input type="submit" value="Upload" />
+        <FileForm onSubmit={onSubmit}>
+          <div>
+            <input
+              id="input-file"
+              type="file"
+              accept="image/*"
+              onChange={onFileChange}
+            />
+            <label htmlFor="input-file">
+              <span>파일 찾기</span>
+              <LinkIcon />
+            </label>
+            <span>이미지는 최대 한 장만 등록 가능합니다.</span>
+          </div>
           {attachment && (
-            <div>
-              <img
-                src={attachment}
-                width="auto"
-                height="50px"
-                alt="user file"
-              />
-              <button onClick={onClearAttachmentClick}>Clear</button>
-            </div>
+            <SubmmitedFile>
+              <img src={attachment} alt="user file" />
+              <button onClick={onClearAttachmentClick}>
+                <CloseIcon />
+              </button>
+            </SubmmitedFile>
           )}
-        </form>
+          <input type="submit" value="Upload" />
+        </FileForm>
       </NewContainer>
     </>
   );
@@ -149,6 +160,77 @@ const NewHeader = styled(Header)`
       margin-top: 2px;
       width: 20px;
       height: 20px;
+    }
+  }
+`;
+
+const FileForm = styled.form`
+  > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    input:first-child {
+      display: none;
+    }
+    label {
+      width: 100%;
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 5px;
+      border: 1px solid ${(props) => props.theme.text.lightGray};
+      height: 30px;
+      border-radius: 5px;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: ${(props) => props.theme.text.gray};
+      svg {
+        width: 14px;
+        height: 14px;
+        fill: ${(props) => props.theme.text.gray};
+      }
+      span {
+        font-size: 12px;
+      }
+    }
+    > span {
+      font-size: 10px;
+      color: ${(props) => props.theme.text.gray};
+      margin-left: 7px;
+    }
+  }
+  input {
+    background-color: transparent;
+    color: ${(props) => props.theme.text.accent};
+    border: none;
+    width: 100%;
+    margin: 5px 0;
+    border-radius: 5px;
+    font-size: 12px;
+    height: 26px;
+    background-color: ${(props) => props.theme.container.lightBlue};
+  }
+`;
+
+const SubmmitedFile = styled.div`
+  margin: 10px 0;
+  display: flex;
+  position: relative;
+  width: fit-content;
+  img {
+    height: 60px;
+    width: auto;
+  }
+  button {
+    position: absolute;
+    border: none;
+    background-color: transparent;
+    width: fit-content;
+    right: -5px;
+    svg {
+      width: 14px;
+      height: 14px;
     }
   }
 `;

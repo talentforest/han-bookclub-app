@@ -6,9 +6,12 @@ interface PropsType {
 }
 
 const CategoryButton = ({ category, setCategory }: PropsType) => {
-  const borderColor = (categoryName: string) => {
+  const selectedBtnStyle = (categoryName: string) => {
     if (category === categoryName) {
-      return "2px solid #5D8AFE";
+      return {
+        backgroundColor: "#5D8AFE",
+        color: "white",
+      };
     }
   };
 
@@ -17,18 +20,14 @@ const CategoryButton = ({ category, setCategory }: PropsType) => {
       <button
         name="byBook"
         onClick={() => setCategory("byBook")}
-        style={{
-          border: borderColor("byBook"),
-        }}
+        style={selectedBtnStyle("byBook")}
       >
         책별
       </button>
       <button
         name="byRecord"
         onClick={() => setCategory("byRecord")}
-        style={{
-          border: borderColor("byRecord"),
-        }}
+        style={selectedBtnStyle("byRecord")}
       >
         기록별
       </button>
@@ -44,8 +43,8 @@ const SortButton = styled.div`
     margin-right: 5px;
     border: none;
     border-radius: 5px;
-    background-color: ${(props) => props.theme.container.yellow};
-    color: ${(props) => props.theme.text.lightBlue};
+    background-color: ${(props) => props.theme.text.lightGray};
+    color: ${(props) => props.theme.text.gray};
     padding: 5px;
     min-width: 50px;
   }
