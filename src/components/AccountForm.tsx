@@ -5,9 +5,11 @@ interface propsType {
   setEmail: (email: string) => void;
   password: string;
   setPassword: (password: string) => void;
+  checkPassword: string;
+  setCheckPassword: (checkPassword: string) => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  value: string;
   error: string;
+  setUserInfo: (userInfo: boolean) => void;
 }
 
 const AccountForm = ({
@@ -16,8 +18,10 @@ const AccountForm = ({
   password,
   setPassword,
   onSubmit,
-  value,
   error,
+  checkPassword,
+  setCheckPassword,
+  setUserInfo,
 }: propsType) => {
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
     const {
@@ -27,33 +31,68 @@ const AccountForm = ({
       setEmail(value);
     } else if (name === "password") {
       setPassword(value);
+    } else if (name === "checkPassword") {
+      setCheckPassword(value);
+    }
+  };
+
+  const onNextStepClick = () => {
+    try {
+      if (password !== checkPassword) {
+        alert("비밀번호를 다시 한번 확인해주세요!");
+        return;
+      } else {
+        setUserInfo(true);
+      }
+    } catch (error) {
+      console.error("password error!");
     }
   };
 
   return (
-    <Form onSubmit={onSubmit}>
-      <INPUT
-        name="email"
-        type="text"
-        placeholder="이메일 계정을 입력해주세요."
-        value={email}
-        onChange={onChange}
-        required
-      />
-      <INPUT
-        name="password"
-        type="password"
-        placeholder="비밀번호를 입력해주세요."
-        value={password}
-        onChange={onChange}
-        autoComplete="on"
-        required
-      />
-      <Error>{error}</Error>
-      <Button type="submit" value={value} />
-    </Form>
+    <>
+      <Desc>사용하실 계정 정보를 입력해 주세요.</Desc>
+      <Form onSubmit={onSubmit}>
+        <INPUT
+          name="email"
+          type="text"
+          placeholder="자주 사용하는 이메일 계정을 입력해주세요."
+          value={email}
+          onChange={onChange}
+          required
+        />
+        <INPUT
+          name="password"
+          type="password"
+          placeholder="비밀번호는 8자 이상이어야 합니다."
+          value={password}
+          onChange={onChange}
+          autoComplete="on"
+          required
+        />
+        <INPUT
+          name="checkPassword"
+          type="password"
+          placeholder="비밀번호를 다시 한번 입력해주세요."
+          value={checkPassword}
+          onChange={onChange}
+          autoComplete="on"
+          required
+        />
+        <Error>{error}</Error>
+        <Button defaultValue="다음으로" onClick={onNextStepClick} />
+      </Form>
+    </>
   );
 };
+
+const Desc = styled.span`
+  font-weight: 700;
+  display: block;
+  text-align: center;
+  padding: 28px 0;
+  color: ${(props) => props.theme.text.lightBlue};
+`;
 
 const Form = styled.form`
   display: flex;
@@ -67,6 +106,9 @@ const INPUT = styled.input`
   border: 1px solid ${(props) => props.theme.text.gray};
   padding: 10px;
   margin-bottom: 10px;
+  &::placeholder {
+    font-size: 12px;
+  }
 `;
 const Error = styled.span`
   font-size: 12px;
@@ -82,6 +124,7 @@ const Button = styled.input`
   font-weight: 700;
   margin-bottom: 30px;
   cursor: pointer;
+  text-align: center;
 `;
 
 export default AccountForm;
