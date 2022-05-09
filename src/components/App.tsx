@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { GlobalStyle } from "theme/globalStyle";
+import { ResetStyle } from "theme/resetStyle";
 import { theme } from "theme/theme";
 import { ThemeProvider } from "styled-components";
-import Router from "../routes/Router";
-import { authService } from "fbase";
+import Router from "../Router";
 
 export interface UserInfo {
   uid: string;
@@ -40,6 +39,7 @@ function App() {
       }
       setInit(true);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const refreshUser = () => {
@@ -49,7 +49,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyle />
+      <ResetStyle />
       {init ? (
         <Router
           isLoggedIn={Boolean(loggedInUserObj)}

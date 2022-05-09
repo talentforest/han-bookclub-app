@@ -1,14 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./Home";
-import Auth from "./Auth";
-import Profile from "./Profile";
-import Book from "./Book";
-import Meeting from "./Meeting";
-import Vote from "./Vote";
-import Setting from "./Setting";
+import Home from "./routes/Home";
+import LogInPage from "./routes/LogInPage";
+import Profile from "./routes/Profile";
+import Book from "./routes/Book";
+import Meeting from "./routes/Meeting";
+import Vote from "./routes/Vote";
+import Setting from "./routes/Setting";
 import Navigation from "components/common/Navigation";
-import CreateAccount from "./CreateAccount";
-import EditProfile from "./EditProfile";
+import CreateAccount from "./routes/CreateAccount";
+import EditProfile from "./routes/EditProfile";
 
 interface propsType {
   isLoggedIn: boolean;
@@ -23,7 +23,7 @@ function Router({ isLoggedIn, loggedInUserObj, refreshUser }: propsType) {
         {isLoggedIn ? (
           <Route path="/" element={<Home />} />
         ) : (
-          <Route path="/" element={<Auth />} />
+          <Route path="/" element={<LogInPage />} />
         )}
         <Route path="/create_account" element={<CreateAccount />} />
         <Route path="/book" element={<Book />} />

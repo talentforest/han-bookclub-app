@@ -1,12 +1,12 @@
-import { Container, Header } from "theme/globalStyle";
+import { BookInfo, Container, Header } from "theme/commonStyle";
 import { useEffect, useState } from "react";
 import { dbService } from "fbase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { ReactComponent as Plus } from "assets/plus.svg";
+import { ReactComponent as PlusIcon } from "assets/plus.svg";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/atom";
 import Title from "components/common/Title";
-import BookDescBox from "components/book/BookDescBox";
+import BookDescription from "components/book/BookDescription";
 import SubjectBox from "components/book/SubjectBox";
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
@@ -30,7 +30,7 @@ const Book = () => {
 
   useEffect(() => {
     const q = query(
-      collection(dbService, "bookSubjects"),
+      collection(dbService, "Book_Subjects"),
       orderBy("createdAt", "desc")
     );
 
@@ -53,27 +53,25 @@ const Book = () => {
       <Header>
         <Title title="의 책" />
       </Header>
-      <NewContainer>
+      <Container>
         <BookInfo>
-          <img src={require("assets/떨림과_울림.jpeg")} alt="Book" />
+          <img src={require("assets/떨림과_울림.jpeg")} alt="Book_Image" />
           <h3>떨림과 울림</h3>
         </BookInfo>
-        <BookDescBox />
+        <BookDescription />
         <Subtitle title="이달의 발제문 작성하기" />
         <>
           {subjects.length !== 0 ? (
             <></>
           ) : (
-            <>
-              <Guide>
-                <div>발제문</div>
-                <span>아직 발제문이 작성되지 않았어요.</span>
-                <PlusSubject onClick={openModalClick}>
-                  <Plus width="12" height="12" />
-                  <span>발제문 추가하기</span>
-                </PlusSubject>
-              </Guide>
-            </>
+            <SubjectGuide>
+              <div>&laquo;떨림과 울림&raquo; 발제문</div>
+              <span>아직 발제문이 작성되지 않았어요.</span>
+              <AddSubject onClick={openModalClick}>
+                <PlusIcon />
+                <span>발제문 추가하기</span>
+              </AddSubject>
+            </SubjectGuide>
           )}
           {modalOpen ? (
             <SubjectCreateBox uid={userData?.uid} setModalOpen={setModalOpen} />
@@ -94,21 +92,17 @@ const Book = () => {
           </Subject>
         </>
         {subjects.length !== 0 ? (
-          <PlusSubject onClick={openModalClick}>
-            <Plus width="12" height="12" />
+          <AddSubject onClick={openModalClick}>
+            <PlusIcon />
             <span>발제문 추가하기</span>
-          </PlusSubject>
+          </AddSubject>
         ) : (
           <></>
         )}
-      </NewContainer>
+      </Container>
     </>
   );
 };
-
-const NewContainer = styled(Container)`
-  position: relative;
-`;
 
 const Subject = styled.div`
   border-radius: 5px;
@@ -116,7 +110,7 @@ const Subject = styled.div`
   font-size: 13px;
 `;
 
-const Guide = styled.div`
+const SubjectGuide = styled.div`
   width: 100%;
   background-color: ${(props) => props.theme.container.lightBlue};
   border-radius: 5px;
@@ -127,7 +121,7 @@ const Guide = styled.div`
   align-items: center;
   justify-content: center;
   > div:first-child {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 700;
     margin-bottom: 20px;
     width: 100%;
@@ -141,7 +135,7 @@ const Guide = styled.div`
   }
 `;
 
-const PlusSubject = styled.div`
+const AddSubject = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -153,22 +147,9 @@ const PlusSubject = styled.div`
     font-weight: 700;
     margin-left: 5px;
   }
-`;
-
-export const BookInfo = styled.section`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  img {
-    height: 135px;
-    width: auto;
-    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
-    margin-bottom: 10px;
-  }
-  h3 {
-    font-size: 14px;
-    margin-bottom: 20px;
+  svg {
+    width: 12px;
+    height: 12px;
   }
 `;
 

@@ -1,4 +1,4 @@
-import { ReactComponent as Google } from "assets/google-brands.svg";
+import { ReactComponent as GoogleIcon } from "assets/google-brands.svg";
 import { useState } from "react";
 import {
   GoogleAuthProvider,
@@ -8,8 +8,9 @@ import {
 import { authService } from "fbase";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Container, Form, Input, Button } from "theme/commonStyle";
 
-const Auth = () => {
+const LogInPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -34,7 +35,9 @@ const Auth = () => {
     }
   };
 
-  const onSocialClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onSocialAccountClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     const {
       currentTarget: { name },
     } = event;
@@ -46,113 +49,71 @@ const Auth = () => {
   };
 
   return (
-    <Main>
-      <H1>
-        한 페이지 <span>Han Page</span>
-      </H1>
-      <Logo />
+    <Container>
+      <H1>한 페이지</H1>
+      <Logo>
+        <div />
+      </Logo>
       <Form onSubmit={onSubmit}>
-        <INPUT
+        <Input
           name="email"
-          type="text"
-          placeholder="자주 사용하는 이메일 계정을 입력해주세요."
+          type="email"
+          placeholder="이메일 계정을 입력해주세요."
           value={email}
           onChange={onChange}
           required
         />
-        <INPUT
+        <Input
           name="password"
           type="password"
-          placeholder="비밀번호는 8자 이상이어야 합니다."
+          placeholder="비밀번호를 입력해주세요."
           value={password}
           onChange={onChange}
           autoComplete="on"
           required
         />
-        <Error>{error}</Error>
+        <ErrorMessage>{error}</ErrorMessage>
         <Button type="submit" value="로그인" />
       </Form>
-      <SocialLogIn name="google" onClick={onSocialClick}>
-        <Google width="10" height="10" fill="#fff" />
+      <SocialLogIn name="google" onClick={onSocialAccountClick}>
+        <GoogleIcon />
         <span>Google로 계속</span>
       </SocialLogIn>
-      <Info>
+      <FindCreateAccount>
         <Link to="/find_id">아이디 찾기</Link>
         <Link to="/find_pw">비밀번호 찾기</Link>
         <Link to="/create_account">회원가입</Link>
-      </Info>
-      <Footer>&copy; {new Date().getFullYear()} Han Book Club </Footer>
-    </Main>
+      </FindCreateAccount>
+      <Footer>&copy; {new Date().getFullYear()} Book Club: Han Page </Footer>
+    </Container>
   );
 };
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const INPUT = styled.input`
-  width: 250px;
-  height: 35px;
-  border-radius: 10px;
-  border: 1px solid ${(props) => props.theme.text.gray};
-  padding: 10px;
-  margin-bottom: 10px;
-  &::placeholder {
-    font-size: 12px;
-  }
-`;
-const Error = styled.span`
-  font-size: 12px;
-  padding-bottom: 10px;
-`;
-const Button = styled.input`
-  width: 250px;
-  height: 40px;
-  border-radius: 10px;
-  border: none;
-  background-color: ${(props) => props.theme.container.yellow};
-  color: ${(props) => props.theme.text.lightBlue};
-  font-weight: 700;
-  margin-bottom: 30px;
-  cursor: pointer;
-`;
-
-const Main = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 const H1 = styled.h1`
   font-size: 20px;
   font-weight: 700;
   text-align: center;
-  padding: 24px 0;
+  padding: 20px 0 10px;
   color: ${(props) => props.theme.text.lightBlue};
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  span {
-    width: fit-content;
-    font-size: 12px;
-    color: ${(props) => props.theme.text.gray};
-    border-bottom: 1px solid #aaa;
-  }
 `;
+
 const Logo = styled.div`
-  width: 100px;
-  height: 100px;
-  margin: 10px 0 30px;
-  border-radius: 50px;
-  background-color: ${(props) => props.theme.container.lightBlue};
-`;
-const SocialLogIn = styled.button`
-  border: 1px solid red;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 250px;
-  height: 35px;
+  div {
+    width: 100px;
+    height: 100px;
+    margin: 10px 0 30px;
+    border-radius: 50px;
+    background-color: ${(props) => props.theme.container.lightBlue};
+  }
+`;
+
+const SocialLogIn = styled.button`
+  text-align: center;
+  width: 100%;
+  height: 40px;
   border-radius: 10px;
   border: none;
   background-color: ${(props) => props.theme.container.blue};
@@ -162,11 +123,21 @@ const SocialLogIn = styled.button`
     color: ${(props) => props.theme.text.white};
     margin-left: 10px;
   }
+  svg {
+    width: 10px;
+    height: 10px;
+    fill: #fff;
+  }
 `;
-const Info = styled.div`
+
+const ErrorMessage = styled.span`
+  font-size: 12px;
+  padding-bottom: 10px;
+`;
+
+const FindCreateAccount = styled.div`
   display: flex;
   justify-content: space-evenly;
-  width: 70%;
   margin-bottom: 40px;
   a {
     border: none;
@@ -182,4 +153,4 @@ const Footer = styled.footer`
   font-size: 10px;
 `;
 
-export default Auth;
+export default LogInPage;

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import { Button, Desc, Form, Input } from "theme/commonStyle";
 
 interface propsType {
   email: string;
@@ -7,9 +7,7 @@ interface propsType {
   setPassword: (password: string) => void;
   checkPassword: string;
   setCheckPassword: (checkPassword: string) => void;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  error: string;
-  setUserInfo: (userInfo: boolean) => void;
+  setIsShowingUserDataInput: (isShowingUserDataInput: boolean) => void;
 }
 
 const AccountForm = ({
@@ -17,11 +15,9 @@ const AccountForm = ({
   setEmail,
   password,
   setPassword,
-  onSubmit,
-  error,
   checkPassword,
   setCheckPassword,
-  setUserInfo,
+  setIsShowingUserDataInput,
 }: propsType) => {
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
     const {
@@ -39,29 +35,29 @@ const AccountForm = ({
   const onNextStepClick = () => {
     try {
       if (password !== checkPassword) {
-        alert("비밀번호를 다시 한번 확인해주세요!");
+        alert("비밀번호가 일치하지 않습니다.");
         return;
       } else {
-        setUserInfo(true);
+        setIsShowingUserDataInput(true);
       }
     } catch (error) {
-      console.error("password error!");
+      console.error(error);
     }
   };
 
   return (
     <>
-      <Desc>사용하실 계정 정보를 입력해 주세요.</Desc>
-      <Form onSubmit={onSubmit}>
-        <INPUT
+      <Desc>사용하실 계정 정보를 입력해 주세요</Desc>
+      <Form>
+        <Input
           name="email"
-          type="text"
+          type="email"
           placeholder="자주 사용하는 이메일 계정을 입력해주세요."
           value={email}
           onChange={onChange}
           required
         />
-        <INPUT
+        <Input
           name="password"
           type="password"
           placeholder="비밀번호는 8자 이상이어야 합니다."
@@ -70,7 +66,7 @@ const AccountForm = ({
           autoComplete="on"
           required
         />
-        <INPUT
+        <Input
           name="checkPassword"
           type="password"
           placeholder="비밀번호를 다시 한번 입력해주세요."
@@ -79,52 +75,10 @@ const AccountForm = ({
           autoComplete="on"
           required
         />
-        <Error>{error}</Error>
         <Button defaultValue="다음으로" onClick={onNextStepClick} />
       </Form>
     </>
   );
 };
-
-const Desc = styled.span`
-  font-weight: 700;
-  display: block;
-  text-align: center;
-  padding: 28px 0;
-  color: ${(props) => props.theme.text.lightBlue};
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const INPUT = styled.input`
-  width: 250px;
-  height: 35px;
-  border-radius: 10px;
-  border: 1px solid ${(props) => props.theme.text.gray};
-  padding: 10px;
-  margin-bottom: 10px;
-  &::placeholder {
-    font-size: 12px;
-  }
-`;
-const Error = styled.span`
-  font-size: 12px;
-  padding-bottom: 10px;
-`;
-const Button = styled.input`
-  width: 250px;
-  height: 40px;
-  border-radius: 10px;
-  border: none;
-  background-color: ${(props) => props.theme.container.yellow};
-  color: ${(props) => props.theme.text.lightBlue};
-  font-weight: 700;
-  margin-bottom: 30px;
-  cursor: pointer;
-  text-align: center;
-`;
 
 export default AccountForm;

@@ -1,5 +1,5 @@
 import Title from "components/common/Title";
-import { Container, Header } from "theme/globalStyle";
+import { Container, Header } from "theme/commonStyle";
 
 const Vote = () => {
   return (

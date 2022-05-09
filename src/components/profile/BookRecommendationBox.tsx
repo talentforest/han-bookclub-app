@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { ReactComponent as EditIcon } from "assets/edit.svg";
 import { ReactComponent as DeleteIcon } from "assets/delete.svg";
-import { dbService } from "fbase";
+import { dbService, storageService } from "fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { Time } from "util/Time";
+import { ReactComponent as CloseIcon } from "assets/close.svg";
 import styled from "styled-components";
+import { deleteObject, ref } from "firebase/storage";
 
 interface PropsType {
   text: string;
@@ -12,23 +14,37 @@ interface PropsType {
   creatorId: string;
   id: string;
   uid: string;
+  attachmentUrl: string;
 }
 
-const SubjectBox = ({ text, createdAt, creatorId, id, uid }: PropsType) => {
+const BookRecommendationBox = ({
+  text,
+  createdAt,
+  creatorId,
+  id,
+  uid,
+  attachmentUrl,
+}: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(text);
 
   const onDeleteClick = async () => {
-    const SubjectTextRef = doc(dbService, "Book_Subjects", `${id}`);
-    await deleteDoc(SubjectTextRef);
+    const RecommendedBookRef = doc(dbService, "Books_I_recommened", `${id}`);
+    await deleteDoc(RecommendedBookRef);
   };
+
+  const onEditFileClick = async () => {
+    await deleteObject(ref(storageService, attachmentUrl));
+  };
+
+  // const onClearAttachmentClick = () => setAttachment(null);
 
   const toggleEditing = () => setEditing((prev) => !prev);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const SubjectTextRef = doc(dbService, "Book_Subjects", `${id}`);
-    await updateDoc(SubjectTextRef, { text: newText });
+    const RecommendedBookRef = doc(dbService, "Books_I_recommened", `${id}`);
+    await updateDoc(RecommendedBookRef, { text: newText });
     setEditing(false);
   };
 
@@ -50,9 +66,17 @@ const SubjectBox = ({ text, createdAt, creatorId, id, uid }: PropsType) => {
             </Writer>
             <TextArea
               value={newText}
-              placeholder="발제문을 수정해주세요."
+              placeholder="수정해주세요."
               onChange={onChange}
             />
+            {attachmentUrl && (
+              <DeleteImg>
+                <img src={attachmentUrl} alt="attachment" />
+                <button onClick={onEditFileClick}>
+                  <CloseIcon />
+                </button>
+              </DeleteImg>
+            )}
           </form>
           <RegisterTime>{Time(createdAt)}</RegisterTime>
         </TextBox>
@@ -81,6 +105,7 @@ const SubjectBox = ({ text, createdAt, creatorId, id, uid }: PropsType) => {
             )}
           </Writer>
           <pre>{newText}</pre>
+          {attachmentUrl && <img src={attachmentUrl} alt="attachment" />}
           <RegisterTime>{Time(createdAt)}</RegisterTime>
         </TextBox>
       )}
@@ -98,11 +123,34 @@ const TextBox = styled.div`
     white-space: pre-wrap;
     line-height: 22px;
   }
+  img {
+    width: auto;
+    height: 100px;
+    margin-top: 10px;
+  }
+`;
+
+const DeleteImg = styled.div`
+  width: fit-content;
+  position: relative;
+  button {
+    position: absolute;
+    top: 2px;
+    right: -10px;
+    border: none;
+    background-color: transparent;
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
 `;
 
 const TextArea = styled.textarea`
   width: 100%;
+  min-height: 50px;
   border: none;
+  font-size: 16px;
   white-space: pre-wrap;
   &:focus {
     outline: none;
@@ -142,7 +190,7 @@ const RegisterTime = styled.div`
   font-size: 10px;
   color: ${(props) => props.theme.text.gray};
   text-align: end;
-  padding: 15px 0 10px;
+  padding: 5px 0 10px;
 `;
 
 const EditDeleteIcon = styled.div`
@@ -155,4 +203,4 @@ const EditDeleteIcon = styled.div`
   }
 `;
 
-export default SubjectBox;
+export default BookRecommendationBox;

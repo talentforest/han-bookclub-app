@@ -1,14 +1,14 @@
-import MeetingInfoBox from "components/common/MeetingInfoBox";
-import Subtitle from "components/common/Subtitle";
-import Title from "components/common/Title";
-import ReviewCreateBox from "components/meeting/ReviewCreateBox";
-import Reviews from "components/meeting/Reviews";
 import { currentUserState } from "data/atom";
 import { dbService } from "fbase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { Container, Header } from "theme/globalStyle";
+import { Container, Header } from "theme/commonStyle";
+import MeetingInfoBox from "components/common/MeetingInfoBox";
+import Subtitle from "components/common/Subtitle";
+import Title from "components/common/Title";
+import ReviewCreateBox from "components/meeting/ReviewCreateBox";
+import Reviews from "components/meeting/Reviews";
 
 export interface MeetingReviewType {
   text: string;
@@ -24,7 +24,7 @@ const Meeting = () => {
 
   useEffect(() => {
     const q = query(
-      collection(dbService, "meetingReview"),
+      collection(dbService, "Meeting_Review"),
       orderBy("createdAt", "desc")
     );
 
@@ -35,7 +35,7 @@ const Meeting = () => {
           ...doc.data(),
         };
       });
-      setMeetingReviews(newArray as any);
+      setMeetingReviews(newArray as MeetingReviewType[]);
     });
     return () => {
       unsubscribe();

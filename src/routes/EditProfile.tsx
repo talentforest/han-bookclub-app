@@ -1,4 +1,4 @@
-import { Container } from "theme/globalStyle";
+import { Container } from "theme/commonStyle";
 import { Header } from "./Setting";
 import { useState } from "react";
 import { updateProfile } from "firebase/auth";

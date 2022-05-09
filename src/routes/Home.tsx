@@ -1,5 +1,5 @@
-import { Container, Header } from "theme/globalStyle";
-import { ReactComponent as Hamburger } from "assets/view_headline.svg";
+import { BookInfo, Container, Header } from "theme/commonStyle";
+import { ReactComponent as HamburgerIcon } from "assets/view_headline.svg";
 import LinkButton from "components/common/LinkButton";
 import Subtitle from "components/common/Subtitle";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
@@ -12,15 +12,15 @@ const Home = () => {
     <>
       <NewHeader>
         <Title title="독서모임 한 페이지" />
-        <Hamburger width="24px" height="24px" />
+        <HamburgerIcon />
       </NewHeader>
       <NewContainer>
         <section>
           <Subtitle title="4월의 책" />
-          <Book>
+          <BookInfo>
             <img src={require("assets/떨림과_울림.jpeg")} alt="Book" />
             <h3>떨림과 울림</h3>
-          </Book>
+          </BookInfo>
           <LinkButton link={"/book"} title="발제하러 가기" />
         </section>
         <section>
@@ -50,7 +50,6 @@ const NewHeader = styled(Header)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   > div {
     display: flex;
     align-items: center;
@@ -58,6 +57,8 @@ const NewHeader = styled(Header)`
       margin-left: 5px;
       fill: ${(props) => props.theme.text.gray};
       cursor: pointer;
+      width: 24px;
+      height: 24px;
     }
   }
 `;
@@ -79,22 +80,6 @@ const NewContainer = styled(Container)`
     > h1 {
       margin-top: 0;
     }
-  }
-`;
-
-const Book = styled.section`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  img {
-    height: 135px;
-    width: auto;
-    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
-    margin: 10px 0;
-  }
-  h3 {
-    font-size: 14px;
   }
 `;
 

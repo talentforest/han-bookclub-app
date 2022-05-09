@@ -1,4 +1,4 @@
-import { Container } from "theme/globalStyle";
+import { Container } from "theme/commonStyle";
 import BackButton from "components/common/BackButton";
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";

@@ -1,20 +1,19 @@
-import { BigBox } from "theme/globalStyle";
-import { ReactComponent as Clock } from "assets/calendar_month.svg";
-import { ReactComponent as Place } from "assets/place.svg";
+import { BigBox } from "theme/commonStyle";
+import { ReactComponent as ClockIcon } from "assets/calendar_month.svg";
+import { ReactComponent as PlaceIcon } from "assets/place.svg";
 import styled from "styled-components";
 
 const MeetingInfoBox = () => {
   return (
     <MeetingInfo>
-      <div>수정하기</div>
       <span>모임시간</span>
       <div>
-        <Clock width="20" height="20" />
+        <ClockIcon />
         <span>6월 19일 일요일 오후 14:00</span>
       </div>
       <span>모임장소</span>
       <div>
-        <Place width="20" height="20" />
+        <PlaceIcon />
         <span>카페꼼마 삼일빌딩점</span>
       </div>
     </MeetingInfo>
@@ -24,6 +23,10 @@ const MeetingInfoBox = () => {
 const MeetingInfo = styled(BigBox)`
   position: relative;
   font-size: 14px;
+  svg {
+    width: 20px;
+    height: 20px;
+  }
   > div:first-child {
     position: absolute;
     right: 15px;

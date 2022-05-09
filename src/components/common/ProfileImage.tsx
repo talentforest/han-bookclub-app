@@ -1,8 +1,14 @@
 import { currentUserState } from "data/atom";
 import { dbService, storageService } from "fbase";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { v4 } from "uuid";
 import { ReactComponent as CameraIcon } from "assets/camera.svg";
@@ -10,8 +16,30 @@ import styled from "styled-components";
 
 const ProfileImage = () => {
   const [imageUrl, setImageUrl] = useState("");
+
   const fileInput = useRef(null);
   const userData = useRecoilValue(currentUserState);
+
+  useEffect(() => {
+    const q = query(
+      collection(dbService, "User_Project"),
+      orderBy("createdAt", "desc")
+    );
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const newArray = querySnapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+      setImageUrl(newArray as any);
+    });
+    return () => {
+      unsubscribe();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -76,7 +104,7 @@ const ProfileImage = () => {
           <CameraIcon />
         </button>
       </div>
-      <button type="submit">사진 수정완료</button>
+      {/* <button type="submit">사진 수정완료</button> */}
     </Form>
   );
 };

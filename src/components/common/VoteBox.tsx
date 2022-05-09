@@ -1,4 +1,4 @@
-import { MediumBox } from "theme/globalStyle";
+import { MediumBox } from "theme/commonStyle";
 import styled from "styled-components";
 
 const VoteBox = () => {

@@ -1,7 +1,7 @@
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
 
-const BookDescBox = () => {
+const BookDescription = () => {
   return (
     <Box>
       <Subtitle title="도서 정보 보기" />
@@ -22,6 +22,7 @@ const BookDescBox = () => {
 
 const Box = styled.div`
   padding: 0px 10px;
+  margin-top: 20px;
   > h1:first-child {
     margin: 0;
     border-bottom: 1px solid #c5c5c5;
@@ -43,4 +44,4 @@ const Box = styled.div`
   }
 `;
 
-export default BookDescBox;
+export default BookDescription;

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
-import { SubmitBtn } from "theme/globalStyle";
+import { SubmitBtn } from "theme/commonStyle";
 import styled from "styled-components";
 
 interface PropsType {
@@ -15,7 +15,7 @@ const ReviewCreateBox = ({ uid }: PropsType) => {
     event.preventDefault();
     if (review === "") return;
     try {
-      await addDoc(collection(dbService, "meetingReview"), {
+      await addDoc(collection(dbService, "Meeting_Review"), {
         text: review,
         createdAt: Date.now(),
         creatorId: uid,

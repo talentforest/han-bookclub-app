@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
-import { Container, SubmitBtn } from "theme/globalStyle";
+import { Container, SubmitBtn } from "theme/commonStyle";
 import { AuthUser } from "data/atom";
 import { ReactComponent as CloseIcon } from "assets/close.svg";
 import styled from "styled-components";
@@ -17,7 +17,7 @@ const SubjectCreateBox = ({ uid, setModalOpen }: PropsType) => {
     event.preventDefault();
     if (subject === "") return;
     try {
-      await addDoc(collection(dbService, "bookSubjects"), {
+      await addDoc(collection(dbService, "Book_Subjects"), {
         text: subject,
         createdAt: Date.now(),
         creatorId: uid,
@@ -38,7 +38,7 @@ const SubjectCreateBox = ({ uid, setModalOpen }: PropsType) => {
   };
 
   return (
-    <NewContainer>
+    <ModalBackground>
       <Form onSubmit={onSubmit}>
         <div>
           <h3>발제문 작성하기</h3>
@@ -49,7 +49,7 @@ const SubjectCreateBox = ({ uid, setModalOpen }: PropsType) => {
             height="16"
           />
         </div>
-        <Textarea
+        <textarea
           placeholder="책을 읽으며 이야기하고 싶었던 주제들을 자유롭게 작성해주세요."
           value={subject}
           onChange={onChange}
@@ -58,27 +58,25 @@ const SubjectCreateBox = ({ uid, setModalOpen }: PropsType) => {
           <SubmitBtn type="submit" value="남기기" />
         </div>
       </Form>
-    </NewContainer>
+    </ModalBackground>
   );
 };
 
-const NewContainer = styled(Container)`
-  min-height: 300vh;
-  margin: -15px;
+const ModalBackground = styled.div`
+  position: fixed;
+  top: 0;
   width: 100%;
-  position: absolute;
-  top: -25px;
-
+  margin-left: -15px;
+  padding-bottom: 20px;
   background-color: rgba(0, 0, 0, 0.6);
 `;
 
 const Form = styled.form`
-  top: 190px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 290px;
-  margin: 220px auto 0;
+  width: 90%;
+  margin: 50px auto 10px;
   padding: 10px 15px;
   border-radius: 5px;
   background-color: ${(props) => props.theme.container.lightBlue};
@@ -96,18 +94,17 @@ const Form = styled.form`
     display: flex;
     justify-content: end;
   }
-`;
-
-const Textarea = styled.textarea`
-  width: 260px;
-  min-height: 400px;
-  border: none;
-  border-radius: 5px;
-  background-color: ${(props) => props.theme.container.default};
-  margin-bottom: 10px;
-  padding: 10px;
-  &:focus {
-    outline: none;
+  > textarea {
+    width: 260px;
+    min-height: 350px;
+    border: none;
+    border-radius: 5px;
+    background-color: ${(props) => props.theme.container.default};
+    margin-bottom: 20px;
+    padding: 10px;
+    &:focus {
+      outline: none;
+    }
   }
 `;
 
