@@ -1,11 +1,12 @@
 import BookField from "BookField";
-import { authService } from "fbase";
+import { authService, dbService } from "fbase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import { Button, Desc, Input } from "theme/commonStyle";
 import { bookFields, gender } from "util/Constants";
+import { addDoc, collection } from "firebase/firestore";
+import styled from "styled-components";
 
 interface PropsType {
   email: string;
@@ -16,13 +17,18 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [userGender, setUserGender] = useState("");
-  const [checkedBookField, setCheckedBookField] = useState(new Set());
+  const [checkedBookField, setCheckedBookField] = useState(new Set(""));
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (username && userGender && checkedBookField.size !== 0) {
       try {
         await createUserWithEmailAndPassword(authService, email, password);
+        await addDoc(collection(dbService, "User_Data"), {
+          favoriteBookField: `${Array.from(checkedBookField)}`,
+          gender: userGender,
+          name: username,
+        });
         navigate("/");
       } catch (error) {
         console.error((error as Error).message);
@@ -51,6 +57,7 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
       checkedBookField.delete(fieldName);
       setCheckedBookField(checkedBookField);
     }
+    // console.log(`${Array.from(checkedBookField)}`);
   };
 
   return (
@@ -94,6 +101,7 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
         ))}
       </fieldset>
       <Button type="submit" value="계정 생성" />
+      {/* <Button type="button" value="저장" onClick={onSaveUserDataClick} /> */}
     </UserInfoForm>
   );
 };
