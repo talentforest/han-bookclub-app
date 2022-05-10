@@ -2,13 +2,10 @@ import { useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { SubmitBtn } from "theme/commonStyle";
+import { LogInUserInfo } from "components/App";
 import styled from "styled-components";
 
-interface PropsType {
-  uid: string;
-}
-
-const ReviewCreateBox = ({ uid }: PropsType) => {
+const ReviewCreateBox = ({ uid }: LogInUserInfo) => {
   const [review, setReview] = useState("");
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

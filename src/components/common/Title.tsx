@@ -1,10 +1,7 @@
 import { useLocation } from "react-router-dom";
+import { titleType } from "./LinkButton";
 
-interface propsType {
-  title: string;
-}
-
-const Title = ({ title }: propsType) => {
+const Title = ({ title }: titleType) => {
   const pathname = useLocation().pathname;
   const month = new Date().getMonth() + 1;
   return (

@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import { ReactComponent as ArrowRight } from "assets/chevron_right.svg";
 import styled from "styled-components";
 
-interface propsType {
-  link: string;
+export interface titleType {
+  link?: string;
   title: string;
 }
 
-const LinkButton = ({ link, title }: propsType) => {
+const LinkButton = ({ link, title }: titleType) => {
   return (
     <Link to={link}>
       <Button>{title}</Button>

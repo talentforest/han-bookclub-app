@@ -4,7 +4,6 @@ import { Container, Header } from "theme/commonStyle";
 import { ReactComponent as SettingIcon } from "assets/settings.svg";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/atom";
-import { AuthUser } from "../data/atom";
 import { dbService } from "fbase";
 import {
   collection,
@@ -24,17 +23,14 @@ import ByRecord from "components/profile/ByRecord";
 import CategoryButton from "components/profile/CategoryButton";
 import BookRecommendationBox from "components/profile/BookRecommendationBox";
 import BookRecommendationCreateBox from "components/profile/BookRecommendationCreateBox";
+import { LogInUserInfo } from "components/App";
+import { DocumentType } from "components/book/SubjectBox";
 
 interface PropsType {
-  loggedInUserObj: any;
+  loggedInUserObj: LogInUserInfo;
 }
 
-interface recommendBookType {
-  text: string;
-  createdAt: number;
-  creatorId: string;
-  id: string;
-  uid: string;
+export interface recommendBookType extends DocumentType {
   attachmentUrl: string;
 }
 
@@ -42,7 +38,7 @@ const Profile = ({ loggedInUserObj }: PropsType) => {
   const [recommendBook, setRecommendBook] = useState<recommendBookType[]>([]);
   const [ownRecord, setOwnRecord] = useState([]);
   const [category, setCategory] = useState("byBook");
-  const userData = useRecoilValue<AuthUser | null>(currentUserState);
+  const userData = useRecoilValue<LogInUserInfo | null>(currentUserState);
 
   const getMySubjects = async () => {
     const q = query(

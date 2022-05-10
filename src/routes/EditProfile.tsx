@@ -3,13 +3,14 @@ import { Header } from "./Setting";
 import { useState } from "react";
 import { updateProfile } from "firebase/auth";
 import { authService } from "fbase";
+import { LogInUserInfo } from "components/App";
 import BackButton from "components/common/BackButton";
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
 import ProfileImage from "components/common/ProfileImage";
 
 interface PropsType {
-  loggedInUserObj: any;
+  loggedInUserObj: LogInUserInfo;
   refreshUser: () => void;
 }
 

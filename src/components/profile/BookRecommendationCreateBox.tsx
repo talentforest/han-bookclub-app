@@ -6,9 +6,10 @@ import { dbService, storageService } from "fbase";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { v4 } from "uuid";
 import { addDoc, collection } from "firebase/firestore";
+import { LogInUserInfo } from "components/App";
 
 interface PropsType {
-  loggedInUserObj: any;
+  loggedInUserObj: LogInUserInfo;
   uid: string;
 }
 

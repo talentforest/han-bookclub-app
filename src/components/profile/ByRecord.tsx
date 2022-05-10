@@ -1,14 +1,8 @@
 import { Time } from "util/Time";
 import styled from "styled-components";
+import { DocumentType } from "components/book/SubjectBox";
 
-interface PropsType {
-  text: string;
-  createdAt: number;
-  creatorId: string;
-  uid: string;
-}
-
-const ByRecord = ({ text, createdAt }: PropsType) => {
+const ByRecord = ({ text, createdAt }: DocumentType) => {
   return (
     <TextBox>
       <h4>발제문</h4>

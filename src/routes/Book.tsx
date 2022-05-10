@@ -7,21 +7,14 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/atom";
 import Title from "components/common/Title";
 import BookDescription from "components/book/BookDescription";
-import SubjectBox from "components/book/SubjectBox";
+import SubjectBox, { DocumentType } from "components/book/SubjectBox";
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
 import SubjectCreateBox from "components/book/SubjectCreateBox";
 
-export interface SubjectData {
-  text: string;
-  createdAt: number;
-  creatorId: string;
-  id: string;
-}
-
 const Book = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [subjects, setSubjects] = useState<SubjectData[]>([]);
+  const [subjects, setSubjects] = useState<DocumentType[]>([]);
   const userData = useRecoilValue(currentUserState);
 
   const openModalClick = () => {

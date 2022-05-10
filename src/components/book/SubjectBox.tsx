@@ -6,15 +6,15 @@ import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { Time } from "util/Time";
 import styled from "styled-components";
 
-interface PropsType {
+export interface DocumentType {
   text: string;
   createdAt: number;
   creatorId: string;
-  id: string;
-  uid: string;
+  id?: string;
+  uid?: string;
 }
 
-const SubjectBox = ({ text, createdAt, creatorId, id, uid }: PropsType) => {
+const SubjectBox = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(text);
 

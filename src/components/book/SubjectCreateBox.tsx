@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
-import { Container, SubmitBtn } from "theme/commonStyle";
-import { AuthUser } from "data/atom";
+import { SubmitBtn } from "theme/commonStyle";
 import { ReactComponent as CloseIcon } from "assets/close.svg";
 import styled from "styled-components";
+import { LogInUserInfo } from "components/App";
 
-interface PropsType extends AuthUser {
+interface PropsType extends LogInUserInfo {
   setModalOpen: (modalOpen: boolean) => void;
 }
 

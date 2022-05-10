@@ -9,14 +9,15 @@ import Setting from "./routes/Setting";
 import Navigation from "components/common/Navigation";
 import CreateAccount from "./routes/CreateAccount";
 import EditProfile from "./routes/EditProfile";
+import { LogInUserInfo } from "components/App";
 
-interface propsType {
+interface PropsType {
   isLoggedIn: boolean;
-  loggedInUserObj: object;
+  loggedInUserObj: LogInUserInfo;
   refreshUser: () => void;
 }
 
-function Router({ isLoggedIn, loggedInUserObj, refreshUser }: propsType) {
+function Router({ isLoggedIn, loggedInUserObj, refreshUser }: PropsType) {
   return (
     <BrowserRouter>
       <Routes>

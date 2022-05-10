@@ -5,23 +5,25 @@ import { theme } from "theme/theme";
 import { ThemeProvider } from "styled-components";
 import Router from "../Router";
 
-export interface UserInfo {
+export interface LogInUserInfo {
   uid: string;
-  displayName: string | null;
   email?: string;
+  displayName?: string;
   phoneNumber?: string;
   photoURL?: string;
 }
 
 function App() {
   const [init, setInit] = useState(false); // user가 null이 되지 않기 위해 초기화
-  const [loggedInUserObj, setLoggedInUserObj] = useState<UserInfo>({
+  const [loggedInUserObj, setLoggedInUserObj] = useState<LogInUserInfo>({
     uid: "",
-    displayName: null,
+    displayName: "",
     email: "",
     phoneNumber: "",
     photoURL: "",
   });
+
+  console.log(loggedInUserObj);
 
   const auth = getAuth();
   useEffect(() => {

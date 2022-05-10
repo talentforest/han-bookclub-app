@@ -1,10 +1,7 @@
 import styled from "styled-components";
+import { titleType } from "./LinkButton";
 
-interface propsType {
-  title: string;
-}
-
-const Subtitle = ({ title }: propsType) => {
+const Subtitle = ({ title }: titleType) => {
   return <Sub>{title}</Sub>;
 };
 

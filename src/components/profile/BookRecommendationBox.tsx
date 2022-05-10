@@ -7,15 +7,7 @@ import { Time } from "util/Time";
 import { ReactComponent as CloseIcon } from "assets/close.svg";
 import styled from "styled-components";
 import { deleteObject, ref } from "firebase/storage";
-
-interface PropsType {
-  text: string;
-  createdAt: number;
-  creatorId: string;
-  id: string;
-  uid: string;
-  attachmentUrl: string;
-}
+import { recommendBookType } from "routes/Profile";
 
 const BookRecommendationBox = ({
   text,
@@ -24,7 +16,7 @@ const BookRecommendationBox = ({
   id,
   uid,
   attachmentUrl,
-}: PropsType) => {
+}: recommendBookType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(text);
 

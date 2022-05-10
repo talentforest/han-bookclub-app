@@ -4,16 +4,9 @@ import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { Time } from "util/Time";
 import styled from "styled-components";
+import { DocumentType } from "components/book/SubjectBox";
 
-interface PropsType {
-  text: string;
-  createdAt: number;
-  creatorId: string;
-  id: string;
-  uid: string;
-}
-
-const Reviews = ({ text, createdAt, creatorId, id, uid }: PropsType) => {
+const Reviews = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(text);
 

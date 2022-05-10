@@ -9,17 +9,10 @@ import Subtitle from "components/common/Subtitle";
 import Title from "components/common/Title";
 import ReviewCreateBox from "components/meeting/ReviewCreateBox";
 import Reviews from "components/meeting/Reviews";
-
-export interface MeetingReviewType {
-  text: string;
-  createdAt: number;
-  creatorId: string;
-  id: string;
-  uid: string;
-}
+import { DocumentType } from "components/book/SubjectBox";
 
 const Meeting = () => {
-  const [meetingReviews, setMeetingReviews] = useState<MeetingReviewType[]>([]);
+  const [meetingReviews, setMeetingReviews] = useState<DocumentType[]>([]);
   const userData = useRecoilValue(currentUserState);
 
   useEffect(() => {
@@ -35,7 +28,7 @@ const Meeting = () => {
           ...doc.data(),
         };
       });
-      setMeetingReviews(newArray as MeetingReviewType[]);
+      setMeetingReviews(newArray as DocumentType[]);
     });
     return () => {
       unsubscribe();
