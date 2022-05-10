@@ -6,11 +6,12 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { authService } from "fbase";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Container, Form, Input, Button } from "theme/commonStyle";
 
 const LogInPage = () => {
+  const navigator = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -19,6 +20,7 @@ const LogInPage = () => {
     event.preventDefault();
     try {
       await signInWithEmailAndPassword(authService, email, password);
+      navigator("/");
     } catch (error) {
       setError((error as Error).message);
     }
