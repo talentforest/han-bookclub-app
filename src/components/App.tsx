@@ -9,7 +9,6 @@ export interface LogInUserInfo {
   uid: string;
   email?: string;
   displayName?: string;
-  phoneNumber?: string;
   photoURL?: string;
 }
 
@@ -19,11 +18,8 @@ function App() {
     uid: "",
     displayName: "",
     email: "",
-    phoneNumber: "",
     photoURL: "",
   });
-
-  console.log(loggedInUserObj);
 
   const auth = getAuth();
   useEffect(() => {
@@ -33,7 +29,6 @@ function App() {
           uid: user.uid,
           displayName: user.displayName,
           email: user.email,
-          phoneNumber: user.phoneNumber,
           photoURL: user.photoURL,
         });
       } else {

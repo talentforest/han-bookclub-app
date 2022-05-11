@@ -2,8 +2,10 @@ import { Container } from "theme/commonStyle";
 import { Header } from "./Setting";
 import { useState } from "react";
 import { updateProfile } from "firebase/auth";
-import { authService } from "fbase";
+import { authService, storageService } from "fbase";
 import { LogInUserInfo } from "components/App";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { v4 } from "uuid";
 import BackButton from "components/common/BackButton";
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
@@ -16,27 +18,43 @@ interface PropsType {
 
 const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
   const [editing, setEditing] = useState(false);
+  const [beforeOnChange, setBeforeOnChange] = useState(true);
+  const [profileImgUrl, setProfileImgUrl] = useState("");
   const [newDisplayName, setNewDisplayName] = useState(
     loggedInUserObj.displayName
   );
 
-  const toggleEditing = () => setEditing((prev) => !prev);
-
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (loggedInUserObj.displayName !== newDisplayName) {
+    let userImageUrl = loggedInUserObj.photoURL;
+    if (profileImgUrl !== "") {
+      const fileRef = ref(storageService, `${loggedInUserObj.uid}/${v4()}`);
+      const response = await uploadString(fileRef, profileImgUrl, "data_url");
+      userImageUrl = await getDownloadURL(response.ref);
+    }
+
+    try {
+      if (loggedInUserObj.displayName !== newDisplayName) {
+        await updateProfile(authService.currentUser, {
+          displayName: newDisplayName,
+        });
+      }
       await updateProfile(authService.currentUser, {
-        displayName: newDisplayName,
+        photoURL: userImageUrl,
       });
       refreshUser();
+      setEditing(false);
+    } catch (error) {
+      console.error("Error adding document:", error);
     }
-    setEditing(false);
   };
 
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
     setNewDisplayName(event.currentTarget.value);
   };
+
+  const toggleEditing = () => setEditing((prev) => !prev);
 
   return (
     <>
@@ -47,28 +65,41 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
         </div>
       </NewHeader>
       <NewContainer>
-        <ProfileImage />
         {editing ? (
-          <Form onSubmit={onSubmit}>
-            <EditBtn type="submit" value="수정완료" />
-            <UserInfo>
-              <li>
-                <span>이메일</span>
-                <span>{loggedInUserObj.email}</span>
-              </li>
-              <li>
-                <span>별명</span>
-                <input
-                  onChange={onChange}
-                  type="text"
-                  placeholder="닉네임을 입력해주세요"
-                  value={newDisplayName}
-                />
-              </li>
-            </UserInfo>
-          </Form>
+          <>
+            <Form onSubmit={onSubmit}>
+              <ProfileImage
+                loggedInUserObj={loggedInUserObj}
+                refreshUser={refreshUser}
+                beforeOnChange={beforeOnChange}
+                setBeforeOnChange={setBeforeOnChange}
+                profileImgUrl={profileImgUrl}
+                setProfileImgUrl={setProfileImgUrl}
+              />
+              <UserInfo>
+                <li>
+                  <span>이메일</span>
+                  <span>{loggedInUserObj.email}</span>
+                </li>
+                <li>
+                  <span>별명</span>
+                  <input
+                    onChange={onChange}
+                    type="text"
+                    placeholder="닉네임을 입력해주세요"
+                    value={newDisplayName}
+                    required
+                  />
+                </li>
+                <EditBtn type="submit" value="수정완료" />
+              </UserInfo>
+            </Form>
+          </>
         ) : (
           <>
+            <div>
+              <img src={loggedInUserObj.photoURL} alt="profileimg" />
+            </div>
             <EditBtn onClick={toggleEditing} type="button" value="수정하기" />
             <UserInfo>
               <li>
@@ -91,6 +122,21 @@ const NewContainer = styled(Container)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 140px;
+    width: 140px;
+    margin-top: 10px;
+    > img {
+      object-fit: cover;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: ${(props) => props.theme.container.green};
+    }
+  }
 `;
 
 const NewHeader = styled(Header)`
@@ -120,6 +166,9 @@ const EditBtn = styled.input`
   border: none;
   background-color: transparent;
   color: ${(props) => props.theme.text.accent};
+  font-weight: 700;
+  padding-top: 2px;
+  font-size: 12px;
 `;
 
 const UserInfo = styled.ul`

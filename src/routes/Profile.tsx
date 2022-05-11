@@ -5,6 +5,8 @@ import { ReactComponent as SettingIcon } from "assets/settings.svg";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/atom";
 import { dbService } from "fbase";
+import { LogInUserInfo } from "components/App";
+import { DocumentType } from "components/book/SubjectBox";
 import {
   collection,
   DocumentData,
@@ -16,15 +18,12 @@ import {
 } from "firebase/firestore";
 import Title from "components/common/Title";
 import styled from "styled-components";
-import ProfileImage from "components/common/ProfileImage";
 import Subtitle from "components/common/Subtitle";
 import ByBook from "components/profile/ByBook";
 import ByRecord from "components/profile/ByRecord";
 import CategoryButton from "components/profile/CategoryButton";
 import BookRecommendationBox from "components/profile/BookRecommendationBox";
 import BookRecommendationCreateBox from "components/profile/BookRecommendationCreateBox";
-import { LogInUserInfo } from "components/App";
-import { DocumentType } from "components/book/SubjectBox";
 
 interface PropsType {
   loggedInUserObj: LogInUserInfo;
@@ -58,11 +57,11 @@ const Profile = ({ loggedInUserObj }: PropsType) => {
 
   useEffect(() => {
     getMySubjects();
+
     const q = query(
-      collection(dbService, "Books_I_recommened"),
+      collection(dbService, "Recommened_Book"),
       orderBy("createdAt", "desc")
     );
-
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const newArray = querySnapshot.docs.map((doc) => {
         return {
@@ -87,7 +86,6 @@ const Profile = ({ loggedInUserObj }: PropsType) => {
         </Link>
       </NewHeader>
       <NewContainer>
-        <ProfileImage />
         <Subtitle title="나의 기록" />
         <CategoryButton category={category} setCategory={setCategory} />
         {category === "byBook" && <ByBook />}

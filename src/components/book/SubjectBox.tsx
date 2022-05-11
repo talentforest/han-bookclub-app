@@ -7,11 +7,11 @@ import { Time } from "util/Time";
 import styled from "styled-components";
 
 export interface DocumentType {
-  text: string;
-  createdAt: number;
-  creatorId: string;
+  text?: string;
+  createdAt?: number;
+  creatorId?: string;
   id?: string;
-  uid?: string;
+  uid: string;
 }
 
 const SubjectBox = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {

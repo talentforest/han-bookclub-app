@@ -21,7 +21,7 @@ const BookRecommendationBox = ({
   const [newText, setNewText] = useState(text);
 
   const onDeleteClick = async () => {
-    const RecommendedBookRef = doc(dbService, "Books_I_recommened", `${id}`);
+    const RecommendedBookRef = doc(dbService, "Recommened_Book", `${id}`);
     await deleteDoc(RecommendedBookRef);
   };
 
@@ -29,13 +29,11 @@ const BookRecommendationBox = ({
     await deleteObject(ref(storageService, attachmentUrl));
   };
 
-  // const onClearAttachmentClick = () => setAttachment(null);
-
   const toggleEditing = () => setEditing((prev) => !prev);
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onEditSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const RecommendedBookRef = doc(dbService, "Books_I_recommened", `${id}`);
+    const RecommendedBookRef = doc(dbService, "Recommened_Book", `${id}`);
     await updateDoc(RecommendedBookRef, { text: newText });
     setEditing(false);
   };
@@ -48,7 +46,7 @@ const BookRecommendationBox = ({
     <>
       {editing ? (
         <TextBox>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onEditSubmit}>
             <Writer>
               <User>
                 <ProfileImg />

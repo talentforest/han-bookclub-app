@@ -1,6 +1,6 @@
 import { Button, Desc, Form, Input } from "theme/commonStyle";
 
-interface propsType {
+interface PropsType {
   email: string;
   setEmail: (email: string) => void;
   password: string;
@@ -18,7 +18,7 @@ const AccountForm = ({
   checkPassword,
   setCheckPassword,
   setIsShowingUserDataInput,
-}: propsType) => {
+}: PropsType) => {
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
     const {
       currentTarget: { name, value },

@@ -28,7 +28,7 @@ const BookRecommendationCreateBox = ({ loggedInUserObj, uid }: PropsType) => {
     }
 
     try {
-      await addDoc(collection(dbService, "Books_I_recommened"), {
+      await addDoc(collection(dbService, "Recommened_Book"), {
         text: text,
         createdAt: Date.now(),
         creatorId: uid,

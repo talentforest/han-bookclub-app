@@ -1,66 +1,25 @@
-import { currentUserState } from "data/atom";
-import { dbService, storageService } from "fbase";
-import {
-  addDoc,
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-} from "firebase/firestore";
-import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import { useEffect, useRef, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { v4 } from "uuid";
+import { useRef } from "react";
 import { ReactComponent as CameraIcon } from "assets/camera.svg";
+import { LogInUserInfo } from "components/App";
 import styled from "styled-components";
 
-const ProfileImage = () => {
-  const [imageUrl, setImageUrl] = useState("");
+interface ProfileType {
+  loggedInUserObj: LogInUserInfo;
+  refreshUser: () => void;
+  beforeOnChange: boolean;
+  setBeforeOnChange: (beforeOnChange: boolean) => void;
+  profileImgUrl: string;
+  setProfileImgUrl: (profileImgUrl: string) => void;
+}
 
+const ProfileImage = ({
+  loggedInUserObj,
+  beforeOnChange,
+  setBeforeOnChange,
+  profileImgUrl,
+  setProfileImgUrl,
+}: ProfileType) => {
   const fileInput = useRef(null);
-  const userData = useRecoilValue(currentUserState);
-
-  useEffect(() => {
-    const q = query(
-      collection(dbService, "User_Project"),
-      orderBy("createdAt", "desc")
-    );
-
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const newArray = querySnapshot.docs.map((doc) => {
-        return {
-          id: doc.id,
-          ...doc.data(),
-        };
-      });
-      setImageUrl(newArray as any);
-    });
-    return () => {
-      unsubscribe();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    let attachmentUrl = "";
-    if (imageUrl !== "") {
-      const fileRef = ref(storageService, `${userData.uid}/${v4()}`);
-      const response = await uploadString(fileRef, imageUrl, "data_url");
-      attachmentUrl = await getDownloadURL(response.ref);
-    }
-
-    try {
-      await addDoc(collection(dbService, "User_Profile"), {
-        attachmentUrl,
-      });
-    } catch (error) {
-      console.error("Error adding document:", error);
-    }
-
-    // setImageUrl("");
-  };
 
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
     const {
@@ -73,30 +32,42 @@ const ProfileImage = () => {
       const {
         target: { result },
       } = finishedEvent;
-      setImageUrl(result as string);
+      setProfileImgUrl(result as string);
     };
     reader.readAsDataURL(theFile);
+    setBeforeOnChange(false);
   };
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Container>
       <input
         type="file"
         style={{ display: "none" }}
-        accept="image/jpg,impge/png,image/jpeg"
+        accept="image/jpg,image/png,image/jpeg"
         name="profile_img"
         onChange={onChange}
         ref={fileInput}
       />
       <div>
-        <img
-          src={imageUrl}
-          alt="profileimg"
-          onClick={() => {
-            fileInput.current.click();
-          }}
-        />
+        {beforeOnChange ? (
+          <img
+            src={loggedInUserObj.photoURL}
+            alt="profileimg"
+            onClick={() => {
+              fileInput.current.click();
+            }}
+          />
+        ) : (
+          <img
+            src={profileImgUrl}
+            alt="profileimg"
+            onClick={() => {
+              fileInput.current.click();
+            }}
+          />
+        )}
         <button
+          type="button"
           onClick={() => {
             fileInput.current.click();
           }}
@@ -104,36 +75,42 @@ const ProfileImage = () => {
           <CameraIcon />
         </button>
       </div>
-      {/* <button type="submit">사진 수정완료</button> */}
-    </Form>
+    </Container>
   );
 };
 
-const Form = styled.form`
+const Container = styled.div`
   display: flex;
   justify-content: center;
   > div {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 140px;
+    width: 140px;
+    margin-top: 10px;
     > img {
       object-fit: cover;
       width: 120px;
       height: 120px;
       border-radius: 50%;
-      margin-top: 10px;
-      background-color: ${(props) => props.theme.container.lightBlue};
+      background-color: ${(props) => props.theme.container.green};
     }
     > button {
       position: absolute;
-      right: 8px;
-      bottom: 5px;
+      right: 14px;
+      bottom: 10px;
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       border: none;
-      background-color: ${(props) => props.theme.container.lightBlue};
+      font-size: 10px;
+      font-weight: 700;
+      background-color: ${(props) => props.theme.container.orange};
       svg {
         width: 16px;
         height: 16px;
