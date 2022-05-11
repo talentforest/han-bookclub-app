@@ -78,8 +78,11 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
               />
               <UserInfo>
                 <li>
-                  <span>이메일</span>
-                  <span>{loggedInUserObj.email}</span>
+                  <div>
+                    <span>이메일</span>
+                    <span>{loggedInUserObj.email}</span>
+                  </div>
+                  <p>이메일은 변경할 수 없습니다. 관리자에게 문의해주세요.</p>
                 </li>
                 <li>
                   <span>별명</span>
@@ -103,8 +106,10 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
             <EditBtn onClick={toggleEditing} type="button" value="수정하기" />
             <UserInfo>
               <li>
-                <span>이메일</span>
-                <span>{loggedInUserObj.email}</span>
+                <div>
+                  <span>이메일</span>
+                  <span>{loggedInUserObj.email}</span>
+                </div>
               </li>
               <li>
                 <span>별명</span>
@@ -174,6 +179,30 @@ const EditBtn = styled.input`
 const UserInfo = styled.ul`
   width: 90%;
   margin: 20px auto 0;
+  > li:first-child {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    > div:first-child {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      > span:first-child {
+        font-weight: 700;
+        font-size: 12px;
+      }
+      > span:last-child {
+        height: 25px;
+      }
+    }
+    > p {
+      font-size: 10px;
+      text-align: end;
+      width: 100%;
+      color: #4149e1;
+    }
+  }
   > li {
     margin-bottom: 20px;
     display: flex;
