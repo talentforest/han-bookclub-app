@@ -19,6 +19,19 @@ const AccountForm = ({
   setCheckPassword,
   setIsShowingUserDataInput,
 }: PropsType) => {
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      if (password !== checkPassword) {
+        alert("비밀번호가 일치하지 않습니다.");
+        return;
+      } else {
+        setIsShowingUserDataInput(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
     const {
       currentTarget: { name, value },
@@ -32,29 +45,17 @@ const AccountForm = ({
     }
   };
 
-  const onNextStepClick = () => {
-    try {
-      if (password !== checkPassword) {
-        alert("비밀번호가 일치하지 않습니다.");
-        return;
-      } else {
-        setIsShowingUserDataInput(true);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <>
       <Desc>사용하실 계정 정보를 입력해 주세요</Desc>
-      <Form>
+      <Form onSubmit={onSubmit}>
         <Input
           name="email"
           type="email"
           placeholder="자주 사용하는 이메일 계정을 입력해주세요."
           value={email}
           onChange={onChange}
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
           required
         />
         <Input
@@ -75,7 +76,7 @@ const AccountForm = ({
           autoComplete="on"
           required
         />
-        <Button defaultValue="다음으로" onClick={onNextStepClick} />
+        <Button type="submit" defaultValue="다음으로" />
       </Form>
     </>
   );

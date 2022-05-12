@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Desc, Input } from "theme/commonStyle";
 import { bookFields, gender } from "util/Constants";
-import { addDoc, collection } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import styled from "styled-components";
 
 interface PropsType {
@@ -21,20 +21,23 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (username && userGender && checkedBookField.size !== 0) {
-      try {
+    try {
+      if (username && userGender && checkedBookField.size !== 0) {
         await createUserWithEmailAndPassword(authService, email, password);
-        await addDoc(collection(dbService, "User_Data"), {
-          favoriteBookField: `${Array.from(checkedBookField)}`,
-          gender: userGender,
-          name: username,
-        });
+        await setDoc(
+          doc(dbService, "User_Data", `${authService.currentUser?.uid}`),
+          {
+            favoriteBookField: `${Array.from(checkedBookField)}`,
+            gender: userGender,
+            name: username,
+          }
+        );
         navigate("/");
-      } catch (error) {
-        console.error((error as Error).message);
+      } else {
+        alert("입력하신 정보를 다시 한번 확인해주세요.");
       }
-    } else {
-      alert("입력하신 정보를 다시 한번 확인해주세요.");
+    } catch (error) {
+      console.error((error as Error).message);
     }
   };
 
@@ -57,7 +60,6 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
       checkedBookField.delete(fieldName);
       setCheckedBookField(checkedBookField);
     }
-    // console.log(`${Array.from(checkedBookField)}`);
   };
 
   return (
@@ -101,7 +103,6 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
         ))}
       </fieldset>
       <Button type="submit" value="계정 생성" />
-      {/* <Button type="button" value="저장" onClick={onSaveUserDataClick} /> */}
     </UserInfoForm>
   );
 };

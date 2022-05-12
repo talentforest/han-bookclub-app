@@ -6,8 +6,13 @@ import MeetingInfoBox from "components/common/MeetingInfoBox";
 import VoteBox from "components/common/VoteBox";
 import Title from "components/common/Title";
 import styled from "styled-components";
+import { LogInUserInfo } from "components/App";
 
-const Home = () => {
+interface PropsType {
+  loggedInUserObj: LogInUserInfo;
+}
+
+const Home = ({ loggedInUserObj }: PropsType) => {
   return (
     <>
       <NewHeader>

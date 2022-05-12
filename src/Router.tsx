@@ -22,12 +22,18 @@ function Router({ isLoggedIn, loggedInUserObj, refreshUser }: PropsType) {
     <BrowserRouter>
       <Routes>
         {isLoggedIn ? (
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={<Home loggedInUserObj={loggedInUserObj} />}
+          />
         ) : (
           <Route path="/" element={<LogInPage />} />
         )}
         <>
-          <Route path="/create_account" element={<CreateAccount />} />
+          <Route
+            path="/create_account"
+            element={<CreateAccount loggedInUserObj={loggedInUserObj} />}
+          />
           {isLoggedIn ? (
             <>
               <Route path="/book" element={<Book />} />

@@ -1,15 +1,24 @@
 import { Container } from "theme/commonStyle";
 import { Header } from "./Setting";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { updateProfile } from "firebase/auth";
-import { authService, storageService } from "fbase";
+import { authService, dbService, storageService } from "fbase";
 import { LogInUserInfo } from "components/App";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { v4 } from "uuid";
+import { doc, getDoc } from "firebase/firestore";
+import UserIcon from "assets/account_circle.svg";
 import BackButton from "components/common/BackButton";
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
 import ProfileImage from "components/common/ProfileImage";
+import { bookFields } from "util/Constants";
+
+interface extraUserData {
+  name: string;
+  gender: string;
+  favoriteBookField: string;
+}
 
 interface PropsType {
   loggedInUserObj: LogInUserInfo;
@@ -23,6 +32,23 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
   const [newDisplayName, setNewDisplayName] = useState(
     loggedInUserObj.displayName
   );
+  const [extraUserData, setExtraUserData] = useState({
+    name: "",
+    gender: "",
+    favoriteBookField: "",
+  });
+
+  const getExtraUserData = async (uid: string) => {
+    const userRef = doc(dbService, "User_Data", loggedInUserObj.uid);
+    const userSnap = await getDoc(userRef);
+
+    setExtraUserData(userSnap.data() as extraUserData);
+  };
+
+  useEffect(() => {
+    getExtraUserData(loggedInUserObj.uid);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -77,23 +103,45 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
                 setProfileImgUrl={setProfileImgUrl}
               />
               <UserInfo>
-                <li>
+                <List>
                   <div>
                     <span>이메일</span>
                     <span>{loggedInUserObj.email}</span>
                   </div>
-                  <p>이메일은 변경할 수 없습니다. 관리자에게 문의해주세요.</p>
-                </li>
-                <li>
-                  <span>별명</span>
-                  <input
-                    onChange={onChange}
-                    type="text"
-                    placeholder="닉네임을 입력해주세요"
-                    value={newDisplayName}
-                    required
-                  />
-                </li>
+                </List>
+                <List>
+                  <div>
+                    <span>이름</span>
+                    <span>{extraUserData.name}</span>
+                  </div>
+                  <p>
+                    이메일과 이름은 변경할 수 없습니다.
+                    <br /> 관리자에게 문의해주세요.
+                  </p>
+                </List>
+                <List>
+                  <div>
+                    <span>별명</span>
+                    <input
+                      onChange={onChange}
+                      type="text"
+                      placeholder="닉네임을 입력해주세요"
+                      value={newDisplayName}
+                      required
+                    />
+                  </div>
+                </List>
+                <List>
+                  <div>
+                    <span>좋아하는 분야</span>
+                    <span>{extraUserData.favoriteBookField}</span>
+                  </div>
+                  <div>
+                    {bookFields.map((item) => (
+                      <div key={item.id}>{item.name}</div>
+                    ))}
+                  </div>
+                </List>
                 <EditBtn type="submit" value="수정완료" />
               </UserInfo>
             </Form>
@@ -101,20 +149,45 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
         ) : (
           <>
             <div>
-              <img src={loggedInUserObj.photoURL} alt="profileimg" />
+              <img
+                src={
+                  loggedInUserObj.photoURL === null
+                    ? UserIcon
+                    : loggedInUserObj.photoURL
+                }
+                alt="profileimg"
+              />
             </div>
             <EditBtn onClick={toggleEditing} type="button" value="수정하기" />
             <UserInfo>
-              <li>
+              <List>
                 <div>
                   <span>이메일</span>
                   <span>{loggedInUserObj.email}</span>
                 </div>
-              </li>
-              <li>
-                <span>별명</span>
-                <span>{newDisplayName}</span>
-              </li>
+              </List>
+              <List>
+                <div>
+                  <span>이름</span>
+                  <span>{extraUserData.name}</span>
+                </div>
+              </List>
+              <List>
+                <div>
+                  <span>별명</span>
+                  <span>
+                    {loggedInUserObj.displayName === null
+                      ? `${loggedInUserObj.email.split("@")[0]}`
+                      : loggedInUserObj.displayName}
+                  </span>
+                </div>
+              </List>
+              <List>
+                <div>
+                  <span>좋아하는 분야</span>
+                  <span>{extraUserData.favoriteBookField}</span>
+                </div>
+              </List>
             </UserInfo>
           </>
         )}
@@ -122,6 +195,22 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
     </>
   );
 };
+
+const NewHeader = styled(Header)`
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  > div {
+    display: flex;
+    align-items: center;
+  }
+  > button {
+    border: none;
+    background-color: transparent;
+    color: ${(props) => props.theme.text.lightBlue};
+    cursor: pointer;
+  }
+`;
 
 const NewContainer = styled(Container)`
   display: flex;
@@ -144,19 +233,55 @@ const NewContainer = styled(Container)`
   }
 `;
 
-const NewHeader = styled(Header)`
-  position: relative;
-  justify-content: space-between;
-  align-items: center;
+const UserInfo = styled.ul`
+  width: 90%;
+  margin: 20px auto 0;
+`;
+
+const List = styled.li`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
+  > div:first-child {
+    padding: 10px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    width: 100%;
+    > span:first-child {
+      font-weight: 700;
+      font-size: 12px;
+    }
+  }
   > div {
     display: flex;
-    align-items: center;
+    justify-content: end;
+    flex-wrap: wrap;
+    > div {
+      border: 1px solid ${(props) => props.theme.text.lightGray};
+      padding: 2px 3px;
+      border-radius: 10px;
+      margin: 0px 0px 8px 8px;
+      font-size: 11px;
+      background-color: ${(props) => props.theme.container.lightBlue};
+      &:hover {
+        background-color: ${(props) => props.theme.container.yellow};
+      }
+    }
+    > input {
+      text-align: end;
+      border: 1px solid ${(props) => props.theme.text.lightGray};
+      border-radius: 5px;
+      height: 30px;
+    }
   }
-  > button {
-    border: none;
-    background-color: transparent;
+  > p {
+    font-size: 10px;
+    text-align: end;
     color: ${(props) => props.theme.text.lightBlue};
-    cursor: pointer;
+    margin-bottom: 10px;
   }
 `;
 
@@ -174,59 +299,6 @@ const EditBtn = styled.input`
   font-weight: 700;
   padding-top: 2px;
   font-size: 12px;
-`;
-
-const UserInfo = styled.ul`
-  width: 90%;
-  margin: 20px auto 0;
-  > li:first-child {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-    > div:first-child {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      > span:first-child {
-        font-weight: 700;
-        font-size: 12px;
-      }
-      > span:last-child {
-        height: 25px;
-      }
-    }
-    > p {
-      font-size: 10px;
-      text-align: end;
-      width: 100%;
-      color: #4149e1;
-    }
-  }
-  > li {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 16px;
-    > span:first-child {
-      font-weight: 700;
-      font-size: 12px;
-    }
-    > span:last-child {
-      height: 25px;
-    }
-    > input {
-      width: fit-content;
-      border: none;
-      text-align: end;
-      height: 25px;
-      font-size: 16px;
-      &:focus {
-        outline: none;
-      }
-    }
-  }
 `;
 
 export default EditProfile;

@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { ReactComponent as CameraIcon } from "assets/camera.svg";
 import { LogInUserInfo } from "components/App";
+import UserIcon from "assets/account_circle.svg";
 import styled from "styled-components";
 
 interface ProfileType {
@@ -51,7 +52,11 @@ const ProfileImage = ({
       <div>
         {beforeOnChange ? (
           <img
-            src={loggedInUserObj.photoURL}
+            src={
+              loggedInUserObj.photoURL === null
+                ? UserIcon
+                : loggedInUserObj.photoURL
+            }
             alt="profileimg"
             onClick={() => {
               fileInput.current.click();

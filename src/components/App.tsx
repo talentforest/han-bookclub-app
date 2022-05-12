@@ -22,12 +22,13 @@ function App() {
   });
 
   const auth = getAuth();
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setLoggedInUserObj({
           uid: user.uid,
-          displayName: user.displayName,
+          displayName: user.displayName ? user.displayName : "한 페이지 멤버",
           email: user.email,
           photoURL: user.photoURL,
         });
