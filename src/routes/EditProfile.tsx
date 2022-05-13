@@ -77,6 +77,7 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
         photoURL: userImageUrl,
       });
       refreshUser();
+      setToggleCheck(Array(bookFields.length).fill(false));
       setEditing(false);
     } catch (error) {
       console.error("Error adding document:", error);
