@@ -10,6 +10,7 @@ import Navigation from "components/common/Navigation";
 import CreateAccount from "./routes/CreateAccount";
 import EditProfile from "./routes/EditProfile";
 import { LogInUserInfo } from "components/App";
+import ScrollToTop from "util/ScrollToTop";
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -20,6 +21,7 @@ interface PropsType {
 function Router({ isLoggedIn, loggedInUserObj, refreshUser }: PropsType) {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {isLoggedIn ? (
           <Route
