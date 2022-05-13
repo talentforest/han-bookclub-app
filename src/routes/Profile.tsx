@@ -7,6 +7,7 @@ import { currentUserState } from "data/atom";
 import { dbService } from "fbase";
 import { LogInUserInfo } from "components/App";
 import { DocumentType } from "components/book/SubjectBox";
+import UserIcon from "assets/account_circle.svg";
 import {
   collection,
   DocumentData,
@@ -86,41 +87,58 @@ const Profile = ({ loggedInUserObj }: PropsType) => {
         </Link>
       </NewHeader>
       <NewContainer>
-        <Subtitle title="나의 기록" />
-        <CategoryButton category={category} setCategory={setCategory} />
-        {category === "byBook" && <ByBook />}
-        {category === "byRecord" && (
-          <div>
-            {ownRecord.map((item) => (
-              <ByRecord
-                key={item.createdAt}
-                uid={userData?.uid}
-                creatorId={item.creatorId}
-                text={item.text}
-                createdAt={item.createdAt}
-              />
-            ))}
-          </div>
-        )}
-        <Subtitle title="내가 읽은 책 추천하기" />
-        <BookRecommendationCreateBox
-          loggedInUserObj={loggedInUserObj}
-          uid={userData?.uid}
-        />
         <div>
-          {recommendBook.map(
-            ({ text, createdAt, creatorId, id, attachmentUrl }) => (
-              <BookRecommendationBox
-                key={id}
-                id={id}
-                uid={userData?.uid}
-                creatorId={creatorId}
-                text={text}
-                createdAt={createdAt}
-                attachmentUrl={attachmentUrl}
-              />
-            )
+          <img
+            src={
+              loggedInUserObj.photoURL === null
+                ? UserIcon
+                : loggedInUserObj.photoURL
+            }
+            alt="profileimg"
+          />
+          <span>{loggedInUserObj.displayName}</span>
+        </div>
+        <div>
+          <Subtitle title="나의 기록" />
+          <CategoryButton category={category} setCategory={setCategory} />
+          {category === "byBook" && (
+            <div>
+              <ByBook />
+            </div>
           )}
+          {category === "byRecord" && (
+            <div>
+              {ownRecord.map((item) => (
+                <ByRecord
+                  key={item.createdAt}
+                  uid={userData?.uid}
+                  creatorId={item.creatorId}
+                  text={item.text}
+                  createdAt={item.createdAt}
+                />
+              ))}
+            </div>
+          )}
+          <Subtitle title="내가 읽은 책 추천하기" />
+          <BookRecommendationCreateBox
+            loggedInUserObj={loggedInUserObj}
+            uid={userData?.uid}
+          />
+          <div>
+            {recommendBook.map(
+              ({ text, createdAt, creatorId, id, attachmentUrl }) => (
+                <BookRecommendationBox
+                  key={id}
+                  id={id}
+                  uid={userData?.uid}
+                  creatorId={creatorId}
+                  text={text}
+                  createdAt={createdAt}
+                  attachmentUrl={attachmentUrl}
+                />
+              )
+            )}
+          </div>
         </div>
       </NewContainer>
     </>
@@ -128,8 +146,33 @@ const Profile = ({ loggedInUserObj }: PropsType) => {
 };
 
 const NewContainer = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   > div:first-child {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 140px;
+    margin-top: 10px;
+    > img {
+      object-fit: cover;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: ${(props) => props.theme.container.green};
+    }
+    > span {
+      font-size: 15px;
+      font-weight: 700;
+      padding-top: 10px;
+    }
+  }
+  > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
   }
 `;

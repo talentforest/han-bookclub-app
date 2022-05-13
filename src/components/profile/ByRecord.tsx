@@ -24,6 +24,7 @@ const TextBox = styled.div`
   padding: 10px;
   background-color: ${(props) => props.theme.container.default};
   border-radius: 5px;
+  width: 100%;
   h4 {
     font-size: 10px;
     color: ${(props) => props.theme.text.gray};
