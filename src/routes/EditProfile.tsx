@@ -6,13 +6,13 @@ import { authService, dbService, storageService } from "fbase";
 import { LogInUserInfo } from "components/App";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { v4 } from "uuid";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
+import { bookFields } from "util/Constants";
 import UserIcon from "assets/account_circle.svg";
 import BackButton from "components/common/BackButton";
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
 import ProfileImage from "components/common/ProfileImage";
-import { bookFields } from "util/Constants";
 
 interface extraUserData {
   name: string;
@@ -27,7 +27,6 @@ interface PropsType {
 
 const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
   const [editing, setEditing] = useState(false);
-  const [beforeOnChange, setBeforeOnChange] = useState(true);
   const [profileImgUrl, setProfileImgUrl] = useState("");
   const [newDisplayName, setNewDisplayName] = useState(
     loggedInUserObj.displayName
@@ -37,22 +36,26 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
     gender: "",
     favoriteBookField: "",
   });
-
-  const getExtraUserData = async (uid: string) => {
-    const userRef = doc(dbService, "User_Data", loggedInUserObj.uid);
-    const userSnap = await getDoc(userRef);
-
-    setExtraUserData(userSnap.data() as extraUserData);
-  };
+  const [favFields, setFavFields] = useState(new Set(""));
+  const [toggleCheck, setToggleCheck] = useState(
+    Array(bookFields.length).fill(false)
+  );
 
   useEffect(() => {
-    getExtraUserData(loggedInUserObj.uid);
+    const unsubscribe = onSnapshot(
+      doc(dbService, "User_Data", `${loggedInUserObj.uid}`),
+      (doc) => {
+        setExtraUserData(doc.data() as extraUserData);
+      }
+    );
+    return () => {
+      unsubscribe();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     let userImageUrl = loggedInUserObj.photoURL;
     if (profileImgUrl !== "") {
       const fileRef = ref(storageService, `${loggedInUserObj.uid}/${v4()}`);
@@ -60,6 +63,10 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
       userImageUrl = await getDownloadURL(response.ref);
     }
 
+    const UserDataRef = doc(dbService, "User_Data", `${loggedInUserObj.uid}`);
+    updateDoc(UserDataRef, {
+      favoriteBookField: Array.from(favFields).join(),
+    });
     try {
       if (loggedInUserObj.displayName !== newDisplayName) {
         await updateProfile(authService.currentUser, {
@@ -82,6 +89,34 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
 
   const toggleEditing = () => setEditing((prev) => !prev);
 
+  const onHandleClick = (
+    idx: number,
+    event: React.FormEvent<HTMLDivElement>
+  ) => {
+    setToggleCheck((prev) =>
+      prev.map((element, index) => {
+        return index === idx ? !element : element;
+      })
+    );
+
+    const { textContent } = event.currentTarget;
+
+    if (!toggleCheck[idx]) {
+      favFields.add(textContent);
+      setFavFields(favFields);
+    } else if (toggleCheck[idx]) {
+      favFields.delete(textContent);
+      setFavFields(favFields);
+    }
+  };
+
+  const selectedItemStyle = (index: number) => {
+    return {
+      backgroundColor: `${toggleCheck[index] ? "#5162FF" : ""}`,
+      color: `${toggleCheck[index] ? "#fff" : ""}`,
+    };
+  };
+
   return (
     <>
       <NewHeader>
@@ -97,27 +132,19 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
               <ProfileImage
                 loggedInUserObj={loggedInUserObj}
                 refreshUser={refreshUser}
-                beforeOnChange={beforeOnChange}
-                setBeforeOnChange={setBeforeOnChange}
                 profileImgUrl={profileImgUrl}
                 setProfileImgUrl={setProfileImgUrl}
               />
               <UserInfo>
+                <p>
+                  이메일과 이름은 변경할 수 없습니다.
+                  <br /> 관리자에게 문의해주세요.
+                </p>
                 <List>
                   <div>
                     <span>이메일</span>
                     <span>{loggedInUserObj.email}</span>
                   </div>
-                </List>
-                <List>
-                  <div>
-                    <span>이름</span>
-                    <span>{extraUserData.name}</span>
-                  </div>
-                  <p>
-                    이메일과 이름은 변경할 수 없습니다.
-                    <br /> 관리자에게 문의해주세요.
-                  </p>
                 </List>
                 <List>
                   <div>
@@ -128,20 +155,27 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
                       placeholder="닉네임을 입력해주세요"
                       value={newDisplayName}
                       required
+                      autoFocus
                     />
                   </div>
                 </List>
-                <List>
+                <FavBookEdit>
+                  <span>좋아하는 분야</span>
                   <div>
-                    <span>좋아하는 분야</span>
-                    <span>{extraUserData.favoriteBookField}</span>
+                    <span>변경하실 분야를 선택해주세요.</span>
+                    <FieldContainer>
+                      {bookFields.map((item, index) => (
+                        <div
+                          onClick={(event) => onHandleClick(index, event)}
+                          style={selectedItemStyle(index)}
+                          key={item.id}
+                        >
+                          {item.name}
+                        </div>
+                      ))}
+                    </FieldContainer>
                   </div>
-                  <div>
-                    {bookFields.map((item) => (
-                      <div key={item.id}>{item.name}</div>
-                    ))}
-                  </div>
-                </List>
+                </FavBookEdit>
                 <EditBtn type="submit" value="수정완료" />
               </UserInfo>
             </Form>
@@ -168,12 +202,6 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
               </List>
               <List>
                 <div>
-                  <span>이름</span>
-                  <span>{extraUserData.name}</span>
-                </div>
-              </List>
-              <List>
-                <div>
                   <span>별명</span>
                   <span>
                     {loggedInUserObj.displayName === null
@@ -185,7 +213,11 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
               <List>
                 <div>
                   <span>좋아하는 분야</span>
-                  <span>{extraUserData.favoriteBookField}</span>
+                  <div>
+                    {extraUserData.favoriteBookField.split(",").map((item) => (
+                      <FavFieldItem key={item}>{item}</FavFieldItem>
+                    ))}
+                  </div>
                 </div>
               </List>
             </UserInfo>
@@ -195,6 +227,58 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
     </>
   );
 };
+
+const FavBookEdit = styled.div`
+  display: flex;
+  justify-content: space-between;
+  > span:first-child {
+    padding: 10px 0;
+    font-weight: 700;
+    font-size: 12px;
+  }
+  > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 70%;
+    > span {
+      font-size: 10px;
+      color: ${(props) => props.theme.text.lightBlue};
+      padding: 10px 0;
+    }
+  }
+`;
+
+const FavFieldItem = styled.span`
+  cursor: pointer;
+  width: fit-content;
+  padding: 2px 3px;
+  border-radius: 10px;
+  margin: 4px 0px 4px 8px;
+  font-size: 10px;
+  border: 1px solid ${(props) => props.theme.text.lightGray};
+  color: ${(props) => props.theme.text.white};
+  background-color: ${(props) => props.theme.text.lightBlue};
+`;
+
+const FieldContainer = styled.div`
+  width: 260px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  > div {
+    cursor: pointer;
+    padding: 2px 3px;
+    border-radius: 10px;
+    margin: 0px 0px 8px 8px;
+    font-size: 10px;
+    border: 1px solid ${(props) => props.theme.text.lightGray};
+    background-color: ${(props) => props.theme.container.default};
+    &:hover {
+      background-color: ${(props) => props.theme.container.yellow};
+    }
+  }
+`;
 
 const NewHeader = styled(Header)`
   position: relative;
@@ -236,52 +320,42 @@ const NewContainer = styled(Container)`
 const UserInfo = styled.ul`
   width: 90%;
   margin: 20px auto 0;
+  > p {
+    font-size: 10px;
+    color: ${(props) => props.theme.text.lightBlue};
+  }
 `;
 
 const List = styled.li`
   display: flex;
   flex-direction: column;
   width: 100%;
-  border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
-  > div:first-child {
+  > div {
     padding: 10px 0px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 16px;
-    width: 100%;
     > span:first-child {
       font-weight: 700;
       font-size: 12px;
     }
-  }
-  > div {
-    display: flex;
-    justify-content: end;
-    flex-wrap: wrap;
-    > div {
-      border: 1px solid ${(props) => props.theme.text.lightGray};
-      padding: 2px 3px;
-      border-radius: 10px;
-      margin: 0px 0px 8px 8px;
-      font-size: 11px;
-      background-color: ${(props) => props.theme.container.lightBlue};
-      &:hover {
-        background-color: ${(props) => props.theme.container.yellow};
-      }
-    }
     > input {
       text-align: end;
-      border: 1px solid ${(props) => props.theme.text.lightGray};
-      border-radius: 5px;
+      border: none;
+      border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
       height: 30px;
+      background-color: transparent;
+      font-size: 16px;
+      color: ${(props) => props.theme.text.gray};
+      &:focus {
+        outline: none;
+      }
     }
-  }
-  > p {
-    font-size: 10px;
-    text-align: end;
-    color: ${(props) => props.theme.text.lightBlue};
-    margin-bottom: 10px;
+    > div:last-child {
+      display: flex;
+      justify-content: end;
+      flex-wrap: wrap;
+    }
   }
 `;
 

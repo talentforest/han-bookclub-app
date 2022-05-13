@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ReactComponent as CameraIcon } from "assets/camera.svg";
 import { LogInUserInfo } from "components/App";
 import UserIcon from "assets/account_circle.svg";
@@ -7,19 +7,17 @@ import styled from "styled-components";
 interface ProfileType {
   loggedInUserObj: LogInUserInfo;
   refreshUser: () => void;
-  beforeOnChange: boolean;
-  setBeforeOnChange: (beforeOnChange: boolean) => void;
   profileImgUrl: string;
   setProfileImgUrl: (profileImgUrl: string) => void;
 }
 
 const ProfileImage = ({
   loggedInUserObj,
-  beforeOnChange,
-  setBeforeOnChange,
+
   profileImgUrl,
   setProfileImgUrl,
 }: ProfileType) => {
+  const [beforeOnChange, setBeforeOnChange] = useState(true);
   const fileInput = useRef(null);
 
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
