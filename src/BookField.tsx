@@ -1,11 +1,17 @@
+import { BookFieldType } from "components/UserDataInputForm";
 import { useState } from "react";
 
 interface PropsType {
   bookFieldName: string;
-  checkedBoxHandler: (fieldName: string, checked: boolean) => void;
+  checkedBoxHandler: (bookFields: BookFieldType, checked: boolean) => void;
+  bookFields: BookFieldType;
 }
 
-const BookField = ({ bookFieldName, checkedBoxHandler }: PropsType) => {
+const BookField = ({
+  bookFieldName,
+  checkedBoxHandler,
+  bookFields,
+}: PropsType) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const checkHandler = async (event: React.FormEvent<HTMLInputElement>) => {
@@ -14,7 +20,7 @@ const BookField = ({ bookFieldName, checkedBoxHandler }: PropsType) => {
     } = event;
 
     setIsChecked((prev) => !prev);
-    checkedBoxHandler(bookFieldName, checked);
+    checkedBoxHandler(bookFields, checked);
   };
 
   return (

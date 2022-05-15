@@ -8,16 +8,17 @@ import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { v4 } from "uuid";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { bookFields } from "util/Constants";
-import UserIcon from "assets/account_circle.svg";
+import { BookFieldType } from "components/UserDataInputForm";
 import BackButton from "components/common/BackButton";
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
+import AfterEdit from "components/editProfile/AfterEdit";
 import ProfileImage from "components/common/ProfileImage";
 
-interface extraUserData {
+export interface extraUserData {
   name: string;
   gender: string;
-  favoriteBookField: string;
+  favoriteBookField: BookFieldType[];
 }
 
 interface PropsType {
@@ -34,12 +35,14 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
   const [extraUserData, setExtraUserData] = useState({
     name: "",
     gender: "",
-    favoriteBookField: "",
+    favoriteBookField: [],
   });
-  const [favFields, setFavFields] = useState(new Set(""));
+  const [favFields, setFavFields] = useState(new Set());
   const [toggleCheck, setToggleCheck] = useState(
     Array(bookFields.length).fill(false)
   );
+
+  console.log(toggleCheck);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -48,6 +51,7 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
         setExtraUserData(doc.data() as extraUserData);
       }
     );
+
     return () => {
       unsubscribe();
     };
@@ -65,8 +69,9 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
 
     const UserDataRef = doc(dbService, "User_Data", `${loggedInUserObj.uid}`);
     updateDoc(UserDataRef, {
-      favoriteBookField: Array.from(favFields).join(),
+      favoriteBookField: Array.from(favFields),
     });
+
     try {
       if (loggedInUserObj.displayName !== newDisplayName) {
         await updateProfile(authService.currentUser, {
@@ -77,7 +82,7 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
         photoURL: userImageUrl,
       });
       refreshUser();
-      setToggleCheck(Array(bookFields.length).fill(false));
+      // setToggleCheck(Array(bookFields.length).fill(false));
       setEditing(false);
     } catch (error) {
       console.error("Error adding document:", error);
@@ -88,7 +93,12 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
     setNewDisplayName(event.currentTarget.value);
   };
 
-  const toggleEditing = () => setEditing((prev) => !prev);
+  const selectedItemStyle = (index: number) => {
+    return {
+      backgroundColor: `${toggleCheck[index] ? "#5162FF" : ""}`,
+      color: `${toggleCheck[index] ? "#fff" : ""}`,
+    };
+  };
 
   const onHandleClick = (
     idx: number,
@@ -102,20 +112,17 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
 
     const { textContent } = event.currentTarget;
 
+    const fieldObj = { id: idx + 1, name: textContent };
+
     if (!toggleCheck[idx]) {
-      favFields.add(textContent);
+      // false가 초기값이니까 true면 add
+      favFields.add(fieldObj);
       setFavFields(favFields);
     } else if (toggleCheck[idx]) {
-      favFields.delete(textContent);
+      // false면 delete
+      favFields.delete(fieldObj);
       setFavFields(favFields);
     }
-  };
-
-  const selectedItemStyle = (index: number) => {
-    return {
-      backgroundColor: `${toggleCheck[index] ? "#5162FF" : ""}`,
-      color: `${toggleCheck[index] ? "#fff" : ""}`,
-    };
   };
 
   return (
@@ -128,73 +135,15 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
       </NewHeader>
       <NewContainer>
         {editing ? (
-          <>
-            <Form onSubmit={onSubmit}>
-              <ProfileImage
-                loggedInUserObj={loggedInUserObj}
-                refreshUser={refreshUser}
-                profileImgUrl={profileImgUrl}
-                setProfileImgUrl={setProfileImgUrl}
-              />
-              <UserInfo>
-                <p>
-                  이메일과 이름은 변경할 수 없습니다.
-                  <br /> 관리자에게 문의해주세요.
-                </p>
-                <List>
-                  <div>
-                    <span>이메일</span>
-                    <span>{loggedInUserObj.email}</span>
-                  </div>
-                </List>
-                <List>
-                  <div>
-                    <span>별명</span>
-                    <input
-                      onChange={onChange}
-                      type="text"
-                      placeholder="닉네임을 입력해주세요"
-                      value={newDisplayName}
-                      required
-                      autoFocus
-                    />
-                  </div>
-                </List>
-                <FavBookEdit>
-                  <span>좋아하는 분야</span>
-                  <div>
-                    <span>변경하실 분야를 선택해주세요.</span>
-                    <FieldContainer>
-                      {bookFields.map((item, index) => (
-                        <div
-                          onClick={(event) => onHandleClick(index, event)}
-                          style={selectedItemStyle(index)}
-                          key={item.id}
-                        >
-                          {item.name}
-                        </div>
-                      ))}
-                    </FieldContainer>
-                  </div>
-                </FavBookEdit>
-                <EditBtn type="submit" value="수정완료" />
-              </UserInfo>
-            </Form>
-          </>
-        ) : (
-          <>
-            <div>
-              <img
-                src={
-                  loggedInUserObj.photoURL === null
-                    ? UserIcon
-                    : loggedInUserObj.photoURL
-                }
-                alt="profileimg"
-              />
-            </div>
-            <EditBtn onClick={toggleEditing} type="button" value="수정하기" />
+          <Form onSubmit={onSubmit}>
+            <ProfileImage
+              loggedInUserObj={loggedInUserObj}
+              refreshUser={refreshUser}
+              profileImgUrl={profileImgUrl}
+              setProfileImgUrl={setProfileImgUrl}
+            />
             <UserInfo>
+              <p>이메일은 변경할 수 없습니다.</p>
               <List>
                 <div>
                   <span>이메일</span>
@@ -204,25 +153,42 @@ const EditProfile = ({ loggedInUserObj, refreshUser }: PropsType) => {
               <List>
                 <div>
                   <span>별명</span>
-                  <span>
-                    {loggedInUserObj.displayName === null
-                      ? `${loggedInUserObj.email.split("@")[0]}`
-                      : loggedInUserObj.displayName}
-                  </span>
+                  <input
+                    onChange={onChange}
+                    type="text"
+                    placeholder="닉네임을 입력해주세요"
+                    value={newDisplayName}
+                    required
+                    autoFocus
+                  />
                 </div>
               </List>
-              <List>
+              <FavBookEdit>
+                <span>좋아하는 분야</span>
                 <div>
-                  <span>좋아하는 분야</span>
-                  <div>
-                    {extraUserData.favoriteBookField.split(",").map((item) => (
-                      <FavFieldItem key={item}>{item}</FavFieldItem>
+                  <span>변경하실 분야를 선택해주세요.</span>
+                  <FieldContainer>
+                    {bookFields.map((item, index) => (
+                      <div
+                        onClick={(event) => onHandleClick(index, event)}
+                        style={selectedItemStyle(index)}
+                        key={item.id}
+                      >
+                        {item.name}
+                      </div>
                     ))}
-                  </div>
+                  </FieldContainer>
                 </div>
-              </List>
+              </FavBookEdit>
+              <EditBtn type="submit" value="수정완료" />
             </UserInfo>
-          </>
+          </Form>
+        ) : (
+          <AfterEdit
+            loggedInUserObj={loggedInUserObj}
+            setEditing={setEditing}
+            extraUserData={extraUserData}
+          />
         )}
       </NewContainer>
     </>
@@ -250,18 +216,6 @@ const FavBookEdit = styled.div`
   }
 `;
 
-const FavFieldItem = styled.span`
-  cursor: pointer;
-  width: fit-content;
-  padding: 2px 3px;
-  border-radius: 10px;
-  margin: 4px 0px 4px 8px;
-  font-size: 10px;
-  border: 1px solid ${(props) => props.theme.text.lightGray};
-  color: ${(props) => props.theme.text.white};
-  background-color: ${(props) => props.theme.text.lightBlue};
-`;
-
 const FieldContainer = styled.div`
   width: 260px;
   display: flex;
@@ -277,43 +231,6 @@ const FieldContainer = styled.div`
     background-color: ${(props) => props.theme.container.default};
     &:hover {
       background-color: ${(props) => props.theme.container.yellow};
-    }
-  }
-`;
-
-const NewHeader = styled(Header)`
-  position: relative;
-  justify-content: space-between;
-  align-items: center;
-  > div {
-    display: flex;
-    align-items: center;
-  }
-  > button {
-    border: none;
-    background-color: transparent;
-    color: ${(props) => props.theme.text.lightBlue};
-    cursor: pointer;
-  }
-`;
-
-const NewContainer = styled(Container)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  > div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 140px;
-    width: 140px;
-    margin-top: 10px;
-    > img {
-      object-fit: cover;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background-color: ${(props) => props.theme.container.green};
     }
   }
 `;
@@ -374,6 +291,43 @@ const EditBtn = styled.input`
   font-weight: 700;
   padding-top: 2px;
   font-size: 12px;
+`;
+
+const NewHeader = styled(Header)`
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  > div {
+    display: flex;
+    align-items: center;
+  }
+  > button {
+    border: none;
+    background-color: transparent;
+    color: ${(props) => props.theme.text.lightBlue};
+    cursor: pointer;
+  }
+`;
+
+const NewContainer = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 140px;
+    width: 140px;
+    margin-top: 10px;
+    > img {
+      object-fit: cover;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: ${(props) => props.theme.container.green};
+    }
+  }
 `;
 
 export default EditProfile;

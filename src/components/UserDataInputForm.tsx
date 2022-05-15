@@ -8,6 +8,11 @@ import { bookFields, gender } from "util/Constants";
 import { doc, setDoc } from "firebase/firestore";
 import styled from "styled-components";
 
+export interface BookFieldType {
+  id: number;
+  name: string;
+}
+
 interface PropsType {
   email: string;
   password: string;
@@ -17,7 +22,7 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [userGender, setUserGender] = useState("");
-  const [checkedBookField, setCheckedBookField] = useState(new Set(""));
+  const [checkedBookField, setCheckedBookField] = useState(new Set());
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,7 +32,7 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
         await setDoc(
           doc(dbService, "User_Data", `${authService.currentUser?.uid}`),
           {
-            favoriteBookField: `${Array.from(checkedBookField)}`,
+            favoriteBookField: Array.from(checkedBookField),
             gender: userGender,
             name: username,
           }
@@ -52,12 +57,12 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
     }
   };
 
-  const checkedBoxHandler = (fieldName: string, checked: boolean) => {
+  const checkedBoxHandler = (bookFields: BookFieldType, checked: boolean) => {
     if (checked) {
-      checkedBookField.add(fieldName);
+      checkedBookField.add(bookFields);
       setCheckedBookField(checkedBookField);
-    } else if (!checked && checkedBookField.has(fieldName)) {
-      checkedBookField.delete(fieldName);
+    } else if (!checked && checkedBookField.has(bookFields)) {
+      checkedBookField.delete(bookFields);
       setCheckedBookField(checkedBookField);
     }
   };
@@ -98,6 +103,7 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
           <BookField
             key={index}
             bookFieldName={item.name}
+            bookFields={item}
             checkedBoxHandler={checkedBoxHandler}
           />
         ))}
