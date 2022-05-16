@@ -1,15 +1,18 @@
 import { LogInUserInfo } from "components/App";
 import UserIcon from "assets/account_circle.svg";
 import styled from "styled-components";
-// import { extraUserData } from "routes/EditProfile";
+import { BookFieldType } from "components/UserDataInputForm";
 
 interface PropsType {
   userObj: LogInUserInfo;
   setEditing: (editing: boolean) => void;
-  // favFields: extraUserData;
+  favFields: BookFieldType[];
 }
 
-const AfterEdit = ({ userObj, setEditing }: PropsType) => {
+const AfterEdit = ({ userObj, setEditing, favFields }: PropsType) => {
+  const onClick = () => {
+    setEditing(true);
+  };
   return (
     <>
       <div>
@@ -18,18 +21,16 @@ const AfterEdit = ({ userObj, setEditing }: PropsType) => {
           alt="profileimg"
         />
       </div>
-      <EditBtn
-        onClick={(prev) => setEditing(true)}
-        type="button"
-        value="수정하기"
-      />
+      <EditBtn onClick={onClick} type="button" value="수정하기" />
       <UserInfo>
         <List>
           <div>
             <span>이메일</span>
             <span>{userObj.email}</span>
           </div>
+          <p>이메일은 변경할 수 없습니다.</p>
         </List>
+
         <List>
           <div>
             <span>별명</span>
@@ -44,9 +45,9 @@ const AfterEdit = ({ userObj, setEditing }: PropsType) => {
           <div>
             <span>좋아하는 분야</span>
             <div>
-              {/* {favFields.favoriteBookField.map((item) => (
-                <FavFieldItem key={item.name}>{item.name}</FavFieldItem>
-              ))} */}
+              {favFields.map((item, index) => (
+                <FavFieldItem key={index}>{item.name}</FavFieldItem>
+              ))}
             </div>
           </div>
         </List>
@@ -56,7 +57,7 @@ const AfterEdit = ({ userObj, setEditing }: PropsType) => {
 };
 
 const UserInfo = styled.ul`
-  width: 90%;
+  width: 100%;
   margin: 20px auto 0;
   > p {
     font-size: 10px;
@@ -68,8 +69,14 @@ const List = styled.li`
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 10px;
+  > p {
+    font-size: 10px;
+    color: ${(props) => props.theme.text.lightBlue};
+    margin-top: 5px;
+    text-align: end;
+  }
   > div {
-    padding: 10px 0px;
     display: flex;
     justify-content: space-between;
     align-items: center;

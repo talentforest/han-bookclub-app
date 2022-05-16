@@ -7,6 +7,7 @@ import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { bookFields } from "util/Constants";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
+import { BookFieldType } from "components/UserDataInputForm";
 import { v4 } from "uuid";
 import BackButton from "components/common/BackButton";
 import Subtitle from "components/common/Subtitle";
@@ -19,15 +20,41 @@ interface PropsType {
   userObj: LogInUserInfo;
   refreshUser: () => void;
 }
+export interface extraUserData {
+  name: string;
+  gender: string;
+  favoriteBookField: BookFieldType[];
+}
 
 const EditProfile = ({ userObj, refreshUser }: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [profileImgUrl, setProfileImgUrl] = useState("");
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
-  const [favFields, setFavFields] = useState([]);
+  const [extraUserData, setExtraUserData] = useState({
+    name: "",
+    gender: "",
+    favoriteBookField: [],
+  });
+  const [favFields, setFavFields] = useState(extraUserData.favoriteBookField);
   const [toggleCheck, setToggleCheck] = useState(
     Array(bookFields.length).fill(false)
   );
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      doc(dbService, "User_Data", `${userObj.uid}`),
+      (doc) => {
+        setExtraUserData(doc.data() as extraUserData);
+        setFavFields(doc.data().favoriteBookField);
+      }
+    );
+
+    return () => {
+      unsubscribe();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  console.log(favFields);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -57,6 +84,7 @@ const EditProfile = ({ userObj, refreshUser }: PropsType) => {
       });
 
       refreshUser();
+      setToggleCheck(Array(bookFields.length).fill(false));
       setEditing(false);
     } catch (error) {
       console.error("Error adding document:", error);
@@ -67,24 +95,6 @@ const EditProfile = ({ userObj, refreshUser }: PropsType) => {
     setNewDisplayName(event.currentTarget.value);
   };
 
-  useEffect(() => {
-    const unsubscribe = onSnapshot(
-      doc(dbService, "User_Data", `${userObj.uid}`),
-      (doc) => {
-        setFavFields(doc.data().favoriteBookField);
-      }
-    );
-
-    return () => {
-      unsubscribe();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const docIndex = favFields.map((item) => {
-    return item.id; // 1, 2
-  });
-
   const onHandleClick = (
     idx: number,
     event: React.FormEvent<HTMLDivElement>
@@ -94,18 +104,19 @@ const EditProfile = ({ userObj, refreshUser }: PropsType) => {
         return index === idx ? !element : element;
       })
     );
-    console.log(toggleCheck);
+
     const { textContent } = event.currentTarget;
 
     const fieldObj = { id: idx + 1, name: textContent };
 
     if (!toggleCheck[idx]) {
-      setFavFields(() => {
-        return docIndex.map((item) => {
-          if (idx + 1 !== item) return [...favFields, fieldObj];
-          if (idx + 1 === item) return [...favFields];
-        });
-      }); //중복 아이디값 제거
+      const totalArray = [...favFields, fieldObj];
+      const result = totalArray.filter(
+        (arr, index, callback) =>
+          index === callback.findIndex((t) => t.id === arr.id)
+      );
+
+      setFavFields(result);
     } else if (toggleCheck[idx]) {
       setFavFields(favFields.filter((ele) => ele.id !== idx + 1));
     }
@@ -134,13 +145,16 @@ const EditProfile = ({ userObj, refreshUser }: PropsType) => {
               newDisplayName={newDisplayName}
               onHandleClick={onHandleClick}
               toggleCheck={toggleCheck}
+              setToggleCheck={setToggleCheck}
+              favFields={favFields}
+              setFavFields={setFavFields}
             />
           </Form>
         ) : (
           <AfterEdit
             userObj={userObj}
             setEditing={setEditing}
-            // favFields={favFields}
+            favFields={favFields}
           />
         )}
       </NewContainer>

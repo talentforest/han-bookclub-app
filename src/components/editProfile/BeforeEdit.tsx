@@ -1,6 +1,8 @@
 import { LogInUserInfo } from "components/App";
 import { bookFields } from "util/Constants";
 import styled from "styled-components";
+import { useState } from "react";
+import { BookFieldType } from "components/UserDataInputForm";
 
 interface PropsType {
   userObj: LogInUserInfo;
@@ -8,6 +10,9 @@ interface PropsType {
   newDisplayName: string;
   onHandleClick: (idx: number, event: React.FormEvent<HTMLDivElement>) => void;
   toggleCheck: boolean[];
+  setToggleCheck: (toggleCheck: boolean[]) => void;
+  favFields: BookFieldType[];
+  setFavFields: (favFields: BookFieldType[]) => void;
 }
 
 const BeforeEdit = ({
@@ -16,7 +21,12 @@ const BeforeEdit = ({
   newDisplayName,
   onHandleClick,
   toggleCheck,
+  setToggleCheck,
+  favFields,
+  setFavFields,
 }: PropsType) => {
+  const [editFavField, setEditFavField] = useState(false);
+
   const selectedItemStyle = (index: number) => {
     return {
       backgroundColor: `${toggleCheck[index] ? "#5162FF" : ""}`,
@@ -26,106 +36,136 @@ const BeforeEdit = ({
 
   return (
     <UserInfo>
-      <p>
-        이메일과 이름은 변경할 수 없습니다.
-        <br /> 관리자에게 문의해주세요.
-      </p>
       <List>
         <div>
           <span>이메일</span>
           <span>{userObj.email}</span>
         </div>
+        <p>이메일은 변경할 수 없습니다.</p>
       </List>
-      <List>
-        <div>
-          <span>별명</span>
-          <input
-            onChange={onChange}
-            type="text"
-            placeholder="닉네임을 입력해주세요"
-            value={newDisplayName}
-            required
-            autoFocus
-          />
-        </div>
-      </List>
-      <FavBookEdit>
-        <span>좋아하는 분야</span>
-        <div>
-          <span>변경하실 분야를 선택해주세요.</span>
-          <FieldContainer>
-            {bookFields.map((item, index) => (
-              <div
-                onClick={(event) => onHandleClick(index, event)}
-                style={selectedItemStyle(index)}
-                key={item.id}
-              >
-                {item.name}
+      <Edit>
+        <List>
+          <div>
+            <span>별명</span>
+            <input
+              onChange={onChange}
+              type="text"
+              placeholder="닉네임을 입력해주세요"
+              value={newDisplayName}
+              required
+              autoFocus
+            />
+          </div>
+        </List>
+        <AfterFavEdit>
+          <span>좋아하는 분야</span>
+          {editFavField ? (
+            <div>
+              <div>
+                {bookFields.map((item, index) => (
+                  <div
+                    onClick={(event) => onHandleClick(index, event)}
+                    style={selectedItemStyle(index)}
+                    key={item.id}
+                  >
+                    {item.name}
+                  </div>
+                ))}
               </div>
-            ))}
-          </FieldContainer>
-        </div>
-      </FavBookEdit>
+              {favFields.length === 0 ? (
+                <span>변경하실 분야를 하나 이상 선택해주세요</span>
+              ) : (
+                <span onClick={() => setEditFavField(false)}>선택 완료</span>
+              )}
+            </div>
+          ) : (
+            <div>
+              <div>
+                {favFields.map((item, index) => (
+                  <span key={index}>{item.name}</span>
+                ))}
+              </div>
+              <span
+                onClick={() => {
+                  setFavFields([]);
+                  setToggleCheck(Array(bookFields.length).fill(false));
+                  setEditFavField(true);
+                }}
+              >
+                수정하기
+              </span>
+            </div>
+          )}
+        </AfterFavEdit>
+      </Edit>
       <EditBtn type="submit" value="수정완료" />
     </UserInfo>
   );
 };
 
-const FavBookEdit = styled.div`
+const Edit = styled.div`
+  border-radius: 5px;
+  background-color: ${(props) => props.theme.container.default};
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+`;
+
+const AfterFavEdit = styled.div`
   display: flex;
   justify-content: space-between;
-  > span:first-child {
-    padding: 10px 0;
+  align-items: flex-start;
+  padding: 10px;
+  > span {
     font-weight: 700;
     font-size: 12px;
   }
   > div {
+    width: 70%;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    width: 70%;
     > span {
       font-size: 10px;
       color: ${(props) => props.theme.text.lightBlue};
-      padding: 10px 0;
+      margin-top: 5px;
     }
-  }
-`;
-
-const FieldContainer = styled.div`
-  width: 260px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: end;
-  > div {
-    cursor: pointer;
-    padding: 2px 3px;
-    border-radius: 10px;
-    margin: 0px 0px 8px 8px;
-    font-size: 10px;
-    border: 1px solid ${(props) => props.theme.text.lightGray};
-    background-color: ${(props) => props.theme.container.default};
-    &:hover {
-      background-color: ${(props) => props.theme.container.yellow};
+    > div {
+      display: flex;
+      justify-content: end;
+      flex-wrap: wrap;
+      > span,
+      > div {
+        cursor: pointer;
+        padding: 2px 3px;
+        border-radius: 10px;
+        margin: 0px 0px 8px 8px;
+        font-size: 10px;
+        border: 1px solid ${(props) => props.theme.text.lightGray};
+        background-color: ${(props) => props.theme.container.default};
+        color: ${(props) => props.theme.text.default};
+      }
+      > span {
+        background-color: ${(props) => props.theme.text.lightBlue};
+        color: ${(props) => props.theme.text.white};
+      }
     }
   }
 `;
 
 const UserInfo = styled.ul`
-  width: 90%;
   margin: 20px auto 0;
-  > p {
-    font-size: 10px;
-    color: ${(props) => props.theme.text.lightBlue};
-  }
 `;
 
 const List = styled.li`
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 10px;
+  > p {
+    font-size: 10px;
+    color: ${(props) => props.theme.text.lightBlue};
+    text-align: end;
+  }
   > div {
-    padding: 10px 0px;
     display: flex;
     justify-content: space-between;
     align-items: center;
