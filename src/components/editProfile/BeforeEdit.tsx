@@ -1,90 +1,73 @@
 import { LogInUserInfo } from "components/App";
-import ProfileImage from "components/common/ProfileImage";
-import styled from "styled-components";
 import { bookFields } from "util/Constants";
+import styled from "styled-components";
 
 interface PropsType {
-  loggedInUserObj: LogInUserInfo;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  refreshUser: () => void;
-  profileImgUrl: string;
-  setProfileImgUrl: () => void;
-  onChange: () => void;
-  newDisplayName: () => void;
-  onHandleClick: () => void;
-  toggleCheck: boolean;
+  userObj: LogInUserInfo;
+  onChange: (event: React.FormEvent<HTMLInputElement>) => void;
+  newDisplayName: string;
+  onHandleClick: (idx: number, event: React.FormEvent<HTMLDivElement>) => void;
+  toggleCheck: boolean[];
 }
 
 const BeforeEdit = ({
-  loggedInUserObj,
-  onSubmit,
-  refreshUser,
-  profileImgUrl,
-  setProfileImgUrl,
+  userObj,
   onChange,
   newDisplayName,
   onHandleClick,
   toggleCheck,
 }: PropsType) => {
-  // const selectedItemStyle = (index: number) => {
-  //   return {
-  //     backgroundColor: `${toggleCheck[index] ? "#5162FF" : ""}`,
-  //     color: `${toggleCheck[index] ? "#fff" : ""}`,
-  //   };
-  // };
+  const selectedItemStyle = (index: number) => {
+    return {
+      backgroundColor: `${toggleCheck[index] ? "#5162FF" : ""}`,
+      color: `${toggleCheck[index] ? "#fff" : ""}`,
+    };
+  };
 
   return (
-    <Form onSubmit={onSubmit}>
-      <ProfileImage
-        loggedInUserObj={loggedInUserObj}
-        refreshUser={refreshUser}
-        profileImgUrl={profileImgUrl}
-        setProfileImgUrl={setProfileImgUrl}
-      />
-      <UserInfo>
-        <p>
-          이메일과 이름은 변경할 수 없습니다.
-          <br /> 관리자에게 문의해주세요.
-        </p>
-        <List>
-          <div>
-            <span>이메일</span>
-            <span>{loggedInUserObj.email}</span>
-          </div>
-        </List>
-        <List>
-          <div>
-            <span>별명</span>
-            <input
-              onChange={onChange}
-              type="text"
-              placeholder="닉네임을 입력해주세요"
-              // value={newDisplayName}
-              required
-              autoFocus
-            />
-          </div>
-        </List>
-        <FavBookEdit>
-          <span>좋아하는 분야</span>
-          <div>
-            <span>변경하실 분야를 선택해주세요.</span>
-            <FieldContainer>
-              {bookFields.map((item, index) => (
-                <div
-                  // onClick={(event) => onHandleClick(index, event)}
-                  // style={selectedItemStyle(index)}
-                  key={item.id}
-                >
-                  {item.name}
-                </div>
-              ))}
-            </FieldContainer>
-          </div>
-        </FavBookEdit>
-        <EditBtn type="submit" value="수정완료" />
-      </UserInfo>
-    </Form>
+    <UserInfo>
+      <p>
+        이메일과 이름은 변경할 수 없습니다.
+        <br /> 관리자에게 문의해주세요.
+      </p>
+      <List>
+        <div>
+          <span>이메일</span>
+          <span>{userObj.email}</span>
+        </div>
+      </List>
+      <List>
+        <div>
+          <span>별명</span>
+          <input
+            onChange={onChange}
+            type="text"
+            placeholder="닉네임을 입력해주세요"
+            value={newDisplayName}
+            required
+            autoFocus
+          />
+        </div>
+      </List>
+      <FavBookEdit>
+        <span>좋아하는 분야</span>
+        <div>
+          <span>변경하실 분야를 선택해주세요.</span>
+          <FieldContainer>
+            {bookFields.map((item, index) => (
+              <div
+                onClick={(event) => onHandleClick(index, event)}
+                style={selectedItemStyle(index)}
+                key={item.id}
+              >
+                {item.name}
+              </div>
+            ))}
+          </FieldContainer>
+        </div>
+      </FavBookEdit>
+      <EditBtn type="submit" value="수정완료" />
+    </UserInfo>
   );
 };
 
@@ -168,10 +151,6 @@ const List = styled.li`
       flex-wrap: wrap;
     }
   }
-`;
-
-const Form = styled.form`
-  width: 100%;
 `;
 
 const EditBtn = styled.input`

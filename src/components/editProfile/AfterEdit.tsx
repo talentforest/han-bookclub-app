@@ -1,28 +1,20 @@
 import { LogInUserInfo } from "components/App";
 import UserIcon from "assets/account_circle.svg";
 import styled from "styled-components";
-import { extraUserData } from "routes/EditProfile";
+// import { extraUserData } from "routes/EditProfile";
 
 interface PropsType {
-  loggedInUserObj: LogInUserInfo;
+  userObj: LogInUserInfo;
   setEditing: (editing: boolean) => void;
-  extraUserData: extraUserData;
+  // favFields: extraUserData;
 }
 
-const AfterEdit = ({
-  loggedInUserObj,
-  setEditing,
-  extraUserData,
-}: PropsType) => {
+const AfterEdit = ({ userObj, setEditing }: PropsType) => {
   return (
     <>
       <div>
         <img
-          src={
-            loggedInUserObj.photoURL === null
-              ? UserIcon
-              : loggedInUserObj.photoURL
-          }
+          src={userObj.photoURL === null ? UserIcon : userObj.photoURL}
           alt="profileimg"
         />
       </div>
@@ -35,16 +27,16 @@ const AfterEdit = ({
         <List>
           <div>
             <span>이메일</span>
-            <span>{loggedInUserObj.email}</span>
+            <span>{userObj.email}</span>
           </div>
         </List>
         <List>
           <div>
             <span>별명</span>
             <span>
-              {loggedInUserObj.displayName === null
-                ? `${loggedInUserObj.email.split("@")[0]}`
-                : loggedInUserObj.displayName}
+              {userObj.displayName === null
+                ? `${userObj.email.split("@")[0]}`
+                : userObj.displayName}
             </span>
           </div>
         </List>
@@ -52,9 +44,9 @@ const AfterEdit = ({
           <div>
             <span>좋아하는 분야</span>
             <div>
-              {extraUserData?.favoriteBookField.map((item) => (
+              {/* {favFields.favoriteBookField.map((item) => (
                 <FavFieldItem key={item.name}>{item.name}</FavFieldItem>
-              ))}
+              ))} */}
             </div>
           </div>
         </List>

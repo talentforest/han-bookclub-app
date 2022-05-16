@@ -9,11 +9,11 @@ import { addDoc, collection } from "firebase/firestore";
 import { LogInUserInfo } from "components/App";
 
 interface PropsType {
-  loggedInUserObj: LogInUserInfo;
+  userObj: LogInUserInfo;
   uid: string;
 }
 
-const BookRecommendationCreateBox = ({ loggedInUserObj, uid }: PropsType) => {
+const BookRecommendationCreateBox = ({ userObj, uid }: PropsType) => {
   const [text, setText] = useState("");
   const [attachment, setAttachment] = useState("");
 
@@ -22,7 +22,7 @@ const BookRecommendationCreateBox = ({ loggedInUserObj, uid }: PropsType) => {
     if (text === "") return;
     let attachmentUrl = "";
     if (attachment !== "") {
-      const fileRef = ref(storageService, `${loggedInUserObj.uid}/${v4()}`);
+      const fileRef = ref(storageService, `${userObj.uid}/${v4()}`);
       const response = await uploadString(fileRef, attachment, "data_url");
       attachmentUrl = await getDownloadURL(response.ref);
     }

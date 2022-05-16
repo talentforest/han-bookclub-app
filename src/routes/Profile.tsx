@@ -27,14 +27,14 @@ import BookRecommendationBox from "components/profile/BookRecommendationBox";
 import BookRecommendationCreateBox from "components/profile/BookRecommendationCreateBox";
 
 interface PropsType {
-  loggedInUserObj: LogInUserInfo;
+  userObj: LogInUserInfo;
 }
 
 export interface recommendBookType extends DocumentType {
   attachmentUrl: string;
 }
 
-const Profile = ({ loggedInUserObj }: PropsType) => {
+const Profile = ({ userObj }: PropsType) => {
   const [recommendBook, setRecommendBook] = useState<recommendBookType[]>([]);
   const [ownRecord, setOwnRecord] = useState([]);
   const [category, setCategory] = useState("byBook");
@@ -89,14 +89,10 @@ const Profile = ({ loggedInUserObj }: PropsType) => {
       <NewContainer>
         <div>
           <img
-            src={
-              loggedInUserObj.photoURL === null
-                ? UserIcon
-                : loggedInUserObj.photoURL
-            }
+            src={userObj.photoURL === null ? UserIcon : userObj.photoURL}
             alt="profileimg"
           />
-          <span>{loggedInUserObj.displayName}</span>
+          <span>{userObj.displayName}</span>
         </div>
         <div>
           <Subtitle title="나의 기록" />
@@ -120,10 +116,7 @@ const Profile = ({ loggedInUserObj }: PropsType) => {
             </div>
           )}
           <Subtitle title="내가 읽은 책 추천하기" />
-          <BookRecommendationCreateBox
-            loggedInUserObj={loggedInUserObj}
-            uid={userData?.uid}
-          />
+          <BookRecommendationCreateBox userObj={userObj} uid={userData?.uid} />
           <div>
             {recommendBook.map(
               ({ text, createdAt, creatorId, id, attachmentUrl }) => (

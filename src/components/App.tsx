@@ -14,7 +14,7 @@ export interface LogInUserInfo {
 
 function App() {
   const [init, setInit] = useState(false); // user가 null이 되지 않기 위해 초기화
-  const [loggedInUserObj, setLoggedInUserObj] = useState<LogInUserInfo>({
+  const [userObj, setUserObj] = useState<LogInUserInfo>({
     uid: "",
     displayName: "",
     email: "",
@@ -26,14 +26,14 @@ function App() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setLoggedInUserObj({
+        setUserObj({
           uid: user.uid,
           displayName: user.displayName ? user.displayName : "한 페이지 멤버",
           email: user.email,
           photoURL: user.photoURL,
         });
       } else {
-        setLoggedInUserObj(null);
+        setUserObj(null);
       }
       setInit(true);
     });
@@ -42,7 +42,7 @@ function App() {
 
   const refreshUser = () => {
     const user = auth.currentUser;
-    setLoggedInUserObj({ ...user });
+    setUserObj({ ...user });
   };
 
   return (
@@ -50,8 +50,8 @@ function App() {
       <ResetStyle />
       {init ? (
         <Router
-          isLoggedIn={Boolean(loggedInUserObj)}
-          loggedInUserObj={loggedInUserObj}
+          isLoggedIn={Boolean(userObj)}
+          userObj={userObj}
           refreshUser={refreshUser}
         />
       ) : (

@@ -5,15 +5,14 @@ import UserIcon from "assets/account_circle.svg";
 import styled from "styled-components";
 
 interface ProfileType {
-  loggedInUserObj: LogInUserInfo;
+  userObj: LogInUserInfo;
   refreshUser: () => void;
   profileImgUrl: string;
   setProfileImgUrl: (profileImgUrl: string) => void;
 }
 
 const ProfileImage = ({
-  loggedInUserObj,
-
+  userObj,
   profileImgUrl,
   setProfileImgUrl,
 }: ProfileType) => {
@@ -50,11 +49,7 @@ const ProfileImage = ({
       <div>
         {beforeOnChange ? (
           <img
-            src={
-              loggedInUserObj.photoURL === null
-                ? UserIcon
-                : loggedInUserObj.photoURL
-            }
+            src={userObj.photoURL === null ? UserIcon : userObj.photoURL}
             alt="profileimg"
             onClick={() => {
               fileInput.current.click();

@@ -14,45 +14,36 @@ import ScrollToTop from "util/ScrollToTop";
 
 interface PropsType {
   isLoggedIn: boolean;
-  loggedInUserObj: LogInUserInfo;
+  userObj: LogInUserInfo;
   refreshUser: () => void;
 }
 
-function Router({ isLoggedIn, loggedInUserObj, refreshUser }: PropsType) {
+function Router({ isLoggedIn, userObj, refreshUser }: PropsType) {
   return (
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
         {isLoggedIn ? (
-          <Route
-            path="/"
-            element={<Home loggedInUserObj={loggedInUserObj} />}
-          />
+          <Route path="/" element={<Home userObj={userObj} />} />
         ) : (
           <Route path="/" element={<LogInPage />} />
         )}
         <>
           <Route
             path="/create_account"
-            element={<CreateAccount loggedInUserObj={loggedInUserObj} />}
+            element={<CreateAccount userObj={userObj} />}
           />
           {isLoggedIn ? (
             <>
               <Route path="/book" element={<Book />} />
               <Route path="/meeting" element={<Meeting />} />
               <Route path="/vote" element={<Vote />} />
-              <Route
-                path="/profile"
-                element={<Profile loggedInUserObj={loggedInUserObj} />}
-              />
+              <Route path="/profile" element={<Profile userObj={userObj} />} />
               <Route path="/setting" element={<Setting />} />
               <Route
                 path="/setting/editprofile"
                 element={
-                  <EditProfile
-                    refreshUser={refreshUser}
-                    loggedInUserObj={loggedInUserObj}
-                  />
+                  <EditProfile refreshUser={refreshUser} userObj={userObj} />
                 }
               />
             </>

@@ -9,10 +9,10 @@ import styled from "styled-components";
 import { LogInUserInfo } from "components/App";
 
 interface PropsType {
-  loggedInUserObj: LogInUserInfo;
+  userObj: LogInUserInfo;
 }
 
-const Home = ({ loggedInUserObj }: PropsType) => {
+const Home = ({ userObj }: PropsType) => {
   return (
     <>
       <NewHeader>

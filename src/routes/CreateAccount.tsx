@@ -6,10 +6,10 @@ import AccountForm from "components/AccountForm";
 import { LogInUserInfo } from "components/App";
 
 interface PropsType {
-  loggedInUserObj: LogInUserInfo;
+  userObj: LogInUserInfo;
 }
 
-const CreateAccount = ({ loggedInUserObj }: PropsType) => {
+const CreateAccount = ({ userObj }: PropsType) => {
   const [isShowingUserDataInput, setIsShowingUserDataInput] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
