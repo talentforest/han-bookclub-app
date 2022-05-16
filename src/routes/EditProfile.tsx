@@ -54,7 +54,6 @@ const EditProfile = ({ userObj, refreshUser }: PropsType) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(favFields);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
