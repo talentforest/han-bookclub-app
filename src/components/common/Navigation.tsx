@@ -49,7 +49,7 @@ const Navigation = () => {
 };
 
 const Nav = styled.nav`
-  position: sticky;
+  position: fixed;
   bottom: 0;
   width: 100%;
   padding: 3px 0;

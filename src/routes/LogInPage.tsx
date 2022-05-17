@@ -9,6 +9,7 @@ import { authService } from "fbase";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Container, Form, Input, Button } from "theme/commonStyle";
+import device from "theme/mediaQueries";
 
 const LogInPage = () => {
   const navigator = useNavigate();
@@ -97,9 +98,14 @@ const H1 = styled.h1`
   text-align: center;
   padding: 20px 0 10px;
   color: ${(props) => props.theme.text.lightBlue};
+  @media ${device.tablet} {
+    margin-top: 50px;
+    font-size: 40px;
+  }
 `;
 
 const Logo = styled.div`
+  margin: 30px 0 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -107,8 +113,14 @@ const Logo = styled.div`
     width: 100px;
     height: 100px;
     margin: 10px 0 30px;
-    border-radius: 50px;
+    border-radius: 50%;
     background-color: ${(props) => props.theme.container.lightBlue};
+  }
+  @media ${device.tablet} {
+    div {
+      width: 200px;
+      height: 200px;
+    }
   }
 `;
 
@@ -130,6 +142,15 @@ const SocialLogIn = styled.button`
     height: 10px;
     fill: #fff;
   }
+  @media ${device.tablet} {
+    height: 50px;
+    font-size: 20px;
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: #fff;
+    }
+  }
 `;
 
 const ErrorMessage = styled.span`
@@ -149,10 +170,19 @@ const FindCreateAccount = styled.div`
     color: ${(props) => props.theme.text.gray};
     cursor: pointer;
   }
+  @media ${device.tablet} {
+    margin: 20px 0 100px;
+    a {
+      font-size: 18px;
+    }
+  }
 `;
 const Footer = styled.footer`
   text-align: center;
   font-size: 10px;
+  @media ${device.tablet} {
+    font-size: 18px;
+  }
 `;
 
 export default LogInPage;

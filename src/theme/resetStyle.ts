@@ -3,6 +3,7 @@ import { createGlobalStyle } from "styled-components";
 export const ResetStyle = createGlobalStyle`
   body {
     background-color: ${(props) => props.theme.bgColor};
+    
   }
   * {
     font-family: "Noto Sans KR", sans-serif;

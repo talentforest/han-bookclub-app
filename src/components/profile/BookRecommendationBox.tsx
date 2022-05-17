@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { ReactComponent as EditIcon } from "assets/edit.svg";
 import { ReactComponent as DeleteIcon } from "assets/delete.svg";
+import { ReactComponent as CloseIcon } from "assets/close.svg";
 import { dbService, storageService } from "fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { Time } from "util/Time";
-import { ReactComponent as CloseIcon } from "assets/close.svg";
 import styled from "styled-components";
 import { deleteObject, ref } from "firebase/storage";
 import { recommendBookType } from "routes/Profile";

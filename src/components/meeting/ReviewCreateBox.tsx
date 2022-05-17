@@ -10,8 +10,8 @@ const ReviewCreateBox = ({ uid }: LogInUserInfo) => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (review === "") return;
     try {
+      if (review === "") return;
       await addDoc(collection(dbService, "Meeting_Review"), {
         text: review,
         createdAt: Date.now(),
@@ -30,7 +30,7 @@ const ReviewCreateBox = ({ uid }: LogInUserInfo) => {
   return (
     <Form onSubmit={onSubmit}>
       <TextArea
-        placeholder="모임에서 가장 기억에 남았던 후기를 작성해주세요(한 문장도 좋아요!)."
+        placeholder="모임에서 가장 인상적이었던 이야기나 모임 후기를 작성해주세요(한 문장도 좋아요!)."
         value={review}
         onChange={onChange}
       />
@@ -46,7 +46,7 @@ const Form = styled.form`
   box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.2);
   padding: 10px 15px 5px;
   border-radius: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 `;
 
 const Button = styled.div`

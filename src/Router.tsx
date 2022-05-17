@@ -11,6 +11,9 @@ import CreateAccount from "./routes/CreateAccount";
 import EditProfile from "./routes/EditProfile";
 import { LogInUserInfo } from "components/App";
 import ScrollToTop from "util/ScrollToTop";
+import { useEffect, useState } from "react";
+import { deviceSizes } from "theme/mediaQueries";
+import HeadNav from "components/common/HeadNav";
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -19,12 +22,31 @@ interface PropsType {
 }
 
 function Router({ isLoggedIn, userObj, refreshUser }: PropsType) {
+  const [windowSize, setWindowSize] = useState({ width: window.innerWidth });
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({ width: window.innerWidth });
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <BrowserRouter>
       <ScrollToTop />
+      {isLoggedIn && windowSize.width >= +deviceSizes.tablet ? (
+        <HeadNav />
+      ) : (
+        <></>
+      )}
       <Routes>
         {isLoggedIn ? (
-          <Route path="/" element={<Home userObj={userObj} />} />
+          <Route
+            path="/"
+            element={<Home userObj={userObj} windowSize={windowSize.width} />}
+          />
         ) : (
           <Route path="/" element={<LogInPage />} />
         )}
@@ -52,7 +74,11 @@ function Router({ isLoggedIn, userObj, refreshUser }: PropsType) {
           )}
         </>
       </Routes>
-      {isLoggedIn && <Navigation />}
+      {isLoggedIn && windowSize.width < +deviceSizes.tablet ? (
+        <Navigation />
+      ) : (
+        <></>
+      )}
     </BrowserRouter>
   );
 }
