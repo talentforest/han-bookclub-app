@@ -3,9 +3,8 @@ import { dbService } from "fbase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { BigBox, Container, Header } from "theme/commonStyle";
+import { Container, Header } from "theme/commonStyle";
 import { DocumentType } from "components/book/SubjectBox";
-import { ReactComponent as PlusIcon } from "assets/plus.svg";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
 import Subtitle from "components/common/Subtitle";
 import Title from "components/common/Title";
@@ -61,23 +60,6 @@ const Meeting = () => {
     </>
   );
 };
-
-const PlusBox = styled(BigBox)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  span {
-    color: ${(props) => props.theme.container.blue};
-    font-size: 18px;
-    font-weight: 700;
-    margin-right: 10px;
-  }
-  svg {
-    width: 20px;
-    height: 20px;
-    fill: ${(props) => props.theme.container.blue};
-  }
-`;
 
 const NewContainer = styled(Container)`
   margin-top: 0;

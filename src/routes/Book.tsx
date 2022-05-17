@@ -1,4 +1,4 @@
-import { BookInfo, Container, Header } from "theme/commonStyle";
+import { Container, Header } from "theme/commonStyle";
 import { useEffect, useState } from "react";
 import { dbService } from "fbase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
@@ -12,9 +12,20 @@ import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
 import SubjectCreateBox from "components/book/SubjectCreateBox";
 
+export interface BookInfoType {
+  title: string;
+  authors: string[];
+  translator: string[];
+  publisher: string;
+  contents: string;
+  thumbnail: string;
+  url: string;
+}
+
 const Book = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [subjects, setSubjects] = useState<DocumentType[]>([]);
+
   const userData = useRecoilValue(currentUserState);
 
   const openModalClick = () => {
@@ -47,10 +58,6 @@ const Book = () => {
         <Title title="의 책" />
       </Header>
       <Container>
-        <BookInfo>
-          <img src={require("assets/떨림과_울림.jpeg")} alt="Book_Image" />
-          <h3>떨림과 울림</h3>
-        </BookInfo>
         <BookDescription />
         <Subtitle title="이달의 발제문 작성하기" />
         <>
@@ -58,7 +65,7 @@ const Book = () => {
             <></>
           ) : (
             <SubjectGuide>
-              <div>&laquo;떨림과 울림&raquo; 발제문</div>
+              <div>발제문</div>
               <span>아직 발제문이 작성되지 않았어요.</span>
               <AddSubject onClick={openModalClick}>
                 <PlusIcon />
