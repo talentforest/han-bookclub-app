@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Time } from "util/Time";
 import styled from "styled-components";
 import { DocumentType } from "components/book/SubjectBox";
+import UserInfoBox from "components/common/UserInfoBox";
 
 const Reviews = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
   const [editing, setEditing] = useState(false);
@@ -41,10 +42,9 @@ const Reviews = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
     <Review>
       {editing ? (
         <form onSubmit={onSubmit}>
-          <div>
+          <FormHeader>
             <div>
-              <UserIcon />
-              <span>전예림</span>
+              <UserInfoBox />
               <span>{Time(createdAt)}</span>
             </div>
             {showingGuide && (
@@ -57,8 +57,8 @@ const Reviews = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
             ) : (
               <EditDoneBtn type="submit" value="수정완료" />
             )}
-          </div>
-          <textarea
+          </FormHeader>
+          <TextArea
             value={newText}
             placeholder="모임 후기를 수정해주세요."
             onChange={onChange}
@@ -66,10 +66,9 @@ const Reviews = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
         </form>
       ) : (
         <form>
-          <div>
+          <FormHeader>
             <div>
-              <UserIcon />
-              <span>전예림</span>
+              <UserInfoBox />
               <span>{Time(createdAt)}</span>
             </div>
             {uid === creatorId && (
@@ -78,13 +77,63 @@ const Reviews = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
                 <button onClick={onDeleteClick}>삭제</button>
               </EditDeleteBtn>
             )}
-          </div>
+          </FormHeader>
           <p>{text}</p>
         </form>
       )}
     </Review>
   );
 };
+
+const Review = styled.div`
+  padding: 20px 0 0;
+  font-size: 14px;
+  border-bottom: 1px solid ${(props) => props.theme.text.gray};
+  > form {
+    position: relative;
+    margin: 0 5px;
+    > p {
+      display: block;
+      min-height: 30px;
+      padding-bottom: 20px;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+  }
+`;
+
+const FormHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  > div {
+    display: flex;
+    align-items: center;
+    > span {
+      font-size: 12px;
+      margin-left: 8px;
+      color: ${(props) => props.theme.text.lightGray};
+    }
+  }
+`;
+
+const TextArea = styled.textarea`
+  font-size: 14px;
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 5px;
+  white-space: pre-wrap;
+  border: none;
+  border-radius: 5px;
+  min-height: 100px;
+  background-color: ${(props) => props.theme.container.default};
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  resize: none;
+  &:focus {
+    outline: none;
+  }
+`;
 
 const GuideTextBox = styled.span`
   position: absolute;
@@ -103,53 +152,6 @@ const GuideTextBox = styled.span`
     right: 20px;
     transform: rotate(45deg);
     background-color: ${(props) => props.theme.container.lightBlue};
-  }
-`;
-
-const Review = styled.div`
-  padding: 10px 0 0px;
-  font-size: 14px;
-  border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
-  > form {
-    position: relative;
-    margin: 0 5px;
-    > div {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-
-      > div {
-        display: flex;
-        align-items: center;
-        > span:nth-child(3) {
-          font-size: 12px;
-          margin-left: 8px;
-          color: ${(props) => props.theme.text.lightGray};
-        }
-      }
-    }
-    > textarea {
-      font-size: 14px;
-      width: 100%;
-      border: none;
-      min-height: 45px;
-      background-color: ${(props) => props.theme.container.default};
-      padding: 5px;
-      white-space: pre-wrap;
-      &:focus {
-        outline: none;
-      }
-    }
-    > p {
-      display: block;
-      min-height: 45px;
-    }
-  }
-  svg {
-    width: 18px;
-    height: 18px;
-    margin-right: 5px;
   }
 `;
 

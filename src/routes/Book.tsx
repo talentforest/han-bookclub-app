@@ -4,7 +4,7 @@ import { dbService } from "fbase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { ReactComponent as PlusIcon } from "assets/plus.svg";
 import { useRecoilValue } from "recoil";
-import { currentUserState } from "data/atom";
+import { currentUserState } from "data/userAtom";
 import Title from "components/common/Title";
 import BookDescription from "components/book/BookDescription";
 import SubjectBox, { DocumentType } from "components/book/SubjectBox";

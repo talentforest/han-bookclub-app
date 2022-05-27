@@ -104,6 +104,7 @@ const TextArea = styled.textarea`
   border-radius: 5px;
   padding: 5px 10px;
   white-space: pre-wrap;
+  resize: none;
   &:focus {
     outline: none;
   }

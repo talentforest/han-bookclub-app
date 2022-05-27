@@ -109,6 +109,7 @@ const Form = styled.form`
     background-color: ${(props) => props.theme.container.default};
     margin-bottom: 20px;
     padding: 10px;
+    resize: none;
     &:focus {
       outline: none;
     }

@@ -1,4 +1,4 @@
-import { currentUserState } from "data/atom";
+import { currentUserState } from "data/userAtom";
 import { dbService } from "fbase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";

@@ -18,11 +18,12 @@ export const currentUserState = atom<User | null>({
     ({ setSelf, onSet }) => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
-          const { uid, email, displayName } = user;
+          const { uid, email, displayName, photoURL } = user;
           const authUser = {
             uid,
             email,
             displayName,
+            photoURL,
           };
 
           setSelf(authUser as User);

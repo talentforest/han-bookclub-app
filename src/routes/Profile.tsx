@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Container, Header } from "theme/commonStyle";
 import { ReactComponent as SettingIcon } from "assets/settings.svg";
 import { useRecoilValue } from "recoil";
-import { currentUserState } from "data/atom";
+import { currentUserState } from "data/userAtom";
 import { dbService } from "fbase";
 import { LogInUserInfo } from "components/App";
 import { DocumentType } from "components/book/SubjectBox";

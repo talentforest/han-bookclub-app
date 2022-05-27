@@ -142,6 +142,7 @@ const TextArea = styled.textarea`
   border: none;
   font-size: 16px;
   white-space: pre-wrap;
+  resize: none;
   &:focus {
     outline: none;
   }
