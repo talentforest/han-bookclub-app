@@ -12,7 +12,6 @@ const Sub = styled.h1`
   width: fit-content;
   margin: 20px 15px 10px;
   font-weight: 700;
-  cursor: pointer;
   @media ${device.tablet} {
     font-size: 24px;
     margin-top: 40px;

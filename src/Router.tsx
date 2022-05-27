@@ -51,6 +51,7 @@ function Router({ isLoggedIn, userObj, refreshUser }: PropsType) {
               <Route path="/book/find/:id" element={<FindBook />} />
               <Route path="/meeting" element={<Meeting />} />
               <Route path="/vote" element={<Vote />} />
+              <Route path="/vote/:id" element={<Vote />} />
               <Route path="/profile" element={<Profile userObj={userObj} />} />
               <Route path="/setting" element={<Setting />} />
               <Route

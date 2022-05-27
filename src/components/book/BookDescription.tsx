@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Time } from "util/Time";
 import { bookSearchHandler } from "api/api";
 import { bookDescState } from "data/bookAtom";
@@ -9,29 +9,30 @@ import styled from "styled-components";
 
 const BookDescription = () => {
   const [bookInfo, setBookInfo] = useRecoilState(bookDescState);
-  const [bookQuery, setBookQuery] = useState(bookInfo[0].title);
 
   useEffect(() => {
-    if (bookInfo[0].title === "") {
-      bookSearchHandler(bookQuery, true, setBookInfo);
+    if (bookInfo[0]?.title === "") {
+      bookSearchHandler(bookInfo[0]?.title, true, setBookInfo);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 이달의 책 정보를 firebase에 저장하기
+  // 로직:
+  // 1. 이달의 책 정보를 firebase에 저장하기
+  // 2. 저장된 정보를 홈 북에 나타내기
 
   return (
     <>
       <BookImage />
       <Box>
         <Subtitle title="도서 정보" />
-        <p>{bookInfo[0].contents}...</p>
+        <p>{bookInfo[0]?.contents}...</p>
         <ul>
-          <li>저자: {bookInfo[0].authors}</li>
-          <li>출판사: {bookInfo[0].publisher}</li>
-          <li>출간일: {Time(bookInfo[0].datetime)}</li>
+          <li>저자: {bookInfo[0]?.authors}</li>
+          <li>출판사: {bookInfo[0]?.publisher}</li>
+          <li>출간일: {Time(bookInfo[0]?.datetime)}</li>
         </ul>
-        <a href={`${bookInfo[0].url}`} target="_blank" rel="noreferrer">
+        <a href={`${bookInfo[0]?.url}`} target="_blank" rel="noreferrer">
           <span>상세정보 보러가기</span>
         </a>
       </Box>
@@ -41,7 +42,7 @@ const BookDescription = () => {
 
 const Box = styled.div`
   padding: 0px 10px;
-  margin-top: 20px;
+  margin: 20px 0 40px;
   > h1:first-child {
     margin: 0;
     border-bottom: 1px solid #c5c5c5;

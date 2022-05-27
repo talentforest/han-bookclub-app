@@ -41,13 +41,15 @@ const MeetingInfo = styled(MediumBox)`
     display: flex;
     align-items: center;
     > span {
+      border: 1px solid ${(props) => props.theme.container.blue};
       background-color: ${(props) => props.theme.container.lightBlue};
-      padding: 3px 8px;
+      padding: 3px 5px;
       border-radius: 20px;
       font-size: 10px;
       font-weight: 700;
+      text-align: center;
       display: block;
-      width: 62px;
+      width: 26%;
       margin-right: 7px;
     }
     > div {

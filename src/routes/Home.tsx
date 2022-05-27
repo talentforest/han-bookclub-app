@@ -62,9 +62,6 @@ const Home = () => {
           </ScrollContainer>
           <LinkButton link={"/vote"} title="투표하러 가기" />
         </section>
-        <section>
-          <Subtitle title="다른 사람 책장 구경하기" />
-        </section>
       </NewContainer>
     </>
   );

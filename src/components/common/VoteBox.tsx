@@ -1,4 +1,5 @@
 import { BigBox } from "theme/commonStyle";
+import { CheckCircle, CheckCircleOutline } from "@mui/icons-material";
 import styled from "styled-components";
 import LinkButton from "./LinkButton";
 
@@ -7,14 +8,24 @@ const VoteBox = () => {
     <Vote>
       <p>Q. 6월 책은 뭐할까용?</p>
       <ul>
-        <li>발칙한 현대세계사아아아아아아아아</li>
-        <li>빨강의 자서전</li>
-        <li>떨림과 울림</li>
+        <li>
+          <CheckCircleOutline />
+          <span>발칙한 현대세계사아아아아아</span>
+        </li>
+        <li>
+          <CheckCircleOutline />
+          <span>빨강의 자서전</span>
+        </li>
+        <li>
+          <CheckCircle />
+          <span>떨림과 울림</span>
+        </li>
       </ul>
       <span>•••</span>
-      <div>
-        <LinkButton link={"/vote"} title="해당 투표 보기" />
-      </div>
+      <LinkButton
+        link={`/vote/${new Date().getMonth() + 1}`}
+        title="해당 투표 보기"
+      />
     </Vote>
   );
 };
@@ -22,7 +33,7 @@ const VoteBox = () => {
 const Vote = styled(BigBox)`
   display: flex;
   flex-direction: column;
-  padding: 15px;
+  padding: 15px 15px 10px;
   margin-right: 10px;
   > span {
     text-align: center;
@@ -36,18 +47,24 @@ const Vote = styled(BigBox)`
   > ul {
     margin-top: 5px;
     > li {
-      font-size: 13px;
-      border: 1px solid ${(props) => props.theme.text.lightGray};
+      font-size: 12px;
+      border: 1px solid ${(props) => props.theme.container.blue};
       border-radius: 10px;
-      padding: 2px 10px;
-      margin-top: 5px;
+      padding: 4px 10px;
+      margin-top: 7px;
       background-color: ${(props) => props.theme.container.lightBlue};
+      display: flex;
+      align-items: center;
+      > svg {
+        width: 14px;
+        height: 14px;
+        margin-right: 5px;
+      }
     }
   }
   > div {
     display: flex;
     justify-content: center;
-    height: 20px;
   }
 `;
 

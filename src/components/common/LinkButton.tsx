@@ -10,29 +10,39 @@ export interface titleType {
 
 const LinkButton = ({ link, title }: titleType) => {
   return (
-    <Button as={Link} to={link}>
-      <button>{title}</button>
-      <ArrowRight />
-    </Button>
+    <ButtonBox>
+      <Link to={link}>
+        <span>{title}</span>
+        <ArrowRight />
+      </Link>
+    </ButtonBox>
   );
 };
 
-const Button = styled.button`
-  margin-top: 10px;
+const ButtonBox = styled.div`
+  width: 100%;
   display: flex;
-  align-items: center;
-  button {
-    padding: 5px 0;
-    border: none;
-    background-color: transparent;
-    font-size: 11px;
-    color: ${(props) => props.theme.text.lightBlue};
+  justify-content: flex-end;
+  a {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    cursor: pointer;
+    span {
+      padding: 0px 0;
+      border: none;
+      background-color: transparent;
+      font-size: 11px;
+      color: ${(props) => props.theme.text.lightBlue};
+    }
+    svg {
+      width: 16px;
+      height: 18px;
+      fill: ${(props) => props.theme.text.lightBlue};
+    }
   }
-  svg {
-    width: 16px;
-    height: 18px;
-    fill: ${(props) => props.theme.text.lightBlue};
-  }
+
   @media ${device.tablet} {
     button {
       font-size: 20px;
