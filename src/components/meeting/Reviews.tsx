@@ -49,12 +49,14 @@ const Reviews = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
             </div>
             {showingGuide && (
               <GuideTextBox>
-                <span>
-                  한 글자 이상 작성해주세요. <div></div>
-                </span>
+                한 글자 이상 작성해주세요. <div></div>
               </GuideTextBox>
             )}
-            <EditDoneBtn type="submit" value="수정완료" style={{}} />
+            {showingGuide ? (
+              <EditDoneBtn type="submit" value="수정완료" eventdone />
+            ) : (
+              <EditDoneBtn type="submit" value="수정완료" />
+            )}
           </div>
           <textarea
             value={newText}
@@ -84,29 +86,23 @@ const Reviews = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
   );
 };
 
-const GuideTextBox = styled.div`
+const GuideTextBox = styled.span`
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
   right: 2px;
-  top: 0px;
-  height: 45px;
-  > span {
-    font-size: 10px;
-    color: ${(props) => props.theme.text.accent};
+  top: 24px;
+  font-size: 10px;
+  color: ${(props) => props.theme.text.accent};
+  background-color: ${(props) => props.theme.container.lightBlue};
+  padding: 2px 4px;
+  border-radius: 6px;
+  > div {
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    top: -4px;
+    right: 20px;
+    transform: rotate(45deg);
     background-color: ${(props) => props.theme.container.lightBlue};
-    padding: 2px 4px;
-    border-radius: 6px;
-    > div {
-      width: 8px;
-      height: 8px;
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      transform: rotate(45deg);
-      background-color: ${(props) => props.theme.container.lightBlue};
-    }
   }
 `;
 
@@ -157,12 +153,13 @@ const Review = styled.div`
   }
 `;
 
-const EditDoneBtn = styled.input`
+const EditDoneBtn = styled.input<{ eventdone?: boolean }>`
   border: none;
   background-color: transparent;
   font-size: 12px;
   color: ${(props) => props.theme.text.lightBlue};
   cursor: pointer;
+  pointer-events: ${(props) => (props.eventdone ? "none" : "fill")};
 `;
 
 const EditDeleteBtn = styled.div`
