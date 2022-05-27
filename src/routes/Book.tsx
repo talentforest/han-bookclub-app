@@ -6,13 +6,13 @@ import { ReactComponent as PlusIcon } from "assets/plus.svg";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { LogInUserInfo } from "components/App";
+import { Link } from "react-router-dom";
 import Title from "components/common/Title";
 import BookDescription from "components/book/BookDescription";
 import SubjectBox, { DocumentType } from "components/book/SubjectBox";
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
 import SubjectCreateBox from "components/book/SubjectCreateBox";
-import { Link } from "react-router-dom";
 
 interface PropsType {
   userObj: LogInUserInfo;

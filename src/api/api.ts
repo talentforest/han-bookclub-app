@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BookDocument } from "data/bookAtom";
 
 interface BookQuery {
   query: string; // 검색을 원하는 질의어
@@ -17,4 +18,16 @@ const Kakao = axios.create({
 
 export const bookSearch = (params: BookQuery) => {
   return Kakao.get("/v3/search/book", { params });
+};
+
+export const bookSearchHandler = async (
+  query: string,
+  reset: boolean,
+  setFunc: (bookInfo: BookDocument[]) => void
+) => {
+  const params = {
+    query: query,
+  };
+  const { data } = await bookSearch(params);
+  setFunc(data.documents);
 };

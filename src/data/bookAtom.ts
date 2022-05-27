@@ -14,16 +14,7 @@ export interface BookDocument {
   thumbnail: string;
 }
 
-export const bookDescState = atom<BookDocument>({
+export const bookDescState = atom<BookDocument[]>({
   key: `bookDesc${v4()}`,
-  default: {
-    title: "",
-    authors: [],
-    translators: [],
-    publisher: "",
-    datetime: "",
-    contents: "",
-    thumbnail: "",
-    url: "",
-  },
+  default: [],
 });
