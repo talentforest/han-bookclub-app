@@ -65,6 +65,7 @@ const Nav = styled.nav`
       align-items: center;
       cursor: pointer;
       > a {
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
