@@ -10,6 +10,14 @@ import styled from "styled-components";
 const BookDescription = () => {
   const [bookInfo, setBookInfo] = useRecoilState(bookDescState);
 
+  useEffect(() => {
+    if (bookInfo.title === "") {
+      bookSearchHandler("미움받을 용기", true);
+    }
+  }, []);
+
+  // 이달의 책 정보를 firebase에 저장하기
+
   const bookSearchHandler = async (query: string, reset: boolean) => {
     const params = {
       query: query,
@@ -26,12 +34,6 @@ const BookDescription = () => {
       url: data.documents[0].url,
     });
   };
-
-  if (bookInfo.title === "") {
-    bookSearchHandler("미움받을 용기", true);
-  }
-
-  // 이달의 책 정보를 firebase에 저장하기
 
   return (
     <>
