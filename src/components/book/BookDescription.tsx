@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Time } from "util/Time";
 import { bookSearch } from "api/api";
 import { bookDescState } from "data/bookAtom";
@@ -9,10 +9,11 @@ import styled from "styled-components";
 
 const BookDescription = () => {
   const [bookInfo, setBookInfo] = useRecoilState(bookDescState);
+  const [bookQuery, setBookQuery] = useState(bookInfo.title);
 
   useEffect(() => {
     if (bookInfo.title === "") {
-      bookSearchHandler("미움받을 용기", true);
+      bookSearchHandler(bookQuery, true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -21,7 +22,7 @@ const BookDescription = () => {
 
   const bookSearchHandler = async (query: string, reset: boolean) => {
     const params = {
-      query: query,
+      query: bookQuery,
     };
     const { data } = await bookSearch(params);
     setBookInfo({

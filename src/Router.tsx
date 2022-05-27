@@ -14,6 +14,7 @@ import HeadNav from "components/common/HeadNav";
 import useWindowSize from "hooks/useWindowSize";
 import { LogInUserInfo } from "components/App";
 import { deviceSizes } from "theme/mediaQueries";
+import FindBook from "routes/FindBook";
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -46,6 +47,8 @@ function Router({ isLoggedIn, userObj, refreshUser }: PropsType) {
           {isLoggedIn ? (
             <>
               <Route path="/book" element={<Book userObj={userObj} />} />
+              <Route path="/book/find" element={<FindBook />} />
+              <Route path="/book/find/:id" element={<FindBook />} />
               <Route path="/meeting" element={<Meeting />} />
               <Route path="/vote" element={<Vote />} />
               <Route path="/profile" element={<Profile userObj={userObj} />} />

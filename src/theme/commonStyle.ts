@@ -133,6 +133,16 @@ export const Button = styled.input`
   }
 `;
 
+export const TopButton = styled.button`
+  width: 80px;
+  font-size: 12px;
+  color: ${(props) => props.theme.text.lightBlue};
+  border: none;
+  background-color: transparent;
+  font-weight: 700;
+  cursor: pointer;
+`;
+
 export const BookInfo = styled.div`
   display: flex;
   flex-direction: column;

@@ -1,17 +1,18 @@
-import { Container, Header } from "theme/commonStyle";
+import { Container, Header, TopButton } from "theme/commonStyle";
 import { useEffect, useState } from "react";
 import { dbService } from "fbase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { ReactComponent as PlusIcon } from "assets/plus.svg";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
+import { LogInUserInfo } from "components/App";
 import Title from "components/common/Title";
 import BookDescription from "components/book/BookDescription";
 import SubjectBox, { DocumentType } from "components/book/SubjectBox";
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
 import SubjectCreateBox from "components/book/SubjectCreateBox";
-import { LogInUserInfo } from "components/App";
+import { Link } from "react-router-dom";
 
 interface PropsType {
   userObj: LogInUserInfo;
@@ -20,19 +21,13 @@ interface PropsType {
 const Book = ({ userObj }: PropsType) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [subjects, setSubjects] = useState<DocumentType[]>([]);
-
   const userData = useRecoilValue(currentUserState);
-
-  const openModalClick = () => {
-    setModalOpen((prev) => !prev);
-  };
 
   useEffect(() => {
     const q = query(
       collection(dbService, "Book_Subjects"),
       orderBy("createdAt", "desc")
     );
-
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const newArray = querySnapshot.docs.map((doc) => {
         return {
@@ -47,11 +42,18 @@ const Book = ({ userObj }: PropsType) => {
     };
   }, []);
 
+  const openModalClick = () => {
+    setModalOpen((prev) => !prev);
+  };
+
   return (
     <>
-      <Header>
+      <NewHeader>
         <Title title="의 책" />
-      </Header>
+        <Link to="/book/find">
+          <TopButton>책 등록하기</TopButton>
+        </Link>
+      </NewHeader>
       <Container>
         <BookDescription />
         <Subtitle title="이달의 발제문 작성하기" />
@@ -103,6 +105,12 @@ const Book = ({ userObj }: PropsType) => {
     </>
   );
 };
+
+const NewHeader = styled(Header)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 const SubjectContainer = styled.div`
   border-radius: 5px;

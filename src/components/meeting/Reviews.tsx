@@ -1,4 +1,3 @@
-import { ReactComponent as UserIcon } from "assets/account_circle.svg";
 import { dbService } from "fbase";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
