@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Time } from "util/Time";
 import { bookSearch } from "api/api";
 import { bookDescState } from "data/bookAtom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import Subtitle from "components/common/Subtitle";
 import BookImage from "./BookImage";
 import styled from "styled-components";
@@ -14,6 +14,7 @@ const BookDescription = () => {
     if (bookInfo.title === "") {
       bookSearchHandler("미움받을 용기", true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 이달의 책 정보를 firebase에 저장하기

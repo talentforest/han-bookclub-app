@@ -42,7 +42,6 @@ const Meeting = () => {
       </Header>
       <NewContainer>
         <Subtitle title="모임 일정" />
-
         <MeetingInfoBox />
         <Subtitle title="모임 후기 작성하기" />
         <ReviewCreateBox uid={userData?.uid} />
