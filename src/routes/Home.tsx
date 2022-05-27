@@ -1,9 +1,4 @@
-import {
-  BookInfo,
-  Container,
-  Header,
-  ScrollContainer,
-} from "theme/commonStyle";
+import { Container, Header, ScrollContainer } from "theme/commonStyle";
 import { ReactComponent as HamburgerIcon } from "assets/view_headline.svg";
 import LinkButton from "components/common/LinkButton";
 import Subtitle from "components/common/Subtitle";
@@ -11,19 +6,49 @@ import MeetingInfoBox from "components/common/MeetingInfoBox";
 import VoteBox from "components/common/VoteBox";
 import Title from "components/common/Title";
 import styled from "styled-components";
-import { LogInUserInfo } from "components/App";
 import { deviceSizes } from "theme/mediaQueries";
+import BookImage from "components/book/BookImage";
+import useWindowSize from "hooks/useWindowSize";
+import { useRecoilState } from "recoil";
+import { bookDescState } from "data/bookAtom";
+import { bookSearch } from "api/api";
+import { useEffect } from "react";
 
-interface PropsType {
-  userObj: LogInUserInfo;
-  windowSize: number;
-}
-
-const Home = ({ userObj, windowSize }: PropsType) => {
+const Home = () => {
+  const [bookInfo, setBookInfo] = useRecoilState(bookDescState);
   const Month = new Date().getMonth() + 1;
+  const { windowSize } = useWindowSize();
+
+  const bookSearchHandler = async (query: string, reset: boolean) => {
+    const params = {
+      query: query,
+    };
+    const { data } = await bookSearch(params);
+    setBookInfo({
+      title: data.documents[0].title,
+      authors: data.documents[0].authors,
+      translators: data.documents[0].translators,
+      publisher: data.documents[0].publisher,
+      datetime: data.documents[0].datetime,
+      contents: data.documents[0].contents,
+      thumbnail: data.documents[0].thumbnail,
+      url: data.documents[0].url,
+    });
+  };
+
+  useEffect(() => {
+    if (bookInfo.title.length > 0) {
+      bookSearchHandler("미움받을 용기", true);
+    }
+    return () => {
+      bookSearchHandler("미움받을 용기", true);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
-      {windowSize < +deviceSizes.tablet ? (
+      {windowSize.width < +deviceSizes.tablet ? (
         <NewHeader>
           <Title title="독서모임 한 페이지" />
           <HamburgerIcon />
@@ -35,10 +60,7 @@ const Home = ({ userObj, windowSize }: PropsType) => {
       <NewContainer>
         <section>
           <Subtitle title={`${Month}월의 책`} />
-          <BookInfo>
-            <img src={require("assets/떨림과_울림.jpeg")} alt="Book" />
-            <h3>떨림과 울림</h3>
-          </BookInfo>
+          <BookImage />
           <LinkButton link={"/book"} title="발제하러 가기" />
         </section>
         <section>

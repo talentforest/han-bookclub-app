@@ -1,4 +1,4 @@
-import { BookFieldType } from "components/UserDataInputForm";
+import { BookFieldType } from "components/loginForm/UserDataInputForm";
 import { useState } from "react";
 
 interface PropsType {

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Container } from "theme/commonStyle";
 import BackBtn from "components/common/BackButton";
-import UserDataInputForm from "components/UserDataInputForm";
-import AccountForm from "components/AccountForm";
+import UserDataInputForm from "components/loginForm/UserDataInputForm";
+import AccountForm from "components/loginForm/AccountForm";
 import { LogInUserInfo } from "components/App";
 
 interface PropsType {

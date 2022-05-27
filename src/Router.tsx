@@ -9,11 +9,11 @@ import Setting from "./routes/Setting";
 import Navigation from "components/common/Navigation";
 import CreateAccount from "./routes/CreateAccount";
 import EditProfile from "./routes/EditProfile";
-import { LogInUserInfo } from "components/App";
 import ScrollToTop from "util/ScrollToTop";
-import { useEffect, useState } from "react";
-import { deviceSizes } from "theme/mediaQueries";
 import HeadNav from "components/common/HeadNav";
+import useWindowSize from "hooks/useWindowSize";
+import { LogInUserInfo } from "components/App";
+import { deviceSizes } from "theme/mediaQueries";
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -22,16 +22,7 @@ interface PropsType {
 }
 
 function Router({ isLoggedIn, userObj, refreshUser }: PropsType) {
-  const [windowSize, setWindowSize] = useState({ width: window.innerWidth });
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowSize({ width: window.innerWidth });
-    }
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const { windowSize } = useWindowSize();
 
   return (
     <BrowserRouter>
@@ -43,10 +34,7 @@ function Router({ isLoggedIn, userObj, refreshUser }: PropsType) {
       )}
       <Routes>
         {isLoggedIn ? (
-          <Route
-            path="/"
-            element={<Home userObj={userObj} windowSize={windowSize.width} />}
-          />
+          <Route path="/" element={<Home />} />
         ) : (
           <Route path="/" element={<LogInPage />} />
         )}
@@ -57,7 +45,7 @@ function Router({ isLoggedIn, userObj, refreshUser }: PropsType) {
           />
           {isLoggedIn ? (
             <>
-              <Route path="/book" element={<Book />} />
+              <Route path="/book" element={<Book userObj={userObj} />} />
               <Route path="/meeting" element={<Meeting />} />
               <Route path="/vote" element={<Vote />} />
               <Route path="/profile" element={<Profile userObj={userObj} />} />

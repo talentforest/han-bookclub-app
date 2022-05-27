@@ -1,7 +1,7 @@
 import { LogInUserInfo } from "components/App";
 import UserIcon from "assets/account_circle.svg";
 import styled from "styled-components";
-import { BookFieldType } from "components/UserDataInputForm";
+import { BookFieldType } from "components/loginForm/UserDataInputForm";
 
 interface PropsType {
   userObj: LogInUserInfo;

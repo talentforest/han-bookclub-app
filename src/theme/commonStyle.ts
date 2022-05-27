@@ -18,6 +18,7 @@ export const Header = styled.header`
 export const Container = styled.main`
   min-height: 100vh;
   padding: 0 15px;
+  margin-bottom: 100px;
   @media ${device.mobile} {
     padding: 10px 15px 80px;
   }

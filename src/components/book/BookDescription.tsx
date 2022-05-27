@@ -1,41 +1,24 @@
-import { useEffect, useState } from "react";
-import { BookInfo } from "theme/commonStyle";
+import { useEffect } from "react";
+import { Time } from "util/Time";
 import { bookSearch } from "api/api";
+import { bookDescState } from "data/bookAtom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Subtitle from "components/common/Subtitle";
+import BookImage from "./BookImage";
 import styled from "styled-components";
 
 const BookDescription = () => {
-  const [bookInfo, setBookInfo] = useState({
-    title: "",
-    authors: [],
-    translator: [],
-    publisher: "",
-    datetime: Date,
-    contents: "",
-    thumbnail: "",
-    url: "",
-  });
+  const [bookInfo, setBookInfo] = useRecoilState(bookDescState);
 
-  useEffect(() => {
-    if (bookInfo.title.length > 0) {
-      bookSearchHttpHandler("미움받을 용기", true);
-    }
-
-    return () => {
-      bookSearchHttpHandler("미움받을 용기", true);
-    };
-  }, []);
-
-  const bookSearchHttpHandler = async (query: string, reset: boolean) => {
+  const bookSearchHandler = async (query: string, reset: boolean) => {
     const params = {
       query: query,
     };
-
     const { data } = await bookSearch(params);
     setBookInfo({
       title: data.documents[0].title,
       authors: data.documents[0].authors,
-      translator: data.documents[0].translator,
+      translators: data.documents[0].translators,
       publisher: data.documents[0].publisher,
       datetime: data.documents[0].datetime,
       contents: data.documents[0].contents,
@@ -44,19 +27,26 @@ const BookDescription = () => {
     });
   };
 
+  if (bookInfo.title === "") {
+    bookSearchHandler("미움받을 용기", true);
+  }
+
+  // 이달의 책 정보를 firebase에 저장하기
+
   return (
     <>
-      <BookInfo>
-        <img src={bookInfo.thumbnail} alt="Book_Image" />
-        <h3>{bookInfo.title}</h3>
-      </BookInfo>
+      <BookImage />
       <Box>
-        <Subtitle title="도서 정보 보기" />
+        <Subtitle title="도서 정보" />
         <p>{bookInfo.contents}...</p>
-        <li>저자: {bookInfo.authors}</li>
-        <li>출판사: {bookInfo.publisher}</li>
-        <li>출간일: {`${bookInfo.datetime}`}</li>
-        {/* 페이지와 분야... */}
+        <ul>
+          <li>저자: {bookInfo.authors}</li>
+          <li>출판사: {bookInfo.publisher}</li>
+          <li>출간일: {Time(bookInfo.datetime)}</li>
+        </ul>
+        <a href={`${bookInfo.url}`} target="_blank" rel="noreferrer">
+          <span>상세정보 보러가기</span>
+        </a>
       </Box>
     </>
   );
@@ -79,10 +69,20 @@ const Box = styled.div`
     word-break: break-all;
     line-height: 20px;
   }
-  li {
-    font-size: 12px;
-    display: block;
-    margin: 3px 0 0;
+  ul {
+    margin: 20px 0 10px;
+    li {
+      font-size: 12px;
+      display: block;
+      margin: 3px 0 0;
+    }
+  }
+  a {
+    span {
+      font-size: 12px;
+      color: ${(props) => props.theme.text.accent};
+      text-decoration: underline;
+    }
   }
 `;
 

@@ -7,7 +7,7 @@ import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { bookFields } from "util/Constants";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
-import { BookFieldType } from "components/UserDataInputForm";
+import { BookFieldType } from "components/loginForm/UserDataInputForm";
 import { v4 } from "uuid";
 import BackButton from "components/common/BackButton";
 import Subtitle from "components/common/Subtitle";

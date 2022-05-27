@@ -11,18 +11,13 @@ import SubjectBox, { DocumentType } from "components/book/SubjectBox";
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
 import SubjectCreateBox from "components/book/SubjectCreateBox";
+import { LogInUserInfo } from "components/App";
 
-export interface BookInfoType {
-  title: string;
-  authors: string[];
-  translator: string[];
-  publisher: string;
-  contents: string;
-  thumbnail: string;
-  url: string;
+interface PropsType {
+  userObj: LogInUserInfo;
 }
 
-const Book = () => {
+const Book = ({ userObj }: PropsType) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [subjects, setSubjects] = useState<DocumentType[]>([]);
 
@@ -68,8 +63,10 @@ const Book = () => {
               <div>발제문</div>
               <span>아직 발제문이 작성되지 않았어요.</span>
               <AddSubject onClick={openModalClick}>
-                <PlusIcon />
-                <span>발제문 추가하기</span>
+                <span>
+                  <PlusIcon />
+                  발제문 추가하기
+                </span>
               </AddSubject>
             </SubjectGuide>
           )}
@@ -78,7 +75,7 @@ const Book = () => {
           ) : (
             <></>
           )}
-          <Subject>
+          <SubjectContainer>
             {subjects.map(({ text, createdAt, creatorId, id }) => (
               <SubjectBox
                 key={id}
@@ -87,14 +84,17 @@ const Book = () => {
                 creatorId={creatorId}
                 text={text}
                 createdAt={createdAt}
+                userObj={userObj}
               />
             ))}
-          </Subject>
+          </SubjectContainer>
         </>
         {subjects.length !== 0 ? (
           <AddSubject onClick={openModalClick}>
-            <PlusIcon />
-            <span>발제문 추가하기</span>
+            <span>
+              <PlusIcon />
+              발제문 추가하기
+            </span>
           </AddSubject>
         ) : (
           <></>
@@ -104,7 +104,7 @@ const Book = () => {
   );
 };
 
-const Subject = styled.div`
+const SubjectContainer = styled.div`
   border-radius: 5px;
   margin: 10px 0;
   font-size: 13px;
@@ -141,15 +141,15 @@ const AddSubject = styled.div`
   justify-content: center;
   padding: 5px 3px;
   margin-top: 10px;
-  cursor: pointer;
   span {
+    cursor: pointer;
     font-size: 13px;
     font-weight: 700;
-    margin-left: 5px;
-  }
-  svg {
-    width: 12px;
-    height: 12px;
+    svg {
+      width: 12px;
+      height: 12px;
+      margin-right: 5px;
+    }
   }
 `;
 

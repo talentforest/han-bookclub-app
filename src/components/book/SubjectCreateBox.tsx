@@ -15,8 +15,8 @@ const SubjectCreateBox = ({ uid, setModalOpen }: PropsType) => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (subject === "") return;
     try {
+      if (subject === "") return;
       await addDoc(collection(dbService, "Book_Subjects"), {
         text: subject,
         createdAt: Date.now(),
@@ -38,7 +38,8 @@ const SubjectCreateBox = ({ uid, setModalOpen }: PropsType) => {
   };
 
   return (
-    <ModalBackground>
+    <>
+      <ModalBackground onClick={onCloseClick} />
       <Form onSubmit={onSubmit}>
         <div>
           <h3>발제문 작성하기</h3>
@@ -58,24 +59,30 @@ const SubjectCreateBox = ({ uid, setModalOpen }: PropsType) => {
           <SubmitBtn type="submit" value="남기기" />
         </div>
       </Form>
-    </ModalBackground>
+    </>
   );
 };
 
 const ModalBackground = styled.div`
   position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   width: 100%;
-  margin-left: -15px;
+  height: 100vh;
   padding-bottom: 20px;
   background-color: rgba(0, 0, 0, 0.6);
 `;
 
 const Form = styled.form`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%;
+  width: 80%;
   margin: 50px auto 10px;
   padding: 10px 15px;
   border-radius: 5px;
@@ -95,7 +102,7 @@ const Form = styled.form`
     justify-content: end;
   }
   > textarea {
-    width: 260px;
+    width: 100%;
     min-height: 350px;
     border: none;
     border-radius: 5px;

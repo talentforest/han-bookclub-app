@@ -5,6 +5,7 @@ import { dbService } from "fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { Time } from "util/Time";
 import styled from "styled-components";
+import { LogInUserInfo } from "components/App";
 
 export interface DocumentType {
   text?: string;
@@ -12,9 +13,17 @@ export interface DocumentType {
   creatorId?: string;
   id?: string;
   uid: string;
+  userObj?: LogInUserInfo;
 }
 
-const SubjectBox = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
+const SubjectBox = ({
+  text,
+  createdAt,
+  creatorId,
+  id,
+  uid,
+  userObj,
+}: DocumentType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(text);
 
@@ -43,7 +52,7 @@ const SubjectBox = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
           <form onSubmit={onSubmit}>
             <Writer>
               <User>
-                <ProfileImg />
+                <ProfileImg $bgPhoto={userObj.photoURL} />
                 <span>전예림</span>
               </User>
               <EditDoneBtn type="submit" value="수정완료" />
@@ -60,7 +69,7 @@ const SubjectBox = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
         <TextBox>
           <Writer>
             <User>
-              <ProfileImg />
+              <ProfileImg $bgPhoto={userObj.photoURL} />
               <span>전예림</span>
             </User>
             {uid === creatorId && (
@@ -130,10 +139,13 @@ const User = styled.div`
   align-items: center;
 `;
 
-const ProfileImg = styled.div`
-  width: 26px;
-  height: 26px;
+const ProfileImg = styled.div<{ $bgPhoto: string }>`
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
+  background-image: url(${(props) => props.$bgPhoto});
+  background-size: cover;
+  background-position: center;
   background-color: ${(props) => props.theme.container.lightBlue};
   margin-right: 5px;
 `;

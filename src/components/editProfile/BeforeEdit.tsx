@@ -2,7 +2,7 @@ import { LogInUserInfo } from "components/App";
 import { bookFields } from "util/Constants";
 import styled from "styled-components";
 import { useState } from "react";
-import { BookFieldType } from "components/UserDataInputForm";
+import { BookFieldType } from "components/loginForm/UserDataInputForm";
 
 interface PropsType {
   userObj: LogInUserInfo;
