@@ -20,7 +20,7 @@ const Home = () => {
   const { windowSize } = useWindowSize();
 
   useEffect(() => {
-    if (bookInfo[0]?.title.length > 0) {
+    if (bookInfo[0]) {
       bookSearchHandler("미움받을 용기", true, setBookInfo);
     }
     return () => {
