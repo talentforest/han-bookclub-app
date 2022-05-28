@@ -4,6 +4,7 @@ import { ResetStyle } from "theme/resetStyle";
 import { theme } from "theme/theme";
 import { ThemeProvider } from "styled-components";
 import Router from "../Router";
+import Loading from "./common/Loading";
 
 export interface LogInUserInfo {
   uid: string;
@@ -55,7 +56,7 @@ function App() {
           refreshUser={refreshUser}
         />
       ) : (
-        "Initializing..."
+        <Loading />
       )}
     </ThemeProvider>
   );

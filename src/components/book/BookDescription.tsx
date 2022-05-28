@@ -17,10 +17,6 @@ const BookDescription = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 로직:
-  // 1. 이달의 책 정보를 firebase에 저장하기
-  // 2. 저장된 정보를 홈 북에 나타내기
-
   return (
     <>
       <BookImage />

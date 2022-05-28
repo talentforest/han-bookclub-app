@@ -56,8 +56,6 @@ const Book = ({ userObj }: PropsType) => {
       </NewHeader>
       <Container>
         <BookDescription />
-        {/* 탭으로 도서정보 | 발제문 나타내기 */}
-        {/* 월별로 발제문, 모임 후기 구분해서 볼 수 있도록 하기. 월별은 버튼으로 구현 */}
         <Subtitle title="이달의 발제문 작성하기" />
         <>
           {subjects.length !== 0 ? (
