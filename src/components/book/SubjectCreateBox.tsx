@@ -2,7 +2,6 @@ import { useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { SubmitBtn } from "theme/commonStyle";
-import { ReactComponent as CloseIcon } from "assets/close.svg";
 import { LogInUserInfo } from "components/App";
 import styled from "styled-components";
 
@@ -30,10 +29,7 @@ const SubjectCreateBox = ({ uid }: LogInUserInfo) => {
 
   return (
     <Form onSubmit={onSubmit}>
-      <div>
-        <h3>발제문 작성하기</h3>
-        <CloseIcon role="button" width="16" height="16" />
-      </div>
+      <h3>발제문 작성하기</h3>
       <textarea
         placeholder="책을 읽으며 이야기하고 싶었던 주제들을 자유롭게 작성해주세요."
         value={subject}
@@ -55,14 +51,12 @@ const Form = styled.form`
   border-radius: 5px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   background-color: ${(props) => props.theme.container.lightBlue};
-  > div:first-child {
-    justify-content: space-between;
-    align-items: center;
+  > h3 {
     padding-bottom: 10px;
-    > h3 {
-      font-weight: 700;
-      font-size: 14px;
-    }
+    font-weight: 700;
+    font-size: 14px;
+    width: 100%;
+    text-align: start;
   }
   > div {
     width: 100%;
@@ -71,7 +65,7 @@ const Form = styled.form`
   }
   > textarea {
     width: 100%;
-    min-height: 350px;
+    min-height: 300px;
     border: none;
     border-radius: 5px;
     background-color: ${(props) => props.theme.container.default};
