@@ -3,7 +3,7 @@ import { ReactComponent as EditIcon } from "assets/edit.svg";
 import { ReactComponent as DeleteIcon } from "assets/delete.svg";
 import { dbService } from "fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { Time } from "util/Time";
+import { time } from "util/time";
 import styled from "styled-components";
 import { LogInUserInfo } from "components/App";
 
@@ -63,7 +63,7 @@ const SubjectBox = ({
               onChange={onChange}
             />
           </form>
-          <RegisterTime>{Time(createdAt)}</RegisterTime>
+          <RegisterTime>{time(createdAt)}</RegisterTime>
         </TextBox>
       ) : (
         <TextBox>
@@ -90,7 +90,7 @@ const SubjectBox = ({
             )}
           </Writer>
           <pre>{newText}</pre>
-          <RegisterTime>{Time(createdAt)}</RegisterTime>
+          <RegisterTime>{time(createdAt)}</RegisterTime>
         </TextBox>
       )}
     </>

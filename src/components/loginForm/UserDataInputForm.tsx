@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Desc, Input } from "theme/commonStyle";
-import { bookFields, gender } from "util/Constants";
+import { bookFields, gender } from "util/constants";
 import { doc, setDoc } from "firebase/firestore";
 import styled from "styled-components";
 

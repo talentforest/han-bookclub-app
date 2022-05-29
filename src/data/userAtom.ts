@@ -7,8 +7,19 @@ const auth = getAuth();
 
 export const refreshUserState = atom({
   key: `refreshUser/${v4}`,
-  default: authService.currentUser?.displayName,
+  default: authService.currentUser,
+
+  effects: [
+    ({ setSelf }) => {
+      setSelf(authService.currentUser);
+    },
+  ],
 });
+
+// const refreshUser = () => {
+//   const user = auth.currentUser;
+//   setUserObj({ ...user });
+// };
 
 export const currentUserState = atom<User | null>({
   key: `currentUser/${v4}`,
@@ -22,7 +33,7 @@ export const currentUserState = atom<User | null>({
           const authUser = {
             uid,
             email,
-            displayName,
+            displayName: displayName ? displayName : "한 페이지 멤버",
             photoURL,
           };
 

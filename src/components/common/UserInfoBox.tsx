@@ -1,10 +1,16 @@
 import { ReactComponent as UserIcon } from "assets/account_circle.svg";
 import { currentUserState } from "data/userAtom";
-import { useRecoilValue } from "recoil";
+import { authService } from "fbase";
+import { getAuth } from "firebase/auth";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
 const UserInfoBox = () => {
-  const userData = useRecoilValue(currentUserState);
+  const [userData, setUserData] = useRecoilState(currentUserState);
+
+  console.log(authService.currentUser);
+
+  // console.log(userData);
   return (
     <User>
       {userData.photoURL ? (
@@ -12,7 +18,7 @@ const UserInfoBox = () => {
       ) : (
         <UserIcon />
       )}
-      <span>전예림</span>
+      <span>{userData.displayName}</span>
     </User>
   );
 };

@@ -1,4 +1,4 @@
-import { Time } from "util/Time";
+import { time } from "util/time";
 import styled from "styled-components";
 import { DocumentType } from "components/book/SubjectBox";
 
@@ -12,7 +12,7 @@ const ByRecord = ({ text, createdAt }: DocumentType) => {
           <img src={require("assets/떨림과_울림.jpeg")} alt="Book" />
           <h3>떨림과 울림</h3>
         </BookInfo>
-        <RegisterTime>{Time(createdAt)}</RegisterTime>
+        <RegisterTime>{time(createdAt)}</RegisterTime>
       </div>
     </TextBox>
   );

@@ -1,11 +1,17 @@
-import { Container, Header, ScrollContainer } from "theme/commonStyle";
+import {
+  BookInfo,
+  Container,
+  Header,
+  ScrollContainer,
+} from "theme/commonStyle";
 import { ReactComponent as HamburgerIcon } from "assets/view_headline.svg";
 import { deviceSizes } from "theme/mediaQueries";
 import { useRecoilState } from "recoil";
 import { bookDescState } from "data/bookAtom";
 import { bookSearchHandler } from "api/api";
 import { useEffect } from "react";
-import BookImage from "components/book/BookImage";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { dbService } from "fbase";
 import LinkButton from "components/common/LinkButton";
 import useWindowSize from "hooks/useWindowSize";
 import Subtitle from "components/common/Subtitle";
@@ -20,11 +26,22 @@ const Home = () => {
   const { windowSize } = useWindowSize();
 
   useEffect(() => {
-    if (bookInfo[0]) {
-      bookSearchHandler("미움받을 용기", true, setBookInfo);
-    }
+    const q = query(
+      collection(dbService, "Book of the Month"),
+      orderBy("createdAt", "desc")
+    );
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const newArray = querySnapshot.docs.map((doc) => {
+        return {
+          ...doc.data(),
+        };
+      });
+
+      bookSearchHandler(newArray[0].bookTitle, true, setBookInfo);
+    });
+
     return () => {
-      bookSearchHandler("미움받을 용기", true, setBookInfo);
+      unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -43,7 +60,14 @@ const Home = () => {
       <NewContainer>
         <section>
           <Subtitle title={`${Month}월의 책`} />
-          <BookImage />
+          {bookInfo.length !== 0 ? (
+            <BookInfo>
+              <img src={bookInfo[0]?.thumbnail} alt="Book_Image" />
+              <h3>{bookInfo[0]?.title}</h3>
+            </BookInfo>
+          ) : (
+            <span>등록된 책이 없습니다.</span>
+          )}
           <LinkButton link={"/book"} title="발제하러 가기" />
         </section>
         <section>

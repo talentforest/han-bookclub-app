@@ -128,6 +128,7 @@ const Profile = ({ userObj }: PropsType) => {
                   text={text}
                   createdAt={createdAt}
                   attachmentUrl={attachmentUrl}
+                  userObj={userObj}
                 />
               )
             )}

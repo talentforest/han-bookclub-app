@@ -1,7 +1,7 @@
 import { dbService } from "fbase";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
-import { Time } from "util/Time";
+import { time } from "util/time";
 import styled from "styled-components";
 import { DocumentType } from "components/book/SubjectBox";
 import UserInfoBox from "components/common/UserInfoBox";
@@ -44,7 +44,7 @@ const Reviews = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
           <FormHeader>
             <div>
               <UserInfoBox />
-              <span>{Time(createdAt)}</span>
+              <span>{time(createdAt)}</span>
             </div>
             {showingGuide && (
               <GuideTextBox>
@@ -68,7 +68,7 @@ const Reviews = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
           <FormHeader>
             <div>
               <UserInfoBox />
-              <span>{Time(createdAt)}</span>
+              <span>{time(createdAt)}</span>
             </div>
             {uid === creatorId && (
               <EditDeleteBtn>

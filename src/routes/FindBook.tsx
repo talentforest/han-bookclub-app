@@ -40,7 +40,7 @@ const FindBook = () => {
           <Button type="submit" value="검색" />
         </Form>
         <BookResults>
-          <span>검색결과</span>
+          <span>검색결과 {bookInfo.length}건</span>
           {bookInfo.map((bookInfo) => (
             <ResultBox bookInfo={bookInfo} key={bookInfo.isbn} />
           ))}

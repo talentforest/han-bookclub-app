@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { LogInUserInfo } from "components/App";
+import { deviceSizes } from "theme/mediaQueries";
 import Home from "./routes/Home";
 import LogInPage from "./routes/LogInPage";
 import Profile from "./routes/Profile";
@@ -12,9 +14,8 @@ import EditProfile from "./routes/EditProfile";
 import ScrollToTop from "util/ScrollToTop";
 import HeadNav from "components/common/HeadNav";
 import useWindowSize from "hooks/useWindowSize";
-import { LogInUserInfo } from "components/App";
-import { deviceSizes } from "theme/mediaQueries";
 import FindBook from "routes/FindBook";
+import SelectedBook from "routes/SelectedBook";
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -48,7 +49,8 @@ function Router({ isLoggedIn, userObj, refreshUser }: PropsType) {
             <>
               <Route path="/book" element={<Book userObj={userObj} />} />
               <Route path="/book/find" element={<FindBook />} />
-              <Route path="/book/find/:id" element={<FindBook />} />
+              <Route path="/book/find/:id" element={<SelectedBook />} />
+
               <Route path="/meeting" element={<Meeting />} />
               <Route path="/vote" element={<Vote />} />
               <Route path="/vote/:id" element={<Vote />} />

@@ -1,7 +1,8 @@
 import { Book } from "@mui/icons-material";
 import { BookDocument } from "data/bookAtom";
-import { Time } from "util/Time";
+import { time } from "util/time";
 import styled from "styled-components";
+import { Link, Outlet } from "react-router-dom";
 
 interface PropsType {
   bookInfo: BookDocument;
@@ -9,48 +10,52 @@ interface PropsType {
 
 const ResultBox = ({ bookInfo }: PropsType) => {
   return (
-    <BookResultBox>
-      {bookInfo?.thumbnail ? (
-        <img src={bookInfo.thumbnail} alt="Book_Image" />
-      ) : (
-        <div>
-          <Book />
-        </div>
-      )}
-      <BookDetail>
-        <h3>
-          {bookInfo.title.length > 15
-            ? `${bookInfo.title.slice(0, 15)}...`
-            : bookInfo.title}
-        </h3>
-        <span>저자: {bookInfo.authors}</span>
-        {bookInfo?.translators.length !== 0 ? (
-          <span>역자: {bookInfo.translators}</span>
+    <>
+      <BookResultBox as={Link} to={{ pathname: `${bookInfo.title}` }}>
+        {bookInfo?.thumbnail ? (
+          <img src={bookInfo.thumbnail} alt="Book_Image" />
         ) : (
-          <></>
+          <div>
+            <Book />
+          </div>
         )}
-        <span>출판사: {bookInfo.publisher}</span>
-        <span>출간일: {Time(bookInfo.datetime)}</span>
-        <a href={`${bookInfo.url}`} target="_blank" rel="noreferrer">
-          <span>상세정보 보러가기</span>
-        </a>
-      </BookDetail>
-    </BookResultBox>
+        <BookDetail>
+          <h3>
+            {bookInfo.title.length > 17
+              ? `${bookInfo.title.slice(0, 17)}...`
+              : bookInfo.title}
+          </h3>
+          <span>저자: {bookInfo.authors}</span>
+          {bookInfo?.translators.length !== 0 ? (
+            <span>역자: {bookInfo.translators}</span>
+          ) : (
+            <></>
+          )}
+          <span>출판사: {bookInfo.publisher}</span>
+          <span>출간일: {time(bookInfo.datetime)}</span>
+        </BookDetail>
+      </BookResultBox>
+      <Outlet />
+    </>
   );
 };
 
 const BookResultBox = styled.div`
   position: relative;
+  margin-bottom: 15px;
   display: flex;
   align-items: center;
-  padding: 10px 20px 15px;
+  padding: 8px 20px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
-  margin-bottom: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  &:hover {
+    background-color: ${(props) => props.theme.container.lightBlue};
+  }
   img {
     width: auto;
-    height: 100px;
+    height: 65px;
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
   }
   > div:first-child {
@@ -71,25 +76,14 @@ const BookResultBox = styled.div`
 const BookDetail = styled.div`
   display: flex;
   flex-direction: column;
-  font-size: 13px;
-  margin-bottom: 15px;
+  font-size: 12px;
   margin-left: 20px;
   > h3 {
     font-weight: 700;
-    margin-bottom: 6px;
+    margin-bottom: 3px;
   }
   > span {
-    font-size: 12px;
-  }
-  > a {
-    position: absolute;
-    right: 10px;
-    bottom: 5px;
-    > span {
-      font-size: 10px;
-      color: ${(props) => props.theme.text.accent};
-    }
+    font-size: 11px;
   }
 `;
-
 export default ResultBox;

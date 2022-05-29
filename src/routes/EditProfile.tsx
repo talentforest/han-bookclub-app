@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { authService, dbService, storageService } from "fbase";
 import { LogInUserInfo } from "components/App";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
-import { bookFields } from "util/Constants";
+import { bookFields } from "util/constants";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import { BookFieldType } from "components/loginForm/UserDataInputForm";

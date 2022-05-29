@@ -4,10 +4,13 @@ import { ReactComponent as DeleteIcon } from "assets/delete.svg";
 import { ReactComponent as CloseIcon } from "assets/close.svg";
 import { dbService, storageService } from "fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { Time } from "util/Time";
-import styled from "styled-components";
+import { time } from "util/time";
 import { deleteObject, ref } from "firebase/storage";
 import { recommendBookType } from "routes/Profile";
+import UserInfoBox from "components/common/UserInfoBox";
+import styled from "styled-components";
+import { currentUserState, refreshUserState } from "data/userAtom";
+import { useRecoilValue } from "recoil";
 
 const BookRecommendationBox = ({
   text,
@@ -48,10 +51,7 @@ const BookRecommendationBox = ({
         <TextBox>
           <form onSubmit={onEditSubmit}>
             <Writer>
-              <User>
-                <ProfileImg />
-                <span>전예림</span>
-              </User>
+              <UserInfoBox />
               <EditDoneBtn type="submit" value="수정완료" />
             </Writer>
             <TextArea
@@ -68,15 +68,12 @@ const BookRecommendationBox = ({
               </DeleteImg>
             )}
           </form>
-          <RegisterTime>{Time(createdAt)}</RegisterTime>
+          <RegisterTime>{time(createdAt)}</RegisterTime>
         </TextBox>
       ) : (
         <TextBox>
           <Writer>
-            <User>
-              <ProfileImg />
-              <span>전예림</span>
-            </User>
+            <UserInfoBox />
             {uid === creatorId && (
               <EditDeleteIcon>
                 <EditIcon
@@ -96,7 +93,7 @@ const BookRecommendationBox = ({
           </Writer>
           <pre>{newText}</pre>
           {attachmentUrl && <img src={attachmentUrl} alt="attachment" />}
-          <RegisterTime>{Time(createdAt)}</RegisterTime>
+          <RegisterTime>{time(createdAt)}</RegisterTime>
         </TextBox>
       )}
     </>
@@ -115,7 +112,7 @@ const TextBox = styled.div`
   }
   img {
     width: auto;
-    height: 100px;
+    height: 30px;
     margin-top: 10px;
   }
 `;
@@ -162,19 +159,6 @@ const EditDoneBtn = styled.input`
   font-size: 12px;
   color: ${(props) => props.theme.text.lightBlue};
   cursor: pointer;
-`;
-
-const User = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const ProfileImg = styled.div`
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background-color: ${(props) => props.theme.container.lightBlue};
-  margin-right: 5px;
 `;
 
 const RegisterTime = styled.div`

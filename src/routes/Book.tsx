@@ -50,7 +50,7 @@ const Book = ({ userObj }: PropsType) => {
     <>
       <NewHeader>
         <Title title="의 책" />
-        <Link to="/book/find">
+        <Link to="find">
           <TopButton>책 등록하기</TopButton>
         </Link>
       </NewHeader>
