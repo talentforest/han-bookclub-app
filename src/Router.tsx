@@ -4,8 +4,7 @@ import { deviceSizes } from "theme/mediaQueries";
 import Home from "./routes/Home";
 import LogInPage from "./routes/LogInPage";
 import Profile from "./routes/Profile";
-import Book from "./routes/Book";
-import Meeting from "./routes/Meeting";
+import BookMeeting from "./routes/BookMeeting";
 import Vote from "./routes/Vote";
 import Setting from "./routes/Setting";
 import Navigation from "components/common/Navigation";
@@ -16,6 +15,7 @@ import HeadNav from "components/common/HeadNav";
 import useWindowSize from "hooks/useWindowSize";
 import FindBook from "routes/FindBook";
 import SelectedBook from "routes/SelectedBook";
+import BookHistory from "routes/BookHistory";
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -47,11 +47,10 @@ function Router({ isLoggedIn, userObj, refreshUser }: PropsType) {
           />
           {isLoggedIn ? (
             <>
-              <Route path="/book" element={<Book userObj={userObj} />} />
+              <Route path="/book" element={<BookMeeting userObj={userObj} />} />
               <Route path="/book/find" element={<FindBook />} />
               <Route path="/book/find/:id" element={<SelectedBook />} />
-
-              <Route path="/meeting" element={<Meeting />} />
+              <Route path="/history" element={<BookHistory />} />
               <Route path="/vote" element={<Vote />} />
               <Route path="/vote/:id" element={<Vote />} />
               <Route path="/profile" element={<Profile userObj={userObj} />} />

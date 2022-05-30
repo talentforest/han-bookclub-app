@@ -2,7 +2,7 @@ import { bookDescState } from "data/bookAtom";
 import { useRecoilValue } from "recoil";
 import { BookInfo } from "theme/commonStyle";
 
-const BookImage = () => {
+const BookTitleImage = () => {
   const bookInfo = useRecoilValue(bookDescState);
   return (
     <BookInfo>
@@ -12,4 +12,4 @@ const BookImage = () => {
   );
 };
 
-export default BookImage;
+export default BookTitleImage;

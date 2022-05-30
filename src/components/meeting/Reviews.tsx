@@ -31,7 +31,8 @@ const Reviews = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
     setNewText(event.currentTarget.value);
   };
 
-  const onDeleteClick = async () => {
+  const onDeleteClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     const ReviewTextRef = doc(dbService, "Meeting_Review", `${id}`);
     await deleteDoc(ReviewTextRef);
   };
@@ -42,10 +43,7 @@ const Reviews = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
       {editing ? (
         <form onSubmit={onSubmit}>
           <FormHeader>
-            <div>
-              <UserInfoBox />
-              <span>{time(createdAt)}</span>
-            </div>
+            <UserInfoBox />
             {showingGuide && (
               <GuideTextBox>
                 한 글자 이상 작성해주세요. <div></div>
@@ -62,14 +60,12 @@ const Reviews = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
             placeholder="모임 후기를 수정해주세요."
             onChange={onChange}
           />
+          <span>{time(createdAt)}</span>
         </form>
       ) : (
         <form>
           <FormHeader>
-            <div>
-              <UserInfoBox />
-              <span>{time(createdAt)}</span>
-            </div>
+            <UserInfoBox />
             {uid === creatorId && (
               <EditDeleteBtn>
                 <button onClick={toggleEditing}>수정</button>
@@ -78,14 +74,22 @@ const Reviews = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
             )}
           </FormHeader>
           <p>{text}</p>
+          <Time>{time(createdAt)}</Time>
         </form>
       )}
     </Review>
   );
 };
 
+const Time = styled.div`
+  display: flex;
+  justify-content: end;
+  font-size: 11px;
+  padding: 5px;
+`;
+
 const Review = styled.div`
-  padding: 20px 0 0;
+  padding-top: 20px;
   font-size: 14px;
   border-bottom: 1px solid ${(props) => props.theme.text.gray};
   > form {
@@ -94,7 +98,7 @@ const Review = styled.div`
     > p {
       display: block;
       min-height: 30px;
-      padding-bottom: 20px;
+      padding-bottom: 5px;
       word-wrap: break-word;
       white-space: pre-wrap;
     }
@@ -106,14 +110,10 @@ const FormHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
-  > div {
-    display: flex;
-    align-items: center;
-    > span {
-      font-size: 12px;
-      margin-left: 8px;
-      color: ${(props) => props.theme.text.lightGray};
-    }
+  > span {
+    font-size: 12px;
+    margin-left: 8px;
+    color: ${(props) => props.theme.text.lightGray};
   }
 `;
 

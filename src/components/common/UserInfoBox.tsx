@@ -1,22 +1,17 @@
-import { ReactComponent as UserIcon } from "assets/account_circle.svg";
+import { AccountCircle } from "@mui/icons-material";
 import { currentUserState } from "data/userAtom";
-import { authService } from "fbase";
-import { getAuth } from "firebase/auth";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 const UserInfoBox = () => {
-  const [userData, setUserData] = useRecoilState(currentUserState);
+  const userData = useRecoilValue(currentUserState);
 
-  console.log(authService.currentUser);
-
-  // console.log(userData);
   return (
     <User>
       {userData.photoURL ? (
         <ProfileImg $bgPhoto={userData.photoURL} />
       ) : (
-        <UserIcon />
+        <AccountCircle />
       )}
       <span>{userData.displayName}</span>
     </User>

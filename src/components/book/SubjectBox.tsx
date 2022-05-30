@@ -5,7 +5,9 @@ import { dbService } from "fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { time } from "util/time";
 import styled from "styled-components";
-import { LogInUserInfo } from "components/App";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "data/userAtom";
+import UserInfoBox from "components/common/UserInfoBox";
 
 export interface DocumentType {
   text?: string;
@@ -13,22 +15,21 @@ export interface DocumentType {
   creatorId?: string;
   id?: string;
   uid: string;
-  userObj?: LogInUserInfo;
+  bookTitle?: string;
+  bookCover?: string;
 }
 
-const SubjectBox = ({
-  text,
-  createdAt,
-  creatorId,
-  id,
-  uid,
-  userObj,
-}: DocumentType) => {
+interface ISubject {
+  item: DocumentType;
+}
+
+const SubjectBox = ({ item }: ISubject) => {
+  const userData = useRecoilValue(currentUserState);
   const [editing, setEditing] = useState(false);
-  const [newText, setNewText] = useState(text);
+  const [newText, setNewText] = useState(item.text);
 
   const onDeleteClick = async () => {
-    const SubjectTextRef = doc(dbService, "Book_Subjects", `${id}`);
+    const SubjectTextRef = doc(dbService, "Book_Subjects", `${item.id}`);
     await deleteDoc(SubjectTextRef);
   };
 
@@ -36,7 +37,7 @@ const SubjectBox = ({
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const SubjectTextRef = doc(dbService, "Book_Subjects", `${id}`);
+    const SubjectTextRef = doc(dbService, "Book_Subjects", `${item.id}`);
     await updateDoc(SubjectTextRef, { text: newText });
     setEditing(false);
   };
@@ -52,7 +53,7 @@ const SubjectBox = ({
           <form onSubmit={onSubmit}>
             <Writer>
               <User>
-                <ProfileImg $bgPhoto={userObj.photoURL} />
+                <ProfileImg $bgPhoto={userData.photoURL} />
                 <span>전예림</span>
               </User>
               <EditDoneBtn type="submit" value="수정완료" />
@@ -63,16 +64,13 @@ const SubjectBox = ({
               onChange={onChange}
             />
           </form>
-          <RegisterTime>{time(createdAt)}</RegisterTime>
+          <RegisterTime>{time(item.createdAt)}</RegisterTime>
         </TextBox>
       ) : (
         <TextBox>
           <Writer>
-            <User>
-              <ProfileImg $bgPhoto={userObj.photoURL} />
-              <span>전예림</span>
-            </User>
-            {uid === creatorId && (
+            <UserInfoBox />
+            {item.uid === item.creatorId && (
               <EditDeleteIcon>
                 <EditIcon
                   role="button"
@@ -90,7 +88,13 @@ const SubjectBox = ({
             )}
           </Writer>
           <pre>{newText}</pre>
-          <RegisterTime>{time(createdAt)}</RegisterTime>
+          <AddInfo>
+            <Book>
+              <img src={item.bookCover} alt="url" />
+              <span>{item.bookTitle}</span>
+            </Book>
+            <RegisterTime>{time(item.createdAt)}</RegisterTime>
+          </AddInfo>
         </TextBox>
       )}
     </>
@@ -106,6 +110,7 @@ const TextBox = styled.div`
   pre {
     white-space: pre-wrap;
     line-height: 22px;
+    padding-bottom: 20px;
   }
 `;
 
@@ -154,8 +159,6 @@ const ProfileImg = styled.div<{ $bgPhoto: string }>`
 const RegisterTime = styled.div`
   font-size: 10px;
   color: ${(props) => props.theme.text.gray};
-  text-align: end;
-  padding: 15px 0 10px;
 `;
 
 const EditDeleteIcon = styled.div`
@@ -165,6 +168,27 @@ const EditDeleteIcon = styled.div`
   svg {
     margin-left: 10px;
     cursor: pointer;
+  }
+`;
+
+const AddInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+`;
+
+const Book = styled.div`
+  display: flex;
+  align-items: end;
+  span {
+    font-weight: 700;
+    font-size: 11px;
+  }
+  img {
+    height: 26px;
+    width: auto;
+    margin-right: 10px;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
   }
 `;
 

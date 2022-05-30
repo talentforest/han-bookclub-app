@@ -1,9 +1,11 @@
 import { ReactComponent as BookIcon } from "assets/edit_note.svg";
 import { ReactComponent as SubjectIcon } from "assets/subject.svg";
-import { ReactComponent as BookMarkIcon } from "assets/bookmark_add.svg";
 import styled from "styled-components";
+import { useEffect } from "react";
 
-const ByBook = () => {
+const MyRecords = () => {
+  useEffect(() => {}, []);
+
   return (
     <Record>
       <img src={require("assets/떨림과_울림.jpeg")} alt="Book" />
@@ -18,10 +20,6 @@ const ByBook = () => {
             <SubjectIcon />
             <span>에세이</span>
           </button>
-          <button>
-            <BookMarkIcon />
-            <span>북마크</span>
-          </button>
         </div>
       </div>
     </Record>
@@ -32,7 +30,7 @@ const Record = styled.div`
   display: flex;
   align-items: center;
   padding: 10px 20px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   border-radius: 5px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
@@ -83,4 +81,4 @@ const Record = styled.div`
   }
 `;
 
-export default ByBook;
+export default MyRecords;

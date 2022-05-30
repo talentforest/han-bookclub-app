@@ -18,15 +18,15 @@ const Navigation = () => {
           </Link>
         </li>
         <li>
-          <Link to="/book">
-            <Book fill={pathname.includes("/book") ? "#333" : "#aaa"} />
-            <span>이달의 책</span>
+          <Link to="/history">
+            <Place fill={pathname.includes("/history") ? "#333" : "#aaa"} />
+            <span>지난 책모임</span>
           </Link>
         </li>
         <li>
-          <Link to="/meeting">
-            <Place fill={pathname.includes("/meeting") ? "#333" : "#aaa"} />
-            <span>이달의 모임</span>
+          <Link to="/book">
+            <Book fill={pathname.includes("/book") ? "#333" : "#aaa"} />
+            <span>이달의 책모임</span>
           </Link>
         </li>
         <li>
@@ -72,6 +72,7 @@ const Nav = styled.nav`
         svg {
           width: 20px;
           height: 20px;
+          margin-bottom: 5px;
         }
       }
     }

@@ -1,38 +1,12 @@
-import { useEffect } from "react";
 import { time } from "util/time";
-import { bookSearchHandler } from "api/api";
-import { bookDescState } from "data/bookAtom";
-import { useRecoilState } from "recoil";
+import { BookDocument } from "data/bookAtom";
 import styled from "styled-components";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { dbService } from "fbase";
 
-const BookDescription = () => {
-  const [bookInfo, setBookInfo] = useRecoilState(bookDescState);
+interface PropsType {
+  bookInfo: BookDocument[];
+}
 
-  useEffect(() => {
-    if (bookInfo.length === 0) {
-      const q = query(
-        collection(dbService, "Book of the Month"),
-        orderBy("createdAt", "desc")
-      );
-      const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const newArray = querySnapshot.docs.map((doc) => {
-          return {
-            ...doc.data(),
-          };
-        });
-
-        bookSearchHandler(newArray[0].bookTitle, true, setBookInfo);
-      });
-
-      return () => {
-        unsubscribe();
-      };
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+const BookDescription = ({ bookInfo }: PropsType) => {
   return (
     <Box>
       <ul>

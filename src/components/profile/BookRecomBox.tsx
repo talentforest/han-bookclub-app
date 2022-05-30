@@ -1,25 +1,20 @@
 import { useState } from "react";
 import { ReactComponent as EditIcon } from "assets/edit.svg";
 import { ReactComponent as DeleteIcon } from "assets/delete.svg";
-import { ReactComponent as CloseIcon } from "assets/close.svg";
-import { dbService, storageService } from "fbase";
+import { dbService } from "fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { time } from "util/time";
-import { deleteObject, ref } from "firebase/storage";
-import { recommendBookType } from "routes/Profile";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
-import { currentUserState, refreshUserState } from "data/userAtom";
-import { useRecoilValue } from "recoil";
+import { DocumentType } from "components/book/SubjectBox";
 
-const BookRecommendationBox = ({
+const BookRecomBox = ({
   text,
   createdAt,
   creatorId,
   id,
   uid,
-  attachmentUrl,
-}: recommendBookType) => {
+}: DocumentType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(text);
 
@@ -28,14 +23,11 @@ const BookRecommendationBox = ({
     await deleteDoc(RecommendedBookRef);
   };
 
-  const onEditFileClick = async () => {
-    await deleteObject(ref(storageService, attachmentUrl));
-  };
-
   const toggleEditing = () => setEditing((prev) => !prev);
 
   const onEditSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (newText === "") return;
     const RecommendedBookRef = doc(dbService, "Recommened_Book", `${id}`);
     await updateDoc(RecommendedBookRef, { text: newText });
     setEditing(false);
@@ -59,14 +51,6 @@ const BookRecommendationBox = ({
               placeholder="수정해주세요."
               onChange={onChange}
             />
-            {attachmentUrl && (
-              <DeleteImg>
-                <img src={attachmentUrl} alt="attachment" />
-                <button onClick={onEditFileClick}>
-                  <CloseIcon />
-                </button>
-              </DeleteImg>
-            )}
           </form>
           <RegisterTime>{time(createdAt)}</RegisterTime>
         </TextBox>
@@ -92,7 +76,6 @@ const BookRecommendationBox = ({
             )}
           </Writer>
           <pre>{newText}</pre>
-          {attachmentUrl && <img src={attachmentUrl} alt="attachment" />}
           <RegisterTime>{time(createdAt)}</RegisterTime>
         </TextBox>
       )}
@@ -101,14 +84,15 @@ const BookRecommendationBox = ({
 };
 
 const TextBox = styled.div`
-  box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.3);
-  margin: 10px 0;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  margin-top: 10px;
   padding: 10px;
   background-color: ${(props) => props.theme.container.default};
   border-radius: 5px;
   pre {
     white-space: pre-wrap;
     line-height: 22px;
+    font-size: 15px;
   }
   img {
     width: auto;
@@ -117,29 +101,15 @@ const TextBox = styled.div`
   }
 `;
 
-const DeleteImg = styled.div`
-  width: fit-content;
-  position: relative;
-  button {
-    position: absolute;
-    top: 2px;
-    right: -10px;
-    border: none;
-    background-color: transparent;
-    svg {
-      width: 16px;
-      height: 16px;
-    }
-  }
-`;
-
 const TextArea = styled.textarea`
   width: 100%;
-  min-height: 50px;
+  min-height: 100px;
+  background-color: #eaeaea;
   border: none;
-  font-size: 16px;
+  font-size: 15px;
   white-space: pre-wrap;
   resize: none;
+  padding: 5px;
   &:focus {
     outline: none;
   }
@@ -149,7 +119,7 @@ const Writer = styled.div`
   display: flex;
   justify-content: space-between;
   padding-bottom: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
 `;
 
@@ -178,4 +148,4 @@ const EditDeleteIcon = styled.div`
   }
 `;
 
-export default BookRecommendationBox;
+export default BookRecomBox;

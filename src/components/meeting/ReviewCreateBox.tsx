@@ -2,10 +2,12 @@ import { useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { SubmitBtn } from "theme/commonStyle";
-import { LogInUserInfo } from "components/App";
 import styled from "styled-components";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "data/userAtom";
 
-const ReviewCreateBox = ({ uid }: LogInUserInfo) => {
+const ReviewCreateBox = () => {
+  const userData = useRecoilValue(currentUserState);
   const [review, setReview] = useState("");
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -15,7 +17,7 @@ const ReviewCreateBox = ({ uid }: LogInUserInfo) => {
       await addDoc(collection(dbService, "Meeting_Review"), {
         text: review,
         createdAt: Date.now(),
-        creatorId: uid,
+        creatorId: userData.uid,
       });
     } catch (error) {
       console.error("Error adding document:", error);
@@ -44,16 +46,16 @@ const ReviewCreateBox = ({ uid }: LogInUserInfo) => {
 const Form = styled.form`
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.2);
-  padding: 10px 15px 5px;
+  padding: 10px 15px 0px;
   border-radius: 5px;
-  margin-bottom: 15px;
+  margin: 20px 0 15px;
 `;
 
 const Button = styled.div`
   width: 100%;
   display: flex;
   justify-content: end;
-  padding: 10px 0;
+  padding: 0px 0 10px;
 `;
 
 const TextArea = styled.textarea`

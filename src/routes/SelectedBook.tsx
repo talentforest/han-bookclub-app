@@ -1,16 +1,16 @@
-import { ExpandCircleDown, Star } from "@mui/icons-material";
+import { Star } from "@mui/icons-material";
 import { bookSearchHandler } from "api/api";
 import { useEffect, useState } from "react";
 import { useMatch } from "react-router-dom";
 import { BookInfo, Container } from "theme/commonStyle";
-import { time } from "util/time";
 import { addDoc, collection } from "firebase/firestore";
 import { dbService } from "fbase";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import styled from "styled-components";
-import Subtitle from "components/common/Subtitle";
 import { bookDescState } from "data/bookAtom";
+import Subtitle from "components/common/Subtitle";
+import BookDesc from "components/common/BookDesc";
+import styled from "styled-components";
 
 const SelectedBook = () => {
   const userData = useRecoilValue(currentUserState);
@@ -66,36 +66,7 @@ const SelectedBook = () => {
           </button>
         </Selected>
       )}
-      <BookDetail>
-        <li>
-          <ExpandCircleDown />
-          저자: {bookInfo[0]?.authors.join(", ")}
-        </li>
-        {bookInfo[0]?.translators.length !== 0 ? (
-          <li>
-            <ExpandCircleDown />
-            역자: {bookInfo[0]?.translators.join(", ")}
-          </li>
-        ) : null}
-        <li>
-          <ExpandCircleDown />
-          출간일: {time(bookInfo[0]?.datetime)}
-        </li>
-        <li>
-          <ExpandCircleDown />
-          출판사: {bookInfo[0]?.publisher}
-        </li>
-        <li>
-          <ExpandCircleDown />
-          정가: {bookInfo[0]?.price}원
-        </li>
-        <p>줄거리 {bookInfo[0]?.contents}...</p>
-      </BookDetail>
-      <DetailButton>
-        <a href={`${bookInfo[0]?.url}`} target="_blank" rel="noreferrer">
-          <span>상세정보 보러가기</span>
-        </a>
-      </DetailButton>
+      <BookDesc bookInfo={bookInfo[0]} />
     </Container>
   );
 };
@@ -123,47 +94,6 @@ const Selected = styled(BookSection)`
   button {
     color: ${(props) => props.theme.text.accent};
     background-color: ${(props) => props.theme.container.lightBlue};
-  }
-`;
-
-const DetailButton = styled.div`
-  display: flex;
-  justify-content: end;
-  margin-top: 5px;
-  a {
-    span {
-      font-size: 14px;
-      color: ${(props) => props.theme.text.accent};
-    }
-  }
-`;
-
-const BookDetail = styled.ul`
-  border-radius: 10px;
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
-  background-color: ${(props) => props.theme.container.default};
-  font-size: 14px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: start;
-  margin: 20px auto 0;
-  padding: 20px 15px;
-  width: 95%;
-  > li {
-    margin-bottom: 5px;
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    svg {
-      width: 14px;
-      margin-right: 5px;
-      padding-top: 2px;
-    }
-  }
-  > p {
-    margin-top: 10px;
-    line-height: 1.6;
   }
 `;
 
