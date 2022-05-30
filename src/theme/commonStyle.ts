@@ -89,10 +89,11 @@ export const Input = styled.input`
   &[type="password"],
   &[type="email"],
   &[type="text"] {
+    border: none;
     width: 100%;
     height: 40px;
     border-radius: 10px;
-    border: 1px solid ${(props) => props.theme.text.lightGray};
+    border: 1px solid ${(props) => props.theme.container.lightBlue};
     padding: 10px;
     margin-bottom: 10px;
     &::placeholder {
@@ -100,6 +101,7 @@ export const Input = styled.input`
     }
     &:focus {
       outline: 2px solid ${(props) => props.theme.container.yellow};
+      border: none;
     }
   }
   @media ${device.tablet} {

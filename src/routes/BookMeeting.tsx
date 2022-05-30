@@ -4,7 +4,6 @@ import { dbService } from "fbase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import { LogInUserInfo } from "components/App";
 import { Link } from "react-router-dom";
 import { bookSearchHandler } from "api/api";
 import { DocumentType } from "components/book/SubjectBox";
@@ -18,11 +17,7 @@ import ReviewCreateBox from "components/meeting/ReviewCreateBox";
 import Reviews from "components/meeting/Reviews";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
 
-interface PropsType {
-  userObj: LogInUserInfo;
-}
-
-const BookMeeting = ({ userObj }: PropsType) => {
+const BookMeeting = () => {
   const userData = useRecoilValue(currentUserState);
   const [category, setCategory] = useState("book");
   const [bookInfo, setBookInfo] = useRecoilState(bookDescState);

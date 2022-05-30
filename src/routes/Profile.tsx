@@ -5,9 +5,7 @@ import { ReactComponent as SettingIcon } from "assets/settings.svg";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { dbService } from "fbase";
-import { LogInUserInfo } from "components/App";
 import { DocumentType } from "components/book/SubjectBox";
-import UserIcon from "assets/account_circle.svg";
 import {
   collection,
   DocumentData,
@@ -23,15 +21,12 @@ import Subtitle from "components/common/Subtitle";
 import BookRecomBox from "components/profile/BookRecomBox";
 import BookRecomCreateBox from "components/profile/BookRecomCreateBox";
 import MyRecords from "components/profile/MyRecords";
+import { AccountCircle } from "@mui/icons-material";
 
-interface PropsType {
-  userObj: LogInUserInfo;
-}
-
-const Profile = ({ userObj }: PropsType) => {
+const Profile = () => {
   const [recommendBook, setRecommendBook] = useState<DocumentType[]>([]);
   const [ownRecord, setOwnRecord] = useState([]);
-  const userData = useRecoilValue<LogInUserInfo | null>(currentUserState);
+  const userData = useRecoilValue(currentUserState);
 
   const getMySubjects = async () => {
     const q = query(
@@ -80,11 +75,12 @@ const Profile = ({ userObj }: PropsType) => {
       </NewHeader>
       <NewContainer>
         <div>
-          <img
-            src={userObj.photoURL === null ? UserIcon : userObj.photoURL}
-            alt="profileimg"
-          />
-          <span>{userObj.displayName}</span>
+          {userData?.photoURL ? (
+            <img src={userData.photoURL} alt="profileimg" />
+          ) : (
+            <AccountCircle />
+          )}
+          <span>{userData.displayName}</span>
         </div>
         <div>
           <Subtitle title="나의 기록" />
@@ -120,10 +116,14 @@ const NewContainer = styled(Container)`
     margin-top: 10px;
     > img {
       object-fit: cover;
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       background-color: ${(props) => props.theme.container.green};
+    }
+    > svg {
+      width: 100px;
+      height: 100px;
     }
     > span {
       font-size: 15px;

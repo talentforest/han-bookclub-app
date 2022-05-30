@@ -2,11 +2,10 @@ import { Container } from "theme/commonStyle";
 import { Header } from "./Setting";
 import { useEffect, useState } from "react";
 import { authService, dbService, storageService } from "fbase";
-import { LogInUserInfo } from "components/App";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { bookFields } from "util/constants";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import { updateProfile } from "firebase/auth";
+import { getAuth, updateProfile } from "firebase/auth";
 import { BookFieldType } from "components/loginForm/UserDataInputForm";
 import { v4 } from "uuid";
 import BackButton from "components/common/BackButton";
@@ -15,21 +14,20 @@ import styled from "styled-components";
 import AfterEdit from "components/editProfile/AfterEdit";
 import BeforeEdit from "components/editProfile/BeforeEdit";
 import ProfileImage from "components/common/ProfileImage";
+import { useRecoilState } from "recoil";
+import { currentUserState } from "data/userAtom";
 
-interface PropsType {
-  userObj: LogInUserInfo;
-  refreshUser: () => void;
-}
 export interface extraUserData {
   name: string;
   gender: string;
   favoriteBookField: BookFieldType[];
 }
 
-const EditProfile = ({ userObj, refreshUser }: PropsType) => {
+const EditProfile = () => {
+  const [userData, setUserData] = useRecoilState(currentUserState);
   const [editing, setEditing] = useState(false);
   const [profileImgUrl, setProfileImgUrl] = useState("");
-  const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
+  const [newDisplayName, setNewDisplayName] = useState(userData.displayName);
   const [extraUserData, setExtraUserData] = useState({
     name: "",
     gender: "",
@@ -42,7 +40,7 @@ const EditProfile = ({ userObj, refreshUser }: PropsType) => {
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
-      doc(dbService, "User_Data", `${userObj.uid}`),
+      doc(dbService, "User_Data", `${userData.uid}`),
       (doc) => {
         setExtraUserData(doc.data() as extraUserData);
         setFavFields(doc.data().favoriteBookField);
@@ -55,14 +53,25 @@ const EditProfile = ({ userObj, refreshUser }: PropsType) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const refreshUser = () => {
+    const user = getAuth().currentUser;
+
+    setUserData({
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+    });
+  };
+
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    let userImageUrl = userObj.photoURL;
+    let userImageUrl = userData.photoURL;
     try {
       // update profile
       if (profileImgUrl !== "") {
-        const fileRef = ref(storageService, `${userObj.uid}/${v4()}`);
+        const fileRef = ref(storageService, `${userData.uid}/${v4()}`);
         const response = await uploadString(fileRef, profileImgUrl, "data_url");
         userImageUrl = await getDownloadURL(response.ref);
 
@@ -70,14 +79,14 @@ const EditProfile = ({ userObj, refreshUser }: PropsType) => {
           photoURL: userImageUrl,
         });
       }
-      if (userObj.displayName !== newDisplayName) {
+      if (userData.displayName !== newDisplayName) {
         await updateProfile(authService.currentUser, {
           displayName: newDisplayName,
         });
       }
 
       // update document
-      const UserDataRef = doc(dbService, "User_Data", `${userObj.uid}`);
+      const UserDataRef = doc(dbService, "User_Data", `${userData.uid}`);
       updateDoc(UserDataRef, {
         favoriteBookField: Array.from(favFields),
       });
@@ -105,7 +114,6 @@ const EditProfile = ({ userObj, refreshUser }: PropsType) => {
     );
 
     const { textContent } = event.currentTarget;
-
     const fieldObj = { id: idx + 1, name: textContent };
 
     if (!toggleCheck[idx]) {
@@ -133,13 +141,11 @@ const EditProfile = ({ userObj, refreshUser }: PropsType) => {
         {editing ? (
           <Form onSubmit={onSubmit}>
             <ProfileImage
-              userObj={userObj}
               refreshUser={refreshUser}
               profileImgUrl={profileImgUrl}
               setProfileImgUrl={setProfileImgUrl}
             />
             <BeforeEdit
-              userObj={userObj}
               onChange={onChange}
               newDisplayName={newDisplayName}
               onHandleClick={onHandleClick}
@@ -150,11 +156,7 @@ const EditProfile = ({ userObj, refreshUser }: PropsType) => {
             />
           </Form>
         ) : (
-          <AfterEdit
-            userObj={userObj}
-            setEditing={setEditing}
-            favFields={favFields}
-          />
+          <AfterEdit setEditing={setEditing} favFields={favFields} />
         )}
       </NewContainer>
     </>

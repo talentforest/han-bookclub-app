@@ -3,6 +3,13 @@ import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import { atom } from "recoil";
 import { v4 } from "uuid";
 
+export interface CurrUserInfo {
+  uid: string;
+  email?: string;
+  displayName?: string;
+  photoURL?: string;
+}
+
 const auth = getAuth();
 
 export const refreshUserState = atom({
@@ -16,12 +23,7 @@ export const refreshUserState = atom({
   ],
 });
 
-// const refreshUser = () => {
-//   const user = auth.currentUser;
-//   setUserObj({ ...user });
-// };
-
-export const currentUserState = atom<User | null>({
+export const currentUserState = atom<CurrUserInfo | null>({
   key: `currentUser/${v4}`,
   default: null,
 

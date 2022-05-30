@@ -1,32 +1,34 @@
-import { LogInUserInfo } from "components/App";
-import UserIcon from "assets/account_circle.svg";
-import styled from "styled-components";
 import { BookFieldType } from "components/loginForm/UserDataInputForm";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "data/userAtom";
+import { AccountCircle } from "@mui/icons-material";
+import styled from "styled-components";
 
 interface PropsType {
-  userObj: LogInUserInfo;
   setEditing: (editing: boolean) => void;
   favFields: BookFieldType[];
 }
 
-const AfterEdit = ({ userObj, setEditing, favFields }: PropsType) => {
+const AfterEdit = ({ setEditing, favFields }: PropsType) => {
+  const userData = useRecoilValue(currentUserState);
   const onClick = () => {
     setEditing(true);
   };
   return (
     <>
-      <div>
-        <img
-          src={userObj.photoURL === null ? UserIcon : userObj.photoURL}
-          alt="profileimg"
-        />
-      </div>
+      <UserImg>
+        {userData.photoURL ? (
+          <img src={userData.photoURL} alt="profileimg" />
+        ) : (
+          <AccountCircle />
+        )}
+      </UserImg>
       <EditBtn onClick={onClick} type="button" value="수정하기" />
       <UserInfo>
         <List>
           <div>
             <span>이메일</span>
-            <span>{userObj.email}</span>
+            <span>{userData.email}</span>
           </div>
           <p>이메일은 변경할 수 없습니다.</p>
         </List>
@@ -34,11 +36,7 @@ const AfterEdit = ({ userObj, setEditing, favFields }: PropsType) => {
         <List>
           <div>
             <span>별명</span>
-            <span>
-              {userObj.displayName === null
-                ? `${userObj.email.split("@")[0]}`
-                : userObj.displayName}
-            </span>
+            <span>{userData.displayName}</span>
           </div>
         </List>
         <List>
@@ -56,9 +54,15 @@ const AfterEdit = ({ userObj, setEditing, favFields }: PropsType) => {
   );
 };
 
+const UserImg = styled.div`
+  svg {
+    width: 100px;
+    height: 100px;
+  }
+`;
+
 const UserInfo = styled.ul`
   width: 100%;
-  margin: 20px auto 0;
   > p {
     font-size: 10px;
     color: ${(props) => props.theme.text.lightBlue};

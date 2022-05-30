@@ -1,21 +1,17 @@
 import { useRef, useState } from "react";
-import { ReactComponent as CameraIcon } from "assets/camera.svg";
-import { LogInUserInfo } from "components/App";
-import UserIcon from "assets/account_circle.svg";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "data/userAtom";
+import { AccountCircle, CameraAlt } from "@mui/icons-material";
 import styled from "styled-components";
 
 interface ProfileType {
-  userObj: LogInUserInfo;
   refreshUser: () => void;
   profileImgUrl: string;
   setProfileImgUrl: (profileImgUrl: string) => void;
 }
 
-const ProfileImage = ({
-  userObj,
-  profileImgUrl,
-  setProfileImgUrl,
-}: ProfileType) => {
+const ProfileImage = ({ profileImgUrl, setProfileImgUrl }: ProfileType) => {
+  const userData = useRecoilValue(currentUserState);
   const [beforeOnChange, setBeforeOnChange] = useState(true);
   const fileInput = useRef(null);
 
@@ -48,17 +44,21 @@ const ProfileImage = ({
       />
       <div>
         {beforeOnChange ? (
-          <img
-            src={userObj.photoURL === null ? UserIcon : userObj.photoURL}
-            alt="profileimg"
-            onClick={() => {
-              fileInput.current.click();
-            }}
-          />
+          userData.photoURL ? (
+            <BeforeChoice
+              src={userData.photoURL}
+              alt="profileimg"
+              onClick={() => {
+                fileInput.current.click();
+              }}
+            />
+          ) : (
+            <AccountCircle />
+          )
         ) : (
-          <img
+          <AfterChoice
             src={profileImgUrl}
-            alt="profileimg"
+            alt="profileImage"
             onClick={() => {
               fileInput.current.click();
             }}
@@ -70,12 +70,17 @@ const ProfileImage = ({
             fileInput.current.click();
           }}
         >
-          <CameraIcon />
+          <CameraAlt />
         </button>
       </div>
     </Container>
   );
 };
+
+const BeforeChoice = styled.img``;
+const AfterChoice = styled.img`
+  background-color: antiquewhite;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -88,22 +93,25 @@ const Container = styled.div`
     height: 140px;
     width: 140px;
     margin-top: 10px;
+    > svg {
+      height: 120px;
+      width: 120px;
+    }
     > img {
       object-fit: cover;
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
-      background-color: ${(props) => props.theme.container.green};
     }
     > button {
       position: absolute;
-      right: 14px;
-      bottom: 10px;
+      right: 24px;
+      bottom: 16px;
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       border: none;
       font-size: 10px;

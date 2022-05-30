@@ -1,11 +1,11 @@
-import { LogInUserInfo } from "components/App";
 import { bookFields } from "util/constants";
-import styled from "styled-components";
 import { useState } from "react";
 import { BookFieldType } from "components/loginForm/UserDataInputForm";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "data/userAtom";
+import styled from "styled-components";
 
 interface PropsType {
-  userObj: LogInUserInfo;
   onChange: (event: React.FormEvent<HTMLInputElement>) => void;
   newDisplayName: string;
   onHandleClick: (idx: number, event: React.FormEvent<HTMLDivElement>) => void;
@@ -16,7 +16,6 @@ interface PropsType {
 }
 
 const BeforeEdit = ({
-  userObj,
   onChange,
   newDisplayName,
   onHandleClick,
@@ -26,6 +25,7 @@ const BeforeEdit = ({
   setFavFields,
 }: PropsType) => {
   const [editFavField, setEditFavField] = useState(false);
+  const userData = useRecoilValue(currentUserState);
 
   const selectedItemStyle = (index: number) => {
     return {
@@ -39,7 +39,7 @@ const BeforeEdit = ({
       <List>
         <div>
           <span>이메일</span>
-          <span>{userObj.email}</span>
+          <span>{userData.email}</span>
         </div>
         <p>이메일은 변경할 수 없습니다.</p>
       </List>

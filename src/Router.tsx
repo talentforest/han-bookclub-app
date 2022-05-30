@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { LogInUserInfo } from "components/App";
 import { deviceSizes } from "theme/mediaQueries";
 import Home from "./routes/Home";
 import LogInPage from "./routes/LogInPage";
@@ -19,11 +18,9 @@ import BookHistory from "routes/BookHistory";
 
 interface PropsType {
   isLoggedIn: boolean;
-  userObj: LogInUserInfo;
-  refreshUser: () => void;
 }
 
-function Router({ isLoggedIn, userObj, refreshUser }: PropsType) {
+function Router({ isLoggedIn }: PropsType) {
   const { windowSize } = useWindowSize();
 
   return (
@@ -41,26 +38,18 @@ function Router({ isLoggedIn, userObj, refreshUser }: PropsType) {
           <Route path="/" element={<LogInPage />} />
         )}
         <>
-          <Route
-            path="/create_account"
-            element={<CreateAccount userObj={userObj} />}
-          />
+          <Route path="/create_account" element={<CreateAccount />} />
           {isLoggedIn ? (
             <>
-              <Route path="/book" element={<BookMeeting userObj={userObj} />} />
+              <Route path="/book" element={<BookMeeting />} />
               <Route path="/book/find" element={<FindBook />} />
               <Route path="/book/find/:id" element={<SelectedBook />} />
               <Route path="/history" element={<BookHistory />} />
               <Route path="/vote" element={<Vote />} />
               <Route path="/vote/:id" element={<Vote />} />
-              <Route path="/profile" element={<Profile userObj={userObj} />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="/setting" element={<Setting />} />
-              <Route
-                path="/setting/editprofile"
-                element={
-                  <EditProfile refreshUser={refreshUser} userObj={userObj} />
-                }
-              />
+              <Route path="/setting/editprofile" element={<EditProfile />} />
             </>
           ) : (
             <Route path="/*" element={<LogInPage />} />

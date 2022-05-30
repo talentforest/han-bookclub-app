@@ -3,13 +3,8 @@ import { Container } from "theme/commonStyle";
 import BackBtn from "components/common/BackButton";
 import UserDataInputForm from "components/loginForm/UserDataInputForm";
 import AccountForm from "components/loginForm/AccountForm";
-import { LogInUserInfo } from "components/App";
 
-interface PropsType {
-  userObj: LogInUserInfo;
-}
-
-const CreateAccount = ({ userObj }: PropsType) => {
+const CreateAccount = () => {
   const [isShowingUserDataInput, setIsShowingUserDataInput] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
