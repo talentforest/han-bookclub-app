@@ -145,7 +145,7 @@ export const TopButton = styled.button`
   cursor: pointer;
 `;
 
-export const BookInfo = styled.div`
+export const BookCoverTitleBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;

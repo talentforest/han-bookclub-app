@@ -23,7 +23,7 @@ export const bookSearch = (params: BookQuery) => {
 export const bookSearchHandler = async (
   query: string,
   reset: boolean,
-  setFunc: (bookInfo: BookDocument[]) => void
+  setFunc: (bookData: BookDocument[]) => void
 ) => {
   const params = {
     query: query,

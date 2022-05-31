@@ -1,5 +1,5 @@
 import {
-  BookInfo,
+  BookCoverTitleBox,
   Container,
   Header,
   ScrollContainer,
@@ -61,10 +61,10 @@ const Home = () => {
         <section>
           <Subtitle title={`${Month}월의 책`} />
           {bookInfo.length !== 0 ? (
-            <BookInfo>
+            <BookCoverTitleBox>
               <img src={bookInfo[0]?.thumbnail} alt="Book_Image" />
               <h3>{bookInfo[0]?.title}</h3>
-            </BookInfo>
+            </BookCoverTitleBox>
           ) : (
             <span>등록된 책이 없습니다.</span>
           )}

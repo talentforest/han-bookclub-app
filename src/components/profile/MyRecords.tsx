@@ -83,6 +83,7 @@ const MyRecords = () => {
 
 const Container = styled.div`
   overflow: scroll;
+
   > div {
     overflow: hidden;
     display: flex;

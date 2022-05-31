@@ -2,7 +2,7 @@ import { Star } from "@mui/icons-material";
 import { bookSearchHandler } from "api/api";
 import { useEffect, useState } from "react";
 import { useMatch } from "react-router-dom";
-import { BookInfo, Container } from "theme/commonStyle";
+import { BookCoverTitleBox, Container } from "theme/commonStyle";
 import { addDoc, collection } from "firebase/firestore";
 import { dbService } from "fbase";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -48,10 +48,10 @@ const SelectedBook = () => {
   return (
     <Container>
       <Subtitle title="도서 정보" />
-      <BookInfo>
+      <BookCoverTitleBox>
         <img src={bookData[0]?.thumbnail} alt="Book_Image" />
         <h3>{bookData[0]?.title}</h3>
-      </BookInfo>
+      </BookCoverTitleBox>
       {!toggle ? (
         <BookSection>
           <button onClick={onClick}>이달의 책으로 등록</button>

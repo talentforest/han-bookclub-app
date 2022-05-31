@@ -28,6 +28,8 @@ const Profile = () => {
   const [ownRecord, setOwnRecord] = useState([]);
   const userData = useRecoilValue(currentUserState);
 
+  console.log(ownRecord);
+
   const getMySubjects = async () => {
     const q = query(
       collection(dbService, "Book_Subjects"),
