@@ -2,8 +2,7 @@ import { Container, Header, TopButton } from "theme/commonStyle";
 import { useEffect, useState } from "react";
 import { dbService } from "fbase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { currentUserState } from "data/userAtom";
+import { useRecoilState } from "recoil";
 import { Link } from "react-router-dom";
 import { bookSearchHandler } from "api/api";
 import { DocumentType } from "components/book/SubjectBox";
@@ -18,9 +17,8 @@ import Reviews from "components/meeting/Reviews";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
 
 const BookMeeting = () => {
-  const userData = useRecoilValue(currentUserState);
   const [category, setCategory] = useState("book");
-  const [bookInfo, setBookInfo] = useRecoilState(bookDescState);
+  const [bookData, setBookData] = useRecoilState(bookDescState);
   const [meetingReviews, setMeetingReviews] = useState<DocumentType[]>([]);
 
   useEffect(() => {
@@ -37,7 +35,7 @@ const BookMeeting = () => {
       });
       setMeetingReviews(newArray as DocumentType[]);
     });
-    if (bookInfo.length === 0) {
+    if (bookData.length === 0) {
       const q = query(
         collection(dbService, "Book of the Month"),
         orderBy("createdAt", "desc")
@@ -49,7 +47,7 @@ const BookMeeting = () => {
           };
         });
 
-        bookSearchHandler(newArray[0].bookTitle, true, setBookInfo);
+        bookSearchHandler(newArray[0].bookTitle, true, setBookData);
       });
       return () => {
         unsubscribe();
@@ -99,8 +97,8 @@ const BookMeeting = () => {
             모임 후기
           </button>
         </BookSection>
-        {category === "book" ? <BookDesc bookInfo={bookInfo[0]} /> : null}
-        {category === "show" ? <SubjectBoxes /> : null}
+        {category === "book" ? <BookDesc bookInfo={bookData[0]} /> : null}
+        {category === "show" ? <SubjectBoxes bookInfo={bookData[0]} /> : null}
         {category === "review" ? (
           <>
             <ReviewCreateBox />
@@ -108,7 +106,6 @@ const BookMeeting = () => {
               <Reviews
                 key={id}
                 id={id}
-                uid={userData?.uid}
                 creatorId={creatorId}
                 text={text}
                 createdAt={createdAt}

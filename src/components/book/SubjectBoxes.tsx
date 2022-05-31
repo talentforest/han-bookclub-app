@@ -1,4 +1,5 @@
 import { Add } from "@mui/icons-material";
+import { BookDocument } from "data/bookAtom";
 import { currentUserState } from "data/userAtom";
 import { dbService } from "fbase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
@@ -8,7 +9,11 @@ import styled from "styled-components";
 import SubjectBox, { DocumentType } from "./SubjectBox";
 import SubjectCreateBox from "./SubjectCreateBox";
 
-const SubjectBoxes = () => {
+interface PropsType {
+  bookInfo: BookDocument;
+}
+
+const SubjectBoxes = ({ bookInfo }: PropsType) => {
   const [subjects, setSubjects] = useState<DocumentType[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -48,7 +53,7 @@ const SubjectBoxes = () => {
         <SubjectCreateBox
           uid={userData?.uid}
           setModalOpen={setModalOpen}
-          bookInfo={undefined}
+          bookInfo={bookInfo}
         />
       ) : (
         <></>

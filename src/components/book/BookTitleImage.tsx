@@ -6,7 +6,11 @@ const BookTitleImage = () => {
   const bookInfo = useRecoilValue(bookDescState);
   return (
     <BookInfo>
-      <img src={bookInfo[0]?.thumbnail} alt="Book_Image" />
+      {bookInfo[0]?.thumbnail ? (
+        <img src={bookInfo[0]?.thumbnail} alt="Book_Image" />
+      ) : (
+        <div />
+      )}
       <h3>{bookInfo[0]?.title}</h3>
     </BookInfo>
   );

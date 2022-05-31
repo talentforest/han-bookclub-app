@@ -10,11 +10,10 @@ import { currentUserState } from "data/userAtom";
 import UserInfoBox from "components/common/UserInfoBox";
 
 export interface DocumentType {
+  id?: string;
   text?: string;
   createdAt?: number;
   creatorId?: string;
-  id?: string;
-  uid: string;
   bookTitle?: string;
   bookCover?: string;
 }
@@ -70,7 +69,7 @@ const SubjectBox = ({ item }: ISubject) => {
         <TextBox>
           <Writer>
             <UserInfoBox />
-            {item.uid === item.creatorId && (
+            {userData.uid === item.creatorId && (
               <EditDeleteIcon>
                 <EditIcon
                   role="button"

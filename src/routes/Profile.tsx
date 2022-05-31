@@ -91,7 +91,6 @@ const Profile = () => {
             <BookRecomBox
               key={id}
               id={id}
-              uid={userData?.uid}
               creatorId={creatorId}
               text={text}
               createdAt={createdAt}

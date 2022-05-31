@@ -5,11 +5,14 @@ import { time } from "util/time";
 import styled from "styled-components";
 import { DocumentType } from "components/book/SubjectBox";
 import UserInfoBox from "components/common/UserInfoBox";
+import { currentUserState } from "data/userAtom";
+import { useRecoilValue } from "recoil";
 
-const Reviews = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
+const Reviews = ({ text, createdAt, creatorId, id }: DocumentType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(text);
   const [showingGuide, setShowingGuide] = useState(false);
+  const userData = useRecoilValue(currentUserState);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -66,7 +69,7 @@ const Reviews = ({ text, createdAt, creatorId, id, uid }: DocumentType) => {
         <form>
           <FormHeader>
             <UserInfoBox />
-            {uid === creatorId && (
+            {userData.uid === creatorId && (
               <EditDeleteBtn>
                 <button onClick={toggleEditing}>수정</button>
                 <button onClick={onDeleteClick}>삭제</button>

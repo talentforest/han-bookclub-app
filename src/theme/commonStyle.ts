@@ -150,6 +150,13 @@ export const BookInfo = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  div {
+    width: 70px;
+    height: 100px;
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+    background-color: ${(props) => props.theme.container.default};
+  }
   img {
     height: 100px;
     width: auto;

@@ -29,7 +29,7 @@ const SubjectCreateBox = ({ bookInfo, uid, setModalOpen }: PropsType) => {
     } catch (error) {
       console.error("Error adding document:", error);
     }
-    setSubject("");
+    setModalOpen(false);
   };
 
   const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {

@@ -5,7 +5,7 @@ import { useMatch } from "react-router-dom";
 import { BookInfo, Container } from "theme/commonStyle";
 import { addDoc, collection } from "firebase/firestore";
 import { dbService } from "fbase";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { bookDescState } from "data/bookAtom";
 import Subtitle from "components/common/Subtitle";
@@ -14,20 +14,17 @@ import styled from "styled-components";
 
 const SelectedBook = () => {
   const userData = useRecoilValue(currentUserState);
-  const bookData = useRecoilValue(bookDescState);
-  const [bookInfo, setBookInfo] = useState([]);
+  const [bookData, setBookData] = useRecoilState(bookDescState);
   const [toggle, setToggle] = useState(false);
   const match = useMatch(`/book/find/:id`);
 
-  console.log(bookData);
-
   useEffect(() => {
-    bookSearchHandler(match?.params.id, true, setBookInfo);
+    bookSearchHandler(match?.params.id, true, setBookData);
     if (bookData[0]?.title === match?.params.id) {
       setToggle(true);
     }
     return () => {
-      bookSearchHandler(match?.params.id, true, setBookInfo);
+      bookSearchHandler(match?.params.id, true, setBookData);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [match?.params.id]);
@@ -52,8 +49,8 @@ const SelectedBook = () => {
     <Container>
       <Subtitle title="도서 정보" />
       <BookInfo>
-        <img src={bookInfo[0]?.thumbnail} alt="Book_Image" />
-        <h3>{bookInfo[0]?.title}</h3>
+        <img src={bookData[0]?.thumbnail} alt="Book_Image" />
+        <h3>{bookData[0]?.title}</h3>
       </BookInfo>
       {!toggle ? (
         <BookSection>
@@ -66,7 +63,7 @@ const SelectedBook = () => {
           </button>
         </Selected>
       )}
-      <BookDesc bookInfo={bookInfo[0]} />
+      <BookDesc bookInfo={bookData[0]} />
     </Container>
   );
 };

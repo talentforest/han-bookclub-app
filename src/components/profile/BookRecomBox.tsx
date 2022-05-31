@@ -7,16 +7,13 @@ import { time } from "util/time";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
 import { DocumentType } from "components/book/SubjectBox";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "data/userAtom";
 
-const BookRecomBox = ({
-  text,
-  createdAt,
-  creatorId,
-  id,
-  uid,
-}: DocumentType) => {
+const BookRecomBox = ({ text, createdAt, creatorId, id }: DocumentType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(text);
+  const userData = useRecoilValue(currentUserState);
 
   const onDeleteClick = async () => {
     const RecommendedBookRef = doc(dbService, "Recommened_Book", `${id}`);
@@ -58,7 +55,7 @@ const BookRecomBox = ({
         <TextBox>
           <Writer>
             <UserInfoBox />
-            {uid === creatorId && (
+            {userData.uid === creatorId && (
               <EditDeleteIcon>
                 <EditIcon
                   role="button"
