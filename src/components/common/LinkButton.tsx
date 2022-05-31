@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { ReactComponent as ArrowRight } from "assets/chevron_right.svg";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 export interface titleType {
   link?: string;
@@ -13,7 +13,7 @@ const LinkButton = ({ link, title }: titleType) => {
     <ButtonBox>
       <Link to={link}>
         <span>{title}</span>
-        <ArrowRight />
+        <ArrowForwardIosIcon />
       </Link>
     </ButtonBox>
   );
@@ -37,8 +37,8 @@ const ButtonBox = styled.div`
       color: ${(props) => props.theme.text.lightBlue};
     }
     svg {
-      width: 16px;
-      height: 18px;
+      width: 12px;
+      height: 10px;
       fill: ${(props) => props.theme.text.lightBlue};
     }
   }

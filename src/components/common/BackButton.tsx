@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { ReactComponent as BackIcon } from "assets/chevron_left.svg";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 const BackButton = () => {
   const navigate = useNavigate();
   const onClick = () => {
     navigate(-1);
   };
-  return <BackIcon onClick={onClick} width="14" height="14" />;
+  return <ArrowBackIosNewIcon onClick={onClick} />;
 };
 
 export default BackButton;

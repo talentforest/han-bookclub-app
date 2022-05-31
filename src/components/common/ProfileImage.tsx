@@ -5,7 +5,6 @@ import { AccountCircle, CameraAlt } from "@mui/icons-material";
 import styled from "styled-components";
 
 interface ProfileType {
-  refreshUser: () => void;
   profileImgUrl: string;
   setProfileImgUrl: (profileImgUrl: string) => void;
 }

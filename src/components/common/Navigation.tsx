@@ -1,9 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
-import { ReactComponent as Home } from "assets/home.svg";
-import { ReactComponent as Vote } from "assets/how_to_vote.svg";
-import { ReactComponent as Place } from "assets/place.svg";
-import { ReactComponent as Account } from "assets/account_circle.svg";
-import { ReactComponent as Book } from "assets/book.svg";
+import HowToVoteIcon from "@mui/icons-material/HowToVote";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import HomeIcon from "@mui/icons-material/Home";
+import FmdGoodIcon from "@mui/icons-material/FmdGood";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import styled from "styled-components";
 
 const Navigation = () => {
@@ -13,31 +13,39 @@ const Navigation = () => {
       <ul>
         <li>
           <Link to="/">
-            <Home fill={pathname === "/" ? "#333" : "#aaa"} />
+            <HomeIcon className={pathname === "/" ? "isActive" : ""} />
             <span>홈</span>
           </Link>
         </li>
         <li>
           <Link to="/history">
-            <Place fill={pathname.includes("/history") ? "#333" : "#aaa"} />
+            <FmdGoodIcon
+              className={pathname.includes("/history") ? "isActive" : ""}
+            />
             <span>지난 책모임</span>
           </Link>
         </li>
         <li>
           <Link to="/book">
-            <Book fill={pathname.includes("/book") ? "#333" : "#aaa"} />
+            <MenuBookIcon
+              className={pathname.includes("/book") ? "isActive" : ""}
+            />
             <span>이달의 책모임</span>
           </Link>
         </li>
         <li>
           <Link to="/vote">
-            <Vote fill={pathname.includes("/vote") ? "#333" : "#aaa"} />
+            <HowToVoteIcon
+              className={pathname.includes("/vote") ? "isActive" : ""}
+            />
             <span>투표하기</span>
           </Link>
         </li>
         <li>
           <Link to="/profile">
-            <Account fill={pathname.includes("/profile") ? "#333" : "#aaa"} />
+            <AccountCircleIcon
+              className={pathname.includes("/profile") ? "isActive" : ""}
+            />
             <span>나의 책장</span>
           </Link>
         </li>
@@ -73,6 +81,10 @@ const Nav = styled.nav`
           width: 20px;
           height: 20px;
           margin-bottom: 5px;
+          fill: #aaa;
+          &.isActive {
+            fill: #333;
+          }
         }
       }
     }

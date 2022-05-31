@@ -4,7 +4,6 @@ import {
   Header,
   ScrollContainer,
 } from "theme/commonStyle";
-import { ReactComponent as HamburgerIcon } from "assets/view_headline.svg";
 import { deviceSizes } from "theme/mediaQueries";
 import { useRecoilState } from "recoil";
 import { bookDescState } from "data/bookAtom";
@@ -19,6 +18,7 @@ import MeetingInfoBox from "components/common/MeetingInfoBox";
 import VoteBox from "components/common/VoteBox";
 import Title from "components/common/Title";
 import styled from "styled-components";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const Home = () => {
   const [bookInfo, setBookInfo] = useRecoilState(bookDescState);
@@ -51,12 +51,11 @@ const Home = () => {
       {windowSize.width < +deviceSizes.tablet ? (
         <NewHeader>
           <Title title="독서모임 한 페이지" />
-          <HamburgerIcon />
+          <MenuIcon />
         </NewHeader>
       ) : (
         <></>
       )}
-
       <NewContainer>
         <section>
           <Subtitle title={`${Month}월의 책`} />

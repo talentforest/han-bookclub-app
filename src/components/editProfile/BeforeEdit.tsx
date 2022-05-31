@@ -1,5 +1,5 @@
 import { bookFields } from "util/constants";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BookFieldType } from "components/loginForm/UserDataInputForm";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
@@ -8,6 +8,7 @@ import styled from "styled-components";
 interface PropsType {
   onChange: (event: React.FormEvent<HTMLInputElement>) => void;
   newDisplayName: string;
+  setNewDisplayName: (newDisplayName: string) => void;
   onHandleClick: (idx: number, event: React.FormEvent<HTMLDivElement>) => void;
   toggleCheck: boolean[];
   setToggleCheck: (toggleCheck: boolean[]) => void;
@@ -18,6 +19,7 @@ interface PropsType {
 const BeforeEdit = ({
   onChange,
   newDisplayName,
+  setNewDisplayName,
   onHandleClick,
   toggleCheck,
   setToggleCheck,
@@ -33,6 +35,13 @@ const BeforeEdit = ({
       color: `${toggleCheck[index] ? "#fff" : ""}`,
     };
   };
+
+  useEffect(() => {
+    if (!newDisplayName) {
+      setNewDisplayName(userData.displayName);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <UserInfo>
@@ -51,7 +60,7 @@ const BeforeEdit = ({
               onChange={onChange}
               type="text"
               placeholder="닉네임을 입력해주세요"
-              value={newDisplayName}
+              value={newDisplayName || ""}
               required
               autoFocus
             />
@@ -81,7 +90,7 @@ const BeforeEdit = ({
           ) : (
             <div>
               <div>
-                {favFields.map((item, index) => (
+                {favFields?.map((item, index) => (
                   <span key={index}>{item.name}</span>
                 ))}
               </div>

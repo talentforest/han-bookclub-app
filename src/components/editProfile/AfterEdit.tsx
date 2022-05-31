@@ -43,7 +43,7 @@ const AfterEdit = ({ setEditing, favFields }: PropsType) => {
           <div>
             <span>좋아하는 분야</span>
             <div>
-              {favFields.map((item, index) => (
+              {favFields?.map((item, index) => (
                 <FavFieldItem key={index}>{item.name}</FavFieldItem>
               ))}
             </div>

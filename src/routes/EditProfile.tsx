@@ -33,7 +33,7 @@ const EditProfile = () => {
     gender: "",
     favoriteBookField: [],
   });
-  const [favFields, setFavFields] = useState(extraUserData.favoriteBookField);
+  const [favFields, setFavFields] = useState(extraUserData?.favoriteBookField);
   const [toggleCheck, setToggleCheck] = useState(
     Array(bookFields.length).fill(false)
   );
@@ -43,7 +43,7 @@ const EditProfile = () => {
       doc(dbService, "User_Data", `${userData.uid}`),
       (doc) => {
         setExtraUserData(doc.data() as extraUserData);
-        setFavFields(doc.data().favoriteBookField);
+        setFavFields(doc.data()?.favoriteBookField);
       }
     );
 
@@ -52,6 +52,8 @@ const EditProfile = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  console.log(userData.displayName);
 
   const refreshUser = () => {
     const user = getAuth().currentUser;
@@ -141,13 +143,13 @@ const EditProfile = () => {
         {editing ? (
           <Form onSubmit={onSubmit}>
             <ProfileImage
-              refreshUser={refreshUser}
               profileImgUrl={profileImgUrl}
               setProfileImgUrl={setProfileImgUrl}
             />
             <BeforeEdit
               onChange={onChange}
               newDisplayName={newDisplayName}
+              setNewDisplayName={setNewDisplayName}
               onHandleClick={onHandleClick}
               toggleCheck={toggleCheck}
               setToggleCheck={setToggleCheck}
