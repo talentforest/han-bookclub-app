@@ -1,22 +1,25 @@
 import { useState } from "react";
-import { ReactComponent as EditIcon } from "assets/edit.svg";
-import { ReactComponent as DeleteIcon } from "assets/delete.svg";
 import { dbService } from "fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { time } from "util/time";
-import UserInfoBox from "components/common/UserInfoBox";
-import styled from "styled-components";
-import { DocumentType } from "components/book/SubjectBox";
+import { timestamp } from "util/timestamp";
+import { DocumentType } from "components/bookmeeting/Subjects";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
+import { Delete, Edit } from "@mui/icons-material";
+import UserInfoBox from "components/common/UserInfoBox";
+import styled from "styled-components";
 
-const BookRecomBox = ({ text, createdAt, creatorId, id }: DocumentType) => {
+interface PropsType {
+  item: DocumentType;
+}
+
+const BookRecomBox = ({ item }: PropsType) => {
   const [editing, setEditing] = useState(false);
-  const [newText, setNewText] = useState(text);
+  const [newText, setNewText] = useState(item.text);
   const userData = useRecoilValue(currentUserState);
 
   const onDeleteClick = async () => {
-    const RecommendedBookRef = doc(dbService, "Recommened_Book", `${id}`);
+    const RecommendedBookRef = doc(dbService, "Recommened_Book", `${item.id}`);
     await deleteDoc(RecommendedBookRef);
   };
 
@@ -25,7 +28,7 @@ const BookRecomBox = ({ text, createdAt, creatorId, id }: DocumentType) => {
   const onEditSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (newText === "") return;
-    const RecommendedBookRef = doc(dbService, "Recommened_Book", `${id}`);
+    const RecommendedBookRef = doc(dbService, "Recommened_Book", `${item.id}`);
     await updateDoc(RecommendedBookRef, { text: newText });
     setEditing(false);
   };
@@ -49,31 +52,21 @@ const BookRecomBox = ({ text, createdAt, creatorId, id }: DocumentType) => {
               onChange={onChange}
             />
           </form>
-          <RegisterTime>{time(createdAt)}</RegisterTime>
+          <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
         </TextBox>
       ) : (
         <TextBox>
           <Writer>
             <UserInfoBox />
-            {userData.uid === creatorId && (
+            {userData.uid === item.creatorId && (
               <EditDeleteIcon>
-                <EditIcon
-                  role="button"
-                  onClick={toggleEditing}
-                  width="18"
-                  height="18"
-                />
-                <DeleteIcon
-                  role="button"
-                  onClick={onDeleteClick}
-                  width="16"
-                  height="16"
-                />
+                <Edit role="button" onClick={toggleEditing} />
+                <Delete role="button" onClick={onDeleteClick} />
               </EditDeleteIcon>
             )}
           </Writer>
           <pre>{newText}</pre>
-          <RegisterTime>{time(createdAt)}</RegisterTime>
+          <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
         </TextBox>
       )}
     </>

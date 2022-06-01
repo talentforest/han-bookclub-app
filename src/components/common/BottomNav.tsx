@@ -6,7 +6,7 @@ import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import styled from "styled-components";
 
-const Navigation = () => {
+const BottomNav = () => {
   const pathname = useLocation().pathname;
   return !pathname.includes("setting") ? (
     <Nav>
@@ -91,4 +91,4 @@ const Nav = styled.nav`
   }
 `;
 
-export default Navigation;
+export default BottomNav;

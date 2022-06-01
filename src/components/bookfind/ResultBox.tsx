@@ -1,6 +1,6 @@
 import { Book } from "@mui/icons-material";
 import { BookDocument } from "data/bookAtom";
-import { time } from "util/time";
+import { timestamp } from "util/timestamp";
 import styled from "styled-components";
 import { Link, Outlet } from "react-router-dom";
 
@@ -32,7 +32,7 @@ const ResultBox = ({ bookInfo }: PropsType) => {
             <></>
           )}
           <span>출판사: {bookInfo.publisher}</span>
-          <span>출간일: {time(bookInfo.datetime)}</span>
+          <span>출간일: {timestamp(bookInfo.datetime)}</span>
         </BookDetail>
       </BookResultBox>
       <Outlet />

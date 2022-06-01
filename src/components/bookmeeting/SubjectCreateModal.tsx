@@ -2,18 +2,24 @@ import { useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { SubmitBtn } from "theme/commonStyle";
-import { Close } from "@mui/icons-material";
+import { Add, Close } from "@mui/icons-material";
 import styled from "styled-components";
 import { BookDocument } from "data/bookAtom";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "data/userAtom";
 
 interface PropsType {
   bookInfo: BookDocument;
-  uid: string;
-  setModalOpen: (modalOpen: boolean) => void;
 }
 
-const SubjectCreateBox = ({ bookInfo, uid, setModalOpen }: PropsType) => {
+const SubjectCreateModal = ({ bookInfo }: PropsType) => {
   const [subject, setSubject] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const userData = useRecoilValue(currentUserState);
+
+  const onModalClick = () => {
+    setModalOpen((prev) => !prev);
+  };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -22,7 +28,7 @@ const SubjectCreateBox = ({ bookInfo, uid, setModalOpen }: PropsType) => {
       await addDoc(collection(dbService, "Book_Subjects"), {
         text: subject,
         createdAt: Date.now(),
-        creatorId: uid,
+        creatorId: userData.uid,
         bookTitle: bookInfo.title,
         bookCover: bookInfo.thumbnail,
       });
@@ -30,6 +36,7 @@ const SubjectCreateBox = ({ bookInfo, uid, setModalOpen }: PropsType) => {
       console.error("Error adding document:", error);
     }
     setModalOpen(false);
+    setSubject("");
   };
 
   const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
@@ -42,23 +49,56 @@ const SubjectCreateBox = ({ bookInfo, uid, setModalOpen }: PropsType) => {
 
   return (
     <>
-      <Overlay onClick={onCloseClick} />
-      <Form onSubmit={onSubmit}>
-        <h3>
-          발제문 작성하기 <Close onClick={onCloseClick} />
-        </h3>
-        <textarea
-          placeholder="책을 읽으며 이야기하고 싶었던 주제들을 자유롭게 작성해주세요."
-          value={subject}
-          onChange={onChange}
-        />
-        <div>
-          <SubmitBtn type="submit" value="남기기" />
-        </div>
-      </Form>
+      <AddSubject>
+        <span onClick={onModalClick}>
+          <Add /> 발제문 참여하기
+        </span>
+      </AddSubject>
+      {modalOpen ? (
+        <>
+          <Overlay onClick={onCloseClick} />
+          <Form onSubmit={onSubmit}>
+            <h3>
+              발제문 작성하기 <Close onClick={onCloseClick} />
+            </h3>
+            <textarea
+              placeholder="책을 읽으며 이야기하고 싶었던 주제들을 자유롭게 작성해주세요."
+              value={subject}
+              onChange={onChange}
+            />
+            <div>
+              <SubmitBtn type="submit" value="남기기" />
+            </div>
+          </Form>
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
+
+const AddSubject = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px 3px;
+  margin-top: 10px;
+  span {
+    color: ${(props) => props.theme.text.accent};
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    svg {
+      fill: ${(props) => props.theme.text.accent};
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+    }
+  }
+`;
 
 const Overlay = styled.div`
   position: fixed;
@@ -117,4 +157,4 @@ const Form = styled.form`
   }
 `;
 
-export default SubjectCreateBox;
+export default SubjectCreateModal;

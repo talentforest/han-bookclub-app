@@ -1,7 +1,7 @@
 import { ExpandCircleDown } from "@mui/icons-material";
 import { BookDocument } from "data/bookAtom";
 import styled from "styled-components";
-import { time } from "util/time";
+import { timestamp } from "util/timestamp";
 
 interface PropsType {
   bookInfo: BookDocument;
@@ -23,7 +23,7 @@ const BookDesc = ({ bookInfo }: PropsType) => {
         ) : null}
         <li>
           <ExpandCircleDown />
-          출간일: {time(bookInfo?.datetime)}
+          출간일: {timestamp(bookInfo?.datetime)}
         </li>
         <li>
           <ExpandCircleDown />

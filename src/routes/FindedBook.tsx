@@ -12,7 +12,7 @@ import Subtitle from "components/common/Subtitle";
 import BookDesc from "components/common/BookDesc";
 import styled from "styled-components";
 
-const SelectedBook = () => {
+const FindedBook = () => {
   const userData = useRecoilValue(currentUserState);
   const [bookData, setBookData] = useRecoilState(bookDescState);
   const [toggle, setToggle] = useState(false);
@@ -94,4 +94,4 @@ const Selected = styled(BookSection)`
   }
 `;
 
-export default SelectedBook;
+export default FindedBook;

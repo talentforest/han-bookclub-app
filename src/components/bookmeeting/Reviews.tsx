@@ -1,22 +1,27 @@
 import { dbService } from "fbase";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
-import { time } from "util/time";
-import styled from "styled-components";
-import { DocumentType } from "components/book/SubjectBox";
-import UserInfoBox from "components/common/UserInfoBox";
+import { timestamp } from "util/timestamp";
+import { DocumentType } from "components/bookmeeting/Subjects";
 import { currentUserState } from "data/userAtom";
 import { useRecoilValue } from "recoil";
+import UserInfoBox from "components/common/UserInfoBox";
+import styled from "styled-components";
 
-const Reviews = ({ text, createdAt, creatorId, id }: DocumentType) => {
+interface PropsType {
+  item: DocumentType;
+  onRemoveReview?: (id: string) => void;
+}
+
+const Reviews = ({ item, onRemoveReview }: PropsType) => {
   const [editing, setEditing] = useState(false);
-  const [newText, setNewText] = useState(text);
+  const [newText, setNewText] = useState(item.text);
   const [showingGuide, setShowingGuide] = useState(false);
   const userData = useRecoilValue(currentUserState);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const ReviewTextRef = doc(dbService, "Meeting_Review", `${id}`);
+    const ReviewTextRef = doc(dbService, "Meeting_Review", `${item.id}`);
     await updateDoc(ReviewTextRef, { text: newText });
     if (newText === "") {
       setTimeout(() => {
@@ -36,11 +41,16 @@ const Reviews = ({ text, createdAt, creatorId, id }: DocumentType) => {
 
   const onDeleteClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const ReviewTextRef = doc(dbService, "Meeting_Review", `${id}`);
+    const ReviewTextRef = doc(dbService, "Meeting_Review", `${item.id}`);
     await deleteDoc(ReviewTextRef);
+
+    if (onRemoveReview) {
+      onRemoveReview(item.id);
+    }
   };
 
   const toggleEditing = () => setEditing((prev) => !prev);
+
   return (
     <Review>
       {editing ? (
@@ -53,9 +63,9 @@ const Reviews = ({ text, createdAt, creatorId, id }: DocumentType) => {
               </GuideTextBox>
             )}
             {showingGuide ? (
-              <EditDoneBtn type="submit" value="수정완료" eventdone />
+              <DoneBtn type="submit" value="수정완료" eventdone />
             ) : (
-              <EditDoneBtn type="submit" value="수정완료" />
+              <DoneBtn type="submit" value="수정완료" />
             )}
           </FormHeader>
           <TextArea
@@ -63,33 +73,38 @@ const Reviews = ({ text, createdAt, creatorId, id }: DocumentType) => {
             placeholder="모임 후기를 수정해주세요."
             onChange={onChange}
           />
-          <span>{time(createdAt)}</span>
+          <AddInfo>
+            <Book>
+              <img src={item.bookCover} alt="url" />
+              <span>{item.bookTitle}</span>
+            </Book>
+            <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
+          </AddInfo>
         </form>
       ) : (
         <form>
           <FormHeader>
             <UserInfoBox />
-            {userData.uid === creatorId && (
+            {userData.uid === item.creatorId && (
               <EditDeleteBtn>
                 <button onClick={toggleEditing}>수정</button>
                 <button onClick={onDeleteClick}>삭제</button>
               </EditDeleteBtn>
             )}
           </FormHeader>
-          <p>{text}</p>
-          <Time>{time(createdAt)}</Time>
+          <p>{item.text}</p>
+          <AddInfo>
+            <Book>
+              <img src={item.bookCover} alt="url" />
+              <span>{item.bookTitle}</span>
+            </Book>
+            <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
+          </AddInfo>
         </form>
       )}
     </Review>
   );
 };
-
-const Time = styled.div`
-  display: flex;
-  justify-content: end;
-  font-size: 11px;
-  padding: 5px;
-`;
 
 const Review = styled.div`
   padding-top: 20px;
@@ -124,11 +139,11 @@ const TextArea = styled.textarea`
   font-size: 14px;
   width: 100%;
   padding: 5px;
-  margin-bottom: 5px;
   white-space: pre-wrap;
   border: none;
   border-radius: 5px;
-  min-height: 100px;
+  height: 60px;
+  line-height: 1.3;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
   resize: none;
@@ -157,7 +172,7 @@ const GuideTextBox = styled.span`
   }
 `;
 
-const EditDoneBtn = styled.input<{ eventdone?: boolean }>`
+const DoneBtn = styled.input<{ eventdone?: boolean }>`
   border: none;
   background-color: transparent;
   font-size: 12px;
@@ -174,6 +189,33 @@ const EditDeleteBtn = styled.div`
     background-color: transparent;
     color: ${(props) => props.theme.text.lightBlue};
   }
+`;
+
+const AddInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin: 10px 0;
+`;
+
+const Book = styled.div`
+  display: flex;
+  align-items: end;
+  width: 75%;
+  span {
+    font-size: 11px;
+  }
+  img {
+    height: 18px;
+    width: auto;
+    margin-right: 10px;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+`;
+
+const RegisterTime = styled.div`
+  font-size: 10px;
+  color: ${(props) => props.theme.text.gray};
 `;
 
 export default Reviews;

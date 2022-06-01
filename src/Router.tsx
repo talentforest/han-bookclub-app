@@ -6,15 +6,15 @@ import Profile from "./routes/Profile";
 import BookMeeting from "./routes/BookMeeting";
 import Vote from "./routes/Vote";
 import Setting from "./routes/Setting";
-import Navigation from "components/common/Navigation";
+import BottomNav from "components/common/BottomNav";
 import CreateAccount from "./routes/CreateAccount";
 import EditProfile from "./routes/EditProfile";
 import ScrollToTop from "util/ScrollToTop";
 import HeadNav from "components/common/HeadNav";
 import useWindowSize from "hooks/useWindowSize";
 import FindBook from "routes/FindBook";
-import SelectedBook from "routes/SelectedBook";
-import BookHistory from "routes/BookHistory";
+import SelectedBook from "routes/FindedBook";
+import ClubBooksHistory from "routes/ClubBooksHistory";
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -44,7 +44,7 @@ function Router({ isLoggedIn }: PropsType) {
               <Route path="/book" element={<BookMeeting />} />
               <Route path="/book/find" element={<FindBook />} />
               <Route path="/book/find/:id" element={<SelectedBook />} />
-              <Route path="/history" element={<BookHistory />} />
+              <Route path="/history" element={<ClubBooksHistory />} />
               <Route path="/vote" element={<Vote />} />
               <Route path="/vote/:id" element={<Vote />} />
               <Route path="/profile" element={<Profile />} />
@@ -57,7 +57,7 @@ function Router({ isLoggedIn }: PropsType) {
         </>
       </Routes>
       {isLoggedIn && windowSize.width < +deviceSizes.tablet ? (
-        <Navigation />
+        <BottomNav />
       ) : (
         <></>
       )}

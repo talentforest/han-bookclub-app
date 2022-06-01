@@ -5,60 +5,85 @@ import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useRecoilState } from "recoil";
 import { Link } from "react-router-dom";
 import { bookSearchHandler } from "api/api";
-import { DocumentType } from "components/book/SubjectBox";
+import SubjectBox, { DocumentType } from "components/bookmeeting/Subjects";
 import { bookDescState } from "data/bookAtom";
 import Title from "components/common/Title";
-import BookTitleImage from "components/book/BookTitleImage";
-import SubjectBoxes from "components/book/SubjectBoxes";
+import BookTitleImage from "components/bookmeeting/BookTitleImage";
 import styled from "styled-components";
 import BookDesc from "components/common/BookDesc";
-import ReviewCreateBox from "components/meeting/ReviewCreateBox";
-import Reviews from "components/meeting/Reviews";
+import ReviewCreateBox from "components/bookmeeting/ReviewCreateBox";
+import Reviews from "components/bookmeeting/Reviews";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
+import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
 
 const BookMeeting = () => {
   const [category, setCategory] = useState("book");
   const [bookData, setBookData] = useRecoilState(bookDescState);
-  const [meetingReviews, setMeetingReviews] = useState<DocumentType[]>([]);
+  const [subjects, setSubjects] = useState<DocumentType[]>([]);
+  const [reviews, setAllReviews] = useState<DocumentType[]>([]);
 
   useEffect(() => {
-    const reviewQ = query(
+    getAllReviews();
+    getAllSubjects();
+    if (bookData.length === 0) {
+      getThisMonthBookData();
+    }
+    return () => {
+      getThisMonthBookData();
+      getAllReviews();
+      getAllSubjects();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const getAllReviews = async () => {
+    const q = query(
       collection(dbService, "Meeting_Review"),
       orderBy("createdAt", "desc")
     );
-    const reviewUnsub = onSnapshot(reviewQ, (querySnapshot) => {
+    onSnapshot(q, (querySnapshot) => {
+      const newArray = querySnapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        } as DocumentType;
+      });
+      setAllReviews(newArray);
+    });
+  };
+
+  const getAllSubjects = async () => {
+    const q = query(
+      collection(dbService, "Book_Subjects"),
+      orderBy("createdAt", "desc")
+    );
+    onSnapshot(q, (querySnapshot) => {
       const newArray = querySnapshot.docs.map((doc) => {
         return {
           id: doc.id,
           ...doc.data(),
         };
       });
-      setMeetingReviews(newArray as DocumentType[]);
+      setSubjects(newArray as DocumentType[]);
     });
-    if (bookData.length === 0) {
-      const q = query(
-        collection(dbService, "Book of the Month"),
-        orderBy("createdAt", "desc")
-      );
-      const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const newArray = querySnapshot.docs.map((doc) => {
-          return {
-            ...doc.data(),
-          };
-        });
+  };
 
-        bookSearchHandler(newArray[0].bookTitle, true, setBookData);
+  const getThisMonthBookData = async () => {
+    const q = query(
+      collection(dbService, "Book of the Month"),
+      orderBy("createdAt", "desc")
+    );
+
+    onSnapshot(q, (querySnapshot) => {
+      const newArray = querySnapshot.docs.map((doc) => {
+        return {
+          ...doc.data(),
+        };
       });
-      return () => {
-        unsubscribe();
-      };
-    }
 
-    return () => {
-      reviewUnsub();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      bookSearchHandler(newArray[0].bookTitle, true, setBookData);
+    });
+  };
 
   const onCategoryClick = (name: string) => {
     setCategory(name);
@@ -98,18 +123,19 @@ const BookMeeting = () => {
           </button>
         </BookSection>
         {category === "book" ? <BookDesc bookInfo={bookData[0]} /> : null}
-        {category === "show" ? <SubjectBoxes bookInfo={bookData[0]} /> : null}
+        {category === "show" ? (
+          <>
+            <SubjectCreateModal bookInfo={bookData[0]} />
+            {subjects.map((item) => (
+              <SubjectBox item={item} key={item.id} />
+            ))}
+          </>
+        ) : null}
         {category === "review" ? (
           <>
-            <ReviewCreateBox />
-            {meetingReviews.map(({ text, createdAt, creatorId, id }) => (
-              <Reviews
-                key={id}
-                id={id}
-                creatorId={creatorId}
-                text={text}
-                createdAt={createdAt}
-              />
+            <ReviewCreateBox bookInfo={bookData[0]} />
+            {reviews.map((item) => (
+              <Reviews key={item.id} item={item} />
             ))}
           </>
         ) : null}

@@ -38,6 +38,7 @@ const MeetingInfo = styled(MediumBox)`
     > span {
       border: 1px solid ${(props) => props.theme.container.blue};
       background-color: ${(props) => props.theme.container.lightBlue};
+      color: ${(props) => props.theme.text.lightBlue};
       padding: 3px 5px;
       border-radius: 20px;
       font-size: 10px;
@@ -49,6 +50,7 @@ const MeetingInfo = styled(MediumBox)`
       align-items: center;
       justify-content: center;
       svg {
+        fill: ${(props) => props.theme.text.lightBlue};
         width: 14px;
         height: 14px;
         margin-left: 3px;

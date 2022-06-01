@@ -32,7 +32,6 @@ const AfterEdit = ({ setEditing, favFields }: PropsType) => {
           </div>
           <p>이메일은 변경할 수 없습니다.</p>
         </List>
-
         <List>
           <div>
             <span>별명</span>

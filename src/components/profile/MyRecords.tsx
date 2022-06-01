@@ -1,22 +1,25 @@
 import { useEffect, useState } from "react";
-import SubjectBox, { DocumentType } from "components/book/SubjectBox";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { dbService } from "fbase";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import styled from "styled-components";
 import { Notes, Star } from "@mui/icons-material";
+import styled from "styled-components";
+import SubjectBox, { DocumentType } from "components/bookmeeting/Subjects";
 
 const MyRecords = () => {
   const userData = useRecoilValue(currentUserState);
   const [allSubjects, setAllSubjects] = useState([]);
+  const [allReviews, setAllReviews] = useState([]);
   const [filteredSub, setFilteredSub] = useState([]);
 
   useEffect(() => {
     getAllSubjects();
+    getAllReviews();
 
     return () => {
       getAllSubjects();
+      getAllReviews();
     };
   }, []);
 
@@ -37,9 +40,31 @@ const MyRecords = () => {
     });
   };
 
+  const getAllReviews = async () => {
+    const q = query(
+      collection(dbService, "Meeting_Review"),
+      orderBy("createdAt", "desc")
+    );
+
+    onSnapshot(q, (querySnapshot) => {
+      const newArray = querySnapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        } as DocumentType;
+      });
+      setAllReviews(newArray);
+    });
+  };
+
   const mySubjects = allSubjects.filter(
     (item) => item.creatorId === userData.uid
   );
+  const myReviews = allReviews.filter(
+    (item) => item.creatorId === userData.uid
+  );
+
+  const myRecords = [...mySubjects, ...myReviews];
 
   const GroupedBySameBook = mySubjects.reduce((acc, current) => {
     acc[current.bookTitle] = acc[current.bookTitle] || [];
@@ -140,6 +165,7 @@ const Record = styled.div`
       font-size: 10px;
       font-weight: 700;
       margin-top: 6px;
+      text-align: center;
     }
   }
   > div:last-child {

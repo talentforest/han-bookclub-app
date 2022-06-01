@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { dbService } from "fbase";
 import { currentUserState } from "data/userAtom";
-import { DocumentType } from "components/book/SubjectBox";
+import { DocumentType } from "components/bookmeeting/Subjects";
 import LinkButton from "components/common/LinkButton";
 import useWindowSize from "hooks/useWindowSize";
 import Subtitle from "components/common/Subtitle";
@@ -21,28 +21,33 @@ import VoteBox from "components/common/VoteBox";
 import Title from "components/common/Title";
 import styled from "styled-components";
 import MenuIcon from "@mui/icons-material/Menu";
-import BookRecomCreateBox from "components/profile/BookRecomCreateBox";
-import BookRecomBox from "components/profile/BookRecomBox";
+import BookRecomCreateBox from "components/common/BookRecomCreateBox";
+import BookRecomBox from "components/common/BookRecomBox";
 
 const Home = () => {
   const [recommendBook, setRecommendBook] = useState<DocumentType[]>([]);
-  const userData = useRecoilValue(currentUserState);
   const [bookInfo, setBookInfo] = useRecoilState(bookDescState);
-  const Month = new Date().getMonth() + 1;
+  const userData = useRecoilValue(currentUserState);
   const { windowSize } = useWindowSize();
+  const Month = new Date().getMonth() + 1;
 
   useEffect(() => {
+    getThisMonthBook();
+    getAllRecommends();
+
+    return () => {
+      getThisMonthBook();
+      getAllRecommends();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const getThisMonthBook = async () => {
     const q = query(
       collection(dbService, "Book of the Month"),
       orderBy("createdAt", "desc")
     );
-
-    const recomQuery = query(
-      collection(dbService, "Recommened_Book"),
-      orderBy("createdAt", "desc")
-    );
-
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    onSnapshot(q, (querySnapshot) => {
       const newArray = querySnapshot.docs.map((doc) => {
         return {
           ...doc.data(),
@@ -50,8 +55,14 @@ const Home = () => {
       });
       bookSearchHandler(newArray[0].bookTitle, true, setBookInfo);
     });
+  };
 
-    const recomUnsubscribe = onSnapshot(recomQuery, (querySnapshot) => {
+  const getAllRecommends = async () => {
+    const q = query(
+      collection(dbService, "Recommened_Book"),
+      orderBy("createdAt", "desc")
+    );
+    onSnapshot(q, (querySnapshot) => {
       const newArray = querySnapshot.docs.map((doc) => {
         return {
           id: doc.id,
@@ -60,13 +71,7 @@ const Home = () => {
       });
       setRecommendBook(newArray as DocumentType[]);
     });
-    return () => {
-      unsubscribe();
-      recomUnsubscribe();
-    };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
   return (
     <>
@@ -110,14 +115,8 @@ const Home = () => {
         <section>
           <Subtitle title="내가 읽은 책 추천하기" />
           <BookRecomCreateBox uid={userData?.uid} />
-          {recommendBook.map(({ text, createdAt, creatorId, id }) => (
-            <BookRecomBox
-              key={id}
-              id={id}
-              creatorId={creatorId}
-              text={text}
-              createdAt={createdAt}
-            />
+          {recommendBook.map((item) => (
+            <BookRecomBox key={item.id} item={item} />
           ))}
         </section>
       </NewContainer>

@@ -1,5 +1,5 @@
+import { MenuBook } from "@mui/icons-material";
 import { Link, useLocation } from "react-router-dom";
-import { ReactComponent as Book } from "assets/book.svg";
 import styled from "styled-components";
 
 const HeadNav = () => {
@@ -7,7 +7,7 @@ const HeadNav = () => {
   return !pathname.includes("setting") ? (
     <Nav>
       <Link to="/">
-        <Book />
+        <MenuBook />
         <h1>한 페이지: Han Page</h1>
       </Link>
       <ul>

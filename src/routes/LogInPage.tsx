@@ -1,4 +1,3 @@
-import { ReactComponent as GoogleIcon } from "assets/google-brands.svg";
 import { useState } from "react";
 import {
   GoogleAuthProvider,
@@ -10,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Container, Form, Input, Button } from "theme/commonStyle";
 import device from "theme/mediaQueries";
+import { Google } from "@mui/icons-material";
 
 const LogInPage = () => {
   const navigator = useNavigate();
@@ -79,7 +79,7 @@ const LogInPage = () => {
         <Button type="submit" value="로그인" />
       </Form>
       <SocialLogIn name="google" onClick={onSocialAccountClick}>
-        <GoogleIcon />
+        <Google />
         <span>Google로 계속</span>
       </SocialLogIn>
       <FindCreateAccount>

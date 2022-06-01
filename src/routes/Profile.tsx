@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import { Container, Header } from "theme/commonStyle";
-import { ReactComponent as SettingIcon } from "assets/settings.svg";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import { AccountCircle } from "@mui/icons-material";
+import { AccountCircle, Settings } from "@mui/icons-material";
 import Title from "components/common/Title";
 import styled from "styled-components";
 import Subtitle from "components/common/Subtitle";
@@ -17,7 +16,7 @@ const Profile = () => {
       <NewHeader>
         <Title title="나의 책장" />
         <Link to="/setting">
-          <SettingIcon />
+          <Settings />
         </Link>
       </NewHeader>
       <NewContainer>

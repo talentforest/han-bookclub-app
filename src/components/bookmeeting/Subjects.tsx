@@ -1,19 +1,18 @@
 import { useState } from "react";
-import { ReactComponent as EditIcon } from "assets/edit.svg";
-import { ReactComponent as DeleteIcon } from "assets/delete.svg";
 import { dbService } from "fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { time } from "util/time";
+import { timestamp } from "util/timestamp";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import UserInfoBox from "components/common/UserInfoBox";
+import { Delete, Edit } from "@mui/icons-material";
 
 export interface DocumentType {
-  id?: string;
-  text?: string;
-  createdAt?: number;
-  creatorId?: string;
+  id: string;
+  text: string;
+  creatorId: string;
+  createdAt: number;
   bookTitle?: string;
   bookCover?: string;
 }
@@ -23,7 +22,7 @@ interface ISubject {
   onRemove?: (targetId: string) => void;
 }
 
-const SubjectBox = ({ item, onRemove }: ISubject) => {
+const Subjects = ({ item, onRemove }: ISubject) => {
   const userData = useRecoilValue(currentUserState);
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(item.text);
@@ -37,8 +36,6 @@ const SubjectBox = ({ item, onRemove }: ISubject) => {
   };
 
   const toggleEditing = () => setEditing((prev) => !prev);
-
-  // console.log(item.id);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -57,11 +54,8 @@ const SubjectBox = ({ item, onRemove }: ISubject) => {
         <TextBox>
           <form onSubmit={onSubmit}>
             <Writer>
-              <User>
-                <ProfileImg $bgPhoto={userData.photoURL} />
-                <span>전예림</span>
-              </User>
-              <EditDoneBtn type="submit" value="수정완료" />
+              <UserInfoBox />
+              <DoneBtn type="submit" value="수정완료" />
             </Writer>
             <TextArea
               value={newText}
@@ -69,7 +63,13 @@ const SubjectBox = ({ item, onRemove }: ISubject) => {
               onChange={onChange}
             />
           </form>
-          <RegisterTime>{time(item.createdAt)}</RegisterTime>
+          <AddInfo>
+            <Book>
+              <img src={item.bookCover} alt="url" />
+              <span>{item.bookTitle}</span>
+            </Book>
+            <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
+          </AddInfo>
         </TextBox>
       ) : (
         <TextBox>
@@ -77,18 +77,8 @@ const SubjectBox = ({ item, onRemove }: ISubject) => {
             <UserInfoBox />
             {userData.uid === item.creatorId && (
               <EditDeleteIcon>
-                <EditIcon
-                  role="button"
-                  onClick={toggleEditing}
-                  width="18"
-                  height="18"
-                />
-                <DeleteIcon
-                  role="button"
-                  onClick={onDeleteClick}
-                  width="16"
-                  height="16"
-                />
+                <Edit role="button" onClick={toggleEditing} />
+                <Delete role="button" onClick={onDeleteClick} />
               </EditDeleteIcon>
             )}
           </Writer>
@@ -98,7 +88,7 @@ const SubjectBox = ({ item, onRemove }: ISubject) => {
               <img src={item.bookCover} alt="url" />
               <span>{item.bookTitle}</span>
             </Book>
-            <RegisterTime>{time(item.createdAt)}</RegisterTime>
+            <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
           </AddInfo>
         </TextBox>
       )}
@@ -122,6 +112,10 @@ const TextBox = styled.div`
 const TextArea = styled.textarea`
   width: 100%;
   border: none;
+  background-color: ${(props) => props.theme.container.lightBlue};
+  border-radius: 5px;
+  font-size: 16px;
+  margin-bottom: 10px;
   white-space: pre-wrap;
   resize: none;
   &:focus {
@@ -137,7 +131,7 @@ const Writer = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
 `;
 
-const EditDoneBtn = styled.input`
+const DoneBtn = styled.input`
   border: none;
   background-color: transparent;
   font-size: 12px;
@@ -145,34 +139,18 @@ const EditDoneBtn = styled.input`
   cursor: pointer;
 `;
 
-const User = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const ProfileImg = styled.div<{ $bgPhoto: string }>`
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background-image: url(${(props) => props.$bgPhoto});
-  background-size: cover;
-  background-position: center;
-  background-color: ${(props) => props.theme.container.lightBlue};
-  margin-right: 5px;
-`;
-
-const RegisterTime = styled.div`
-  font-size: 10px;
-  color: ${(props) => props.theme.text.gray};
-`;
-
 const EditDeleteIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
   svg {
-    margin-left: 10px;
+    width: 18px;
+    height: 18px;
+    margin-left: 12px;
     cursor: pointer;
+  }
+  svg:first-child {
+    margin-left: 0px;
   }
 `;
 
@@ -185,6 +163,7 @@ const AddInfo = styled.div`
 const Book = styled.div`
   display: flex;
   align-items: end;
+  width: 75%;
   span {
     font-weight: 700;
     font-size: 11px;
@@ -197,4 +176,9 @@ const Book = styled.div`
   }
 `;
 
-export default SubjectBox;
+const RegisterTime = styled.div`
+  font-size: 10px;
+  color: ${(props) => props.theme.text.gray};
+`;
+
+export default Subjects;

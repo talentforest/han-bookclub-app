@@ -53,8 +53,6 @@ const EditProfile = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(userData.displayName);
-
   const refreshUser = () => {
     const user = getAuth().currentUser;
 

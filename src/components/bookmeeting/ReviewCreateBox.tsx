@@ -5,8 +5,13 @@ import { SubmitBtn } from "theme/commonStyle";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
+import { BookDocument } from "data/bookAtom";
 
-const ReviewCreateBox = () => {
+interface PropsType {
+  bookInfo: BookDocument;
+}
+
+const ReviewCreateBox = ({ bookInfo }: PropsType) => {
   const userData = useRecoilValue(currentUserState);
   const [review, setReview] = useState("");
 
@@ -18,6 +23,8 @@ const ReviewCreateBox = () => {
         text: review,
         createdAt: Date.now(),
         creatorId: userData.uid,
+        bookTitle: bookInfo.title,
+        bookCover: bookInfo.thumbnail,
       });
     } catch (error) {
       console.error("Error adding document:", error);
