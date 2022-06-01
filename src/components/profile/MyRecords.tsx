@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { DocumentType } from "components/book/SubjectBox";
+import SubjectBox, { DocumentType } from "components/book/SubjectBox";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { dbService } from "fbase";
 import { useRecoilValue } from "recoil";
@@ -9,81 +9,105 @@ import { Notes, Star } from "@mui/icons-material";
 
 const MyRecords = () => {
   const userData = useRecoilValue(currentUserState);
-  const [subjects, setSubjects] = useState([]);
+  const [allSubjects, setAllSubjects] = useState([]);
+  const [filteredSub, setFilteredSub] = useState([]);
 
   useEffect(() => {
+    getAllSubjects();
+
+    return () => {
+      getAllSubjects();
+    };
+  }, []);
+
+  const getAllSubjects = async () => {
     const q = query(
       collection(dbService, "Book_Subjects"),
       orderBy("createdAt", "desc")
     );
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    onSnapshot(q, (querySnapshot) => {
       const newArray = querySnapshot.docs.map((doc) => {
         return {
           id: doc.id,
           ...doc.data(),
         } as DocumentType;
       });
-      setSubjects(newArray);
+      setAllSubjects(newArray);
     });
+  };
 
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  const mySubjects = allSubjects.filter(
+    (item) => item.creatorId === userData.uid
+  );
 
-  const onClick = () => {};
-
-  const mySubjects = subjects.filter((item) => item.creatorId === userData.uid);
-  const bookGroupArr = mySubjects.reduce((acc, current) => {
+  const GroupedBySameBook = mySubjects.reduce((acc, current) => {
     acc[current.bookTitle] = acc[current.bookTitle] || [];
     acc[current.bookTitle].push(current);
     return acc;
   }, {});
 
-  const recordGroups = Object.keys(bookGroupArr).map((key) => {
-    return { bookTitle: key, group: bookGroupArr[key] };
+  const GroupedBySameBookRecord = Object.keys(GroupedBySameBook).map((key) => {
+    return { bookTitle: key, group: GroupedBySameBook[key] };
   });
 
+  const onClick = (bookTitle: string) => {
+    const filteredArr = mySubjects.filter(
+      (item) => item.bookTitle === bookTitle
+    );
+    setFilteredSub(filteredArr);
+  };
+
+  const onRemove = (targetId: string) => {
+    const newSubjectArr = filteredSub.filter((item) => item.id !== targetId);
+    setFilteredSub(newSubjectArr);
+  };
+
   return (
-    <Container>
-      <div>
-        {recordGroups.map((item, index) => (
-          <Record key={index}>
-            <div>
-              <img
-                src={item.group.map((item: DocumentType) => item.bookCover)[0]}
-                alt="Book"
-              />
-              <h3>{item.bookTitle}</h3>
-            </div>
-            <Rate>
-              <Star />
-              <Star />
-              <Star />
-              <Star />
-              <Star />
-            </Rate>
-            <div>
-              <button onClick={onClick}>
-                <Notes />
-                <span>발제문</span>
-              </button>
-              <button onClick={onClick}>
-                <Notes />
-                <span>모임 후기</span>
-              </button>
-            </div>
-          </Record>
-        ))}
-      </div>
-    </Container>
+    <>
+      <Container>
+        <div>
+          {GroupedBySameBookRecord.map((item, index) => (
+            <Record key={index}>
+              <div>
+                <img
+                  src={
+                    item.group.map((item: DocumentType) => item.bookCover)[0]
+                  }
+                  alt="Book"
+                />
+                <h3>{item.bookTitle}</h3>
+              </div>
+              <Rate>
+                <Star />
+                <Star />
+                <Star />
+                <Star />
+                <Star />
+              </Rate>
+              <div>
+                <button onClick={() => onClick(item.bookTitle)}>
+                  <Notes />
+                  <span>발제문 보기</span>
+                </button>
+                <button onClick={() => onClick(item.bookTitle)}>
+                  <Notes />
+                  <span>모임후기 보기</span>
+                </button>
+              </div>
+            </Record>
+          ))}
+        </div>
+      </Container>
+      {filteredSub.map((item) => (
+        <SubjectBox item={item} key={item.id} onRemove={onRemove} />
+      ))}
+    </>
   );
 };
 
 const Container = styled.div`
   overflow: scroll;
-
   > div {
     overflow: hidden;
     display: flex;
