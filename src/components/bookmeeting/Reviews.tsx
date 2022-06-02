@@ -10,10 +10,10 @@ import styled from "styled-components";
 
 interface PropsType {
   item: DocumentType;
-  onRemoveReview?: (id: string) => void;
+  onReviewRemove?: (id: string) => void;
 }
 
-const Reviews = ({ item, onRemoveReview }: PropsType) => {
+const Reviews = ({ item, onReviewRemove }: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(item.text);
   const [showingGuide, setShowingGuide] = useState(false);
@@ -44,8 +44,8 @@ const Reviews = ({ item, onRemoveReview }: PropsType) => {
     const ReviewTextRef = doc(dbService, "Meeting_Review", `${item.id}`);
     await deleteDoc(ReviewTextRef);
 
-    if (onRemoveReview) {
-      onRemoveReview(item.id);
+    if (onReviewRemove) {
+      onReviewRemove(item.id);
     }
   };
 
@@ -92,7 +92,7 @@ const Reviews = ({ item, onRemoveReview }: PropsType) => {
               </EditDeleteBtn>
             )}
           </FormHeader>
-          <p>{item.text}</p>
+          <p>{newText}</p>
           <AddInfo>
             <Book>
               <img src={item.bookCover} alt="url" />
@@ -188,6 +188,7 @@ const EditDeleteBtn = styled.div`
     font-size: 12px;
     background-color: transparent;
     color: ${(props) => props.theme.text.lightBlue};
+    cursor: pointer;
   }
 `;
 

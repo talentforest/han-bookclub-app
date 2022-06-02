@@ -41,6 +41,7 @@ const BookMeeting = () => {
       collection(dbService, "Meeting_Review"),
       orderBy("createdAt", "desc")
     );
+
     onSnapshot(q, (querySnapshot) => {
       const newArray = querySnapshot.docs.map((doc) => {
         return {
@@ -57,6 +58,7 @@ const BookMeeting = () => {
       collection(dbService, "Book_Subjects"),
       orderBy("createdAt", "desc")
     );
+
     onSnapshot(q, (querySnapshot) => {
       const newArray = querySnapshot.docs.map((doc) => {
         return {

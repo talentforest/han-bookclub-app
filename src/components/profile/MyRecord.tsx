@@ -1,27 +1,28 @@
 import { Notes, Star } from "@mui/icons-material";
-import { DocumentType } from "components/bookmeeting/Subjects";
+import { IRecord } from "./MyRecords";
 import styled from "styled-components";
 
-interface RecordType {
-  bookTitle: string;
-  reviewsGroup?: DocumentType[];
-  subjectsGroup?: DocumentType[];
-}
-
 interface PropsType {
-  item: RecordType;
+  item: IRecord;
   index: number;
-  onRecordClick: (id: string) => void;
+  onSubjectClick: (id: string) => void;
   onReviewClick: (id: string) => void;
 }
 
-const MyRecord = ({ item, index, onRecordClick, onReviewClick }: PropsType) => {
+const MyRecord = ({
+  item,
+  index,
+  onSubjectClick,
+  onReviewClick,
+}: PropsType) => {
   return (
-    <Record>
+    <Record key={index}>
       <div>
         <img
           src={
-            item.subjectsGroup.map((item: DocumentType) => item.bookCover)[0]
+            item.subjects[0]
+              ? item.subjects[0].bookCover
+              : item.reviews[0].bookCover
           }
           alt="Book"
         />
@@ -35,7 +36,7 @@ const MyRecord = ({ item, index, onRecordClick, onReviewClick }: PropsType) => {
         <Star />
       </Rate>
       <div>
-        <button onClick={() => onRecordClick(item.bookTitle)}>
+        <button onClick={() => onSubjectClick(item.bookTitle)}>
           <Notes />
           <span>발제문 보기</span>
         </button>

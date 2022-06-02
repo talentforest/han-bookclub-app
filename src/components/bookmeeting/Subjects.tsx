@@ -19,10 +19,10 @@ export interface DocumentType {
 
 interface ISubject {
   item: DocumentType;
-  onRemove?: (targetId: string) => void;
+  onSubjectRemove?: (targetId: string) => void;
 }
 
-const Subjects = ({ item, onRemove }: ISubject) => {
+const Subjects = ({ item, onSubjectRemove }: ISubject) => {
   const userData = useRecoilValue(currentUserState);
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(item.text);
@@ -30,8 +30,8 @@ const Subjects = ({ item, onRemove }: ISubject) => {
   const onDeleteClick = async () => {
     const SubjectTextRef = doc(dbService, "Book_Subjects", `${item.id}`);
     await deleteDoc(SubjectTextRef);
-    if (onRemove) {
-      onRemove(item.id);
+    if (onSubjectRemove) {
+      onSubjectRemove(item.id);
     }
   };
 

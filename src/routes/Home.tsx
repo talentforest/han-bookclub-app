@@ -47,6 +47,7 @@ const Home = () => {
       collection(dbService, "Book of the Month"),
       orderBy("createdAt", "desc")
     );
+
     onSnapshot(q, (querySnapshot) => {
       const newArray = querySnapshot.docs.map((doc) => {
         return {
@@ -62,6 +63,7 @@ const Home = () => {
       collection(dbService, "Recommened_Book"),
       orderBy("createdAt", "desc")
     );
+
     onSnapshot(q, (querySnapshot) => {
       const newArray = querySnapshot.docs.map((doc) => {
         return {

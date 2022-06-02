@@ -3,15 +3,23 @@ import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { dbService } from "fbase";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import { Notes, Star } from "@mui/icons-material";
 import styled from "styled-components";
 import SubjectBox, { DocumentType } from "components/bookmeeting/Subjects";
+import Reviews from "components/bookmeeting/Reviews";
+import MyRecord from "./MyRecord";
+
+export interface IRecord {
+  bookTitle: string;
+  subjects: DocumentType[];
+  reviews: DocumentType[];
+}
 
 const MyRecords = () => {
   const userData = useRecoilValue(currentUserState);
   const [allSubjects, setAllSubjects] = useState([]);
   const [allReviews, setAllReviews] = useState([]);
-  const [filteredSub, setFilteredSub] = useState([]);
+  const [filteredSubject, setFilteredSubject] = useState([]);
+  const [filteredReview, setFilteredReview] = useState([]);
 
   useEffect(() => {
     getAllSubjects();
@@ -57,157 +65,118 @@ const MyRecords = () => {
     });
   };
 
-  const mySubjects = allSubjects.filter(
+  const mySubjects = allSubjects?.filter(
     (item) => item.creatorId === userData.uid
   );
-  const myReviews = allReviews.filter(
+  const myReviews = allReviews?.filter(
     (item) => item.creatorId === userData.uid
   );
 
-  const myRecords = [...mySubjects, ...myReviews];
-
-  const GroupedBySameBook = mySubjects.reduce((acc, current) => {
+  const GroupedBySameBookSubjects = mySubjects?.reduce((acc, current) => {
     acc[current.bookTitle] = acc[current.bookTitle] || [];
     acc[current.bookTitle].push(current);
     return acc;
   }, {});
 
-  const GroupedBySameBookRecord = Object.keys(GroupedBySameBook).map((key) => {
-    return { bookTitle: key, group: GroupedBySameBook[key] };
+  const GroupedBySameBookReviews = myReviews?.reduce((acc, current) => {
+    acc[current.bookTitle] = acc[current.bookTitle] || [];
+    acc[current.bookTitle].push(current);
+    return acc;
+  }, {});
+
+  const record = { ...GroupedBySameBookSubjects, ...GroupedBySameBookReviews };
+
+  const GroupedBySameBookRecord: IRecord[] = Object.keys(record).map((key) => {
+    return {
+      bookTitle: key,
+      subjects: GroupedBySameBookSubjects[key] || [],
+      reviews: GroupedBySameBookReviews[key] || [],
+    };
   });
 
-  const onClick = (bookTitle: string) => {
-    const filteredArr = mySubjects.filter(
+  const onSubjectClick = (bookTitle: string) => {
+    const filteredArr = GroupedBySameBookRecord.filter(
       (item) => item.bookTitle === bookTitle
     );
-    setFilteredSub(filteredArr);
+    const subjects = filteredArr[0]?.subjects;
+    setFilteredReview([]);
+    setFilteredSubject(subjects);
   };
 
-  const onRemove = (targetId: string) => {
-    const newSubjectArr = filteredSub.filter((item) => item.id !== targetId);
-    setFilteredSub(newSubjectArr);
+  const onReviewClick = (bookTitle: string) => {
+    const filteredArr = GroupedBySameBookRecord.filter(
+      (item) => item.bookTitle === bookTitle
+    );
+    const reviews = filteredArr[0]?.reviews;
+    setFilteredSubject([]);
+    setFilteredReview(reviews);
+  };
+
+  const onSubjectRemove = (targetId: string) => {
+    const newSubjectArr = filteredSubject.filter(
+      (item) => item.id !== targetId
+    );
+    setFilteredSubject(newSubjectArr);
+  };
+
+  const onReviewRemove = (targetId: string) => {
+    const newSubjectArr = filteredReview.filter((item) => item.id !== targetId);
+    setFilteredReview(newSubjectArr);
   };
 
   return (
     <>
       <Container>
         <div>
-          {GroupedBySameBookRecord.map((item, index) => (
-            <Record key={index}>
-              <div>
-                <img
-                  src={
-                    item.group.map((item: DocumentType) => item.bookCover)[0]
-                  }
-                  alt="Book"
-                />
-                <h3>{item.bookTitle}</h3>
-              </div>
-              <Rate>
-                <Star />
-                <Star />
-                <Star />
-                <Star />
-                <Star />
-              </Rate>
-              <div>
-                <button onClick={() => onClick(item.bookTitle)}>
-                  <Notes />
-                  <span>발제문 보기</span>
-                </button>
-                <button onClick={() => onClick(item.bookTitle)}>
-                  <Notes />
-                  <span>모임후기 보기</span>
-                </button>
-              </div>
-            </Record>
-          ))}
+          {GroupedBySameBookRecord.length !== 0 ? (
+            GroupedBySameBookRecord.map((item, index) => (
+              <MyRecord
+                item={item}
+                index={index}
+                onSubjectClick={onSubjectClick}
+                onReviewClick={onReviewClick}
+              />
+            ))
+          ) : (
+            <EmptySign>아직 등록된 책이 없습니다.</EmptySign>
+          )}
         </div>
       </Container>
-      {filteredSub.map((item) => (
-        <SubjectBox item={item} key={item.id} onRemove={onRemove} />
+      {filteredSubject?.map((item) => (
+        <SubjectBox
+          item={item}
+          key={item.id}
+          onSubjectRemove={onSubjectRemove}
+        />
+      ))}
+      {filteredReview?.map((item) => (
+        <Reviews item={item} key={item.id} onReviewRemove={onReviewRemove} />
       ))}
     </>
   );
 };
 
+const EmptySign = styled.div`
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background-color: ${(props) => props.theme.container.lightBlue};
+  font-size: 14px;
+`;
+
 const Container = styled.div`
   overflow: scroll;
+  min-height: 150px;
+  position: relative;
   > div {
     overflow: hidden;
     display: flex;
     width: fit-content;
-  }
-`;
-
-const Record = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  border-radius: 5px;
-  width: 200px;
-  background-color: ${(props) => props.theme.container.default};
-  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
-  > div:first-child {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    img {
-      height: 50px;
-      width: auto;
-      box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
-    }
-    h3 {
-      font-size: 10px;
-      font-weight: 700;
-      margin-top: 6px;
-      text-align: center;
-    }
-  }
-  > div:last-child {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 5px;
-    width: 100%;
-    > button {
-      cursor: pointer;
-      width: 50%;
-      padding: 1px 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      background-color: transparent;
-      border-radius: 15px;
-      svg {
-        width: 18px;
-        height: 18px;
-        margin-right: 4px;
-      }
-      span {
-        font-size: 10px;
-      }
-      &:hover {
-        span {
-          color: ${(props) => props.theme.text.accent};
-        }
-        svg {
-          fill: ${(props) => props.theme.text.accent};
-        }
-      }
-    }
-  }
-`;
-
-const Rate = styled.div`
-  margin-top: 5px;
-  svg {
-    fill: gold;
   }
 `;
 
