@@ -41,9 +41,9 @@ function Router({ isLoggedIn }: PropsType) {
           <Route path="/create_account" element={<CreateAccount />} />
           {isLoggedIn ? (
             <>
-              <Route path="/book" element={<BookMeeting />} />
-              <Route path="/book/find" element={<FindBook />} />
-              <Route path="/book/find/:id" element={<SelectedBook />} />
+              <Route path="/bookmeeting/*" element={<BookMeeting />} />
+              <Route path="/bookmeeting/find" element={<FindBook />} />
+              <Route path="/bookmeeting/find/:id" element={<SelectedBook />} />
               <Route path="/history" element={<ClubBooksHistory />} />
               <Route path="/vote" element={<Vote />} />
               <Route path="/vote/:id" element={<Vote />} />

@@ -26,7 +26,7 @@ const BottomNav = () => {
           </Link>
         </li>
         <li>
-          <Link to="/book">
+          <Link to="/bookmeeting">
             <MenuBookIcon
               className={pathname.includes("/book") ? "isActive" : ""}
             />

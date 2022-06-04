@@ -96,13 +96,16 @@ const Home = () => {
           ) : (
             <span>등록된 책이 없습니다.</span>
           )}
-          <LinkButton link={"/book"} title="발제하러 가기" />
+          <LinkButton link={"/bookmeeting"} title="발제하러 가기" />
         </section>
         <section>
           <Subtitle title={`${Month}월의 모임 일정`} />
           <p>: 매월 셋째주 일요일</p>
           <MeetingInfoBox />
-          <LinkButton link={"/meeting"} title="모임 후기 작성하러 가기" />
+          <LinkButton
+            link={"/bookmeeting/review"}
+            title="모임 후기 작성하러 가기"
+          />
         </section>
         <section>
           <Subtitle title={`${Month}월의 투표`} />
