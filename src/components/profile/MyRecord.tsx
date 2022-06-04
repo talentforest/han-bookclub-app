@@ -16,7 +16,7 @@ const MyRecord = ({
   onReviewClick,
 }: PropsType) => {
   return (
-    <Record key={index}>
+    <Record>
       <div>
         <img
           src={

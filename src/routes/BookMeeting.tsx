@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { dbService } from "fbase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useRecoilState } from "recoil";
-import { Link } from "react-router-dom";
+import { Link, useMatch } from "react-router-dom";
 import { bookSearchHandler } from "api/api";
 import SubjectBox, { DocumentType } from "components/bookmeeting/Subjects";
 import { bookDescState } from "data/bookAtom";
@@ -17,10 +17,13 @@ import MeetingInfoBox from "components/common/MeetingInfoBox";
 import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
 
 const BookMeeting = () => {
-  const [category, setCategory] = useState("book");
   const [bookData, setBookData] = useRecoilState(bookDescState);
   const [subjects, setSubjects] = useState<DocumentType[]>([]);
   const [reviews, setAllReviews] = useState<DocumentType[]>([]);
+
+  const bookUrlMatch = useMatch("/bookmeeting");
+  const subjectUrlMatch = useMatch("/bookmeeting/subject");
+  const reviewUrlMatch = useMatch("/bookmeeting/review");
 
   useEffect(() => {
     getAllReviews();
@@ -87,10 +90,6 @@ const BookMeeting = () => {
     });
   };
 
-  const onCategoryClick = (name: string) => {
-    setCategory(name);
-  };
-
   return (
     <>
       <NewHeader>
@@ -105,27 +104,24 @@ const BookMeeting = () => {
           <MeetingInfoBox />
         </BookMeetingInfo>
         <BookSection>
-          <button
-            onClick={() => onCategoryClick("book")}
-            className={category === "book" ? "isActive" : null}
-          >
-            도서 정보
-          </button>
-          <button
-            onClick={() => onCategoryClick("show")}
-            className={category === "show" ? "isActive" : null}
-          >
-            발제문 참여
-          </button>
-          <button
-            onClick={() => onCategoryClick("review")}
-            className={category === "review" ? "isActive" : null}
-          >
-            모임 후기
-          </button>
+          <Link to="">
+            <button className={bookUrlMatch ? "isActive" : null}>
+              도서 정보
+            </button>
+          </Link>
+          <Link to="subject">
+            <button className={subjectUrlMatch ? "isActive" : null}>
+              발제문 참여
+            </button>
+          </Link>
+          <Link to="review">
+            <button className={reviewUrlMatch ? "isActive" : null}>
+              모임 후기
+            </button>
+          </Link>
         </BookSection>
-        {category === "book" ? <BookDesc bookInfo={bookData[0]} /> : null}
-        {category === "show" ? (
+        {bookUrlMatch ? <BookDesc bookInfo={bookData[0]} /> : null}
+        {subjectUrlMatch ? (
           <>
             <SubjectCreateModal bookInfo={bookData[0]} />
             {subjects.map((item) => (
@@ -133,7 +129,7 @@ const BookMeeting = () => {
             ))}
           </>
         ) : null}
-        {category === "review" ? (
+        {reviewUrlMatch ? (
           <>
             <ReviewCreateBox bookInfo={bookData[0]} />
             {reviews.map((item) => (
@@ -159,10 +155,13 @@ const BookSection = styled.div`
   margin-top: 25px;
   border-radius: 20px;
   background-color: ${(props) => props.theme.container.lightBlue};
+  a {
+    width: 32%;
+  }
   button {
+    width: 100%;
     font-size: 11px;
     font-weight: 700;
-    width: 32%;
     border: none;
     border-radius: 30px;
     height: 30px;

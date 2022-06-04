@@ -131,6 +131,7 @@ const MyRecords = () => {
           {GroupedBySameBookRecord.length !== 0 ? (
             GroupedBySameBookRecord.map((item, index) => (
               <MyRecord
+                key={index}
                 item={item}
                 index={index}
                 onSubjectClick={onSubjectClick}
