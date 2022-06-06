@@ -25,7 +25,7 @@ const SubjectCreateModal = ({ bookInfo }: PropsType) => {
     event.preventDefault();
     try {
       if (subject === "") return;
-      await addDoc(collection(dbService, "Book_Subjects"), {
+      await addDoc(collection(dbService, "Book Subjects"), {
         text: subject,
         createdAt: Date.now(),
         creatorId: userData.uid,

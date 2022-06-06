@@ -30,7 +30,7 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
       if (username && userGender && checkedBookField.size !== 0) {
         await createUserWithEmailAndPassword(authService, email, password);
         await setDoc(
-          doc(dbService, "User_Data", `${authService.currentUser?.uid}`),
+          doc(dbService, "User Data", `${authService.currentUser?.uid}`),
           {
             favoriteBookField: Array.from(checkedBookField),
             gender: userGender,

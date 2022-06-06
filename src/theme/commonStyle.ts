@@ -150,6 +150,8 @@ export const BookCoverTitleBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 70%;
+  margin: 0 auto;
   div {
     width: 70px;
     height: 100px;
@@ -164,6 +166,8 @@ export const BookCoverTitleBox = styled.div`
     margin-bottom: 10px;
   }
   h3 {
+    width: 70%;
+    text-align: center;
     font-size: 14px;
     font-weight: 600;
   }

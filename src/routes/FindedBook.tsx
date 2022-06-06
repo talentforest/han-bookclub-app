@@ -3,10 +3,20 @@ import { bookSearchHandler } from "api/api";
 import { useEffect, useState } from "react";
 import { useMatch } from "react-router-dom";
 import { BookCoverTitleBox, Container } from "theme/commonStyle";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { dbService } from "fbase";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
+import { DocumentType } from "components/bookmeeting/Subjects";
 import { bookDescState } from "data/bookAtom";
 import Subtitle from "components/common/Subtitle";
 import BookDesc from "components/common/BookDesc";
@@ -14,56 +24,119 @@ import styled from "styled-components";
 
 const FindedBook = () => {
   const userData = useRecoilValue(currentUserState);
-  const [bookData, setBookData] = useRecoilState(bookDescState);
   const [toggle, setToggle] = useState(false);
-  const match = useMatch(`/book/find/:id`);
+  const [findbookData, setFindBookData] = useRecoilState(bookDescState);
+  const [thisMonthBookDocData, setThisMonthBookDocData] = useState([]);
+  const match = useMatch(`/bookmeeting/find/:id`);
 
   useEffect(() => {
-    bookSearchHandler(match?.params.id, true, setBookData);
-    if (bookData[0]?.title === match?.params.id) {
+    if (thisMonthBookDocData[0]?.bookTitle === match?.params?.id) {
       setToggle(true);
     }
+    bookSearchHandler(match?.params.id, true, setFindBookData);
+    getThisMonthBookData();
+
     return () => {
-      bookSearchHandler(match?.params.id, true, setBookData);
+      getThisMonthBookData();
+      bookSearchHandler(match?.params.id, true, setFindBookData);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [match?.params.id]);
+  }, []);
+
+  const getThisMonthBookData = async () => {
+    const q = query(
+      collection(dbService, "Book of the Month"),
+      orderBy("createdAt", "desc")
+    );
+
+    onSnapshot(q, (querySnapshot) => {
+      const newArray = querySnapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        } as DocumentType;
+      });
+      setThisMonthBookDocData(newArray);
+    });
+  };
 
   const onClick = async () => {
-    try {
-      setToggle((prev) => !prev);
-      if (!toggle) {
-        await addDoc(collection(dbService, "Book of the Month"), {
-          bookTitle: match?.params.id,
-          createdAt: Date.now(),
-          creatorId: userData.uid,
-          month: new Date().getMonth() + 1,
-        });
+    setToggle((prev) => !prev);
+    handleThisMonthBookDoc();
+  };
+
+  const handleThisMonthBookDoc = async () => {
+    if (toggle === false) {
+      if (
+        thisMonthBookDocData[0]?.id !==
+        `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월`
+      ) {
+        setThisMonthBookDoc();
+      } else {
+        updateThisMonthBookDoc();
       }
-    } catch (error) {
-      console.error("Error adding document:", error);
+    } else if (toggle === true) {
+      deleteThisMonthBookDoc();
     }
+  };
+
+  const setThisMonthBookDoc = async () => {
+    await setDoc(
+      doc(
+        dbService,
+        "Book of the Month",
+        `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월`
+      ),
+      {
+        bookCover: findbookData[0].thumbnail,
+        bookTitle: match?.params.id,
+        createdAt: Date.now(),
+        creatorId: userData.uid,
+      }
+    );
+  };
+
+  const updateThisMonthBookDoc = async () => {
+    const thisMonthBookRef = doc(
+      dbService,
+      "Book of the Month",
+      `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월`
+    );
+    await updateDoc(thisMonthBookRef, {
+      bookCover: findbookData[0].thumbnail,
+      bookTitle: match?.params.id,
+      createdAt: Date.now(),
+    });
+  };
+
+  const deleteThisMonthBookDoc = async () => {
+    const thisMonthBookRef = doc(
+      dbService,
+      "Book of the Month",
+      `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월`
+    );
+    await deleteDoc(thisMonthBookRef);
   };
 
   return (
     <Container>
       <Subtitle title="도서 정보" />
       <BookCoverTitleBox>
-        <img src={bookData[0]?.thumbnail} alt="Book_Image" />
-        <h3>{bookData[0]?.title}</h3>
+        <img src={findbookData[0]?.thumbnail} alt="Book_Image" />
+        <h3>{findbookData[0]?.title}</h3>
       </BookCoverTitleBox>
-      {!toggle ? (
+      {toggle ? (
+        <Selected>
+          <button onClick={onClick}>
+            이달의 책 선정 <Star />
+          </button>
+        </Selected>
+      ) : (
         <BookSection>
           <button onClick={onClick}>이달의 책으로 등록</button>
         </BookSection>
-      ) : (
-        <Selected>
-          <button onClick={onClick}>
-            이달의 책 선정 <Star sx={{ fontSize: 18 }} color="primary" />
-          </button>
-        </Selected>
       )}
-      <BookDesc bookInfo={bookData[0]} />
+      <BookDesc bookInfo={findbookData[0]} />
     </Container>
   );
 };
@@ -91,6 +164,9 @@ const Selected = styled(BookSection)`
   button {
     color: ${(props) => props.theme.text.accent};
     background-color: ${(props) => props.theme.container.lightBlue};
+    svg {
+      fill: gold;
+    }
   }
 `;
 

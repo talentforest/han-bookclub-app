@@ -10,7 +10,7 @@ import { Delete, Edit } from "@mui/icons-material";
 
 export interface DocumentType {
   id: string;
-  text: string;
+  text?: string;
   creatorId: string;
   createdAt: number;
   bookTitle?: string;
@@ -28,7 +28,7 @@ const Subjects = ({ item, onSubjectRemove }: ISubject) => {
   const [newText, setNewText] = useState(item.text);
 
   const onDeleteClick = async () => {
-    const SubjectTextRef = doc(dbService, "Book_Subjects", `${item.id}`);
+    const SubjectTextRef = doc(dbService, "Book Subjects", `${item.id}`);
     await deleteDoc(SubjectTextRef);
     if (onSubjectRemove) {
       onSubjectRemove(item.id);
@@ -39,7 +39,7 @@ const Subjects = ({ item, onSubjectRemove }: ISubject) => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const SubjectTextRef = doc(dbService, "Book_Subjects", `${item.id}`);
+    const SubjectTextRef = doc(dbService, "Book Subjects", `${item.id}`);
     await updateDoc(SubjectTextRef, { text: newText });
     setEditing(false);
   };

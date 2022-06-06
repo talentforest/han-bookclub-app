@@ -86,7 +86,7 @@ const EditProfile = () => {
       }
 
       // update document
-      const UserDataRef = doc(dbService, "User_Data", `${userData.uid}`);
+      const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
       updateDoc(UserDataRef, {
         favoriteBookField: Array.from(favFields),
       });

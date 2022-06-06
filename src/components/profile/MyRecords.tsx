@@ -33,7 +33,7 @@ const MyRecords = () => {
 
   const getAllSubjects = async () => {
     const q = query(
-      collection(dbService, "Book_Subjects"),
+      collection(dbService, "Book Subjects"),
       orderBy("createdAt", "desc")
     );
 
@@ -50,7 +50,7 @@ const MyRecords = () => {
 
   const getAllReviews = async () => {
     const q = query(
-      collection(dbService, "Meeting_Review"),
+      collection(dbService, "Meeting Review"),
       orderBy("createdAt", "desc")
     );
 

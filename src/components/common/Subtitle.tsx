@@ -10,7 +10,7 @@ const Sub = styled.h1`
   display: flex;
   align-items: center;
   width: fit-content;
-  margin: 20px 15px 10px;
+  margin: 0px 15px 10px;
   font-weight: 700;
   @media ${device.tablet} {
     font-size: 24px;

@@ -5,8 +5,8 @@ import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useRecoilState } from "recoil";
 import { Link, useMatch } from "react-router-dom";
 import { bookSearchHandler } from "api/api";
-import SubjectBox, { DocumentType } from "components/bookmeeting/Subjects";
 import { bookDescState } from "data/bookAtom";
+import SubjectBox, { DocumentType } from "components/bookmeeting/Subjects";
 import Title from "components/common/Title";
 import BookTitleImage from "components/bookmeeting/BookTitleImage";
 import styled from "styled-components";
@@ -28,20 +28,19 @@ const BookMeeting = () => {
   useEffect(() => {
     getAllReviews();
     getAllSubjects();
-    if (bookData.length === 0) {
-      getThisMonthBookData();
-    }
+    getThisMonthBookData();
+
     return () => {
-      getThisMonthBookData();
       getAllReviews();
       getAllSubjects();
+      getThisMonthBookData();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getAllReviews = async () => {
     const q = query(
-      collection(dbService, "Meeting_Review"),
+      collection(dbService, "Meeting Review"),
       orderBy("createdAt", "desc")
     );
 
@@ -58,7 +57,7 @@ const BookMeeting = () => {
 
   const getAllSubjects = async () => {
     const q = query(
-      collection(dbService, "Book_Subjects"),
+      collection(dbService, "Book Subjects"),
       orderBy("createdAt", "desc")
     );
 
@@ -85,8 +84,9 @@ const BookMeeting = () => {
           ...doc.data(),
         };
       });
-
-      bookSearchHandler(newArray[0].bookTitle, true, setBookData);
+      if (newArray.length) {
+        bookSearchHandler(newArray[0].bookTitle, true, setBookData);
+      }
     });
   };
 
@@ -100,7 +100,15 @@ const BookMeeting = () => {
       </NewHeader>
       <Container>
         <BookMeetingInfo>
-          <BookTitleImage />
+          {bookData.length ? (
+            <BookTitleImage />
+          ) : (
+            <EmptySign>
+              등록된 책이
+              <br />
+              없습니다.
+            </EmptySign>
+          )}
           <MeetingInfoBox />
         </BookMeetingInfo>
         <BookSection>
@@ -187,6 +195,20 @@ const BookMeetingInfo = styled.div`
     background-color: transparent;
     box-shadow: none;
   }
+`;
+
+const EmptySign = styled.div`
+  text-align: center;
+  height: 130px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: ${(props) => props.theme.container.default};
+  font-size: 13px;
+  font-weight: 700;
 `;
 
 export default BookMeeting;

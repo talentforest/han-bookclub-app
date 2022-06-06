@@ -19,7 +19,7 @@ const ReviewCreateBox = ({ bookInfo }: PropsType) => {
     event.preventDefault();
     try {
       if (review === "") return;
-      await addDoc(collection(dbService, "Meeting_Review"), {
+      await addDoc(collection(dbService, "Meeting Review"), {
         text: review,
         createdAt: Date.now(),
         creatorId: userData.uid,

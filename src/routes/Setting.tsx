@@ -1,9 +1,10 @@
 import { Container } from "theme/commonStyle";
+import { Link } from "react-router-dom";
 import BackButton from "components/common/BackButton";
 import Subtitle from "components/common/Subtitle";
+import LogOutButton from "components/settings/LogOutButton";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import LogOutButton from "components/common/LogOutButton";
+import DeleteAccountButton from "components/settings/DeleteAccountButton";
 
 const Setting = () => {
   return (
@@ -23,6 +24,9 @@ const Setting = () => {
         <ul>
           <li>
             <LogOutButton />
+          </li>
+          <li>
+            <DeleteAccountButton />
           </li>
         </ul>
       </NewContainer>
@@ -53,8 +57,8 @@ const NewContainer = styled(Container)`
       border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
       font-size: 14px;
       padding: 10px 0 15px;
-      cursor: pointer;
       > button {
+        cursor: pointer;
         padding: 0;
       }
     }

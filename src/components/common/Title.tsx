@@ -6,7 +6,11 @@ const Title = ({ title }: titleType) => {
   const month = new Date().getMonth() + 1;
   return (
     <h1>
-      {pathname === "/" || pathname.includes("profile") ? null : `${month}월`}
+      {pathname === "/" ||
+      pathname.includes("profile") ||
+      pathname.includes("history")
+        ? null
+        : `${month}월`}
       {title}
     </h1>
   );

@@ -41,8 +41,8 @@ const FindBook = () => {
         </Form>
         <BookResults>
           <span>검색결과 {bookInfo.length}건</span>
-          {bookInfo.map((bookInfo) => (
-            <ResultBox bookInfo={bookInfo} key={bookInfo.isbn} />
+          {bookInfo.map((bookInfo, index) => (
+            <ResultBox bookInfo={bookInfo} key={index} />
           ))}
         </BookResults>
       </Container>

@@ -13,12 +13,12 @@ const BookDesc = ({ bookInfo }: PropsType) => {
       <BookDetail>
         <li>
           <ExpandCircleDown />
-          저자: {bookInfo?.authors.join(", ")}
+          저자: {bookInfo?.authors?.join(", ")}
         </li>
-        {bookInfo?.translators.length !== 0 ? (
+        {bookInfo?.translators?.length !== 0 ? (
           <li>
             <ExpandCircleDown />
-            역자: {bookInfo?.translators.join(", ")}
+            역자: {bookInfo?.translators?.join(", ")}
           </li>
         ) : null}
         <li>

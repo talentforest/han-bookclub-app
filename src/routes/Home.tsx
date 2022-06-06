@@ -54,7 +54,9 @@ const Home = () => {
           ...doc.data(),
         };
       });
-      bookSearchHandler(newArray[0].bookTitle, true, setBookInfo);
+      if (newArray.length) {
+        bookSearchHandler(newArray[0]?.bookTitle, true, setBookInfo);
+      }
     });
   };
 
@@ -94,7 +96,9 @@ const Home = () => {
               <h3>{bookInfo[0]?.title}</h3>
             </BookCoverTitleBox>
           ) : (
-            <span>등록된 책이 없습니다.</span>
+            <EmptySign>
+              <span>등록된 책이 없습니다.</span>
+            </EmptySign>
           )}
           <LinkButton link={"/bookmeeting"} title="발제하러 가기" />
         </section>
@@ -118,7 +122,11 @@ const Home = () => {
           <LinkButton link={"/vote"} title="투표하러 가기" />
         </section>
         <section>
-          <Subtitle title="내가 읽은 책 추천하기" />
+          <Subtitle title="같은 분야의 추천책" />
+          <BookCoverTitleBox>
+            <img src={bookInfo[0]?.thumbnail} alt="Book_Image" />
+            <h3>{bookInfo[0]?.title}</h3>
+          </BookCoverTitleBox>
           <BookRecomCreateBox uid={userData?.uid} />
           {recommendBook.map((item) => (
             <BookRecomBox key={item.id} item={item} />
@@ -150,6 +158,9 @@ const NewHeader = styled(Header)`
 const NewContainer = styled(Container)`
   > section {
     margin: 0 auto;
+    > h1 {
+      margin-top: 20px;
+    }
     > p {
       font-size: 12px;
       font-weight: 700;
@@ -171,6 +182,19 @@ const NewContainer = styled(Container)`
       margin-top: 0;
     }
   }
+`;
+
+const EmptySign = styled.div`
+  text-align: center;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: ${(props) => props.theme.container.default};
+  font-size: 13px;
+  font-weight: 700;
 `;
 
 export default Home;
