@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { dbService } from "fbase";
-import { addDoc, collection } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { SubmitBtn } from "theme/commonStyle";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
@@ -19,13 +19,20 @@ const ReviewCreateBox = ({ bookInfo }: PropsType) => {
     event.preventDefault();
     try {
       if (review === "") return;
-      await addDoc(collection(dbService, "Meeting Review"), {
-        text: review,
-        createdAt: Date.now(),
-        creatorId: userData.uid,
-        bookTitle: bookInfo.title,
-        bookCover: bookInfo.thumbnail,
-      });
+      await setDoc(
+        doc(
+          dbService,
+          "Meeting Review",
+          `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월`
+        ),
+        {
+          text: review,
+          createdAt: Date.now(),
+          creatorId: userData.uid,
+          title: bookInfo.title,
+          thumbnail: bookInfo.thumbnail,
+        }
+      );
     } catch (error) {
       console.error("Error adding document:", error);
     }

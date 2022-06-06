@@ -2,19 +2,19 @@ import { useState } from "react";
 import { dbService } from "fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { timestamp } from "util/timestamp";
-import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import UserInfoBox from "components/common/UserInfoBox";
 import { Delete, Edit } from "@mui/icons-material";
+import UserInfoBox from "components/common/UserInfoBox";
+import styled from "styled-components";
 
 export interface DocumentType {
   id: string;
   text?: string;
   creatorId: string;
   createdAt: number;
-  bookTitle?: string;
-  bookCover?: string;
+  title?: string;
+  thumbnail?: string;
 }
 
 interface ISubject {
@@ -65,8 +65,8 @@ const Subjects = ({ item, onSubjectRemove }: ISubject) => {
           </form>
           <AddInfo>
             <Book>
-              <img src={item.bookCover} alt="url" />
-              <span>{item.bookTitle}</span>
+              <img src={item.thumbnail} alt="url" />
+              <span>{item.title}</span>
             </Book>
             <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
           </AddInfo>
@@ -85,8 +85,8 @@ const Subjects = ({ item, onSubjectRemove }: ISubject) => {
           <pre>{newText}</pre>
           <AddInfo>
             <Book>
-              <img src={item.bookCover} alt="url" />
-              <span>{item.bookTitle}</span>
+              <img src={item.thumbnail} alt="url" />
+              <span>{item.title}</span>
             </Book>
             <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
           </AddInfo>

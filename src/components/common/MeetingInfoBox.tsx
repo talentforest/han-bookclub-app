@@ -2,8 +2,14 @@ import { MediumBox } from "theme/commonStyle";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import { AccessTime, Place } from "@mui/icons-material";
+import { BookMeetingInfo } from "routes/BookMeeting";
 
-const MeetingInfoBox = () => {
+interface PropsType {
+  data: BookMeetingInfo;
+}
+
+const MeetingInfoBox = ({ data }: PropsType) => {
+  console.log(data);
   return (
     <MeetingInfo>
       <div>
@@ -11,14 +17,14 @@ const MeetingInfoBox = () => {
           모임시간
           <AccessTime />
         </span>
-        <p>6월 19일 일요일 오후 14:00</p>
+        <p>{data?.meeting.time}</p>
       </div>
       <div>
         <span>
           모임장소
           <Place />
         </span>
-        <p>카페꼼마 삼일빌딩점</p>
+        <p>{data?.meeting.place}</p>
       </div>
     </MeetingInfo>
   );

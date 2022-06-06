@@ -14,36 +14,34 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { dbService } from "fbase";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import { DocumentType } from "components/bookmeeting/Subjects";
-import { bookDescState } from "data/bookAtom";
 import Subtitle from "components/common/Subtitle";
 import BookDesc from "components/common/BookDesc";
 import styled from "styled-components";
+import { BookMeetingInfo } from "./BookMeeting";
 
 const FindedBook = () => {
   const userData = useRecoilValue(currentUserState);
   const [toggle, setToggle] = useState(false);
-  const [findbookData, setFindBookData] = useRecoilState(bookDescState);
+  const [findbookData, setFindBookData] = useState([]);
   const [thisMonthBookDocData, setThisMonthBookDocData] = useState([]);
   const match = useMatch(`/bookmeeting/find/:id`);
 
   useEffect(() => {
-    if (thisMonthBookDocData[0]?.bookTitle === match?.params?.id) {
-      setToggle(true);
-    }
     bookSearchHandler(match?.params.id, true, setFindBookData);
-    getThisMonthBookData();
-
+    getThisMonthBookMeetingData();
+    if (thisMonthBookDocData[0]?.bookTitle === match?.params.id) {
+      return setToggle(true);
+    }
     return () => {
-      getThisMonthBookData();
+      getThisMonthBookMeetingData();
       bookSearchHandler(match?.params.id, true, setFindBookData);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getThisMonthBookData = async () => {
+  const getThisMonthBookMeetingData = async () => {
     const q = query(
       collection(dbService, "Book of the Month"),
       orderBy("createdAt", "desc")
@@ -54,7 +52,7 @@ const FindedBook = () => {
         return {
           id: doc.id,
           ...doc.data(),
-        } as DocumentType;
+        } as BookMeetingInfo;
       });
       setThisMonthBookDocData(newArray);
     });
@@ -71,16 +69,16 @@ const FindedBook = () => {
         thisMonthBookDocData[0]?.id !==
         `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월`
       ) {
-        setThisMonthBookDoc();
+        setThisMonthBookMeetingDoc();
       } else {
-        updateThisMonthBookDoc();
+        updateThisMonthBookMeetingDoc();
       }
     } else if (toggle === true) {
-      deleteThisMonthBookDoc();
+      deleteThisMonthBookMeetingDoc();
     }
   };
 
-  const setThisMonthBookDoc = async () => {
+  const setThisMonthBookMeetingDoc = async () => {
     await setDoc(
       doc(
         dbService,
@@ -88,28 +86,55 @@ const FindedBook = () => {
         `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월`
       ),
       {
-        bookCover: findbookData[0].thumbnail,
-        bookTitle: match?.params.id,
+        book: {
+          thumbnail: findbookData[0].thumbnail,
+          title: match?.params.id,
+          authors: findbookData[0].authors,
+          translators: findbookData[0].translators,
+          price: findbookData[0].price,
+          contents: findbookData[0].contents,
+          publisher: findbookData[0].publisher,
+          publication_date: findbookData[0].datetime,
+          url: findbookData[0].url,
+        },
+        meeting: {
+          place: "아직이지롱",
+          time: "아직이지롱",
+        },
         createdAt: Date.now(),
         creatorId: userData.uid,
       }
     );
   };
 
-  const updateThisMonthBookDoc = async () => {
+  const updateThisMonthBookMeetingDoc = async () => {
     const thisMonthBookRef = doc(
       dbService,
       "Book of the Month",
       `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월`
     );
     await updateDoc(thisMonthBookRef, {
-      bookCover: findbookData[0].thumbnail,
-      bookTitle: match?.params.id,
+      book: {
+        thumbnail: findbookData[0].thumbnail,
+        title: match?.params.id,
+        authors: findbookData[0].authors,
+        translators: findbookData[0].translators,
+        price: findbookData[0].price,
+        contents: findbookData[0].contents,
+        publisher: findbookData[0].publisher,
+        publication_date: findbookData[0].datetime,
+        url: findbookData[0].url,
+      },
+      meeting: {
+        place: "아직이지롱",
+        time: "아직이지롱",
+      },
       createdAt: Date.now(),
+      creatorId: userData.uid,
     });
   };
 
-  const deleteThisMonthBookDoc = async () => {
+  const deleteThisMonthBookMeetingDoc = async () => {
     const thisMonthBookRef = doc(
       dbService,
       "Book of the Month",

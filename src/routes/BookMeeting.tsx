@@ -1,14 +1,16 @@
-import { Container, Header, TopButton } from "theme/commonStyle";
+import {
+  BookCoverTitleBox,
+  Container,
+  Header,
+  TopButton,
+} from "theme/commonStyle";
 import { useEffect, useState } from "react";
 import { dbService } from "fbase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { useRecoilState } from "recoil";
 import { Link, useMatch } from "react-router-dom";
-import { bookSearchHandler } from "api/api";
-import { bookDescState } from "data/bookAtom";
+import { BookDocument } from "data/bookAtom";
 import SubjectBox, { DocumentType } from "components/bookmeeting/Subjects";
 import Title from "components/common/Title";
-import BookTitleImage from "components/bookmeeting/BookTitleImage";
 import styled from "styled-components";
 import BookDesc from "components/common/BookDesc";
 import ReviewCreateBox from "components/bookmeeting/ReviewCreateBox";
@@ -16,10 +18,23 @@ import Reviews from "components/bookmeeting/Reviews";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
 import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
 
+interface meetingType {
+  time: string;
+  place: string;
+}
+
+export interface BookMeetingInfo {
+  book: BookDocument;
+  createdAt: number;
+  creatorId: string;
+  meeting: meetingType;
+  id?: string;
+}
+
 const BookMeeting = () => {
-  const [bookData, setBookData] = useRecoilState(bookDescState);
-  const [subjects, setSubjects] = useState<DocumentType[]>([]);
-  const [reviews, setAllReviews] = useState<DocumentType[]>([]);
+  const [thisMonthBookDocData, setThisMonthBookDocData] = useState([]);
+  const [subjects, setSubjects] = useState([]);
+  const [reviews, setAllReviews] = useState([]);
 
   const bookUrlMatch = useMatch("/bookmeeting");
   const subjectUrlMatch = useMatch("/bookmeeting/subject");
@@ -66,9 +81,9 @@ const BookMeeting = () => {
         return {
           id: doc.id,
           ...doc.data(),
-        };
+        } as DocumentType;
       });
-      setSubjects(newArray as DocumentType[]);
+      setSubjects(newArray);
     });
   };
 
@@ -82,11 +97,9 @@ const BookMeeting = () => {
       const newArray = querySnapshot.docs.map((doc) => {
         return {
           ...doc.data(),
-        };
+        } as BookMeetingInfo;
       });
-      if (newArray.length) {
-        bookSearchHandler(newArray[0].bookTitle, true, setBookData);
-      }
+      setThisMonthBookDocData(newArray);
     });
   };
 
@@ -99,9 +112,15 @@ const BookMeeting = () => {
         </Link>
       </NewHeader>
       <Container>
-        <BookMeetingInfo>
-          {bookData.length ? (
-            <BookTitleImage />
+        <BookMeetingBox>
+          {thisMonthBookDocData.length ? (
+            <BookCoverTitleBox>
+              <img
+                src={thisMonthBookDocData[0]?.book.thumbnail}
+                alt="Book_Image"
+              />
+              <h3>{thisMonthBookDocData[0]?.book.title}</h3>
+            </BookCoverTitleBox>
           ) : (
             <EmptySign>
               등록된 책이
@@ -109,8 +128,8 @@ const BookMeeting = () => {
               없습니다.
             </EmptySign>
           )}
-          <MeetingInfoBox />
-        </BookMeetingInfo>
+          <MeetingInfoBox data={thisMonthBookDocData[0]} />
+        </BookMeetingBox>
         <BookSection>
           <Link to="">
             <button className={bookUrlMatch ? "isActive" : null}>
@@ -128,10 +147,12 @@ const BookMeeting = () => {
             </button>
           </Link>
         </BookSection>
-        {bookUrlMatch ? <BookDesc bookInfo={bookData[0]} /> : null}
+        {bookUrlMatch ? (
+          <BookDesc bookInfo={thisMonthBookDocData[0]?.book} />
+        ) : null}
         {subjectUrlMatch ? (
           <>
-            <SubjectCreateModal bookInfo={bookData[0]} />
+            <SubjectCreateModal bookInfo={thisMonthBookDocData[0]?.book} />
             {subjects.map((item) => (
               <SubjectBox item={item} key={item.id} />
             ))}
@@ -139,7 +160,7 @@ const BookMeeting = () => {
         ) : null}
         {reviewUrlMatch ? (
           <>
-            <ReviewCreateBox bookInfo={bookData[0]} />
+            <ReviewCreateBox bookInfo={thisMonthBookDocData[0]?.book} />
             {reviews.map((item) => (
               <Reviews key={item.id} item={item} />
             ))}
@@ -183,7 +204,7 @@ const BookSection = styled.div`
   }
 `;
 
-const BookMeetingInfo = styled.div`
+const BookMeetingBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;

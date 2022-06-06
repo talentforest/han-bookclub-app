@@ -21,8 +21,8 @@ const MyRecord = ({
         <img
           src={
             item.subjects[0]
-              ? item.subjects[0].bookCover
-              : item.reviews[0].bookCover
+              ? item.subjects[0].thumbnail
+              : item.reviews[0].thumbnail
           }
           alt="Book"
         />

@@ -6,10 +6,10 @@ import {
 } from "firebase/auth";
 import { authService } from "fbase";
 import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import { Container, Form, Input, Button } from "theme/commonStyle";
-import device from "theme/mediaQueries";
 import { Google } from "@mui/icons-material";
+import device from "theme/mediaQueries";
+import styled from "styled-components";
 
 const LogInPage = () => {
   const navigator = useNavigate();

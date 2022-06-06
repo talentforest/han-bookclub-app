@@ -75,8 +75,8 @@ const Reviews = ({ item, onReviewRemove }: PropsType) => {
           />
           <AddInfo>
             <Book>
-              <img src={item.bookCover} alt="url" />
-              <span>{item.bookTitle}</span>
+              <img src={item.thumbnail} alt="url" />
+              <span>{item.title}</span>
             </Book>
             <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
           </AddInfo>
@@ -95,8 +95,8 @@ const Reviews = ({ item, onReviewRemove }: PropsType) => {
           <p>{newText}</p>
           <AddInfo>
             <Book>
-              <img src={item.bookCover} alt="url" />
-              <span>{item.bookTitle}</span>
+              <img src={item.thumbnail} alt="url" />
+              <span>{item.title}</span>
             </Book>
             <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
           </AddInfo>

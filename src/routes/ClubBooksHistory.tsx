@@ -1,19 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Header } from "theme/commonStyle";
 import { months } from "util/constants";
 import Subtitle from "components/common/Subtitle";
 import Title from "components/common/Title";
 import styled from "styled-components";
-import BookTitleImage from "components/bookmeeting/BookTitleImage";
 import { AccessTime, Place } from "@mui/icons-material";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { dbService } from "fbase";
 
 const ClubBooksHistory = () => {
   const thisMonth = new Date().getMonth() + 1;
   const thisYear = new Date().getFullYear();
+  const [thisMonthBookDocData, setThisMonthBookDocData] = useState([]);
   const [selectMonth, setSelectMonth] = useState(`${thisMonth}월`);
 
   const onClick = (month: string) => {
     setSelectMonth(month);
+  };
+
+  useEffect(() => {
+    getThisMonthBookMeetingData();
+    return () => {
+      getThisMonthBookMeetingData();
+    };
+  }, []);
+
+  const getThisMonthBookMeetingData = async () => {
+    const q = query(
+      collection(dbService, "Book of the Month"),
+      orderBy("createdAt", "desc")
+    );
+
+    onSnapshot(q, (querySnapshot) => {
+      const newArray = querySnapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        } as unknown as DocumentType;
+      });
+      setThisMonthBookDocData(newArray);
+    });
   };
 
   return (
@@ -36,23 +62,27 @@ const ClubBooksHistory = () => {
           ))}
         </History>
         <BookMeetingInfo>
-          <h1>{selectMonth}의 책모임</h1>
+          <Subtitle title={`${selectMonth}의 책모임`} />
           <div>
+            <BookCover
+              src={thisMonthBookDocData[0]?.book.thumbnail}
+              alt="Book_Image"
+            />
             <MeetingInfo>
+              <h3>{thisMonthBookDocData[0]?.book.title}</h3>
               <div>
                 <span>
                   모임시간 <AccessTime />
                 </span>
-                <span>2022년 6월 19일 오후 12:00</span>
+                <span>{thisMonthBookDocData[0]?.meeting.time}</span>
               </div>
               <div>
                 <span>
                   모임장소 <Place />
                 </span>
-                <span>카페꼼마 삼일빌딩점</span>
+                <span>{thisMonthBookDocData[0]?.meeting.place}</span>
               </div>
             </MeetingInfo>
-            <BookTitleImage />
           </div>
           <Subtitle title={`${selectMonth}의 기록`} />
         </BookMeetingInfo>
@@ -64,7 +94,7 @@ const ClubBooksHistory = () => {
 const BookMeetingInfo = styled.div`
   border-radius: 10px;
   margin-top: 10px;
-  padding: 10px;
+  padding: 10px 20px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   h1 {
@@ -78,17 +108,31 @@ const BookMeetingInfo = styled.div`
   > div {
     display: flex;
     justify-content: space-around;
-    align-items: flex-end;
+    align-items: center;
   }
 `;
 
+const BookCover = styled.img`
+  background-color: ${(props) => props.theme.container.default};
+  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
+  height: 120px;
+  width: auto;
+  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
+  margin-right: 10px;
+`;
+
 const MeetingInfo = styled.div`
+  width: 60%;
+  h3 {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
   div {
     display: flex;
     flex-direction: column;
-    margin-top: 15px;
     > span:first-child {
-      font-size: 13px;
+      font-size: 12px;
       margin-bottom: 3px;
       display: flex;
       align-items: center;
@@ -98,8 +142,9 @@ const MeetingInfo = styled.div`
       }
     }
     > span:last-child {
-      border-bottom: 1px solid ${(props) => props.theme.text.gray};
-      margin-bottom: 4px;
+      border-bottom: 1px solid #aaa;
+      padding-bottom: 2px;
+      margin-bottom: 8px;
       font-size: 15px;
     }
   }

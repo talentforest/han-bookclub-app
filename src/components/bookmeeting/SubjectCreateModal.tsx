@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { dbService } from "fbase";
-import { addDoc, collection } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { SubmitBtn } from "theme/commonStyle";
 import { Add, Close } from "@mui/icons-material";
-import styled from "styled-components";
 import { BookDocument } from "data/bookAtom";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
+import styled from "styled-components";
 
 interface PropsType {
   bookInfo: BookDocument;
@@ -25,13 +25,20 @@ const SubjectCreateModal = ({ bookInfo }: PropsType) => {
     event.preventDefault();
     try {
       if (subject === "") return;
-      await addDoc(collection(dbService, "Book Subjects"), {
-        text: subject,
-        createdAt: Date.now(),
-        creatorId: userData.uid,
-        bookTitle: bookInfo.title,
-        bookCover: bookInfo.thumbnail,
-      });
+      await setDoc(
+        doc(
+          dbService,
+          "Book Subjects",
+          `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월`
+        ),
+        {
+          text: subject,
+          createdAt: Date.now(),
+          creatorId: userData.uid,
+          title: bookInfo.title,
+          thumbnail: bookInfo.thumbnail,
+        }
+      );
     } catch (error) {
       console.error("Error adding document:", error);
     }
