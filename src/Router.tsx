@@ -15,6 +15,7 @@ import useWindowSize from "hooks/useWindowSize";
 import FindBook from "routes/FindBook";
 import SelectedBook from "routes/FindedBook";
 import ClubBooksHistory from "routes/ClubBooksHistory";
+import UserDataInputForm from "components/loginForm/UserDataInputForm";
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -39,6 +40,10 @@ function Router({ isLoggedIn }: PropsType) {
         )}
         <>
           <Route path="/create_account" element={<CreateAccount />} />
+          <Route
+            path="/create_account/userInfo"
+            element={<UserDataInputForm />}
+          />
           {isLoggedIn ? (
             <>
               <Route path="/bookmeeting/*" element={<BookMeeting />} />

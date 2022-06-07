@@ -1,9 +1,13 @@
 import BookField from "components/loginForm/BookField";
 import { authService, dbService } from "fbase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Desc, Input } from "theme/commonStyle";
+import { Button, Container, Desc, Input } from "theme/commonStyle";
 import { bookFields, gender } from "util/constants";
 import { doc, setDoc } from "firebase/firestore";
 import styled from "styled-components";
@@ -14,8 +18,8 @@ export interface BookFieldType {
 }
 
 interface PropsType {
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
 }
 
 const UserDataInputForm = ({ email, password }: PropsType) => {
@@ -28,7 +32,13 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
     event.preventDefault();
     try {
       if (username && userGender && checkedBookField.size !== 0) {
-        await createUserWithEmailAndPassword(authService, email, password);
+        if (email && password) {
+          await createUserWithEmailAndPassword(authService, email, password);
+        } else {
+          let provider;
+          provider = new GoogleAuthProvider();
+          await signInWithPopup(authService, provider);
+        }
         await setDoc(
           doc(dbService, "User Data", `${authService.currentUser?.uid}`),
           {
@@ -68,48 +78,50 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
   };
 
   return (
-    <UserInfoForm onSubmit={onSubmit}>
-      <Desc>개인 정보를 입력해주세요.</Desc>
-      <div>
-        <label htmlFor="name">이름</label>
-        <Input
-          type="text"
-          name="username"
-          placeholder="이름을 입력해주세요."
-          onChange={onChange}
-          value={username}
-          required
-        />
-      </div>
-      <Info>성별</Info>
-      <fieldset>
-        {gender.map((item) => (
-          <div key={item}>
-            <label htmlFor={item}>{item}</label>
-            <input
-              id={item}
-              type="radio"
-              name="gender"
-              value={item}
-              onChange={onChange}
-              required
-            />
-          </div>
-        ))}
-      </fieldset>
-      <Info>관심 분야</Info>
-      <fieldset>
-        {bookFields.map((item, index) => (
-          <BookField
-            key={index}
-            bookFieldName={item.name}
-            bookFields={item}
-            checkedBoxHandler={checkedBoxHandler}
+    <Container>
+      <UserInfoForm onSubmit={onSubmit}>
+        <Desc>개인 정보를 입력해주세요.</Desc>
+        <div>
+          <label htmlFor="name">이름</label>
+          <Input
+            type="text"
+            name="username"
+            placeholder="이름을 입력해주세요."
+            onChange={onChange}
+            value={username}
+            required
           />
-        ))}
-      </fieldset>
-      <Button type="submit" value="계정 생성" />
-    </UserInfoForm>
+        </div>
+        <Info>성별</Info>
+        <fieldset>
+          {gender.map((item) => (
+            <div key={item}>
+              <label htmlFor={item}>{item}</label>
+              <input
+                id={item}
+                type="radio"
+                name="gender"
+                value={item}
+                onChange={onChange}
+                required
+              />
+            </div>
+          ))}
+        </fieldset>
+        <Info>관심 분야</Info>
+        <fieldset>
+          {bookFields.map((item, index) => (
+            <BookField
+              key={index}
+              bookFieldName={item.name}
+              bookFields={item}
+              checkedBoxHandler={checkedBoxHandler}
+            />
+          ))}
+        </fieldset>
+        <Button type="submit" value="계정 생성" />
+      </UserInfoForm>
+    </Container>
   );
 };
 

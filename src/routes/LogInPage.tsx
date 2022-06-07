@@ -1,9 +1,5 @@
 import { useState } from "react";
-import {
-  GoogleAuthProvider,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { authService } from "fbase";
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Form, Input, Button } from "theme/commonStyle";
@@ -44,10 +40,9 @@ const LogInPage = () => {
     const {
       currentTarget: { name },
     } = event;
-    let provider;
     if (name === "google") {
-      provider = new GoogleAuthProvider();
-      await signInWithPopup(authService, provider);
+      alert("개인정보가 작성되면 계정 생성이 완료돼요");
+      navigator("/create_account/userInfo");
     }
   };
 
