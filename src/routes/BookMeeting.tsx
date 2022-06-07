@@ -35,7 +35,6 @@ const BookMeeting = () => {
   const [thisMonthBookDocData, setThisMonthBookDocData] = useState([]);
   const [allSubjects, setSubjects] = useState([]);
   const [allReviews, setAllReviews] = useState([]);
-
   const bookUrlMatch = useMatch("/bookmeeting");
   const subjectUrlMatch = useMatch("/bookmeeting/subject");
   const reviewUrlMatch = useMatch("/bookmeeting/review");
@@ -71,6 +70,7 @@ const BookMeeting = () => {
           ...doc.data(),
         } as DocumentType;
       });
+
       setAllReviews(newArray);
     });
   };

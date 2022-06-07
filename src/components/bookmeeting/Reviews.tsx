@@ -8,6 +8,15 @@ import { useRecoilValue } from "recoil";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
 
+interface userType {
+  displayName?: string;
+  email?: string;
+  favoriteBookField: any[];
+  gender: string;
+  name: string;
+  photoUrl: string;
+}
+
 interface PropsType {
   item: DocumentType;
   onReviewRemove?: (id: string) => void;
@@ -68,7 +77,7 @@ const Reviews = ({ item, onReviewRemove }: PropsType) => {
       {editing ? (
         <form onSubmit={onSubmit}>
           <FormHeader>
-            <UserInfoBox />
+            <UserInfoBox creatorId={item.creatorId} />
             {showingGuide && (
               <GuideTextBox>
                 한 글자 이상 작성해주세요. <div></div>
@@ -96,7 +105,7 @@ const Reviews = ({ item, onReviewRemove }: PropsType) => {
       ) : (
         <form>
           <FormHeader>
-            <UserInfoBox />
+            <UserInfoBox creatorId={item.creatorId} />
             {userData.uid === item.creatorId && (
               <EditDeleteBtn>
                 <button onClick={toggleEditing}>수정</button>

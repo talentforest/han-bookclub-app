@@ -6,6 +6,8 @@ import { bookFields } from "util/constants";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { getAuth, updateProfile } from "firebase/auth";
 import { BookFieldType } from "components/loginForm/UserDataInputForm";
+import { useRecoilState } from "recoil";
+import { currentUserState } from "data/userAtom";
 import { v4 } from "uuid";
 import BackButton from "components/common/BackButton";
 import Subtitle from "components/common/Subtitle";
@@ -13,13 +15,13 @@ import styled from "styled-components";
 import AfterEdit from "components/editProfile/AfterEdit";
 import BeforeEdit from "components/editProfile/BeforeEdit";
 import ProfileImage from "components/common/ProfileImage";
-import { useRecoilState } from "recoil";
-import { currentUserState } from "data/userAtom";
 
 export interface extraUserData {
   name: string;
-  gender: string;
   favoriteBookField: BookFieldType[];
+  email: string;
+  displayName: string;
+  photoUrl: string;
 }
 
 const EditProfile = () => {
@@ -29,8 +31,10 @@ const EditProfile = () => {
   const [newDisplayName, setNewDisplayName] = useState(userData.displayName);
   const [extraUserData, setExtraUserData] = useState({
     name: "",
-    gender: "",
     favoriteBookField: [],
+    email: "",
+    displayName: "",
+    photoUrl: "",
   });
   const [favFields, setFavFields] = useState(extraUserData?.favoriteBookField);
   const [toggleCheck, setToggleCheck] = useState(
@@ -39,10 +43,11 @@ const EditProfile = () => {
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
-      doc(dbService, "User_Data", `${userData.uid}`),
+      doc(dbService, "User Data", `${userData.uid}`),
       (doc) => {
         setExtraUserData(doc.data() as extraUserData);
         setFavFields(doc.data()?.favoriteBookField);
+        console.log(doc.data());
       }
     );
 
@@ -77,9 +82,17 @@ const EditProfile = () => {
         await updateProfile(authService.currentUser, {
           photoURL: userImageUrl,
         });
+        const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
+        await updateDoc(UserDataRef, {
+          photoUrl: userImageUrl,
+        });
       }
       if (userData.displayName !== newDisplayName) {
         await updateProfile(authService.currentUser, {
+          displayName: newDisplayName,
+        });
+        const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
+        await updateDoc(UserDataRef, {
           displayName: newDisplayName,
         });
       }

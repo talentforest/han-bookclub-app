@@ -1,10 +1,6 @@
 import BookField from "components/loginForm/BookField";
 import { authService, dbService } from "fbase";
-import {
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Desc, Input } from "theme/commonStyle";
@@ -28,23 +24,23 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
   const [userGender, setUserGender] = useState("");
   const [checkedBookField, setCheckedBookField] = useState(new Set());
 
+  console.log(authService?.currentUser?.uid);
+
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       if (username && userGender && checkedBookField.size !== 0) {
         if (email && password) {
           await createUserWithEmailAndPassword(authService, email, password);
-        } else {
-          let provider;
-          provider = new GoogleAuthProvider();
-          await signInWithPopup(authService, provider);
         }
         await setDoc(
-          doc(dbService, "User Data", `${authService.currentUser?.uid}`),
+          doc(dbService, "User Data", `${authService?.currentUser?.uid}`),
           {
             favoriteBookField: Array.from(checkedBookField),
             gender: userGender,
             name: username,
+            displayName: "한 페이지 멤버",
+            photoUrl: "",
           }
         );
         navigate("/");
