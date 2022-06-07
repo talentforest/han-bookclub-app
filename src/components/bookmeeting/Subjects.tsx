@@ -28,7 +28,13 @@ const Subjects = ({ item, onSubjectRemove }: ISubject) => {
   const [newText, setNewText] = useState(item.text);
 
   const onDeleteClick = async () => {
-    const SubjectTextRef = doc(dbService, "Book Subjects", `${item.id}`);
+    const SubjectTextRef = doc(
+      dbService,
+      `Book Subjects/${new Date().getFullYear()}년 ${
+        new Date().getMonth() + 1
+      }월/subjects`,
+      `${item.id}`
+    );
     await deleteDoc(SubjectTextRef);
     if (onSubjectRemove) {
       onSubjectRemove(item.id);
@@ -39,7 +45,13 @@ const Subjects = ({ item, onSubjectRemove }: ISubject) => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const SubjectTextRef = doc(dbService, "Book Subjects", `${item.id}`);
+    const SubjectTextRef = doc(
+      dbService,
+      `Book Subjects/${new Date().getFullYear()}년 ${
+        new Date().getMonth() + 1
+      }월/subjects`,
+      `${item.id}`
+    );
     await updateDoc(SubjectTextRef, { text: newText });
     setEditing(false);
   };
@@ -54,7 +66,7 @@ const Subjects = ({ item, onSubjectRemove }: ISubject) => {
         <TextBox>
           <form onSubmit={onSubmit}>
             <Writer>
-              <UserInfoBox />
+              <UserInfoBox creatorId={item.creatorId} />
               <DoneBtn type="submit" value="수정완료" />
             </Writer>
             <TextArea
@@ -74,7 +86,7 @@ const Subjects = ({ item, onSubjectRemove }: ISubject) => {
       ) : (
         <TextBox>
           <Writer>
-            <UserInfoBox />
+            <UserInfoBox creatorId={item.creatorId} />
             {userData.uid === item.creatorId && (
               <EditDeleteIcon>
                 <Edit role="button" onClick={toggleEditing} />

@@ -77,7 +77,12 @@ const BookMeeting = () => {
 
   const getAllSubjects = async () => {
     const q = query(
-      collection(dbService, "Book Subjects"),
+      collection(
+        dbService,
+        `Book Subjects/${new Date().getFullYear()}년 ${
+          new Date().getMonth() + 1
+        }월/subjects`
+      ),
       orderBy("createdAt", "desc")
     );
 

@@ -43,7 +43,7 @@ const BookRecomBox = ({ item }: PropsType) => {
         <TextBox>
           <form onSubmit={onEditSubmit}>
             <Writer>
-              <UserInfoBox />
+              <UserInfoBox creatorId={item.creatorId} />
               <EditDoneBtn type="submit" value="수정완료" />
             </Writer>
             <TextArea
@@ -57,7 +57,7 @@ const BookRecomBox = ({ item }: PropsType) => {
       ) : (
         <TextBox>
           <Writer>
-            <UserInfoBox />
+            <UserInfoBox creatorId={item.creatorId} />
             {userData.uid === item.creatorId && (
               <EditDeleteIcon>
                 <Edit role="button" onClick={toggleEditing} />

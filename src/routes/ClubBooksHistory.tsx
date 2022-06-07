@@ -129,23 +129,27 @@ const MeetingInfo = styled.div`
     margin-bottom: 10px;
   }
   div {
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     > span:first-child {
       font-size: 12px;
-      margin-bottom: 3px;
       display: flex;
       align-items: center;
+      border: 1px solid ${(props) => props.theme.container.blue};
+      width: fit-content;
+      padding: 2px 4px;
+      border-radius: 15px;
+      background-color: ${(props) => props.theme.container.lightBlue};
       svg {
         width: 15px;
         height: 15px;
       }
     }
     > span:last-child {
-      border-bottom: 1px solid #aaa;
-      padding-bottom: 2px;
-      margin-bottom: 8px;
-      font-size: 15px;
+      font-size: 14px;
+      padding-left: 3px;
+      margin-top: 3px;
     }
   }
 `;
@@ -159,7 +163,7 @@ const History = styled.div`
   border-radius: 10px;
   margin-top: 10px;
   padding: 10px;
-  background-color: ${(props) => props.theme.container.purple};
+  background-color: ${(props) => props.theme.container.lightBlue};
   div {
   }
   button {

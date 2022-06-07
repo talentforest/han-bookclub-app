@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { dbService } from "fbase";
-import { doc, setDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { SubmitBtn } from "theme/commonStyle";
 import { Add, Close } from "@mui/icons-material";
 import { BookDocument } from "data/bookAtom";
@@ -25,11 +25,12 @@ const SubjectCreateModal = ({ bookInfo }: PropsType) => {
     event.preventDefault();
     try {
       if (subject === "") return;
-      await setDoc(
-        doc(
+      await addDoc(
+        collection(
           dbService,
-          "Book Subjects",
-          `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월`
+          `Book Subjects/${new Date().getFullYear()}년 ${
+            new Date().getMonth() + 1
+          }월/subjects`
         ),
         {
           text: subject,

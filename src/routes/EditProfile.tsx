@@ -47,7 +47,6 @@ const EditProfile = () => {
       (doc) => {
         setExtraUserData(doc.data() as extraUserData);
         setFavFields(doc.data()?.favoriteBookField);
-        console.log(doc.data());
       }
     );
 

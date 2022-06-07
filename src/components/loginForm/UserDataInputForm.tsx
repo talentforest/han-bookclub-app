@@ -24,8 +24,6 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
   const [userGender, setUserGender] = useState("");
   const [checkedBookField, setCheckedBookField] = useState(new Set());
 
-  console.log(authService?.currentUser?.uid);
-
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {

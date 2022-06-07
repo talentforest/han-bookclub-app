@@ -1,13 +1,11 @@
 import { AccountCircle } from "@mui/icons-material";
-import { currentUserState } from "data/userAtom";
 import { dbService } from "fbase";
 import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 interface PropsType {
-  creatorId?: string;
+  creatorId: string;
 }
 
 const UserInfoBox = ({ creatorId }: PropsType) => {
@@ -27,12 +25,10 @@ const UserInfoBox = ({ creatorId }: PropsType) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const userData = useRecoilValue(currentUserState);
-
   return (
     <User>
-      {userData.photoURL ? (
-        <ProfileImg $bgPhoto={userData.photoURL} />
+      {userDataDoc.photoUrl ? (
+        <ProfileImg $bgPhoto={userDataDoc.photoUrl} />
       ) : (
         <AccountCircle />
       )}
@@ -42,7 +38,6 @@ const UserInfoBox = ({ creatorId }: PropsType) => {
 };
 
 const User = styled.div`
-  border: 1px solid red;
   display: flex;
   align-items: center;
   span {
