@@ -21,7 +21,13 @@ const Reviews = ({ item, onReviewRemove }: PropsType) => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const ReviewTextRef = doc(dbService, "Meeting Review", `${item.id}`);
+    const ReviewTextRef = doc(
+      dbService,
+      `Meeting Review/${new Date().getFullYear()}년 ${
+        new Date().getMonth() + 1
+      }월/reviews`,
+      `${item.id}`
+    );
     await updateDoc(ReviewTextRef, { text: newText });
     if (newText === "") {
       setTimeout(() => {
@@ -41,7 +47,13 @@ const Reviews = ({ item, onReviewRemove }: PropsType) => {
 
   const onDeleteClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const ReviewTextRef = doc(dbService, "Meeting Review", `${item.id}`);
+    const ReviewTextRef = doc(
+      dbService,
+      `Meeting Review/${new Date().getFullYear()}년 ${
+        new Date().getMonth() + 1
+      }월/reviews`,
+      `${item.id}`
+    );
     await deleteDoc(ReviewTextRef);
 
     if (onReviewRemove) {

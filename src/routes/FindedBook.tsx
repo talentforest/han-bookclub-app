@@ -94,7 +94,7 @@ const FindedBook = () => {
           price: findbookData[0].price,
           contents: findbookData[0].contents,
           publisher: findbookData[0].publisher,
-          publication_date: findbookData[0].datetime,
+          datetime: findbookData[0].datetime,
           url: findbookData[0].url,
         },
         meeting: {
@@ -122,7 +122,7 @@ const FindedBook = () => {
         price: findbookData[0].price,
         contents: findbookData[0].contents,
         publisher: findbookData[0].publisher,
-        publication_date: findbookData[0].datetime,
+        datetime: findbookData[0].datetime,
         url: findbookData[0].url,
       },
       meeting: {

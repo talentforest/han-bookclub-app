@@ -9,7 +9,7 @@ import Reviews from "components/bookmeeting/Reviews";
 import MyRecord from "./MyRecord";
 
 export interface IRecord {
-  bookTitle: string;
+  title: string;
   subjects: DocumentType[];
   reviews: DocumentType[];
 }
@@ -50,7 +50,12 @@ const MyRecords = () => {
 
   const getAllReviews = async () => {
     const q = query(
-      collection(dbService, "Meeting Review"),
+      collection(
+        dbService,
+        `Meeting Review/${new Date().getFullYear()}년 ${
+          new Date().getMonth() + 1
+        }월/reviews`
+      ),
       orderBy("createdAt", "desc")
     );
 
@@ -73,14 +78,14 @@ const MyRecords = () => {
   );
 
   const GroupedBySameBookSubjects = mySubjects?.reduce((acc, current) => {
-    acc[current.bookTitle] = acc[current.bookTitle] || [];
-    acc[current.bookTitle].push(current);
+    acc[current.title] = acc[current.title] || [];
+    acc[current.title].push(current);
     return acc;
   }, {});
 
   const GroupedBySameBookReviews = myReviews?.reduce((acc, current) => {
-    acc[current.bookTitle] = acc[current.bookTitle] || [];
-    acc[current.bookTitle].push(current);
+    acc[current.title] = acc[current.title] || [];
+    acc[current.title].push(current);
     return acc;
   }, {});
 
@@ -88,7 +93,7 @@ const MyRecords = () => {
 
   const GroupedBySameBookRecord: IRecord[] = Object.keys(record).map((key) => {
     return {
-      bookTitle: key,
+      title: key,
       subjects: GroupedBySameBookSubjects[key] || [],
       reviews: GroupedBySameBookReviews[key] || [],
     };
@@ -96,7 +101,7 @@ const MyRecords = () => {
 
   const onSubjectClick = (bookTitle: string) => {
     const filteredArr = GroupedBySameBookRecord.filter(
-      (item) => item.bookTitle === bookTitle
+      (item) => item.title === bookTitle
     );
     const subjects = filteredArr[0]?.subjects;
     setFilteredReview([]);
@@ -105,7 +110,7 @@ const MyRecords = () => {
 
   const onReviewClick = (bookTitle: string) => {
     const filteredArr = GroupedBySameBookRecord.filter(
-      (item) => item.bookTitle === bookTitle
+      (item) => item.title === bookTitle
     );
     const reviews = filteredArr[0]?.reviews;
     setFilteredSubject([]);

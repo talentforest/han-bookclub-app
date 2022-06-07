@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { dbService } from "fbase";
-import { doc, setDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { SubmitBtn } from "theme/commonStyle";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
@@ -19,11 +19,12 @@ const ReviewCreateBox = ({ bookInfo }: PropsType) => {
     event.preventDefault();
     try {
       if (review === "") return;
-      await setDoc(
-        doc(
+      await addDoc(
+        collection(
           dbService,
-          "Meeting Review",
-          `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월`
+          `Meeting Review/${new Date().getFullYear()}년 ${
+            new Date().getMonth() + 1
+          }월/reviews`
         ),
         {
           text: review,

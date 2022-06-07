@@ -9,7 +9,6 @@ interface PropsType {
 }
 
 const MeetingInfoBox = ({ data }: PropsType) => {
-  console.log(data);
   return (
     <MeetingInfo>
       <div>

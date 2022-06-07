@@ -9,12 +9,7 @@ interface PropsType {
   onReviewClick: (id: string) => void;
 }
 
-const MyRecord = ({
-  item,
-  index,
-  onSubjectClick,
-  onReviewClick,
-}: PropsType) => {
+const MyRecord = ({ item, onSubjectClick, onReviewClick }: PropsType) => {
   return (
     <Record>
       <div>
@@ -26,7 +21,7 @@ const MyRecord = ({
           }
           alt="Book"
         />
-        <h3>{item.bookTitle}</h3>
+        <h3>{item.title}</h3>
       </div>
       <Rate>
         <Star />
@@ -36,11 +31,11 @@ const MyRecord = ({
         <Star />
       </Rate>
       <div>
-        <button onClick={() => onSubjectClick(item.bookTitle)}>
+        <button onClick={() => onSubjectClick(item.title)}>
           <Notes />
           <span>발제문 보기</span>
         </button>
-        <button onClick={() => onReviewClick(item.bookTitle)}>
+        <button onClick={() => onReviewClick(item.title)}>
           <Notes />
           <span>모임후기 보기</span>
         </button>

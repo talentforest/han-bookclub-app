@@ -33,8 +33,8 @@ export interface BookMeetingInfo {
 
 const BookMeeting = () => {
   const [thisMonthBookDocData, setThisMonthBookDocData] = useState([]);
-  const [subjects, setSubjects] = useState([]);
-  const [reviews, setAllReviews] = useState([]);
+  const [allSubjects, setSubjects] = useState([]);
+  const [allReviews, setAllReviews] = useState([]);
 
   const bookUrlMatch = useMatch("/bookmeeting");
   const subjectUrlMatch = useMatch("/bookmeeting/subject");
@@ -55,7 +55,12 @@ const BookMeeting = () => {
 
   const getAllReviews = async () => {
     const q = query(
-      collection(dbService, "Meeting Review"),
+      collection(
+        dbService,
+        `Meeting Review/${new Date().getFullYear()}년 ${
+          new Date().getMonth() + 1
+        }월/reviews`
+      ),
       orderBy("createdAt", "desc")
     );
 
@@ -153,7 +158,7 @@ const BookMeeting = () => {
         {subjectUrlMatch ? (
           <>
             <SubjectCreateModal bookInfo={thisMonthBookDocData[0]?.book} />
-            {subjects.map((item) => (
+            {allSubjects.map((item) => (
               <SubjectBox item={item} key={item.id} />
             ))}
           </>
@@ -161,7 +166,7 @@ const BookMeeting = () => {
         {reviewUrlMatch ? (
           <>
             <ReviewCreateBox bookInfo={thisMonthBookDocData[0]?.book} />
-            {reviews.map((item) => (
+            {allReviews.map((item) => (
               <Reviews key={item.id} item={item} />
             ))}
           </>
