@@ -1,13 +1,8 @@
 import { useState } from "react";
-import {
-  GoogleAuthProvider,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { authService } from "fbase";
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Form, Input, Button } from "theme/commonStyle";
-import { Google } from "@mui/icons-material";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 
@@ -38,20 +33,6 @@ const LogInPage = () => {
     }
   };
 
-  const onSocialAccountClick = async (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    const {
-      currentTarget: { name },
-    } = event;
-    let provider;
-    if (name === "google") {
-      provider = new GoogleAuthProvider();
-      await signInWithPopup(authService, provider);
-      navigator("/create_account/userInfo");
-    }
-  };
-
   return (
     <Container>
       <H1>한 페이지</H1>
@@ -79,10 +60,6 @@ const LogInPage = () => {
         <ErrorMessage>{error}</ErrorMessage>
         <Button type="submit" value="로그인" />
       </Form>
-      <SocialLogIn name="google" onClick={onSocialAccountClick}>
-        <Google />
-        <span>Google로 계속</span>
-      </SocialLogIn>
       <FindCreateAccount>
         <Link to="/find_id">아이디 찾기</Link>
         <Link to="/find_pw">비밀번호 찾기</Link>
@@ -125,35 +102,6 @@ const Logo = styled.div`
   }
 `;
 
-const SocialLogIn = styled.button`
-  text-align: center;
-  width: 100%;
-  height: 40px;
-  border-radius: 10px;
-  border: none;
-  background-color: ${(props) => props.theme.container.blue};
-  margin-bottom: 30px;
-  cursor: pointer;
-  span {
-    color: ${(props) => props.theme.text.white};
-    margin-left: 10px;
-  }
-  svg {
-    width: 10px;
-    height: 10px;
-    fill: #fff;
-  }
-  @media ${device.tablet} {
-    height: 50px;
-    font-size: 20px;
-    svg {
-      width: 16px;
-      height: 16px;
-      fill: #fff;
-    }
-  }
-`;
-
 const ErrorMessage = styled.span`
   font-size: 12px;
   padding-bottom: 10px;
@@ -162,7 +110,7 @@ const ErrorMessage = styled.span`
 const FindCreateAccount = styled.div`
   display: flex;
   justify-content: space-evenly;
-  margin-bottom: 40px;
+  margin: 40px 0;
   a {
     border: none;
     background-color: transparent;

@@ -28,9 +28,7 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
     event.preventDefault();
     try {
       if (username && userGender && checkedBookField.size !== 0) {
-        if (email && password) {
-          await createUserWithEmailAndPassword(authService, email, password);
-        }
+        await createUserWithEmailAndPassword(authService, email, password);
         await setDoc(
           doc(dbService, "User Data", `${authService?.currentUser?.uid}`),
           {
