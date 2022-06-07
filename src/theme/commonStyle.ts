@@ -15,6 +15,17 @@ export const Header = styled.header`
   }
 `;
 
+export const IconHeader = styled.header`
+  display: flex;
+  align-items: center;
+  margin: 15px 15px 0;
+  h1 {
+    margin: 0;
+    margin-left: 10px;
+    padding-top: 2px;
+  }
+`;
+
 export const Container = styled.main`
   min-height: 100vh;
   padding: 0 15px;

@@ -1,5 +1,4 @@
-import { Container } from "theme/commonStyle";
-import { Header } from "./Setting";
+import { Container, IconHeader } from "theme/commonStyle";
 import { useEffect, useState } from "react";
 import { authService, dbService, storageService } from "fbase";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
@@ -163,7 +162,7 @@ const EditProfile = () => {
   );
 };
 
-const NewHeader = styled(Header)`
+const NewHeader = styled(IconHeader)`
   position: relative;
   justify-content: space-between;
   align-items: center;

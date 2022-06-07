@@ -1,4 +1,4 @@
-import { Container } from "theme/commonStyle";
+import { Container, IconHeader } from "theme/commonStyle";
 import { Link } from "react-router-dom";
 import BackButton from "components/common/BackButton";
 import Subtitle from "components/common/Subtitle";
@@ -9,10 +9,10 @@ import DeleteAccountButton from "components/settings/DeleteAccountButton";
 const Setting = () => {
   return (
     <>
-      <Header>
+      <IconHeader>
         <BackButton />
         <Subtitle title="설정" />
-      </Header>
+      </IconHeader>
       <NewContainer>
         <span>사용자 설정</span>
         <ul>
@@ -33,17 +33,6 @@ const Setting = () => {
     </>
   );
 };
-
-export const Header = styled.header`
-  display: flex;
-  align-items: center;
-  margin: 15px 15px 0;
-  h1 {
-    margin: 0;
-    margin-left: 10px;
-    padding-top: 2px;
-  }
-`;
 
 const NewContainer = styled(Container)`
   > span {

@@ -76,7 +76,7 @@ const AccountForm = ({
           autoComplete="on"
           required
         />
-        <Button type="submit" defaultValue="다음으로" />
+        <Button type="submit" value="다음으로" />
       </Form>
     </>
   );
