@@ -43,7 +43,7 @@ const Home = () => {
 
   const getThisMonthBook = async () => {
     const q = query(
-      collection(dbService, "Book of the Month"),
+      collection(dbService, "BookMeeting Info"),
       orderBy("createdAt", "desc")
     );
 
@@ -103,11 +103,11 @@ const Home = () => {
               <h3>등록된 책이 아직 없습니다.</h3>
             </BookCoverTitleBox>
           )}
-          <LinkButton link={"/bookmeeting"} title="발제하러 가기" />
+          <LinkButton link={"/bookmeeting/subject"} title="발제하러 가기" />
         </section>
         <section>
           <Subtitle title={`${Month}월의 모임 일정`} />
-          <p>: 매월 셋째주 일요일</p>
+          <p>한페이지 북클럽 멤버는 매주 셋째주 일요일에 만나요.</p>
           <MeetingInfoBox data={thisMonthBookDocData[0]} />
           <LinkButton
             link={"/bookmeeting/review"}

@@ -99,7 +99,7 @@ const BookMeeting = () => {
 
   const getThisMonthBookData = async () => {
     const q = query(
-      collection(dbService, "Book of the Month"),
+      collection(dbService, "BookMeeting Info"),
       orderBy("createdAt", "desc")
     );
 
@@ -118,7 +118,7 @@ const BookMeeting = () => {
       <NewHeader>
         <Title title="의 책모임" />
         <Link to="find">
-          <TopButton>책 등록하기</TopButton>
+          <TopButton>이달의 책 등록하기</TopButton>
         </Link>
       </NewHeader>
       <Container>

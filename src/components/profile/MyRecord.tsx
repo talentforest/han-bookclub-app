@@ -33,7 +33,7 @@ const MyRecord = ({ item, onSubjectClick, onReviewClick }: PropsType) => {
       <div>
         <button onClick={() => onSubjectClick(item.title)}>
           <Notes />
-          <span>발제문 보기</span>
+          <span>발제문</span>
         </button>
         <button onClick={() => onReviewClick(item.title)}>
           <Notes />
@@ -77,22 +77,24 @@ const Record = styled.div`
     align-items: center;
     margin-top: 5px;
     width: 100%;
+    border: 1px solid red;
     > button {
       cursor: pointer;
-      width: 50%;
-      padding: 1px 5px;
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
       border: none;
       background-color: transparent;
-      border-radius: 15px;
+
+      border: 1px solid red;
       svg {
-        width: 18px;
-        height: 18px;
+        width: 16px;
+        height: 16px;
         margin-right: 4px;
       }
       span {
+        border: 1px solid red;
         font-size: 10px;
       }
       &:hover {

@@ -11,6 +11,7 @@ const BookDesc = ({ bookInfo }: PropsType) => {
   return (
     <>
       <BookDetail>
+        <h3>{bookInfo?.title}</h3>
         <li>
           <ExpandCircleDown />
           저자: {bookInfo?.authors?.join(", ")}
@@ -56,6 +57,11 @@ const BookDetail = styled.ul`
   margin: 20px auto 0;
   padding: 20px 15px;
   width: 95%;
+  > h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
   > li {
     margin-bottom: 5px;
     font-size: 13px;

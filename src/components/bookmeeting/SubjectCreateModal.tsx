@@ -61,6 +61,7 @@ const SubjectCreateModal = ({ bookInfo }: PropsType) => {
         <span onClick={onModalClick}>
           <Add /> 발제문 참여하기
         </span>
+        <p>필수 발제자를 포함하여 누구나 참여 가능해요.</p>
       </AddSubject>
       {modalOpen ? (
         <>
@@ -88,11 +89,16 @@ const SubjectCreateModal = ({ bookInfo }: PropsType) => {
 
 const AddSubject = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: start;
+  align-items: flex-end;
   padding: 10px 3px;
   margin-top: 10px;
+  p {
+    margin-left: 8px;
+    font-size: 12px;
+    color: ${(props) => props.theme.text.lightBlue};
+  }
   span {
+    width: fit-content;
     color: ${(props) => props.theme.text.accent};
     cursor: pointer;
     font-size: 14px;

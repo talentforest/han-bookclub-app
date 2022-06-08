@@ -30,6 +30,7 @@ const Profile = () => {
         </div>
         <div>
           <Subtitle title="나의 기록" />
+          <span>내가 작성한 발제문과 모임 후기를 볼 수 있어요.</span>
           <MyRecords />
         </div>
       </NewContainer>
@@ -70,6 +71,12 @@ const NewContainer = styled(Container)`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-top: 30px;
+    span {
+      font-size: 13px;
+      padding-left: 15px;
+      margin-bottom: 10px;
+    }
   }
 `;
 

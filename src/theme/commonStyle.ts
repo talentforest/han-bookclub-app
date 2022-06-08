@@ -147,7 +147,7 @@ export const Button = styled.input`
 `;
 
 export const TopButton = styled.button`
-  width: 80px;
+  width: fit-content;
   font-size: 12px;
   color: ${(props) => props.theme.text.lightBlue};
   border: none;
@@ -177,7 +177,7 @@ export const BookCoverTitleBox = styled.div`
     margin-bottom: 10px;
   }
   h3 {
-    width: 70%;
+    width: 150px;
     text-align: center;
     font-size: 14px;
     font-weight: 600;
