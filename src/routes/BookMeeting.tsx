@@ -16,9 +16,9 @@ import styled from "styled-components";
 import BookDesc from "components/common/BookDesc";
 import ReviewCreateBox from "components/bookmeeting/ReviewCreateBox";
 import Reviews from "components/bookmeeting/Reviews";
-import MeetingInfoBox from "components/common/MeetingInfoBox";
 import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
 import Subjects from "components/bookmeeting/Subjects";
+import EditMeetingInfo from "components/bookmeeting/EditMeetingInfo";
 
 interface meetingType {
   time: string;
@@ -136,7 +136,7 @@ const BookMeeting = () => {
               없습니다.
             </EmptySign>
           )}
-          <MeetingInfoBox data={thisMonthBookDocData[0]} />
+          <EditMeetingInfo data={thisMonthBookDocData[0]} />
         </BookMeetingBox>
         <BookSection>
           <Link to="">
@@ -221,12 +221,12 @@ const BookMeetingBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 230px;
-  width: fit-content;
+  width: 100%;
   margin: 0 auto;
   > div:last-child {
-    background-color: transparent;
-    box-shadow: none;
+    margin: 10px 0;
+    width: 80%;
+    padding: 10px 15px;
   }
 `;
 

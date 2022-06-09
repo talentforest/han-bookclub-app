@@ -73,6 +73,8 @@ const EditProfile = () => {
     let userImageUrl = userData.photoURL;
     try {
       // update profile
+      const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
+
       if (profileImgUrl !== "") {
         const fileRef = ref(storageService, `${userData.uid}/${v4()}`);
         const response = await uploadString(fileRef, profileImgUrl, "data_url");
@@ -81,23 +83,21 @@ const EditProfile = () => {
         await updateProfile(authService.currentUser, {
           photoURL: userImageUrl,
         });
-        const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
         await updateDoc(UserDataRef, {
           photoUrl: userImageUrl,
         });
       }
+
       if (userData.displayName !== newDisplayName) {
         await updateProfile(authService.currentUser, {
           displayName: newDisplayName,
         });
-        const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
         await updateDoc(UserDataRef, {
           displayName: newDisplayName,
         });
       }
 
       // update document
-      const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
       updateDoc(UserDataRef, {
         favoriteBookField: Array.from(favFields),
       });

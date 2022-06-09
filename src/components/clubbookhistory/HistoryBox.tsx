@@ -125,7 +125,6 @@ const HistoryBox = ({ item }: PropsType) => {
         <h3>모임기록 보기</h3>
         <KeyboardArrowUp className={folderOpen ? "isActive" : ""} />
       </Record>
-
       {folderOpen ? (
         <>
           <BookSection>
@@ -272,9 +271,11 @@ const MeetingInfo = styled.div`
       padding: 0px 4px;
       border-radius: 15px;
       background-color: ${(props) => props.theme.container.lightBlue};
+      color: ${(props) => props.theme.text.accent};
       svg {
         width: 15px;
         height: 15px;
+        fill: ${(props) => props.theme.text.accent};
       }
     }
     > span:last-child {

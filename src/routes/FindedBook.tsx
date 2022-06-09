@@ -161,21 +161,21 @@ const FindedBook = () => {
           )}
         </BookCoverTitleBox>
         {toggle ? (
-          <Selected>
-            <button onClick={onClick}>
+          <Selected onSubmit={onClick}>
+            <button type="button" onClick={onClick}>
               북클럽 책 등록 완료
               <Star />
             </button>
           </Selected>
         ) : (
-          <BookSection>
+          <BookSection onSubmit={onClick}>
             <input
               type="month"
               defaultValue={thisYearMonth}
               name="thisMonthBook"
               onChange={onMonthChange}
             />
-            <button type="submit" onClick={onClick}>
+            <button type="button" className={checkClubBook ? "isActive" : ""}>
               북클럽 도서 등록
             </button>
           </BookSection>
@@ -213,6 +213,9 @@ const BookSection = styled.form`
     color: #aaa;
     background-color: ${(props) => props.theme.text.lightGray};
     cursor: pointer;
+    &.isActive {
+      pointer-events: none;
+    }
   }
 `;
 
