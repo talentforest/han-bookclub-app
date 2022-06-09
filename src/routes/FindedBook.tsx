@@ -16,35 +16,33 @@ import {
 import { dbService } from "fbase";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
+import { BookMeetingInfo } from "./BookMeeting";
+import { thisYearMonth } from "util/constants";
 import Subtitle from "components/common/Subtitle";
 import BookDesc from "components/common/BookDesc";
 import styled from "styled-components";
-import { BookMeetingInfo } from "./BookMeeting";
 import BackButton from "components/common/BackButton";
-import { thisYearMonth } from "util/constants";
 
 const FindedBook = () => {
-  const userData = useRecoilValue(currentUserState);
   const [toggle, setToggle] = useState(false);
   const [findbookData, setFindBookData] = useState([]);
-  const [thisMonthBookDocData, setThisMonthBookDocData] = useState([]);
+  const [allClubBookDocData, setAllClubBookDocData] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(thisYearMonth);
+  const userData = useRecoilValue(currentUserState);
   const match = useMatch(`/bookmeeting/find/:id`);
 
   useEffect(() => {
     bookSearchHandler(match?.params.id, true, setFindBookData);
-    getThisMonthBookMeetingData();
-    if (thisMonthBookDocData[0]?.bookTitle === match?.params.id) {
-      return setToggle(true);
-    }
+    getAllBookMeetingInfo();
+
     return () => {
-      getThisMonthBookMeetingData();
+      getAllBookMeetingInfo();
       bookSearchHandler(match?.params.id, true, setFindBookData);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getThisMonthBookMeetingData = async () => {
+  const getAllBookMeetingInfo = async () => {
     const q = query(
       collection(dbService, "BookMeeting Info"),
       orderBy("createdAt", "desc")
@@ -57,7 +55,8 @@ const FindedBook = () => {
           ...doc.data(),
         } as BookMeetingInfo;
       });
-      setThisMonthBookDocData(newArray);
+      const BookDocData = newArray.map((item) => item.book);
+      setAllClubBookDocData(BookDocData);
     });
   };
 
@@ -73,7 +72,7 @@ const FindedBook = () => {
 
   const handleThisMonthBookDoc = async () => {
     if (toggle === false) {
-      if (thisMonthBookDocData[0]?.id !== selectedMonth) {
+      if (allClubBookDocData[0]?.id !== selectedMonth) {
         setThisMonthBookMeetingDoc();
       } else {
         updateThisMonthBookMeetingDoc();
@@ -97,8 +96,8 @@ const FindedBook = () => {
         url: findbookData[0].url,
       },
       meeting: {
-        place: "카페 꼼마",
-        time: "2022년 6월 19일",
+        place: "",
+        time: "",
       },
       createdAt: Date.now(),
       creatorId: userData.uid,
@@ -124,8 +123,8 @@ const FindedBook = () => {
         url: findbookData[0].url,
       },
       meeting: {
-        place: "카페꼼마",
-        time: "2022년 6월 19일",
+        place: "",
+        time: "",
       },
       createdAt: Date.now(),
       creatorId: userData.uid,
@@ -141,6 +140,10 @@ const FindedBook = () => {
     await deleteDoc(thisMonthBookRef);
   };
 
+  const checkClubBook = allClubBookDocData
+    .map((item) => item.title)
+    .includes(findbookData[0]?.title);
+
   return (
     <>
       <IconHeader>
@@ -151,6 +154,11 @@ const FindedBook = () => {
         <BookCoverTitleBox>
           <img src={findbookData[0]?.thumbnail} alt="Book_Image" />
           <h3>{findbookData[0]?.title}</h3>
+          {checkClubBook ? (
+            <Registered>클럽북으로 등록 완료된 책이에요.</Registered>
+          ) : (
+            <></>
+          )}
         </BookCoverTitleBox>
         {toggle ? (
           <Selected>
@@ -177,6 +185,16 @@ const FindedBook = () => {
     </>
   );
 };
+
+const Registered = styled.span`
+  font-size: 12px;
+  margin-top: 5px;
+  padding: 3px 8px;
+  width: fit-contents;
+  border-radius: 15px;
+  background-color: ${(props) => props.theme.container.yellow};
+  color: ${(props) => props.theme.text.accent}; ;
+`;
 
 const BookSection = styled.form`
   display: flex;

@@ -96,18 +96,18 @@ const MyRecords = () => {
     };
   });
 
-  const onSubjectClick = (bookTitle: string) => {
+  const onSubjectClick = (title: string) => {
     const filteredArr = GroupedBySameBookRecord.filter(
-      (item) => item.title === bookTitle
+      (item) => item.title === title
     );
     const subjects = filteredArr[0]?.subjects;
     setFilteredReview([]);
     setFilteredSubject(subjects);
   };
 
-  const onReviewClick = (bookTitle: string) => {
+  const onReviewClick = (title: string) => {
     const filteredArr = GroupedBySameBookRecord.filter(
-      (item) => item.title === bookTitle
+      (item) => item.title === title
     );
     const reviews = filteredArr[0]?.reviews;
     setFilteredSubject([]);
