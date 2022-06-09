@@ -22,6 +22,7 @@ import styled from "styled-components";
 import MenuIcon from "@mui/icons-material/Menu";
 import BookRecomCreateBox from "components/common/BookRecomCreateBox";
 import BookRecomBox from "components/common/BookRecomBox";
+import { thisYearMonth } from "util/constants";
 
 const Home = () => {
   const [recommendBook, setRecommendBook] = useState<DocumentType[]>([]);
@@ -50,10 +51,15 @@ const Home = () => {
     onSnapshot(q, (querySnapshot) => {
       const newArray = querySnapshot.docs.map((doc) => {
         return {
+          id: doc.id,
           ...doc.data(),
         };
       });
-      setThisMonthBookDocData(newArray);
+      const thisMonthBook = newArray.filter(
+        (item) => item.id === thisYearMonth
+      );
+
+      setThisMonthBookDocData(thisMonthBook);
     });
   };
 

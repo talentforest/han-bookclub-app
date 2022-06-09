@@ -3,10 +3,12 @@ import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { dbService } from "fbase";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import styled from "styled-components";
-import SubjectBox, { DocumentType } from "components/bookmeeting/Subjects";
+import { DocumentType } from "components/bookmeeting/Subjects";
 import Reviews from "components/bookmeeting/Reviews";
 import MyRecord from "./MyRecord";
+import Subjects from "components/bookmeeting/Subjects";
+import styled from "styled-components";
+import { thisYearMonth } from "util/constants";
 
 export interface IRecord {
   title: string;
@@ -33,12 +35,7 @@ const MyRecords = () => {
 
   const getAllSubjects = async () => {
     const q = query(
-      collection(
-        dbService,
-        `Book Subjects/${new Date().getFullYear()}년 ${
-          new Date().getMonth() + 1
-        }월/subjects`
-      ),
+      collection(dbService, `BookMeeting Info/${thisYearMonth}/subjects`),
       orderBy("createdAt", "desc")
     );
 
@@ -55,12 +52,7 @@ const MyRecords = () => {
 
   const getAllReviews = async () => {
     const q = query(
-      collection(
-        dbService,
-        `Meeting Review/${new Date().getFullYear()}년 ${
-          new Date().getMonth() + 1
-        }월/reviews`
-      ),
+      collection(dbService, `BookMeeting Info/${thisYearMonth}/reviews`),
       orderBy("createdAt", "desc")
     );
 
@@ -154,11 +146,7 @@ const MyRecords = () => {
         </div>
       </Container>
       {filteredSubject?.map((item) => (
-        <SubjectBox
-          item={item}
-          key={item.id}
-          onSubjectRemove={onSubjectRemove}
-        />
+        <Subjects item={item} key={item.id} onSubjectRemove={onSubjectRemove} />
       ))}
       {filteredReview?.map((item) => (
         <Reviews item={item} key={item.id} onReviewRemove={onReviewRemove} />

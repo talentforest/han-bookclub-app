@@ -7,6 +7,7 @@ import { BookDocument } from "data/bookAtom";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import styled from "styled-components";
+import { thisYearMonth } from "util/constants";
 
 interface PropsType {
   bookInfo: BookDocument;
@@ -26,12 +27,7 @@ const SubjectCreateModal = ({ bookInfo }: PropsType) => {
     try {
       if (subject === "") return;
       await addDoc(
-        collection(
-          dbService,
-          `Book Subjects/${new Date().getFullYear()}년 ${
-            new Date().getMonth() + 1
-          }월/subjects`
-        ),
+        collection(dbService, `BookMeeting Info/${thisYearMonth}/subjects`),
         {
           text: subject,
           createdAt: Date.now(),
@@ -88,12 +84,10 @@ const SubjectCreateModal = ({ bookInfo }: PropsType) => {
 };
 
 const AddSubject = styled.div`
-  display: flex;
-  align-items: flex-end;
   padding: 10px 3px;
   margin-top: 10px;
   p {
-    margin-left: 8px;
+    margin: 4px 0px 0px 4px;
     font-size: 12px;
     color: ${(props) => props.theme.text.lightBlue};
   }

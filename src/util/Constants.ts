@@ -12,3 +12,5 @@ export const bookFields = [
   { id: 9, name: "고전" },
   { id: 10, name: "과학" },
 ];
+
+export const thisYearMonth = `${new Date().toISOString().substr(0, 7)}`;

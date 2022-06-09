@@ -9,7 +9,8 @@ import { dbService } from "fbase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { Link, useMatch } from "react-router-dom";
 import { BookDocument } from "data/bookAtom";
-import SubjectBox, { DocumentType } from "components/bookmeeting/Subjects";
+import { DocumentType } from "components/bookmeeting/Subjects";
+import { thisYearMonth } from "util/constants";
 import Title from "components/common/Title";
 import styled from "styled-components";
 import BookDesc from "components/common/BookDesc";
@@ -17,6 +18,7 @@ import ReviewCreateBox from "components/bookmeeting/ReviewCreateBox";
 import Reviews from "components/bookmeeting/Reviews";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
 import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
+import Subjects from "components/bookmeeting/Subjects";
 
 interface meetingType {
   time: string;
@@ -33,33 +35,28 @@ export interface BookMeetingInfo {
 
 const BookMeeting = () => {
   const [thisMonthBookDocData, setThisMonthBookDocData] = useState([]);
-  const [allSubjects, setSubjects] = useState([]);
-  const [allReviews, setAllReviews] = useState([]);
+  const [thisMonthSubjects, setThisMonthSubjects] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const bookUrlMatch = useMatch("/bookmeeting");
   const subjectUrlMatch = useMatch("/bookmeeting/subject");
   const reviewUrlMatch = useMatch("/bookmeeting/review");
 
   useEffect(() => {
-    getAllReviews();
-    getAllSubjects();
     getThisMonthBookData();
+    getReviewsByBook();
+    getSubjectsByBook();
 
     return () => {
-      getAllReviews();
-      getAllSubjects();
       getThisMonthBookData();
+      getReviewsByBook();
+      getSubjectsByBook();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getAllReviews = async () => {
+  const getReviewsByBook = async () => {
     const q = query(
-      collection(
-        dbService,
-        `Meeting Review/${new Date().getFullYear()}년 ${
-          new Date().getMonth() + 1
-        }월/reviews`
-      ),
+      collection(dbService, `BookMeeting Info/${thisYearMonth}/reviews`),
       orderBy("createdAt", "desc")
     );
 
@@ -71,18 +68,13 @@ const BookMeeting = () => {
         } as DocumentType;
       });
 
-      setAllReviews(newArray);
+      setReviews(newArray);
     });
   };
 
-  const getAllSubjects = async () => {
+  const getSubjectsByBook = async () => {
     const q = query(
-      collection(
-        dbService,
-        `Book Subjects/${new Date().getFullYear()}년 ${
-          new Date().getMonth() + 1
-        }월/subjects`
-      ),
+      collection(dbService, `BookMeeting Info/${thisYearMonth}/subjects`),
       orderBy("createdAt", "desc")
     );
 
@@ -93,7 +85,8 @@ const BookMeeting = () => {
           ...doc.data(),
         } as DocumentType;
       });
-      setSubjects(newArray);
+
+      setThisMonthSubjects(newArray);
     });
   };
 
@@ -106,10 +99,15 @@ const BookMeeting = () => {
     onSnapshot(q, (querySnapshot) => {
       const newArray = querySnapshot.docs.map((doc) => {
         return {
+          id: doc.id,
           ...doc.data(),
         } as BookMeetingInfo;
       });
-      setThisMonthBookDocData(newArray);
+      const thisMonthBook = newArray.filter(
+        (item) => item.id === thisYearMonth
+      );
+
+      setThisMonthBookDocData(thisMonthBook);
     });
   };
 
@@ -163,16 +161,20 @@ const BookMeeting = () => {
         {subjectUrlMatch ? (
           <>
             <SubjectCreateModal bookInfo={thisMonthBookDocData[0]?.book} />
-            {allSubjects.map((item) => (
-              <SubjectBox item={item} key={item.id} />
+            {thisMonthSubjects?.map((item) => (
+              <Subjects item={item} key={item.id} />
             ))}
           </>
         ) : null}
         {reviewUrlMatch ? (
           <>
             <ReviewCreateBox bookInfo={thisMonthBookDocData[0]?.book} />
-            {allReviews.map((item) => (
-              <Reviews key={item.id} item={item} />
+            {reviews?.map((item) => (
+              <Reviews
+                key={item.id}
+                item={item}
+                bookInfo={thisMonthBookDocData[0]?.book}
+              />
             ))}
           </>
         ) : null}

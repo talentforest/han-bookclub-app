@@ -21,15 +21,14 @@ import BookDesc from "components/common/BookDesc";
 import styled from "styled-components";
 import { BookMeetingInfo } from "./BookMeeting";
 import BackButton from "components/common/BackButton";
+import { thisYearMonth } from "util/constants";
 
 const FindedBook = () => {
   const userData = useRecoilValue(currentUserState);
   const [toggle, setToggle] = useState(false);
   const [findbookData, setFindBookData] = useState([]);
   const [thisMonthBookDocData, setThisMonthBookDocData] = useState([]);
-  const [selectedMonth, setSelectedMonth] = useState(
-    `${new Date().toISOString().substr(0, 7)}`
-  );
+  const [selectedMonth, setSelectedMonth] = useState(thisYearMonth);
   const match = useMatch(`/bookmeeting/find/:id`);
 
   useEffect(() => {
@@ -164,7 +163,7 @@ const FindedBook = () => {
           <BookSection>
             <input
               type="month"
-              defaultValue={`${new Date().toISOString().substr(0, 7)}`}
+              defaultValue={thisYearMonth}
               name="thisMonthBook"
               onChange={onMonthChange}
             />

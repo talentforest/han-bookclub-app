@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { BookDocument } from "data/bookAtom";
+import { thisYearMonth } from "util/constants";
 
 interface PropsType {
   bookInfo: BookDocument;
@@ -20,12 +21,7 @@ const ReviewCreateBox = ({ bookInfo }: PropsType) => {
     try {
       if (review === "") return;
       await addDoc(
-        collection(
-          dbService,
-          `Meeting Review/${new Date().getFullYear()}년 ${
-            new Date().getMonth() + 1
-          }월/reviews`
-        ),
+        collection(dbService, `BookMeeting Info/${thisYearMonth}/reviews`),
         {
           text: review,
           createdAt: Date.now(),

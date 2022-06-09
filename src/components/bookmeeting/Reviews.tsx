@@ -7,19 +7,13 @@ import { currentUserState } from "data/userAtom";
 import { useRecoilValue } from "recoil";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
-
-interface userType {
-  displayName?: string;
-  email?: string;
-  favoriteBookField: any[];
-  gender: string;
-  name: string;
-  photoUrl: string;
-}
+import { BookDocument } from "data/bookAtom";
+import { thisYearMonth } from "util/constants";
 
 interface PropsType {
   item: DocumentType;
   onReviewRemove?: (id: string) => void;
+  bookInfo?: BookDocument;
 }
 
 const Reviews = ({ item, onReviewRemove }: PropsType) => {
@@ -32,9 +26,7 @@ const Reviews = ({ item, onReviewRemove }: PropsType) => {
     event.preventDefault();
     const ReviewTextRef = doc(
       dbService,
-      `Meeting Review/${new Date().getFullYear()}년 ${
-        new Date().getMonth() + 1
-      }월/reviews`,
+      `BookMeeting Info/${thisYearMonth}/reviews`,
       `${item.id}`
     );
     await updateDoc(ReviewTextRef, { text: newText });
@@ -58,9 +50,7 @@ const Reviews = ({ item, onReviewRemove }: PropsType) => {
     event.preventDefault();
     const ReviewTextRef = doc(
       dbService,
-      `Meeting Review/${new Date().getFullYear()}년 ${
-        new Date().getMonth() + 1
-      }월/reviews`,
+      `BookMeeting Info/${thisYearMonth}/reviews`,
       `${item.id}`
     );
     await deleteDoc(ReviewTextRef);
