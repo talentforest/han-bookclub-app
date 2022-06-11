@@ -1,4 +1,4 @@
-import { Container, IconHeader } from "theme/commonStyle";
+import { Container } from "theme/commonStyle";
 import { useEffect, useState } from "react";
 import { authService, dbService, storageService } from "fbase";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
@@ -9,12 +9,11 @@ import { BookFieldType } from "components/loginForm/UserDataInputForm";
 import { useRecoilState } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { v4 } from "uuid";
-import BackButton from "components/common/BackButton";
-import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
 import NotEditingProfile from "components/editProfile/NotEditingProfile";
 import EditingProfile from "components/editProfile/EditingProfile";
 import ProfileImage from "components/common/ProfileImage";
+import BackButtonHeader from "components/common/BackButtonHeader";
 
 export interface extraUserData {
   name: string;
@@ -71,16 +70,6 @@ const EditProfile = () => {
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
-    });
-  };
-
-  const refreshExtraUser = () => {
-    setExtraUserData({
-      name: extraUserData.name,
-      favoriteBookField: extraUserData.favoriteBookField,
-      email: extraUserData.email,
-      displayName: extraUserData.displayName,
-      photoUrl: extraUserData.photoUrl,
     });
   };
 
@@ -171,12 +160,7 @@ const EditProfile = () => {
 
   return (
     <>
-      <NewHeader>
-        <div>
-          <BackButton />
-          <Subtitle title="프로필 정보" />
-        </div>
-      </NewHeader>
+      <BackButtonHeader title="프로필 정보" />
       <NewContainer>
         {editing ? (
           <Form onSubmit={onSubmit}>
@@ -203,22 +187,6 @@ const EditProfile = () => {
     </>
   );
 };
-
-const NewHeader = styled(IconHeader)`
-  position: relative;
-  justify-content: space-between;
-  align-items: center;
-  > div {
-    display: flex;
-    align-items: center;
-  }
-  > button {
-    border: none;
-    background-color: transparent;
-    color: ${(props) => props.theme.text.lightBlue};
-    cursor: pointer;
-  }
-`;
 
 const NewContainer = styled(Container)`
   display: flex;

@@ -2,7 +2,7 @@ import { Star } from "@mui/icons-material";
 import { bookSearchHandler } from "api/api";
 import { useEffect, useState } from "react";
 import { useMatch } from "react-router-dom";
-import { BookCoverTitleBox, Container, IconHeader } from "theme/commonStyle";
+import { BookCoverTitleBox, Container } from "theme/commonStyle";
 import {
   collection,
   deleteDoc,
@@ -18,10 +18,9 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { BookMeetingInfo } from "./BookMeeting";
 import { thisYearMonth } from "util/constants";
-import Subtitle from "components/common/Subtitle";
 import BookDesc from "components/common/BookDesc";
 import styled from "styled-components";
-import BackButton from "components/common/BackButton";
+import BackButtonHeader from "components/common/BackButtonHeader";
 
 const FindedBook = () => {
   const [toggle, setToggle] = useState(false);
@@ -146,10 +145,7 @@ const FindedBook = () => {
 
   return (
     <>
-      <IconHeader>
-        <BackButton />
-        <Subtitle title="도서 정보" />
-      </IconHeader>
+      <BackButtonHeader title="도서 정보" />
       <Container>
         <BookCoverTitleBox>
           <img src={findbookData[0]?.thumbnail} alt="Book_Image" />

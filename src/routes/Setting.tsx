@@ -1,23 +1,22 @@
-import { Container, IconHeader } from "theme/commonStyle";
+import { Container } from "theme/commonStyle";
 import { Link } from "react-router-dom";
-import BackButton from "components/common/BackButton";
-import Subtitle from "components/common/Subtitle";
 import LogOutButton from "components/settings/LogOutButton";
 import styled from "styled-components";
 import DeleteAccountButton from "components/settings/DeleteAccountButton";
+import BackButtonHeader from "components/common/BackButtonHeader";
 
 const Setting = () => {
   return (
     <>
-      <IconHeader>
-        <BackButton />
-        <Subtitle title="설정" />
-      </IconHeader>
+      <BackButtonHeader title="설정" />
       <NewContainer>
         <span>사용자 설정</span>
         <ul>
           <li>
             <Link to="editprofile">프로필 편집</Link>
+          </li>
+          <li>
+            <Link to="editpassword">비밀번호 변경하기</Link>
           </li>
         </ul>
         <span>기타</span>

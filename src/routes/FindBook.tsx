@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Container, IconHeader } from "theme/commonStyle";
+import { Container } from "theme/commonStyle";
 import { bookSearchHandler } from "api/api";
 import styled from "styled-components";
 import ResultBox from "components/bookfind/ResultBox";
-import BackButton from "components/common/BackButton";
+import BackButtonHeader from "components/common/BackButtonHeader";
 
 const FindBook = () => {
   const [bookInfo, setBookInfo] = useState([]);
@@ -26,10 +26,7 @@ const FindBook = () => {
 
   return (
     <>
-      <IconHeader>
-        <BackButton />
-        <Title>책 검색하기</Title>
-      </IconHeader>
+      <BackButtonHeader title="책 검색하기" />
       <Container>
         <Form onSubmit={onSubmit}>
           <Input
@@ -59,11 +56,6 @@ const BookResults = styled.div`
     padding-bottom: 10px;
     font-size: 13px;
   }
-`;
-
-const Title = styled.h1`
-  font-size: 16px;
-  font-weight: 700;
 `;
 
 const Form = styled.form`

@@ -34,7 +34,7 @@ const LogInPage = () => {
   };
 
   return (
-    <Container>
+    <NewContainer>
       <H1>한 페이지</H1>
       <Logo>
         <div />
@@ -61,14 +61,16 @@ const LogInPage = () => {
         <Button type="submit" value="로그인" />
       </Form>
       <FindCreateAccount>
-        <Link to="/find_id">아이디 찾기</Link>
         <Link to="/find_pw">비밀번호 찾기</Link>
         <Link to="/create_account">회원가입</Link>
       </FindCreateAccount>
       <Footer>&copy; {new Date().getFullYear()} Book Club: Han Page </Footer>
-    </Container>
+    </NewContainer>
   );
 };
+const NewContainer = styled(Container)`
+  margin-bottom: 0;
+`;
 
 const H1 = styled.h1`
   font-size: 20px;
@@ -88,8 +90,8 @@ const Logo = styled.div`
   justify-content: center;
   align-items: center;
   div {
-    width: 100px;
-    height: 100px;
+    width: 160px;
+    height: 160px;
     margin: 10px 0 30px;
     border-radius: 50%;
     background-color: ${(props) => props.theme.container.lightBlue};
