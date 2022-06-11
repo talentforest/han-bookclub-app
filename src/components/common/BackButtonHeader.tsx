@@ -22,8 +22,6 @@ const BackButtonHeader = ({ title }: PropsType) => {
 };
 
 const BackHeader = styled(Header)`
-  display: flex;
-  align-items: center;
   svg {
     width: 16px;
     height: 16px;

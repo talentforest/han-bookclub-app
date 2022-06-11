@@ -11,22 +11,24 @@ const CreateAccount = () => {
   const [checkPassword, setCheckPassword] = useState("");
 
   return (
-    <Container>
+    <>
       <BackButtonHeader title="계정 생성하기" />
-      {!isShowingUserDataInput ? (
-        <AccountForm
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-          checkPassword={checkPassword}
-          setCheckPassword={setCheckPassword}
-          setIsShowingUserDataInput={setIsShowingUserDataInput}
-        />
-      ) : (
-        <UserDataInputForm email={email} password={password} />
-      )}
-    </Container>
+      <Container>
+        {!isShowingUserDataInput ? (
+          <AccountForm
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            checkPassword={checkPassword}
+            setCheckPassword={setCheckPassword}
+            setIsShowingUserDataInput={setIsShowingUserDataInput}
+          />
+        ) : (
+          <UserDataInputForm email={email} password={password} />
+        )}
+      </Container>
+    </>
   );
 };
 

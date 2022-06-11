@@ -16,8 +16,8 @@ import FindBook from "routes/FindBook";
 import SelectedBook from "routes/FindedBook";
 import ClubBooksHistory from "routes/ClubBooksHistory";
 import UserDataInputForm from "components/loginForm/UserDataInputForm";
-import FindId from "routes/FindId";
-import FindPw from "routes/FindPw";
+import ResetPasswordEmail from "routes/ResetPasswordEmail";
+import EditPassword from "routes/EditPassword";
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -41,8 +41,7 @@ function Router({ isLoggedIn }: PropsType) {
           <Route path="/" element={<LogInPage />} />
         )}
         <>
-          <Route path="/find_id" element={<FindId />} />
-          <Route path="/find_pw" element={<FindPw />} />
+          <Route path="/find_pw" element={<ResetPasswordEmail />} />
           <Route path="/create_account" element={<CreateAccount />} />
           <Route
             path="/create_account/userInfo"
@@ -59,6 +58,7 @@ function Router({ isLoggedIn }: PropsType) {
               <Route path="/profile" element={<Profile />} />
               <Route path="/setting" element={<Setting />} />
               <Route path="/setting/editprofile" element={<EditProfile />} />
+              <Route path="/setting/editpassword" element={<EditPassword />} />
             </>
           ) : (
             <Route path="/*" element={<LogInPage />} />

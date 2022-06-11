@@ -1,27 +1,27 @@
 import React, { useState } from "react";
 import { authService } from "fbase";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { Container, Input } from "theme/commonStyle";
+import { Container, Desc, Input } from "theme/commonStyle";
 import BackButtonHeader from "components/common/BackButtonHeader";
 import styled from "styled-components";
 
-const FindPw = () => {
+const ResetPasswordEmail = () => {
   const [email, setEmail] = useState("");
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
+    setSubmitSuccess(false);
     setEmail(event.currentTarget.value);
   };
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    sendPasswordResetEmail(authService, email)
-      .then(() => {
-        console.log("성공");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    sendPasswordResetEmail(authService, email).catch((error) => {
+      console.log(error);
+    });
+
+    setSubmitSuccess(true);
     setEmail("");
   };
 
@@ -29,11 +29,11 @@ const FindPw = () => {
     <>
       <BackButtonHeader title="비밀번호 찾기" />
       <Container>
-        <Title>비밀번호가 생각나지 않으세요?</Title>
-        <Desc>
+        <Desc>비밀번호가 생각나지 않으세요?</Desc>
+        <Detail>
           가입할 때 사용하신 계정 이메일을 적어주세요. <br />
-          해당 이메일에 비밀번호 재설정 링크를 보내드릴게요.
-        </Desc>
+          해당 이메일에 비밀번호 재설정 링크를 전송해 드릴게요.
+        </Detail>
         <InputForm onSubmit={onSubmit}>
           <Input
             type="email"
@@ -44,21 +44,31 @@ const FindPw = () => {
           />
           <input type="submit" value="전송하기" />
         </InputForm>
+        {submitSuccess ? (
+          <Message>
+            해당 이메일에 성공적으로 전송되었습니다.
+            <br /> 수신함에 메일이 보이지 않는다면 스팸을 확인해주세요.
+          </Message>
+        ) : (
+          <></>
+        )}
       </Container>
     </>
   );
 };
 
-const Title = styled.h4`
-  font-size: 15px;
-  margin-bottom: 10px;
-`;
-
-const Desc = styled.p`
+const Detail = styled.p`
   font-size: 12px;
   margin-bottom: 15px;
   line-height: 1.5;
   color: ${(props) => props.theme.text.lightBlue};
+`;
+
+const Message = styled(Detail)`
+  color: #666;
+  font-size: 10px;
+  margin: 10px 0;
+  text-align: end;
 `;
 
 const InputForm = styled.form`
@@ -82,4 +92,4 @@ const InputForm = styled.form`
     cursor: pointer;
   }
 `;
-export default FindPw;
+export default ResetPasswordEmail;

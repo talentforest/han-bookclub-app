@@ -6,9 +6,9 @@ export const Header = styled.header`
   font-weight: 700;
   display: flex;
   align-items: center;
-  padding: 20px;
   height: 40px;
   margin-top: 10px;
+  padding: 0 15px;
   @media ${device.tablet} {
     padding: 60px 80px 20px;
     font-size: 24px;
@@ -79,10 +79,11 @@ export const Form = styled.form`
   align-items: center;
 `;
 
-export const Desc = styled.span`
+export const Desc = styled.h4`
   display: block;
   font-weight: 700;
-  margin: 20px 0;
+  font-size: 14px;
+  margin: 10px 0;
 `;
 
 export const Input = styled.input`
