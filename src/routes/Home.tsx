@@ -12,6 +12,7 @@ import { dbService } from "fbase";
 import { currentUserState } from "data/userAtom";
 import { DocumentType } from "components/bookmeeting/Subjects";
 import { Book } from "@mui/icons-material";
+import { thisYearMonth } from "util/constants";
 import LinkButton from "components/common/LinkButton";
 import useWindowSize from "hooks/useWindowSize";
 import Subtitle from "components/common/Subtitle";
@@ -19,10 +20,8 @@ import MeetingInfoBox from "components/common/MeetingInfoBox";
 import VoteBox from "components/common/VoteBox";
 import Title from "components/common/Title";
 import styled from "styled-components";
-import MenuIcon from "@mui/icons-material/Menu";
 import BookRecomCreateBox from "components/common/BookRecomCreateBox";
 import BookRecomBox from "components/common/BookRecomBox";
-import { thisYearMonth } from "util/constants";
 
 const Home = () => {
   const [recommendBook, setRecommendBook] = useState<DocumentType[]>([]);
@@ -83,10 +82,9 @@ const Home = () => {
   return (
     <>
       {windowSize.width < +deviceSizes.tablet ? (
-        <NewHeader>
+        <Header>
           <Title title="독서모임 한 페이지" />
-          <MenuIcon />
-        </NewHeader>
+        </Header>
       ) : (
         <></>
       )}
@@ -131,38 +129,24 @@ const Home = () => {
           <LinkButton link={"/vote"} title="투표하러 가기" />
         </section>
         <section>
-          <Subtitle title="같은 분야의 추천책" />
-          <BookCoverTitleBox>
-            <img src={thisMonthBookDocData[0]?.thumbnail} alt="Book_Image" />
-            <h3>{thisMonthBookDocData[0]?.title}</h3>
-          </BookCoverTitleBox>
-          <BookRecomCreateBox uid={userData?.uid} />
-          {recommendBook.map((item) => (
-            <BookRecomBox key={item.id} item={item} />
-          ))}
+          <Subtitle title={`${Month}월의 책 추천`} />
+          <BookRecomCreateBox
+            uid={userData?.uid}
+            thisMonthBook={thisMonthBookDocData[0]?.book}
+          />
+          {recommendBook.length !== 0 &&
+            recommendBook?.map((item) => (
+              <BookRecomBox
+                key={item.id}
+                item={item}
+                thisMonthBook={thisMonthBookDocData[0]?.book}
+              />
+            ))}
         </section>
       </NewContainer>
     </>
   );
 };
-
-const NewHeader = styled(Header)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 40px;
-  > div {
-    display: flex;
-    align-items: center;
-    > svg {
-      margin-left: 5px;
-      fill: ${(props) => props.theme.text.gray};
-      cursor: pointer;
-      width: 24px;
-      height: 24px;
-    }
-  }
-`;
 
 const NewContainer = styled(Container)`
   > section {

@@ -12,8 +12,8 @@ import { v4 } from "uuid";
 import BackButton from "components/common/BackButton";
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
-import AfterEdit from "components/editProfile/AfterEdit";
-import BeforeEdit from "components/editProfile/BeforeEdit";
+import NotEditingProfile from "components/editProfile/NotEditingProfile";
+import EditingProfile from "components/editProfile/EditingProfile";
 import ProfileImage from "components/common/ProfileImage";
 
 export interface extraUserData {
@@ -26,9 +26,6 @@ export interface extraUserData {
 
 const EditProfile = () => {
   const [userData, setUserData] = useRecoilState(currentUserState);
-  const [editing, setEditing] = useState(false);
-  const [profileImgUrl, setProfileImgUrl] = useState("");
-  const [newDisplayName, setNewDisplayName] = useState(userData.displayName);
   const [extraUserData, setExtraUserData] = useState({
     name: "",
     favoriteBookField: [],
@@ -36,7 +33,10 @@ const EditProfile = () => {
     displayName: "",
     photoUrl: "",
   });
-  const [favFields, setFavFields] = useState(extraUserData?.favoriteBookField);
+  const [editing, setEditing] = useState(false);
+  const [profileImgUrl, setProfileImgUrl] = useState("");
+  const [newDisplayName, setNewDisplayName] = useState(userData.displayName);
+
   const [toggleCheck, setToggleCheck] = useState(
     Array(bookFields.length).fill(false)
   );
@@ -46,9 +46,16 @@ const EditProfile = () => {
       doc(dbService, "User Data", `${userData.uid}`),
       (doc) => {
         setExtraUserData(doc.data() as extraUserData);
-        setFavFields(doc.data()?.favoriteBookField);
+
+        console.log(doc.data()?.favoriteBookField);
+        window.localStorage.setItem(
+          "favFields",
+          JSON.stringify(doc.data()?.favoriteBookField)
+        );
       }
     );
+
+    // window.localStorage.setItem("favFieldsCheck", JSON.stringify(toggleCheck));
 
     return () => {
       unsubscribe();
@@ -67,56 +74,70 @@ const EditProfile = () => {
     });
   };
 
+  const refreshExtraUser = () => {
+    setExtraUserData({
+      name: extraUserData.name,
+      favoriteBookField: extraUserData.favoriteBookField,
+      email: extraUserData.email,
+      displayName: extraUserData.displayName,
+      photoUrl: extraUserData.photoUrl,
+    });
+  };
+
+  const updateProfileImg = async () => {
+    let userImageUrl = userData.photoURL;
+    const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
+
+    const fileRef = ref(storageService, `${userData.uid}/${v4()}`);
+    const response = await uploadString(fileRef, profileImgUrl, "data_url");
+    userImageUrl = await getDownloadURL(response.ref);
+
+    await updateProfile(authService.currentUser, {
+      photoURL: userImageUrl,
+    });
+    await updateDoc(UserDataRef, {
+      photoUrl: userImageUrl,
+    });
+
+    refreshUser();
+  };
+
+  const updateDisplayName = async () => {
+    const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
+
+    await updateProfile(authService.currentUser, {
+      displayName: newDisplayName,
+    });
+    await updateDoc(UserDataRef, {
+      displayName: newDisplayName,
+    });
+
+    refreshUser();
+  };
+
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    let userImageUrl = userData.photoURL;
+    const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
     try {
-      // update profile
-      const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
-
       if (profileImgUrl !== "") {
-        const fileRef = ref(storageService, `${userData.uid}/${v4()}`);
-        const response = await uploadString(fileRef, profileImgUrl, "data_url");
-        userImageUrl = await getDownloadURL(response.ref);
-
-        await updateProfile(authService.currentUser, {
-          photoURL: userImageUrl,
-        });
-        await updateDoc(UserDataRef, {
-          photoUrl: userImageUrl,
-        });
+        updateProfileImg();
       }
-
       if (userData.displayName !== newDisplayName) {
-        await updateProfile(authService.currentUser, {
-          displayName: newDisplayName,
-        });
-        await updateDoc(UserDataRef, {
-          displayName: newDisplayName,
-        });
+        updateDisplayName();
       }
-
-      // update document
       updateDoc(UserDataRef, {
-        favoriteBookField: Array.from(favFields),
+        favoriteBookField: Array.from(extraUserData.favoriteBookField),
       });
 
-      refreshUser();
-      setToggleCheck(Array(bookFields.length).fill(false));
       setEditing(false);
     } catch (error) {
       console.error("Error adding document:", error);
     }
   };
 
-  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setNewDisplayName(event.currentTarget.value);
-  };
-
   const onHandleClick = (
     idx: number,
-    event: React.FormEvent<HTMLDivElement>
+    event: React.FormEvent<HTMLButtonElement>
   ) => {
     setToggleCheck((prev) =>
       prev.map((element, index) => {
@@ -124,19 +145,27 @@ const EditProfile = () => {
       })
     );
 
-    const { textContent } = event.currentTarget;
-    const fieldObj = { id: idx + 1, name: textContent };
+    const { name } = event.currentTarget;
+    const currentFieldValue = { id: idx + 1, name };
 
     if (!toggleCheck[idx]) {
-      const totalArray = [...favFields, fieldObj];
+      const totalArray = [
+        ...extraUserData.favoriteBookField,
+        currentFieldValue,
+      ];
       const result = totalArray.filter(
         (arr, index, callback) =>
           index === callback.findIndex((t) => t.id === arr.id)
       );
 
-      setFavFields(result);
+      setExtraUserData((prev) => ({ ...prev, favoriteBookField: result }));
     } else if (toggleCheck[idx]) {
-      setFavFields(favFields.filter((ele) => ele.id !== idx + 1));
+      setExtraUserData((prev) => ({
+        ...prev,
+        favoriteBookField: extraUserData.favoriteBookField.filter(
+          (ele: BookFieldType) => ele.id !== idx + 1
+        ),
+      }));
     }
   };
 
@@ -155,19 +184,20 @@ const EditProfile = () => {
               profileImgUrl={profileImgUrl}
               setProfileImgUrl={setProfileImgUrl}
             />
-            <BeforeEdit
-              onChange={onChange}
+            <EditingProfile
+              extraUserData={extraUserData}
               newDisplayName={newDisplayName}
               setNewDisplayName={setNewDisplayName}
               onHandleClick={onHandleClick}
               toggleCheck={toggleCheck}
               setToggleCheck={setToggleCheck}
-              favFields={favFields}
-              setFavFields={setFavFields}
             />
           </Form>
         ) : (
-          <AfterEdit setEditing={setEditing} favFields={favFields} />
+          <NotEditingProfile
+            setEditing={setEditing}
+            extraUserData={extraUserData}
+          />
         )}
       </NewContainer>
     </>

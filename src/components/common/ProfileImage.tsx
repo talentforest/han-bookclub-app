@@ -101,8 +101,10 @@ const Container = styled.div`
       width: 100px;
       height: 100px;
       border-radius: 50%;
+      cursor: pointer;
     }
     > button {
+      cursor: pointer;
       position: absolute;
       right: 24px;
       bottom: 16px;

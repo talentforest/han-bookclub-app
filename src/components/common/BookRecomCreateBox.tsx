@@ -2,12 +2,14 @@ import styled from "styled-components";
 import { useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
+import { BookDocument } from "data/bookAtom";
 
 interface PropsType {
   uid: string;
+  thisMonthBook: BookDocument;
 }
 
-const BookRecomCreateBox = ({ uid }: PropsType) => {
+const BookRecomCreateBox = ({ uid, thisMonthBook }: PropsType) => {
   const [text, setText] = useState("");
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -29,14 +31,24 @@ const BookRecomCreateBox = ({ uid }: PropsType) => {
     setText(event.currentTarget.value);
   };
 
+  const Month = new Date().getMonth() + 1;
+
   return (
     <Form onSubmit={onSubmit}>
       <textarea
-        placeholder="멤버들에게 인상깊게 읽은 책을 추천해주세요."
+        placeholder={`${Month}월에 "${thisMonthBook?.title}" 이외에 읽은 책을 작성해주세요. 
+
+아니면 추천하고 싶은 책을 작성해도 좋아요.`}
         onChange={onChange}
         value={text}
       />
-      <input type="submit" value="추천하기" />
+      <Bottom>
+        <div>
+          <img src={thisMonthBook?.thumbnail} alt="Book_Image" />
+          <h3>{thisMonthBook?.title}</h3>
+        </div>
+        <input type="submit" value="추천하기" />
+      </Bottom>
     </Form>
   );
 };
@@ -51,7 +63,7 @@ const Form = styled.form`
   align-items: flex-end;
   textarea {
     width: 100%;
-    height: 80px;
+    height: 90px;
     border-radius: 5px;
     padding: 5px 10px;
     white-space: pre-wrap;
@@ -61,14 +73,32 @@ const Form = styled.form`
       outline: none;
     }
   }
+`;
+
+const Bottom = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  > div {
+    display: flex;
+    align-items: center;
+    img {
+      height: 30px;
+      box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+      margin-right: 10px;
+    }
+    h3 {
+      font-size: 12px;
+    }
+  }
   input {
-    margin-top: 10px;
     border: none;
     background-color: ${(props) => props.theme.container.blue};
     color: #fff;
     border-radius: 5px;
     padding: 3px 5px;
     font-size: 12px;
+    height: 30px;
   }
 `;
 

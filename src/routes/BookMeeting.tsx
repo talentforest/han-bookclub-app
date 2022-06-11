@@ -223,11 +223,6 @@ const BookMeetingBox = styled.div`
   align-items: center;
   width: 100%;
   margin: 0 auto;
-  > div:last-child {
-    margin: 10px 0;
-    width: 80%;
-    padding: 10px 15px;
-  }
 `;
 
 const EmptySign = styled.div`

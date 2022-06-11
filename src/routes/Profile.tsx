@@ -66,13 +66,13 @@ const NewContainer = styled(Container)`
       padding-top: 10px;
     }
   }
-  > div {
+  > div:last-child {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-top: 30px;
-    span {
+    > span {
       font-size: 13px;
       padding-left: 15px;
       margin-bottom: 10px;

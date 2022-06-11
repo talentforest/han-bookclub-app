@@ -1,10 +1,10 @@
 import { BookMeetingInfo } from "routes/BookMeeting";
 import { useState } from "react";
-import MeetingInfoBox from "components/common/MeetingInfoBox";
-import styled from "styled-components";
 import { doc, updateDoc } from "firebase/firestore";
 import { dbService } from "fbase";
 import { thisYearMonth } from "util/constants";
+import MeetingInfoBox from "components/common/MeetingInfoBox";
+import styled from "styled-components";
 
 interface PropsType {
   data: BookMeetingInfo;
@@ -12,14 +12,24 @@ interface PropsType {
 
 const EditMeetingInfo = ({ data }: PropsType) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [timeText, setTimeText] = useState("");
-  const [placeText, setPlaceText] = useState("");
+  const [timeText, setTimeText] = useState(
+    JSON.parse(window.localStorage.getItem("bookMeetingSchedule")).time
+  );
+  const [placeText, setPlaceText] = useState(
+    JSON.parse(window.localStorage.getItem("bookMeetingSchedule")).place
+  );
 
-  const onEditToggleClick = () => {
-    setIsEditing((prev) => !prev);
+  const meetingSchedule = { time: timeText, place: placeText };
+  const saveLocalData = () => {
+    window.localStorage.setItem(
+      "bookMeetingSchedule",
+      JSON.stringify(meetingSchedule)
+    );
   };
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onUpdateInfoClick = async (
+    event: React.FormEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
     const MeetingInfoRef = doc(
       dbService,
@@ -29,20 +39,15 @@ const EditMeetingInfo = ({ data }: PropsType) => {
     await updateDoc(MeetingInfoRef, {
       meeting: { place: placeText, time: timeText },
     });
-
-    setTimeText("");
-    setPlaceText("");
+    saveLocalData();
+    setIsEditing(false);
   };
 
   return (
     <>
       {isEditing ? (
-        <Container onSubmit={onSubmit}>
-          <EditInput
-            value="수정완료"
-            type="submit"
-            onClick={onEditToggleClick}
-          />
+        <Container>
+          <EditInput onClick={onUpdateInfoClick}>수정완료</EditInput>
           <MeetingInfoBox
             data={data}
             isEditing={isEditing}
@@ -54,11 +59,9 @@ const EditMeetingInfo = ({ data }: PropsType) => {
         </Container>
       ) : (
         <Container>
-          <EditInput
-            value="모임정보 수정하기"
-            type="button"
-            onClick={onEditToggleClick}
-          />
+          <EditInput onClick={() => setIsEditing(true)}>
+            모임정보 수정하기
+          </EditInput>
           <MeetingInfoBox data={data} />
         </Container>
       )}
@@ -66,13 +69,13 @@ const EditMeetingInfo = ({ data }: PropsType) => {
   );
 };
 
-const Container = styled.form`
+const Container = styled.div`
   position: relative;
   width: 80%;
   margin-top: 30px;
 `;
 
-const EditInput = styled.input`
+const EditInput = styled.button`
   font-size: 11px;
   color: ${(props) => props.theme.text.accent};
   background-color: transparent;

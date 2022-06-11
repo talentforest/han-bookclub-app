@@ -8,12 +8,14 @@ import { currentUserState } from "data/userAtom";
 import { Delete, Edit } from "@mui/icons-material";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
+import { BookDocument } from "data/bookAtom";
 
 interface PropsType {
   item: DocumentType;
+  thisMonthBook: BookDocument;
 }
 
-const BookRecomBox = ({ item }: PropsType) => {
+const BookRecomBox = ({ item, thisMonthBook }: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(item.text);
   const userData = useRecoilValue(currentUserState);
@@ -66,7 +68,13 @@ const BookRecomBox = ({ item }: PropsType) => {
             )}
           </Writer>
           <pre>{newText}</pre>
-          <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
+          <Bottom>
+            <div>
+              <img src={thisMonthBook?.thumbnail} alt="Book_Image" />
+              <h3>{thisMonthBook?.title}</h3>
+            </div>
+            <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
+          </Bottom>
         </TextBox>
       )}
     </>
@@ -88,6 +96,27 @@ const TextBox = styled.div`
     width: auto;
     height: 30px;
     margin-top: 10px;
+  }
+`;
+
+const Bottom = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+  > div:first-child {
+    display: flex;
+    align-items: center;
+    width: 75%;
+    img {
+      height: 20px;
+      box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+      margin-right: 10px;
+      margin-top: 0;
+    }
+    h3 {
+      font-size: 10px;
+    }
   }
 `;
 
@@ -125,7 +154,6 @@ const RegisterTime = styled.div`
   font-size: 10px;
   color: ${(props) => props.theme.text.gray};
   text-align: end;
-  padding: 5px 0 10px;
 `;
 
 const EditDeleteIcon = styled.div`

@@ -1,33 +1,41 @@
 import { bookFields } from "util/constants";
-import { useEffect, useState } from "react";
-import { BookFieldType } from "components/loginForm/UserDataInputForm";
+import React, { useEffect, useState } from "react";
+
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import styled from "styled-components";
+import { extraUserData } from "routes/EditProfile";
 
 interface PropsType {
-  onChange: (event: React.FormEvent<HTMLInputElement>) => void;
+  extraUserData: extraUserData;
   newDisplayName: string;
   setNewDisplayName: (newDisplayName: string) => void;
-  onHandleClick: (idx: number, event: React.FormEvent<HTMLDivElement>) => void;
+  onHandleClick: (
+    index: number,
+    event: React.FormEvent<HTMLButtonElement>
+  ) => void;
   toggleCheck: boolean[];
   setToggleCheck: (toggleCheck: boolean[]) => void;
-  favFields: BookFieldType[];
-  setFavFields: (favFields: BookFieldType[]) => void;
 }
 
-const BeforeEdit = ({
-  onChange,
+const EditingProfile = ({
+  extraUserData,
   newDisplayName,
   setNewDisplayName,
   onHandleClick,
   toggleCheck,
   setToggleCheck,
-  favFields,
-  setFavFields,
 }: PropsType) => {
   const [editFavField, setEditFavField] = useState(false);
   const userData = useRecoilValue(currentUserState);
+
+  useEffect(() => {
+    if (!newDisplayName) {
+      setNewDisplayName(userData.displayName);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const selectedItemStyle = (index: number) => {
     return {
@@ -36,12 +44,9 @@ const BeforeEdit = ({
     };
   };
 
-  useEffect(() => {
-    if (!newDisplayName) {
-      setNewDisplayName(userData.displayName);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
+    setNewDisplayName(event.currentTarget.value);
+  };
 
   return (
     <UserInfo>
@@ -72,16 +77,18 @@ const BeforeEdit = ({
             <div>
               <div>
                 {bookFields.map((item, index) => (
-                  <div
+                  <button
                     onClick={(event) => onHandleClick(index, event)}
                     style={selectedItemStyle(index)}
                     key={item.id}
+                    type="button"
+                    name={item.name}
                   >
                     {item.name}
-                  </div>
+                  </button>
                 ))}
               </div>
-              {favFields.length === 0 ? (
+              {extraUserData?.favoriteBookField.length === 0 ? (
                 <span>변경하실 분야를 하나 이상 선택해주세요</span>
               ) : (
                 <span onClick={() => setEditFavField(false)}>선택 완료</span>
@@ -90,14 +97,12 @@ const BeforeEdit = ({
           ) : (
             <div>
               <div>
-                {favFields?.map((item, index) => (
+                {extraUserData?.favoriteBookField?.map((item, index) => (
                   <span key={index}>{item.name}</span>
                 ))}
               </div>
               <span
                 onClick={() => {
-                  setFavFields([]);
-                  setToggleCheck(Array(bookFields.length).fill(false));
                   setEditFavField(true);
                 }}
               >
@@ -113,12 +118,14 @@ const BeforeEdit = ({
 };
 
 const Edit = styled.div`
+  cursor: pointer;
   border-radius: 5px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
 `;
 
 const AfterFavEdit = styled.div`
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -142,15 +149,19 @@ const AfterFavEdit = styled.div`
       justify-content: end;
       flex-wrap: wrap;
       > span,
-      > div {
+      > button {
         cursor: pointer;
         padding: 2px 3px;
         border-radius: 10px;
         margin: 0px 0px 8px 8px;
         font-size: 10px;
-        border: 1px solid ${(props) => props.theme.text.lightGray};
+        border: none;
         background-color: ${(props) => props.theme.container.default};
         color: ${(props) => props.theme.text.default};
+        &.isActive {
+          background-color: #5162ff;
+          color: #fff;
+        }
       }
       > span {
         background-color: ${(props) => props.theme.text.lightBlue};
@@ -203,6 +214,7 @@ const List = styled.li`
 `;
 
 const EditBtn = styled.input`
+  cursor: pointer;
   position: absolute;
   top: 15px;
   right: 15px;
@@ -214,4 +226,4 @@ const EditBtn = styled.input`
   font-size: 12px;
 `;
 
-export default BeforeEdit;
+export default EditingProfile;

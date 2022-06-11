@@ -1,15 +1,15 @@
-import { BookFieldType } from "components/loginForm/UserDataInputForm";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { AccountCircle } from "@mui/icons-material";
+import { extraUserData } from "routes/EditProfile";
 import styled from "styled-components";
 
 interface PropsType {
   setEditing: (editing: boolean) => void;
-  favFields: BookFieldType[];
+  extraUserData: extraUserData;
 }
 
-const AfterEdit = ({ setEditing, favFields }: PropsType) => {
+const NotEditingProfile = ({ setEditing, extraUserData }: PropsType) => {
   const userData = useRecoilValue(currentUserState);
   const onClick = () => {
     setEditing(true);
@@ -42,7 +42,7 @@ const AfterEdit = ({ setEditing, favFields }: PropsType) => {
           <div>
             <span>좋아하는 분야</span>
             <div>
-              {favFields?.map((item, index) => (
+              {extraUserData?.favoriteBookField?.map((item, index) => (
                 <FavFieldItem key={index}>{item.name}</FavFieldItem>
               ))}
             </div>
@@ -129,6 +129,7 @@ const EditBtn = styled.input`
   font-weight: 700;
   padding-top: 2px;
   font-size: 12px;
+  cursor: pointer;
 `;
 
-export default AfterEdit;
+export default NotEditingProfile;
