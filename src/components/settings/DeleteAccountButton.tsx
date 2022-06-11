@@ -1,14 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import { deleteUser, getAuth } from "firebase/auth";
+import { deleteUser } from "firebase/auth";
 import styled from "styled-components";
+import { authService } from "fbase";
 
 const DeleteAccountButton = () => {
   const navigate = useNavigate();
   const onDeleteClick = () => {
-    const user = getAuth().currentUser;
+    const user = authService.currentUser;
     const checkDeleteAccount = window.confirm(
       "정말 탈퇴하시겠어요? 탈퇴할 시 회원님의 데이터는 복구 불가능합니다."
     );
+
     if (checkDeleteAccount === true) {
       deleteUser(user);
       navigate("/");
