@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Container } from "theme/commonStyle";
-import BackBtn from "components/common/BackButton";
+import BackButtonHeader from "components/common/BackButtonHeader";
 import UserDataInputForm from "components/loginForm/UserDataInputForm";
 import AccountForm from "components/loginForm/AccountForm";
 
@@ -12,7 +12,7 @@ const CreateAccount = () => {
 
   return (
     <Container>
-      <BackBtn />
+      <BackButtonHeader title="계정 생성하기" />
       {!isShowingUserDataInput ? (
         <AccountForm
           email={email}
