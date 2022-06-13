@@ -121,6 +121,7 @@ const Review = styled.div`
   padding-top: 20px;
   font-size: 14px;
   border-bottom: 1px solid ${(props) => props.theme.text.gray};
+  background-color: ${(props) => props.theme.container.default};
   > form {
     position: relative;
     margin: 0 5px;

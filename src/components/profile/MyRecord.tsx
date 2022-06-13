@@ -15,7 +15,11 @@ interface PropsType {
 const MyRecord = ({ item }: PropsType) => {
   const [subjects, setSubjects] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [mySubjectsByBook, setMySubjectsByBook] = useState([]);
+  const [myReviewsByBook, setMyReviewsByBook] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
   const userData = useRecoilValue(currentUserState);
+  const docMonth = item.id;
 
   useEffect(() => {
     getSubjects(item.id, setSubjects);
@@ -27,29 +31,45 @@ const MyRecord = ({ item }: PropsType) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const onCloseClick = () => {
+    setOpenModal(false);
+  };
+
   const mySubjects = subjects?.filter(
     (item) => item?.creatorId === userData.uid
   );
 
   const myReviews = reviews?.filter((item) => item?.creatorId === userData.uid);
 
-  // const onSubjectClick = (title: string) => {
-  //   const filteredArr = GroupedBySameBookRecord.filter(
-  //     (item) => item.title === title
-  //   );
-  //   const subjects = filteredArr[0]?.subjects;
-  //   setFilteredReview([]);
-  //   setFilteredSubject(subjects);
-  // };
+  const onSubjectClick = (booktitle: string) => {
+    const filteredArr = mySubjects.filter((item) => item.title === booktitle);
+    if (filteredArr.length === 0) return;
+    setOpenModal((prev) => !prev);
+    setMyReviewsByBook([]);
+    setMySubjectsByBook(filteredArr);
+  };
 
-  // const onReviewClick = (title: string) => {
-  //   const filteredArr = GroupedBySameBookRecord.filter(
-  //     (item) => item.title === title
-  //   );
-  //   const reviews = filteredArr[0]?.reviews;
-  //   setFilteredSubject([]);
-  //   setFilteredReview(reviews);
-  // };
+  const onReviewClick = (booktitle: string) => {
+    const filteredArr = myReviews.filter((item) => item.title === booktitle);
+    if (filteredArr.length === 0) return;
+    setOpenModal((prev) => !prev);
+    setMySubjectsByBook([]);
+    setMyReviewsByBook(filteredArr);
+  };
+
+  const onSubjectRemove = (targetId: string) => {
+    const newSubjectArr = mySubjectsByBook.filter(
+      (item) => item.id !== targetId
+    );
+    setMySubjectsByBook(newSubjectArr);
+  };
+
+  const onReviewRemove = (targetId: string) => {
+    const newSubjectArr = myReviewsByBook.filter(
+      (item) => item.id !== targetId
+    );
+    setMyReviewsByBook(newSubjectArr);
+  };
 
   return (
     <>
@@ -63,26 +83,46 @@ const MyRecord = ({ item }: PropsType) => {
             <Category>
               <div>
                 <Notes />
-                <button>발제문 보기</button>
+                <button onClick={() => onSubjectClick(item.book.title)}>
+                  발제문 보기
+                </button>
               </div>
               <div>
                 <Notes />
-                <button>모임후기 보기</button>
+                <button onClick={() => onReviewClick(item.book.title)}>
+                  모임후기 보기
+                </button>
               </div>
             </Category>
           </Record>
-          <SubjectBox>
-            {mySubjects.length !== 0 ? (
-              mySubjects.map((item) => <Subjects key={item.id} item={item} />)
-            ) : (
-              <></>
-            )}
-            {myReviews.length !== 0 ? (
-              myReviews.map((item) => <Reviews key={item.id} item={item} />)
-            ) : (
-              <></>
-            )}
-          </SubjectBox>
+          {openModal ? (
+            <>
+              <Overlay onClick={onCloseClick} />
+              <SubjectBox>
+                {mySubjectsByBook.length !== 0
+                  ? mySubjectsByBook?.map((item) => (
+                      <Subjects
+                        key={item.id}
+                        item={item}
+                        docMonth={docMonth}
+                        onSubjectRemove={onSubjectRemove}
+                      />
+                    ))
+                  : "작성한 발제문이 없습니다."}
+                {myReviewsByBook.length !== 0
+                  ? myReviewsByBook.map((item) => (
+                      <Reviews
+                        key={item.id}
+                        item={item}
+                        onReviewRemove={onReviewRemove}
+                      />
+                    ))
+                  : "작성한 모임후기가 없습니다."}
+              </SubjectBox>
+            </>
+          ) : (
+            <></>
+          )}
         </Container>
       ) : (
         <></>
@@ -91,29 +131,15 @@ const MyRecord = ({ item }: PropsType) => {
   );
 };
 
-const Container = styled.section`
-  border: 1px solid red;
-  margin: 0;
-  padding: 0;
-
-  height: fit-content;
-`;
-
-const SubjectBox = styled.article`
-  border: 1px solid teal;
-  position: absolute;
-  bottom: -230px;
-`;
+const Container = styled.section``;
 
 const Record = styled.div`
-  border: 1px solid blue;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  margin-bottom: 10px;
-  margin-right: 10px;
+  margin: 3px 10px 3px 0;
   border-radius: 5px;
   width: 230px;
   height: 140px;
@@ -169,6 +195,36 @@ const Category = styled.div`
         }
       }
     }
+  }
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+`;
+
+const SubjectBox = styled.article`
+  position: fixed;
+  top: 50px;
+  right: 0;
+  left: 0;
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  > div {
+    background-color: ${(props) => props.theme.container.lightBlue};
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px 15px;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   }
 `;
 

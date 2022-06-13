@@ -5,7 +5,6 @@ import { timestamp } from "util/timestamp";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { Delete, Edit } from "@mui/icons-material";
-import { thisYearMonth } from "util/constants";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
 
@@ -21,17 +20,20 @@ export interface DocumentType {
 interface ISubject {
   item: DocumentType;
   onSubjectRemove?: (targetId: string) => void;
+  docMonth?: string;
 }
 
-const Subjects = ({ item, onSubjectRemove }: ISubject) => {
+const Subjects = ({ item, onSubjectRemove, docMonth }: ISubject) => {
   const userData = useRecoilValue(currentUserState);
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(item.text);
 
+  console.log(docMonth);
+
   const onDeleteClick = async () => {
     const SubjectTextRef = doc(
       dbService,
-      `BookMeeting Info/${thisYearMonth}/subjects`,
+      `BookMeeting Info/${docMonth}/subjects`,
       `${item.id}`
     );
     await deleteDoc(SubjectTextRef);
@@ -46,7 +48,7 @@ const Subjects = ({ item, onSubjectRemove }: ISubject) => {
     event.preventDefault();
     const SubjectTextRef = doc(
       dbService,
-      `BookMeeting Info/${thisYearMonth}/subjects`,
+      `BookMeeting Info/${docMonth}/subjects`,
       `${item.id}`
     );
     await updateDoc(SubjectTextRef, { text: newText });

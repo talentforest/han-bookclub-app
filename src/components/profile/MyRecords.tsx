@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { dbService } from "fbase";
 import { DocumentType } from "components/bookmeeting/Subjects";
+import { getBookMeetingInfoData } from "util/getFirebaseDoc";
 import MyRecord from "./MyRecord";
 import styled from "styled-components";
 
@@ -15,29 +14,12 @@ const MyRecords = () => {
   const [docData, setDocData] = useState([]);
 
   useEffect(() => {
-    getAllSubjects();
+    getBookMeetingInfoData(setDocData);
 
     return () => {
-      getAllSubjects();
+      getBookMeetingInfoData(setDocData);
     };
   }, []);
-
-  const getAllSubjects = async () => {
-    const q = query(
-      collection(dbService, "BookMeeting Info"),
-      orderBy("createdAt", "asc")
-    );
-
-    onSnapshot(q, (querySnapshot) => {
-      const newArray = querySnapshot.docs.map((doc) => {
-        return {
-          id: doc.id,
-          ...doc.data(),
-        } as unknown as DocumentType;
-      });
-      setDocData(newArray);
-    });
-  };
 
   return (
     <Container>
@@ -51,9 +33,9 @@ const MyRecords = () => {
 };
 
 const Container = styled.div`
-  overflow: scroll;
+  overflow-x: scroll;
   min-height: 150px;
-  position: relative;
+  height: 200px;
   > div {
     overflow: hidden;
     display: flex;

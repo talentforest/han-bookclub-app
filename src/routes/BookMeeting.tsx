@@ -7,6 +7,11 @@ import {
 import { useEffect, useState } from "react";
 import { Link, useMatch } from "react-router-dom";
 import { BookDocument } from "data/bookAtom";
+import {
+  getBookMeetingInfoData,
+  getReviews,
+  getSubjects,
+} from "util/getFirebaseDoc";
 import Title from "components/common/Title";
 import styled from "styled-components";
 import BookDesc from "components/common/BookDesc";
@@ -15,11 +20,7 @@ import Reviews from "components/bookmeeting/Reviews";
 import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
 import Subjects from "components/bookmeeting/Subjects";
 import EditMeetingInfo from "components/bookmeeting/EditMeetingInfo";
-import {
-  getBookMeetingInfoData,
-  getReviews,
-  getSubjects,
-} from "util/getFirebaseDoc";
+import { thisYearMonth } from "util/constants";
 
 interface meetingType {
   time: string;
@@ -45,13 +46,13 @@ const BookMeeting = () => {
 
   useEffect(() => {
     getBookMeetingInfoData(setBookMeetingDocData);
-    getReviews(bookMeetingDocData[0]?.id, setThisMonthReviews);
-    getSubjects(bookMeetingDocData[0]?.id, setThisMonthSubjects);
+    getReviews(thisYearMonth, setThisMonthReviews);
+    getSubjects(thisYearMonth, setThisMonthSubjects);
 
     return () => {
       getBookMeetingInfoData(setBookMeetingDocData);
-      getReviews(bookMeetingDocData[0]?.id, setThisMonthReviews);
-      getSubjects(bookMeetingDocData[0]?.id, setThisMonthSubjects);
+      getReviews(thisYearMonth, setThisMonthReviews);
+      getSubjects(thisYearMonth, setThisMonthSubjects);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
