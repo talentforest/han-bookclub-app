@@ -48,7 +48,7 @@ const MeetingInfoBox = ({
           <p>
             {data?.meeting.time !== ""
               ? meetingTimestamp(data?.meeting.time)
-              : "아직 정해진 모임 시간이 없습니다."}
+              : "정해진 모임 시간이 없습니다."}
           </p>
         )}
       </div>
@@ -63,7 +63,7 @@ const MeetingInfoBox = ({
           <p>
             {data?.meeting.place !== ""
               ? data?.meeting.place
-              : "아직 정해진 모임 장소가 없습니다."}
+              : "정해진 모임 장소가 없습니다."}
           </p>
         )}
       </div>
@@ -96,7 +96,7 @@ const MeetingInfo = styled(MediumBox)`
     align-items: center;
     justify-content: space-between;
     p {
-      font-size: 13px;
+      font-size: 12px;
     }
     > span {
       border: 1px solid ${(props) => props.theme.container.blue};
@@ -112,7 +112,7 @@ const MeetingInfo = styled(MediumBox)`
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 25%;
+      width: 68px;
       svg {
         fill: ${(props) => props.theme.text.lightBlue};
         width: 14px;

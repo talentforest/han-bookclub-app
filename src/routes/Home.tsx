@@ -1,15 +1,9 @@
-import {
-  BookCoverTitleBox,
-  Container,
-  Header,
-  ScrollContainer,
-} from "theme/commonStyle";
+import { Container, Header, ScrollContainer } from "theme/commonStyle";
 import { deviceSizes } from "theme/mediaQueries";
 import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
 import { currentUserState } from "data/userAtom";
 import { DocumentType } from "components/bookmeeting/Subjects";
-import { Book } from "@mui/icons-material";
 import {
   getAllRecommends,
   getBookMeetingInfoData,
@@ -24,6 +18,7 @@ import Title from "components/common/Title";
 import styled from "styled-components";
 import BookRecomCreateBox from "components/common/BookRecomCreateBox";
 import BookRecomBox from "components/common/BookRecomBox";
+import ThisMonthBookTitleImg from "components/common/ThisMonthBookTitleImg";
 
 const Home = () => {
   const [recommendBook, setRecommendBook] = useState<DocumentType[]>([]);
@@ -65,22 +60,7 @@ const Home = () => {
       <NewContainer>
         <section>
           <Subtitle title={`${Month}월의 책`} />
-          {bookMeetingInfoDoc.length !== 0 ? (
-            <BookCoverTitleBox>
-              <img
-                src={bookMeetingInfoDoc[0]?.book.thumbnail}
-                alt="Book_Image"
-              />
-              <h3>{bookMeetingInfoDoc[0]?.book.title}</h3>
-            </BookCoverTitleBox>
-          ) : (
-            <BookCoverTitleBox>
-              <EmptySign>
-                <Book />
-              </EmptySign>
-              <h3>등록된 책이 아직 없습니다.</h3>
-            </BookCoverTitleBox>
-          )}
+          <ThisMonthBookTitleImg docData={bookMeetingInfoDoc} />
           <LinkButton link={"/bookmeeting/subject"} title="발제하러 가기" />
         </section>
         <section>
@@ -149,21 +129,6 @@ const NewContainer = styled(Container)`
       margin-top: 0;
     }
   }
-`;
-
-const EmptySign = styled.div`
-  text-align: center;
-  width: 70px;
-  height: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
-  background-color: ${(props) => props.theme.container.default};
-  font-size: 13px;
-  font-weight: 700;
-  margin: 0 auto;
 `;
 
 export default Home;

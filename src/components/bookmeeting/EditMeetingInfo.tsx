@@ -71,7 +71,6 @@ const EditMeetingInfo = ({ data }: PropsType) => {
 
 const Container = styled.div`
   position: relative;
-  width: 80%;
   margin-top: 30px;
 `;
 

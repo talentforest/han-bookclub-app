@@ -28,8 +28,6 @@ const Subjects = ({ item, onSubjectRemove, docMonth }: ISubject) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(item.text);
 
-  console.log(docMonth);
-
   const onDeleteClick = async () => {
     const SubjectTextRef = doc(
       dbService,

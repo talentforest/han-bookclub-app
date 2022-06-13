@@ -1,9 +1,4 @@
-import {
-  BookCoverTitleBox,
-  Container,
-  Header,
-  TopButton,
-} from "theme/commonStyle";
+import { Container, Header, TopButton } from "theme/commonStyle";
 import { useEffect, useState } from "react";
 import { Link, useMatch } from "react-router-dom";
 import { BookDocument } from "data/bookAtom";
@@ -21,6 +16,7 @@ import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
 import Subjects from "components/bookmeeting/Subjects";
 import EditMeetingInfo from "components/bookmeeting/EditMeetingInfo";
 import { thisYearMonth } from "util/constants";
+import ThisMonthBookTitleImg from "components/common/ThisMonthBookTitleImg";
 
 interface meetingType {
   time: string;
@@ -67,21 +63,7 @@ const BookMeeting = () => {
       </NewHeader>
       <Container>
         <BookMeetingBox>
-          {bookMeetingDocData.length ? (
-            <BookCoverTitleBox>
-              <img
-                src={bookMeetingDocData[0]?.book.thumbnail}
-                alt="Book_Image"
-              />
-              <h3>{bookMeetingDocData[0]?.book.title}</h3>
-            </BookCoverTitleBox>
-          ) : (
-            <EmptySign>
-              등록된 책이
-              <br />
-              없습니다.
-            </EmptySign>
-          )}
+          <ThisMonthBookTitleImg docData={bookMeetingDocData} />
           <EditMeetingInfo data={bookMeetingDocData[0]} />
         </BookMeetingBox>
         <BookSection>
@@ -169,20 +151,6 @@ const BookMeetingBox = styled.div`
   align-items: center;
   width: 100%;
   margin: 0 auto;
-`;
-
-const EmptySign = styled.div`
-  text-align: center;
-  height: 130px;
-  width: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
-  background-color: ${(props) => props.theme.container.default};
-  font-size: 13px;
-  font-weight: 700;
 `;
 
 export default BookMeeting;
