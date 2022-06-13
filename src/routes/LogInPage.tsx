@@ -59,24 +59,35 @@ const LogInPage = () => {
         />
         <ErrorMessage>{error}</ErrorMessage>
         <Button type="submit" value="로그인" />
-      </Form>
-      <FindCreateAccount>
-        <Link to="/find_pw">비밀번호 찾기</Link>
         <Link to="/create_account">회원가입</Link>
-      </FindCreateAccount>
-      <Footer>&copy; {new Date().getFullYear()} Book Club: Han Page </Footer>
+      </Form>
+      <div>
+        <Link to="/find_pw">비밀번호 찾기</Link>
+      </div>
+      <Footer>&copy; 2022 Book Club: Han Page </Footer>
     </NewContainer>
   );
 };
 const NewContainer = styled(Container)`
-  margin-bottom: 0;
+  margin-bottom: 20px;
+  width: 100%;
+  > div {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    > a {
+      font-size: 12px;
+      margin: 10px 0;
+      text-decoration: underline;
+    }
+  }
 `;
 
 const H1 = styled.h1`
   font-size: 20px;
   font-weight: 700;
   text-align: center;
-  padding: 20px 0 10px;
+  padding-top: 20px;
   color: ${(props) => props.theme.text.lightBlue};
   @media ${device.tablet} {
     margin-top: 50px;
@@ -85,14 +96,14 @@ const H1 = styled.h1`
 `;
 
 const Logo = styled.div`
-  margin: 30px 0 10px;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   div {
     width: 160px;
     height: 160px;
-    margin: 10px 0 30px;
+    margin: 10px 0 20px;
     border-radius: 50%;
     background-color: ${(props) => props.theme.container.lightBlue};
   }
@@ -109,25 +120,6 @@ const ErrorMessage = styled.span`
   padding-bottom: 10px;
 `;
 
-const FindCreateAccount = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  margin: 40px 0;
-  a {
-    border: none;
-    background-color: transparent;
-    font-size: 10px;
-    text-decoration: underline;
-    color: ${(props) => props.theme.text.gray};
-    cursor: pointer;
-  }
-  @media ${device.tablet} {
-    margin: 20px 0 100px;
-    a {
-      font-size: 18px;
-    }
-  }
-`;
 const Footer = styled.footer`
   text-align: center;
   font-size: 10px;

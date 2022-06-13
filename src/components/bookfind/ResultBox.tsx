@@ -9,9 +9,12 @@ interface PropsType {
 }
 
 const ResultBox = ({ bookInfo }: PropsType) => {
+  const bookTitle = bookInfo.title.includes("/")
+    ? bookInfo.title.split("/")[0]
+    : bookInfo.title;
   return (
     <>
-      <BookResultBox as={Link} to={{ pathname: `${bookInfo.title}` }}>
+      <BookResultBox as={Link} to={`${bookTitle}`}>
         {bookInfo?.thumbnail ? (
           <img src={bookInfo.thumbnail} alt="Book_Image" />
         ) : (

@@ -7,12 +7,14 @@ import {
 import { deviceSizes } from "theme/mediaQueries";
 import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { dbService } from "fbase";
 import { currentUserState } from "data/userAtom";
 import { DocumentType } from "components/bookmeeting/Subjects";
 import { Book } from "@mui/icons-material";
-import { thisYearMonth } from "util/constants";
+import {
+  getAllRecommends,
+  getBookMeetingInfoData,
+  getUserData,
+} from "util/getFirebaseDoc";
 import LinkButton from "components/common/LinkButton";
 import useWindowSize from "hooks/useWindowSize";
 import Subtitle from "components/common/Subtitle";
@@ -25,59 +27,31 @@ import BookRecomBox from "components/common/BookRecomBox";
 
 const Home = () => {
   const [recommendBook, setRecommendBook] = useState<DocumentType[]>([]);
-  const [thisMonthBookDocData, setThisMonthBookDocData] = useState([]);
-  const userData = useRecoilValue(currentUserState);
+  const [bookMeetingInfoDoc, setBookMeetingInfoDoc] = useState([]);
+  const [extraUserData, setExtraUserData] = useState({
+    name: "",
+    favoriteBookField: [],
+    email: "",
+    displayName: "",
+    photoUrl: "",
+  });
+
   const { windowSize } = useWindowSize();
+  const userData = useRecoilValue(currentUserState);
   const Month = new Date().getMonth() + 1;
 
   useEffect(() => {
-    getThisMonthBook();
-    getAllRecommends();
+    getBookMeetingInfoData(setBookMeetingInfoDoc);
+    getAllRecommends(setRecommendBook);
+    getUserData(userData?.uid, setExtraUserData);
 
     return () => {
-      getThisMonthBook();
-      getAllRecommends();
+      getBookMeetingInfoData(setBookMeetingInfoDoc);
+      getAllRecommends(setRecommendBook);
+      getUserData(userData?.uid, setExtraUserData);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const getThisMonthBook = async () => {
-    const q = query(
-      collection(dbService, "BookMeeting Info"),
-      orderBy("createdAt", "desc")
-    );
-
-    onSnapshot(q, (querySnapshot) => {
-      const newArray = querySnapshot.docs.map((doc) => {
-        return {
-          id: doc.id,
-          ...doc.data(),
-        };
-      });
-      const thisMonthBook = newArray.filter(
-        (item) => item.id === thisYearMonth
-      );
-
-      setThisMonthBookDocData(thisMonthBook);
-    });
-  };
-
-  const getAllRecommends = async () => {
-    const q = query(
-      collection(dbService, "Recommened_Book"),
-      orderBy("createdAt", "desc")
-    );
-
-    onSnapshot(q, (querySnapshot) => {
-      const newArray = querySnapshot.docs.map((doc) => {
-        return {
-          id: doc.id,
-          ...doc.data(),
-        };
-      });
-      setRecommendBook(newArray as DocumentType[]);
-    });
-  };
 
   return (
     <>
@@ -91,13 +65,13 @@ const Home = () => {
       <NewContainer>
         <section>
           <Subtitle title={`${Month}월의 책`} />
-          {thisMonthBookDocData.length !== 0 ? (
+          {bookMeetingInfoDoc.length !== 0 ? (
             <BookCoverTitleBox>
               <img
-                src={thisMonthBookDocData[0]?.book.thumbnail}
+                src={bookMeetingInfoDoc[0]?.book.thumbnail}
                 alt="Book_Image"
               />
-              <h3>{thisMonthBookDocData[0]?.book.title}</h3>
+              <h3>{bookMeetingInfoDoc[0]?.book.title}</h3>
             </BookCoverTitleBox>
           ) : (
             <BookCoverTitleBox>
@@ -111,8 +85,8 @@ const Home = () => {
         </section>
         <section>
           <Subtitle title={`${Month}월의 모임 일정`} />
-          <p>한페이지 북클럽 멤버는 매주 셋째주 일요일에 만나요.</p>
-          <MeetingInfoBox data={thisMonthBookDocData[0]} />
+          <p>한페이지 북클럽 멤버는 매월 셋째주 일요일에 만나요.</p>
+          <MeetingInfoBox data={bookMeetingInfoDoc[0]} />
           <LinkButton
             link={"/bookmeeting/review"}
             title="모임 후기 작성하러 가기"
@@ -132,14 +106,14 @@ const Home = () => {
           <Subtitle title={`${Month}월의 책 추천`} />
           <BookRecomCreateBox
             uid={userData?.uid}
-            thisMonthBook={thisMonthBookDocData[0]?.book}
+            thisMonthBook={bookMeetingInfoDoc[0]?.book}
           />
           {recommendBook.length !== 0 &&
             recommendBook?.map((item) => (
               <BookRecomBox
                 key={item.id}
                 item={item}
-                thisMonthBook={thisMonthBookDocData[0]?.book}
+                thisMonthBook={bookMeetingInfoDoc[0]?.book}
               />
             ))}
         </section>

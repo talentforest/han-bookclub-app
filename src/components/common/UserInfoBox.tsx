@@ -27,7 +27,7 @@ const UserInfoBox = ({ creatorId }: PropsType) => {
 
   return (
     <User>
-      {userDataDoc.photoUrl ? (
+      {userDataDoc?.photoUrl ? (
         <ProfileImg $bgPhoto={userDataDoc.photoUrl} />
       ) : (
         <AccountCircle />

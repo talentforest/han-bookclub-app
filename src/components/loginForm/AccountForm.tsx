@@ -26,6 +26,11 @@ const AccountForm = ({
         alert("비밀번호가 일치하지 않습니다.");
         return;
       } else {
+        const checkEmail = window.confirm(
+          `유효한 이메일을 작성하셔야 비밀번호 찾기 등 다른 기능을 제대로 이용할 수 있어요! ${email}이 맞는지 다시 한번 확인해주세요.`
+        );
+        if (!checkEmail) return;
+
         setIsShowingUserDataInput(true);
       }
     } catch (error) {

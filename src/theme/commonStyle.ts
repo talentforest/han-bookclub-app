@@ -77,6 +77,19 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+  > a {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 10px;
+    background-color: ${(props) => props.theme.text.lightBlue};
+    color: ${(props) => props.theme.container.yellow};
+    font-weight: 700;
+    font-size: 13px;
+  }
 `;
 
 export const Desc = styled.h4`
@@ -128,7 +141,7 @@ export const Button = styled.input`
   background-color: ${(props) => props.theme.container.yellow};
   color: ${(props) => props.theme.text.lightBlue};
   font-weight: 700;
-  margin: 20px 0;
+  margin: 10px 0;
   cursor: pointer;
   @media ${device.tablet} {
     height: 50px;

@@ -39,6 +39,9 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
             photoUrl: "",
           }
         );
+        window.alert(
+          "회원가입이 성공적으로 완료되었습니다. 한페이지 북클럽의 멤버가 되신 것을 환영해요!"
+        );
         navigate("/");
       } else {
         alert("입력하신 정보를 다시 한번 확인해주세요.");

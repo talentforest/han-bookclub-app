@@ -1,10 +1,9 @@
 import { bookFields } from "util/constants";
-import React, { useEffect, useState } from "react";
-
+import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import styled from "styled-components";
 import { extraUserData } from "routes/EditProfile";
+import styled from "styled-components";
 
 interface PropsType {
   extraUserData: extraUserData;
@@ -14,8 +13,6 @@ interface PropsType {
     index: number,
     event: React.FormEvent<HTMLButtonElement>
   ) => void;
-  toggleCheck: boolean[];
-  setToggleCheck: (toggleCheck: boolean[]) => void;
 }
 
 const EditingProfile = ({
@@ -23,10 +20,7 @@ const EditingProfile = ({
   newDisplayName,
   setNewDisplayName,
   onHandleClick,
-  toggleCheck,
-  setToggleCheck,
 }: PropsType) => {
-  const [editFavField, setEditFavField] = useState(false);
   const userData = useRecoilValue(currentUserState);
 
   useEffect(() => {
@@ -37,15 +31,12 @@ const EditingProfile = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const selectedItemStyle = (index: number) => {
-    return {
-      backgroundColor: `${toggleCheck[index] ? "#5162FF" : ""}`,
-      color: `${toggleCheck[index] ? "#fff" : ""}`,
-    };
-  };
-
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
     setNewDisplayName(event.currentTarget.value);
+  };
+
+  const isSelected = (id: number) => {
+    return extraUserData.favoriteBookField.some((item) => item.id === id);
   };
 
   return (
@@ -73,43 +64,26 @@ const EditingProfile = ({
         </List>
         <AfterFavEdit>
           <span>좋아하는 분야</span>
-          {editFavField ? (
+          <div>
             <div>
-              <div>
-                {bookFields.map((item, index) => (
-                  <button
-                    onClick={(event) => onHandleClick(index, event)}
-                    style={selectedItemStyle(index)}
-                    key={item.id}
-                    type="button"
-                    name={item.name}
-                  >
-                    {item.name}
-                  </button>
-                ))}
-              </div>
-              {extraUserData?.favoriteBookField.length === 0 ? (
-                <span>변경하실 분야를 하나 이상 선택해주세요</span>
-              ) : (
-                <span onClick={() => setEditFavField(false)}>선택 완료</span>
-              )}
+              {bookFields.map((item) => (
+                <button
+                  onClick={(event) => onHandleClick(item.id, event)}
+                  className={isSelected(item.id) ? "isActive" : ""}
+                  key={item.id}
+                  type="button"
+                  name={item.name}
+                >
+                  {item.name}
+                </button>
+              ))}
             </div>
-          ) : (
-            <div>
-              <div>
-                {extraUserData?.favoriteBookField?.map((item, index) => (
-                  <span key={index}>{item.name}</span>
-                ))}
-              </div>
-              <span
-                onClick={() => {
-                  setEditFavField(true);
-                }}
-              >
-                수정하기
-              </span>
-            </div>
-          )}
+            {extraUserData?.favoriteBookField.length === 0 ? (
+              <span>변경하실 분야를 하나 이상 선택해주세요</span>
+            ) : (
+              <></>
+            )}
+          </div>
         </AfterFavEdit>
       </Edit>
       <EditBtn type="submit" value="수정완료" />

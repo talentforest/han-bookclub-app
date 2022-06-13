@@ -1,146 +1,37 @@
-import { Star } from "@mui/icons-material";
 import { bookSearchHandler } from "api/api";
 import { useEffect, useState } from "react";
 import { useMatch } from "react-router-dom";
 import { BookCoverTitleBox, Container } from "theme/commonStyle";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
-import { dbService } from "fbase";
-import { useRecoilValue } from "recoil";
-import { currentUserState } from "data/userAtom";
-import { BookMeetingInfo } from "./BookMeeting";
 import { thisYearMonth } from "util/constants";
+import { getBookMeetingInfoData } from "util/getFirebaseDoc";
 import BookDesc from "components/common/BookDesc";
 import styled from "styled-components";
 import BackButtonHeader from "components/common/BackButtonHeader";
+import useHandleThisMonthDoc from "hooks/useHandleThisMonthDoc";
 
 const FindedBook = () => {
-  const [toggle, setToggle] = useState(false);
   const [findbookData, setFindBookData] = useState([]);
-  const [allClubBookDocData, setAllClubBookDocData] = useState([]);
-  const [selectedMonth, setSelectedMonth] = useState(thisYearMonth);
-  const userData = useRecoilValue(currentUserState);
+  const [bookMeetingDocData, setBookMeetingDocData] = useState([]);
   const match = useMatch(`/bookmeeting/find/:id`);
+
+  const { toggle, onSubmit, onMonthChange } = useHandleThisMonthDoc({
+    bookMeetingDocData,
+    findbookData,
+  });
 
   useEffect(() => {
     bookSearchHandler(match?.params.id, true, setFindBookData);
-    getAllBookMeetingInfo();
+    getBookMeetingInfoData(setBookMeetingDocData);
 
     return () => {
-      getAllBookMeetingInfo();
       bookSearchHandler(match?.params.id, true, setFindBookData);
+      getBookMeetingInfoData(setBookMeetingDocData);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getAllBookMeetingInfo = async () => {
-    const q = query(
-      collection(dbService, "BookMeeting Info"),
-      orderBy("createdAt", "desc")
-    );
-
-    onSnapshot(q, (querySnapshot) => {
-      const newArray = querySnapshot.docs.map((doc) => {
-        return {
-          id: doc.id,
-          ...doc.data(),
-        } as BookMeetingInfo;
-      });
-      const BookDocData = newArray.map((item) => item.book);
-      setAllClubBookDocData(BookDocData);
-    });
-  };
-
-  const onClick = async () => {
-    setToggle((prev) => !prev);
-    handleThisMonthBookDoc();
-  };
-
-  const onMonthChange = async (event: React.FormEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget;
-    setSelectedMonth(value);
-  };
-
-  const handleThisMonthBookDoc = async () => {
-    if (toggle === false) {
-      if (allClubBookDocData[0]?.id !== selectedMonth) {
-        setThisMonthBookMeetingDoc();
-      } else {
-        updateThisMonthBookMeetingDoc();
-      }
-    } else if (toggle === true) {
-      deleteThisMonthBookMeetingDoc();
-    }
-  };
-
-  const setThisMonthBookMeetingDoc = async () => {
-    await setDoc(doc(dbService, "BookMeeting Info", `${selectedMonth}`), {
-      book: {
-        thumbnail: findbookData[0].thumbnail,
-        title: match?.params.id,
-        authors: findbookData[0].authors,
-        translators: findbookData[0].translators,
-        price: findbookData[0].price,
-        contents: findbookData[0].contents,
-        publisher: findbookData[0].publisher,
-        datetime: findbookData[0].datetime,
-        url: findbookData[0].url,
-      },
-      meeting: {
-        place: "",
-        time: "",
-      },
-      createdAt: Date.now(),
-      creatorId: userData.uid,
-    });
-  };
-
-  const updateThisMonthBookMeetingDoc = async () => {
-    const thisMonthBookRef = doc(
-      dbService,
-      "BookMeeting Info",
-      `${selectedMonth}`
-    );
-    await updateDoc(thisMonthBookRef, {
-      book: {
-        thumbnail: findbookData[0].thumbnail,
-        title: match?.params.id,
-        authors: findbookData[0].authors,
-        translators: findbookData[0].translators,
-        price: findbookData[0].price,
-        contents: findbookData[0].contents,
-        publisher: findbookData[0].publisher,
-        datetime: findbookData[0].datetime,
-        url: findbookData[0].url,
-      },
-      meeting: {
-        place: "",
-        time: "",
-      },
-      createdAt: Date.now(),
-      creatorId: userData.uid,
-    });
-  };
-
-  const deleteThisMonthBookMeetingDoc = async () => {
-    const thisMonthBookRef = doc(
-      dbService,
-      "BookMeeting Info",
-      `${selectedMonth}`
-    );
-    await deleteDoc(thisMonthBookRef);
-  };
-
-  const checkClubBook = allClubBookDocData
-    .map((item) => item.title)
+  const checkClubBook = bookMeetingDocData
+    .map((item) => item.book?.title)
     .includes(findbookData[0]?.title);
 
   return (
@@ -157,23 +48,22 @@ const FindedBook = () => {
           )}
         </BookCoverTitleBox>
         {toggle ? (
-          <Selected onSubmit={onClick}>
-            <button type="button" onClick={onClick}>
-              북클럽 책 등록 완료
-              <Star />
-            </button>
+          <Selected onSubmit={onSubmit}>
+            <input type="submit" value="북클럽 책 등록 완료" />
           </Selected>
         ) : (
-          <BookSection onSubmit={onClick}>
+          <BookSection onSubmit={onSubmit}>
             <input
               type="month"
               defaultValue={thisYearMonth}
               name="thisMonthBook"
               onChange={onMonthChange}
             />
-            <button type="button" className={checkClubBook ? "isActive" : ""}>
-              북클럽 도서 등록
-            </button>
+            <input
+              type="submit"
+              className={checkClubBook ? "isActive" : ""}
+              value="북클럽 도서 등록"
+            />
           </BookSection>
         )}
         <BookDesc bookInfo={findbookData[0]} />
@@ -196,7 +86,7 @@ const BookSection = styled.form`
   display: flex;
   justify-content: center;
   margin: 25px auto 0;
-  button {
+  input:last-child {
     display: flex;
     align-items: center;
     font-size: 13px;
@@ -216,7 +106,7 @@ const BookSection = styled.form`
 `;
 
 const Selected = styled(BookSection)`
-  button {
+  input:last-child {
     color: ${(props) => props.theme.text.accent};
     background-color: ${(props) => props.theme.container.lightBlue};
     svg {

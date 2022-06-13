@@ -1,19 +1,18 @@
 import { AccessTime, Book, KeyboardArrowUp, Place } from "@mui/icons-material";
 import { BookDocument } from "data/bookAtom";
-import Subtitle from "components/common/Subtitle";
-import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { dbService } from "fbase";
+import { getReviews, getSubjects } from "util/getFirebaseDoc";
+import Subtitle from "components/common/Subtitle";
 import Subjects from "components/bookmeeting/Subjects";
 import Reviews from "components/bookmeeting/Reviews";
+import styled from "styled-components";
 
-interface IMeeting {
+export interface IMeeting {
   time: string;
   place: string;
 }
 
-interface IBookMeetingInfo {
+export interface IBookMeetingInfo {
   id: string;
   book: BookDocument;
   meeting: IMeeting;
@@ -32,51 +31,17 @@ const HistoryBox = ({ item }: PropsType) => {
   const [selectedCategory, setSelectedCategory] = useState("subjects");
 
   useEffect(() => {
-    getSubjects();
-    getReviews();
+    getSubjects(item.id, setSubjects);
+    getReviews(item.id, setReviews);
     return () => {
-      getSubjects();
-      getReviews();
+      getSubjects(item.id, setSubjects);
+      getReviews(item.id, setReviews);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getSubjects = async () => {
-    const q = query(
-      collection(dbService, `BookMeeting Info/${item.id}/subjects`),
-      orderBy("createdAt", "desc")
-    );
-
-    onSnapshot(q, (querySnapshot) => {
-      const newArray = querySnapshot.docs.map((doc) => {
-        return {
-          id: doc.id,
-          ...doc.data(),
-        } as unknown as DocumentType;
-      });
-      setSubjects(newArray);
-    });
-  };
-
   const onClick = () => {
     setFolderOpen((prev) => !prev);
-  };
-
-  const getReviews = async () => {
-    const q = query(
-      collection(dbService, `BookMeeting Info/${item.id}/reviews`),
-      orderBy("createdAt", "desc")
-    );
-
-    onSnapshot(q, (querySnapshot) => {
-      const newArray = querySnapshot.docs.map((doc) => {
-        return {
-          id: doc.id,
-          ...doc.data(),
-        } as unknown as DocumentType;
-      });
-      setReviews(newArray);
-    });
   };
 
   const onButtonClick = (name: string) => {

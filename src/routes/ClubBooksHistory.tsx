@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Header } from "theme/commonStyle";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { dbService } from "fbase";
+import { getBookMeetingInfoData } from "util/getFirebaseDoc";
 import Subtitle from "components/common/Subtitle";
 import Title from "components/common/Title";
 import styled from "styled-components";
-import { DocumentType } from "components/bookmeeting/Subjects";
 import HistoryBox from "components/clubbookhistory/HistoryBox";
 
 const ClubBooksHistory = () => {
@@ -14,30 +12,12 @@ const ClubBooksHistory = () => {
   const [allBookMeeting, setAllBookMeeting] = useState([]);
 
   useEffect(() => {
-    getBookMeetingInfoDoc();
+    getBookMeetingInfoData(setAllBookMeeting);
 
     return () => {
-      getBookMeetingInfoDoc();
+      getBookMeetingInfoData(setAllBookMeeting);
     };
   }, []);
-
-  const getBookMeetingInfoDoc = async () => {
-    const q = query(
-      collection(dbService, "BookMeeting Info"),
-      orderBy("createdAt", "asc")
-    );
-
-    onSnapshot(q, (querySnapshot) => {
-      const newArray = querySnapshot.docs.map((doc) => {
-        return {
-          id: doc.id,
-          ...doc.data(),
-        } as unknown as DocumentType;
-      });
-
-      setAllBookMeeting(newArray);
-    });
-  };
 
   const yearKey = allBookMeeting?.reduce((acc, current) => {
     acc[current.id.split("-")[0]] = acc[current.id.split("-")[0]] || [];
