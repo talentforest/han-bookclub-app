@@ -4,11 +4,7 @@ import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
 import { currentUserState } from "data/userAtom";
 import { DocumentType } from "components/bookmeeting/Subjects";
-import {
-  getAllRecommends,
-  getBookMeetingInfoData,
-  getUserData,
-} from "util/getFirebaseDoc";
+import { getAllRecommends, getBookMeetingInfoData } from "util/getFirebaseDoc";
 import LinkButton from "components/common/LinkButton";
 import useWindowSize from "hooks/useWindowSize";
 import Subtitle from "components/common/Subtitle";
@@ -23,14 +19,6 @@ import ThisMonthBookTitleImg from "components/common/ThisMonthBookTitleImg";
 const Home = () => {
   const [recommendBook, setRecommendBook] = useState<DocumentType[]>([]);
   const [bookMeetingInfoDoc, setBookMeetingInfoDoc] = useState([]);
-  const [extraUserData, setExtraUserData] = useState({
-    name: "",
-    favoriteBookField: [],
-    email: "",
-    displayName: "",
-    photoUrl: "",
-  });
-
   const { windowSize } = useWindowSize();
   const userData = useRecoilValue(currentUserState);
   const Month = new Date().getMonth() + 1;
@@ -38,12 +26,10 @@ const Home = () => {
   useEffect(() => {
     getBookMeetingInfoData(setBookMeetingInfoDoc);
     getAllRecommends(setRecommendBook);
-    getUserData(userData?.uid, setExtraUserData);
 
     return () => {
       getBookMeetingInfoData(setBookMeetingInfoDoc);
       getAllRecommends(setRecommendBook);
-      getUserData(userData?.uid, setExtraUserData);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

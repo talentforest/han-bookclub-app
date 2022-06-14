@@ -4,8 +4,8 @@ import { authService, dbService, storageService } from "fbase";
 import { getAuth, updateProfile } from "firebase/auth";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useMemo, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { extraUserData } from "routes/EditProfile";
 import { v4 } from "uuid";
 
@@ -21,15 +21,13 @@ const useHandleProfile = () => {
   const [editing, setEditing] = useState(false);
   const [profileImgUrl, setProfileImgUrl] = useState("");
   const [newDisplayName, setNewDisplayName] = useState(userData.displayName);
+  const user = useRecoilValue(currentUserState);
 
-  const getUserData = () => {
-    onSnapshot(doc(dbService, "User Data", `${userData.uid}`), (doc) => {
-      setExtraUserData({
-        ...(doc.data() as extraUserData),
-        favoriteBookField: JSON.parse(window.localStorage.getItem("favFields")),
-      });
+  const getUserData = useMemo(() => {
+    onSnapshot(doc(dbService, "User Data", `${user?.uid}`), (doc) => {
+      setExtraUserData(doc.data() as extraUserData);
     });
-  };
+  }, [user.uid]);
 
   const refreshUser = () => {
     const user = getAuth().currentUser;

@@ -14,6 +14,7 @@ const LogInPage = () => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     try {
       await signInWithEmailAndPassword(authService, email, password);
       navigator("/");

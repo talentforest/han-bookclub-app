@@ -13,10 +13,10 @@ interface PropsType {
 const EditMeetingInfo = ({ data }: PropsType) => {
   const [isEditing, setIsEditing] = useState(false);
   const [timeText, setTimeText] = useState(
-    JSON.parse(window.localStorage.getItem("bookMeetingSchedule")).time
+    JSON.parse(window.localStorage.getItem("bookMeetingSchedule"))?.time
   );
   const [placeText, setPlaceText] = useState(
-    JSON.parse(window.localStorage.getItem("bookMeetingSchedule")).place
+    JSON.parse(window.localStorage.getItem("bookMeetingSchedule"))?.place
   );
 
   const meetingSchedule = { time: timeText, place: placeText };

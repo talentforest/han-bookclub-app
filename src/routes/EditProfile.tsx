@@ -1,5 +1,4 @@
 import { Container } from "theme/commonStyle";
-import { useEffect } from "react";
 import { BookFieldType } from "components/loginForm/UserDataInputForm";
 import styled from "styled-components";
 import NotEditingProfile from "components/editProfile/NotEditingProfile";
@@ -20,7 +19,6 @@ const EditProfile = () => {
   const {
     editing,
     setEditing,
-    getUserData,
     extraUserData,
     profileImgUrl,
     setProfileImgUrl,
@@ -29,15 +27,6 @@ const EditProfile = () => {
     onHandleClick,
     onSubmit,
   } = useHandleProfile();
-
-  useEffect(() => {
-    getUserData();
-
-    return () => {
-      getUserData();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>
