@@ -8,12 +8,14 @@ import {
 import { useState } from "react";
 import { Container, Input } from "theme/commonStyle";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const EditPassword = () => {
   const [originPassword, setOriginPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [checkNewPassword, setCheckNewPassword] = useState("");
   const user = authService?.currentUser;
+  const navigate = useNavigate();
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -21,18 +23,35 @@ const EditPassword = () => {
       return;
 
     const credential = EmailAuthProvider.credential(
-      authService?.currentUser?.email,
+      user?.email,
       originPassword
     );
-    reauthenticateWithCredential(authService?.currentUser, credential);
-
-    updatePassword(user, newPassword).catch((error) => {
-      console.log(error);
-    });
-
-    setOriginPassword("");
-    setNewPassword("");
-    setCheckNewPassword("");
+    reauthenticateWithCredential(user, credential)
+      .then(() => {
+        if (newPassword !== checkNewPassword) {
+          window.alert(
+            "새로운 비밀번호가 같지 않습니다. 다시 한번 확인해주세요."
+          );
+          return;
+        }
+        updatePassword(user, newPassword)
+          .then(() => {
+            window.alert("비밀번호가 성공적으로 변경되었습니다.");
+            setOriginPassword("");
+            setNewPassword("");
+            setCheckNewPassword("");
+            navigate(-1);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+        window.alert(
+          "기존의 비밀번호가 맞지 않습니다. 다시 한번 확인해주세요."
+        );
+      });
   };
 
   const onNewChange = (event: React.FormEvent<HTMLInputElement>) => {
