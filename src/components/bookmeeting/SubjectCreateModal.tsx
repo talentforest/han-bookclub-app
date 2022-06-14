@@ -80,8 +80,7 @@ const SubjectCreateModal = ({ bookInfo }: PropsType) => {
 };
 
 const AddSubject = styled.div`
-  padding: 10px 3px;
-  margin-top: 10px;
+  padding: 0 3px;
   p {
     margin: 4px 0px 0px 4px;
     font-size: 12px;

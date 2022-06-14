@@ -117,10 +117,9 @@ const Reviews = ({ item, onReviewRemove }: PropsType) => {
 };
 
 const TextBox = styled.div`
-  padding-top: 20px;
+  padding: 20px 0;
   font-size: 14px;
   border-bottom: 1px solid ${(props) => props.theme.text.gray};
-  background-color: ${(props) => props.theme.container.default};
   pre {
     white-space: pre-wrap;
     line-height: 1.6;

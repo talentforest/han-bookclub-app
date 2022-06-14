@@ -1,10 +1,7 @@
 import { Container, Header } from "theme/commonStyle";
 import { deviceSizes } from "theme/mediaQueries";
-import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
-import { currentUserState } from "data/userAtom";
-import { DocumentType } from "components/bookmeeting/Subjects";
-import { getAllRecommends, getBookMeetingInfoData } from "util/getFirebaseDoc";
+import { getBookMeetingInfoData } from "util/getFirebaseDoc";
 import LinkButton from "components/common/LinkButton";
 import useWindowSize from "hooks/useWindowSize";
 import Subtitle from "components/common/Subtitle";
@@ -12,24 +9,18 @@ import MeetingInfoBox from "components/common/MeetingInfoBox";
 import VoteBox from "components/common/VoteBox";
 import Title from "components/common/Title";
 import styled from "styled-components";
-import BookRecomCreateBox from "components/common/BookRecomCreateBox";
-import BookRecomBox from "components/common/BookRecomBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 
 const Home = () => {
-  const [recommendBook, setRecommendBook] = useState<DocumentType[]>([]);
   const [bookMeetingInfoDoc, setBookMeetingInfoDoc] = useState([]);
   const { windowSize } = useWindowSize();
-  const userData = useRecoilValue(currentUserState);
   const Month = new Date().getMonth() + 1;
 
   useEffect(() => {
     getBookMeetingInfoData(setBookMeetingInfoDoc);
-    getAllRecommends(setRecommendBook);
 
     return () => {
       getBookMeetingInfoData(setBookMeetingInfoDoc);
-      getAllRecommends(setRecommendBook);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -67,21 +58,6 @@ const Home = () => {
             </div>
           </ScrollContainer>
           <LinkButton link={"/vote"} title="투표하러 가기" />
-        </section>
-        <section>
-          <Subtitle title={`${Month}월의 책 추천`} />
-          <BookRecomCreateBox
-            uid={userData?.uid}
-            thisMonthBook={bookMeetingInfoDoc[0]?.book}
-          />
-          {recommendBook.length !== 0 &&
-            recommendBook?.map((item) => (
-              <BookRecomBox
-                key={item.id}
-                item={item}
-                thisMonthBook={bookMeetingInfoDoc[0]?.book}
-              />
-            ))}
         </section>
       </NewContainer>
     </>

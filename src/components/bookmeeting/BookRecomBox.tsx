@@ -2,13 +2,18 @@ import { useState } from "react";
 import { dbService } from "fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { timestamp } from "util/timestamp";
-import { DocumentType } from "components/bookmeeting/Subjects";
+import {
+  DocumentType,
+  DoneBtn,
+  EditDeleteIcon,
+} from "components/bookmeeting/Subjects";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { Delete, Edit } from "@mui/icons-material";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
 import { BookDocument } from "data/bookAtom";
+import BookTitleImgBox from "components/common/BookTitleImgBox";
 
 interface PropsType {
   item: DocumentType;
@@ -20,13 +25,6 @@ const BookRecomBox = ({ item, thisMonthBook }: PropsType) => {
   const [newText, setNewText] = useState(item.text);
   const userData = useRecoilValue(currentUserState);
 
-  const onDeleteClick = async () => {
-    const RecommendedBookRef = doc(dbService, "Recommened_Book", `${item.id}`);
-    await deleteDoc(RecommendedBookRef);
-  };
-
-  const toggleEditing = () => setEditing((prev) => !prev);
-
   const onEditSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (newText === "") return;
@@ -35,9 +33,16 @@ const BookRecomBox = ({ item, thisMonthBook }: PropsType) => {
     setEditing(false);
   };
 
+  const onDeleteClick = async () => {
+    const RecommendedBookRef = doc(dbService, "Recommened_Book", `${item.id}`);
+    await deleteDoc(RecommendedBookRef);
+  };
+
   const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
     setNewText(event.currentTarget.value);
   };
+
+  const toggleEditing = () => setEditing((prev) => !prev);
 
   return (
     <>
@@ -46,7 +51,7 @@ const BookRecomBox = ({ item, thisMonthBook }: PropsType) => {
           <form onSubmit={onEditSubmit}>
             <Writer>
               <UserInfoBox creatorId={item.creatorId} />
-              <EditDoneBtn type="submit" value="수정완료" />
+              <DoneBtn type="submit" value="수정완료" />
             </Writer>
             <TextArea
               value={newText}
@@ -68,13 +73,8 @@ const BookRecomBox = ({ item, thisMonthBook }: PropsType) => {
             )}
           </Writer>
           <pre>{newText}</pre>
-          <Bottom>
-            <div>
-              <img src={thisMonthBook?.thumbnail} alt="Book_Image" />
-              <h3>{thisMonthBook?.title}</h3>
-            </div>
-            <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
-          </Bottom>
+          <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
+          <BookTitleImgBox docData={thisMonthBook} smSize={"smSize"} />
         </TextBox>
       )}
     </>
@@ -91,32 +91,7 @@ const TextBox = styled.div`
     white-space: pre-wrap;
     line-height: 22px;
     font-size: 15px;
-  }
-  img {
-    width: auto;
-    height: 30px;
-    margin-top: 10px;
-  }
-`;
-
-const Bottom = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 15px;
-  > div:first-child {
-    display: flex;
-    align-items: center;
-    width: 75%;
-    img {
-      height: 20px;
-      box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-      margin-right: 10px;
-      margin-top: 0;
-    }
-    h3 {
-      font-size: 10px;
-    }
+    min-height: 70px;
   }
 `;
 
@@ -125,6 +100,7 @@ const TextArea = styled.textarea`
   min-height: 100px;
   background-color: #eaeaea;
   border: none;
+  border-radius: 5px;
   font-size: 15px;
   white-space: pre-wrap;
   resize: none;
@@ -142,28 +118,10 @@ const Writer = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
 `;
 
-const EditDoneBtn = styled.input`
-  border: none;
-  background-color: transparent;
-  font-size: 12px;
-  color: ${(props) => props.theme.text.lightBlue};
-  cursor: pointer;
-`;
-
 const RegisterTime = styled.div`
   font-size: 10px;
   color: ${(props) => props.theme.text.gray};
   text-align: end;
-`;
-
-const EditDeleteIcon = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: end;
-  svg {
-    margin-left: 10px;
-    cursor: pointer;
-  }
 `;
 
 export default BookRecomBox;

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { BookDocument } from "data/bookAtom";
+import BookTitleImgBox from "components/common/BookTitleImgBox";
 
 interface PropsType {
   uid: string;
@@ -20,38 +21,45 @@ const BookRecomCreateBox = ({ uid, thisMonthBook }: PropsType) => {
         text: text,
         createdAt: Date.now(),
         creatorId: uid,
+        title: thisMonthBook?.title,
+        thumbnail: thisMonthBook?.thumbnail,
       });
+      setText("");
     } catch (error) {
       console.error("Error adding document:", error);
     }
-    setText("");
   };
 
   const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
     setText(event.currentTarget.value);
   };
 
-  const Month = new Date().getMonth() + 1;
-
   return (
-    <Form onSubmit={onSubmit}>
-      <textarea
-        placeholder={`${Month}월에 "${thisMonthBook?.title}" 이외에 읽은 책을 작성해주세요. 
-
-아니면 추천하고 싶은 책을 작성해도 좋아요.`}
-        onChange={onChange}
-        value={text}
-      />
-      <Bottom>
+    <>
+      <Form onSubmit={onSubmit}>
+        <textarea
+          placeholder="이달의 책과 관련하여 추천하고 싶은 책을 작성해주세요."
+          onChange={onChange}
+          value={text}
+        />
         <div>
-          <img src={thisMonthBook?.thumbnail} alt="Book_Image" />
-          <h3>{thisMonthBook?.title}</h3>
+          <BookTitleImgBox docData={thisMonthBook} smSize={"smSize"} />
+          <input type="submit" value="추천하기" />
         </div>
-        <input type="submit" value="추천하기" />
-      </Bottom>
-    </Form>
+      </Form>
+      <Desc>
+        {`${thisMonthBook?.title}과 관련해 추천하고 싶은 책이나, 이달에 읽은 다른 책들을 작성해주시면 됩니다.`}
+      </Desc>
+    </>
   );
 };
+
+const Desc = styled.p`
+  font-size: 11px;
+  color: ${(props) => props.theme.text.accent};
+  line-height: 1.4;
+  padding: 10px 5px 0;
+`;
 
 const Form = styled.form`
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
@@ -73,32 +81,24 @@ const Form = styled.form`
       outline: none;
     }
   }
-`;
-
-const Bottom = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 15px;
   > div {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    img {
-      height: 30px;
-      box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-      margin-right: 10px;
+    width: 100%;
+    margin-top: 10px;
+    > div {
+      margin: 0;
     }
-    h3 {
+    input {
+      border: none;
+      background-color: ${(props) => props.theme.container.blue};
+      color: #fff;
+      border-radius: 5px;
+      padding: 3px 5px;
       font-size: 12px;
+      height: 30px;
     }
-  }
-  input {
-    border: none;
-    background-color: ${(props) => props.theme.container.blue};
-    color: #fff;
-    border-radius: 5px;
-    padding: 3px 5px;
-    font-size: 12px;
-    height: 30px;
   }
 `;
 

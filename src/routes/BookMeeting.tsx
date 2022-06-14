@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 import { Link, useMatch } from "react-router-dom";
 import { BookDocument } from "data/bookAtom";
 import {
+  getAllRecommends,
   getBookMeetingInfoData,
   getReviews,
   getSubjects,
 } from "util/getFirebaseDoc";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "data/userAtom";
 import Title from "components/common/Title";
 import styled from "styled-components";
 import BookDesc from "components/common/BookDesc";
@@ -16,6 +19,8 @@ import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
 import Subjects from "components/bookmeeting/Subjects";
 import EditMeetingInfo from "components/bookmeeting/EditMeetingInfo";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
+import BookRecomCreateBox from "components/bookmeeting/BookRecomCreateBox";
+import BookRecomBox from "components/bookmeeting/BookRecomBox";
 
 interface meetingType {
   time: string;
@@ -35,6 +40,8 @@ const BookMeeting = () => {
   const [thisMonthSubjects, setThisMonthSubjects] = useState([]);
   const [thisMonthReviews, setThisMonthReviews] = useState([]);
   const [showBookDetail, setShowBookDetail] = useState(false);
+  const [recommendBook, setRecommendBook] = useState([]);
+  const userData = useRecoilValue(currentUserState);
 
   const bookUrlMatch = useMatch("/bookmeeting");
   const subjectUrlMatch = useMatch("/bookmeeting/subject");
@@ -45,12 +52,14 @@ const BookMeeting = () => {
   useEffect(() => {
     getBookMeetingInfoData(setBookMeetingDocData);
     getReviews(docMonth, setThisMonthReviews);
+    getAllRecommends(setRecommendBook);
     bookMeetingDocData.length && getSubjects(docMonth, setThisMonthSubjects);
 
     return () => {
       getBookMeetingInfoData(setBookMeetingDocData);
-      bookMeetingDocData.length && getReviews(docMonth, setThisMonthReviews);
       getSubjects(docMonth, setThisMonthSubjects);
+      getAllRecommends(setRecommendBook);
+      bookMeetingDocData.length && getReviews(docMonth, setThisMonthReviews);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -71,17 +80,20 @@ const BookMeeting = () => {
             docData={bookMeetingDocData[0]?.book}
             onModalOpen={onModalOpen}
           />
-          {showBookDetail && (
-            <BookDetail>
-              <Overlay onClick={onModalOpen} />
-              <BookDesc bookInfo={bookMeetingDocData[0]?.book} />
-            </BookDetail>
-          )}
           <EditMeetingInfo docData={bookMeetingDocData[0]} />
         </MeetingBox>
+        {showBookDetail && (
+          <BookDetail>
+            <Overlay onClick={onModalOpen} />
+            <BookDesc
+              bookInfo={bookMeetingDocData[0]?.book}
+              onModalOpen={onModalOpen}
+            />
+          </BookDetail>
+        )}
         <CategoryButton>
           <Link to="" className={bookUrlMatch ? "isActive" : null}>
-            도서 정보
+            책 추천하기
           </Link>
           <Link to="subject" className={subjectUrlMatch ? "isActive" : null}>
             발제문 참여
@@ -90,7 +102,22 @@ const BookMeeting = () => {
             모임 후기
           </Link>
         </CategoryButton>
-        {bookUrlMatch && <BookDesc bookInfo={bookMeetingDocData[0]?.book} />}
+        {bookUrlMatch && (
+          <>
+            <BookRecomCreateBox
+              uid={userData?.uid}
+              thisMonthBook={bookMeetingDocData[0]?.book}
+            />
+            {recommendBook.length !== 0 &&
+              recommendBook?.map((item) => (
+                <BookRecomBox
+                  key={item.id}
+                  item={item}
+                  thisMonthBook={bookMeetingDocData[0]?.book}
+                />
+              ))}
+          </>
+        )}
         {subjectUrlMatch && (
           <>
             <SubjectCreateModal bookInfo={bookMeetingDocData[0]?.book} />
@@ -142,7 +169,7 @@ const CategoryButton = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 5px 8px;
-  margin-top: 25px;
+  margin: 25px 0 20px;
   border-radius: 20px;
   background-color: ${(props) => props.theme.container.lightBlue};
   > a {
@@ -179,7 +206,23 @@ const MeetingBox = styled.div`
 `;
 
 const BookDetail = styled.div`
-  border: 1px solid red;
+  z-index: 1;
+  position: fixed;
+  height: 100vh;
+  top: 0px;
+  bottom: 0px;
+  right: 0;
+  left: 0;
+  > ul {
+    position: fixed;
+    top: 30px;
+    bottom: 60px;
+    right: 0;
+    left: 0;
+    width: 80%;
+    margin: 0 auto;
+    border-radius: 5px;
+  }
 `;
 
 const Overlay = styled.div`

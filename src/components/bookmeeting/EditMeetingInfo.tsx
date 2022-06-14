@@ -64,7 +64,6 @@ const EditMeetingInfo = ({ docData }: PropsType) => {
 };
 
 const Container = styled.div`
-  position: relative;
   margin-top: 30px;
 `;
 

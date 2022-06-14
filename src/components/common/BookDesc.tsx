@@ -1,17 +1,21 @@
-import { ExpandCircleDown } from "@mui/icons-material";
+import { Close, ExpandCircleDown } from "@mui/icons-material";
 import { BookDocument } from "data/bookAtom";
 import styled from "styled-components";
 import { timestamp } from "util/timestamp";
 
 interface PropsType {
   bookInfo: BookDocument;
+  onModalOpen?: () => void;
 }
 
-const BookDesc = ({ bookInfo }: PropsType) => {
+const BookDesc = ({ bookInfo, onModalOpen }: PropsType) => {
   return (
     <>
       <BookDetail>
-        <h3>{bookInfo?.title}</h3>
+        <div>
+          <h3>{bookInfo?.title}</h3>
+          <Close onClick={onModalOpen} />
+        </div>
         <li>
           <ExpandCircleDown />
           저자: {bookInfo?.authors?.join(", ")}
@@ -35,12 +39,10 @@ const BookDesc = ({ bookInfo }: PropsType) => {
           정가: {bookInfo?.price}원
         </li>
         <p>줄거리 {bookInfo?.contents}...</p>
-      </BookDetail>
-      <DetailButton>
         <a href={`${bookInfo?.url}`} target="_blank" rel="noreferrer">
-          <span>상세정보 보러가기</span>
+          상세정보 보러가기
         </a>
-      </DetailButton>
+      </BookDetail>
     </>
   );
 };
@@ -57,10 +59,13 @@ const BookDetail = styled.ul`
   margin: 20px auto 0;
   padding: 20px 15px;
   width: 95%;
-  > h3 {
-    font-size: 16px;
-    margin-bottom: 10px;
-    font-weight: 700;
+  > div {
+    display: flex;
+    > h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
   }
   > li {
     margin-bottom: 5px;
@@ -77,19 +82,11 @@ const BookDetail = styled.ul`
     margin-top: 10px;
     line-height: 1.6;
   }
-`;
-
-const DetailButton = styled.div`
-  display: flex;
-  justify-content: end;
-  margin-top: 5px;
-  padding: 0 15px;
   a {
-    span {
-      font-size: 14px;
-      text-decoration: underline;
-      color: ${(props) => props.theme.text.accent};
-    }
+    padding-top: 10px;
+    font-size: 12px;
+    text-decoration: underline;
+    color: ${(props) => props.theme.text.accent};
   }
 `;
 

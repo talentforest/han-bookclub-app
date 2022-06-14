@@ -7,7 +7,6 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
-import { useCallback } from "react";
 import { BookMeetingInfo } from "routes/BookMeeting";
 import { extraUserData } from "routes/EditProfile";
 

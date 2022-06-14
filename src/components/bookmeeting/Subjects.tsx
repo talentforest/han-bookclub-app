@@ -131,7 +131,6 @@ const TextBox = styled.div`
 `;
 
 export const FormHeader = styled.div`
-  position: relative;
   display: flex;
   justify-content: space-between;
   padding-bottom: 5px;
@@ -164,11 +163,11 @@ export const EditDeleteIcon = styled.div`
 
 export const GuideTextBox = styled.span`
   position: absolute;
-  right: 2px;
-  top: 24px;
+  right: 12px;
+  top: 34px;
   font-size: 10px;
   color: ${(props) => props.theme.text.accent};
-  background-color: ${(props) => props.theme.container.lightBlue};
+  background-color: ${(props) => props.theme.container.yellow};
   padding: 2px 4px;
   border-radius: 6px;
   > div {
@@ -178,7 +177,7 @@ export const GuideTextBox = styled.span`
     top: -4px;
     right: 20px;
     transform: rotate(45deg);
-    background-color: ${(props) => props.theme.container.lightBlue};
+    background-color: ${(props) => props.theme.container.yellow};
   }
 `;
 
