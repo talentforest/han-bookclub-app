@@ -1,4 +1,4 @@
-import { Container, Header, ScrollContainer } from "theme/commonStyle";
+import { Container, Header } from "theme/commonStyle";
 import { deviceSizes } from "theme/mediaQueries";
 import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
@@ -14,7 +14,7 @@ import Title from "components/common/Title";
 import styled from "styled-components";
 import BookRecomCreateBox from "components/common/BookRecomCreateBox";
 import BookRecomBox from "components/common/BookRecomBox";
-import ThisMonthBookTitleImg from "components/common/ThisMonthBookTitleImg";
+import BookTitleImgBox from "components/common/BookTitleImgBox";
 
 const Home = () => {
   const [recommendBook, setRecommendBook] = useState<DocumentType[]>([]);
@@ -46,13 +46,13 @@ const Home = () => {
       <NewContainer>
         <section>
           <Subtitle title={`${Month}월의 책`} />
-          <ThisMonthBookTitleImg docData={bookMeetingInfoDoc} />
+          <BookTitleImgBox docData={bookMeetingInfoDoc[0]?.book} />
           <LinkButton link={"/bookmeeting/subject"} title="발제하러 가기" />
         </section>
         <section>
           <Subtitle title={`${Month}월의 모임 일정`} />
           <p>한페이지 북클럽 멤버는 매월 셋째주 일요일에 만나요.</p>
-          <MeetingInfoBox data={bookMeetingInfoDoc[0]} />
+          <MeetingInfoBox docData={bookMeetingInfoDoc[0]} />
           <LinkButton
             link={"/bookmeeting/review"}
             title="모임 후기 작성하러 가기"
@@ -114,6 +114,17 @@ const NewContainer = styled(Container)`
     > h1 {
       margin-top: 0;
     }
+  }
+`;
+
+const ScrollContainer = styled.div`
+  width: 100%;
+  overflow: auto;
+  margin-left: -5px;
+  > div {
+    width: fit-content;
+    padding: 5px;
+    display: flex;
   }
 `;
 

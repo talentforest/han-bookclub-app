@@ -2,26 +2,24 @@ import { BookMeetingInfo } from "routes/BookMeeting";
 import { useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { dbService } from "fbase";
-import { thisYearMonth } from "util/constants";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
 import styled from "styled-components";
 
 interface PropsType {
-  data: BookMeetingInfo;
+  docData: BookMeetingInfo;
 }
 
-const EditMeetingInfo = ({ data }: PropsType) => {
+const EditMeetingInfo = ({ docData }: PropsType) => {
+  const bookMeetingSchedule = JSON.parse(
+    window.sessionStorage.getItem("bookMeetingSchedule")
+  );
   const [isEditing, setIsEditing] = useState(false);
-  const [timeText, setTimeText] = useState(
-    JSON.parse(window.localStorage.getItem("bookMeetingSchedule"))?.time
-  );
-  const [placeText, setPlaceText] = useState(
-    JSON.parse(window.localStorage.getItem("bookMeetingSchedule"))?.place
-  );
+  const [timeText, setTimeText] = useState(bookMeetingSchedule?.time);
+  const [placeText, setPlaceText] = useState(bookMeetingSchedule?.place);
 
   const meetingSchedule = { time: timeText, place: placeText };
   const saveLocalData = () => {
-    window.localStorage.setItem(
+    window.sessionStorage.setItem(
       "bookMeetingSchedule",
       JSON.stringify(meetingSchedule)
     );
@@ -31,11 +29,7 @@ const EditMeetingInfo = ({ data }: PropsType) => {
     event: React.FormEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
-    const MeetingInfoRef = doc(
-      dbService,
-      "BookMeeting Info",
-      `${thisYearMonth}`
-    );
+    const MeetingInfoRef = doc(dbService, "BookMeeting Info", `${docData.id}`);
     await updateDoc(MeetingInfoRef, {
       meeting: { place: placeText, time: timeText },
     });
@@ -49,7 +43,7 @@ const EditMeetingInfo = ({ data }: PropsType) => {
         <Container>
           <EditInput onClick={onUpdateInfoClick}>수정완료</EditInput>
           <MeetingInfoBox
-            data={data}
+            docData={docData}
             isEditing={isEditing}
             timeText={timeText}
             placeText={placeText}
@@ -62,7 +56,7 @@ const EditMeetingInfo = ({ data }: PropsType) => {
           <EditInput onClick={() => setIsEditing(true)}>
             모임정보 수정하기
           </EditInput>
-          <MeetingInfoBox data={data} />
+          <MeetingInfoBox docData={docData} />
         </Container>
       )}
     </>

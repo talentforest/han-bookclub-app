@@ -1,7 +1,6 @@
 import { AccountCircle } from "@mui/icons-material";
-import { dbService } from "fbase";
-import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { getUserData } from "util/getFirebaseDoc";
 import styled from "styled-components";
 
 interface PropsType {
@@ -13,15 +12,12 @@ const UserInfoBox = ({ creatorId }: PropsType) => {
     displayName: "",
     email: "",
     favoriteBookField: [],
-    gender: "",
     name: "",
     photoUrl: "",
   });
 
   useEffect(() => {
-    onSnapshot(doc(dbService, "User Data", `${creatorId}`), (doc) =>
-      setUserDataDoc(doc.data() as any)
-    );
+    getUserData(creatorId, setUserDataDoc);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

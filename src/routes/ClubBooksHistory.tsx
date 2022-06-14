@@ -75,8 +75,8 @@ const ClubBooksHistory = () => {
 const YearCategory = styled.select`
   height: 30px;
   width: 100px;
-  border-radius: 5px;
   display: flex;
+  border-radius: 5px;
   margin-left: 15px;
   h3 {
     font-size: 14px;

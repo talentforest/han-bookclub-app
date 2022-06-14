@@ -1,12 +1,11 @@
-import { MediumBox } from "theme/commonStyle";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
 import { AccessTime, Place } from "@mui/icons-material";
 import { BookMeetingInfo } from "routes/BookMeeting";
 import { meetingTimestamp } from "util/timestamp";
+import styled from "styled-components";
+import device from "theme/mediaQueries";
 
 interface PropsType {
-  data: BookMeetingInfo;
+  docData: BookMeetingInfo;
   isEditing?: boolean;
   timeText?: string;
   placeText?: string;
@@ -15,7 +14,7 @@ interface PropsType {
 }
 
 const MeetingInfoBox = ({
-  data,
+  docData,
   isEditing,
   timeText,
   placeText,
@@ -46,8 +45,8 @@ const MeetingInfoBox = ({
           />
         ) : (
           <p>
-            {data?.meeting.time !== ""
-              ? meetingTimestamp(data?.meeting.time)
+            {docData?.meeting.time !== ""
+              ? meetingTimestamp(docData?.meeting.time)
               : "정해진 모임 시간이 없습니다."}
           </p>
         )}
@@ -61,8 +60,8 @@ const MeetingInfoBox = ({
           <Input type="text" value={placeText} onChange={onPlaceChange} />
         ) : (
           <p>
-            {data?.meeting.place !== ""
-              ? data?.meeting.place
+            {docData?.meeting.place !== ""
+              ? docData?.meeting.place
               : "정해진 모임 장소가 없습니다."}
           </p>
         )}
@@ -83,7 +82,10 @@ const Input = styled.input`
   }
 `;
 
-const MeetingInfo = styled(MediumBox)`
+const MeetingInfo = styled.div`
+  background-color: ${(props) => props.theme.container.default};
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;

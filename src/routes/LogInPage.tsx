@@ -7,14 +7,13 @@ import device from "theme/mediaQueries";
 import styled from "styled-components";
 
 const LogInPage = () => {
-  const navigator = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigator = useNavigate();
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     try {
       await signInWithEmailAndPassword(authService, email, password);
       navigator("/");
@@ -36,7 +35,7 @@ const LogInPage = () => {
 
   return (
     <NewContainer>
-      <H1>한 페이지</H1>
+      <Title>한 페이지</Title>
       <Logo>
         <div />
       </Logo>
@@ -69,6 +68,7 @@ const LogInPage = () => {
     </NewContainer>
   );
 };
+
 const NewContainer = styled(Container)`
   margin-bottom: 20px;
   width: 100%;
@@ -84,7 +84,7 @@ const NewContainer = styled(Container)`
   }
 `;
 
-const H1 = styled.h1`
+const Title = styled.h1`
   font-size: 20px;
   font-weight: 700;
   text-align: center;

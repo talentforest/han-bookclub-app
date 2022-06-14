@@ -30,38 +30,6 @@ export const Container = styled.main`
   }
 `;
 
-export const Box = styled.div`
-  background-color: ${(props) => props.theme.container.default};
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-`;
-
-export const MediumBox = styled(Box)`
-  /* min-height: 100px; */
-  @media ${device.tablet} {
-    /* min-height: 200px; */
-  }
-`;
-
-export const BigBox = styled(Box)`
-  width: 250px;
-  min-height: 150px;
-  @media ${device.tablet} {
-    min-height: 200px;
-  }
-`;
-
-export const ScrollContainer = styled.div`
-  width: 100%;
-  overflow: auto;
-  margin-left: -5px;
-  > div {
-    width: fit-content;
-    padding: 5px;
-    display: flex;
-  }
-`;
-
 export const SubmitBtn = styled.input`
   border: none;
   background-color: ${(props) => props.theme.container.blue};
@@ -146,57 +114,5 @@ export const Button = styled.input`
   @media ${device.tablet} {
     height: 50px;
     font-size: 20px;
-  }
-`;
-
-export const TopButton = styled.button`
-  width: fit-content;
-  font-size: 12px;
-  color: ${(props) => props.theme.text.lightBlue};
-  border: none;
-  background-color: transparent;
-  font-weight: 700;
-  cursor: pointer;
-`;
-
-export const BookCoverTitleBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 70%;
-  margin: 0 auto;
-  div {
-    width: 70px;
-    height: 100px;
-    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
-    margin-bottom: 10px;
-    background-color: ${(props) => props.theme.container.default};
-  }
-  img {
-    height: 100px;
-    width: auto;
-    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
-    margin-bottom: 10px;
-  }
-  h3 {
-    width: 150px;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 600;
-  }
-  @media ${device.tablet} {
-    padding: 20px 0;
-    border-radius: 10px;
-    background-color: ${(props) => props.theme.container.default};
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    img {
-      height: 135px;
-      width: auto;
-      box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
-    }
   }
 `;

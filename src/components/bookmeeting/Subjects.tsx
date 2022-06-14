@@ -7,6 +7,7 @@ import { currentUserState } from "data/userAtom";
 import { Delete, Edit } from "@mui/icons-material";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
+import BookTitleImgBox from "components/common/BookTitleImgBox";
 
 export interface DocumentType {
   id: string;
@@ -24,9 +25,30 @@ interface ISubject {
 }
 
 const Subjects = ({ item, onSubjectRemove, docMonth }: ISubject) => {
-  const userData = useRecoilValue(currentUserState);
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(item.text);
+  const [showingGuide, setShowingGuide] = useState(false);
+  const userData = useRecoilValue(currentUserState);
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const SubjectTextRef = doc(
+      dbService,
+      `BookMeeting Info/${docMonth}/subjects`,
+      `${item.id}`
+    );
+    await updateDoc(SubjectTextRef, { text: newText });
+    if (newText === "") {
+      setTimeout(() => {
+        setShowingGuide((toggle) => !toggle);
+      }, 1000);
+      setShowingGuide((toggle) => !toggle);
+      setEditing(true);
+    } else {
+      setShowingGuide(false);
+      setEditing(false);
+    }
+  };
 
   const onDeleteClick = async () => {
     const SubjectTextRef = doc(
@@ -40,49 +62,40 @@ const Subjects = ({ item, onSubjectRemove, docMonth }: ISubject) => {
     }
   };
 
-  const toggleEditing = () => setEditing((prev) => !prev);
-
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const SubjectTextRef = doc(
-      dbService,
-      `BookMeeting Info/${docMonth}/subjects`,
-      `${item.id}`
-    );
-    await updateDoc(SubjectTextRef, { text: newText });
-    setEditing(false);
-  };
-
   const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
     setNewText(event.currentTarget.value);
   };
 
+  const toggleEditing = () => setEditing((prev) => !prev);
+
   return (
-    <>
+    <TextBox>
       {editing ? (
-        <TextBox>
-          <form onSubmit={onSubmit}>
-            <Writer>
-              <UserInfoBox creatorId={item.creatorId} />
+        <form onSubmit={onSubmit}>
+          <FormHeader>
+            <UserInfoBox creatorId={item.creatorId} />
+            {showingGuide && (
+              <GuideTextBox>
+                한 글자 이상 작성해주세요. <div></div>
+              </GuideTextBox>
+            )}
+            {showingGuide ? (
+              <DoneBtn type="submit" value="수정완료" eventdone />
+            ) : (
               <DoneBtn type="submit" value="수정완료" />
-            </Writer>
-            <TextArea
-              value={newText}
-              placeholder="발제문을 수정해주세요."
-              onChange={onChange}
-            />
-          </form>
-          <AddInfo>
-            <Book>
-              <img src={item.thumbnail} alt="url" />
-              <span>{item.title}</span>
-            </Book>
-            <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
-          </AddInfo>
-        </TextBox>
+            )}
+          </FormHeader>
+          <TextArea
+            value={newText}
+            placeholder="발제문을 수정해주세요."
+            onChange={onChange}
+          />
+          <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
+          <BookTitleImgBox docData={item} smSize={"smSize"} />
+        </form>
       ) : (
-        <TextBox>
-          <Writer>
+        <>
+          <FormHeader>
             <UserInfoBox creatorId={item.creatorId} />
             {userData.uid === item.creatorId && (
               <EditDeleteIcon>
@@ -90,18 +103,13 @@ const Subjects = ({ item, onSubjectRemove, docMonth }: ISubject) => {
                 <Delete role="button" onClick={onDeleteClick} />
               </EditDeleteIcon>
             )}
-          </Writer>
+          </FormHeader>
           <pre>{newText}</pre>
-          <AddInfo>
-            <Book>
-              <img src={item.thumbnail} alt="url" />
-              <span>{item.title}</span>
-            </Book>
-            <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
-          </AddInfo>
-        </TextBox>
+          <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
+          <BookTitleImgBox docData={item} smSize={"smSize"} />
+        </>
       )}
-    </>
+    </TextBox>
   );
 };
 
@@ -111,44 +119,35 @@ const TextBox = styled.div`
   padding: 10px;
   background-color: ${(props) => props.theme.container.default};
   border-radius: 5px;
+  min-height: 300px;
   pre {
     white-space: pre-wrap;
-    line-height: 22px;
-    padding-bottom: 20px;
+    line-height: 1.6;
+    padding-bottom: 10px;
+    min-height: 200px;
+    margin-bottom: 15px;
+    font-size: 14px;
   }
 `;
 
-const TextArea = styled.textarea`
-  width: 100%;
-  border: none;
-  background-color: ${(props) => props.theme.container.lightBlue};
-  border-radius: 5px;
-  font-size: 16px;
-  margin-bottom: 10px;
-  white-space: pre-wrap;
-  resize: none;
-  &:focus {
-    outline: none;
-  }
-`;
-
-const Writer = styled.div`
+export const FormHeader = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   padding-bottom: 5px;
   margin-bottom: 10px;
-  border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
 `;
 
-const DoneBtn = styled.input`
+export const DoneBtn = styled.input<{ eventdone?: boolean }>`
   border: none;
   background-color: transparent;
   font-size: 12px;
   color: ${(props) => props.theme.text.lightBlue};
   cursor: pointer;
+  pointer-events: ${(props) => (props.eventdone ? "none" : "fill")};
 `;
 
-const EditDeleteIcon = styled.div`
+export const EditDeleteIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
@@ -163,31 +162,47 @@ const EditDeleteIcon = styled.div`
   }
 `;
 
-const AddInfo = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-`;
-
-const Book = styled.div`
-  display: flex;
-  align-items: end;
-  width: 75%;
-  span {
-    font-weight: 700;
-    font-size: 11px;
-  }
-  img {
-    height: 26px;
-    width: auto;
-    margin-right: 10px;
-    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
-  }
-`;
-
-const RegisterTime = styled.div`
+export const GuideTextBox = styled.span`
+  position: absolute;
+  right: 2px;
+  top: 24px;
   font-size: 10px;
+  color: ${(props) => props.theme.text.accent};
+  background-color: ${(props) => props.theme.container.lightBlue};
+  padding: 2px 4px;
+  border-radius: 6px;
+  > div {
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    top: -4px;
+    right: 20px;
+    transform: rotate(45deg);
+    background-color: ${(props) => props.theme.container.lightBlue};
+  }
+`;
+
+const TextArea = styled.textarea`
+  width: 100%;
+  min-height: 200px;
+  border: none;
+  background-color: ${(props) => props.theme.container.lightBlue};
+  border-radius: 5px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  resize: none;
+  padding: 5px;
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const RegisterTime = styled.div`
   color: ${(props) => props.theme.text.gray};
+  font-size: 10px;
+  text-align: end;
+  margin-bottom: 5px;
 `;
 
 export default Subjects;

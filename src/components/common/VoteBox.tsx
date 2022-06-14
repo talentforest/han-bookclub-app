@@ -1,4 +1,3 @@
-import { BigBox } from "theme/commonStyle";
 import { CheckCircle, CheckCircleOutline } from "@mui/icons-material";
 import styled from "styled-components";
 import LinkButton from "./LinkButton";
@@ -30,7 +29,10 @@ const VoteBox = () => {
   );
 };
 
-const Vote = styled(BigBox)`
+const Vote = styled.div`
+  background-color: ${(props) => props.theme.container.default};
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   padding: 15px 15px 10px;

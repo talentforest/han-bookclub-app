@@ -6,13 +6,13 @@ import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { BookDocument } from "data/bookAtom";
-import { thisYearMonth } from "util/constants";
 
 interface PropsType {
   bookInfo: BookDocument;
+  docMonth: string;
 }
 
-const ReviewCreateBox = ({ bookInfo }: PropsType) => {
+const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
   const userData = useRecoilValue(currentUserState);
   const [review, setReview] = useState("");
 
@@ -21,7 +21,7 @@ const ReviewCreateBox = ({ bookInfo }: PropsType) => {
     try {
       if (review === "") return;
       await addDoc(
-        collection(dbService, `BookMeeting Info/${thisYearMonth}/reviews`),
+        collection(dbService, `BookMeeting Info/${docMonth}/reviews`),
         {
           text: review,
           createdAt: Date.now(),

@@ -7,42 +7,9 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
+import { useCallback } from "react";
 import { BookMeetingInfo } from "routes/BookMeeting";
 import { extraUserData } from "routes/EditProfile";
-
-export const getSubjects = async (
-  id: string,
-  setSubjects: (doc: DocumentType[]) => void
-) => {
-  const q = query(collection(dbService, `BookMeeting Info/${id}/subjects`));
-
-  onSnapshot(q, (querySnapshot) => {
-    const newArray = querySnapshot.docs.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data(),
-      } as unknown as DocumentType;
-    });
-    setSubjects(newArray);
-  });
-};
-
-export const getReviews = async (
-  id: string,
-  setReviews: (doc: DocumentType[]) => void
-) => {
-  const q = query(collection(dbService, `BookMeeting Info/${id}/reviews`));
-
-  onSnapshot(q, (querySnapshot) => {
-    const newArray = querySnapshot.docs.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data(),
-      } as unknown as DocumentType;
-    });
-    setReviews(newArray);
-  });
-};
 
 export const getBookMeetingInfoData = async (
   setState: (docData: BookMeetingInfo[]) => void
@@ -61,6 +28,46 @@ export const getBookMeetingInfoData = async (
     });
 
     setState(newArray);
+  });
+};
+
+export const getSubjects = async (
+  month: string,
+  setSubjects: (doc: DocumentType[]) => void
+) => {
+  const q = query(
+    collection(dbService, `BookMeeting Info/${month}/subjects`),
+    orderBy("createdAt", "desc")
+  );
+
+  onSnapshot(q, (querySnapshot) => {
+    const newArray = querySnapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      } as unknown as DocumentType;
+    });
+    setSubjects(newArray);
+  });
+};
+
+export const getReviews = async (
+  id: string,
+  setReviews: (doc: DocumentType[]) => void
+) => {
+  const q = query(
+    collection(dbService, `BookMeeting Info/${id}/reviews`),
+    orderBy("createdAt", "desc")
+  );
+
+  onSnapshot(q, (querySnapshot) => {
+    const newArray = querySnapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      } as unknown as DocumentType;
+    });
+    setReviews(newArray);
   });
 };
 

@@ -6,8 +6,8 @@ import { Add, Close } from "@mui/icons-material";
 import { BookDocument } from "data/bookAtom";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import styled from "styled-components";
 import { thisYearMonth } from "util/constants";
+import styled from "styled-components";
 
 interface PropsType {
   bookInfo: BookDocument;
@@ -47,10 +47,6 @@ const SubjectCreateModal = ({ bookInfo }: PropsType) => {
     setSubject(event.currentTarget.value);
   };
 
-  const onCloseClick = () => {
-    setModalOpen(false);
-  };
-
   return (
     <>
       <AddSubject>
@@ -61,10 +57,10 @@ const SubjectCreateModal = ({ bookInfo }: PropsType) => {
       </AddSubject>
       {modalOpen ? (
         <>
-          <Overlay onClick={onCloseClick} />
+          <Overlay onClick={onModalClick} />
           <Form onSubmit={onSubmit}>
             <h3>
-              발제문 작성하기 <Close onClick={onCloseClick} />
+              발제문 작성하기 <Close onClick={onModalClick} />
             </h3>
             <textarea
               placeholder="책을 읽으며 이야기하고 싶었던 주제들을 자유롭게 작성해주세요."

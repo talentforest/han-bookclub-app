@@ -7,8 +7,8 @@ import {
 } from "firebase/auth";
 import { useState } from "react";
 import { Container, Input } from "theme/commonStyle";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 const EditPassword = () => {
   const [originPassword, setOriginPassword] = useState("");
@@ -43,11 +43,11 @@ const EditPassword = () => {
             navigate(-1);
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
           });
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         window.alert(
           "기존의 비밀번호가 맞지 않습니다. 다시 한번 확인해주세요."
         );

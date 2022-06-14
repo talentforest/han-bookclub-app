@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { authService } from "fbase";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { Container, Desc, Input } from "theme/commonStyle";
@@ -9,20 +9,19 @@ const ResetPasswordEmail = () => {
   const [email, setEmail] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setSubmitSuccess(false);
-    setEmail(event.currentTarget.value);
-  };
-
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     sendPasswordResetEmail(authService, email).catch((error) => {
       console.log(error);
     });
 
     setSubmitSuccess(true);
     setEmail("");
+  };
+
+  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
+    setSubmitSuccess(false);
+    setEmail(event.currentTarget.value);
   };
 
   return (

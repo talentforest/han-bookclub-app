@@ -1,4 +1,3 @@
-import { Notes } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { IBookMeetingInfo } from "components/clubbookhistory/HistoryBox";
 import { getReviews, getSubjects } from "util/getFirebaseDoc";
@@ -7,6 +6,7 @@ import { currentUserState } from "data/userAtom";
 import Subjects from "components/bookmeeting/Subjects";
 import styled from "styled-components";
 import Reviews from "components/bookmeeting/Reviews";
+import BookTitleImgBox from "components/common/BookTitleImgBox";
 
 interface PropsType {
   item: IBookMeetingInfo;
@@ -30,10 +30,6 @@ const MyRecord = ({ item }: PropsType) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const onCloseClick = () => {
-    setOpenModal(false);
-  };
 
   const mySubjects = subjects?.filter(
     (item) => item?.creatorId === userData.uid
@@ -74,30 +70,25 @@ const MyRecord = ({ item }: PropsType) => {
   return (
     <>
       {mySubjects.length !== 0 || myReviews.length !== 0 ? (
-        <Container>
+        <>
           <Record>
-            <div>
-              <img src={item.book.thumbnail} alt="Book" />
-              <h3>{item.book.title}</h3>
-            </div>
+            <BookTitleImgBox docData={item.book} />
             <Category>
-              <div>
-                <Notes />
-                <button onClick={() => onSubjectClick(item.book.title)}>
-                  발제문 보기
-                </button>
-              </div>
-              <div>
-                <Notes />
-                <button onClick={() => onReviewClick(item.book.title)}>
-                  모임후기 보기
-                </button>
-              </div>
+              <button onClick={() => onSubjectClick(item.book.title)}>
+                나의 발제문
+              </button>
+              <button onClick={() => onReviewClick(item.book.title)}>
+                나의 모임후기
+              </button>
             </Category>
           </Record>
           {openModal ? (
             <>
-              <Overlay onClick={onCloseClick} />
+              <Overlay
+                onClick={() => {
+                  setOpenModal((prev) => !prev);
+                }}
+              />
               <SubjectBox>
                 {mySubjectsByBook.length !== 0
                   ? mySubjectsByBook?.map((item) => (
@@ -123,15 +114,13 @@ const MyRecord = ({ item }: PropsType) => {
           ) : (
             <></>
           )}
-        </Container>
+        </>
       ) : (
         <></>
       )}
     </>
   );
 };
-
-const Container = styled.section``;
 
 const Record = styled.div`
   display: flex;
@@ -141,59 +130,41 @@ const Record = styled.div`
   padding: 10px;
   margin: 3px 10px 3px 0;
   border-radius: 5px;
-  width: 230px;
-  height: 140px;
+  width: 200px;
+  height: 160px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
   > div:first-child {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     img {
-      height: 50px;
-      width: auto;
-      box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
+      height: 70px;
     }
     h3 {
       font-size: 10px;
-      font-weight: 700;
-      margin-top: 12px;
-      text-align: center;
+      margin-top: 5px;
     }
   }
 `;
 
 const Category = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   margin-top: 5px;
   width: 100%;
-  > div {
+  > button {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 60%;
-    > svg {
-      width: 16px;
-      height: 16px;
-    }
-    > button {
-      font-size: 12px;
-      cursor: pointer;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: transparent;
-      &:hover {
-        span {
-          color: ${(props) => props.theme.text.accent};
-        }
-        svg {
-          fill: ${(props) => props.theme.text.accent};
-        }
-      }
+    width: 50%;
+    margin: 0 3px;
+    padding: 3px 0;
+    font-size: 12px;
+    border-radius: 15px;
+    border: none;
+    background-color: ${(props) => props.theme.container.lightBlue};
+    cursor: pointer;
+    &:hover {
+      color: ${(props) => props.theme.text.accent};
     }
   }
 `;
@@ -209,22 +180,22 @@ const Overlay = styled.div`
 `;
 
 const SubjectBox = styled.article`
+  overflow: scroll;
   position: fixed;
-  top: 50px;
+  top: 30px;
+  bottom: 60px;
   right: 0;
   left: 0;
-  width: 100%;
-  padding: 0 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 80%;
+  margin: 0 auto;
   border-radius: 5px;
   > div {
-    background-color: ${(props) => props.theme.container.lightBlue};
     width: 100%;
     border-radius: 5px;
     padding: 10px 15px;
+    margin: 0 0 20px;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+    background-color: ${(props) => props.theme.container.default};
   }
 `;
 

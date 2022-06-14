@@ -29,6 +29,7 @@ const HistoryBox = ({ item }: PropsType) => {
   const [reviews, setReviews] = useState([]);
   const [folderOpen, setFolderOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("subjects");
+  const docMonth = item.id;
 
   useEffect(() => {
     getSubjects(item.id, setSubjects);
@@ -108,7 +109,9 @@ const HistoryBox = ({ item }: PropsType) => {
           </BookSection>
           {selectedCategory === "subjects" &&
             (subjects.length !== 0 ? (
-              subjects.map((item) => <Subjects key={item.id} item={item} />)
+              subjects.map((item) => (
+                <Subjects key={item.id} item={item} docMonth={docMonth} />
+              ))
             ) : (
               <EmptyRecord>기록된 발제문이 아직 없어요.</EmptyRecord>
             ))}

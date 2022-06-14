@@ -85,11 +85,6 @@ const useHandleProfile = () => {
         favoriteBookField: Array.from(extraUserData.favoriteBookField),
       });
 
-      window.localStorage.setItem(
-        "favFields",
-        JSON.stringify(extraUserData?.favoriteBookField)
-      );
-
       setEditing(false);
     } catch (error) {
       console.error("Error adding document:", error);

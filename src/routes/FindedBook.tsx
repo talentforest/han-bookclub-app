@@ -1,13 +1,14 @@
 import { bookSearchHandler } from "api/api";
 import { useEffect, useState } from "react";
 import { useMatch } from "react-router-dom";
-import { BookCoverTitleBox, Container } from "theme/commonStyle";
+import { Container } from "theme/commonStyle";
 import { thisYearMonth } from "util/constants";
 import { getBookMeetingInfoData } from "util/getFirebaseDoc";
 import BookDesc from "components/common/BookDesc";
 import styled from "styled-components";
 import BackButtonHeader from "components/common/BackButtonHeader";
 import useHandleThisMonthDoc from "hooks/useHandleThisMonthDoc";
+import BookTitleImgBox from "components/common/BookTitleImgBox";
 
 const FindedBook = () => {
   const [findbookData, setFindBookData] = useState([]);
@@ -38,21 +39,13 @@ const FindedBook = () => {
     <>
       <BackButtonHeader title="도서 정보" />
       <Container>
-        <BookCoverTitleBox>
-          <img src={findbookData[0]?.thumbnail} alt="Book_Image" />
-          <h3>{findbookData[0]?.title}</h3>
-          {checkClubBook ? (
-            <Registered>클럽북으로 등록 완료된 책이에요.</Registered>
-          ) : (
-            <></>
-          )}
-        </BookCoverTitleBox>
+        <BookTitleImgBox docData={findbookData[0]} />
         {toggle ? (
           <Selected onSubmit={onSubmit}>
             <input type="submit" value="북클럽 책 등록 완료" />
           </Selected>
         ) : (
-          <BookSection onSubmit={onSubmit}>
+          <SelectBox onSubmit={onSubmit}>
             <input
               type="month"
               defaultValue={thisYearMonth}
@@ -64,7 +57,7 @@ const FindedBook = () => {
               className={checkClubBook ? "isActive" : ""}
               value="북클럽 도서 등록"
             />
-          </BookSection>
+          </SelectBox>
         )}
         <BookDesc bookInfo={findbookData[0]} />
       </Container>
@@ -72,17 +65,7 @@ const FindedBook = () => {
   );
 };
 
-const Registered = styled.span`
-  font-size: 12px;
-  margin-top: 5px;
-  padding: 3px 8px;
-  width: fit-contents;
-  border-radius: 15px;
-  background-color: ${(props) => props.theme.container.yellow};
-  color: ${(props) => props.theme.text.accent}; ;
-`;
-
-const BookSection = styled.form`
+const SelectBox = styled.form`
   display: flex;
   justify-content: center;
   margin: 25px auto 0;
@@ -105,7 +88,7 @@ const BookSection = styled.form`
   }
 `;
 
-const Selected = styled(BookSection)`
+const Selected = styled(SelectBox)`
   input:last-child {
     color: ${(props) => props.theme.text.accent};
     background-color: ${(props) => props.theme.container.lightBlue};

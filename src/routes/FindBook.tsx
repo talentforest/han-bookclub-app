@@ -13,6 +13,7 @@ const FindBook = () => {
     event.preventDefault();
     try {
       if (bookQuery === "") return;
+
       bookSearchHandler(bookQuery, true, setBookInfo);
       setBookQuery("");
     } catch (error) {
@@ -49,7 +50,7 @@ const FindBook = () => {
   );
 };
 
-const BookResults = styled.div`
+const BookResults = styled.section`
   padding: 10px 0;
   > span {
     display: block;
