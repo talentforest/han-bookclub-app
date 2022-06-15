@@ -174,7 +174,6 @@ const CategoryButton = styled.div`
     font-size: 11px;
     font-weight: 700;
     color: #aaa;
-    background-color: ${(props) => props.theme.text.lightGray};
     cursor: pointer;
     &.isActive {
       background-color: ${(props) => props.theme.container.blue};

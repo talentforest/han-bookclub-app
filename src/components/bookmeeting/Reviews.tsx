@@ -117,6 +117,7 @@ const Reviews = ({ item, onReviewRemove }: PropsType) => {
 };
 
 const TextBox = styled.div`
+  position: relative;
   padding: 15px 0;
   font-size: 14px;
   border-bottom: 1px solid ${(props) => props.theme.text.gray};

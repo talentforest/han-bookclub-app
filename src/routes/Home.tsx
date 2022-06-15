@@ -118,6 +118,7 @@ const ScrollContainer = styled.div`
   width: 100%;
   overflow: auto;
   margin-left: -5px;
+  border: 1px solid red;
   > div {
     width: fit-content;
     padding: 5px;

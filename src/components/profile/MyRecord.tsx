@@ -181,12 +181,11 @@ const Overlay = styled.div`
 const SubjectBox = styled.article`
   overflow: scroll;
   position: fixed;
-  z-index: 2;
   top: 30px;
   right: 0;
   left: 0;
-  width: 80%;
-  max-height: 600px;
+  width: 80vw;
+  max-height: 82vh;
   margin: 0 auto;
   border-radius: 5px;
   > div {

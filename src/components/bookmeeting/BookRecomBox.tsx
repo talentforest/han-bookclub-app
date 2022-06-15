@@ -6,6 +6,8 @@ import {
   DocumentType,
   DoneBtn,
   EditDeleteIcon,
+  FormHeader,
+  GuideTextBox,
 } from "components/bookmeeting/Subjects";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
@@ -24,6 +26,7 @@ interface PropsType {
 const BookRecomBox = ({ item, thisMonthBook }: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(item.text);
+  const [showingGuide, setShowingGuide] = useState(false);
   const userData = useRecoilValue(currentUserState);
 
   const RecommendedBookRef = doc(
@@ -34,9 +37,17 @@ const BookRecomBox = ({ item, thisMonthBook }: PropsType) => {
 
   const onEditSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (newText === "") return;
     await updateDoc(RecommendedBookRef, { text: newText });
-    setEditing(false);
+    if (newText === "") {
+      setTimeout(() => {
+        setShowingGuide((toggle) => !toggle);
+      }, 1000);
+      setShowingGuide((toggle) => !toggle);
+      setEditing(true);
+    } else {
+      setShowingGuide(false);
+      setEditing(false);
+    }
   };
 
   const onDeleteClick = async () => {
@@ -54,10 +65,19 @@ const BookRecomBox = ({ item, thisMonthBook }: PropsType) => {
       {editing ? (
         <TextBox>
           <form onSubmit={onEditSubmit}>
-            <Writer>
+            <FormHeader>
               <UserInfoBox creatorId={item.creatorId} />
-              <DoneBtn type="submit" value="수정완료" />
-            </Writer>
+              {showingGuide && (
+                <GuideTextBox>
+                  한 글자 이상 작성해주세요. <div></div>
+                </GuideTextBox>
+              )}
+              {showingGuide ? (
+                <DoneBtn type="submit" value="수정완료" eventdone />
+              ) : (
+                <DoneBtn type="submit" value="수정완료" />
+              )}
+            </FormHeader>
             <TextArea
               value={newText}
               placeholder="수정해주세요."
@@ -68,7 +88,7 @@ const BookRecomBox = ({ item, thisMonthBook }: PropsType) => {
         </TextBox>
       ) : (
         <TextBox>
-          <Writer>
+          <FormHeader>
             <UserInfoBox creatorId={item.creatorId} />
             {userData.uid === item.creatorId && (
               <EditDeleteIcon>
@@ -76,7 +96,7 @@ const BookRecomBox = ({ item, thisMonthBook }: PropsType) => {
                 <Delete role="button" onClick={onDeleteClick} />
               </EditDeleteIcon>
             )}
-          </Writer>
+          </FormHeader>
           <pre>{newText}</pre>
           <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
           <BookTitleImgBox docData={thisMonthBook} smSize={"smSize"} />
@@ -87,6 +107,7 @@ const BookRecomBox = ({ item, thisMonthBook }: PropsType) => {
 };
 
 const TextBox = styled.div`
+  position: relative;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   margin-top: 10px;
   padding: 10px;
@@ -115,14 +136,6 @@ const TextArea = styled.textarea`
   &:focus {
     outline: none;
   }
-`;
-
-const Writer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 5px;
-  margin-bottom: 15px;
-  border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
 `;
 
 const RegisterTime = styled.div`

@@ -121,6 +121,7 @@ const Subjects = ({ item, onSubjectRemove, docMonth }: ISubject) => {
 };
 
 const TextBox = styled.div`
+  position: relative;
   box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.3);
   margin: 10px 0;
   padding: 10px;
@@ -201,7 +202,6 @@ const TextArea = styled.textarea`
   word-wrap: break-word;
   resize: none;
   padding: 5px;
-
   &:focus {
     outline: none;
   }
