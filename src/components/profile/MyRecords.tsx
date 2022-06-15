@@ -34,8 +34,6 @@ const MyRecords = () => {
 
 const Container = styled.div`
   overflow-x: scroll;
-  min-height: 150px;
-  height: 200px;
   > div {
     overflow: hidden;
     display: flex;

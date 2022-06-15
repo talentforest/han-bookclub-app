@@ -2,9 +2,9 @@ import { Link, useLocation } from "react-router-dom";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import HomeIcon from "@mui/icons-material/Home";
-import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import styled from "styled-components";
+import { History } from "@mui/icons-material";
 
 const BottomNav = () => {
   const pathname = useLocation().pathname;
@@ -19,7 +19,7 @@ const BottomNav = () => {
         </li>
         <li>
           <Link to="/history">
-            <FmdGoodIcon
+            <History
               className={pathname.includes("/history") ? "isActive" : ""}
             />
             <span>지난 책모임</span>

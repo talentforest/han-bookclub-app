@@ -14,3 +14,7 @@ export const bookFields = [
 ];
 
 export const thisYearMonth = `${new Date().toISOString().substr(0, 7)}`;
+
+export const thisYear = new Date().getFullYear();
+
+export const thisMonth = new Date().getMonth() + 1;

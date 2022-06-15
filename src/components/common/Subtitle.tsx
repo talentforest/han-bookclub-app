@@ -6,7 +6,7 @@ const Subtitle = ({ title }: titleType) => {
   return <Sub>{title}</Sub>;
 };
 
-const Sub = styled.h1`
+const Sub = styled.h3`
   display: flex;
   align-items: center;
   width: fit-content;

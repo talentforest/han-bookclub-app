@@ -14,6 +14,7 @@ import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
 import { BookDocument } from "data/bookAtom";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
+import { thisYearMonth } from "util/constants";
 
 interface PropsType {
   item: DocumentType;
@@ -25,16 +26,20 @@ const BookRecomBox = ({ item, thisMonthBook }: PropsType) => {
   const [newText, setNewText] = useState(item.text);
   const userData = useRecoilValue(currentUserState);
 
+  const RecommendedBookRef = doc(
+    dbService,
+    `BookMeeting Info/${thisYearMonth}/recommended book`,
+    `${item.id}`
+  );
+
   const onEditSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (newText === "") return;
-    const RecommendedBookRef = doc(dbService, "Recommened_Book", `${item.id}`);
     await updateDoc(RecommendedBookRef, { text: newText });
     setEditing(false);
   };
 
   const onDeleteClick = async () => {
-    const RecommendedBookRef = doc(dbService, "Recommened_Book", `${item.id}`);
     await deleteDoc(RecommendedBookRef);
   };
 
@@ -89,6 +94,7 @@ const TextBox = styled.div`
   border-radius: 5px;
   pre {
     white-space: pre-wrap;
+    word-wrap: break-word;
     line-height: 22px;
     font-size: 15px;
     min-height: 70px;
@@ -103,6 +109,7 @@ const TextArea = styled.textarea`
   border-radius: 5px;
   font-size: 15px;
   white-space: pre-wrap;
+  word-wrap: break-word;
   resize: none;
   padding: 5px;
   &:focus {

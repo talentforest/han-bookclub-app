@@ -117,7 +117,9 @@ const HistoryBox = ({ item }: PropsType) => {
             ))}
           {selectedCategory === "reviews" &&
             (reviews.length !== 0 ? (
-              reviews.map((item) => <Reviews key={item.id} item={item} />)
+              reviews.map((item) => (
+                <Reviews key={item.id} item={item} docMonth={docMonth} />
+              ))
             ) : (
               <EmptyRecord>기록된 모임 후기가 아직 없어요.</EmptyRecord>
             ))}

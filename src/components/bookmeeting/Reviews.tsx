@@ -117,14 +117,15 @@ const Reviews = ({ item, onReviewRemove }: PropsType) => {
 };
 
 const TextBox = styled.div`
-  padding: 20px 0;
+  padding: 15px 0;
   font-size: 14px;
   border-bottom: 1px solid ${(props) => props.theme.text.gray};
   pre {
     white-space: pre-wrap;
+    word-wrap: break-word;
     line-height: 1.6;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
     font-size: 14px;
   }
 `;
@@ -134,6 +135,7 @@ const TextArea = styled.textarea`
   width: 100%;
   padding: 5px;
   white-space: pre-wrap;
+  word-wrap: break-word;
   border: none;
   border-radius: 5px;
   height: 60px;

@@ -45,7 +45,7 @@ const MeetingInfoBox = ({
           />
         ) : (
           <p>
-            {docData?.meeting.time !== ""
+            {docData?.meeting.time
               ? meetingTimestamp(docData?.meeting.time)
               : "정해진 모임 시간이 없습니다."}
           </p>
@@ -60,7 +60,7 @@ const MeetingInfoBox = ({
           <Input type="text" value={placeText} onChange={onPlaceChange} />
         ) : (
           <p>
-            {docData?.meeting.place !== ""
+            {docData?.meeting.place
               ? docData?.meeting.place
               : "정해진 모임 장소가 없습니다."}
           </p>

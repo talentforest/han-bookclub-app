@@ -8,7 +8,7 @@ const DeleteAccountButton = () => {
   const onDeleteClick = () => {
     const user = authService.currentUser;
     const checkDeleteAccount = window.confirm(
-      "정말 탈퇴하시겠어요? 탈퇴할 시 회원님의 데이터는 복구 불가능합니다."
+      "정말 탈퇴하시겠어요? 탈퇴할 시 회원님과 관련된 데이터는 복구 불가능합니다."
     );
 
     if (checkDeleteAccount === true) {

@@ -33,10 +33,30 @@ const Profile = () => {
           <span>내가 작성한 발제문과 모임 후기를 볼 수 있어요.</span>
           <MyRecords />
         </section>
+        <section>
+          <Subtitle title="내가 추천한 책" />
+          <span>내가 추천한 책들을 볼 수 있어요.</span>
+          <MyRecords />
+        </section>
       </NewContainer>
     </>
   );
 };
+
+const NewHeader = styled(Header)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  > a {
+    display: flex;
+    align-items: center;
+    svg {
+      margin-top: 2px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+`;
 
 const NewContainer = styled(Container)`
   display: flex;
@@ -78,21 +98,6 @@ const User = styled.div`
     font-size: 15px;
     font-weight: 700;
     padding-top: 10px;
-  }
-`;
-
-const NewHeader = styled(Header)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  > a {
-    display: flex;
-    align-items: center;
-    svg {
-      margin-top: 2px;
-      width: 20px;
-      height: 20px;
-    }
   }
 `;
 

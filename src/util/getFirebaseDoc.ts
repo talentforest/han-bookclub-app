@@ -10,6 +10,11 @@ import {
 import { BookMeetingInfo } from "routes/BookMeeting";
 import { extraUserData } from "routes/EditProfile";
 
+export interface thisYearField {
+  month: string;
+  value: string;
+}
+
 export const getBookMeetingInfoData = async (
   setState: (docData: BookMeetingInfo[]) => void
 ) => {
@@ -80,10 +85,11 @@ export const getUserData = (
 };
 
 export const getAllRecommends = async (
+  id: string,
   setState: (doc: DocumentType[]) => void
 ) => {
   const q = query(
-    collection(dbService, "Recommened_Book"),
+    collection(dbService, `BookMeeting Info/${id}/recommended book`),
     orderBy("createdAt", "desc")
   );
 
@@ -95,5 +101,23 @@ export const getAllRecommends = async (
       };
     });
     setState(newArray as DocumentType[]);
+  });
+};
+
+export const getThisYearBookField = async (
+  setState: (thisYearField: thisYearField[]) => void
+) => {
+  const q = query(
+    collection(dbService, "bookfield"),
+    orderBy("createdAt", "desc")
+  );
+
+  onSnapshot(q, (querySnapshot) => {
+    const newArray = querySnapshot.docs.map((doc) => {
+      return {
+        ...doc.data(),
+      };
+    });
+    setState(newArray as thisYearField[]);
   });
 };

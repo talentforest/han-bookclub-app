@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Loading = () => {
   return (
     <Load>
-      <CircularProgress thickness={4} size={50} />
+      <CircularProgress thickness={4} />
     </Load>
   );
 };
@@ -15,6 +15,10 @@ const Load = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  svg {
+    width: 50px;
+    height: 50px;
+  }
 `;
 
 export default Loading;

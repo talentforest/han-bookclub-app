@@ -56,8 +56,8 @@ const BookDetail = styled.ul`
   flex-direction: column;
   justify-content: center;
   align-items: start;
-  margin: 20px auto 0;
-  padding: 20px 15px;
+  margin: 0 auto;
+  padding: 15px;
   width: 95%;
   > div {
     display: flex;
@@ -65,6 +65,9 @@ const BookDetail = styled.ul`
       font-size: 16px;
       margin-bottom: 10px;
       font-weight: 700;
+    }
+    > svg {
+      cursor: pointer;
     }
   }
   > li {

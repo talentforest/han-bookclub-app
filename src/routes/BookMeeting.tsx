@@ -21,6 +21,7 @@ import EditMeetingInfo from "components/bookmeeting/EditMeetingInfo";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import BookRecomCreateBox from "components/bookmeeting/BookRecomCreateBox";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
+import { thisYearMonth } from "util/constants";
 
 interface meetingType {
   time: string;
@@ -47,19 +48,17 @@ const BookMeeting = () => {
   const subjectUrlMatch = useMatch("/bookmeeting/subject");
   const reviewUrlMatch = useMatch("/bookmeeting/review");
 
-  const docMonth = bookMeetingDocData[0]?.id;
-
   useEffect(() => {
     getBookMeetingInfoData(setBookMeetingDocData);
-    getReviews(docMonth, setThisMonthReviews);
-    getAllRecommends(setRecommendBook);
-    bookMeetingDocData.length && getSubjects(docMonth, setThisMonthSubjects);
+    getReviews(thisYearMonth, setThisMonthReviews);
+    getSubjects(thisYearMonth, setThisMonthSubjects);
+    getAllRecommends(thisYearMonth, setRecommendBook);
 
     return () => {
       getBookMeetingInfoData(setBookMeetingDocData);
-      getSubjects(docMonth, setThisMonthSubjects);
-      getAllRecommends(setRecommendBook);
-      bookMeetingDocData.length && getReviews(docMonth, setThisMonthReviews);
+      getSubjects(thisYearMonth, setThisMonthSubjects);
+      getReviews(thisYearMonth, setThisMonthReviews);
+      getAllRecommends(thisYearMonth, setRecommendBook);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -92,13 +91,13 @@ const BookMeeting = () => {
           </BookDetail>
         )}
         <CategoryButton>
-          <Link to="" className={bookUrlMatch ? "isActive" : null}>
-            책 추천하기
+          <Link to="" className={bookUrlMatch && "isActive"}>
+            추천책
           </Link>
-          <Link to="subject" className={subjectUrlMatch ? "isActive" : null}>
-            발제문 참여
+          <Link to="subject" className={subjectUrlMatch && "isActive"}>
+            발제문 작성
           </Link>
-          <Link to="review" className={reviewUrlMatch ? "isActive" : null}>
+          <Link to="review" className={reviewUrlMatch && "isActive"}>
             모임 후기
           </Link>
         </CategoryButton>
@@ -122,20 +121,13 @@ const BookMeeting = () => {
           <>
             <SubjectCreateModal bookInfo={bookMeetingDocData[0]?.book} />
             {thisMonthSubjects?.map((item) => (
-              <Subjects
-                item={item}
-                key={item.id}
-                docMonth={bookMeetingDocData[0].id}
-              />
+              <Subjects item={item} key={item.id} />
             ))}
           </>
         )}
         {reviewUrlMatch && (
           <>
-            <ReviewCreateBox
-              bookInfo={bookMeetingDocData[0]?.book}
-              docMonth={docMonth}
-            />
+            <ReviewCreateBox bookInfo={bookMeetingDocData[0]?.book} />
             {thisMonthReviews?.map((item) => (
               <Reviews
                 key={item.id}
@@ -206,7 +198,6 @@ const MeetingBox = styled.div`
 `;
 
 const BookDetail = styled.div`
-  z-index: 1;
   position: fixed;
   height: 100vh;
   top: 0px;
@@ -215,8 +206,7 @@ const BookDetail = styled.div`
   left: 0;
   > ul {
     position: fixed;
-    top: 30px;
-    bottom: 60px;
+    top: 50px;
     right: 0;
     left: 0;
     width: 80%;
@@ -226,6 +216,7 @@ const BookDetail = styled.div`
 `;
 
 const Overlay = styled.div`
+  cursor: pointer;
   position: fixed;
   top: 0;
   left: 0;

@@ -90,25 +90,23 @@ const MyRecord = ({ item }: PropsType) => {
                 }}
               />
               <SubjectBox>
-                {mySubjectsByBook.length !== 0
-                  ? mySubjectsByBook?.map((item) => (
-                      <Subjects
-                        key={item.id}
-                        item={item}
-                        docMonth={docMonth}
-                        onSubjectRemove={onSubjectRemove}
-                      />
-                    ))
-                  : "작성한 발제문이 없습니다."}
-                {myReviewsByBook.length !== 0
-                  ? myReviewsByBook.map((item) => (
-                      <Reviews
-                        key={item.id}
-                        item={item}
-                        onReviewRemove={onReviewRemove}
-                      />
-                    ))
-                  : "작성한 모임후기가 없습니다."}
+                {mySubjectsByBook &&
+                  mySubjectsByBook?.map((item) => (
+                    <Subjects
+                      key={item.id}
+                      item={item}
+                      docMonth={docMonth}
+                      onSubjectRemove={onSubjectRemove}
+                    />
+                  ))}
+                {myReviewsByBook &&
+                  myReviewsByBook.map((item) => (
+                    <Reviews
+                      key={item.id}
+                      item={item}
+                      onReviewRemove={onReviewRemove}
+                    />
+                  ))}
               </SubjectBox>
             </>
           ) : (
@@ -135,12 +133,12 @@ const Record = styled.div`
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
   > div:first-child {
+    height: 95px;
     img {
       height: 70px;
     }
     h3 {
       font-size: 10px;
-      margin-top: 5px;
     }
   }
 `;
@@ -158,7 +156,7 @@ const Category = styled.div`
     width: 50%;
     margin: 0 3px;
     padding: 3px 0;
-    font-size: 12px;
+    font-size: 11px;
     border-radius: 15px;
     border: none;
     background-color: ${(props) => props.theme.container.lightBlue};
@@ -170,6 +168,7 @@ const Category = styled.div`
 `;
 
 const Overlay = styled.div`
+  cursor: pointer;
   position: fixed;
   top: 0;
   left: 0;
@@ -182,20 +181,23 @@ const Overlay = styled.div`
 const SubjectBox = styled.article`
   overflow: scroll;
   position: fixed;
+  z-index: 2;
   top: 30px;
-  bottom: 60px;
   right: 0;
   left: 0;
   width: 80%;
+  max-height: 600px;
   margin: 0 auto;
   border-radius: 5px;
   > div {
-    width: 100%;
     border-radius: 5px;
     padding: 10px 15px;
-    margin: 0 0 20px;
+    margin: 0 0 10px;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
     background-color: ${(props) => props.theme.container.default};
+  }
+  > div:last-child {
+    margin: 0;
   }
 `;
 

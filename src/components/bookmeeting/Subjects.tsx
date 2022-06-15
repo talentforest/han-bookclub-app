@@ -8,6 +8,7 @@ import { Delete, Edit } from "@mui/icons-material";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
+import { thisYearMonth } from "util/constants";
 
 export interface DocumentType {
   id: string;
@@ -30,14 +31,25 @@ const Subjects = ({ item, onSubjectRemove, docMonth }: ISubject) => {
   const [showingGuide, setShowingGuide] = useState(false);
   const userData = useRecoilValue(currentUserState);
 
+  const thisMonthSubjectRef = doc(
+    dbService,
+    `BookMeeting Info/${thisYearMonth}/subjects`,
+    `${item.id}`
+  );
+
+  const otherMonthSubjectRef = doc(
+    dbService,
+    `BookMeeting Info/${docMonth}/subjects`,
+    `${item.id}`
+  );
+
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const SubjectTextRef = doc(
-      dbService,
-      `BookMeeting Info/${docMonth}/subjects`,
-      `${item.id}`
-    );
-    await updateDoc(SubjectTextRef, { text: newText });
+    if (!docMonth) {
+      await updateDoc(thisMonthSubjectRef, { text: newText });
+    } else {
+      await updateDoc(otherMonthSubjectRef, { text: newText });
+    }
     if (newText === "") {
       setTimeout(() => {
         setShowingGuide((toggle) => !toggle);
@@ -51,12 +63,7 @@ const Subjects = ({ item, onSubjectRemove, docMonth }: ISubject) => {
   };
 
   const onDeleteClick = async () => {
-    const SubjectTextRef = doc(
-      dbService,
-      `BookMeeting Info/${docMonth}/subjects`,
-      `${item.id}`
-    );
-    await deleteDoc(SubjectTextRef);
+    await deleteDoc(thisMonthSubjectRef);
     if (onSubjectRemove) {
       onSubjectRemove(item.id);
     }
@@ -122,6 +129,7 @@ const TextBox = styled.div`
   min-height: 300px;
   pre {
     white-space: pre-wrap;
+    word-wrap: break-word;
     line-height: 1.6;
     padding-bottom: 10px;
     min-height: 200px;
@@ -190,8 +198,10 @@ const TextArea = styled.textarea`
   font-size: 14px;
   margin-bottom: 10px;
   white-space: pre-wrap;
+  word-wrap: break-word;
   resize: none;
   padding: 5px;
+
   &:focus {
     outline: none;
   }

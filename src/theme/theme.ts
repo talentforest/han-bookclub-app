@@ -6,7 +6,7 @@ export const theme: DefaultTheme = {
     default: "#333",
     accent: "#0043EF",
     lightBlue: "#5162FF",
-    lightGray: "#CthtECECE",
+    lightGray: "#CECECE",
     gray: "#555",
     white: "#fff",
   },

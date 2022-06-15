@@ -4,6 +4,7 @@ import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { BookDocument } from "data/bookAtom";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
+import { thisYearMonth } from "util/constants";
 
 interface PropsType {
   uid: string;
@@ -17,13 +18,19 @@ const BookRecomCreateBox = ({ uid, thisMonthBook }: PropsType) => {
     event.preventDefault();
     try {
       if (text === "") return;
-      await addDoc(collection(dbService, "Recommened_Book"), {
-        text: text,
-        createdAt: Date.now(),
-        creatorId: uid,
-        title: thisMonthBook?.title,
-        thumbnail: thisMonthBook?.thumbnail,
-      });
+      await addDoc(
+        collection(
+          dbService,
+          `BookMeeting Info/${thisYearMonth}/recommended book`
+        ),
+        {
+          text: text,
+          createdAt: Date.now(),
+          creatorId: uid,
+          title: thisMonthBook?.title,
+          thumbnail: thisMonthBook?.thumbnail,
+        }
+      );
       setText("");
     } catch (error) {
       console.error("Error adding document:", error);
@@ -38,7 +45,7 @@ const BookRecomCreateBox = ({ uid, thisMonthBook }: PropsType) => {
     <>
       <Form onSubmit={onSubmit}>
         <textarea
-          placeholder="이달의 책과 관련하여 추천하고 싶은 책을 작성해주세요."
+          placeholder="이달의 책과 관련하여 추천하고 싶은 책이나, 이달에 재미있게 읽었던 책을 작성해주세요."
           onChange={onChange}
           value={text}
         />
@@ -47,19 +54,9 @@ const BookRecomCreateBox = ({ uid, thisMonthBook }: PropsType) => {
           <input type="submit" value="추천하기" />
         </div>
       </Form>
-      <Desc>
-        {`${thisMonthBook?.title}과 관련해 추천하고 싶은 책이나, 이달에 읽은 다른 책들을 작성해주시면 됩니다.`}
-      </Desc>
     </>
   );
 };
-
-const Desc = styled.p`
-  font-size: 11px;
-  color: ${(props) => props.theme.text.accent};
-  line-height: 1.4;
-  padding: 10px 5px 0;
-`;
 
 const Form = styled.form`
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
@@ -75,6 +72,7 @@ const Form = styled.form`
     border-radius: 5px;
     padding: 5px 10px;
     white-space: pre-wrap;
+    word-wrap: break-word;
     resize: none;
     border: none;
     &:focus {
@@ -91,6 +89,7 @@ const Form = styled.form`
       margin: 0;
     }
     input {
+      cursor: pointer;
       border: none;
       background-color: ${(props) => props.theme.container.blue};
       color: #fff;
