@@ -103,7 +103,8 @@ const AddSubject = styled.div`
   }
 `;
 
-const Overlay = styled.div`
+export const Overlay = styled.div`
+  cursor: pointer;
   position: fixed;
   top: 0;
   left: 0;

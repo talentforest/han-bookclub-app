@@ -15,6 +15,28 @@ export const Header = styled.header`
   }
 `;
 
+export const ButtonHeader = styled(Header)`
+  justify-content: space-between;
+  button,
+  a {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    font-size: 12px;
+    color: ${(props) => props.theme.text.lightBlue};
+    border: none;
+    background-color: transparent;
+    font-weight: 700;
+    cursor: pointer;
+    svg {
+      fill: ${(props) => props.theme.text.lightBlue};
+      width: 16px;
+      height: 16px;
+      margin-right: 3px;
+    }
+  }
+`;
+
 export const Container = styled.main`
   min-height: 100vh;
   padding: 0 15px;

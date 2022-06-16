@@ -1,4 +1,4 @@
-import { Container, Header } from "theme/commonStyle";
+import { ButtonHeader, Container } from "theme/commonStyle";
 import { useEffect, useState } from "react";
 import { Link, useMatch } from "react-router-dom";
 import { BookDocument } from "data/bookAtom";
@@ -69,10 +69,10 @@ const BookMeeting = () => {
 
   return (
     <>
-      <NewHeader>
+      <ButtonHeader>
         <Title title="의 책모임" />
         <Link to="find">이달의 책 등록하기</Link>
-      </NewHeader>
+      </ButtonHeader>
       <Container>
         <MeetingBox>
           <BookTitleImgBox
@@ -141,21 +141,6 @@ const BookMeeting = () => {
     </>
   );
 };
-
-const NewHeader = styled(Header)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  a {
-    width: fit-content;
-    font-size: 12px;
-    color: ${(props) => props.theme.text.lightBlue};
-    border: none;
-    background-color: transparent;
-    font-weight: 700;
-    cursor: pointer;
-  }
-`;
 
 const CategoryButton = styled.div`
   display: flex;
