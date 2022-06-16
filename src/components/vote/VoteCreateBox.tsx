@@ -51,6 +51,14 @@ const VoteCreateBox = () => {
     }
   };
 
+  const onPlusClick = () => {
+    const newVote = {
+      ...vote,
+      voteItem: [...vote.voteItem, { id: vote.voteItem.length + 1, item: "" }],
+    };
+    setVote(newVote);
+  };
+
   return (
     <CreateBox onSubmit={onSubmit}>
       <div>
@@ -80,7 +88,7 @@ const VoteCreateBox = () => {
             </li>
           ))}
         </VoteList>
-        <AddVoteItem>
+        <AddVoteItem onClick={onPlusClick}>
           <Add />
           투표항목 추가하기
         </AddVoteItem>
