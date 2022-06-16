@@ -1,8 +1,13 @@
 import { Add, CheckCircleOutline } from "@mui/icons-material";
+import { currentUserState } from "data/userAtom";
+import { dbService } from "fbase";
+import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 const VoteCreateBox = () => {
+  const userData = useRecoilValue(currentUserState);
   const [vote, setVote] = useState({
     title: "",
     voteItem: [
@@ -10,6 +15,21 @@ const VoteCreateBox = () => {
       { id: 2, item: "" },
     ],
   });
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      if (!vote.title) return;
+      await addDoc(collection(dbService, "Vote"), {
+        createdAt: Date.now(),
+        creatorId: userData.uid,
+        vote,
+      });
+      console.log("complete");
+    } catch (error) {
+      console.error("Error adding document:", error);
+    }
+  };
 
   const onChange = (
     event: React.FormEvent<HTMLInputElement>,
@@ -32,7 +52,7 @@ const VoteCreateBox = () => {
   };
 
   return (
-    <CreateBox>
+    <CreateBox onSubmit={onSubmit}>
       <div>
         <VoteTitle>
           <span>투표 제목: </span>
@@ -42,6 +62,7 @@ const VoteCreateBox = () => {
             value={vote.title}
             onChange={onChange}
             name="title"
+            required
           />
         </VoteTitle>
         <VoteList>
@@ -54,6 +75,7 @@ const VoteCreateBox = () => {
                 name={`vote_item${index}`}
                 value={item.item}
                 onChange={(event) => onChange(event, index)}
+                required
               />
             </li>
           ))}
@@ -63,7 +85,7 @@ const VoteCreateBox = () => {
           투표항목 추가하기
         </AddVoteItem>
       </div>
-      <button>투표 등록하기</button>
+      <button type="submit">투표 등록하기</button>
     </CreateBox>
   );
 };
@@ -87,6 +109,7 @@ const CreateBox = styled.form`
     width: 100%;
   }
   > button {
+    cursor: pointer;
     font-size: 13px;
     font-weight: 700;
     padding: 8px;
@@ -120,6 +143,7 @@ const VoteTitle = styled.div`
   > span {
     margin-left: 3px;
     font-weight: 700;
+    margin-bottom: 5px;
   }
 `;
 
@@ -146,13 +170,16 @@ const VoteList = styled.ul`
 `;
 
 const AddVoteItem = styled.div`
+  cursor: pointer;
   display: flex;
   align-items: center;
   font-size: 13px;
   margin-bottom: 30px;
+  color: ${(props) => props.theme.text.accent};
   svg {
     width: 18px;
     height: 148x;
+    fill: ${(props) => props.theme.text.accent};
   }
 `;
 
