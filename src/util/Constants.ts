@@ -13,8 +13,14 @@ export const bookFields = [
   { id: 10, name: "과학" },
 ];
 
-export const thisYearMonth = `${new Date().toISOString().substr(0, 7)}`;
+const date = new Date();
 
-export const thisYear = new Date().getFullYear();
+export const thisYearMonth = `${date.toISOString().substr(0, 7)}`;
 
-export const thisMonth = new Date().getMonth() + 1;
+export const thisYear = date.getFullYear();
+
+export const thisMonth = date.getMonth() + 1;
+
+export const today = `${date.getFullYear()}-${
+  date.getMonth() + 1
+}-${date.getDate()}`;

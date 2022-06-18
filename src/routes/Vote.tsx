@@ -3,12 +3,20 @@ import { Overlay } from "components/bookmeeting/SubjectCreateModal";
 import Title from "components/common/Title";
 import VoteBox from "components/common/VoteBox";
 import VoteCreateBox from "components/vote/VoteCreateBox";
-import { useState } from "react";
-import styled from "styled-components";
+import { useEffect, useState } from "react";
 import { ButtonHeader, Container } from "theme/commonStyle";
+import { getVote } from "util/getFirebaseDoc";
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [voteDoc, setVoteDoc] = useState([]);
+
+  useEffect(() => {
+    getVote(setVoteDoc);
+    return () => {
+      getVote(setVoteDoc);
+    };
+  }, []);
 
   const onClick = () => {
     setModalOpen((prev) => !prev);
@@ -23,20 +31,18 @@ const Vote = () => {
         </button>
       </ButtonHeader>
       <Container>
-        {modalOpen ? (
-          <Modal>
+        {modalOpen && (
+          <section>
             <Overlay onClick={onClick} />
-            <VoteCreateBox />
-          </Modal>
-        ) : (
-          <></>
+            <VoteCreateBox setModalOpen={setModalOpen} />
+          </section>
         )}
-        <VoteBox />
+        {voteDoc.map((item, index) => (
+          <VoteBox key={item.id} item={item} index={index} />
+        ))}
       </Container>
     </>
   );
 };
-
-const Modal = styled.div``;
 
 export default Vote;

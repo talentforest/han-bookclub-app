@@ -1,73 +1,84 @@
-import { CheckCircle, CheckCircleOutline } from "@mui/icons-material";
+import { CheckCircleOutline } from "@mui/icons-material";
+import { VoteDocument } from "util/getFirebaseDoc";
 import styled from "styled-components";
-import LinkButton from "./LinkButton";
+import { voteTimestamp } from "util/timestamp";
+import { Link } from "react-router-dom";
 
-const VoteBox = () => {
+interface PropsType {
+  item: VoteDocument;
+  index: number;
+}
+
+const VoteBox = ({ item, index }: PropsType) => {
   return (
     <Vote>
-      <p>Q. 6월 책은 뭐할까용?</p>
+      <h4>Q. {item.vote.title}</h4>
       <ul>
-        <li>
-          <CheckCircleOutline />
-          <span>발칙한 현대세계사아아아아아</span>
-        </li>
-        <li>
-          <CheckCircleOutline />
-          <span>빨강의 자서전</span>
-        </li>
-        <li>
-          <CheckCircle />
-          <span>떨림과 울림</span>
-        </li>
+        {item.vote?.voteItem?.map((item) => (
+          <li key={item.id}>
+            <CheckCircleOutline />
+            <span>{item.item}</span>
+          </li>
+        ))}
       </ul>
-      <span>•••</span>
-      <LinkButton
-        link={`/vote/${new Date().getMonth() + 1}`}
-        title="해당 투표 보기"
-      />
+      <div>
+        <p>투표기한: {voteTimestamp(item.vote.deadline)}</p>
+        <Link to={`/vote/${index}`} state={{ item: item }}>
+          투표하러 가기
+        </Link>
+      </div>
     </Vote>
   );
 };
 
 const Vote = styled.div`
-  width: 200px;
+  width: 100%;
+  border-radius: 10px;
+  padding: 15px 20px 10px;
+  margin: 10px 10px 15px 0;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  padding: 15px 15px 10px;
-  margin-right: 10px;
-  > span {
-    text-align: center;
-  }
-  > p {
-    font-size: 12px;
+  > h4 {
+    font-size: 14px;
     font-weight: 700;
     border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
-    padding-bottom: 5px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
   }
   > ul {
-    margin-top: 5px;
     > li {
-      font-size: 12px;
+      font-size: 14px;
       border: 1px solid ${(props) => props.theme.container.blue};
-      border-radius: 10px;
+      border-radius: 5px;
       padding: 4px 10px;
-      margin-top: 7px;
+      margin-top: 10px;
       background-color: ${(props) => props.theme.container.lightBlue};
       display: flex;
       align-items: center;
+      height: 32px;
       > svg {
-        width: 14px;
-        height: 14px;
+        width: 15px;
+        height: 15px;
         margin-right: 5px;
       }
     }
   }
   > div {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: end;
+    margin-top: 10px;
+    > p {
+      color: ${(props) => props.theme.text.accent};
+      font-size: 12px;
+      width: 100%;
+    }
+    > a {
+      color: ${(props) => props.theme.text.accent};
+      font-size: 12px;
+      width: 100%;
+      text-align: end;
+    }
   }
 `;
 

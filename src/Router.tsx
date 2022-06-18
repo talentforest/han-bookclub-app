@@ -18,6 +18,7 @@ import ClubBooksHistory from "routes/ClubBooksHistory";
 import UserDataInputForm from "components/loginForm/UserDataInputForm";
 import ResetPasswordEmail from "routes/ResetPasswordEmail";
 import EditPassword from "routes/EditPassword";
+import VoteDetail from "routes/VoteDetail";
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -54,7 +55,7 @@ function Router({ isLoggedIn }: PropsType) {
               <Route path="/bookmeeting/find/:id" element={<SelectedBook />} />
               <Route path="/history" element={<ClubBooksHistory />} />
               <Route path="/vote" element={<Vote />} />
-              <Route path="/vote/:id" element={<Vote />} />
+              <Route path="/vote/:id" element={<VoteDetail />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/setting" element={<Setting />} />
               <Route path="/setting/editprofile" element={<EditProfile />} />

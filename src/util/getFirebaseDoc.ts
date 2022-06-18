@@ -15,6 +15,25 @@ export interface thisYearField {
   value: string;
 }
 
+interface VoteItem {
+  id: number;
+  item: string;
+  voteCount: number;
+}
+
+export interface Vote {
+  title: string;
+  deadline: string;
+  voteItem: VoteItem[];
+}
+
+export interface VoteDocument {
+  createdAt: number;
+  creatorId: string;
+  id: string;
+  vote: Vote;
+}
+
 export const getBookMeetingInfoData = async (
   setState: (docData: BookMeetingInfo[]) => void
 ) => {
@@ -119,5 +138,19 @@ export const getThisYearBookField = async (
       };
     });
     setState(newArray as thisYearField[]);
+  });
+};
+
+export const getVote = async (setState: (voteDoc: VoteDocument[]) => void) => {
+  const q = query(collection(dbService, "Vote"), orderBy("createdAt", "desc"));
+
+  onSnapshot(q, (querySnapshot) => {
+    const newArray = querySnapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      } as VoteDocument;
+    });
+    setState(newArray);
   });
 };

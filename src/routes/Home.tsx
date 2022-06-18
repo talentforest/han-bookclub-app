@@ -11,7 +11,6 @@ import LinkButton from "components/common/LinkButton";
 import useWindowSize from "hooks/useWindowSize";
 import Subtitle from "components/common/Subtitle";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
-import VoteBox from "components/common/VoteBox";
 import Title from "components/common/Title";
 import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
@@ -58,12 +57,7 @@ const Home = () => {
         </section>
         <section>
           <Subtitle title={`${thisMonth}월의 투표`} />
-          <ScrollContainer>
-            <div>
-              <VoteBox />
-              <VoteBox />
-            </div>
-          </ScrollContainer>
+          <ScrollContainer></ScrollContainer>
           <LinkButton link={"/vote"} title="투표하러 가기" />
         </section>
         <section>

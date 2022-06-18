@@ -10,3 +10,8 @@ export function meetingTimestamp(timeText: number | string) {
     date.getMonth() + 1
   }월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분 `;
 }
+
+export function voteTimestamp(createdAt: number | string) {
+  const date = new Date(createdAt);
+  return `${date.getMonth() + 1}월 ${date.getDate()}일`;
+}
