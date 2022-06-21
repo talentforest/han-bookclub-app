@@ -19,6 +19,12 @@ const Setting = () => {
             <Link to="editpassword">비밀번호 변경하기</Link>
           </li>
         </ul>
+        <span>의견사항</span>
+        <ul>
+          <li>
+            <Link to="update-request">업데이트 요청</Link>
+          </li>
+        </ul>
         <span>기타</span>
         <ul>
           <li>
@@ -41,10 +47,11 @@ const NewContainer = styled(Container)`
     padding-top: 15px;
   }
   > ul {
+    margin-bottom: 20px;
     > li {
       border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
       font-size: 14px;
-      padding: 10px 0 15px;
+      padding: 15px 0;
       > button {
         cursor: pointer;
         padding: 0;

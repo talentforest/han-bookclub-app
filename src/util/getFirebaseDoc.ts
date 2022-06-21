@@ -35,6 +35,14 @@ export interface VoteDocument {
   vote: Vote;
 }
 
+export interface UpdateRequestDoc {
+  request: string;
+  createdAt: Date;
+  creatorId: string;
+  type: string;
+  id: string;
+}
+
 export const getBookMeetingInfoData = async (
   setState: (docData: BookMeetingInfo[]) => void
 ) => {
@@ -177,5 +185,24 @@ export const getMyVote = async (
     const myVote = newArray.filter((item) => item.id === uid);
 
     setState(myVote);
+  });
+};
+
+export const getUpdateRequestDoc = (
+  setState: (request: UpdateRequestDoc[]) => void
+) => {
+  const q = query(
+    collection(dbService, "Update Request"),
+    orderBy("createdAt", "desc")
+  );
+  onSnapshot(q, (querySnapshot) => {
+    const newArray = querySnapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      } as unknown as UpdateRequestDoc;
+    });
+
+    setState(newArray);
   });
 };

@@ -1,6 +1,6 @@
 import { VoteDocument } from "./getFirebaseDoc";
 
-export function timestamp(createdAt: number | string) {
+export function timestamp(createdAt: number | string | Date) {
   const date = new Date(createdAt);
   return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
 }

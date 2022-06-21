@@ -5,19 +5,16 @@ import { timestamp } from "util/timestamp";
 import {
   DocumentType,
   DoneBtn,
-  EditDeleteIcon,
   FormHeader,
   GuideTextBox,
   RegisterTime,
 } from "components/bookmeeting/Subjects";
-import { currentUserState } from "data/userAtom";
-import { useRecoilValue } from "recoil";
 import { BookDocument } from "data/bookAtom";
 import { thisYearMonth } from "util/constants";
-import { Delete, Edit } from "@mui/icons-material";
 import UserInfoBox from "components/common/UserInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import styled from "styled-components";
+import EditDeleteDoc from "components/common/EditDeleteDoc";
 
 interface PropsType {
   item: DocumentType;
@@ -30,7 +27,6 @@ const Reviews = ({ item, onReviewRemove }: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(item.text);
   const [showingGuide, setShowingGuide] = useState(false);
-  const userData = useRecoilValue(currentUserState);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -100,12 +96,11 @@ const Reviews = ({ item, onReviewRemove }: PropsType) => {
         <>
           <FormHeader>
             <UserInfoBox creatorId={item.creatorId} />
-            {userData.uid === item.creatorId && (
-              <EditDeleteIcon>
-                <Edit role="button" onClick={toggleEditing} />
-                <Delete role="button" onClick={onDeleteClick} />
-              </EditDeleteIcon>
-            )}
+            <EditDeleteDoc
+              creatorId={item.creatorId}
+              onDeleteClick={onDeleteClick}
+              toggleEditing={toggleEditing}
+            />
           </FormHeader>
           <pre>{newText}</pre>
           <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>

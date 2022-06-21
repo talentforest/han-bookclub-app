@@ -19,6 +19,7 @@ import UserDataInputForm from "components/loginForm/UserDataInputForm";
 import ResetPasswordEmail from "routes/ResetPasswordEmail";
 import EditPassword from "routes/EditPassword";
 import VoteDetail from "routes/VoteDetail";
+import UpdateRequest from "routes/UpdateRequest";
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -60,6 +61,10 @@ function Router({ isLoggedIn }: PropsType) {
               <Route path="/setting" element={<Setting />} />
               <Route path="/setting/editprofile" element={<EditProfile />} />
               <Route path="/setting/editpassword" element={<EditPassword />} />
+              <Route
+                path="/setting/update-request"
+                element={<UpdateRequest />}
+              />
             </>
           ) : (
             <Route path="/*" element={<LogInPage />} />
