@@ -135,9 +135,9 @@ const Request = styled.li`
         outline: none;
       }
     }
-    > span {
-      font-size: 12px;
-    }
+  }
+  > span {
+    font-size: 12px;
   }
 `;
 

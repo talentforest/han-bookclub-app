@@ -52,9 +52,7 @@ const UpdateCreateBox = ({ request, setRequest }: PropsType) => {
       />
       <div>
         <select name="request-type" onChange={onChange}>
-          <option value="bug" selected>
-            버그 수정
-          </option>
+          <option value="bug">버그 수정</option>
           <option value="feature">기능 추가</option>
         </select>
         <button type="submit">요청하기</button>
