@@ -22,7 +22,7 @@ const VoteBox = ({ item, index }: PropsType) => {
         ))}
       </ul>
       <div>
-        <p>투표기한: {voteTimestamp(item.vote.deadline)}</p>
+        <p>투표기한: {voteTimestamp(item.deadline)}</p>
         <Link to={`/vote/${index}`} state={{ item: item }}>
           투표하러 가기
         </Link>

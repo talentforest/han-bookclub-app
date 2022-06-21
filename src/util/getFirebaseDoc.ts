@@ -23,13 +23,14 @@ export interface VoteItem {
 
 export interface Vote {
   title: string;
-  deadline: string;
+
   voteItem: VoteItem[];
 }
 
 export interface VoteDocument {
   createdAt: number;
   creatorId: string;
+  deadline: string;
   id: string;
   vote: Vote;
 }

@@ -1,91 +1,20 @@
 import { Add, CheckCircleOutline, Close } from "@mui/icons-material";
-import { currentUserState } from "data/userAtom";
-import { dbService } from "fbase";
-import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
 import styled from "styled-components";
+import useCreateVoteBox from "hooks/useCreateVoteBox";
 
 interface PropsType {
   setModalOpen: (modalOpen: boolean) => void;
 }
 
 const VoteCreateBox = ({ setModalOpen }: PropsType) => {
-  const userData = useRecoilValue(currentUserState);
   const [endDate, setEndDate] = useState(new Date());
-  const [vote, setVote] = useState({
-    title: "",
-    deadline: "",
-    voteItem: [
-      { id: 1, item: "", voteCount: 0 },
-      { id: 2, item: "", voteCount: 0 },
-    ],
-  });
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    try {
-      if (!vote.title) return;
-      await addDoc(collection(dbService, "Vote"), {
-        createdAt: Date.now(),
-        creatorId: userData.uid,
-        vote,
-      });
-      window.alert("투표가 성공적으로 등록되었습니다!");
-      setModalOpen(false);
-    } catch (error) {
-      console.error("Error adding document:", error);
-    }
-  };
-
-  const onChange = (
-    event: React.FormEvent<HTMLInputElement>,
-    index?: number
-  ) => {
-    const { name, value } = event.currentTarget;
-
-    if (name === "title") {
-      const newVote = { ...vote, title: value };
-      setVote(newVote);
-    }
-    if (name === "deadline") {
-      const newVote = { ...vote, deadline: value };
-      setVote(newVote);
-    }
-    if (name === `vote_item${index}`) {
-      const newVote = {
-        ...vote,
-        voteItem: vote.voteItem.map((item) =>
-          item.id === index + 1 ? { ...item, item: value } : item
-        ),
-      };
-      setVote(newVote);
-    }
-  };
-
-  const onPlusClick = () => {
-    if (vote.voteItem.length > 7) return;
-
-    const newVote = {
-      ...vote,
-      voteItem: [
-        ...vote.voteItem,
-        { id: vote.voteItem.length + 1, item: "", voteCount: 0 },
-      ],
-    };
-    setVote(newVote);
-  };
-
-  const onDeleteClick = (index: number) => {
-    const newVote = {
-      ...vote,
-      voteItem: vote.voteItem.filter((item) => item.id !== index + 1),
-    };
-    setVote(newVote);
-  };
+  const { vote, onSubmit, onChange, onPlusClick, onDeleteClick } =
+    useCreateVoteBox(setModalOpen, endDate);
 
   return (
     <CreateBox onSubmit={onSubmit}>
@@ -128,6 +57,7 @@ const VoteCreateBox = ({ setModalOpen }: PropsType) => {
         <Deadline>
           <span>투표 종료일</span>
           <DatePick
+            name="datepick"
             selected={endDate}
             onChange={(date: Date) => setEndDate(date)}
             selectsEnd

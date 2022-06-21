@@ -47,7 +47,7 @@ const VoteDetail = () => {
           creatorId: userData.uid,
           voteId: item.id,
           voteTitle: item.vote.title,
-          voteDeadline: item.vote.deadline,
+          voteDeadline: item.deadline,
           votedItem: selectedItem,
         }
       );
@@ -112,7 +112,7 @@ const VoteDetail = () => {
         {myVote.length ? (
           <>
             <form>
-              <p>투표기한: {voteTimestamp(item.vote.deadline)}</p>
+              <p>투표기한: {voteTimestamp(item.deadline)}</p>
               <h4>Q. {item.vote.title}</h4>
               <Votelist className={"disalbe"}>
                 {item.vote.voteItem.map((item) => (
@@ -148,7 +148,7 @@ const VoteDetail = () => {
           </>
         ) : (
           <form onSubmit={onSubmit}>
-            <p>투표기한: {voteTimestamp(item.vote.deadline)}</p>
+            <p>투표기한: {voteTimestamp(item.deadline)}</p>
             <h4>Q. {item.vote.title}</h4>
             <Votelist className={disabled ? "disalbe" : ""}>
               {item.vote.voteItem.map((item) => (
