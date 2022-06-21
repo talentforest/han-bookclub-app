@@ -1,15 +1,14 @@
-import { CheckCircleOutline, Delete, Replay } from "@mui/icons-material";
-import { EditDeleteIcon } from "components/bookmeeting/Subjects";
+import { CheckCircleOutline, Replay } from "@mui/icons-material";
 import { currentUserState } from "data/userAtom";
 import { dbService } from "fbase";
-import { deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { getMyVote, VoteDocument, VoteItem } from "util/getFirebaseDoc";
-import { voteTimestamp } from "util/timestamp";
 import styled from "styled-components";
 import Subtitle from "components/common/Subtitle";
+import { dDay } from "util/timestamp";
 
 type LocationState = { item: VoteDocument };
 
@@ -22,7 +21,6 @@ const VoteDetail = () => {
   const [voteItem, setVoteItem] = useState(item.vote.voteItem);
   const [myVote, setMyVote] = useState([]);
 
-  const navigate = useNavigate();
   const userData = useRecoilValue(currentUserState);
   const voteRef = doc(dbService, "Vote", `${item.id}`);
 
@@ -88,31 +86,16 @@ const VoteDetail = () => {
     setSelectedItem([]);
   };
 
-  const onDeleteClick = async () => {
-    const confirm = window.confirm("정말 투표함을 삭제하시겠습니까?");
-    if (confirm) {
-      await deleteDoc(voteRef);
-      navigate(-1);
-    } else {
-      return;
-    }
-  };
-
   return (
     <Container>
       <Header>
         <Subtitle title="투표함" />
-        {userData.uid === item.creatorId && (
-          <EditDeleteIcon>
-            <Delete role="button" onClick={onDeleteClick} />
-          </EditDeleteIcon>
-        )}
       </Header>
       <Vote>
         {myVote.length ? (
           <>
             <form>
-              <p>투표기한: {voteTimestamp(item.deadline)}</p>
+              <p>D-Day: {dDay(item)}</p>
               <h4>Q. {item.vote.title}</h4>
               <Votelist className={"disalbe"}>
                 {item.vote.voteItem.map((item) => (
@@ -148,7 +131,7 @@ const VoteDetail = () => {
           </>
         ) : (
           <form onSubmit={onSubmit}>
-            <p>투표기한: {voteTimestamp(item.deadline)}</p>
+            <p>D-Day: {dDay(item)}</p>
             <h4>Q. {item.vote.title}</h4>
             <Votelist className={disabled ? "disalbe" : ""}>
               {item.vote.voteItem.map((item) => (
