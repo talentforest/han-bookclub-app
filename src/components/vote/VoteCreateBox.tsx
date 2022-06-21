@@ -4,6 +4,9 @@ import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { ko } from "date-fns/esm/locale";
 import styled from "styled-components";
 
 interface PropsType {
@@ -12,6 +15,7 @@ interface PropsType {
 
 const VoteCreateBox = ({ setModalOpen }: PropsType) => {
   const userData = useRecoilValue(currentUserState);
+  const [endDate, setEndDate] = useState(new Date());
   const [vote, setVote] = useState({
     title: "",
     deadline: "",
@@ -86,7 +90,7 @@ const VoteCreateBox = ({ setModalOpen }: PropsType) => {
   return (
     <CreateBox onSubmit={onSubmit}>
       <div>
-        <VoteTitle>
+        <Vote>
           <span>투표 제목</span>
           <Input
             type="text"
@@ -96,22 +100,23 @@ const VoteCreateBox = ({ setModalOpen }: PropsType) => {
             name="title"
             required
           />
-        </VoteTitle>
-        <VoteList>
-          {vote.voteItem.map((item, index: number) => (
-            <li key={index}>
-              <CheckCircleOutline />
-              <Input
-                type="text"
-                placeholder="투표항목을 적어주세요."
-                name={`vote_item${index}`}
-                value={item.item}
-                onChange={(event) => onChange(event, index)}
-                required
-              />
-              {index > 1 && <Close onClick={() => onDeleteClick(index)} />}
-            </li>
-          ))}
+          <ul>
+            <span>투표 항목</span>
+            {vote.voteItem.map((item, index: number) => (
+              <li key={index}>
+                <CheckCircleOutline />
+                <Input
+                  type="text"
+                  placeholder="투표항목을 적어주세요."
+                  name={`vote_item${index}`}
+                  value={item.item}
+                  onChange={(event) => onChange(event, index)}
+                  required
+                />
+                {index > 1 && <Close onClick={() => onDeleteClick(index)} />}
+              </li>
+            ))}
+          </ul>
           <AddVoteItem onClick={onPlusClick}>
             <Add />
             투표항목 추가하기
@@ -119,16 +124,17 @@ const VoteCreateBox = ({ setModalOpen }: PropsType) => {
           {vote.voteItem.length > 7 && (
             <span>투표항목은 8개를 넘을 수 없습니다.</span>
           )}
-        </VoteList>
+        </Vote>
         <Deadline>
-          <span>투표 기한</span>
-          <input
-            id="datepicker"
-            type="date"
-            name="deadline"
-            value={vote.deadline}
-            onChange={(event) => onChange(event)}
-            required
+          <span>투표 종료일</span>
+          <DatePick
+            selected={endDate}
+            onChange={(date: Date) => setEndDate(date)}
+            selectsEnd
+            endDate={endDate}
+            minDate={new Date()}
+            locale={ko}
+            dateFormat="yyyy년 MM월 dd일"
           />
         </Deadline>
       </div>
@@ -147,34 +153,29 @@ const CreateBox = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  margin: 20px;
+  margin: 30px;
   padding: 20px 15px;
   border-radius: 5px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-  background-color: ${(props) => props.theme.container.lightBlue};
+  background-color: ${(props) => props.theme.container.purple};
   > div {
     width: 100%;
-    span:last-child {
-      font-size: 12px;
-      margin-left: 5px;
-      color: ${(props) => props.theme.text.gray};
-    }
   }
   > button {
     cursor: pointer;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     margin-top: 30px;
     padding: 8px;
     border: none;
     border-radius: 5px;
-    background-color: ${(props) => props.theme.container.blue};
-    color: ${(props) => props.theme.text.white};
+    background-color: ${(props) => props.theme.container.yellow};
+    color: ${(props) => props.theme.text.gray};
   }
 `;
 
 const Input = styled.input`
-  font-size: 14px;
+  font-size: 15px;
   width: 100%;
   height: 30px;
   padding-left: 3px;
@@ -187,47 +188,50 @@ const Input = styled.input`
   }
 `;
 
-const VoteTitle = styled.div`
+const Vote = styled.div`
   margin-bottom: 10px;
   padding: 10px;
   width: 100%;
-  font-size: 14px;
+  font-size: 16px;
   border-radius: 5px;
   background-color: ${(props) => props.theme.container.default};
   > span {
-    margin-left: 3px;
+    display: block;
+    margin-bottom: 6px;
     font-weight: 700;
   }
-`;
-
-const VoteList = styled.ul`
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: ${(props) => props.theme.container.default};
-  li {
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-    &:last-child {
-      margin-bottom: 0;
+  > ul {
+    margin-top: 20px;
+    span {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+      font-weight: 700;
     }
-    svg {
-      margin-right: 5px;
-      width: 16px;
-      height: 16px;
+    li {
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
       &:last-child {
-        position: absolute;
-        right: 0;
-        cursor: pointer;
-        width: 14px;
-        height: 14px;
+        margin-bottom: 0;
       }
-    }
-    input {
-      width: 100%;
-      height: 30px;
+      svg {
+        margin-right: 5px;
+        width: 16px;
+        height: 16px;
+        &:last-child {
+          position: absolute;
+          right: 0;
+          cursor: pointer;
+          width: 14px;
+          height: 14px;
+        }
+      }
+      input {
+        width: 100%;
+        height: 30px;
+      }
     }
   }
 `;
@@ -239,11 +243,24 @@ const Deadline = styled.div`
   padding: 10px 10px;
   background-color: ${(props) => props.theme.container.default};
   span {
-    font-size: 13px;
-    margin-bottom: 3px;
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
   }
-  input {
-    height: 32px;
+`;
+
+const DatePick = styled(DatePicker)`
+  width: 100%;
+  height: 32px;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 15px;
+  border: 1px solid ${(props) => props.theme.text.lightGray};
+  cursor: pointer;
+  &:focus {
+    outline: none;
+    border: 1px solid ${(props) => props.theme.container.blue};
   }
 `;
 
@@ -253,6 +270,7 @@ const AddVoteItem = styled.div`
   display: flex;
   align-items: center;
   font-size: 13px;
+  margin-top: 15px;
   color: ${(props) => props.theme.text.accent};
   svg {
     width: 18px;
