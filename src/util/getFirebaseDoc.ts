@@ -15,7 +15,7 @@ export interface thisYearField {
   value: string;
 }
 
-interface VoteItem {
+export interface VoteItem {
   id: number;
   item: string;
   voteCount: number;
@@ -152,5 +152,29 @@ export const getVote = async (setState: (voteDoc: VoteDocument[]) => void) => {
       } as VoteDocument;
     });
     setState(newArray);
+  });
+};
+
+export const getMyVote = async (
+  id: string,
+  uid: string,
+  setState: (myVoteDoc: VoteDocument[]) => void
+) => {
+  const q = query(
+    collection(dbService, `Vote/${id}/Voted Items`),
+    orderBy("createdAt", "desc")
+  );
+
+  onSnapshot(q, (querySnapshot) => {
+    const newArray = querySnapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      } as VoteDocument;
+    });
+
+    const myVote = newArray.filter((item) => item.id === uid);
+
+    setState(myVote);
   });
 };

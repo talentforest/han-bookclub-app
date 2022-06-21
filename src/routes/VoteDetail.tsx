@@ -3,10 +3,10 @@ import { EditDeleteIcon } from "components/bookmeeting/Subjects";
 import { currentUserState } from "data/userAtom";
 import { dbService } from "fbase";
 import { deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { VoteDocument } from "util/getFirebaseDoc";
+import { getMyVote, VoteDocument, VoteItem } from "util/getFirebaseDoc";
 import { voteTimestamp } from "util/timestamp";
 import styled from "styled-components";
 import Subtitle from "components/common/Subtitle";
@@ -14,16 +14,26 @@ import Subtitle from "components/common/Subtitle";
 type LocationState = { item: VoteDocument };
 
 const VoteDetail = () => {
+  const location = useLocation();
+  const { item } = location.state as LocationState;
+
   const [disabled, setDisabled] = useState(false);
   const [selectedItem, setSelectedItem] = useState([]);
-  const [voteCount, setVoteCount] = useState({});
-  const [voteAgain, setVoteAgain] = useState(false);
+  const [voteItem, setVoteItem] = useState(item.vote.voteItem);
+  const [myVote, setMyVote] = useState([]);
 
-  const location = useLocation();
   const navigate = useNavigate();
-  const { item } = location.state as LocationState;
   const userData = useRecoilValue(currentUserState);
   const voteRef = doc(dbService, "Vote", `${item.id}`);
+
+  useEffect(() => {
+    getMyVote(item.id, userData.uid, setMyVote);
+
+    return () => {
+      getMyVote(item.id, userData.uid, setMyVote);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -42,42 +52,50 @@ const VoteDetail = () => {
         }
       );
       await updateDoc(voteRef, {
-        voteCount: [...selectedItem.map((item) => item.voteCount)],
+        "vote.voteItem": voteItem,
       });
 
       window.alert("투표가 완료되었습니다!");
       setDisabled(true);
-      setVoteAgain(true);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const onVoteItemClick = (index: number, value: string) => {
+  const onVoteItemClick = (index: number, value: string, voteCount: number) => {
     setSelectedItem([
       ...selectedItem,
-      {
-        id: index,
-        item: value,
-        voteCount: item.vote.voteItem[index - 1].voteCount + 1,
-      },
+      { id: index, item: value, voteCount: voteCount + 1 },
     ]);
-
     if (selectedItem.some((item) => item.id === index)) {
       setSelectedItem(selectedItem.filter((vote) => vote.id !== index));
     }
+
+    setVoteItem(
+      voteItem.map((item) =>
+        item.id === index ? { ...item, voteCount: voteCount + 1 } : item
+      )
+    );
   };
 
-  const onVoteAgainClick = () => {
-    setVoteAgain(false);
+  const onVoteAgainClick = async () => {
+    await updateDoc(voteRef, {
+      "vote.voteItem": voteItem,
+    });
+
     setDisabled(false);
+    setMyVote([]);
     setSelectedItem([]);
   };
 
   const onDeleteClick = async () => {
-    await deleteDoc(voteRef);
-    window.confirm("정말 투표함을 삭제하시겠습니까?");
-    navigate(-1);
+    const confirm = window.confirm("정말 투표함을 삭제하시겠습니까?");
+    if (confirm) {
+      await deleteDoc(voteRef);
+      navigate(-1);
+    } else {
+      return;
+    }
   };
 
   return (
@@ -91,7 +109,44 @@ const VoteDetail = () => {
         )}
       </Header>
       <Vote>
-        {
+        {myVote.length ? (
+          <>
+            <form>
+              <p>투표기한: {voteTimestamp(item.vote.deadline)}</p>
+              <h4>Q. {item.vote.title}</h4>
+              <Votelist className={"disalbe"}>
+                {item.vote.voteItem.map((item) => (
+                  <li
+                    key={item.id}
+                    className={
+                      myVote[0].votedItem.find(
+                        (ele: VoteItem) => ele.id === item.id
+                      )
+                        ? "isActive"
+                        : ""
+                    }
+                  >
+                    <CheckCircleOutline
+                      className={
+                        myVote[0].votedItem.find(
+                          (ele: VoteItem) => ele.id === item.id
+                        )
+                          ? "isActive"
+                          : ""
+                      }
+                    />
+                    <span>{item.item}</span>
+                  </li>
+                ))}
+              </Votelist>
+            </form>
+            <SubmitButton className={"disalbe"}>투표하기</SubmitButton>
+            <AgainButton onClick={onVoteAgainClick}>
+              다시 투표하기
+              <Replay />
+            </AgainButton>
+          </>
+        ) : (
           <form onSubmit={onSubmit}>
             <p>투표기한: {voteTimestamp(item.vote.deadline)}</p>
             <h4>Q. {item.vote.title}</h4>
@@ -99,7 +154,9 @@ const VoteDetail = () => {
               {item.vote.voteItem.map((item) => (
                 <li
                   key={item.id}
-                  onClick={() => onVoteItemClick(item.id, item.item)}
+                  onClick={() =>
+                    onVoteItemClick(item.id, item.item, item.voteCount)
+                  }
                   className={
                     selectedItem.find((ele) => ele.id === item.id)
                       ? "isActive"
@@ -120,14 +177,8 @@ const VoteDetail = () => {
             <SubmitButton type="submit" className={disabled ? "disalbe" : ""}>
               투표하기
             </SubmitButton>
-            {voteAgain ? (
-              <AgainButton onClick={onVoteAgainClick}>
-                다시 투표하기
-                <Replay />
-              </AgainButton>
-            ) : null}
           </form>
-        }
+        )}
       </Vote>
     </Container>
   );
