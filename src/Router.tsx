@@ -20,6 +20,7 @@ import ResetPasswordEmail from "routes/ResetPasswordEmail";
 import EditPassword from "routes/EditPassword";
 import VoteDetail from "routes/VoteDetail";
 import UpdateRequest from "routes/UpdateRequest";
+import DeleteAccount from "components/settings/DeleteAccount";
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -59,8 +60,12 @@ function Router({ isLoggedIn }: PropsType) {
               <Route path="/vote/:id" element={<VoteDetail />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/setting" element={<Setting />} />
-              <Route path="/setting/editprofile" element={<EditProfile />} />
-              <Route path="/setting/editpassword" element={<EditPassword />} />
+              <Route path="/setting/edit-profile" element={<EditProfile />} />
+              <Route path="/setting/edit-password" element={<EditPassword />} />
+              <Route
+                path="/setting/delete-account"
+                element={<DeleteAccount />}
+              />
               <Route
                 path="/setting/update-request"
                 element={<UpdateRequest />}

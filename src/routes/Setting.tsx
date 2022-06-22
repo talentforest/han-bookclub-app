@@ -2,7 +2,6 @@ import { Container } from "theme/commonStyle";
 import { Link } from "react-router-dom";
 import LogOutButton from "components/settings/LogOutButton";
 import styled from "styled-components";
-import DeleteAccountButton from "components/settings/DeleteAccountButton";
 import BackButtonHeader from "components/common/BackButtonHeader";
 
 const Setting = () => {
@@ -13,10 +12,10 @@ const Setting = () => {
         <span>사용자 설정</span>
         <ul>
           <li>
-            <Link to="editprofile">프로필 편집</Link>
+            <Link to="edit-profile">프로필 편집</Link>
           </li>
           <li>
-            <Link to="editpassword">비밀번호 변경하기</Link>
+            <Link to="edit-password">비밀번호 변경하기</Link>
           </li>
         </ul>
         <span>의견사항</span>
@@ -31,7 +30,7 @@ const Setting = () => {
             <LogOutButton />
           </li>
           <li>
-            <DeleteAccountButton />
+            <Link to="delete-account">탈퇴</Link>
           </li>
         </ul>
       </NewContainer>
