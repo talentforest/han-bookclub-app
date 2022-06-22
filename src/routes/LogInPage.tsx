@@ -18,7 +18,11 @@ const LogInPage = () => {
       await signInWithEmailAndPassword(authService, email, password);
       navigator("/");
     } catch (error) {
-      setError((error as Error).message);
+      if ((error as Error).message.includes("user-not-found"))
+        return setError("해당 유저의 정보를 찾을 수 없습니다.");
+
+      if ((error as Error).message.includes("password"))
+        return setError("비밀번호가 일치하지 않습니다.");
     }
   };
 
@@ -118,7 +122,8 @@ const Logo = styled.div`
 
 const ErrorMessage = styled.span`
   font-size: 12px;
-  padding-bottom: 10px;
+  padding: 0 30px 10px;
+  color: ${(props) => props.theme.text.accent};
 `;
 
 const Footer = styled.footer`
