@@ -166,7 +166,6 @@ export const getVote = async (setState: (voteDoc: VoteDocument[]) => void) => {
 
 export const getMyVote = async (
   id: string,
-  uid: string,
   setState: (myVoteDoc: VoteDocument[]) => void
 ) => {
   const q = query(
@@ -182,9 +181,7 @@ export const getMyVote = async (
       } as VoteDocument;
     });
 
-    const myVote = newArray.filter((item) => item.id === uid);
-
-    setState(myVote);
+    setState(newArray);
   });
 };
 

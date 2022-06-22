@@ -60,10 +60,13 @@ const BookDetail = styled.ul`
   padding: 15px;
   width: 95%;
   > div {
+    width: 100%;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
     > h3 {
       font-size: 16px;
-      margin-bottom: 10px;
       font-weight: 700;
     }
     > svg {

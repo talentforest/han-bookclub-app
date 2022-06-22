@@ -116,6 +116,7 @@ export const Overlay = styled.div`
 `;
 
 const Form = styled.form`
+  z-index: 2;
   position: fixed;
   top: 50px;
   right: 0;

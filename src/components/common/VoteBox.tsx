@@ -12,8 +12,8 @@ interface PropsType {
 const VoteBox = ({ item, index }: PropsType) => {
   return (
     <Vote>
-      <h4>Q. {item.vote.title}</h4>
       <ul>
+        <h4>Q. {item.vote.title}</h4>
         {item.vote?.voteItem?.map((item) => (
           <li key={item.id}>
             <CheckCircleOutline />
@@ -32,20 +32,22 @@ const VoteBox = ({ item, index }: PropsType) => {
 };
 
 const Vote = styled.div`
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 300px;
   border-radius: 10px;
   padding: 15px 20px 10px;
-  margin: 10px 10px 15px 0;
+  margin: 10px auto 15px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-  > h4 {
-    font-size: 14px;
-    font-weight: 700;
-    border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-  }
   > ul {
+    > h4 {
+      font-size: 14px;
+      font-weight: 700;
+      border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
+      padding-bottom: 10px;
+    }
     > li {
       font-size: 14px;
       border: 1px solid ${(props) => props.theme.container.blue};
@@ -76,8 +78,7 @@ const Vote = styled.div`
     > a {
       color: ${(props) => props.theme.text.accent};
       font-size: 12px;
-      width: 100%;
-      text-align: end;
+      width: 100px;
     }
   }
 `;

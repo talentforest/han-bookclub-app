@@ -1,7 +1,7 @@
 import { AccessTime, Book, KeyboardArrowUp, Place } from "@mui/icons-material";
 import { BookDocument } from "data/bookAtom";
 import { useEffect, useState } from "react";
-import { getReviews, getSubjects } from "util/getFirebaseDoc";
+import { getAllRecommends, getReviews, getSubjects } from "util/getFirebaseDoc";
 import Subtitle from "components/common/Subtitle";
 import Subjects from "components/bookmeeting/Subjects";
 import Reviews from "components/bookmeeting/Reviews";
@@ -27,6 +27,7 @@ interface PropsType {
 const HistoryBox = ({ item }: PropsType) => {
   const [subjects, setSubjects] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [recommends, setRecommends] = useState([]);
   const [folderOpen, setFolderOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("subjects");
   const docMonth = item.id;
@@ -34,9 +35,11 @@ const HistoryBox = ({ item }: PropsType) => {
   useEffect(() => {
     getSubjects(item.id, setSubjects);
     getReviews(item.id, setReviews);
+    getAllRecommends(item.id, setRecommends);
     return () => {
       getSubjects(item.id, setSubjects);
       getReviews(item.id, setReviews);
+      getAllRecommends(item.id, setRecommends);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -48,6 +51,7 @@ const HistoryBox = ({ item }: PropsType) => {
   const onButtonClick = (name: string) => {
     if (name === "subjects") return setSelectedCategory("subjects");
     if (name === "reviews") return setSelectedCategory("reviews");
+    if (name === "recommend") return setSelectedCategory("recommend");
   };
 
   return (
@@ -106,6 +110,12 @@ const HistoryBox = ({ item }: PropsType) => {
             >
               모임 후기 보기
             </button>
+            <button
+              onClick={() => onButtonClick("recommend")}
+              className={selectedCategory === "recommend" ? "isActive" : ""}
+            >
+              추천책 보기
+            </button>
           </BookSection>
           {selectedCategory === "subjects" &&
             (subjects.length !== 0 ? (
@@ -123,6 +133,14 @@ const HistoryBox = ({ item }: PropsType) => {
             ) : (
               <EmptyRecord>기록된 모임 후기가 아직 없어요.</EmptyRecord>
             ))}
+          {selectedCategory === "recommend" &&
+            (recommends.length !== 0 ? (
+              recommends.map((item) => (
+                <Reviews key={item.id} item={item} docMonth={docMonth} />
+              ))
+            ) : (
+              <EmptyRecord>기록된 추천책이 아직 없어요.</EmptyRecord>
+            ))}
         </>
       ) : (
         <></>
@@ -133,6 +151,7 @@ const HistoryBox = ({ item }: PropsType) => {
 
 const BookSection = styled.div`
   button {
+    cursor: pointer;
     padding: 3px 0;
     font-size: 10px;
     font-weight: 700;
@@ -186,6 +205,8 @@ const Record = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
+  width: fit-content;
+  cursor: pointer;
   h3 {
     font-size: 12px;
     font-weight: 700;

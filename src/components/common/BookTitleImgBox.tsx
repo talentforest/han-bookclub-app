@@ -12,8 +12,12 @@ const BookTitleImgBox = ({ docData, onModalOpen, smSize }: PropsType) => {
   return (
     <>
       {docData ? (
-        <BookCoverTitleBox onClick={onModalOpen} smSize={smSize}>
-          <img src={docData?.thumbnail} alt="Book_Image" />
+        <BookCoverTitleBox smSize={smSize}>
+          <img
+            src={docData?.thumbnail}
+            alt="Book_Image"
+            onClick={onModalOpen}
+          />
           <h3>{docData?.title}</h3>
         </BookCoverTitleBox>
       ) : (

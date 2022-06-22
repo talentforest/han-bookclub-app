@@ -5,6 +5,7 @@ import { thisMonth } from "util/constants";
 import {
   getBookMeetingInfoData,
   getThisYearBookField,
+  getVote,
   thisYearField,
 } from "util/getFirebaseDoc";
 import LinkButton from "components/common/LinkButton";
@@ -14,19 +15,23 @@ import MeetingInfoBox from "components/common/MeetingInfoBox";
 import Title from "components/common/Title";
 import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
+import VoteBox from "components/common/VoteBox";
 
 const Home = () => {
   const [bookMeetingInfoDoc, setBookMeetingInfoDoc] = useState([]);
   const [bookfieldDoc, setBookfieldDoc] = useState([]);
   const { windowSize } = useWindowSize();
+  const [voteDoc, setVoteDoc] = useState([]);
 
   useEffect(() => {
     getBookMeetingInfoData(setBookMeetingInfoDoc);
     getThisYearBookField(setBookfieldDoc);
+    getVote(setVoteDoc);
 
     return () => {
       getBookMeetingInfoData(setBookMeetingInfoDoc);
       getThisYearBookField(setBookfieldDoc);
+      getVote(setVoteDoc);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -49,7 +54,7 @@ const Home = () => {
         <section>
           <Subtitle title={`${thisMonth}월의 모임 일정`} />
           <p>한페이지 북클럽 멤버는 매월 셋째주 일요일에 만나요.</p>
-          <MeetingInfoBox docData={bookMeetingInfoDoc[0]} />
+          <MeetingInfoBox docData={bookMeetingInfoDoc[0]?.meeting} />
           <LinkButton
             link={"/bookmeeting/review"}
             title="모임 후기 작성하러 가기"
@@ -57,8 +62,14 @@ const Home = () => {
         </section>
         <section>
           <Subtitle title={`${thisMonth}월의 투표`} />
-          <ScrollContainer></ScrollContainer>
-          <LinkButton link={"/vote"} title="투표하러 가기" />
+          <ScrollContainer>
+            <div>
+              {voteDoc.slice(0, 3).map((item, index) => (
+                <VoteBox key={item.id} item={item} index={index} />
+              ))}
+            </div>
+          </ScrollContainer>
+          <LinkButton link={"/vote"} title="투표 더보기" />
         </section>
         <section>
           <Subtitle title={`한페이지의 독서 분야 일정`} />
@@ -102,21 +113,24 @@ const NewContainer = styled(Container)`
     }
   }
   > section:first-child {
-    > h1 {
+    > h3 {
       margin-top: 0;
     }
   }
 `;
 
 const ScrollContainer = styled.div`
-  width: 100%;
-  overflow: auto;
-  margin-left: -5px;
-  border: 1px solid red;
+  overflow: scroll;
   > div {
-    width: fit-content;
-    padding: 5px;
+    overflow: hidden;
     display: flex;
+    width: fit-content;
+    > div {
+      margin-right: 15px;
+      > ul {
+        max-height: 200px;
+      }
+    }
   }
 `;
 
@@ -124,7 +138,6 @@ const ScheduleBox = styled.ul`
   border-radius: 10px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-  margin-bottom: 100px;
   padding: 10px 20px;
   li {
     border-bottom: 1px solid ${(props) => props.theme.text.lightGray};

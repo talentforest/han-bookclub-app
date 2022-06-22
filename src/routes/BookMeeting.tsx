@@ -10,6 +10,7 @@ import {
 } from "util/getFirebaseDoc";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
+import { thisYearMonth } from "util/constants";
 import Title from "components/common/Title";
 import styled from "styled-components";
 import BookDesc from "components/common/BookDesc";
@@ -17,13 +18,12 @@ import ReviewCreateBox from "components/bookmeeting/ReviewCreateBox";
 import Reviews from "components/bookmeeting/Reviews";
 import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
 import Subjects from "components/bookmeeting/Subjects";
-import EditMeetingInfo from "components/bookmeeting/EditMeetingInfo";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import BookRecomCreateBox from "components/bookmeeting/BookRecomCreateBox";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
-import { thisYearMonth } from "util/constants";
+import MeetingInfoBox from "components/common/MeetingInfoBox";
 
-interface meetingType {
+export interface meetingType {
   time: string;
   place: string;
 }
@@ -79,7 +79,7 @@ const BookMeeting = () => {
             docData={bookMeetingDocData[0]?.book}
             onModalOpen={onModalOpen}
           />
-          <EditMeetingInfo docData={bookMeetingDocData[0]} />
+          <MeetingInfoBox docData={bookMeetingDocData[0]?.meeting} />
         </MeetingBox>
         {showBookDetail && (
           <BookDetail>
@@ -182,6 +182,7 @@ const MeetingBox = styled.div`
 `;
 
 const BookDetail = styled.div`
+  z-index: 1;
   position: fixed;
   height: 100vh;
   top: 0px;

@@ -36,7 +36,6 @@ const Profile = () => {
         <section>
           <Subtitle title="내가 추천한 책" />
           <span>내가 추천한 책들을 볼 수 있어요.</span>
-          <MyRecords />
         </section>
       </NewContainer>
     </>

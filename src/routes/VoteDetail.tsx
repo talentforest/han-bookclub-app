@@ -1,14 +1,16 @@
-import { CheckCircleOutline, Replay } from "@mui/icons-material";
+import { CheckCircleOutline } from "@mui/icons-material";
 import { currentUserState } from "data/userAtom";
 import { dbService } from "fbase";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { getMyVote, VoteDocument, VoteItem } from "util/getFirebaseDoc";
-import styled from "styled-components";
-import Subtitle from "components/common/Subtitle";
 import { dDay } from "util/timestamp";
+import { getMyVote, VoteDocument, VoteItem } from "util/getFirebaseDoc";
+import { percentage } from "util/percentage";
+import styled from "styled-components";
+import BackButtonHeader from "components/common/BackButtonHeader";
+import { Container } from "theme/commonStyle";
 
 type LocationState = { item: VoteDocument };
 
@@ -19,16 +21,16 @@ const VoteDetail = () => {
   const [disabled, setDisabled] = useState(false);
   const [selectedItem, setSelectedItem] = useState([]);
   const [voteItem, setVoteItem] = useState(item.vote.voteItem);
-  const [myVote, setMyVote] = useState([]);
+  const [membersVote, setMembersVote] = useState([]);
 
   const userData = useRecoilValue(currentUserState);
   const voteRef = doc(dbService, "Vote", `${item.id}`);
 
   useEffect(() => {
-    getMyVote(item.id, userData.uid, setMyVote);
+    getMyVote(item.id, setMembersVote);
 
     return () => {
-      getMyVote(item.id, userData.uid, setMyVote);
+      getMyVote(item.id, setMembersVote);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -76,40 +78,26 @@ const VoteDetail = () => {
     );
   };
 
-  const onVoteAgainClick = async () => {
-    await updateDoc(voteRef, {
-      "vote.voteItem": voteItem,
-    });
-
-    setDisabled(false);
-    setMyVote([]);
-    setSelectedItem([]);
-  };
+  const myVote = membersVote.filter((item) => item.id === userData.uid);
+  const totalCount = voteItem
+    .map((item) => item.voteCount)
+    .reduce((prev, curr) => prev + curr);
 
   return (
-    <Container>
-      <Header>
-        <Subtitle title="투표함" />
-      </Header>
-      <Vote>
-        {myVote.length ? (
-          <>
-            <form>
-              <p>D-Day: {dDay(item)}</p>
-              <h4>Q. {item.vote.title}</h4>
-              <Votelist className={"disalbe"}>
-                {item.vote.voteItem.map((item) => (
-                  <li
-                    key={item.id}
-                    className={
-                      myVote[0].votedItem.find(
-                        (ele: VoteItem) => ele.id === item.id
-                      )
-                        ? "isActive"
-                        : ""
-                    }
-                  >
-                    <CheckCircleOutline
+    <>
+      <BackButtonHeader title="투표함" />
+      <Container>
+        <Vote>
+          {myVote.length ? (
+            <>
+              <form>
+                <p>D-Day: {dDay(item)}</p>
+                <h4>Q. {item.vote.title}</h4>
+                <span>투표인원: {membersVote.length}명</span>
+                <Votelist className={"disalbe"}>
+                  {item.vote.voteItem.map((item, index) => (
+                    <li
+                      key={item.id}
                       className={
                         myVote[0].votedItem.find(
                           (ele: VoteItem) => ele.id === item.id
@@ -117,77 +105,92 @@ const VoteDetail = () => {
                           ? "isActive"
                           : ""
                       }
-                    />
-                    <span>{item.item}</span>
-                  </li>
-                ))}
-              </Votelist>
-            </form>
-            <SubmitButton className={"disalbe"}>투표하기</SubmitButton>
-            <AgainButton onClick={onVoteAgainClick}>
-              다시 투표하기
-              <Replay />
-            </AgainButton>
-          </>
-        ) : (
-          <form onSubmit={onSubmit}>
-            <p>D-Day: {dDay(item)}</p>
-            <h4>Q. {item.vote.title}</h4>
-            <Votelist className={disabled ? "disalbe" : ""}>
-              {item.vote.voteItem.map((item) => (
-                <li
-                  key={item.id}
-                  onClick={() =>
-                    onVoteItemClick(item.id, item.item, item.voteCount)
-                  }
-                  className={
-                    selectedItem.find((ele) => ele.id === item.id)
-                      ? "isActive"
-                      : ""
-                  }
-                >
-                  <CheckCircleOutline
+                    >
+                      <CheckCircleOutline
+                        className={
+                          myVote[0].votedItem.find(
+                            (ele: VoteItem) => ele.id === item.id
+                          )
+                            ? "isActive"
+                            : ""
+                        }
+                      />
+                      <span>{item.item}</span>
+                      <Percentage
+                        style={{
+                          width: `${percentage(
+                            voteItem[index].voteCount,
+                            totalCount
+                          )}%`,
+                        }}
+                      >
+                        {percentage(voteItem[index].voteCount, totalCount)}%
+                      </Percentage>
+                    </li>
+                  ))}
+                </Votelist>
+              </form>
+              <SubmitButton className={"disalbe"}>투표하기</SubmitButton>
+            </>
+          ) : (
+            <form onSubmit={onSubmit}>
+              <p>D-Day: {dDay(item)}</p>
+              <h4>Q. {item.vote.title}</h4>
+              <span>투표인원: {membersVote.length}명</span>
+              <Votelist className={disabled ? "disalbe" : ""}>
+                {item.vote.voteItem.map((item, index) => (
+                  <li
+                    key={item.id}
+                    onClick={() =>
+                      onVoteItemClick(item.id, item.item, item.voteCount)
+                    }
                     className={
                       selectedItem.find((ele) => ele.id === item.id)
                         ? "isActive"
                         : ""
                     }
-                  />
-                  <span>{item.item}</span>
-                </li>
-              ))}
-            </Votelist>
-            <SubmitButton type="submit" className={disabled ? "disalbe" : ""}>
-              투표하기
-            </SubmitButton>
-          </form>
-        )}
-      </Vote>
-    </Container>
+                  >
+                    <CheckCircleOutline
+                      className={
+                        selectedItem.find((ele) => ele.id === item.id)
+                          ? "isActive"
+                          : ""
+                      }
+                    />
+                    <span>{item.item}</span>
+                    <Percentage
+                      style={{
+                        width: `${percentage(
+                          voteItem[index].voteCount,
+                          totalCount
+                        )}%`,
+                      }}
+                    >
+                      {percentage(voteItem[index].voteCount, totalCount)}%
+                    </Percentage>
+                  </li>
+                ))}
+              </Votelist>
+              <SubmitButton type="submit" className={disabled ? "disalbe" : ""}>
+                투표하기
+              </SubmitButton>
+            </form>
+          )}
+        </Vote>
+      </Container>
+    </>
   );
 };
-
-const Container = styled.div`
-  padding: 20px 10px;
-`;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 10px 20px;
-  h3 {
-    margin: 0;
-  }
-`;
 
 const Vote = styled.div`
   width: 100%;
   padding: 0 20px;
   > form {
     > h4 {
+      font-size: 18px;
+      font-weight: 700;
       padding-bottom: 10px;
-      margin-bottom: 15px;
+      margin: 15px 0;
       border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
     }
     > p {
@@ -208,6 +211,7 @@ const Votelist = styled.ul`
     pointer-events: none;
   }
   > li {
+    position: relative;
     cursor: pointer;
     border: 1px solid ${(props) => props.theme.text.lightGray};
     border-radius: 5px;
@@ -216,11 +220,12 @@ const Votelist = styled.ul`
     background-color: ${(props) => props.theme.container.default};
     display: flex;
     align-items: center;
-    height: 35px;
+    height: 45px;
     &.isActive {
       border: 2px solid ${(props) => props.theme.container.blue};
     }
     > svg {
+      z-index: 1;
       width: 18px;
       height: 18px;
       margin-right: 5px;
@@ -230,9 +235,24 @@ const Votelist = styled.ul`
       }
     }
     > span {
+      z-index: 1;
       padding-top: 3px;
     }
   }
+`;
+
+const Percentage = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  color: ${(props) => props.theme.text.white};
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  border-radius: 3px;
+  background-color: ${(props) => props.theme.container.purple};
 `;
 
 const SubmitButton = styled.button`
@@ -245,32 +265,12 @@ const SubmitButton = styled.button`
   cursor: pointer;
   border-radius: 5px;
   font-weight: 700;
-  font-size: 12px;
+  font-size: 14px;
+  height: 40px;
   &.disalbe {
     pointer-events: none;
     background-color: ${(props) => props.theme.text.lightGray};
     color: ${(props) => props.theme.text.gray};
-  }
-`;
-
-const AgainButton = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  text-align: center;
-  border-radius: 5px;
-  font-weight: 700;
-  font-size: 12px;
-  padding: 10px 0 6px;
-  margin-bottom: 30px;
-  width: 100%;
-  background-color: ${(props) => props.theme.container.yellow};
-  color: ${(props) => props.theme.text.accent};
-  svg {
-    width: 16px;
-    height: 16px;
-    fill: ${(props) => props.theme.text.accent};
   }
 `;
 

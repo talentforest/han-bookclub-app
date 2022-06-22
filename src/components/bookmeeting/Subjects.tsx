@@ -121,7 +121,6 @@ const Subjects = ({ item, onSubjectRemove, docMonth }: ISubject) => {
 };
 
 const TextBox = styled.div`
-  position: relative;
   box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.3);
   margin: 10px 0;
   padding: 10px;
@@ -140,6 +139,7 @@ const TextBox = styled.div`
 `;
 
 export const FormHeader = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   padding-bottom: 5px;
@@ -172,8 +172,8 @@ export const EditDeleteIcon = styled.div`
 
 export const GuideTextBox = styled.span`
   position: absolute;
-  right: 12px;
-  top: 34px;
+  right: 0px;
+  top: 30px;
   font-size: 10px;
   color: ${(props) => props.theme.text.accent};
   background-color: ${(props) => props.theme.container.yellow};

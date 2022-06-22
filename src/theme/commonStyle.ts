@@ -40,7 +40,6 @@ export const ButtonHeader = styled(Header)`
 export const Container = styled.main`
   min-height: 100vh;
   padding: 0 15px;
-  margin-bottom: 50px;
   @media ${device.mobile} {
     padding: 10px 15px 80px;
   }

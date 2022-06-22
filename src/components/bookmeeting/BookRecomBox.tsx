@@ -107,13 +107,13 @@ const BookRecomBox = ({ item, thisMonthBook }: PropsType) => {
 };
 
 const TextBox = styled.div`
-  position: relative;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   margin-top: 10px;
   padding: 10px;
   background-color: ${(props) => props.theme.container.default};
   border-radius: 5px;
   pre {
+    position: relative;
     white-space: pre-wrap;
     word-wrap: break-word;
     line-height: 22px;
