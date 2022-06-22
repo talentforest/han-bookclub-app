@@ -120,8 +120,9 @@ const Logo = styled.div`
   }
 `;
 
-const ErrorMessage = styled.span`
-  font-size: 12px;
+export const ErrorMessage = styled.span`
+  font-size: 13px;
+  font-weight: 700;
   padding: 0 30px 10px;
   color: ${(props) => props.theme.text.accent};
 `;

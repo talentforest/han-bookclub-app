@@ -1,4 +1,10 @@
-import { Button, Desc, Form, Input } from "theme/commonStyle";
+import { useState } from "react";
+import { Button, Container, Desc, Form, Input } from "theme/commonStyle";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { authService } from "fbase";
+import BackButtonHeader from "components/common/BackButtonHeader";
+import styled from "styled-components";
+import { ErrorMessage } from "routes/LogInPage";
 
 interface PropsType {
   email: string;
@@ -19,32 +25,43 @@ const AccountForm = ({
   setCheckPassword,
   setIsShowingUserDataInput,
 }: PropsType) => {
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [emailMessage, setEmailMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [accountMessage, setAccountMessage] = useState("");
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       if (password !== checkPassword) {
-        alert("비밀번호가 일치하지 않습니다.");
+        setErrorMessage("비밀번호가 일치하지 않아요.");
         return;
       } else {
-        const checkEmail = window.confirm(
-          `유효한 이메일을 작성하셔야 비밀번호 찾기 등 다른 기능을 제대로 이용할 수 있어요! ${email}이 맞는지 다시 한번 확인해주세요.`
-        );
-        if (!checkEmail) return;
-
+        await createUserWithEmailAndPassword(authService, email, password);
+        window.alert("계정이 생성되었어요!");
         setIsShowingUserDataInput(true);
       }
     } catch (error) {
-      console.error(error);
+      if ((error as Error).message.includes("email-already-in-use"))
+        return setAccountMessage(
+          "이미 사용되고 있는 이메일 계정입니다. 다른 이메일을 사용해주세요."
+        );
     }
   };
+
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
     const {
       currentTarget: { name, value },
     } = event;
     if (name === "email") {
       setEmail(value);
+      setEmailMessage(
+        "유효한 이메일을 작성하셔야 비밀번호 찾기 등 다른 기능을 제대로 이용할 수 있어요. 이메일이 맞는지 다시 한번 확인해주세요."
+      );
+      setAccountMessage("");
     } else if (name === "password") {
       setPassword(value);
+      setEmailMessage("");
+      setErrorMessage("");
     } else if (name === "checkPassword") {
       setCheckPassword(value);
     }
@@ -52,39 +69,58 @@ const AccountForm = ({
 
   return (
     <>
-      <Desc>사용하실 계정 정보를 입력해 주세요</Desc>
-      <Form onSubmit={onSubmit}>
-        <Input
-          name="email"
-          type="email"
-          placeholder="자주 사용하는 이메일 계정을 입력해주세요."
-          value={email}
-          onChange={onChange}
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-          required
-        />
-        <Input
-          name="password"
-          type="password"
-          placeholder="비밀번호는 8자 이상이어야 합니다."
-          value={password}
-          onChange={onChange}
-          autoComplete="on"
-          required
-        />
-        <Input
-          name="checkPassword"
-          type="password"
-          placeholder="비밀번호를 다시 한번 입력해주세요."
-          value={checkPassword}
-          onChange={onChange}
-          autoComplete="on"
-          required
-        />
-        <Button type="submit" value="다음으로" />
-      </Form>
+      <BackButtonHeader title="계정 생성하기" />
+      <Container>
+        <Desc>사용하실 계정 정보를 입력해 주세요</Desc>
+        <Form onSubmit={onSubmit}>
+          <EmailMessage>{emailMessage}</EmailMessage>
+          <Input
+            name="email"
+            type="email"
+            placeholder="자주 사용하는 이메일 계정을 입력해주세요."
+            value={email}
+            onChange={onChange}
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+            required
+          />
+          <Input
+            name="password"
+            type="password"
+            placeholder="비밀번호는 8자 이상이어야 합니다."
+            value={password}
+            onChange={onChange}
+            autoComplete="on"
+            required
+          />
+          <Input
+            name="checkPassword"
+            type="password"
+            placeholder="비밀번호를 다시 한번 입력해주세요."
+            value={checkPassword}
+            onChange={onChange}
+            autoComplete="on"
+            required
+          />
+          <Message>{errorMessage}</Message>
+          <Button type="submit" value="계정 생성하기" />
+          <ErrorMessage>{accountMessage}</ErrorMessage>
+        </Form>
+      </Container>
     </>
   );
 };
 
+const Message = styled.span`
+  font-size: 12px;
+  font-weight: 700;
+  width: 100%;
+  text-align: start;
+  padding-left: 3px;
+  color: ${(props) => props.theme.text.accent};
+`;
+
+const EmailMessage = styled(Message)`
+  line-height: 1.6;
+  margin-bottom: 4px;
+`;
 export default AccountForm;
