@@ -16,28 +16,30 @@ const HeadNav = () => {
         </li>
         <li>
           <Link to="/history">
-            <span className={pathname === "/history" ? "isActive" : ""}>
+            <span className={pathname.includes("/history") ? "isActive" : ""}>
               지난 책모임
             </span>
           </Link>
         </li>
         <li>
           <Link to="/bookmeeting">
-            <span className={pathname === "/bookmeeting" ? "isActive" : ""}>
+            <span
+              className={pathname.includes("/bookmeeting") ? "isActive" : ""}
+            >
               이달의 책모임
             </span>
           </Link>
         </li>
         <li>
           <Link to="/vote">
-            <span className={pathname === "/vote" ? "isActive" : ""}>
+            <span className={pathname.includes("/vote") ? "isActive" : ""}>
               투표하기
             </span>
           </Link>
         </li>
         <li>
           <Link to="/profile">
-            <span className={pathname === "/profile" ? "isActive" : ""}>
+            <span className={pathname.includes("/profile") ? "isActive" : ""}>
               나의 책장
             </span>
           </Link>

@@ -36,14 +36,14 @@ const Vote = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 300px;
+  width: 98%;
   border-radius: 10px;
   padding: 15px 20px 10px;
   margin: 10px auto 15px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   @media ${device.tablet} {
-    width: 340px;
+    width: 48%;
   }
 `;
 

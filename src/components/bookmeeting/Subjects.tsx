@@ -9,6 +9,7 @@ import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import { thisYearMonth } from "util/constants";
+import device from "theme/mediaQueries";
 
 export interface DocumentType {
   id: string;
@@ -121,6 +122,7 @@ const Subjects = ({ item, onSubjectRemove, docMonth }: ISubject) => {
 };
 
 const TextBox = styled.div`
+  width: 100%;
   box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.3);
   margin: 10px 0;
   padding: 10px;
@@ -135,6 +137,14 @@ const TextBox = styled.div`
     min-height: 200px;
     margin-bottom: 15px;
     font-size: 14px;
+  }
+  @media ${device.tablet} {
+    margin-bottom: 20px;
+    padding: 20px 30px;
+    border-radius: 10px;
+    pre {
+      font-size: 18px;
+    }
   }
 `;
 
@@ -153,6 +163,9 @@ export const DoneBtn = styled.input<{ eventdone?: boolean }>`
   color: ${(props) => props.theme.text.lightBlue};
   cursor: pointer;
   pointer-events: ${(props) => (props.eventdone ? "none" : "fill")};
+  @media ${device.tablet} {
+    font-size: 18px;
+  }
 `;
 
 export const EditDeleteIcon = styled.div`
@@ -205,6 +218,9 @@ const TextArea = styled.textarea`
   &:focus {
     outline: none;
   }
+  @media ${device.tablet} {
+    font-size: 18px;
+  }
 `;
 
 export const RegisterTime = styled.div`
@@ -212,6 +228,9 @@ export const RegisterTime = styled.div`
   font-size: 10px;
   text-align: end;
   margin-bottom: 5px;
+  @media ${device.tablet} {
+    font-size: 16px;
+  }
 `;
 
 export default Subjects;

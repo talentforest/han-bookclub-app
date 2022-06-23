@@ -83,20 +83,20 @@ const MeetingInfo = styled.div`
   }
 
   @media ${device.tablet} {
-    height: 130px;
-    padding: 30px;
+    padding: 10px;
+    margin: 20px 0;
     > div {
       p {
-        font-size: 16px;
+        font-size: 15px;
       }
       > span {
         font-size: 12px;
         width: fit-content;
-        padding: 4px 8px;
+        padding: 4px 6px;
         svg {
           fill: ${(props) => props.theme.text.lightBlue};
-          width: 14px;
-          height: 14px;
+          width: 12px;
+          height: 12px;
           margin-left: 3px;
         }
       }

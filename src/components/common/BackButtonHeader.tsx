@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import styled from "styled-components";
 import { Header } from "theme/commonStyle";
+import device from "theme/mediaQueries";
 
 interface PropsType {
   title: string;
@@ -30,6 +31,13 @@ const BackHeader = styled(Header)`
   h3 {
     margin-left: 5px;
     padding-top: 2px;
+  }
+  @media ${device.tablet} {
+    svg {
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+    }
   }
 `;
 

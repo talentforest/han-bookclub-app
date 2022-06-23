@@ -15,6 +15,7 @@ import UserInfoBox from "components/common/UserInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import styled from "styled-components";
 import EditDeleteDoc from "components/common/EditDeleteDoc";
+import device from "theme/mediaQueries";
 
 interface PropsType {
   item: DocumentType;
@@ -112,7 +113,7 @@ const Reviews = ({ item, onReviewRemove }: PropsType) => {
 };
 
 const TextBox = styled.div`
-  padding: 15px 0;
+  padding: 10px;
   font-size: 14px;
   border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
   pre {
@@ -120,8 +121,19 @@ const TextBox = styled.div`
     word-wrap: break-word;
     line-height: 1.6;
     padding-bottom: 5px;
-    margin-bottom: 5px;
+    margin: 10px;
     font-size: 14px;
+  }
+  @media ${device.tablet} {
+    margin-bottom: 20px;
+    padding-bottom: 30px;
+    pre {
+      font-size: 18px;
+      min-height: 200px;
+    }
+  }
+  @media ${device.tablet} {
+    padding: 20px;
   }
 `;
 
@@ -140,6 +152,10 @@ const TextArea = styled.textarea`
   resize: none;
   &:focus {
     outline: none;
+  }
+  @media ${device.tablet} {
+    font-size: 18px;
+    min-height: 200px;
   }
 `;
 

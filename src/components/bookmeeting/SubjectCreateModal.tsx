@@ -8,6 +8,7 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { thisYearMonth } from "util/constants";
 import styled from "styled-components";
+import device from "theme/mediaQueries";
 
 interface PropsType {
   bookInfo: BookDocument;
@@ -101,6 +102,21 @@ const AddSubject = styled.div`
       margin-right: 5px;
     }
   }
+  @media ${device.tablet} {
+    p {
+      margin: 10px 0 30px;
+      font-size: 16px;
+    }
+    span {
+      font-size: 18px;
+      svg {
+        fill: ${(props) => props.theme.text.accent};
+        width: 25px;
+        height: 25px;
+        margin-right: 5px;
+      }
+    }
+  }
 `;
 
 export const Overlay = styled.div`
@@ -158,6 +174,39 @@ const Form = styled.form`
     resize: none;
     &:focus {
       outline: none;
+    }
+  }
+  @media ${device.tablet} {
+    border: 1px solid rebeccapurple;
+    width: 70%;
+    margin: 0 auto;
+    padding: 20px;
+    > h3 {
+      font-size: 18px;
+      svg {
+        cursor: pointer;
+        width: 24px;
+        height: 24px;
+      }
+    }
+    > div {
+      width: 100%;
+      display: flex;
+      justify-content: end;
+    }
+    > textarea {
+      width: 100%;
+      min-height: 350px;
+      border: none;
+      border-radius: 5px;
+      background-color: ${(props) => props.theme.container.default};
+      margin: 10px 0 20px;
+      padding: 10px;
+      font-size: 18px;
+      resize: none;
+      &:focus {
+        outline: none;
+      }
     }
   }
 `;

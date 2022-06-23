@@ -14,13 +14,14 @@ import HeadNav from "components/common/HeadNav";
 import useWindowSize from "hooks/useWindowSize";
 import FindBook from "routes/FindBook";
 import SelectedBook from "routes/FindedBook";
-import ClubBooksHistory from "routes/ClubBooksHistory";
+import ClubHistory from "routes/ClubHistory";
 import UserDataInputForm from "components/loginForm/UserDataInputForm";
 import ResetPasswordEmail from "routes/ResetPasswordEmail";
 import EditPassword from "routes/EditPassword";
 import VoteDetail from "routes/VoteDetail";
 import UpdateRequest from "routes/UpdateRequest";
 import DeleteAccount from "components/settings/DeleteAccount";
+import ClubHistoryDetail from "routes/ClubHistoryDetail";
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -55,7 +56,8 @@ function Router({ isLoggedIn }: PropsType) {
               <Route path="/bookmeeting/*" element={<BookMeeting />} />
               <Route path="/bookmeeting/find" element={<FindBook />} />
               <Route path="/bookmeeting/find/:id" element={<SelectedBook />} />
-              <Route path="/history" element={<ClubBooksHistory />} />
+              <Route path="/history" element={<ClubHistory />} />
+              <Route path="/history/:id" element={<ClubHistoryDetail />} />
               <Route path="/vote" element={<Vote />} />
               <Route path="/vote/:id" element={<VoteDetail />} />
               <Route path="/profile" element={<Profile />} />

@@ -23,7 +23,7 @@ import BookRecomCreateBox from "components/bookmeeting/BookRecomCreateBox";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
 import useWindowSize from "hooks/useWindowSize";
-import { deviceSizes } from "theme/mediaQueries";
+import device, { deviceSizes } from "theme/mediaQueries";
 
 export interface meetingType {
   time: string;
@@ -116,11 +116,7 @@ const BookMeeting = () => {
             />
             {recommendBook.length !== 0 &&
               recommendBook?.map((item) => (
-                <BookRecomBox
-                  key={item.id}
-                  item={item}
-                  thisMonthBook={bookMeetingDocData[0]?.book}
-                />
+                <BookRecomBox key={item.id} item={item} />
               ))}
           </>
         )}
@@ -170,6 +166,14 @@ const CategoryButton = styled.div`
     &.isActive {
       background-color: ${(props) => props.theme.container.blue};
       color: ${(props) => props.theme.text.white};
+    }
+  }
+  @media ${device.tablet} {
+    height: 50px;
+    border-radius: 30px;
+    > a {
+      height: 100%;
+      font-size: 16px;
     }
   }
 `;

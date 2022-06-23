@@ -5,6 +5,7 @@ import { addDoc, collection } from "firebase/firestore";
 import { BookDocument } from "data/bookAtom";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import { thisYearMonth } from "util/constants";
+import device from "theme/mediaQueries";
 
 interface PropsType {
   uid: string;
@@ -65,6 +66,7 @@ const Form = styled.form`
   border-radius: 5px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: flex-end;
   textarea {
     width: 100%;
@@ -97,6 +99,13 @@ const Form = styled.form`
       padding: 3px 5px;
       font-size: 12px;
       height: 30px;
+    }
+  }
+  @media ${device.tablet} {
+    height: 200px;
+    padding: 20px;
+    textarea {
+      height: 150px;
     }
   }
 `;

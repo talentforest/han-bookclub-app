@@ -16,6 +16,9 @@ import Title from "components/common/Title";
 import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import VoteBox from "components/common/VoteBox";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Home = () => {
   const [bookMeetingInfoDoc, setBookMeetingInfoDoc] = useState([]);
@@ -35,6 +38,14 @@ const Home = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
 
   return (
     <>
@@ -62,13 +73,11 @@ const Home = () => {
         </section>
         <section>
           <Subtitle title={`${thisMonth}월의 투표`} />
-          <ScrollContainer>
-            <div>
-              {voteDoc.slice(0, 3).map((item, index) => (
-                <VoteBox key={item.id} item={item} index={index} />
-              ))}
-            </div>
-          </ScrollContainer>
+          <Slider {...settings}>
+            {voteDoc.slice(0, 3).map((item, index) => (
+              <VoteBox key={item.id} item={item} index={index} />
+            ))}
+          </Slider>
           <LinkButton link={"/vote"} title="투표 더보기" />
         </section>
         <section>
@@ -113,23 +122,6 @@ const NewContainer = styled(Container)`
     > section {
       > p {
         font-size: 16px;
-      }
-    }
-  }
-`;
-
-const ScrollContainer = styled.div`
-  overflow: scroll;
-  padding-left: -5px;
-  > div {
-    overflow: hidden;
-    display: flex;
-    width: fit-content;
-    padding-left: 5px;
-    > div {
-      margin-right: 15px;
-      > ul {
-        max-height: 200px;
       }
     }
   }

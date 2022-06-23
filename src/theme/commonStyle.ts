@@ -35,6 +35,18 @@ export const ButtonHeader = styled(Header)`
       margin-right: 3px;
     }
   }
+  @media ${device.tablet} {
+    margin: 0;
+    button {
+      font-size: 18px;
+      svg {
+        fill: ${(props) => props.theme.text.lightBlue};
+        width: 18px;
+        height: 18px;
+        margin-right: 3px;
+      }
+    }
+  }
 `;
 
 export const Container = styled.main`
@@ -44,7 +56,7 @@ export const Container = styled.main`
     padding: 10px 20px 80px;
   }
   @media ${device.tablet} {
-    margin: 0px 100px 0px;
+    margin: 0px 50px 0px;
   }
   @media ${device.desktop} {
     margin: 20px 50px 0;
@@ -60,6 +72,11 @@ export const SubmitBtn = styled.input`
   height: 28px;
   border-radius: 5px;
   cursor: pointer;
+  @media ${device.tablet} {
+    font-size: 18px;
+    width: 80px;
+    height: 40px;
+  }
 `;
 
 export const Form = styled.form`

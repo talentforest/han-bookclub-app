@@ -14,16 +14,15 @@ import { currentUserState } from "data/userAtom";
 import { Delete, Edit } from "@mui/icons-material";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
-import { BookDocument } from "data/bookAtom";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import { thisYearMonth } from "util/constants";
+import device from "theme/mediaQueries";
 
 interface PropsType {
   item: DocumentType;
-  thisMonthBook: BookDocument;
 }
 
-const BookRecomBox = ({ item, thisMonthBook }: PropsType) => {
+const BookRecomBox = ({ item }: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(item.text);
   const [showingGuide, setShowingGuide] = useState(false);
@@ -99,7 +98,7 @@ const BookRecomBox = ({ item, thisMonthBook }: PropsType) => {
           </FormHeader>
           <pre>{newText}</pre>
           <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
-          <BookTitleImgBox docData={thisMonthBook} smSize={"smSize"} />
+          <BookTitleImgBox docData={item} smSize={"smSize"} />
         </TextBox>
       )}
     </>
@@ -109,9 +108,9 @@ const BookRecomBox = ({ item, thisMonthBook }: PropsType) => {
 const TextBox = styled.div`
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   margin-top: 10px;
-  padding: 10px;
   background-color: ${(props) => props.theme.container.default};
   border-radius: 5px;
+  padding: 10px;
   pre {
     position: relative;
     white-space: pre-wrap;
@@ -119,6 +118,9 @@ const TextBox = styled.div`
     line-height: 22px;
     font-size: 15px;
     min-height: 70px;
+  }
+  @media ${device.tablet} {
+    padding: 20px;
   }
 `;
 

@@ -54,10 +54,12 @@ const BookCoverTitleBox = styled.div<{ smSize: string }>`
   @media ${device.tablet} {
     height: ${(props) => (props.smSize ? "fit-content" : "200px")};
     img {
-      height: ${(props) => (props.smSize ? "24px" : "150px")};
+      height: ${(props) => (props.smSize ? "38px" : "150px")};
     }
     h3 {
-      font-size: ${(props) => (props.smSize ? "10px" : "18px")};
+      margin-top: 10px;
+      font-size: ${(props) => (props.smSize ? "14px" : "18px")};
+      margin-left: ${(props) => (props.smSize ? "16px" : "0px")};
     }
   }
   @media ${device.desktop} {

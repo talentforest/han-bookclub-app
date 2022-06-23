@@ -8,7 +8,7 @@ import Title from "components/common/Title";
 import styled from "styled-components";
 import HistoryBox from "components/clubbookhistory/HistoryBox";
 
-const ClubBooksHistory = () => {
+const ClubHistory = () => {
   const thisYear = `${new Date().getFullYear()}`;
   const { windowSize } = useWindowSize();
   const [selectedYear, setSelectedYear] = useState(thisYear);
@@ -91,15 +91,15 @@ const YearCategory = styled.select`
   display: flex;
   border-radius: 5px;
   margin-left: 15px;
-  h3 {
-    font-size: 14px;
-    font-weight: 700;
-  }
+  font-size: 16px;
   &:focus {
     outline: none;
   }
   @media ${device.tablet} {
     margin-top: 20px;
+    height: 40px;
+    width: 140px;
+    font-size: 18px;
   }
 `;
 
@@ -115,4 +115,4 @@ const EmptyBox = styled.div`
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
 `;
 
-export default ClubBooksHistory;
+export default ClubHistory;

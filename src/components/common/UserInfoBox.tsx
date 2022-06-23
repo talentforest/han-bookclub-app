@@ -2,6 +2,7 @@ import { AccountCircle } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { getUserData } from "util/getFirebaseDoc";
 import styled from "styled-components";
+import device from "theme/mediaQueries";
 
 interface PropsType {
   creatorId: string;
@@ -43,6 +44,16 @@ const User = styled.div`
     width: 18px;
     height: 18px;
     margin-right: 5px;
+  }
+  @media ${device.tablet} {
+    span {
+      font-size: 18px;
+    }
+    svg {
+      width: 24px;
+      height: 24px;
+      margin-right: 5px;
+    }
   }
 `;
 
