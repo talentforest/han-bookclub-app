@@ -42,7 +42,7 @@ const MeetingInfo = styled.div`
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   position: relative;
   font-size: 14px;
   margin-top: 20px;
@@ -53,7 +53,7 @@ const MeetingInfo = styled.div`
     align-items: center;
     justify-content: space-between;
     p {
-      font-size: 12px;
+      font-size: 14px;
     }
     > span {
       border: 1px solid ${(props) => props.theme.container.blue};
@@ -83,9 +83,24 @@ const MeetingInfo = styled.div`
   }
 
   @media ${device.tablet} {
-    width: 310px;
-    min-height: 200px;
-    font-size: 20px;
+    height: 130px;
+    padding: 30px;
+    > div {
+      p {
+        font-size: 16px;
+      }
+      > span {
+        font-size: 12px;
+        width: fit-content;
+        padding: 4px 8px;
+        svg {
+          fill: ${(props) => props.theme.text.lightBlue};
+          width: 14px;
+          height: 14px;
+          margin-left: 3px;
+        }
+      }
+    }
   }
 `;
 

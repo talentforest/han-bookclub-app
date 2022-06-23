@@ -1,5 +1,5 @@
 import { Container, Header } from "theme/commonStyle";
-import { deviceSizes } from "theme/mediaQueries";
+import device, { deviceSizes } from "theme/mediaQueries";
 import { useEffect, useState } from "react";
 import { thisMonth } from "util/constants";
 import {
@@ -91,11 +91,8 @@ const Home = () => {
 
 const NewContainer = styled(Container)`
   > section {
-    margin: 0 auto;
+    margin: 0 auto 50px;
     position: relative;
-    > h3 {
-      margin-top: 20px;
-    }
     > p {
       font-size: 12px;
       font-weight: 700;
@@ -112,19 +109,23 @@ const NewContainer = styled(Container)`
       }
     }
   }
-  > section:first-child {
-    > h3 {
-      margin-top: 0;
+  @media ${device.tablet} {
+    > section {
+      > p {
+        font-size: 16px;
+      }
     }
   }
 `;
 
 const ScrollContainer = styled.div`
   overflow: scroll;
+  padding-left: -5px;
   > div {
     overflow: hidden;
     display: flex;
     width: fit-content;
+    padding-left: 5px;
     > div {
       margin-right: 15px;
       > ul {
@@ -157,6 +158,29 @@ const ScheduleBox = styled.ul`
       padding: 0 5px;
       border-radius: 5px;
       font-weight: 700;
+    }
+  }
+  @media ${device.tablet} {
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    li {
+      width: 45%;
+      height: 50px;
+      font-size: 16px;
+      > span:first-child {
+        margin-right: 10px;
+        color: ${(props) => props.theme.text.accent};
+      }
+      > span:last-child {
+        display: flex;
+        align-items: center;
+        height: 26px;
+        padding: 0 5px;
+        border-radius: 5px;
+        font-weight: 700;
+      }
     }
   }
 `;

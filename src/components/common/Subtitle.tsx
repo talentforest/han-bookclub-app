@@ -13,8 +13,10 @@ const Sub = styled.h3`
   margin: 0px 15px 10px;
   font-weight: 700;
   @media ${device.tablet} {
-    font-size: 24px;
-    margin-top: 40px;
+    font-size: 18px;
+  }
+  @media ${device.desktop} {
+    font-size: 18px;
   }
 `;
 

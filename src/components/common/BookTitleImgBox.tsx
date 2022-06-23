@@ -1,6 +1,7 @@
 import { BookDocument } from "data/bookAtom";
 import { DocumentType } from "components/bookmeeting/Subjects";
 import styled from "styled-components";
+import device from "theme/mediaQueries";
 
 interface PropsType {
   docData: BookDocument | DocumentType;
@@ -37,16 +38,29 @@ const BookCoverTitleBox = styled.div<{ smSize: string }>`
     props.smSize ? "flex-start" : "space-between"};
   align-items: center;
   margin: 5px auto 0;
-  height: ${(props) => (props.smSize ? "fit-content" : "140px")};
+  width: 100%;
+  height: ${(props) => (props.smSize ? "fit-content" : "135px")};
   img {
     width: auto;
     height: ${(props) => (props.smSize ? "24px" : "100px")};
     box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
   }
   h3 {
-    margin-left: 10px;
+    text-align: center;
+    margin-left: ${(props) => (props.smSize ? "10px" : "0px")};
     font-size: ${(props) => (props.smSize ? "10px" : "14px")};
     font-weight: 700;
+  }
+  @media ${device.tablet} {
+    height: ${(props) => (props.smSize ? "fit-content" : "200px")};
+    img {
+      height: ${(props) => (props.smSize ? "24px" : "150px")};
+    }
+    h3 {
+      font-size: ${(props) => (props.smSize ? "10px" : "18px")};
+    }
+  }
+  @media ${device.desktop} {
   }
 `;
 

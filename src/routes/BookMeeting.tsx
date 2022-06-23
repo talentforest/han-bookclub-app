@@ -22,6 +22,8 @@ import BookTitleImgBox from "components/common/BookTitleImgBox";
 import BookRecomCreateBox from "components/bookmeeting/BookRecomCreateBox";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
+import useWindowSize from "hooks/useWindowSize";
+import { deviceSizes } from "theme/mediaQueries";
 
 export interface meetingType {
   time: string;
@@ -43,6 +45,7 @@ const BookMeeting = () => {
   const [showBookDetail, setShowBookDetail] = useState(false);
   const [recommendBook, setRecommendBook] = useState([]);
   const userData = useRecoilValue(currentUserState);
+  const { windowSize } = useWindowSize();
 
   const bookUrlMatch = useMatch("/bookmeeting");
   const subjectUrlMatch = useMatch("/bookmeeting/subject");
@@ -69,10 +72,14 @@ const BookMeeting = () => {
 
   return (
     <>
-      <ButtonHeader>
-        <Title title="의 책모임" />
-        <Link to="find">이달의 책 등록하기</Link>
-      </ButtonHeader>
+      {windowSize.width < +deviceSizes.tablet ? (
+        <ButtonHeader>
+          <Title title="의 책모임" />
+          <Link to="find">이달의 책 등록하기</Link>
+        </ButtonHeader>
+      ) : (
+        <></>
+      )}
       <Container>
         <MeetingBox>
           <BookTitleImgBox

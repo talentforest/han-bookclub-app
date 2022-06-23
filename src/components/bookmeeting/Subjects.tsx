@@ -126,7 +126,7 @@ const TextBox = styled.div`
   padding: 10px;
   background-color: ${(props) => props.theme.container.default};
   border-radius: 5px;
-  min-height: 300px;
+  min-height: 200px;
   pre {
     white-space: pre-wrap;
     word-wrap: break-word;

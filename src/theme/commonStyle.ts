@@ -10,8 +10,8 @@ export const Header = styled.header`
   margin-top: 10px;
   padding: 0 15px;
   @media ${device.tablet} {
-    padding: 60px 80px 20px;
-    font-size: 24px;
+    padding: 20px 80px;
+    font-size: 22px;
   }
 `;
 
@@ -41,13 +41,13 @@ export const Container = styled.main`
   min-height: 100vh;
   padding: 0 15px;
   @media ${device.mobile} {
-    padding: 10px 15px 80px;
+    padding: 10px 20px 80px;
   }
   @media ${device.tablet} {
-    padding: 30px 100px 0px;
+    margin: 0px 100px 0px;
   }
   @media ${device.desktop} {
-    padding: 70px 200px 0px;
+    margin: 20px 50px 0;
   }
 `;
 

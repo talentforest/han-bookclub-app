@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Container, Header } from "theme/commonStyle";
 import { getBookMeetingInfoData } from "util/getFirebaseDoc";
+import device, { deviceSizes } from "theme/mediaQueries";
+import useWindowSize from "hooks/useWindowSize";
 import Subtitle from "components/common/Subtitle";
 import Title from "components/common/Title";
 import styled from "styled-components";
@@ -8,6 +10,7 @@ import HistoryBox from "components/clubbookhistory/HistoryBox";
 
 const ClubBooksHistory = () => {
   const thisYear = `${new Date().getFullYear()}`;
+  const { windowSize } = useWindowSize();
   const [selectedYear, setSelectedYear] = useState(thisYear);
   const [allBookMeeting, setAllBookMeeting] = useState([]);
 
@@ -38,9 +41,13 @@ const ClubBooksHistory = () => {
 
   return (
     <>
-      <Header>
-        <Title title="지난 책모임" />
-      </Header>
+      {windowSize.width < +deviceSizes.tablet ? (
+        <Header>
+          <Title title="지난 책모임" />
+        </Header>
+      ) : (
+        <></>
+      )}
       <Container>
         <Subtitle title="한페이지 히스토리" />
         <YearCategory onChange={onChange} value={selectedYear}>
@@ -56,13 +63,13 @@ const ClubBooksHistory = () => {
         </YearCategory>
         {GroupedBySameYear.length !== 0 ? (
           GroupedBySameYear?.map((item: any) => (
-            <div key={item.id}>
+            <HistoryList key={item.id}>
               {item.id === selectedYear
                 ? item?.bookMeetingInfo.map((item: any) => (
                     <HistoryBox item={item} key={item.id} />
                   ))
                 : null}
-            </div>
+            </HistoryList>
           ))
         ) : (
           <EmptyBox>북클럽에 아직 등록된 책이 없습니다.</EmptyBox>
@@ -71,6 +78,12 @@ const ClubBooksHistory = () => {
     </>
   );
 };
+
+const HistoryList = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`;
 
 const YearCategory = styled.select`
   height: 30px;
@@ -84,6 +97,9 @@ const YearCategory = styled.select`
   }
   &:focus {
     outline: none;
+  }
+  @media ${device.tablet} {
+    margin-top: 20px;
   }
 `;
 

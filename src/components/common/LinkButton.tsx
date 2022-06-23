@@ -30,7 +30,7 @@ const ButtonBox = styled.div`
     width: fit-content;
     cursor: pointer;
     span {
-      padding: 0px 0;
+      padding: 0;
       border: none;
       background-color: transparent;
       font-size: 11px;
@@ -44,12 +44,15 @@ const ButtonBox = styled.div`
   }
 
   @media ${device.tablet} {
-    button {
-      font-size: 20px;
-    }
-    svg {
-      width: 30px;
-      height: 30px;
+    a {
+      span {
+        font-size: 16px;
+      }
+      svg {
+        width: 16px;
+        height: 14px;
+        margin-left: 3px;
+      }
     }
   }
 `;

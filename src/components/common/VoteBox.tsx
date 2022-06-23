@@ -3,6 +3,7 @@ import { VoteDocument } from "util/getFirebaseDoc";
 import styled from "styled-components";
 import { voteTimestamp } from "util/timestamp";
 import { Link } from "react-router-dom";
+import device from "theme/mediaQueries";
 
 interface PropsType {
   item: VoteDocument;
@@ -12,7 +13,7 @@ interface PropsType {
 const VoteBox = ({ item, index }: PropsType) => {
   return (
     <Vote>
-      <ul>
+      <VoteLists>
         <h4>Q. {item.vote.title}</h4>
         {item.vote?.voteItem?.map((item) => (
           <li key={item.id}>
@@ -20,13 +21,13 @@ const VoteBox = ({ item, index }: PropsType) => {
             <span>{item.item}</span>
           </li>
         ))}
-      </ul>
-      <div>
+      </VoteLists>
+      <VoteBottom>
         <p>투표기한: {voteTimestamp(item.deadline)}</p>
         <Link to={`/vote/${index}`} state={{ item: item }}>
           투표하러 가기
         </Link>
-      </div>
+      </VoteBottom>
     </Vote>
   );
 };
@@ -41,20 +42,42 @@ const Vote = styled.div`
   margin: 10px auto 15px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-  > ul {
+  @media ${device.tablet} {
+    width: 340px;
+  }
+`;
+
+const VoteLists = styled.ul`
+  > h4 {
+    font-size: 14px;
+    font-weight: 700;
+    border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
+    padding-bottom: 10px;
+  }
+  > li {
+    font-size: 14px;
+    border: 1px solid ${(props) => props.theme.container.blue};
+    border-radius: 5px;
+    padding: 4px 10px;
+    margin-top: 10px;
+    background-color: ${(props) => props.theme.container.lightBlue};
+    display: flex;
+    align-items: center;
+    height: 32px;
+    > svg {
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
+    }
+  }
+  @media ${device.tablet} {
     > h4 {
-      font-size: 14px;
-      font-weight: 700;
-      border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
-      padding-bottom: 10px;
+      font-size: 16px;
     }
     > li {
-      font-size: 14px;
-      border: 1px solid ${(props) => props.theme.container.blue};
-      border-radius: 5px;
+      font-size: 16px;
       padding: 4px 10px;
       margin-top: 10px;
-      background-color: ${(props) => props.theme.container.lightBlue};
       display: flex;
       align-items: center;
       height: 32px;
@@ -65,20 +88,31 @@ const Vote = styled.div`
       }
     }
   }
-  > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    margin-top: 10px;
+`;
+
+const VoteBottom = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-top: 10px;
+  > p {
+    color: ${(props) => props.theme.text.accent};
+    font-size: 12px;
+    width: 100%;
+  }
+  > a {
+    color: ${(props) => props.theme.text.accent};
+    font-size: 12px;
+    width: 100px;
+  }
+  @media ${device.tablet} {
+    margin-top: 30px;
     > p {
-      color: ${(props) => props.theme.text.accent};
-      font-size: 12px;
-      width: 100%;
+      font-size: 14px;
     }
     > a {
-      color: ${(props) => props.theme.text.accent};
-      font-size: 12px;
-      width: 100px;
+      font-size: 14px;
+      width: 120px;
     }
   }
 `;
