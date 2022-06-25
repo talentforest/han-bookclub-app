@@ -51,7 +51,7 @@ const MeetingInfo = styled.div`
     margin-bottom: 10px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     p {
       font-size: 14px;
     }
@@ -85,6 +85,7 @@ const MeetingInfo = styled.div`
   @media ${device.tablet} {
     padding: 10px;
     margin: 20px 0;
+    padding: 20px;
     > div {
       p {
         font-size: 15px;

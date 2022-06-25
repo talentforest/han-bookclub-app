@@ -15,7 +15,7 @@ import MeetingInfoBox from "components/common/MeetingInfoBox";
 import Title from "components/common/Title";
 import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
-import VoteBox from "components/common/VoteBox";
+import VoteBox from "components/vote/VoteBox";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -39,12 +39,28 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const settings = {
+  let settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: +deviceSizes.tablet,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: +deviceSizes.desktop,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   return (
@@ -71,7 +87,7 @@ const Home = () => {
             title="모임 후기 작성하러 가기"
           />
         </section>
-        <section>
+        <SliderSection>
           <Subtitle title={`${thisMonth}월의 투표`} />
           <Slider {...settings}>
             {voteDoc.slice(0, 3).map((item, index) => (
@@ -79,7 +95,7 @@ const Home = () => {
             ))}
           </Slider>
           <LinkButton link={"/vote"} title="투표 더보기" />
-        </section>
+        </SliderSection>
         <section>
           <Subtitle title={`한페이지의 독서 분야 일정`} />
           <ScheduleBox>
@@ -97,6 +113,19 @@ const Home = () => {
     </>
   );
 };
+
+const SliderSection = styled.section`
+  position: relative;
+  margin: 0 auto 50px;
+  box-sizing: none;
+  .slick-slider {
+    margin: 0 -10px;
+  }
+  .slick-slide {
+    width: 100%;
+    padding: 0 10px;
+  }
+`;
 
 const NewContainer = styled(Container)`
   > section {

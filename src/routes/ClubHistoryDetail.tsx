@@ -103,7 +103,6 @@ const ClubHistoryDetail = () => {
 };
 
 const Documents = styled.div`
-  order: 1;
   padding: 10px 20px;
   margin-top: 10px;
   background-color: ${(props) => props.theme.container.lightBlue};
@@ -111,6 +110,14 @@ const Documents = styled.div`
   border-radius: 5px;
   width: 100%;
   @media ${device.tablet} {
+    > div {
+      margin: 0;
+      padding: 10px;
+      background-color: transparent;
+      box-shadow: none;
+      border-radius: 0;
+      border-bottom: 1px solid ${(props) => props.theme.text.gray};
+    }
   }
 `;
 

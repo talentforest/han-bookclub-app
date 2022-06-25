@@ -164,7 +164,7 @@ export const getVote = async (setState: (voteDoc: VoteDocument[]) => void) => {
   });
 };
 
-export const getMyVote = async (
+export const getMembersVote = async (
   id: string,
   setState: (myVoteDoc: VoteDocument[]) => void
 ) => {

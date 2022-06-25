@@ -181,6 +181,12 @@ export const EditDeleteIcon = styled.div`
   svg:first-child {
     margin-left: 0px;
   }
+  @media ${device.tablet} {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
 `;
 
 export const GuideTextBox = styled.span`

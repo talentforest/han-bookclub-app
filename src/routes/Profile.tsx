@@ -33,10 +33,6 @@ const Profile = () => {
           <span>내가 작성한 발제문과 모임 후기를 볼 수 있어요.</span>
           <MyRecords />
         </section>
-        <section>
-          <Subtitle title="내가 추천한 책" />
-          <span>내가 추천한 책들을 볼 수 있어요.</span>
-        </section>
       </NewContainer>
     </>
   );

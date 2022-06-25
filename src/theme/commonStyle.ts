@@ -51,10 +51,7 @@ export const ButtonHeader = styled(Header)`
 
 export const Container = styled.main`
   min-height: 100vh;
-  padding: 0 15px;
-  @media ${device.mobile} {
-    padding: 10px 20px 80px;
-  }
+  margin: 10px 20px 80px;
   @media ${device.tablet} {
     margin: 0px 50px 0px;
   }

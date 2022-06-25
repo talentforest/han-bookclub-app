@@ -6,11 +6,11 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { dDay } from "util/timestamp";
-import { getMyVote, VoteDocument, VoteItem } from "util/getFirebaseDoc";
+import { getMembersVote, VoteDocument, VoteItem } from "util/getFirebaseDoc";
 import { percentage } from "util/percentage";
+import { Container } from "theme/commonStyle";
 import styled from "styled-components";
 import BackButtonHeader from "components/common/BackButtonHeader";
-import { Container } from "theme/commonStyle";
 
 type LocationState = { item: VoteDocument };
 
@@ -27,10 +27,10 @@ const VoteDetail = () => {
   const voteRef = doc(dbService, "Vote", `${item.id}`);
 
   useEffect(() => {
-    getMyVote(item.id, setMembersVote);
+    getMembersVote(item.id, setMembersVote);
 
     return () => {
-      getMyVote(item.id, setMembersVote);
+      getMembersVote(item.id, setMembersVote);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -76,6 +76,13 @@ const VoteDetail = () => {
         item.id === index ? { ...item, voteCount: voteCount + 1 } : item
       )
     );
+    if (selectedItem.some((item) => item.id === index)) {
+      setVoteItem(
+        voteItem.map((item) =>
+          item.id === index ? { ...item, voteCount: voteCount } : item
+        )
+      );
+    }
   };
 
   const myVote = membersVote.filter((item) => item.id === userData.uid);
@@ -118,13 +125,22 @@ const VoteDetail = () => {
                       <span>{item.item}</span>
                       <Percentage
                         style={{
-                          width: `${percentage(
-                            voteItem[index].voteCount,
-                            totalCount
-                          )}%`,
+                          width: voteItem[index].voteCount
+                            ? `${percentage(
+                                voteItem[index].voteCount,
+                                totalCount
+                              )}%`
+                            : "",
                         }}
                       >
-                        {percentage(voteItem[index].voteCount, totalCount)}%
+                        {voteItem[index].voteCount !== 0 ? (
+                          `${percentage(
+                            voteItem[index].voteCount,
+                            totalCount
+                          )}%`
+                        ) : (
+                          <></>
+                        )}
                       </Percentage>
                     </li>
                   ))}
@@ -134,9 +150,9 @@ const VoteDetail = () => {
             </>
           ) : (
             <form onSubmit={onSubmit}>
-              <p>D-Day: {dDay(item)}</p>
+              {/* <p>D-Day: {dDay(item)}</p>
               <h4>Q. {item.vote.title}</h4>
-              <span>투표인원: {membersVote.length}명</span>
+              <span>투표인원: {membersVote.length}명</span> */}
               <Votelist className={disabled ? "disalbe" : ""}>
                 {item.vote.voteItem.map((item, index) => (
                   <li
@@ -160,13 +176,19 @@ const VoteDetail = () => {
                     <span>{item.item}</span>
                     <Percentage
                       style={{
-                        width: `${percentage(
-                          voteItem[index].voteCount,
-                          totalCount
-                        )}%`,
+                        width: voteItem[index].voteCount
+                          ? `${percentage(
+                              voteItem[index].voteCount,
+                              totalCount
+                            )}%`
+                          : "",
                       }}
                     >
-                      {percentage(voteItem[index].voteCount, totalCount)}%
+                      {voteItem[index].voteCount !== 0 ? (
+                        `${percentage(voteItem[index].voteCount, totalCount)}%`
+                      ) : (
+                        <></>
+                      )}
                     </Percentage>
                   </li>
                 ))}
@@ -246,7 +268,8 @@ const Percentage = styled.div`
   align-items: center;
   justify-content: flex-end;
   padding-right: 10px;
-  color: ${(props) => props.theme.text.white};
+  color: ${(props) => props.theme.text.gray};
+  font-size: 13px;
   position: absolute;
   top: 0;
   right: 0;

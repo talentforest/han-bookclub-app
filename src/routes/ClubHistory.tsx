@@ -91,7 +91,7 @@ const YearCategory = styled.select`
   display: flex;
   border-radius: 5px;
   margin-left: 15px;
-  font-size: 16px;
+  font-size: 14px;
   &:focus {
     outline: none;
   }

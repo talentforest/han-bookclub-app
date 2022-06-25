@@ -1,7 +1,7 @@
 import { AddCircleOutline } from "@mui/icons-material";
 import { Overlay } from "components/bookmeeting/SubjectCreateModal";
 import Title from "components/common/Title";
-import VoteBox from "components/common/VoteBox";
+import VoteBox from "components/vote/VoteBox";
 import VoteCreateBox from "components/vote/VoteCreateBox";
 import useWindowSize from "hooks/useWindowSize";
 import { useEffect, useState } from "react";
