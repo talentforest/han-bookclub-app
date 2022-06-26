@@ -25,7 +25,9 @@ const UserInfoBox = ({ creatorId }: PropsType) => {
   return (
     <User>
       {userDataDoc?.photoUrl ? (
-        <ProfileImg $bgPhoto={userDataDoc.photoUrl} />
+        <div>
+          <ProfileImg $bgPhoto={userDataDoc.photoUrl} />
+        </div>
       ) : (
         <AccountCircle />
       )}
@@ -37,13 +39,20 @@ const UserInfoBox = ({ creatorId }: PropsType) => {
 const User = styled.div`
   display: flex;
   align-items: center;
+  > div {
+    padding: 1px;
+    width: 22px;
+    height: 22px;
+  }
   span {
     font-size: 14px;
+    margin-left: 5px;
   }
   svg {
-    width: 18px;
-    height: 18px;
-    margin-right: 5px;
+    display: block;
+    line-height: 0;
+    width: 22px;
+    height: 22px;
   }
   @media ${device.tablet} {
     span {
@@ -60,11 +69,10 @@ const User = styled.div`
 const ProfileImg = styled.div<{ $bgPhoto: string }>`
   width: 20px;
   height: 20px;
-  border-radius: 50%;
+  border-radius: 10px;
   background-image: url(${(props) => props.$bgPhoto});
   background-size: cover;
   background-position: center;
-  margin-right: 5px;
 `;
 
 export default UserInfoBox;

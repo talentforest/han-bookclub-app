@@ -1,8 +1,8 @@
 import { Book } from "@mui/icons-material";
 import { BookDocument } from "data/bookAtom";
 import { timestamp } from "util/timestamp";
-import styled from "styled-components";
 import { Link, Outlet } from "react-router-dom";
+import styled from "styled-components";
 
 interface PropsType {
   bookInfo: BookDocument;

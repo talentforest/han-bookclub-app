@@ -1,4 +1,4 @@
-import { CheckCircleOutline } from "@mui/icons-material";
+import { CheckCircleOutline, Replay } from "@mui/icons-material";
 import { currentUserState } from "data/userAtom";
 import { dbService } from "fbase";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
@@ -11,6 +11,7 @@ import { percentage } from "util/percentage";
 import { Container } from "theme/commonStyle";
 import styled from "styled-components";
 import BackButtonHeader from "components/common/BackButtonHeader";
+import UserInfoBox from "components/common/UserInfoBox";
 
 type LocationState = { item: VoteDocument };
 
@@ -63,10 +64,7 @@ const VoteDetail = () => {
   };
 
   const onVoteItemClick = (index: number, value: string, voteCount: number) => {
-    setSelectedItem([
-      ...selectedItem,
-      { id: index, item: value, voteCount: voteCount + 1 },
-    ]);
+    setSelectedItem([...selectedItem, { id: index, item: value }]);
     if (selectedItem.some((item) => item.id === index)) {
       setSelectedItem(selectedItem.filter((vote) => vote.id !== index));
     }
@@ -90,6 +88,19 @@ const VoteDetail = () => {
     .map((item) => item.voteCount)
     .reduce((prev, curr) => prev + curr);
 
+  const onRevoteClick = () => {
+    setMembersVote(membersVote.filter((item) => item.id !== userData.uid));
+    setDisabled(false);
+    setSelectedItem([]);
+    setVoteItem(
+      voteItem.map((item) =>
+        myVote[0].votedItem.some((vote: VoteItem) => vote.id === item.id)
+          ? { ...item, voteCount: item.voteCount - 1 }
+          : item
+      )
+    );
+  };
+
   return (
     <>
       <BackButtonHeader title="투표함" />
@@ -100,7 +111,7 @@ const VoteDetail = () => {
               <form>
                 <p>D-Day: {dDay(item)}</p>
                 <h4>Q. {item.vote.title}</h4>
-                <span>투표인원: {membersVote.length}명</span>
+
                 <Votelist className={"disalbe"}>
                   {item.vote.voteItem.map((item, index) => (
                     <li
@@ -145,58 +156,88 @@ const VoteDetail = () => {
                     </li>
                   ))}
                 </Votelist>
+                <SubmitButton className={"disalbe"}>투표하기</SubmitButton>
+                <SubmitButton onClick={onRevoteClick}>
+                  다시 투표하기 <Replay />
+                </SubmitButton>
               </form>
-              <SubmitButton className={"disalbe"}>투표하기</SubmitButton>
+              <VoteMember>
+                <h4>투표인원: {membersVote.length}명</h4>
+                <ul>
+                  {membersVote.map((member) => (
+                    <li>
+                      <UserInfoBox creatorId={member.id} key={member.id} />
+                    </li>
+                  ))}
+                </ul>
+              </VoteMember>
             </>
           ) : (
-            <form onSubmit={onSubmit}>
-              {/* <p>D-Day: {dDay(item)}</p>
-              <h4>Q. {item.vote.title}</h4>
-              <span>투표인원: {membersVote.length}명</span> */}
-              <Votelist className={disabled ? "disalbe" : ""}>
-                {item.vote.voteItem.map((item, index) => (
-                  <li
-                    key={item.id}
-                    onClick={() =>
-                      onVoteItemClick(item.id, item.item, item.voteCount)
-                    }
-                    className={
-                      selectedItem.find((ele) => ele.id === item.id)
-                        ? "isActive"
-                        : ""
-                    }
-                  >
-                    <CheckCircleOutline
+            <>
+              <form onSubmit={onSubmit}>
+                <p>D-Day: {dDay(item)}</p>
+                <h4>Q. {item.vote.title}</h4>
+                <Votelist className={disabled ? "disalbe" : ""}>
+                  {item.vote.voteItem.map((item, index) => (
+                    <li
+                      key={item.id}
+                      onClick={() =>
+                        onVoteItemClick(item.id, item.item, item.voteCount)
+                      }
                       className={
                         selectedItem.find((ele) => ele.id === item.id)
                           ? "isActive"
                           : ""
                       }
-                    />
-                    <span>{item.item}</span>
-                    <Percentage
-                      style={{
-                        width: voteItem[index].voteCount
-                          ? `${percentage(
-                              voteItem[index].voteCount,
-                              totalCount
-                            )}%`
-                          : "",
-                      }}
                     >
-                      {voteItem[index].voteCount !== 0 ? (
-                        `${percentage(voteItem[index].voteCount, totalCount)}%`
-                      ) : (
-                        <></>
-                      )}
-                    </Percentage>
-                  </li>
-                ))}
-              </Votelist>
-              <SubmitButton type="submit" className={disabled ? "disalbe" : ""}>
-                투표하기
-              </SubmitButton>
-            </form>
+                      <CheckCircleOutline
+                        className={
+                          selectedItem.find((ele) => ele.id === item.id)
+                            ? "isActive"
+                            : ""
+                        }
+                      />
+                      <span>{item.item}</span>
+                      <Percentage
+                        style={{
+                          width: voteItem[index].voteCount
+                            ? `${percentage(
+                                voteItem[index].voteCount,
+                                totalCount
+                              )}%`
+                            : "",
+                        }}
+                      >
+                        {voteItem[index].voteCount !== 0 ? (
+                          `${percentage(
+                            voteItem[index].voteCount,
+                            totalCount
+                          )}%`
+                        ) : (
+                          <></>
+                        )}
+                      </Percentage>
+                    </li>
+                  ))}
+                </Votelist>
+                <SubmitButton
+                  type="submit"
+                  className={disabled ? "disalbe" : ""}
+                >
+                  투표하기
+                </SubmitButton>
+              </form>
+              <VoteMember>
+                <h4>투표인원: {membersVote.length}명</h4>
+                <ul>
+                  {membersVote.map((member) => (
+                    <li>
+                      <UserInfoBox creatorId={member.id} key={member.id} />
+                    </li>
+                  ))}
+                </ul>
+              </VoteMember>
+            </>
           )}
         </Vote>
       </Container>
@@ -227,8 +268,23 @@ const Vote = styled.div`
   }
 `;
 
+const VoteMember = styled.div`
+  h4 {
+    font-size: 14px;
+    width: fit-content;
+    margin-bottom: 10px;
+    border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
+  }
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 10px;
+  }
+`;
+
 const Votelist = styled.ul`
   position: relative;
+  margin-bottom: 20px;
   &.disalbe {
     pointer-events: none;
   }
@@ -280,16 +336,24 @@ const Percentage = styled.div`
 
 const SubmitButton = styled.button`
   width: 100%;
-  margin: 20px 0 10px;
-  background-color: ${(props) => props.theme.container.lightBlue};
-  border: none;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
   padding: 8px;
+  background-color: ${(props) => props.theme.container.lightBlue};
   color: ${(props) => props.theme.text.accent};
-  cursor: pointer;
+  border: none;
   border-radius: 5px;
   font-weight: 700;
   font-size: 14px;
-  height: 40px;
+  cursor: pointer;
+  > svg {
+    width: 18px;
+    height: 18px;
+    fill: ${(props) => props.theme.text.accent};
+  }
   &.disalbe {
     pointer-events: none;
     background-color: ${(props) => props.theme.text.lightGray};
