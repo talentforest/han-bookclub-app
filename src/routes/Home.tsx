@@ -41,22 +41,30 @@ const Home = () => {
 
   let settings = {
     dots: true,
-    infinite: true,
-    speed: 500,
+    infinite: voteDoc.length > 1,
+    autoplay: true,
+    speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
     responsive: [
       {
-        breakpoint: +deviceSizes.tablet,
+        breakpoint: 520,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
       {
-        breakpoint: +deviceSizes.desktop,
+        breakpoint: 1023,
         settings: {
           slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 2000,
+        settings: {
+          slidesToShow: 3,
           slidesToScroll: 1,
         },
       },

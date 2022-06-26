@@ -4,6 +4,7 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { Container, Desc, Input } from "theme/commonStyle";
 import BackButtonHeader from "components/common/BackButtonHeader";
 import styled from "styled-components";
+import device from "theme/mediaQueries";
 
 const ResetPasswordEmail = () => {
   const [email, setEmail] = useState("");
@@ -61,6 +62,9 @@ const Detail = styled.p`
   margin-bottom: 15px;
   line-height: 1.5;
   color: ${(props) => props.theme.text.lightBlue};
+  @media ${device.tablet} {
+    font-size: 18px;
+  }
 `;
 
 const Message = styled(Detail)`
@@ -89,6 +93,20 @@ const InputForm = styled.form`
     color: #fff;
     border-radius: 10px;
     cursor: pointer;
+  }
+  @media ${device.tablet} {
+    > input:first-child {
+      margin: 0;
+      margin-right: 15px;
+      width: 80%;
+      height: 60px;
+    }
+    > input:last-child {
+      width: 20%;
+      font-size: 20px;
+      height: 60px;
+      cursor: pointer;
+    }
   }
 `;
 export default ResetPasswordEmail;

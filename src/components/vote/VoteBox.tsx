@@ -101,14 +101,13 @@ const VoteBottom = styled.div`
   > p {
     color: ${(props) => props.theme.text.accent};
     font-size: 12px;
-    width: 100%;
   }
   > a {
     display: flex;
     align-items: center;
     color: ${(props) => props.theme.text.accent};
     font-size: 12px;
-    width: 120px;
+
     svg {
       width: 12px;
       height: 12px;
@@ -121,7 +120,6 @@ const VoteBottom = styled.div`
     }
     > a {
       font-size: 14px;
-      width: 140px;
     }
   }
 `;
