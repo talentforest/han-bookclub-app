@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { Button, Container, Desc, Form, Input } from "theme/commonStyle";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { authService } from "fbase";
+import device from "theme/mediaQueries";
 import BackButtonHeader from "components/common/BackButtonHeader";
 import styled from "styled-components";
-import { ErrorMessage } from "routes/LogInPage";
 
 interface PropsType {
   email: string;
@@ -36,8 +34,9 @@ const AccountForm = ({
         setErrorMessage("비밀번호가 일치하지 않아요.");
         return;
       } else {
-        await createUserWithEmailAndPassword(authService, email, password);
-        window.alert("계정이 생성되었어요!");
+        window.alert(
+          "다음 단계에서 간단한 정보를 작성하시면 회원가입이 완료됩니다!"
+        );
         setIsShowingUserDataInput(true);
       }
     } catch (error) {
@@ -71,7 +70,7 @@ const AccountForm = ({
     <>
       <BackButtonHeader title="계정 생성하기" />
       <Container>
-        <Desc>사용하실 계정 정보를 입력해 주세요</Desc>
+        <Desc>사용하실 계정 정보를 입력해 주세요.</Desc>
         <Form onSubmit={onSubmit}>
           <EmailMessage>{emailMessage}</EmailMessage>
           <Input
@@ -102,8 +101,8 @@ const AccountForm = ({
             required
           />
           <Message>{errorMessage}</Message>
+          <Message>{accountMessage}</Message>
           <Button type="submit" value="계정 생성하기" />
-          <ErrorMessage>{accountMessage}</ErrorMessage>
         </Form>
       </Container>
     </>
@@ -117,10 +116,18 @@ const Message = styled.span`
   text-align: start;
   padding-left: 3px;
   color: ${(props) => props.theme.text.accent};
+  @media ${device.tablet} {
+    font-size: 16px;
+    margin-top: 10px;
+  }
 `;
 
 const EmailMessage = styled(Message)`
   line-height: 1.6;
   margin-bottom: 4px;
+  @media ${device.tablet} {
+    font-size: 20px;
+    margin-top: 10px;
+  }
 `;
 export default AccountForm;

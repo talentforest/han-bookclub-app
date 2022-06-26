@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 const HeadNav = () => {
   const pathname = useLocation().pathname;
-  return !pathname.includes("setting") ? (
+  return !pathname.includes("setting") &&
+    !pathname.includes("create_account") ? (
     <Nav>
       <Link to="/">
         <h1>한 페이지: Han Page</h1>

@@ -6,6 +6,8 @@ import { bookFields, gender } from "util/constants";
 import { doc, setDoc } from "firebase/firestore";
 import BookField from "components/loginForm/BookField";
 import styled from "styled-components";
+import device from "theme/mediaQueries";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export interface BookFieldType {
   id: number;
@@ -26,6 +28,7 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
+      await createUserWithEmailAndPassword(authService, email, password);
       if (username && userGender && checkedBookField.size !== 0) {
         await setDoc(
           doc(dbService, "User Data", `${authService?.currentUser?.uid}`),
@@ -73,21 +76,19 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
   return (
     <>
       <Header>개인정보와 취향 등록하기</Header>
-      <NewContainer>
+      <Container>
         <UserInfoForm onSubmit={onSubmit}>
-          <div>
-            <label htmlFor="name">이름</label>
-            <Input
-              type="text"
-              name="username"
-              placeholder="이름을 입력해주세요."
-              onChange={onChange}
-              value={username}
-              required
-            />
-          </div>
+          <Info>이름</Info>
+          <Input
+            type="text"
+            name="username"
+            placeholder="이름을 입력해주세요."
+            onChange={onChange}
+            value={username}
+            required
+          />
           <Info>성별</Info>
-          <fieldset>
+          <FieldSet>
             {gender.map((item) => (
               <div key={item}>
                 <label htmlFor={item}>{item}</label>
@@ -101,9 +102,9 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
                 />
               </div>
             ))}
-          </fieldset>
+          </FieldSet>
           <Info>관심 분야</Info>
-          <fieldset>
+          <FieldSet>
             {bookFields.map((item, index) => (
               <BookField
                 key={index}
@@ -112,43 +113,18 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
                 checkedBoxHandler={checkedBoxHandler}
               />
             ))}
-          </fieldset>
+          </FieldSet>
           <Button type="submit" value="등록하기" />
         </UserInfoForm>
-      </NewContainer>
+      </Container>
     </>
   );
 };
 
-const NewContainer = styled(Container)`
-  margin: 10px 0 0;
-  min-height: 90vh;
-`;
 const UserInfoForm = styled.form`
-  > fieldset {
-    margin-bottom: 20px;
-    border: 1px solid ${(props) => props.theme.text.lightGray};
-    border-radius: 10px;
-    padding: 5px 10px 0;
-    background-color: ${(props) => props.theme.text.white};
-    > div {
-      display: flex;
-      align-items: center;
-      margin-bottom: 5px;
-      > label {
-        font-size: 16px;
-        color: ${(props) => props.theme.text.gray};
-      }
-    }
-  }
   > div {
     display: flex;
     flex-direction: column;
-    > label {
-      font-size: 12px;
-      color: ${(props) => props.theme.text.gray};
-      margin-bottom: 5px;
-    }
     > input {
       &[type="checkbox"] {
         width: 100%;
@@ -157,19 +133,61 @@ const UserInfoForm = styled.form`
         border: 1px solid ${(props) => props.theme.text.lightGray};
         padding: 10px;
         margin-bottom: 10px;
-        &::placeholder {
-          font-size: 16px;
-        }
+        font-size: 16px;
       }
     }
   }
 `;
+
+const FieldSet = styled.fieldset`
+  margin-bottom: 20px;
+  background-color: ${(props) => props.theme.text.white};
+  border: 1px solid ${(props) => props.theme.text.lightGray};
+  border-radius: 10px;
+  > div {
+    display: flex;
+    align-items: center;
+    padding: 10px 30px;
+    label {
+      width: 80%;
+      font-size: 16px;
+      color: ${(props) => props.theme.text.gray};
+      cursor: pointer;
+    }
+    input {
+      &[type="checkbox"],
+      &[type="radio"] {
+        width: 22px;
+        height: 22px;
+        border: 1px solid ${(props) => props.theme.text.lightGray};
+        font-size: 18px;
+        &:checked {
+          content: "";
+          border: 1px solid red;
+          width: 22px;
+          height: 22px;
+        }
+      }
+    }
+  }
+  @media ${device.tablet} {
+    margin-bottom: 40px;
+    > div {
+      padding: 15px 30px;
+    }
+  }
+`;
+
 const Info = styled.span`
   display: block;
   margin-bottom: 5px;
   font-size: 12px;
   font-weight: 400;
   color: ${(props) => props.theme.text.gray};
+  @media ${device.tablet} {
+    font-size: 16px;
+    margin: 20px 0 10px;
+  }
 `;
 
 export default UserDataInputForm;

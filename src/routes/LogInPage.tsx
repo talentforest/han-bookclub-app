@@ -65,31 +65,27 @@ const LogInPage = () => {
         <Button type="submit" value="로그인" />
         <Link to="/create_account">회원가입</Link>
       </Form>
-      <div>
+      <Footer>
         <Link to="/find_pw">비밀번호 찾기</Link>
-      </div>
-      <Footer>&copy; 2022 Book Club: Han Page </Footer>
+        <h3>&copy; 2022 Book Club: Han Page </h3>
+      </Footer>
     </NewContainer>
   );
 };
 
 const NewContainer = styled(Container)`
-  margin-bottom: 20px;
-  width: 100%;
-  > div {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-    > a {
-      font-size: 12px;
-      margin: 10px 0;
-      text-decoration: underline;
-    }
+  height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  @media ${device.tablet} {
+    padding: 20px 80px 60px;
   }
 `;
 
 const Title = styled.h1`
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 700;
   text-align: center;
   padding-top: 20px;
@@ -106,16 +102,16 @@ const Logo = styled.div`
   justify-content: center;
   align-items: center;
   div {
-    width: 160px;
-    height: 160px;
+    width: 150px;
+    height: 150px;
     margin: 10px 0 20px;
     border-radius: 50%;
     background-color: ${(props) => props.theme.container.lightBlue};
   }
   @media ${device.tablet} {
     div {
-      width: 200px;
-      height: 200px;
+      width: 230px;
+      height: 230px;
     }
   }
 `;
@@ -129,9 +125,27 @@ export const ErrorMessage = styled.span`
 
 const Footer = styled.footer`
   text-align: center;
-  font-size: 10px;
+  margin-top: 20px;
+  > a {
+    font-size: 12px;
+    text-decoration: underline;
+  }
+  > h3 {
+    display: block;
+    margin-top: 20px;
+    font-size: 13px;
+  }
   @media ${device.tablet} {
-    font-size: 18px;
+    margin-top: 80px;
+    > a {
+      font-size: 20px;
+      text-decoration: underline;
+    }
+    > h3 {
+      display: block;
+      margin-top: 40px;
+      font-size: 22px;
+    }
   }
 `;
 

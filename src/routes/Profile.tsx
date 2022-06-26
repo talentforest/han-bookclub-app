@@ -76,7 +76,7 @@ const User = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 140px;
+  width: 240px;
   margin-top: 10px;
   > img {
     object-fit: cover;
@@ -93,6 +93,7 @@ const User = styled.div`
     font-size: 15px;
     font-weight: 700;
     padding-top: 10px;
+    text-align: center;
   }
 `;
 

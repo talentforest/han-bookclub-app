@@ -1,6 +1,6 @@
 import { useState } from "react";
-import UserDataInputForm from "components/loginForm/UserDataInputForm";
 import AccountForm from "components/loginForm/AccountForm";
+import UserDataInputForm from "components/loginForm/UserDataInputForm";
 
 const CreateAccount = () => {
   const [isShowingUserDataInput, setIsShowingUserDataInput] = useState(false);

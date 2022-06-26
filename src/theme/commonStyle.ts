@@ -7,10 +7,9 @@ export const Header = styled.header`
   display: flex;
   align-items: center;
   height: 40px;
-  margin-top: 10px;
-  padding: 0 15px;
+  padding: 10px 15px;
   @media ${device.tablet} {
-    padding: 20px 80px;
+    padding: 50px 80px 10px;
     font-size: 22px;
   }
 `;
@@ -50,13 +49,13 @@ export const ButtonHeader = styled(Header)`
 `;
 
 export const Container = styled.main`
-  min-height: 100vh;
-  margin: 10px 20px 80px;
+  padding: 10px 20px 80px;
+  /* border: 1px solid red; */
   @media ${device.tablet} {
-    margin: 0px 50px 0px;
+    padding: 20px 80px 0px;
   }
   @media ${device.desktop} {
-    margin: 20px 50px 0;
+    padding: 20px 50px 0;
   }
 `;
 
@@ -82,7 +81,7 @@ export const Form = styled.form`
   align-items: center;
   > a {
     width: 100%;
-    height: 40px;
+    height: 48px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -90,8 +89,14 @@ export const Form = styled.form`
     border-radius: 10px;
     background-color: ${(props) => props.theme.text.lightBlue};
     color: ${(props) => props.theme.container.yellow};
-    font-weight: 700;
-    font-size: 13px;
+    font-weight: 500;
+    font-size: 16px;
+  }
+  @media ${device.tablet} {
+    a {
+      height: 64px;
+      font-size: 22px;
+    }
   }
 `;
 
@@ -100,6 +105,10 @@ export const Desc = styled.h4`
   font-weight: 700;
   font-size: 14px;
   margin: 10px 0;
+  color: ${(props) => props.theme.text.gray};
+  @media ${device.tablet} {
+    font-size: 18px;
+  }
 `;
 
 export const Input = styled.input`
@@ -108,14 +117,12 @@ export const Input = styled.input`
   &[type="text"] {
     border: none;
     width: 100%;
-    height: 40px;
+    height: 50px;
     border-radius: 10px;
     border: 1px solid ${(props) => props.theme.container.lightBlue};
     padding: 10px;
     margin-bottom: 10px;
-    &::placeholder {
-      font-size: 14px;
-    }
+    font-size: 16px;
     &:focus {
       outline: 2px solid ${(props) => props.theme.container.yellow};
       border: none;
@@ -125,12 +132,9 @@ export const Input = styled.input`
     &[type="password"],
     &[type="email"],
     &[type="text"] {
-      height: 60px;
-      margin-bottom: 15px;
+      height: 70px;
+      margin-bottom: 20px;
       font-size: 20px;
-      &::placeholder {
-        font-size: 20px;
-      }
     }
   }
 `;
@@ -138,16 +142,17 @@ export const Input = styled.input`
 export const Button = styled.input`
   text-align: center;
   width: 100%;
-  height: 40px;
+  height: 48px;
   border-radius: 10px;
   border: none;
   background-color: ${(props) => props.theme.container.yellow};
   color: ${(props) => props.theme.text.lightBlue};
   font-weight: 700;
-  margin: 10px 0;
+  font-size: 16px;
+  margin: 10px 0 20px;
   cursor: pointer;
   @media ${device.tablet} {
-    height: 50px;
-    font-size: 20px;
+    height: 64px;
+    font-size: 22px;
   }
 `;

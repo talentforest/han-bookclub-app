@@ -8,7 +8,7 @@ import { History } from "@mui/icons-material";
 
 const BottomNav = () => {
   const pathname = useLocation().pathname;
-  return !pathname.includes("setting") ? (
+  return !pathname.includes("setting") && !pathname.includes("userInfo") ? (
     <Nav>
       <ul>
         <li>

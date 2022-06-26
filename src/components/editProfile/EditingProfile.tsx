@@ -36,7 +36,7 @@ const EditingProfile = ({
   };
 
   const isSelected = (id: number) => {
-    return extraUserData.favoriteBookField.some((item) => item.id === id);
+    return extraUserData?.favoriteBookField.some((item) => item.id === id);
   };
 
   return (
