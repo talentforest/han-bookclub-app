@@ -20,6 +20,7 @@ const MyRecord = ({ item }: PropsType) => {
   const [myReviewsByBook, setMyReviewsByBook] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const userData = useRecoilValue(currentUserState);
+  const [guide, setGuide] = useState("");
   const docMonth = item.id;
 
   useEffect(() => {
@@ -40,7 +41,10 @@ const MyRecord = ({ item }: PropsType) => {
 
   const onSubjectClick = (booktitle: string) => {
     const filteredArr = mySubjects.filter((item) => item.title === booktitle);
-    if (filteredArr.length === 0) return;
+    if (filteredArr.length === 0) {
+      setGuide("아직 작성한 발제문이 없어요.");
+      return;
+    }
     setOpenModal((prev) => !prev);
     setMyReviewsByBook([]);
     setMySubjectsByBook(filteredArr);
@@ -48,7 +52,10 @@ const MyRecord = ({ item }: PropsType) => {
 
   const onReviewClick = (booktitle: string) => {
     const filteredArr = myReviews.filter((item) => item.title === booktitle);
-    if (filteredArr.length === 0) return;
+    if (filteredArr.length === 0) {
+      setGuide("아직 작성한 모임후기가 없어요.");
+      return;
+    }
     setOpenModal((prev) => !prev);
     setMySubjectsByBook([]);
     setMyReviewsByBook(filteredArr);
@@ -82,6 +89,7 @@ const MyRecord = ({ item }: PropsType) => {
                 나의 모임후기
               </button>
             </Category>
+            <span>{guide}</span>
           </Record>
           {openModal ? (
             <>
@@ -91,7 +99,7 @@ const MyRecord = ({ item }: PropsType) => {
                 }}
               />
               <SubjectBox>
-                {mySubjectsByBook &&
+                {mySubjectsByBook.length &&
                   mySubjectsByBook?.map((item) => (
                     <Subjects
                       key={item.id}
@@ -100,7 +108,7 @@ const MyRecord = ({ item }: PropsType) => {
                       onSubjectRemove={onSubjectRemove}
                     />
                   ))}
-                {myReviewsByBook &&
+                {myReviewsByBook.length &&
                   myReviewsByBook.map((item) => (
                     <Reviews
                       key={item.id}
@@ -144,7 +152,7 @@ const Record = styled.div`
   }
   @media ${device.tablet} {
     width: 260px;
-    height: 200px;
+    height: 220px;
     > div:first-child {
       height: 120px;
       img {
