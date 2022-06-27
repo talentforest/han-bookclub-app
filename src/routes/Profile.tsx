@@ -7,20 +7,35 @@ import Title from "components/common/Title";
 import styled from "styled-components";
 import Subtitle from "components/common/Subtitle";
 import MyRecords from "components/profile/MyRecords";
+import useWindowSize from "hooks/useWindowSize";
+import device, { deviceSizes } from "theme/mediaQueries";
 
 const Profile = () => {
   const userData = useRecoilValue(currentUserState);
+  const { windowSize } = useWindowSize();
 
   return (
     <>
-      <NewHeader>
-        <Title title="나의 책장" />
-        <Link to="/setting">
-          <Settings />
-        </Link>
-      </NewHeader>
+      {windowSize.width < +deviceSizes.tablet ? (
+        <NewHeader>
+          <Title title="나의 책장" />
+          <Link to="/setting">
+            <Settings />
+          </Link>
+        </NewHeader>
+      ) : (
+        <></>
+      )}
       <NewContainer>
         <User>
+          {windowSize.width < +deviceSizes.tablet ? (
+            <></>
+          ) : (
+            <Link to="/setting">
+              <Settings />
+            </Link>
+          )}
+
           {userData?.photoURL ? (
             <img src={userData.photoURL} alt="profile" />
           ) : (
@@ -69,9 +84,17 @@ const NewContainer = styled(Container)`
       margin-bottom: 10px;
     }
   }
+  @media ${device.tablet} {
+    section {
+      > span {
+        font-size: 16px;
+      }
+    }
+  }
 `;
 
 const User = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -94,6 +117,27 @@ const User = styled.div`
     font-weight: 700;
     padding-top: 10px;
     text-align: center;
+  }
+  @media ${device.tablet} {
+    width: 270px;
+    > img {
+      width: 160px;
+      height: 160px;
+    }
+    > svg {
+      width: 180px;
+      height: 180px;
+    }
+    > span {
+      font-size: 17px;
+      padding-top: 20px;
+    }
+    > a {
+      > svg {
+        position: absolute;
+        right: 30px;
+      }
+    }
   }
 `;
 

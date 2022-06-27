@@ -4,8 +4,13 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { extraUserData } from "routes/EditProfile";
 import styled from "styled-components";
+import ProfileImage from "components/common/ProfileImage";
+import device from "theme/mediaQueries";
 
 interface PropsType {
+  onProfileSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  profileImgUrl: string;
+  setProfileImgUrl: (profileImgUrl: string) => void;
   extraUserData: extraUserData;
   newDisplayName: string;
   setNewDisplayName: (newDisplayName: string) => void;
@@ -16,6 +21,9 @@ interface PropsType {
 }
 
 const EditingProfile = ({
+  onProfileSubmit,
+  profileImgUrl,
+  setProfileImgUrl,
   extraUserData,
   newDisplayName,
   setNewDisplayName,
@@ -40,31 +48,35 @@ const EditingProfile = ({
   };
 
   return (
-    <UserInfo>
-      <List>
-        <div>
-          <span>이메일</span>
-          <span>{userData.email}</span>
-        </div>
-        <p>이메일은 변경할 수 없습니다.</p>
-      </List>
-      <Edit>
+    <Form onSubmit={onProfileSubmit}>
+      <ProfileImage
+        profileImgUrl={profileImgUrl}
+        setProfileImgUrl={setProfileImgUrl}
+      />
+      <UserInfo>
         <List>
           <div>
-            <span>별명</span>
-            <input
-              onChange={onChange}
-              type="text"
-              placeholder="닉네임을 입력해주세요"
-              value={newDisplayName || ""}
-              required
-              autoFocus
-            />
+            <span>이메일</span>
+            <span>{userData.email}</span>
           </div>
+          <p>이메일은 변경할 수 없습니다.</p>
         </List>
-        <AfterFavEdit>
-          <span>좋아하는 분야</span>
-          <div>
+        <Edit>
+          <List>
+            <div>
+              <span>별명</span>
+              <input
+                onChange={onChange}
+                type="text"
+                placeholder="닉네임을 입력해주세요"
+                value={newDisplayName || ""}
+                required
+                autoFocus
+              />
+            </div>
+          </List>
+          <AfterFavEdit>
+            <span>좋아하는 분야</span>
             <div>
               {bookFields.map((item) => (
                 <button
@@ -77,19 +89,24 @@ const EditingProfile = ({
                   {item.name}
                 </button>
               ))}
+              {extraUserData?.favoriteBookField.length === 0 ? (
+                <span>변경하실 분야를 하나 이상 선택해주세요</span>
+              ) : (
+                <></>
+              )}
             </div>
-            {extraUserData?.favoriteBookField.length === 0 ? (
-              <span>변경하실 분야를 하나 이상 선택해주세요</span>
-            ) : (
-              <></>
-            )}
-          </div>
-        </AfterFavEdit>
-      </Edit>
-      <EditBtn type="submit" value="수정완료" />
-    </UserInfo>
+          </AfterFavEdit>
+        </Edit>
+        <EditBtn type="submit" value="수정완료" />
+      </UserInfo>
+    </Form>
   );
 };
+
+const Form = styled.form`
+  width: 100%;
+  margin-top: 10px;
+`;
 
 const Edit = styled.div`
   cursor: pointer;
@@ -111,42 +128,63 @@ const AfterFavEdit = styled.div`
   > div {
     width: 70%;
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    flex-wrap: wrap;
+    > span,
+    > button {
+      cursor: pointer;
+      padding: 3px 5px;
+      margin: 0px 0px 8px 8px;
+      font-size: 12px;
+      border-radius: 20px;
+      border: none;
+      background-color: ${(props) => props.theme.container.default};
+      color: ${(props) => props.theme.text.default};
+      &.isActive {
+        background-color: #5162ff;
+        color: #fff;
+      }
+    }
+    > span {
+      background-color: ${(props) => props.theme.text.lightBlue};
+      color: ${(props) => props.theme.text.white};
+    }
     > span {
       font-size: 10px;
       color: ${(props) => props.theme.text.lightBlue};
       margin-top: 5px;
     }
+  }
+  @media ${device.tablet} {
+    padding: 15px;
+    > span {
+      font-size: 16px;
+    }
     > div {
-      display: flex;
-      justify-content: end;
-      flex-wrap: wrap;
-      > span,
+      > span {
+        font-size: 16px;
+      }
       > button {
-        cursor: pointer;
-        padding: 2px 3px;
-        border-radius: 10px;
-        margin: 0px 0px 8px 8px;
-        font-size: 10px;
-        border: none;
-        background-color: ${(props) => props.theme.container.default};
-        color: ${(props) => props.theme.text.default};
-        &.isActive {
-          background-color: #5162ff;
-          color: #fff;
-        }
+        font-size: 16px;
+        padding: 5px 6px;
+        border-radius: 20px;
+        margin: 0px 0px 15px 15px;
       }
       > span {
         background-color: ${(props) => props.theme.text.lightBlue};
         color: ${(props) => props.theme.text.white};
+        display: block;
+        text-align: end;
       }
     }
   }
 `;
 
 const UserInfo = styled.ul`
-  margin: 20px auto 0;
+  margin: 30px auto 0;
+  width: 100%;
+  @media ${device.tablet} {
+    width: 80%;
+  }
 `;
 
 const List = styled.li`
@@ -185,6 +223,22 @@ const List = styled.li`
       flex-wrap: wrap;
     }
   }
+  @media ${device.tablet} {
+    padding: 15px;
+    > p {
+      font-size: 16px;
+    }
+    > div {
+      > span:first-child {
+        font-weight: 700;
+        font-size: 16px;
+      }
+      > input {
+        height: 36px;
+        font-size: 18px;
+      }
+    }
+  }
 `;
 
 const EditBtn = styled.input`
@@ -198,6 +252,11 @@ const EditBtn = styled.input`
   font-weight: 700;
   padding-top: 2px;
   font-size: 12px;
+  @media ${device.tablet} {
+    top: 40px;
+    right: 80px;
+    font-size: 18px;
+  }
 `;
 
 export default EditingProfile;

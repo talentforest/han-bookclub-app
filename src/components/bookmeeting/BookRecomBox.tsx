@@ -12,11 +12,11 @@ import {
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { Delete, Edit } from "@mui/icons-material";
+import { thisYearMonth } from "util/constants";
+import { TextArea, TextBox } from "./Reviews";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
-import { thisYearMonth } from "util/constants";
-import device from "theme/mediaQueries";
 
 interface PropsType {
   item: DocumentType;
@@ -104,41 +104,6 @@ const BookRecomBox = ({ item }: PropsType) => {
     </>
   );
 };
-
-const TextBox = styled.div`
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-  margin-top: 10px;
-  background-color: ${(props) => props.theme.container.default};
-  border-radius: 5px;
-  padding: 10px;
-  pre {
-    position: relative;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    line-height: 22px;
-    font-size: 15px;
-    min-height: 70px;
-  }
-  @media ${device.tablet} {
-    padding: 20px;
-  }
-`;
-
-const TextArea = styled.textarea`
-  width: 100%;
-  min-height: 100px;
-  background-color: #eaeaea;
-  border: none;
-  border-radius: 5px;
-  font-size: 15px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  resize: none;
-  padding: 5px;
-  &:focus {
-    outline: none;
-  }
-`;
 
 const RegisterTime = styled.div`
   font-size: 10px;

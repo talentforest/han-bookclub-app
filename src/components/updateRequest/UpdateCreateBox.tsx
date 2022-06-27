@@ -4,6 +4,7 @@ import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import device from "theme/mediaQueries";
 
 interface PropsType {
   request: string;
@@ -50,13 +51,13 @@ const UpdateCreateBox = ({ request, setRequest }: PropsType) => {
         value={request}
         onChange={onChange}
       />
-      <div>
+      <Bottom>
         <select name="request-type" onChange={onChange}>
           <option value="bug">버그 수정</option>
           <option value="feature">기능 추가</option>
         </select>
         <button type="submit">요청하기</button>
-      </div>
+      </Bottom>
     </Form>
   );
 };
@@ -82,26 +83,45 @@ const Form = styled.form`
       outline: none;
     }
   }
-  > div {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+  @media ${device.tablet} {
+    textarea {
+      font-size: 16px;
+      height: 100px;
+      padding: 15px;
+      border-radius: 10px;
+    }
+  }
+`;
+
+const Bottom = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  select {
+    border-radius: 5px;
+    padding: 0 4px;
+    color: ${(props) => props.theme.text.gray};
+    border: 1px solid ${(props) => props.theme.text.lightGray};
+    &:focus {
+      outline: none;
+    }
+  }
+  button {
+    cursor: pointer;
+    padding: 3px 5px;
+    border-radius: 5px;
+    border: 1px solid ${(props) => props.theme.text.lightGray};
+    background-color: ${(props) => props.theme.container.lightBlue};
+    color: ${(props) => props.theme.text.accent};
+  }
+  @media ${device.tablet} {
+    padding: 10px 15px 5px;
     select {
-      border-radius: 5px;
-      padding: 0 4px;
-      color: ${(props) => props.theme.text.gray};
-      border: 1px solid ${(props) => props.theme.text.lightGray};
-      &:focus {
-        outline: none;
-      }
+      font-size: 16px;
     }
     button {
-      cursor: pointer;
-      padding: 3px 5px;
-      border-radius: 5px;
-      border: 1px solid ${(props) => props.theme.text.lightGray};
-      background-color: ${(props) => props.theme.container.lightBlue};
-      color: ${(props) => props.theme.text.accent};
+      font-size: 16px;
+      padding: 5px;
     }
   }
 `;

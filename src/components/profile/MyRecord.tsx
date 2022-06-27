@@ -7,6 +7,7 @@ import Subjects from "components/bookmeeting/Subjects";
 import styled from "styled-components";
 import Reviews from "components/bookmeeting/Reviews";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
+import device from "theme/mediaQueries";
 
 interface PropsType {
   item: IBookMeetingInfo;
@@ -141,6 +142,19 @@ const Record = styled.div`
       font-size: 10px;
     }
   }
+  @media ${device.tablet} {
+    width: 260px;
+    height: 200px;
+    > div:first-child {
+      height: 120px;
+      img {
+        height: 80px;
+      }
+      h3 {
+        font-size: 15px;
+      }
+    }
+  }
 `;
 
 const Category = styled.div`
@@ -163,6 +177,13 @@ const Category = styled.div`
     cursor: pointer;
     &:hover {
       color: ${(props) => props.theme.text.accent};
+    }
+  }
+  @media ${device.tablet} {
+    > button {
+      margin: 5px;
+      padding: 5px 8px;
+      font-size: 15px;
     }
   }
 `;
@@ -197,6 +218,14 @@ const SubjectBox = styled.article`
   }
   > div:last-child {
     margin: 0;
+  }
+  @media ${device.tablet} {
+    width: 60vw;
+    top: 100px;
+    border-radius: 10px;
+    > div {
+      padding: 20px;
+    }
   }
 `;
 

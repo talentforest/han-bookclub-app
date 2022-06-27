@@ -3,6 +3,7 @@ import { currentUserState } from "data/userAtom";
 import { AccountCircle } from "@mui/icons-material";
 import { extraUserData } from "routes/EditProfile";
 import styled from "styled-components";
+import device from "theme/mediaQueries";
 
 interface PropsType {
   setEditing: (editing: boolean) => void;
@@ -23,7 +24,7 @@ const NotEditingProfile = ({ setEditing, extraUserData }: PropsType) => {
           <AccountCircle />
         )}
       </UserImg>
-      <EditBtn onClick={onClick} type="button" value="수정하기" />
+      <EditBtn onClick={onClick} type="button" value="프로필 수정하기" />
       <UserInfo>
         <List>
           <div>
@@ -54,17 +55,34 @@ const NotEditingProfile = ({ setEditing, extraUserData }: PropsType) => {
 };
 
 const UserImg = styled.div`
+  margin: 20px 0;
+  img {
+    object-fit: cover;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+  }
   svg {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
+  }
+  @media ${device.tablet} {
+    img {
+      width: 180px;
+      height: 180px;
+    }
+    svg {
+      width: 180px;
+      height: 180px;
+    }
   }
 `;
 
 const UserInfo = styled.ul`
+  margin-top: 30px;
   width: 100%;
-  > p {
-    font-size: 10px;
-    color: ${(props) => props.theme.text.lightBlue};
+  @media ${device.tablet} {
+    width: 80%;
   }
 `;
 
@@ -105,6 +123,22 @@ const List = styled.li`
       flex-wrap: wrap;
     }
   }
+  @media ${device.tablet} {
+    padding: 15px;
+    > p {
+      font-size: 16px;
+    }
+    > div {
+      > span:first-child {
+        font-weight: 700;
+        font-size: 16px;
+      }
+      > input {
+        height: 36px;
+        font-size: 18px;
+      }
+    }
+  }
 `;
 
 const FavFieldItem = styled.span`
@@ -117,6 +151,11 @@ const FavFieldItem = styled.span`
   border: 1px solid ${(props) => props.theme.text.lightGray};
   color: ${(props) => props.theme.text.white};
   background-color: ${(props) => props.theme.text.lightBlue};
+  @media ${device.tablet} {
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 30px;
+  }
 `;
 
 const EditBtn = styled.input`
@@ -130,6 +169,11 @@ const EditBtn = styled.input`
   padding-top: 2px;
   font-size: 12px;
   cursor: pointer;
+  @media ${device.tablet} {
+    top: 40px;
+    right: 80px;
+    font-size: 18px;
+  }
 `;
 
 export default NotEditingProfile;

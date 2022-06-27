@@ -165,7 +165,7 @@ const VoteDetail = () => {
                 <h4>투표인원: {membersVote.length}명</h4>
                 <ul>
                   {membersVote.map((member) => (
-                    <li>
+                    <li key={member.id}>
                       <UserInfoBox creatorId={member.id} key={member.id} />
                     </li>
                   ))}
@@ -231,7 +231,7 @@ const VoteDetail = () => {
                 <h4>투표인원: {membersVote.length}명</h4>
                 <ul>
                   {membersVote.map((member) => (
-                    <li>
+                    <li key={member.id}>
                       <UserInfoBox creatorId={member.id} key={member.id} />
                     </li>
                   ))}

@@ -112,7 +112,7 @@ const Reviews = ({ item, onReviewRemove }: PropsType) => {
   );
 };
 
-const TextBox = styled.div`
+export const TextBox = styled.div`
   padding: 10px;
   font-size: 14px;
   border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
@@ -129,15 +129,12 @@ const TextBox = styled.div`
     padding-bottom: 30px;
     pre {
       font-size: 18px;
-      min-height: 200px;
+      min-height: 120px;
     }
-  }
-  @media ${device.tablet} {
-    padding: 20px;
   }
 `;
 
-const TextArea = styled.textarea`
+export const TextArea = styled.textarea`
   font-size: 14px;
   width: 100%;
   padding: 5px;
@@ -155,7 +152,7 @@ const TextArea = styled.textarea`
   }
   @media ${device.tablet} {
     font-size: 18px;
-    min-height: 200px;
+    min-height: 120px;
   }
 `;
 

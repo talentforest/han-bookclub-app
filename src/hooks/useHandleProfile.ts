@@ -71,7 +71,7 @@ const useHandleProfile = () => {
     refreshUser();
   };
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onProfileSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
     try {
@@ -130,7 +130,7 @@ const useHandleProfile = () => {
     setEditing,
     getUserData,
     onHandleClick,
-    onSubmit,
+    onProfileSubmit,
     profileImgUrl,
     setProfileImgUrl,
     newDisplayName,

@@ -181,6 +181,7 @@ const Form = styled.form`
     width: 70%;
     margin: 0 auto;
     padding: 20px;
+    border-radius: 10px;
     > h3 {
       font-size: 18px;
       svg {

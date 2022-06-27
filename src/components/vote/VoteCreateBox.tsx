@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
 import styled from "styled-components";
 import useCreateVoteBox from "hooks/useCreateVoteBox";
+import device from "theme/mediaQueries";
 
 interface PropsType {
   setModalOpen: (modalOpen: boolean) => void;
@@ -100,7 +101,18 @@ const CreateBox = styled.form`
     border: none;
     border-radius: 5px;
     background-color: ${(props) => props.theme.container.yellow};
-    color: ${(props) => props.theme.text.gray};
+    color: ${(props) => props.theme.text.accent};
+  }
+  @media ${device.tablet} {
+    width: 70%;
+    margin: 0 auto;
+    border-radius: 10px;
+    top: 80px;
+    > button {
+      height: 50px;
+      font-size: 16px;
+      padding: 10px 12px;
+    }
   }
 `;
 
@@ -116,11 +128,15 @@ const Input = styled.input`
     outline: none;
     border-bottom: 2px solid ${(props) => props.theme.container.yellow};
   }
+  @media ${device.tablet} {
+    font-size: 16px;
+    height: 50px;
+  }
 `;
 
 const Vote = styled.div`
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 20px;
   width: 100%;
   font-size: 16px;
   border-radius: 5px;
@@ -164,19 +180,48 @@ const Vote = styled.div`
       }
     }
   }
+  @media ${device.tablet} {
+    font-size: 18px;
+    > span {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+    > ul {
+      margin-top: 20px;
+      span {
+        font-size: 16px;
+      }
+      li {
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+        input {
+          height: 45px;
+        }
+      }
+    }
+  }
 `;
 
 const Deadline = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 5px;
-  padding: 10px 10px;
+  padding: 20px;
   background-color: ${(props) => props.theme.container.default};
   span {
     display: block;
     font-size: 14px;
     font-weight: 700;
     margin-bottom: 8px;
+  }
+  @media ${device.tablet} {
+    span {
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
   }
 `;
 
@@ -192,6 +237,10 @@ const DatePick = styled(DatePicker)`
     outline: none;
     border: 1px solid ${(props) => props.theme.container.blue};
   }
+  @media ${device.tablet} {
+    font-size: 16px;
+    padding: 15px;
+  }
 `;
 
 const AddVoteItem = styled.div`
@@ -204,8 +253,16 @@ const AddVoteItem = styled.div`
   color: ${(props) => props.theme.text.accent};
   svg {
     width: 18px;
-    height: 148x;
+    height: 18px;
     fill: ${(props) => props.theme.text.accent};
+  }
+  @media ${device.tablet} {
+    font-size: 16px;
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: ${(props) => props.theme.text.accent};
+    }
   }
 `;
 

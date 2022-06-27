@@ -55,7 +55,7 @@ const BookMeetingInfo = styled(Link)`
     position: absolute;
     border: none;
     background-color: transparent;
-    right: 20px;
+    right: 10px;
     font-size: 14px;
     font-weight: 700;
     color: ${(props) => props.theme.text.lightBlue};

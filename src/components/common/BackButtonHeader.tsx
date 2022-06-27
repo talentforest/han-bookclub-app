@@ -33,6 +33,8 @@ const BackHeader = styled(Header)`
     padding-top: 2px;
   }
   @media ${device.tablet} {
+    margin-top: 30px;
+    padding-left: 80px;
     svg {
       width: 22px;
       height: 22px;

@@ -3,6 +3,7 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { AccountCircle, CameraAlt } from "@mui/icons-material";
 import styled from "styled-components";
+import device from "theme/mediaQueries";
 
 interface ProfileType {
   profileImgUrl: string;
@@ -44,7 +45,7 @@ const ProfileImage = ({ profileImgUrl, setProfileImgUrl }: ProfileType) => {
       <div>
         {beforeOnChange ? (
           userData.photoURL ? (
-            <BeforeChoice
+            <img
               src={userData.photoURL}
               alt="profileimg"
               onClick={() => {
@@ -55,7 +56,7 @@ const ProfileImage = ({ profileImgUrl, setProfileImgUrl }: ProfileType) => {
             <AccountCircle />
           )
         ) : (
-          <AfterChoice
+          <img
             src={profileImgUrl}
             alt="profileImage"
             onClick={() => {
@@ -76,21 +77,15 @@ const ProfileImage = ({ profileImgUrl, setProfileImgUrl }: ProfileType) => {
   );
 };
 
-const BeforeChoice = styled.img``;
-const AfterChoice = styled.img`
-  background-color: antiquewhite;
-`;
-
 const Container = styled.div`
   display: flex;
   justify-content: center;
   > div {
+    margin: 20px 0;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 140px;
-    width: 140px;
     margin-top: 10px;
     > svg {
       height: 120px;
@@ -98,16 +93,16 @@ const Container = styled.div`
     }
     > img {
       object-fit: cover;
-      width: 100px;
-      height: 100px;
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
       cursor: pointer;
     }
     > button {
       cursor: pointer;
       position: absolute;
-      right: 24px;
-      bottom: 16px;
+      right: 3px;
+      bottom: 10px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -115,12 +110,30 @@ const Container = styled.div`
       height: 30px;
       border-radius: 50%;
       border: none;
-      font-size: 10px;
-      font-weight: 700;
       background-color: ${(props) => props.theme.container.orange};
       svg {
         width: 16px;
         height: 16px;
+      }
+    }
+  }
+  @media ${device.tablet} {
+    > div {
+      > svg {
+        height: 180px;
+        width: 180px;
+      }
+      > img {
+        width: 180px;
+        height: 180px;
+      }
+      > button {
+        width: 40px;
+        height: 40px;
+        svg {
+          width: 24px;
+          height: 24px;
+        }
       }
     }
   }

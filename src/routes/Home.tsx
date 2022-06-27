@@ -42,8 +42,10 @@ const Home = () => {
   let settings = {
     dots: true,
     infinite: voteDoc.length > 1,
+    pauseOnHover: true,
     autoplay: true,
-    speed: 1000,
+    autoplaySpeed: 4000,
+    speed: 3000,
     slidesToShow: 1,
     slidesToScroll: 1,
     responsive: [
@@ -137,7 +139,7 @@ const SliderSection = styled.section`
 
 const NewContainer = styled(Container)`
   > section {
-    margin: 0 auto 50px;
+    margin-top: 50px;
     position: relative;
     > p {
       font-size: 12px;
@@ -154,6 +156,9 @@ const NewContainer = styled(Container)`
         fill: ${(props) => props.theme.text.lightBlue};
       }
     }
+  }
+  > section:first-child {
+    margin-top: 0;
   }
   @media ${device.tablet} {
     > section {

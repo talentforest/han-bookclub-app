@@ -68,9 +68,11 @@ const Form = styled.form`
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
+  margin-bottom: 20px;
   textarea {
     width: 100%;
     height: 90px;
+    font-size: 16px;
     border-radius: 5px;
     padding: 5px 10px;
     white-space: pre-wrap;

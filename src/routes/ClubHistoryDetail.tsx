@@ -105,7 +105,7 @@ const ClubHistoryDetail = () => {
 const Documents = styled.div`
   padding: 10px 20px;
   margin-top: 10px;
-  background-color: ${(props) => props.theme.container.lightBlue};
+  background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   width: 100%;

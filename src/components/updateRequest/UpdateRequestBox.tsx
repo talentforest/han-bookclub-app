@@ -5,6 +5,7 @@ import { dbService } from "fbase";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import styled from "styled-components";
+import device from "theme/mediaQueries";
 import { UpdateRequestDoc } from "util/getFirebaseDoc";
 import { timestamp } from "util/timestamp";
 
@@ -101,13 +102,6 @@ const Request = styled.li`
       display: flex;
       justify-content: space-between;
       margin-bottom: 5px;
-      > button {
-        border: 1px solid red;
-        border: none;
-        background-color: transparent;
-        color: ${(props) => props.theme.text.accent};
-        font-size: 13px;
-      }
     }
     > p {
       margin: 10px 0;
@@ -138,6 +132,31 @@ const Request = styled.li`
   }
   > span {
     font-size: 12px;
+  }
+  @media ${device.tablet} {
+    margin-top: 20px;
+    form {
+      > div:first-child {
+        margin-bottom: 15px;
+      }
+      > p {
+        margin: 10px 0 5px;
+        min-height: 60px;
+        line-height: 1.6;
+        > span {
+          font-size: 14px;
+          border-radius: 30px;
+          padding: 4px 10px;
+          margin-right: 8px;
+        }
+      }
+      > textarea {
+        font-size: 16px;
+      }
+    }
+    > span {
+      font-size: 14px;
+    }
   }
 `;
 

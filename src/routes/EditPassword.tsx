@@ -9,6 +9,7 @@ import { useState } from "react";
 import { Container, Input } from "theme/commonStyle";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import device from "theme/mediaQueries";
 
 const EditPassword = () => {
   const [originPassword, setOriginPassword] = useState("");
@@ -72,7 +73,7 @@ const EditPassword = () => {
             hidden
             type="text"
             autoComplete="username"
-            defaultValue={user.email}
+            defaultValue={user?.email}
           />
           <Input
             aria-hidden
@@ -107,16 +108,15 @@ const EditPassword = () => {
 
 const InputForm = styled.form`
   > input:last-child {
-    width: 100%;
-    text-align: center;
-    height: 40px;
-    border: none;
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 16px;
     background-color: ${(props) => props.theme.container.blue};
     color: #fff;
-    border-radius: 10px;
     cursor: pointer;
+  }
+  @media ${device.tablet} {
+    > input:last-child {
+      font-size: 20px;
+    }
   }
 `;
 

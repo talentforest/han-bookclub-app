@@ -7,9 +7,8 @@ export const Header = styled.header`
   display: flex;
   align-items: center;
   height: 40px;
-  padding: 10px 15px;
+  padding: 20px 15px 10px;
   @media ${device.tablet} {
-    padding: 50px 80px 10px;
     font-size: 22px;
   }
 `;
@@ -50,9 +49,9 @@ export const ButtonHeader = styled(Header)`
 
 export const Container = styled.main`
   padding: 10px 20px 80px;
-  /* border: 1px solid red; */
+
   @media ${device.tablet} {
-    padding: 20px 80px 0px;
+    padding: 20px 80px 80px;
   }
   @media ${device.desktop} {
     padding: 20px 50px 0;
@@ -114,7 +113,8 @@ export const Desc = styled.h4`
 export const Input = styled.input`
   &[type="password"],
   &[type="email"],
-  &[type="text"] {
+  &[type="text"],
+  &[type="submit"] {
     border: none;
     width: 100%;
     height: 50px;
@@ -131,7 +131,8 @@ export const Input = styled.input`
   @media ${device.tablet} {
     &[type="password"],
     &[type="email"],
-    &[type="text"] {
+    &[type="text"],
+    &[type="submit"] {
       height: 70px;
       margin-bottom: 20px;
       font-size: 20px;

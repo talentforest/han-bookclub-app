@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import LogOutButton from "components/settings/LogOutButton";
 import styled from "styled-components";
 import BackButtonHeader from "components/common/BackButtonHeader";
+import device from "theme/mediaQueries";
 
 const Setting = () => {
   return (
@@ -54,6 +55,26 @@ const NewContainer = styled(Container)`
       > button {
         cursor: pointer;
         padding: 0;
+      }
+    }
+  }
+  @media ${device.tablet} {
+    > span {
+      display: block;
+      font-size: 16px;
+      font-weight: 700;
+      padding-top: 15px;
+    }
+    > ul {
+      margin-bottom: 20px;
+      > li {
+        border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
+        font-size: 18px;
+        padding: 20px 0;
+        > button {
+          cursor: pointer;
+          padding: 0;
+        }
       }
     }
   }
