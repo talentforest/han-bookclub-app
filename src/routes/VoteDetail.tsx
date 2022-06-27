@@ -105,7 +105,7 @@ const VoteDetail = () => {
     <>
       <BackButtonHeader title="투표함" />
       <Container>
-        <Vote>
+        <Vote className={new Date(item.deadline) ? "disalbe" : ""}>
           {myVote.length ? (
             <>
               <form>
@@ -265,6 +265,9 @@ const Vote = styled.div`
       background-color: ${(props) => props.theme.container.yellow};
       color: ${(props) => props.theme.text.accent};
     }
+  }
+  &.disalbe {
+    pointer-events: none;
   }
 `;
 

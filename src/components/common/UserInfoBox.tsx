@@ -9,7 +9,6 @@ interface PropsType {
 }
 
 const UserInfoBox = ({ creatorId }: PropsType) => {
-  console.log(creatorId);
   const [userDataDoc, setUserDataDoc] = useState({
     displayName: "",
     email: "",

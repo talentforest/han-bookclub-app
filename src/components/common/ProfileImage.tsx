@@ -88,8 +88,8 @@ const Container = styled.div`
     align-items: center;
     margin-top: 10px;
     > svg {
-      height: 120px;
-      width: 120px;
+      height: 140px;
+      width: 140px;
     }
     > img {
       object-fit: cover;
@@ -120,8 +120,14 @@ const Container = styled.div`
   @media ${device.tablet} {
     > div {
       > svg {
-        height: 180px;
-        width: 180px;
+        border: 1px solid red;
+        height: 200px;
+        width: 200px;
+
+        path {
+          height: 200px;
+          width: 200px;
+        }
       }
       > img {
         width: 180px;

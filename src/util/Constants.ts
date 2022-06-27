@@ -1,3 +1,5 @@
+const date = new Date();
+
 export const gender = ["여성", "남성"];
 
 export const bookFields = [
@@ -13,14 +15,18 @@ export const bookFields = [
   { id: 10, name: "과학" },
 ];
 
-const date = new Date();
-
 export const thisYearMonth = `${date.toISOString().substr(0, 7)}`;
 
 export const thisYear = date.getFullYear();
 
 export const thisMonth = date.getMonth() + 1;
 
-export const today = `${date.getFullYear()}-${
-  date.getMonth() + 1
-}-${date.getDate()}`;
+export const today = () => {
+  const month = ("0" + (date.getMonth() + 1)).slice(-2);
+  const day = ("0" + date.getDate()).slice(-2);
+  const today = `${thisYear}-${month}-${day}`;
+
+  return today;
+};
+
+console.log(today());

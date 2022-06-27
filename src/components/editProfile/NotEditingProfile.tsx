@@ -63,8 +63,8 @@ const UserImg = styled.div`
     border-radius: 50%;
   }
   svg {
-    width: 120px;
-    height: 120px;
+    width: 140px;
+    height: 140px;
   }
   @media ${device.tablet} {
     img {
@@ -72,8 +72,8 @@ const UserImg = styled.div`
       height: 180px;
     }
     svg {
-      width: 180px;
-      height: 180px;
+      width: 200px;
+      height: 200px;
     }
   }
 `;

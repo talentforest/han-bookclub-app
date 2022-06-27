@@ -10,6 +10,7 @@ import VoteBox from "components/vote/VoteBox";
 import VoteCreateBox from "components/vote/VoteCreateBox";
 import styled from "styled-components";
 import Subtitle from "components/common/Subtitle";
+import { today } from "util/constants";
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -26,6 +27,9 @@ const Vote = () => {
   const onClick = () => {
     setModalOpen((prev) => !prev);
   };
+
+  const progressVote = voteDoc.filter((item) => item.deadline >= today());
+  const expiredVote = voteDoc.filter((item) => item.deadline < today());
 
   return (
     <>
@@ -58,9 +62,19 @@ const Vote = () => {
           </section>
         )}
         <VoteList>
-          {voteDoc.map((item, index) => (
+          {progressVote.map((item, index) => (
             <VoteBox key={item.id} item={item} index={index} />
           ))}
+        </VoteList>
+        <Subtitle title="기한이 만료된 투표함" />
+        <VoteList>
+          {expiredVote?.length ? (
+            expiredVote.map((item, index) => (
+              <VoteBox key={item.id} item={item} index={index} />
+            ))
+          ) : (
+            <EmptyBox>아직 만료된 투표가 없습니다.</EmptyBox>
+          )}
         </VoteList>
       </Container>
     </>
@@ -72,9 +86,9 @@ const VoteList = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 15px;
+  margin: 20px auto 40px;
   @media ${device.tablet} {
     width: 620px;
-    margin: 20px auto 0;
   }
 `;
 
@@ -91,6 +105,18 @@ const VoteButton = styled.button`
     fill: ${(props) => props.theme.text.accent};
     margin-right: 5px;
   }
+`;
+
+const EmptyBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  height: 100px;
+  background-color: ${(props) => props.theme.container.default};
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
 `;
 
 export default Vote;

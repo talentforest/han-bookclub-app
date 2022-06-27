@@ -7,7 +7,6 @@ import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { useMemo, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { extraUserData } from "routes/EditProfile";
-import { v4 } from "uuid";
 
 const useHandleProfile = () => {
   const [userData, setUserData] = useRecoilState(currentUserState);
@@ -41,10 +40,10 @@ const useHandleProfile = () => {
   };
 
   const updateProfileImg = async () => {
+    let userImageUrl = userData.photoURL;
     const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
 
-    let userImageUrl = userData.photoURL;
-    const fileRef = ref(storageService, `${userData.uid}/${v4()}`);
+    const fileRef = ref(storageService, `${userData.uid}`);
     const response = await uploadString(fileRef, profileImgUrl, "data_url");
     userImageUrl = await getDownloadURL(response.ref);
 
