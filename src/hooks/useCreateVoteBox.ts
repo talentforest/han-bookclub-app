@@ -3,6 +3,7 @@ import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
+import { pickDay } from "util/constants";
 
 const useCreateVoteBox = (
   setModalOpen: (modalOpen: boolean) => void,
@@ -24,7 +25,7 @@ const useCreateVoteBox = (
       await addDoc(collection(dbService, "Vote"), {
         createdAt: Date.now(),
         creatorId: userData.uid,
-        deadline: endDate.toISOString().slice(0, 10),
+        deadline: pickDay(endDate),
         vote,
       });
       window.alert("투표가 성공적으로 등록되었습니다!");

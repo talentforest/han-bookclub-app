@@ -126,15 +126,15 @@ export const Overlay = styled.div`
   left: 0;
   right: 0;
   width: 100%;
-  height: 100vh;
-  padding-bottom: 20px;
+  min-height: 100vh;
+  padding-bottom: 100px;
   background-color: rgba(0, 0, 0, 0.6);
 `;
 
 const Form = styled.form`
   z-index: 2;
   position: fixed;
-  top: 50px;
+  top: 20px;
   right: 0;
   left: 0;
   display: flex;

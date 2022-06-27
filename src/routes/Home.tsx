@@ -1,12 +1,13 @@
 import { Container, Header } from "theme/commonStyle";
 import device, { deviceSizes } from "theme/mediaQueries";
 import { useEffect, useState } from "react";
-import { thisMonth } from "util/constants";
+import { thisMonth, today } from "util/constants";
 import {
   getBookMeetingInfoData,
   getThisYearBookField,
   getVote,
   thisYearField,
+  VoteDocument,
 } from "util/getFirebaseDoc";
 import LinkButton from "components/common/LinkButton";
 import useWindowSize from "hooks/useWindowSize";
@@ -39,9 +40,14 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const progressVote = voteDoc.filter(
+    (item: VoteDocument) => item.deadline >= today()
+  );
+
   let settings = {
+    arrows: false,
     dots: true,
-    infinite: voteDoc.length > 1,
+    infinite: voteDoc.length > 2,
     pauseOnHover: true,
     autoplay: true,
     autoplaySpeed: 4000,
@@ -100,7 +106,7 @@ const Home = () => {
         <SliderSection>
           <Subtitle title={`${thisMonth}월의 투표`} />
           <Slider {...settings}>
-            {voteDoc.slice(0, 3).map((item, index) => (
+            {progressVote.slice(0, 3).map((item, index) => (
               <VoteBox key={item.id} item={item} index={index} />
             ))}
           </Slider>
@@ -123,19 +129,6 @@ const Home = () => {
     </>
   );
 };
-
-const SliderSection = styled.section`
-  position: relative;
-  margin: 0 auto 50px;
-  box-sizing: none;
-  .slick-slider {
-    margin: 0 -10px;
-  }
-  .slick-slide {
-    width: 100%;
-    padding: 0 10px;
-  }
-`;
 
 const NewContainer = styled(Container)`
   > section {
@@ -166,6 +159,19 @@ const NewContainer = styled(Container)`
         font-size: 16px;
       }
     }
+  }
+`;
+
+const SliderSection = styled.section`
+  position: relative;
+  margin: 0 auto 50px;
+  box-sizing: none;
+  .slick-slider {
+    margin: 0 -10px;
+  }
+  .slick-slide {
+    width: 100%;
+    padding: 0 10px;
   }
 `;
 

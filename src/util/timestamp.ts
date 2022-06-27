@@ -1,5 +1,3 @@
-import { VoteDocument } from "./getFirebaseDoc";
-
 export function timestamp(createdAt: number | string | Date) {
   const date = new Date(createdAt);
   return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
@@ -18,8 +16,8 @@ export function voteTimestamp(createdAt: number | string) {
   return `${date.getMonth() + 1}월 ${date.getDate()}일`;
 }
 
-export function dDay(item: VoteDocument) {
-  const maxTime = new Date(item.deadline);
+export function dDay(item: string) {
+  const maxTime = new Date(item);
   const today = new Date();
   const diff = +maxTime - +today;
   const diffDay = Math.floor(diff / (1000 * 60 * 60 * 24));

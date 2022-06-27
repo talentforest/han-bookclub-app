@@ -81,20 +81,22 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   > div {
-    margin: 20px 0;
+    width: 160px;
+    height: 160px;
+    margin: 10px 0;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 10px;
     > svg {
       height: 140px;
       width: 140px;
     }
     > img {
       object-fit: cover;
-      width: 120px;
-      height: 120px;
+      padding: 20px;
+      width: 160px;
+      height: 160px;
       border-radius: 50%;
       cursor: pointer;
     }
@@ -119,19 +121,16 @@ const Container = styled.div`
   }
   @media ${device.tablet} {
     > div {
+      height: 240px;
+      width: 240px;
       > svg {
-        border: 1px solid red;
-        height: 200px;
-        width: 200px;
-
-        path {
-          height: 200px;
-          width: 200px;
-        }
+        height: 220px;
+        width: 220px;
       }
       > img {
-        width: 180px;
-        height: 180px;
+        padding: 20px;
+        width: 240px;
+        height: 240px;
       }
       > button {
         width: 40px;

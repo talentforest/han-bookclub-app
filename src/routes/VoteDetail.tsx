@@ -12,6 +12,8 @@ import { Container } from "theme/commonStyle";
 import styled from "styled-components";
 import BackButtonHeader from "components/common/BackButtonHeader";
 import UserInfoBox from "components/common/UserInfoBox";
+import { today } from "util/constants";
+import device from "theme/mediaQueries";
 
 type LocationState = { item: VoteDocument };
 
@@ -105,13 +107,17 @@ const VoteDetail = () => {
     <>
       <BackButtonHeader title="투표함" />
       <Container>
-        <Vote className={new Date(item.deadline) ? "disalbe" : ""}>
+        <Vote className={item.deadline < today() ? "disalbe" : ""}>
           {myVote.length ? (
             <>
               <form>
-                <p>D-Day: {dDay(item)}</p>
-                <h4>Q. {item.vote.title}</h4>
-
+                <p>D-Day: {dDay(item.deadline)}</p>
+                <VoteHeader>
+                  <h4>Q. {item.vote.title}</h4>
+                  <span>
+                    투표 등록: <UserInfoBox creatorId={item.creatorId} />
+                  </span>
+                </VoteHeader>
                 <Votelist className={"disalbe"}>
                   {item.vote.voteItem.map((item, index) => (
                     <li
@@ -175,8 +181,13 @@ const VoteDetail = () => {
           ) : (
             <>
               <form onSubmit={onSubmit}>
-                <p>D-Day: {dDay(item)}</p>
-                <h4>Q. {item.vote.title}</h4>
+                <p>D-Day: {dDay(item.deadline)}</p>
+                <VoteHeader>
+                  <h4>Q. {item.vote.title}</h4>
+                  <span>
+                    투표 등록: <UserInfoBox creatorId={item.creatorId} />
+                  </span>
+                </VoteHeader>
                 <Votelist className={disabled ? "disalbe" : ""}>
                   {item.vote.voteItem.map((item, index) => (
                     <li
@@ -249,16 +260,9 @@ const Vote = styled.div`
   width: 100%;
   padding: 0 20px;
   > form {
-    > h4 {
-      font-size: 18px;
-      font-weight: 700;
-      padding-bottom: 10px;
-      margin: 15px 0;
-      border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
-    }
     > p {
       width: fit-content;
-      font-size: 11px;
+      font-size: 12px;
       border-radius: 15px;
       padding: 5px 10px 3px;
       margin-bottom: 10px;
@@ -269,19 +273,39 @@ const Vote = styled.div`
   &.disalbe {
     pointer-events: none;
   }
+  @media ${device.tablet} {
+    > form {
+      > p {
+        font-size: 16px;
+      }
+    }
+  }
 `;
 
-const VoteMember = styled.div`
-  h4 {
-    font-size: 14px;
-    width: fit-content;
-    margin-bottom: 10px;
-    border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
+const VoteHeader = styled.header`
+  margin: 15px 0;
+  padding: 10px 0;
+  border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
+  > h4 {
+    font-size: 18px;
+    font-weight: 700;
+    padding-bottom: 10px;
   }
-  ul {
+  > span {
     display: flex;
-    flex-wrap: wrap;
-    gap: 5px 10px;
+    align-items: center;
+    font-size: 14px;
+    > div {
+      margin-left: 5px;
+    }
+  }
+  @media ${device.tablet} {
+    > h4 {
+      font-size: 22px;
+    }
+    > span {
+      font-size: 16px;
+    }
   }
 `;
 
@@ -317,7 +341,20 @@ const Votelist = styled.ul`
     }
     > span {
       z-index: 1;
-      padding-top: 3px;
+    }
+  }
+  @media ${device.tablet} {
+    margin-bottom: 30px;
+    > li {
+      margin-top: 15px;
+      height: 60px;
+      > svg {
+        width: 24px;
+        height: 24px;
+      }
+      > span {
+        font-size: 18px;
+      }
     }
   }
 `;
@@ -335,6 +372,9 @@ const Percentage = styled.div`
   height: 100%;
   border-radius: 3px;
   background-color: ${(props) => props.theme.container.purple};
+  @media ${device.tablet} {
+    font-size: 16px;
+  }
 `;
 
 const SubmitButton = styled.button`
@@ -361,6 +401,36 @@ const SubmitButton = styled.button`
     pointer-events: none;
     background-color: ${(props) => props.theme.text.lightGray};
     color: ${(props) => props.theme.text.gray};
+  }
+  @media ${device.tablet} {
+    font-size: 16px;
+    height: 60px;
+    padding: 0px;
+  }
+`;
+
+const VoteMember = styled.div`
+  h4 {
+    font-size: 14px;
+    width: fit-content;
+    margin-bottom: 10px;
+    border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
+  }
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 10px;
+  }
+  @media ${device.tablet} {
+    width: 100%;
+    margin-top: 30px;
+    h4 {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    ul {
+      font-size: 18px;
+    }
   }
 `;
 

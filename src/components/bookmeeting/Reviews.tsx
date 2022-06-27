@@ -120,16 +120,15 @@ export const TextBox = styled.div`
     white-space: pre-wrap;
     word-wrap: break-word;
     line-height: 1.6;
-    padding-bottom: 5px;
-    margin: 10px;
     font-size: 14px;
+    min-height: 60px;
+    margin-bottom: 5px;
   }
   @media ${device.tablet} {
-    margin-bottom: 20px;
-    padding-bottom: 30px;
+    padding: 15px;
     pre {
       font-size: 18px;
-      min-height: 120px;
+      min-height: 100px;
     }
   }
 `;
@@ -137,7 +136,6 @@ export const TextBox = styled.div`
 export const TextArea = styled.textarea`
   font-size: 14px;
   width: 100%;
-  padding: 5px;
   white-space: pre-wrap;
   word-wrap: break-word;
   border: none;
@@ -152,7 +150,7 @@ export const TextArea = styled.textarea`
   }
   @media ${device.tablet} {
     font-size: 18px;
-    min-height: 120px;
+    min-height: 100px;
   }
 `;
 

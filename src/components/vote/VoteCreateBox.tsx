@@ -76,16 +76,18 @@ const VoteCreateBox = ({ setModalOpen }: PropsType) => {
 
 const CreateBox = styled.form`
   position: fixed;
-  top: 30px;
+  overflow: scroll;
+  top: 0;
   right: 0;
   left: 0;
   min-height: 30vh;
+  max-height: 75vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   margin: 30px;
-  padding: 20px 15px;
+  padding: 15px;
   border-radius: 5px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   background-color: ${(props) => props.theme.container.purple};
@@ -136,7 +138,7 @@ const Input = styled.input`
 
 const Vote = styled.div`
   margin-bottom: 10px;
-  padding: 20px;
+  padding: 10px;
   width: 100%;
   font-size: 16px;
   border-radius: 5px;
@@ -145,6 +147,7 @@ const Vote = styled.div`
     display: block;
     margin-bottom: 6px;
     font-weight: 700;
+    font-size: 13px;
   }
   > ul {
     margin-top: 20px;
@@ -185,6 +188,7 @@ const Vote = styled.div`
     > span {
       display: block;
       margin-bottom: 6px;
+      font-size: 16px;
       font-weight: 700;
     }
     > ul {

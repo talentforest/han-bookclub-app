@@ -5,7 +5,7 @@ import {
 } from "@mui/icons-material";
 import { VoteDocument } from "util/getFirebaseDoc";
 import styled from "styled-components";
-import { voteTimestamp } from "util/timestamp";
+import { dDay } from "util/timestamp";
 import { Link } from "react-router-dom";
 import device from "theme/mediaQueries";
 
@@ -28,7 +28,7 @@ const VoteBox = ({ item, index }: PropsType) => {
         {item.vote.voteItem.length > 3 ? <MoreHoriz /> : <></>}
       </VoteLists>
       <VoteBottom>
-        <p>투표기한: {voteTimestamp(item.deadline)}</p>
+        <p>D-Day: {dDay(item.deadline)}</p>
         <Link to={`/vote/${index}`} state={{ item: item }}>
           투표하러 가기
           <ArrowForwardIosOutlined />

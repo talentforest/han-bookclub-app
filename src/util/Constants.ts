@@ -29,4 +29,11 @@ export const today = () => {
   return today;
 };
 
-console.log(today());
+export const pickDay = (pickDay: Date) => {
+  const year = new Date(pickDay).getFullYear();
+  const month = ("0" + (new Date(pickDay).getMonth() + 1)).slice(-2);
+  const day = ("0" + new Date(pickDay).getDate()).slice(-2);
+  const today = `${year}-${month}-${day}`;
+
+  return today;
+};

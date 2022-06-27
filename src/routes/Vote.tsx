@@ -62,9 +62,13 @@ const Vote = () => {
           </section>
         )}
         <VoteList>
-          {progressVote.map((item, index) => (
-            <VoteBox key={item.id} item={item} index={index} />
-          ))}
+          {progressVote?.length ? (
+            progressVote.map((item, index) => (
+              <VoteBox key={item.id} item={item} index={index} />
+            ))
+          ) : (
+            <EmptyBox>아직 등록된 투표가 없습니다.</EmptyBox>
+          )}
         </VoteList>
         <Subtitle title="기한이 만료된 투표함" />
         <VoteList>
