@@ -4,7 +4,6 @@ import { getBookMeetingInfoData } from "util/getFirebaseDoc";
 import device, { deviceSizes } from "theme/mediaQueries";
 import useWindowSize from "hooks/useWindowSize";
 import Subtitle from "components/common/Subtitle";
-import Title from "components/common/Title";
 import styled from "styled-components";
 import HistoryBox from "components/clubbookhistory/HistoryBox";
 
@@ -43,7 +42,7 @@ const ClubHistory = () => {
     <>
       {windowSize.width < +deviceSizes.tablet ? (
         <Header>
-          <Title title="지난 책모임" />
+          <h1>지난 책모임</h1>
         </Header>
       ) : (
         <></>

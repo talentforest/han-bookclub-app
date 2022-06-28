@@ -18,6 +18,10 @@ export interface DocumentType {
   createdAt: number;
   title?: string;
   thumbnail?: string;
+  recommendBookTitle?: string;
+  recommendBookThumbnail?: string;
+  recommendBookUrl?: string;
+  recommendBookAuthor?: [];
 }
 
 interface ISubject {

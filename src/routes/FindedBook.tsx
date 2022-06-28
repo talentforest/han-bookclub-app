@@ -7,6 +7,7 @@ import BookDesc from "components/common/BookDesc";
 import BackButtonHeader from "components/common/BackButtonHeader";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import RegisterClubBookButton from "components/bookfind/RegisterClubBookButton";
+import RegisterRecommendButton from "components/bookfind/RegisterRecommendButton";
 
 const FindedBook = () => {
   const [findbookData, setFindBookData] = useState([]);
@@ -30,10 +31,11 @@ const FindedBook = () => {
       <BackButtonHeader title="도서 정보" />
       <Container>
         <BookTitleImgBox docData={findbookData[0]} />
-        <RegisterClubBookButton
+        {/* <RegisterClubBookButton
           bookMeetingDocData={bookMeetingDocData}
           findbookData={findbookData[0]}
-        />
+        /> */}
+        <RegisterRecommendButton findbookData={findbookData[0]} />
         <BookDesc bookInfo={findbookData[0]} />
       </Container>
     </>

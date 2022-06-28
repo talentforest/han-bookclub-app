@@ -6,14 +6,16 @@ export const Header = styled.header`
   font-weight: 700;
   display: flex;
   align-items: center;
-  height: 40px;
-  padding: 20px 15px 10px;
+  height: 50px;
+  padding: 15px;
   @media ${device.tablet} {
     font-size: 22px;
   }
 `;
 
 export const ButtonHeader = styled(Header)`
+  display: flex;
+  align-items: center;
   justify-content: space-between;
   button,
   a {
@@ -26,6 +28,7 @@ export const ButtonHeader = styled(Header)`
     background-color: transparent;
     font-weight: 700;
     cursor: pointer;
+    margin: 0;
     svg {
       fill: ${(props) => props.theme.text.lightBlue};
       width: 16px;

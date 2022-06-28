@@ -5,7 +5,6 @@ import { ButtonHeader, Container } from "theme/commonStyle";
 import device, { deviceSizes } from "theme/mediaQueries";
 import { getVote } from "util/getFirebaseDoc";
 import useWindowSize from "hooks/useWindowSize";
-import Title from "components/common/Title";
 import VoteBox from "components/vote/VoteBox";
 import VoteCreateBox from "components/vote/VoteCreateBox";
 import styled from "styled-components";
@@ -35,7 +34,7 @@ const Vote = () => {
     <>
       {windowSize.width < +deviceSizes.tablet ? (
         <ButtonHeader>
-          <Title title="의 투표" />
+          <h1>한페이지의 투표함</h1>
           <button onClick={onClick}>
             <AddCircleOutline />
             투표 등록하기

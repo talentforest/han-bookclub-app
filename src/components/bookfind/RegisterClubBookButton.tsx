@@ -47,18 +47,19 @@ const RegisterClubBookButton = ({
   );
 };
 
-const SelectBox = styled.form`
+export const SelectBox = styled.form`
   display: flex;
   justify-content: center;
-  margin: 25px auto;
+  margin: 15px auto 10px;
   input:last-child {
     display: flex;
     align-items: center;
     font-size: 13px;
     border: none;
     border-radius: 5px;
-    padding: 3px 10px;
+    padding: 3px 6px;
     margin-left: 10px;
+    width: fit-content;
     height: 30px;
     font-weight: 700;
     color: #aaa;

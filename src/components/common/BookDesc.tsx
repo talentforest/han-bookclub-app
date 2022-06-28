@@ -39,7 +39,7 @@ const BookDesc = ({ bookInfo, onModalOpen }: PropsType) => {
           정가: {bookInfo?.price}원
         </li>
         <p>줄거리 {bookInfo?.contents}...</p>
-        <a href={`${bookInfo?.url}`} target="_blank" rel="noreferrer">
+        <a href={bookInfo?.url} target="_blank" rel="noreferrer">
           상세정보 보러가기
         </a>
       </BookDetail>

@@ -17,6 +17,7 @@ import { TextArea, TextBox } from "./Reviews";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
+import RecommendInfo from "./RecommendInfo";
 
 interface PropsType {
   item: DocumentType;
@@ -77,6 +78,7 @@ const BookRecomBox = ({ item }: PropsType) => {
                 <DoneBtn type="submit" value="수정완료" />
               )}
             </FormHeader>
+            <RecommendInfo smSize={"smSize"} />
             <TextArea
               value={newText}
               placeholder="수정해주세요."
@@ -96,6 +98,24 @@ const BookRecomBox = ({ item }: PropsType) => {
               </EditDeleteIcon>
             )}
           </FormHeader>
+          {item.recommendBookTitle ? (
+            <RecommendBook>
+              <img src={item.recommendBookThumbnail} alt="recommend book" />
+              <div>
+                <h5>{item.recommendBookTitle}</h5>
+                <span>{item.recommendBookAuthor?.join(", ")}</span>
+                <a
+                  href={item.recommendBookUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  상세정보 보러가기
+                </a>
+              </div>
+            </RecommendBook>
+          ) : (
+            <></>
+          )}
           <pre>{newText}</pre>
           <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
           <BookTitleImgBox docData={item} smSize={"smSize"} />
@@ -104,6 +124,29 @@ const BookRecomBox = ({ item }: PropsType) => {
     </>
   );
 };
+
+const RecommendBook = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  > img {
+    width: auto;
+    height: 50px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-right: 10px;
+  }
+  > div {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    > h5 {
+      font-weight: 700;
+    }
+    > a {
+      color: ${(props) => props.theme.text.accent};
+    }
+  }
+`;
 
 const RegisterTime = styled.div`
   font-size: 10px;

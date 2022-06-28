@@ -18,3 +18,12 @@ export const bookDescState = atom<BookDocument[]>({
   key: `bookDesc${v4()}`,
   default: [],
 });
+
+export const recommendBookState = atom<BookDocument>({
+  key: `recommendBook${v4()}`,
+  default: {
+    thumbnail: "",
+    title: "",
+    authors: [],
+  },
+});

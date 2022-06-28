@@ -28,7 +28,7 @@ const ResultBox = ({ bookInfo }: PropsType) => {
               ? `${bookInfo.title.slice(0, 17)}...`
               : bookInfo.title}
           </h3>
-          <span>저자: {bookInfo.authors}</span>
+          <span>저자: {bookInfo.authors.join(", ")}</span>
           {bookInfo?.translators.length !== 0 ? (
             <span>역자: {bookInfo.translators}</span>
           ) : (

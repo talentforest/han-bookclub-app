@@ -1,7 +1,7 @@
 import { Container, Header } from "theme/commonStyle";
 import device, { deviceSizes } from "theme/mediaQueries";
 import { useEffect, useState } from "react";
-import { thisMonth, today } from "util/constants";
+import { today } from "util/constants";
 import {
   getBookMeetingInfoData,
   getThisYearBookField,
@@ -13,7 +13,6 @@ import LinkButton from "components/common/LinkButton";
 import useWindowSize from "hooks/useWindowSize";
 import Subtitle from "components/common/Subtitle";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
-import Title from "components/common/Title";
 import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import VoteBox from "components/vote/VoteBox";
@@ -43,6 +42,8 @@ const Home = () => {
   const progressVote = voteDoc.filter(
     (item: VoteDocument) => item.deadline >= today()
   );
+
+  const lastDocMonth = bookMeetingInfoDoc[0]?.id.slice(6);
 
   let settings = {
     arrows: false,
@@ -83,19 +84,19 @@ const Home = () => {
     <>
       {windowSize.width < +deviceSizes.tablet ? (
         <Header>
-          <Title title="독서모임 한 페이지" />
+          <h1>독서모임 한 페이지</h1>
         </Header>
       ) : (
         <></>
       )}
       <NewContainer>
         <section>
-          <Subtitle title={`${thisMonth}월의 책`} />
+          <Subtitle title={`${lastDocMonth}월의 책`} />
           <BookTitleImgBox docData={bookMeetingInfoDoc[0]?.book} />
           <LinkButton link={"/bookmeeting/subject"} title="발제하러 가기" />
         </section>
         <section>
-          <Subtitle title={`${thisMonth}월의 모임 일정`} />
+          <Subtitle title={`${lastDocMonth}월의 모임 일정`} />
           <p>한페이지 북클럽 멤버는 매월 셋째주 일요일에 만나요.</p>
           <MeetingInfoBox docData={bookMeetingInfoDoc[0]?.meeting} />
           <LinkButton

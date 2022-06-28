@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import { Container, Header } from "theme/commonStyle";
+import { ButtonHeader, Container } from "theme/commonStyle";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { AccountCircle, Settings } from "@mui/icons-material";
-import Title from "components/common/Title";
 import styled from "styled-components";
 import Subtitle from "components/common/Subtitle";
 import MyRecords from "components/profile/MyRecords";
@@ -17,12 +16,12 @@ const Profile = () => {
   return (
     <>
       {windowSize.width < +deviceSizes.tablet ? (
-        <NewHeader>
-          <Title title="나의 책장" />
+        <ButtonHeader>
+          <h1>나의 책장</h1>
           <Link to="/setting">
             <Settings />
           </Link>
-        </NewHeader>
+        </ButtonHeader>
       ) : (
         <></>
       )}
@@ -52,21 +51,6 @@ const Profile = () => {
     </>
   );
 };
-
-const NewHeader = styled(Header)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  > a {
-    display: flex;
-    align-items: center;
-    svg {
-      margin-top: 2px;
-      width: 20px;
-      height: 20px;
-    }
-  }
-`;
 
 const NewContainer = styled(Container)`
   display: flex;

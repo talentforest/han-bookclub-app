@@ -22,7 +22,6 @@ import BookRecomCreateBox from "components/bookmeeting/BookRecomCreateBox";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
 import device from "theme/mediaQueries";
-import Title from "components/common/Title";
 
 export interface meetingType {
   time: string;
@@ -71,7 +70,7 @@ const BookMeeting = () => {
   return (
     <>
       <Header>
-        <Title title="의 책모임" />
+        <h1>이달의 책모임</h1>
       </Header>
       <Container>
         <MeetingBox>

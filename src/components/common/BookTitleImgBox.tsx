@@ -42,7 +42,7 @@ const BookCoverTitleBox = styled.div<{ smSize: string }>`
   justify-content: ${(props) =>
     props.smSize ? "flex-start" : "space-between"};
   align-items: center;
-  margin: 5px auto 0;
+  margin: 5px auto;
   width: 100%;
   height: ${(props) => (props.smSize ? "fit-content" : "135px")};
   svg,
@@ -52,6 +52,7 @@ const BookCoverTitleBox = styled.div<{ smSize: string }>`
   }
   img {
     box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
   }
   h3 {
     text-align: center;
