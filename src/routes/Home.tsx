@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Container, Header } from "theme/commonStyle";
 import device, { deviceSizes } from "theme/mediaQueries";
 import { useEffect, useState } from "react";
@@ -19,6 +20,7 @@ import VoteBox from "components/vote/VoteBox";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const Home = () => {
   const [bookMeetingInfoDoc, setBookMeetingInfoDoc] = useState([]);
@@ -107,9 +109,20 @@ const Home = () => {
         <SliderSection>
           <Subtitle title={"한페이지의 투표함"} />
           <Slider {...settings}>
-            {progressVote.slice(0, 3).map((item, index) => (
-              <VoteBox key={item.id} item={item} index={index} />
-            ))}
+            {progressVote.length ? (
+              progressVote
+                .slice(0, 3)
+                .map((item, index) => (
+                  <VoteBox key={item.id} item={item} index={index} />
+                ))
+            ) : (
+              <EmptyBox>
+                <span>진행중인 투표가 없습니다.</span>
+                <Link to={"/vote"}>
+                  투표 등록하러 가기 <ArrowForwardIosIcon />
+                </Link>
+              </EmptyBox>
+            )}
           </Slider>
           <LinkButton link={"/vote"} title="투표 더보기" />
         </SliderSection>
@@ -130,6 +143,34 @@ const Home = () => {
     </>
   );
 };
+
+const EmptyBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  padding-top: 20px;
+  background-color: ${(props) => props.theme.container.default};
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  height: 100px;
+  > span {
+    color: ${(props) => props.theme.text.gray};
+    display: block;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  > a {
+    width: fit-content;
+    margin: 0 auto;
+    color: ${(props) => props.theme.text.lightBlue};
+    display: flex;
+    align-items: center;
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: ${(props) => props.theme.text.lightBlue};
+    }
+  }
+`;
 
 const NewContainer = styled(Container)`
   > section {
