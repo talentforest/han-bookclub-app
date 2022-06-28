@@ -24,8 +24,8 @@ import "slick-carousel/slick/slick-theme.css";
 const Home = () => {
   const [bookMeetingInfoDoc, setBookMeetingInfoDoc] = useState([]);
   const [bookfieldDoc, setBookfieldDoc] = useState([]);
-  const { windowSize } = useWindowSize();
   const [voteDoc, setVoteDoc] = useState([]);
+  const { windowSize } = useWindowSize();
 
   useEffect(() => {
     getBookMeetingInfoData(setBookMeetingInfoDoc);

@@ -1,4 +1,4 @@
-import { ButtonHeader, Container } from "theme/commonStyle";
+import { Container, Header } from "theme/commonStyle";
 import { useEffect, useState } from "react";
 import { Link, useMatch } from "react-router-dom";
 import { BookDocument } from "data/bookAtom";
@@ -11,7 +11,6 @@ import {
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { thisYearMonth } from "util/constants";
-import Title from "components/common/Title";
 import styled from "styled-components";
 import BookDesc from "components/common/BookDesc";
 import ReviewCreateBox from "components/bookmeeting/ReviewCreateBox";
@@ -22,8 +21,8 @@ import BookTitleImgBox from "components/common/BookTitleImgBox";
 import BookRecomCreateBox from "components/bookmeeting/BookRecomCreateBox";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
-import useWindowSize from "hooks/useWindowSize";
-import device, { deviceSizes } from "theme/mediaQueries";
+import device from "theme/mediaQueries";
+import Title from "components/common/Title";
 
 export interface meetingType {
   time: string;
@@ -45,7 +44,6 @@ const BookMeeting = () => {
   const [showBookDetail, setShowBookDetail] = useState(false);
   const [recommendBook, setRecommendBook] = useState([]);
   const userData = useRecoilValue(currentUserState);
-  const { windowSize } = useWindowSize();
 
   const bookUrlMatch = useMatch("/bookmeeting");
   const subjectUrlMatch = useMatch("/bookmeeting/subject");
@@ -72,14 +70,9 @@ const BookMeeting = () => {
 
   return (
     <>
-      {windowSize.width < +deviceSizes.tablet ? (
-        <ButtonHeader>
-          <Title title="의 책모임" />
-          <Link to="find">이달의 책 등록하기</Link>
-        </ButtonHeader>
-      ) : (
-        <></>
-      )}
+      <Header>
+        <Title title="의 책모임" />
+      </Header>
       <Container>
         <MeetingBox>
           <BookTitleImgBox

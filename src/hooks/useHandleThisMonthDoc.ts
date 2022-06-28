@@ -9,7 +9,7 @@ import { thisYearMonth } from "util/constants";
 
 interface PropsType {
   bookMeetingDocData: BookMeetingInfo[];
-  findbookData: BookDocument[];
+  findbookData: BookDocument;
 }
 
 const useHandleThisMonthDoc = ({
@@ -33,7 +33,7 @@ const useHandleThisMonthDoc = ({
   };
 
   const setThisMonthBookMeetingDoc = async () => {
-    const book = findbookData[0];
+    const book = findbookData;
     await setDoc(doc(dbService, "BookMeeting Info", `${selectedMonth}`), {
       book: {
         thumbnail: book.thumbnail,
@@ -61,7 +61,7 @@ const useHandleThisMonthDoc = ({
       "BookMeeting Info",
       `${selectedMonth}`
     );
-    const book = findbookData[0];
+    const book = findbookData;
     await updateDoc(thisMonthBookRef, {
       book: {
         thumbnail: book.thumbnail,

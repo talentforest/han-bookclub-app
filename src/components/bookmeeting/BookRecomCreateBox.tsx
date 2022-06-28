@@ -1,11 +1,13 @@
-import styled from "styled-components";
 import { useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { BookDocument } from "data/bookAtom";
-import BookTitleImgBox from "components/common/BookTitleImgBox";
 import { thisYearMonth } from "util/constants";
+import BookTitleImgBox from "components/common/BookTitleImgBox";
 import device from "theme/mediaQueries";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { Search } from "@mui/icons-material";
 
 interface PropsType {
   uid: string;
@@ -45,6 +47,10 @@ const BookRecomCreateBox = ({ uid, thisMonthBook }: PropsType) => {
   return (
     <>
       <Form onSubmit={onSubmit}>
+        <Link to="find">
+          <Search />
+          추천책 정보 찾기
+        </Link>
         <textarea
           placeholder="이달의 책과 관련하여 추천하고 싶은 책이나, 이달에 재미있게 읽었던 책을 작성해주세요."
           onChange={onChange}
@@ -67,8 +73,23 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-end;
   margin-bottom: 20px;
+  a {
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    /* border: 1px solid red; */
+    width: fit-content;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: ${(props) => props.theme.text.accent};
+    svg {
+      width: 20px;
+      height: 20px;
+      padding-top: 2px;
+      fill: ${(props) => props.theme.text.accent};
+    }
+  }
   textarea {
     width: 100%;
     height: 90px;
