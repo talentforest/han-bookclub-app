@@ -1,4 +1,4 @@
-import { Close, ExpandCircleDown } from "@mui/icons-material";
+import { ExpandCircleDown } from "@mui/icons-material";
 import { BookDocument } from "data/bookAtom";
 import styled from "styled-components";
 import { timestamp } from "util/timestamp";
@@ -8,42 +8,37 @@ interface PropsType {
   onModalOpen?: () => void;
 }
 
-const BookDesc = ({ bookInfo, onModalOpen }: PropsType) => {
+const BookDesc = ({ bookInfo }: PropsType) => {
   return (
-    <>
-      <BookDetail>
-        <div>
-          <h3>{bookInfo?.title}</h3>
-          <Close onClick={onModalOpen} />
-        </div>
+    <BookDetail>
+      <h3>{bookInfo?.title}</h3>
+      <li>
+        <ExpandCircleDown />
+        저자: {bookInfo?.authors?.join(", ")}
+      </li>
+      {bookInfo?.translators?.length !== 0 ? (
         <li>
           <ExpandCircleDown />
-          저자: {bookInfo?.authors?.join(", ")}
+          역자: {bookInfo?.translators?.join(", ")}
         </li>
-        {bookInfo?.translators?.length !== 0 ? (
-          <li>
-            <ExpandCircleDown />
-            역자: {bookInfo?.translators?.join(", ")}
-          </li>
-        ) : null}
-        <li>
-          <ExpandCircleDown />
-          출간일: {timestamp(bookInfo?.datetime)}
-        </li>
-        <li>
-          <ExpandCircleDown />
-          출판사: {bookInfo?.publisher}
-        </li>
-        <li>
-          <ExpandCircleDown />
-          정가: {bookInfo?.price}원
-        </li>
-        <p>줄거리 {bookInfo?.contents}...</p>
-        <a href={bookInfo?.url} target="_blank" rel="noreferrer">
-          상세정보 보러가기
-        </a>
-      </BookDetail>
-    </>
+      ) : null}
+      <li>
+        <ExpandCircleDown />
+        출간일: {timestamp(bookInfo?.datetime)}
+      </li>
+      <li>
+        <ExpandCircleDown />
+        출판사: {bookInfo?.publisher}
+      </li>
+      <li>
+        <ExpandCircleDown />
+        정가: {bookInfo?.price}원
+      </li>
+      <p>줄거리 {bookInfo?.contents}...</p>
+      <a href={bookInfo?.url} target="_blank" rel="noreferrer">
+        상세정보 보러가기
+      </a>
+    </BookDetail>
   );
 };
 
@@ -59,19 +54,10 @@ const BookDetail = styled.ul`
   margin: 0 auto;
   padding: 15px;
   width: 95%;
-  > div {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  > h3 {
+    font-size: 16px;
+    font-weight: 700;
     margin-bottom: 10px;
-    > h3 {
-      font-size: 16px;
-      font-weight: 700;
-    }
-    > svg {
-      cursor: pointer;
-    }
   }
   > li {
     margin-bottom: 5px;

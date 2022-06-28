@@ -10,7 +10,6 @@ import {
 } from "util/getFirebaseDoc";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import { thisYearMonth } from "util/constants";
 import styled from "styled-components";
 import BookDesc from "components/common/BookDesc";
 import ReviewCreateBox from "components/bookmeeting/ReviewCreateBox";
@@ -22,6 +21,7 @@ import BookRecomCreateBox from "components/bookmeeting/BookRecomCreateBox";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
 import device from "theme/mediaQueries";
+import Subtitle from "components/common/Subtitle";
 
 export interface meetingType {
   time: string;
@@ -48,20 +48,22 @@ const BookMeeting = () => {
   const subjectUrlMatch = useMatch("/bookmeeting/subject");
   const reviewUrlMatch = useMatch("/bookmeeting/review");
 
-  useEffect(() => {
-    getBookMeetingInfoData(setBookMeetingDocData);
-    getReviews(thisYearMonth, setThisMonthReviews);
-    getSubjects(thisYearMonth, setThisMonthSubjects);
-    getAllRecommends(thisYearMonth, setRecommendBook);
+  const lastDocMonth = bookMeetingDocData[0]?.id;
 
+  const getBookMeetingData = () => {
+    getBookMeetingInfoData(setBookMeetingDocData);
+    getReviews(lastDocMonth, setThisMonthReviews);
+    getSubjects(lastDocMonth, setThisMonthSubjects);
+    getAllRecommends(lastDocMonth, setRecommendBook);
+  };
+
+  useEffect(() => {
+    getBookMeetingData();
     return () => {
-      getBookMeetingInfoData(setBookMeetingDocData);
-      getSubjects(thisYearMonth, setThisMonthSubjects);
-      getReviews(thisYearMonth, setThisMonthReviews);
-      getAllRecommends(thisYearMonth, setRecommendBook);
+      getBookMeetingData();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [bookMeetingDocData[0]?.id]);
 
   const onModalOpen = () => {
     setShowBookDetail((prev) => !prev);
@@ -73,6 +75,7 @@ const BookMeeting = () => {
         <h1>이달의 책모임</h1>
       </Header>
       <Container>
+        <Subtitle title={`${lastDocMonth?.slice(6)}월의 책`} />
         <MeetingBox>
           <BookTitleImgBox
             docData={bookMeetingDocData[0]?.book}
@@ -105,29 +108,45 @@ const BookMeeting = () => {
             <BookRecomCreateBox
               uid={userData?.uid}
               thisMonthBook={bookMeetingDocData[0]?.book}
+              lastDocMonth={bookMeetingDocData[0]?.id}
             />
             {recommendBook.length !== 0 &&
               recommendBook?.map((item) => (
-                <BookRecomBox key={item.id} item={item} />
+                <BookRecomBox
+                  key={item.id}
+                  item={item}
+                  lastDocMonth={bookMeetingDocData[0]?.id}
+                />
               ))}
           </>
         )}
         {subjectUrlMatch && (
           <>
-            <SubjectCreateModal bookInfo={bookMeetingDocData[0]?.book} />
+            <SubjectCreateModal
+              bookInfo={bookMeetingDocData[0]?.book}
+              lastDocMonth={bookMeetingDocData[0]?.id}
+            />
             {thisMonthSubjects?.map((item) => (
-              <Subjects item={item} key={item.id} />
+              <Subjects
+                item={item}
+                key={item.id}
+                docMonth={bookMeetingDocData[0]?.id}
+              />
             ))}
           </>
         )}
         {reviewUrlMatch && (
           <>
-            <ReviewCreateBox bookInfo={bookMeetingDocData[0]?.book} />
+            <ReviewCreateBox
+              bookInfo={bookMeetingDocData[0]?.book}
+              lastDocMonth={bookMeetingDocData[0]?.id}
+            />
             {thisMonthReviews?.map((item) => (
               <Reviews
                 key={item.id}
                 item={item}
                 bookInfo={bookMeetingDocData[0]?.book}
+                docMonth={bookMeetingDocData[0]?.id}
               />
             ))}
           </>

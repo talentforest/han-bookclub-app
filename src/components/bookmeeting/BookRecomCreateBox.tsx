@@ -2,7 +2,6 @@ import { useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { BookDocument, recommendBookState } from "data/bookAtom";
-import { thisYearMonth } from "util/constants";
 import { Link } from "react-router-dom";
 import { Search } from "@mui/icons-material";
 import { useRecoilValue } from "recoil";
@@ -14,9 +13,14 @@ import RecommendInfo from "./RecommendInfo";
 interface PropsType {
   uid: string;
   thisMonthBook: BookDocument;
+  lastDocMonth: string;
 }
 
-const BookRecomCreateBox = ({ uid, thisMonthBook }: PropsType) => {
+const BookRecomCreateBox = ({
+  uid,
+  thisMonthBook,
+  lastDocMonth,
+}: PropsType) => {
   const [text, setText] = useState("");
   const myRecommendBook = useRecoilValue(recommendBookState);
 
@@ -28,7 +32,7 @@ const BookRecomCreateBox = ({ uid, thisMonthBook }: PropsType) => {
         await addDoc(
           collection(
             dbService,
-            `BookMeeting Info/${thisYearMonth}/recommended book`
+            `BookMeeting Info/${lastDocMonth}/recommended book`
           ),
           {
             text: text,
@@ -46,7 +50,7 @@ const BookRecomCreateBox = ({ uid, thisMonthBook }: PropsType) => {
         await addDoc(
           collection(
             dbService,
-            `BookMeeting Info/${thisYearMonth}/recommended book`
+            `BookMeeting Info/${lastDocMonth}/recommended book`
           ),
           {
             text: text,
@@ -72,7 +76,7 @@ const BookRecomCreateBox = ({ uid, thisMonthBook }: PropsType) => {
       <Form onSubmit={onSubmit}>
         <Link to="find">
           <Search />
-          추천책 정보 넣기
+          추천책 정보 찾기
         </Link>
         <textarea
           placeholder="이달의 책과 관련하여 추천하고 싶은 책이나, 이달에 재미있게 읽었던 책을 작성해주세요."
@@ -112,12 +116,12 @@ const Form = styled.form`
     padding: 10px 0 5px;
   }
   a {
-    padding: 4px 0;
     display: flex;
     align-items: center;
+    border-radius: 5px;
     width: fit-content;
     font-size: 14px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     color: ${(props) => props.theme.text.accent};
     svg {
       width: 20px;

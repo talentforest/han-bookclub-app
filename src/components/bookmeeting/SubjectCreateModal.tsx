@@ -6,15 +6,15 @@ import { Add, Close } from "@mui/icons-material";
 import { BookDocument } from "data/bookAtom";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import { thisYearMonth } from "util/constants";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 
 interface PropsType {
   bookInfo: BookDocument;
+  lastDocMonth: string;
 }
 
-const SubjectCreateModal = ({ bookInfo }: PropsType) => {
+const SubjectCreateModal = ({ bookInfo, lastDocMonth }: PropsType) => {
   const [subject, setSubject] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const userData = useRecoilValue(currentUserState);
@@ -28,7 +28,7 @@ const SubjectCreateModal = ({ bookInfo }: PropsType) => {
     try {
       if (subject === "") return;
       await addDoc(
-        collection(dbService, `BookMeeting Info/${thisYearMonth}/subjects`),
+        collection(dbService, `BookMeeting Info/${lastDocMonth}/subjects`),
         {
           text: subject,
           createdAt: Date.now(),

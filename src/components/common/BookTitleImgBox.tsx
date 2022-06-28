@@ -52,7 +52,6 @@ const BookCoverTitleBox = styled.div<{ smSize: string }>`
   }
   img {
     box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
-    margin-bottom: 10px;
   }
   h3 {
     text-align: center;

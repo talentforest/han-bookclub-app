@@ -91,7 +91,11 @@ const ClubHistoryDetail = () => {
           {selectedCategory === "recommend" &&
             (recommends.length !== 0 ? (
               recommends.map((item) => (
-                <BookRecomBox key={item.id} item={item} />
+                <BookRecomBox
+                  key={item.id}
+                  item={item}
+                  lastDocMonth={docMonth}
+                />
               ))
             ) : (
               <EmptyRecord>기록된 추천책이 아직 없어요.</EmptyRecord>

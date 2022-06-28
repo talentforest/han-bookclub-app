@@ -10,7 +10,6 @@ import {
   RegisterTime,
 } from "components/bookmeeting/Subjects";
 import { BookDocument } from "data/bookAtom";
-import { thisYearMonth } from "util/constants";
 import UserInfoBox from "components/common/UserInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import styled from "styled-components";
@@ -24,18 +23,19 @@ interface PropsType {
   docMonth?: string;
 }
 
-const Reviews = ({ item, onReviewRemove }: PropsType) => {
+const Reviews = ({ item, onReviewRemove, docMonth }: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(item.text);
   const [showingGuide, setShowingGuide] = useState(false);
 
+  const ReviewTextRef = doc(
+    dbService,
+    `BookMeeting Info/${docMonth}/reviews`,
+    `${item.id}`
+  );
+
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const ReviewTextRef = doc(
-      dbService,
-      `BookMeeting Info/${thisYearMonth}/reviews`,
-      `${item.id}`
-    );
     await updateDoc(ReviewTextRef, { text: newText });
     if (newText === "") {
       setTimeout(() => {
@@ -50,13 +50,7 @@ const Reviews = ({ item, onReviewRemove }: PropsType) => {
   };
 
   const onDeleteClick = async () => {
-    const ReviewTextRef = doc(
-      dbService,
-      `BookMeeting Info/${thisYearMonth}/reviews`,
-      `${item.id}`
-    );
     await deleteDoc(ReviewTextRef);
-
     if (onReviewRemove) {
       onReviewRemove(item.id);
     }

@@ -115,6 +115,7 @@ const MyRecord = ({ item }: PropsType) => {
                     <Reviews
                       key={item.id}
                       item={item}
+                      docMonth={docMonth}
                       onReviewRemove={onReviewRemove}
                     />
                   ))}

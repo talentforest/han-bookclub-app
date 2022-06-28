@@ -8,7 +8,6 @@ import { Delete, Edit } from "@mui/icons-material";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
-import { thisYearMonth } from "util/constants";
 import device from "theme/mediaQueries";
 
 export interface DocumentType {
@@ -38,7 +37,7 @@ const Subjects = ({ item, onSubjectRemove, docMonth }: ISubject) => {
 
   const thisMonthSubjectRef = doc(
     dbService,
-    `BookMeeting Info/${thisYearMonth}/subjects`,
+    `BookMeeting Info/${docMonth}/subjects`,
     `${item.id}`
   );
 

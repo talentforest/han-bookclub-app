@@ -12,18 +12,17 @@ import {
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { Delete, Edit } from "@mui/icons-material";
-import { thisYearMonth } from "util/constants";
 import { TextArea, TextBox } from "./Reviews";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
-import RecommendInfo from "./RecommendInfo";
 
 interface PropsType {
   item: DocumentType;
+  lastDocMonth: string;
 }
 
-const BookRecomBox = ({ item }: PropsType) => {
+const BookRecomBox = ({ item, lastDocMonth }: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(item.text);
   const [showingGuide, setShowingGuide] = useState(false);
@@ -31,7 +30,7 @@ const BookRecomBox = ({ item }: PropsType) => {
 
   const RecommendedBookRef = doc(
     dbService,
-    `BookMeeting Info/${thisYearMonth}/recommended book`,
+    `BookMeeting Info/${lastDocMonth}/recommended book`,
     `${item.id}`
   );
 
@@ -78,7 +77,24 @@ const BookRecomBox = ({ item }: PropsType) => {
                 <DoneBtn type="submit" value="수정완료" />
               )}
             </FormHeader>
-            <RecommendInfo smSize={"smSize"} />
+            {item.recommendBookTitle ? (
+              <RecommendBook>
+                <img src={item.recommendBookThumbnail} alt="recommend book" />
+                <div>
+                  <h5>{item.recommendBookTitle}</h5>
+                  <span>{item.recommendBookAuthor?.join(", ")}</span>
+                  <a
+                    href={item.recommendBookUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    상세정보 보러가기
+                  </a>
+                </div>
+              </RecommendBook>
+            ) : (
+              <></>
+            )}
             <TextArea
               value={newText}
               placeholder="수정해주세요."
