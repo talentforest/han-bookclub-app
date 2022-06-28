@@ -41,6 +41,7 @@ const MyRecord = ({ item }: PropsType) => {
 
   const onSubjectClick = (booktitle: string) => {
     const filteredArr = mySubjects.filter((item) => item.title === booktitle);
+    setGuide("");
     if (filteredArr.length === 0) {
       setGuide("아직 작성한 발제문이 없어요.");
       return;
@@ -52,6 +53,7 @@ const MyRecord = ({ item }: PropsType) => {
 
   const onReviewClick = (booktitle: string) => {
     const filteredArr = myReviews.filter((item) => item.title === booktitle);
+    setGuide("");
     if (filteredArr.length === 0) {
       setGuide("아직 작성한 모임후기가 없어요.");
       return;

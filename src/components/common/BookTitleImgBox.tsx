@@ -2,6 +2,7 @@ import { BookDocument } from "data/bookAtom";
 import { DocumentType } from "components/bookmeeting/Subjects";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
+import { EventAvailable } from "@mui/icons-material";
 
 interface PropsType {
   docData: BookDocument | DocumentType;
@@ -14,11 +15,15 @@ const BookTitleImgBox = ({ docData, onModalOpen, smSize }: PropsType) => {
     <>
       {docData ? (
         <BookCoverTitleBox smSize={smSize}>
-          <img
-            src={docData?.thumbnail}
-            alt="Book_Image"
-            onClick={onModalOpen}
-          />
+          {docData?.thumbnail !== "" ? (
+            <img
+              src={docData?.thumbnail}
+              alt="Book_Image"
+              onClick={onModalOpen}
+            />
+          ) : (
+            <EventAvailable />
+          )}
           <h3>{docData?.title}</h3>
         </BookCoverTitleBox>
       ) : (
@@ -40,9 +45,12 @@ const BookCoverTitleBox = styled.div<{ smSize: string }>`
   margin: 5px auto 0;
   width: 100%;
   height: ${(props) => (props.smSize ? "fit-content" : "135px")};
+  svg,
   img {
     width: auto;
     height: ${(props) => (props.smSize ? "24px" : "100px")};
+  }
+  img {
     box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
   }
   h3 {
@@ -51,8 +59,10 @@ const BookCoverTitleBox = styled.div<{ smSize: string }>`
     font-size: ${(props) => (props.smSize ? "10px" : "14px")};
     font-weight: 700;
   }
+
   @media ${device.tablet} {
     height: ${(props) => (props.smSize ? "fit-content" : "200px")};
+    svg,
     img {
       height: ${(props) => (props.smSize ? "38px" : "150px")};
     }

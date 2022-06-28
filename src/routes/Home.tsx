@@ -104,7 +104,7 @@ const Home = () => {
           />
         </section>
         <SliderSection>
-          <Subtitle title={`${thisMonth}월의 투표`} />
+          <Subtitle title={"한페이지의 투표함"} />
           <Slider {...settings}>
             {progressVote.slice(0, 3).map((item, index) => (
               <VoteBox key={item.id} item={item} index={index} />
