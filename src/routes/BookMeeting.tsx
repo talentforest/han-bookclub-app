@@ -75,7 +75,9 @@ const BookMeeting = () => {
         <h1>이달의 책모임</h1>
       </Header>
       <Container>
-        <Subtitle title={`${docMonth?.slice(6)}월의 책`} />
+        <Subtitle
+          title={docMonth ? `${docMonth?.slice(6)}월의 책` : "월의 책"}
+        />
         <MeetingBox>
           <BookTitleImgBox
             docData={bookMeetingDocData[0]?.book}

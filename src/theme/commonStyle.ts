@@ -36,6 +36,14 @@ export const ButtonHeader = styled(Header)`
       margin-right: 3px;
     }
   }
+  a {
+    svg {
+      fill: ${(props) => props.theme.text.default};
+      width: 18px;
+      height: 18px;
+      margin-right: 0px;
+    }
+  }
   @media ${device.tablet} {
     margin: 0;
     button {

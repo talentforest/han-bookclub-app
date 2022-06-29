@@ -64,17 +64,14 @@ const Profile = () => {
           <Subtitle title="나의 기록" />
           <span>내가 작성한 발제문과 모임 후기를 볼 수 있어요.</span>
           <Wrapper>
-            <div>
-              {docData.map((item) => (
-                <MyRecord key={item.id} item={item} />
-              ))}
-            </div>
+            {docData.map((item) => (
+              <MyRecord key={item.id} item={item} />
+            ))}
           </Wrapper>
         </section>
         <section>
           <Subtitle title="내가 추천한 책" />
           <span>내가 추천한 책을 볼 수 있어요.</span>
-
           {docData.map((item) => (
             <MyRecommendBook key={item.id} item={item} />
           ))}
@@ -160,12 +157,9 @@ const User = styled.div`
 `;
 
 const Wrapper = styled.div`
-  overflow-x: scroll;
-  > div {
-    overflow: hidden;
-    display: flex;
-    width: fit-content;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 `;
 
 export default Profile;

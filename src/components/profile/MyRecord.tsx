@@ -93,7 +93,7 @@ const MyRecord = ({ item }: PropsType) => {
                 나의 모임후기
               </button>
             </Category>
-            <span>{guide}</span>
+            {guide ? <span>{guide}</span> : <></>}
           </Record>
           {openModal ? (
             <>
@@ -135,29 +135,33 @@ const MyRecord = ({ item }: PropsType) => {
 };
 
 const Record = styled.div`
+  width: 48%;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
+  padding: 5px;
   margin: 3px 10px 3px 0;
   border-radius: 5px;
-  width: 200px;
-  height: 160px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+  > span {
+    font-size: 12px;
+    margin: 5px 0;
+    border-bottom: 1px solid ${(props) => props.theme.text.gray};
+  }
   > div:first-child {
-    height: 95px;
+    height: 120px;
     img {
       height: 70px;
     }
     h3 {
-      font-size: 10px;
+      font-size: 12px;
     }
   }
   @media ${device.tablet} {
     width: 260px;
-    height: 220px;
     > div:first-child {
       height: 120px;
       img {
@@ -172,24 +176,27 @@ const Record = styled.div`
 
 const Category = styled.div`
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  margin-top: 5px;
+  margin: 10px 0 5px;
   width: 100%;
+  height: 60px;
   > button {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50%;
-    margin: 0 3px;
+    width: 70%;
     padding: 3px 0;
-    font-size: 11px;
+    font-size: 12px;
     border-radius: 15px;
-    border: none;
+    border: 1px solid ${(props) => props.theme.container.yellow};
+    font-weight: 700;
     background-color: ${(props) => props.theme.container.lightBlue};
+    color: ${(props) => props.theme.text.accent};
     cursor: pointer;
     &:hover {
-      color: ${(props) => props.theme.text.accent};
+      background-color: ${(props) => props.theme.container.yellow};
     }
   }
   @media ${device.tablet} {

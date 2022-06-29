@@ -104,9 +104,9 @@ const ClubHistoryDetail = () => {
 };
 
 const Documents = styled.div`
-  padding: 10px 20px;
+  padding: 5px 10px;
   margin-top: 10px;
-  background-color: ${(props) => props.theme.container.default};
+  background-color: ${(props) => props.theme.text.lightGray};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   width: 100%;
@@ -168,7 +168,7 @@ const EmptyRecord = styled.div`
   padding: 10px;
   margin: 10px 0;
   font-size: 13px;
-  background-color: ${(props) => props.theme.container.lightBlue};
+  background-color: ${(props) => props.theme.container.default};
   @media ${device.tablet} {
     font-size: 18px;
     min-height: 20vh;

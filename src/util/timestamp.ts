@@ -8,7 +8,9 @@ export function meetingTimestamp(timeText: number | string) {
 
   return `${date.getFullYear()}년 ${
     date.getMonth() + 1
-  }월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분 `;
+  }월 ${date.getDate()}일 ${date.getHours()}시 ${
+    (date.getMinutes() < 10 ? "0" : "") + date.getMinutes()
+  }분 `;
 }
 
 export function voteTimestamp(createdAt: number | string) {

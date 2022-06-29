@@ -45,13 +45,14 @@ export const BookCoverTitleBox = styled.div<{ smSize: string }>`
   margin: 5px auto;
   width: 100%;
   height: ${(props) => (props.smSize ? "fit-content" : "135px")};
-  svg,
   img {
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
     width: auto;
     height: ${(props) => (props.smSize ? "24px" : "100px")};
   }
-  img {
-    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
+  svg {
+    height: ${(props) => (props.smSize ? "24px" : "100%")};
+    width: 70px;
   }
   h3 {
     text-align: center;

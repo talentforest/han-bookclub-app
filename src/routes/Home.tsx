@@ -93,12 +93,16 @@ const Home = () => {
       )}
       <NewContainer>
         <section>
-          <Subtitle title={`${docMonth}월의 책`} />
+          <Subtitle
+            title={bookMeetingInfoDoc[0] ? `${docMonth}월의 책` : "월의 책"}
+          />
           <BookTitleImgBox docData={bookMeetingInfoDoc[0]?.book} />
           <LinkButton link={"/bookmeeting/subject"} title="발제하러 가기" />
         </section>
         <section>
-          <Subtitle title={`${docMonth}월의 모임 일정`} />
+          <Subtitle
+            title={bookMeetingInfoDoc[0] ? `${docMonth}월의 책` : "월의 책"}
+          />
           <p>한페이지 북클럽 멤버는 매월 셋째주 일요일에 만나요.</p>
           <MeetingInfoBox docData={bookMeetingInfoDoc[0]?.meeting} />
           <LinkButton
