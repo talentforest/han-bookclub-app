@@ -48,13 +48,13 @@ const BookMeeting = () => {
   const subjectUrlMatch = useMatch("/bookmeeting/subject");
   const reviewUrlMatch = useMatch("/bookmeeting/review");
 
-  const lastDocMonth = bookMeetingDocData[0]?.id;
+  const docMonth = bookMeetingDocData[0]?.id;
 
   const getBookMeetingData = () => {
     getBookMeetingInfoData(setBookMeetingDocData);
-    getReviews(lastDocMonth, setThisMonthReviews);
-    getSubjects(lastDocMonth, setThisMonthSubjects);
-    getAllRecommends(lastDocMonth, setRecommendBook);
+    getReviews(docMonth, setThisMonthReviews);
+    getSubjects(docMonth, setThisMonthSubjects);
+    getAllRecommends(docMonth, setRecommendBook);
   };
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const BookMeeting = () => {
         <h1>이달의 책모임</h1>
       </Header>
       <Container>
-        <Subtitle title={`${lastDocMonth?.slice(6)}월의 책`} />
+        <Subtitle title={`${docMonth?.slice(6)}월의 책`} />
         <MeetingBox>
           <BookTitleImgBox
             docData={bookMeetingDocData[0]?.book}
@@ -108,14 +108,14 @@ const BookMeeting = () => {
             <BookRecomCreateBox
               uid={userData?.uid}
               thisMonthBook={bookMeetingDocData[0]?.book}
-              lastDocMonth={bookMeetingDocData[0]?.id}
+              docMonth={bookMeetingDocData[0]?.id}
             />
             {recommendBook.length !== 0 &&
               recommendBook?.map((item) => (
                 <BookRecomBox
                   key={item.id}
                   item={item}
-                  lastDocMonth={bookMeetingDocData[0]?.id}
+                  docMonth={bookMeetingDocData[0]?.id}
                 />
               ))}
           </>
@@ -124,7 +124,7 @@ const BookMeeting = () => {
           <>
             <SubjectCreateModal
               bookInfo={bookMeetingDocData[0]?.book}
-              lastDocMonth={bookMeetingDocData[0]?.id}
+              docMonth={bookMeetingDocData[0]?.id}
             />
             {thisMonthSubjects?.map((item) => (
               <Subjects
@@ -139,7 +139,7 @@ const BookMeeting = () => {
           <>
             <ReviewCreateBox
               bookInfo={bookMeetingDocData[0]?.book}
-              lastDocMonth={bookMeetingDocData[0]?.id}
+              docMonth={bookMeetingDocData[0]?.id}
             />
             {thisMonthReviews?.map((item) => (
               <Reviews

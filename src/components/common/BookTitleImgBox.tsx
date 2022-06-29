@@ -36,7 +36,7 @@ const BookTitleImgBox = ({ docData, onModalOpen, smSize }: PropsType) => {
   );
 };
 
-const BookCoverTitleBox = styled.div<{ smSize: string }>`
+export const BookCoverTitleBox = styled.div<{ smSize: string }>`
   display: flex;
   flex-direction: ${(props) => (props.smSize ? "row" : "column")};
   justify-content: ${(props) =>
@@ -59,7 +59,6 @@ const BookCoverTitleBox = styled.div<{ smSize: string }>`
     font-size: ${(props) => (props.smSize ? "10px" : "14px")};
     font-weight: 700;
   }
-
   @media ${device.tablet} {
     height: ${(props) => (props.smSize ? "fit-content" : "200px")};
     svg,

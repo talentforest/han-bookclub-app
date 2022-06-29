@@ -5,13 +5,31 @@ import { currentUserState } from "data/userAtom";
 import { AccountCircle, Settings } from "@mui/icons-material";
 import styled from "styled-components";
 import Subtitle from "components/common/Subtitle";
-import MyRecords from "components/profile/MyRecords";
 import useWindowSize from "hooks/useWindowSize";
 import device, { deviceSizes } from "theme/mediaQueries";
+import MyRecommendBook from "components/profile/MyRecommendBook";
+import MyRecord from "components/profile/MyRecord";
+import { useEffect, useState } from "react";
+import { getBookMeetingInfoData } from "util/getFirebaseDoc";
+
+export interface IRecord {
+  title: string;
+  subjects: DocumentType[];
+  reviews: DocumentType[];
+}
 
 const Profile = () => {
-  const userData = useRecoilValue(currentUserState);
+  const [docData, setDocData] = useState([]);
   const { windowSize } = useWindowSize();
+  const userData = useRecoilValue(currentUserState);
+
+  useEffect(() => {
+    getBookMeetingInfoData(setDocData);
+
+    return () => {
+      getBookMeetingInfoData(setDocData);
+    };
+  }, []);
 
   return (
     <>
@@ -45,7 +63,21 @@ const Profile = () => {
         <section>
           <Subtitle title="나의 기록" />
           <span>내가 작성한 발제문과 모임 후기를 볼 수 있어요.</span>
-          <MyRecords />
+          <Wrapper>
+            <div>
+              {docData.map((item) => (
+                <MyRecord key={item.id} item={item} />
+              ))}
+            </div>
+          </Wrapper>
+        </section>
+        <section>
+          <Subtitle title="내가 추천한 책" />
+          <span>내가 추천한 책을 볼 수 있어요.</span>
+
+          {docData.map((item) => (
+            <MyRecommendBook key={item.id} item={item} />
+          ))}
         </section>
       </NewContainer>
     </>
@@ -66,6 +98,8 @@ const NewContainer = styled(Container)`
       font-size: 13px;
       padding-left: 15px;
       margin-bottom: 10px;
+    }
+    > div {
     }
   }
   @media ${device.tablet} {
@@ -122,6 +156,15 @@ const User = styled.div`
         right: 30px;
       }
     }
+  }
+`;
+
+const Wrapper = styled.div`
+  overflow-x: scroll;
+  > div {
+    overflow: hidden;
+    display: flex;
+    width: fit-content;
   }
 `;
 

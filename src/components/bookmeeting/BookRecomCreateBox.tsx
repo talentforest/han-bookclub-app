@@ -13,14 +13,10 @@ import RecommendInfo from "./RecommendInfo";
 interface PropsType {
   uid: string;
   thisMonthBook: BookDocument;
-  lastDocMonth: string;
+  docMonth: string;
 }
 
-const BookRecomCreateBox = ({
-  uid,
-  thisMonthBook,
-  lastDocMonth,
-}: PropsType) => {
+const BookRecomCreateBox = ({ uid, thisMonthBook, docMonth }: PropsType) => {
   const [text, setText] = useState("");
   const myRecommendBook = useRecoilValue(recommendBookState);
 
@@ -32,7 +28,7 @@ const BookRecomCreateBox = ({
         await addDoc(
           collection(
             dbService,
-            `BookMeeting Info/${lastDocMonth}/recommended book`
+            `BookMeeting Info/${docMonth}/recommended book`
           ),
           {
             text: text,
@@ -50,7 +46,7 @@ const BookRecomCreateBox = ({
         await addDoc(
           collection(
             dbService,
-            `BookMeeting Info/${lastDocMonth}/recommended book`
+            `BookMeeting Info/${docMonth}/recommended book`
           ),
           {
             text: text,

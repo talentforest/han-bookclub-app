@@ -45,12 +45,12 @@ const Home = () => {
     (item: VoteDocument) => item.deadline >= today()
   );
 
-  const lastDocMonth = bookMeetingInfoDoc[0]?.id.slice(6);
+  const docMonth = bookMeetingInfoDoc[0]?.id.slice(6);
 
   let settings = {
     arrows: false,
     dots: true,
-    infinite: voteDoc.length > 2,
+    infinite: voteDoc.length > 1,
     pauseOnHover: true,
     autoplay: true,
     autoplaySpeed: 4000,
@@ -93,12 +93,12 @@ const Home = () => {
       )}
       <NewContainer>
         <section>
-          <Subtitle title={`${lastDocMonth}월의 책`} />
+          <Subtitle title={`${docMonth}월의 책`} />
           <BookTitleImgBox docData={bookMeetingInfoDoc[0]?.book} />
           <LinkButton link={"/bookmeeting/subject"} title="발제하러 가기" />
         </section>
         <section>
-          <Subtitle title={`${lastDocMonth}월의 모임 일정`} />
+          <Subtitle title={`${docMonth}월의 모임 일정`} />
           <p>한페이지 북클럽 멤버는 매월 셋째주 일요일에 만나요.</p>
           <MeetingInfoBox docData={bookMeetingInfoDoc[0]?.meeting} />
           <LinkButton
@@ -149,6 +149,7 @@ const EmptyBox = styled.div`
   flex-direction: column;
   border-radius: 10px;
   padding-top: 20px;
+  margin-bottom: 3px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   height: 100px;

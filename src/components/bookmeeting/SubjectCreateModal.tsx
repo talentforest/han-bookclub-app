@@ -11,10 +11,10 @@ import device from "theme/mediaQueries";
 
 interface PropsType {
   bookInfo: BookDocument;
-  lastDocMonth: string;
+  docMonth: string;
 }
 
-const SubjectCreateModal = ({ bookInfo, lastDocMonth }: PropsType) => {
+const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
   const [subject, setSubject] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const userData = useRecoilValue(currentUserState);
@@ -28,7 +28,7 @@ const SubjectCreateModal = ({ bookInfo, lastDocMonth }: PropsType) => {
     try {
       if (subject === "") return;
       await addDoc(
-        collection(dbService, `BookMeeting Info/${lastDocMonth}/subjects`),
+        collection(dbService, `BookMeeting Info/${docMonth}/subjects`),
         {
           text: subject,
           createdAt: Date.now(),

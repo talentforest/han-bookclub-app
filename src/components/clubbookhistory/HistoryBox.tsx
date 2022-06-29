@@ -3,31 +3,18 @@ import styled from "styled-components";
 import device from "theme/mediaQueries";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
-import { BookDocument } from "data/bookAtom";
 import { Link } from "react-router-dom";
 import { ChevronRight } from "@mui/icons-material";
 import { getMonthNumber } from "util/getMonthNumber";
-
-export interface IMeeting {
-  time: string;
-  place: string;
-}
-
-export interface IBookMeetingInfo {
-  id: string;
-  book: BookDocument;
-  meeting: IMeeting;
-  creatorId: string;
-  createdAt: string;
-}
+import { BookMeetingInfo } from "routes/BookMeeting";
 
 interface PropsType {
-  item: IBookMeetingInfo;
+  item: BookMeetingInfo;
 }
 
 const HistoryBox = ({ item }: PropsType) => {
   return (
-    <BookMeetingInfo to={`${item.id}`} state={{ item: item }}>
+    <BookMeeting to={`${item.id}`} state={{ item: item }}>
       <Subtitle title={`${getMonthNumber(item.id)}월의 책`} />
       <Info>
         <BookTitleImgBox docData={item?.book} />
@@ -36,11 +23,11 @@ const HistoryBox = ({ item }: PropsType) => {
       <button type="button">
         자세히 보기 <ChevronRight />
       </button>
-    </BookMeetingInfo>
+    </BookMeeting>
   );
 };
 
-const BookMeetingInfo = styled(Link)`
+const BookMeeting = styled(Link)`
   position: relative;
   width: 100%;
   border-radius: 7px;

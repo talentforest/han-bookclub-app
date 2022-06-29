@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { IBookMeetingInfo } from "components/clubbookhistory/HistoryBox";
 import { getReviews, getSubjects } from "util/getFirebaseDoc";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
+import { BookMeetingInfo } from "routes/BookMeeting";
 import Subjects from "components/bookmeeting/Subjects";
 import styled from "styled-components";
 import Reviews from "components/bookmeeting/Reviews";
@@ -10,7 +10,7 @@ import BookTitleImgBox from "components/common/BookTitleImgBox";
 import device from "theme/mediaQueries";
 
 interface PropsType {
-  item: IBookMeetingInfo;
+  item: BookMeetingInfo;
 }
 
 const MyRecord = ({ item }: PropsType) => {
@@ -19,13 +19,14 @@ const MyRecord = ({ item }: PropsType) => {
   const [mySubjectsByBook, setMySubjectsByBook] = useState([]);
   const [myReviewsByBook, setMyReviewsByBook] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-  const userData = useRecoilValue(currentUserState);
   const [guide, setGuide] = useState("");
+  const userData = useRecoilValue(currentUserState);
   const docMonth = item.id;
 
   useEffect(() => {
     getSubjects(item.id, setSubjects);
     getReviews(item.id, setReviews);
+
     return () => {
       getSubjects(item.id, setSubjects);
       getReviews(item.id, setReviews);
@@ -60,6 +61,7 @@ const MyRecord = ({ item }: PropsType) => {
     }
     setOpenModal((prev) => !prev);
     setMySubjectsByBook([]);
+
     setMyReviewsByBook(filteredArr);
   };
 
@@ -210,7 +212,7 @@ const Overlay = styled.div`
   background-color: rgba(0, 0, 0, 0.8);
 `;
 
-const SubjectBox = styled.article`
+export const SubjectBox = styled.article`
   overflow: scroll;
   position: fixed;
   top: 30px;

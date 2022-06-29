@@ -9,10 +9,10 @@ import { BookDocument } from "data/bookAtom";
 
 interface PropsType {
   bookInfo: BookDocument;
-  lastDocMonth: string;
+  docMonth: string;
 }
 
-const ReviewCreateBox = ({ bookInfo, lastDocMonth }: PropsType) => {
+const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
   const userData = useRecoilValue(currentUserState);
   const [review, setReview] = useState("");
 
@@ -21,7 +21,7 @@ const ReviewCreateBox = ({ bookInfo, lastDocMonth }: PropsType) => {
     try {
       if (review === "") return;
       await addDoc(
-        collection(dbService, `BookMeeting Info/${lastDocMonth}/reviews`),
+        collection(dbService, `BookMeeting Info/${docMonth}/reviews`),
         {
           text: review,
           createdAt: Date.now(),

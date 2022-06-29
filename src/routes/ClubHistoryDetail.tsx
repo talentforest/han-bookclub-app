@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { getAllRecommends, getReviews, getSubjects } from "util/getFirebaseDoc";
-import { IBookMeetingInfo, Info } from "components/clubbookhistory/HistoryBox";
+import { Info } from "components/clubbookhistory/HistoryBox";
+import { getMonthNumber } from "util/getMonthNumber";
 import { useLocation } from "react-router-dom";
 import { Container } from "theme/commonStyle";
+import { BookMeetingInfo } from "./BookMeeting";
 import styled from "styled-components";
 import Subjects from "components/bookmeeting/Subjects";
 import Reviews from "components/bookmeeting/Reviews";
@@ -10,10 +12,9 @@ import device from "theme/mediaQueries";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
 import BackButtonHeader from "components/common/BackButtonHeader";
-import { getMonthNumber } from "util/getMonthNumber";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
 
-type LocationState = { item: IBookMeetingInfo };
+type LocationState = { item: BookMeetingInfo };
 
 const ClubHistoryDetail = () => {
   const location = useLocation();
@@ -91,11 +92,7 @@ const ClubHistoryDetail = () => {
           {selectedCategory === "recommend" &&
             (recommends.length !== 0 ? (
               recommends.map((item) => (
-                <BookRecomBox
-                  key={item.id}
-                  item={item}
-                  lastDocMonth={docMonth}
-                />
+                <BookRecomBox key={item.id} item={item} docMonth={docMonth} />
               ))
             ) : (
               <EmptyRecord>기록된 추천책이 아직 없어요.</EmptyRecord>

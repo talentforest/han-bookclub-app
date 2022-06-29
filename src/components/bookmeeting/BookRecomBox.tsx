@@ -19,10 +19,11 @@ import BookTitleImgBox from "components/common/BookTitleImgBox";
 
 interface PropsType {
   item: DocumentType;
-  lastDocMonth: string;
+  docMonth?: string;
+  setShowDetail?: (detail: []) => void;
 }
 
-const BookRecomBox = ({ item, lastDocMonth }: PropsType) => {
+const BookRecomBox = ({ item, docMonth, setShowDetail }: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(item.text);
   const [showingGuide, setShowingGuide] = useState(false);
@@ -30,7 +31,7 @@ const BookRecomBox = ({ item, lastDocMonth }: PropsType) => {
 
   const RecommendedBookRef = doc(
     dbService,
-    `BookMeeting Info/${lastDocMonth}/recommended book`,
+    `BookMeeting Info/${docMonth}/recommended book`,
     `${item.id}`
   );
 
@@ -51,6 +52,9 @@ const BookRecomBox = ({ item, lastDocMonth }: PropsType) => {
 
   const onDeleteClick = async () => {
     await deleteDoc(RecommendedBookRef);
+    if (setShowDetail) {
+      setShowDetail([]);
+    }
   };
 
   const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
