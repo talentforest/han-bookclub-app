@@ -1,4 +1,4 @@
-import { CheckCircleOutline, Replay } from "@mui/icons-material";
+import { CheckCircleOutline, Help, Replay } from "@mui/icons-material";
 import { currentUserState } from "data/userAtom";
 import { dbService } from "fbase";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
@@ -9,10 +9,10 @@ import { dDay } from "util/timestamp";
 import { getMembersVote, VoteDocument, VoteItem } from "util/getFirebaseDoc";
 import { percentage } from "util/percentage";
 import { Container } from "theme/commonStyle";
+import { today } from "util/constants";
 import styled from "styled-components";
 import BackButtonHeader from "components/common/BackButtonHeader";
 import UserInfoBox from "components/common/UserInfoBox";
-import { today } from "util/constants";
 import device from "theme/mediaQueries";
 
 type LocationState = { item: VoteDocument };
@@ -113,7 +113,10 @@ const VoteDetail = () => {
               <form>
                 <p>D-Day: {dDay(item.deadline)}</p>
                 <VoteHeader>
-                  <h4>Q. {item.vote.title}</h4>
+                  <h4>
+                    <Help />
+                    {item.vote.title}
+                  </h4>
                   <span>
                     투표 등록: <UserInfoBox creatorId={item.creatorId} />
                   </span>
@@ -183,7 +186,10 @@ const VoteDetail = () => {
               <form onSubmit={onSubmit}>
                 <p>D-Day: {dDay(item.deadline)}</p>
                 <VoteHeader>
-                  <h4>Q. {item.vote.title}</h4>
+                  <h4>
+                    <Help />
+                    {item.vote.title}
+                  </h4>
                   <span>
                     투표 등록: <UserInfoBox creatorId={item.creatorId} />
                   </span>
@@ -272,6 +278,13 @@ const Vote = styled.div`
   }
   &.disalbe {
     pointer-events: none;
+    button {
+      background-color: ${(props) => props.theme.text.lightGray};
+      color: ${(props) => props.theme.text.gray};
+      svg {
+        fill: ${(props) => props.theme.text.gray};
+      }
+    }
   }
   @media ${device.tablet} {
     > form {
@@ -290,6 +303,13 @@ const VoteHeader = styled.header`
     font-size: 18px;
     font-weight: 700;
     padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    svg {
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+    }
   }
   > span {
     display: flex;

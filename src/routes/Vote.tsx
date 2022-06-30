@@ -2,7 +2,7 @@ import { AddCircleOutline } from "@mui/icons-material";
 import { Overlay } from "components/bookmeeting/SubjectCreateModal";
 import { useEffect, useState } from "react";
 import { ButtonHeader, Container } from "theme/commonStyle";
-import device, { deviceSizes } from "theme/mediaQueries";
+import { deviceSizes } from "theme/mediaQueries";
 import { getVote } from "util/getFirebaseDoc";
 import useWindowSize from "hooks/useWindowSize";
 import VoteBox from "components/vote/VoteBox";
@@ -10,6 +10,7 @@ import VoteCreateBox from "components/vote/VoteCreateBox";
 import styled from "styled-components";
 import Subtitle from "components/common/Subtitle";
 import { today } from "util/constants";
+import ExpiredVote from "components/vote/ExpiredVote";
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -73,7 +74,7 @@ const Vote = () => {
         <VoteList>
           {expiredVote?.length ? (
             expiredVote.map((item, index) => (
-              <VoteBox key={item.id} item={item} index={index} />
+              <ExpiredVote key={item.id} item={item} index={index} />
             ))
           ) : (
             <EmptyBox>아직 만료된 투표가 없습니다.</EmptyBox>
@@ -90,9 +91,7 @@ const VoteList = styled.div`
   flex-wrap: wrap;
   gap: 15px;
   margin: 20px auto 40px;
-  @media ${device.tablet} {
-    width: 620px;
-  }
+  width: 100%;
 `;
 
 const VoteButton = styled.button`

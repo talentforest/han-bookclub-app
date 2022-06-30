@@ -163,7 +163,6 @@ const FieldSet = styled.fieldset`
         font-size: 18px;
         &:checked {
           content: "";
-          border: 1px solid red;
           width: 22px;
           height: 22px;
         }

@@ -50,7 +50,7 @@ const Home = () => {
   let settings = {
     arrows: false,
     dots: true,
-    infinite: voteDoc.length > 1,
+    infinite: progressVote.length > 1,
     pauseOnHover: true,
     autoplay: true,
     autoplaySpeed: 4000,
@@ -114,11 +114,9 @@ const Home = () => {
           <Subtitle title={"한페이지의 투표함"} />
           <Slider {...settings}>
             {progressVote.length ? (
-              progressVote
-                .slice(0, 3)
-                .map((item, index) => (
-                  <VoteBox key={item.id} item={item} index={index} />
-                ))
+              progressVote.map((item, index) => (
+                <VoteBox key={item.id} item={item} index={index} />
+              ))
             ) : (
               <EmptyBox>
                 <span>진행중인 투표가 없습니다.</span>

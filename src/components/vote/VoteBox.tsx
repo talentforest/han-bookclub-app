@@ -1,6 +1,7 @@
 import {
   ArrowForwardIosOutlined,
   CheckCircleOutline,
+  Help,
   MoreHoriz,
 } from "@mui/icons-material";
 import { VoteDocument } from "util/getFirebaseDoc";
@@ -18,7 +19,10 @@ const VoteBox = ({ item, index }: PropsType) => {
   return (
     <Vote>
       <VoteLists>
-        <h4>Q. {item.vote.title}</h4>
+        <h4>
+          <Help />
+          {item.vote.title}
+        </h4>
         {item.vote?.voteItem?.slice(0, 3).map((item) => (
           <li key={item.id}>
             <CheckCircleOutline />
@@ -51,16 +55,27 @@ const Vote = styled.div`
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   @media ${device.tablet} {
     height: 260px;
-    width: 295px;
+    width: 48%;
+  }
+  @media ${device.desktop} {
+    height: 260px;
+    width: 30%;
   }
 `;
 
 const VoteLists = styled.ul`
   > h4 {
+    display: flex;
+    align-items: center;
     font-size: 14px;
     font-weight: 700;
     border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
     padding-bottom: 10px;
+    svg {
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+    }
   }
   > li {
     font-size: 14px;

@@ -75,7 +75,7 @@ const BookRecomCreateBox = ({ uid, thisMonthBook, docMonth }: PropsType) => {
           추천책 정보 찾기
         </Link>
         <textarea
-          placeholder="이달의 책과 관련하여 추천하고 싶은 책이나, 이달에 재미있게 읽었던 책을 작성해주세요."
+          placeholder="이달의 책과 관련해 추천하고 싶은 책이나, 이달에 재미있게 읽었던 책을 작성해주세요."
           onChange={onChange}
           value={text}
         />

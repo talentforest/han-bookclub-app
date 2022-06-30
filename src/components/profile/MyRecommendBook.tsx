@@ -7,6 +7,7 @@ import { SubjectBox } from "./MyRecord";
 import device from "theme/mediaQueries";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
 import styled from "styled-components";
+import { Overlay } from "components/bookmeeting/SubjectCreateModal";
 
 interface PropsType {
   item: BookMeetingInfo;
@@ -39,11 +40,6 @@ const MyRecommendBook = ({ item }: PropsType) => {
     setShowDetail(filteredArr);
   };
 
-  const onRecommendRemove = (targetId: string) => {
-    const newSubjectArr = showDetail.filter((item) => item.id !== targetId);
-    setRecommendBook(newSubjectArr);
-  };
-
   return (
     <>
       {myRecommendBooks.length !== 0 ? (
@@ -54,8 +50,16 @@ const MyRecommendBook = ({ item }: PropsType) => {
               onClick={() => onRecommendBookClick(item.recommendBookThumbnail)}
             >
               <Book>
-                <img src={item.recommendBookThumbnail} alt="thumbnail" />
-                <h3>{item.recommendBookTitle}</h3>
+                {item.recommendBookThumbnail ? (
+                  <img src={item.recommendBookThumbnail} alt="thumbnail" />
+                ) : (
+                  <img src={item.thumbnail} alt="thumbnail" />
+                )}
+                {item.recommendBookTitle ? (
+                  <h3>{item.recommendBookTitle}</h3>
+                ) : (
+                  <h3>{item.title}</h3>
+                )}
               </Book>
               <span>보기</span>
             </Record>
@@ -75,7 +79,6 @@ const MyRecommendBook = ({ item }: PropsType) => {
                     docMonth={docMonth}
                     setShowDetail={setShowDetail}
                   />
-                  {item.id}
                 </SubjectBox>
               </div>
             ))}
@@ -86,17 +89,6 @@ const MyRecommendBook = ({ item }: PropsType) => {
     </>
   );
 };
-
-const Overlay = styled.div`
-  cursor: pointer;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.8);
-`;
 
 const Record = styled.div`
   display: flex;
@@ -116,6 +108,10 @@ const Record = styled.div`
     color: ${(props) => props.theme.text.accent};
   }
   @media ${device.tablet} {
+    padding: 15px;
+    span {
+      font-size: 16px;
+    }
   }
 `;
 
@@ -131,6 +127,15 @@ const Book = styled.div`
   h3 {
     font-size: 13px;
     font-weight: 700;
+  }
+  @media ${device.tablet} {
+    img {
+      height: 60px;
+      margin-right: 20px;
+    }
+    h3 {
+      font-size: 16px;
+    }
   }
 `;
 

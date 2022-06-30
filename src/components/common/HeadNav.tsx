@@ -11,11 +11,6 @@ const HeadNav = () => {
       </Link>
       <ul>
         <li>
-          <Link to="/">
-            <span className={pathname === "/" ? "isActive" : ""}>홈</span>
-          </Link>
-        </li>
-        <li>
           <Link to="/history">
             <span className={pathname.includes("/history") ? "isActive" : ""}>
               지난 책모임
@@ -45,6 +40,13 @@ const HeadNav = () => {
             </span>
           </Link>
         </li>
+        <li>
+          <Link to="/setting">
+            <span className={pathname.includes("/setting") ? "isActive" : ""}>
+              설정
+            </span>
+          </Link>
+        </li>
       </ul>
     </Nav>
   ) : (
@@ -70,8 +72,8 @@ const Nav = styled.nav`
   ul {
     display: flex;
     justify-content: end;
+    gap: 0 30px;
     li {
-      margin-left: 40px;
       display: flex;
       flex-direction: column;
       align-items: center;

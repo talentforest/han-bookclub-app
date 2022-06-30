@@ -75,6 +75,7 @@ const VoteCreateBox = ({ setModalOpen }: PropsType) => {
 };
 
 const CreateBox = styled.form`
+  z-index: 2;
   position: fixed;
   overflow: scroll;
   top: 0;

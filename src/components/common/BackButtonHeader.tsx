@@ -41,6 +41,9 @@ const BackHeader = styled(Header)`
       cursor: pointer;
     }
   }
+  @media ${device.desktop} {
+    padding-left: 160px;
+  }
 `;
 
 export default BackButtonHeader;

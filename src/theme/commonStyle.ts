@@ -65,7 +65,7 @@ export const Container = styled.main`
     padding: 20px 80px 80px;
   }
   @media ${device.desktop} {
-    padding: 20px 50px 0;
+    padding: 20px 160px 80px;
   }
 `;
 

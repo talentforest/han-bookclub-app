@@ -6,8 +6,8 @@ import { BookMeetingInfo } from "routes/BookMeeting";
 import Subjects from "components/bookmeeting/Subjects";
 import styled from "styled-components";
 import Reviews from "components/bookmeeting/Reviews";
-import BookTitleImgBox from "components/common/BookTitleImgBox";
 import device from "theme/mediaQueries";
+import { Overlay } from "components/bookmeeting/SubjectCreateModal";
 
 interface PropsType {
   item: BookMeetingInfo;
@@ -44,7 +44,7 @@ const MyRecord = ({ item }: PropsType) => {
     const filteredArr = mySubjects.filter((item) => item.title === booktitle);
     setGuide("");
     if (filteredArr.length === 0) {
-      setGuide("아직 작성한 발제문이 없어요.");
+      setGuide("작성한 발제문이 없어요.");
       return;
     }
     setOpenModal((prev) => !prev);
@@ -56,12 +56,11 @@ const MyRecord = ({ item }: PropsType) => {
     const filteredArr = myReviews.filter((item) => item.title === booktitle);
     setGuide("");
     if (filteredArr.length === 0) {
-      setGuide("아직 작성한 모임후기가 없어요.");
+      setGuide("작성한 모임후기가 없어요.");
       return;
     }
     setOpenModal((prev) => !prev);
     setMySubjectsByBook([]);
-
     setMyReviewsByBook(filteredArr);
   };
 
@@ -79,21 +78,26 @@ const MyRecord = ({ item }: PropsType) => {
     setMyReviewsByBook(newSubjectArr);
   };
 
+  console.log(myReviews);
+
   return (
     <>
       {mySubjects.length !== 0 || myReviews.length !== 0 ? (
         <>
           <Record>
-            <BookTitleImgBox docData={item.book} />
-            <Category>
-              <button onClick={() => onSubjectClick(item.book.title)}>
-                나의 발제문
-              </button>
-              <button onClick={() => onReviewClick(item.book.title)}>
-                나의 모임후기
-              </button>
-            </Category>
-            {guide ? <span>{guide}</span> : <></>}
+            <img src={item.book.thumbnail} alt="thumbnail" />
+            <div>
+              <h4>{item.book.title}</h4>
+              <Category>
+                <button onClick={() => onSubjectClick(item.book.title)}>
+                  나의 발제문
+                </button>
+                <button onClick={() => onReviewClick(item.book.title)}>
+                  나의 모임후기
+                </button>
+              </Category>
+              {guide ? <Guide>{guide}</Guide> : <></>}
+            </div>
           </Record>
           {openModal ? (
             <>
@@ -103,7 +107,7 @@ const MyRecord = ({ item }: PropsType) => {
                 }}
               />
               <SubjectBox>
-                {mySubjectsByBook.length &&
+                {mySubjectsByBook &&
                   mySubjectsByBook?.map((item) => (
                     <Subjects
                       key={item.id}
@@ -112,7 +116,7 @@ const MyRecord = ({ item }: PropsType) => {
                       onSubjectRemove={onSubjectRemove}
                     />
                   ))}
-                {myReviewsByBook.length &&
+                {myReviewsByBook &&
                   myReviewsByBook.map((item) => (
                     <Reviews
                       key={item.id}
@@ -135,40 +139,40 @@ const MyRecord = ({ item }: PropsType) => {
 };
 
 const Record = styled.div`
-  width: 48%;
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5px;
-  margin: 3px 10px 3px 0;
+  width: 100%;
+  height: 100px;
+  padding: 15px;
   border-radius: 5px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
-  > span {
-    font-size: 12px;
-    margin: 5px 0;
-    border-bottom: 1px solid ${(props) => props.theme.text.gray};
+  display: flex;
+  align-items: center;
+  > img {
+    height: 55px;
+    margin-right: 15px;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
   }
-  > div:first-child {
-    height: 120px;
-    img {
-      height: 70px;
-    }
-    h3 {
-      font-size: 12px;
+  > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    > h4 {
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 10px;
     }
   }
   @media ${device.tablet} {
-    width: 260px;
-    > div:first-child {
-      height: 120px;
-      img {
-        height: 80px;
-      }
-      h3 {
-        font-size: 15px;
+    width: 49%;
+    height: 130px;
+    margin-bottom: 0;
+    > img {
+      height: 70px;
+    }
+    > div {
+      > h4 {
+        font-size: 16px;
       }
     }
   }
@@ -176,47 +180,41 @@ const Record = styled.div`
 
 const Category = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  margin: 10px 0 5px;
   width: 100%;
-  height: 60px;
   > button {
+    width: 84px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 70%;
     padding: 3px 0;
     font-size: 12px;
+    font-weight: 700;
     border-radius: 15px;
     border: 1px solid ${(props) => props.theme.container.yellow};
-    font-weight: 700;
     background-color: ${(props) => props.theme.container.lightBlue};
     color: ${(props) => props.theme.text.accent};
     cursor: pointer;
     &:hover {
       background-color: ${(props) => props.theme.container.yellow};
     }
+    &:first-child {
+      margin-right: 6px;
+    }
   }
   @media ${device.tablet} {
+    font-size: 16px;
     > button {
-      margin: 5px;
-      padding: 5px 8px;
-      font-size: 15px;
+      width: 90px;
     }
   }
 `;
 
-const Overlay = styled.div`
-  cursor: pointer;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.8);
+const Guide = styled.span`
+  font-size: 12px;
+  margin: 5px 0;
+  @media ${device.tablet} {
+    font-size: 16px;
+  }
 `;
 
 export const SubjectBox = styled.article`
@@ -229,6 +227,7 @@ export const SubjectBox = styled.article`
   max-height: 82vh;
   margin: 0 auto;
   border-radius: 5px;
+  z-index: 2;
   > div {
     border-radius: 5px;
     padding: 10px 15px;

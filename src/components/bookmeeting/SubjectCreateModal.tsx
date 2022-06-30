@@ -122,12 +122,12 @@ const AddSubject = styled.div`
 export const Overlay = styled.div`
   cursor: pointer;
   position: fixed;
+  z-index: 1;
   top: 0;
   left: 0;
   right: 0;
   width: 100%;
   min-height: 100vh;
-  padding-bottom: 100px;
   background-color: rgba(0, 0, 0, 0.6);
 `;
 
@@ -142,7 +142,7 @@ const Form = styled.form`
   align-items: center;
   margin: 20px;
   padding: 10px 15px;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   background-color: ${(props) => props.theme.container.lightBlue};
   > h3 {

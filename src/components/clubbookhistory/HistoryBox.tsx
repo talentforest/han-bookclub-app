@@ -63,8 +63,11 @@ export const Info = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  margin: 0 auto;
   > div:last-child {
     box-shadow: none;
+    width: fit-content;
   }
 `;
 

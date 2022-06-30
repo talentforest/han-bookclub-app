@@ -14,14 +14,17 @@ import styled from "styled-components";
 import BookDesc from "components/common/BookDesc";
 import ReviewCreateBox from "components/bookmeeting/ReviewCreateBox";
 import Reviews from "components/bookmeeting/Reviews";
-import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
+import SubjectCreateModal, {
+  Overlay,
+} from "components/bookmeeting/SubjectCreateModal";
 import Subjects from "components/bookmeeting/Subjects";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import BookRecomCreateBox from "components/bookmeeting/BookRecomCreateBox";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
-import device from "theme/mediaQueries";
+import device, { deviceSizes } from "theme/mediaQueries";
 import Subtitle from "components/common/Subtitle";
+import useWindowSize from "hooks/useWindowSize";
 
 export interface meetingType {
   time: string;
@@ -43,6 +46,8 @@ const BookMeeting = () => {
   const [showBookDetail, setShowBookDetail] = useState(false);
   const [recommendBook, setRecommendBook] = useState([]);
   const userData = useRecoilValue(currentUserState);
+
+  const { windowSize } = useWindowSize();
 
   const bookUrlMatch = useMatch("/bookmeeting");
   const subjectUrlMatch = useMatch("/bookmeeting/subject");
@@ -71,9 +76,13 @@ const BookMeeting = () => {
 
   return (
     <>
-      <Header>
-        <h1>이달의 책모임</h1>
-      </Header>
+      {windowSize.width < +deviceSizes.tablet ? (
+        <Header>
+          <h1>지난 책모임</h1>
+        </Header>
+      ) : (
+        <></>
+      )}
       <Container>
         <Subtitle
           title={docMonth ? `${docMonth?.slice(6)}월의 책` : "월의 책"}
@@ -222,18 +231,6 @@ const BookDetail = styled.div`
     margin: 0 auto;
     border-radius: 5px;
   }
-`;
-
-const Overlay = styled.div`
-  cursor: pointer;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100vh;
-  padding-bottom: 20px;
-  background-color: rgba(0, 0, 0, 0.6);
 `;
 
 export default BookMeeting;

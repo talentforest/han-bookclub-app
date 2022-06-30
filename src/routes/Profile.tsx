@@ -3,14 +3,14 @@ import { ButtonHeader, Container } from "theme/commonStyle";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { AccountCircle, Settings } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import { getBookMeetingInfoData } from "util/getFirebaseDoc";
 import styled from "styled-components";
 import Subtitle from "components/common/Subtitle";
 import useWindowSize from "hooks/useWindowSize";
 import device, { deviceSizes } from "theme/mediaQueries";
 import MyRecommendBook from "components/profile/MyRecommendBook";
 import MyRecord from "components/profile/MyRecord";
-import { useEffect, useState } from "react";
-import { getBookMeetingInfoData } from "util/getFirebaseDoc";
 
 export interface IRecord {
   title: string;
@@ -45,14 +45,6 @@ const Profile = () => {
       )}
       <NewContainer>
         <User>
-          {windowSize.width < +deviceSizes.tablet ? (
-            <></>
-          ) : (
-            <Link to="/setting">
-              <Settings />
-            </Link>
-          )}
-
           {userData?.photoURL ? (
             <img src={userData.photoURL} alt="profile" />
           ) : (
@@ -90,13 +82,11 @@ const NewContainer = styled(Container)`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 50px;
     > span {
       font-size: 13px;
       padding-left: 15px;
       margin-bottom: 10px;
-    }
-    > div {
     }
   }
   @media ${device.tablet} {
@@ -157,8 +147,10 @@ const User = styled.div`
 `;
 
 const Wrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   gap: 10px;
 `;
 
