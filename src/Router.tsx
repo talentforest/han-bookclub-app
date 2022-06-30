@@ -31,7 +31,7 @@ function Router({ isLoggedIn }: PropsType) {
   const { windowSize } = useWindowSize();
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <ScrollToTop />
       {isLoggedIn && windowSize.width >= +deviceSizes.tablet ? (
         <HeadNav />

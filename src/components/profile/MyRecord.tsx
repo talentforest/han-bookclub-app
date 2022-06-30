@@ -78,8 +78,6 @@ const MyRecord = ({ item }: PropsType) => {
     setMyReviewsByBook(newSubjectArr);
   };
 
-  console.log(myReviews);
-
   return (
     <>
       {mySubjects.length !== 0 || myReviews.length !== 0 ? (
