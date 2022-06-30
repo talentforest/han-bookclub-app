@@ -139,7 +139,7 @@ const TextBox = styled.div`
     padding-bottom: 10px;
     min-height: 200px;
     margin-bottom: 15px;
-    font-size: 14px;
+    font-size: 17px;
   }
   @media ${device.tablet} {
     margin-bottom: 20px;
@@ -214,11 +214,11 @@ export const GuideTextBox = styled.span`
 
 const TextArea = styled.textarea`
   width: 100%;
-  min-height: 200px;
+  min-height: 240px;
   border: none;
   background-color: ${(props) => props.theme.container.lightBlue};
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 10px;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -234,7 +234,7 @@ const TextArea = styled.textarea`
 
 export const RegisterTime = styled.div`
   color: ${(props) => props.theme.text.gray};
-  font-size: 10px;
+  font-size: 13px;
   text-align: end;
   margin-bottom: 5px;
   @media ${device.tablet} {

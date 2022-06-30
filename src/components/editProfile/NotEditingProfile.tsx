@@ -35,7 +35,7 @@ const NotEditingProfile = ({ setEditing, extraUserData }: PropsType) => {
         </List>
         <List>
           <div>
-            <span>별명</span>
+            <span>닉네임</span>
             <span>{userData.displayName}</span>
           </div>
         </List>
@@ -55,7 +55,7 @@ const NotEditingProfile = ({ setEditing, extraUserData }: PropsType) => {
 };
 
 const UserImg = styled.div`
-  margin: 20px 0;
+  margin-top: 20px;
   img {
     object-fit: cover;
     width: 120px;
@@ -92,7 +92,7 @@ const List = styled.li`
   width: 100%;
   padding: 10px;
   > p {
-    font-size: 10px;
+    font-size: 14px;
     color: ${(props) => props.theme.text.lightBlue};
     margin-top: 5px;
     text-align: end;
@@ -103,7 +103,7 @@ const List = styled.li`
     align-items: center;
     > span:first-child {
       font-weight: 700;
-      font-size: 12px;
+      font-size: 14px;
     }
     > input {
       text-align: end;
@@ -144,10 +144,10 @@ const List = styled.li`
 const FavFieldItem = styled.span`
   cursor: pointer;
   width: fit-content;
-  padding: 2px 3px;
-  border-radius: 10px;
+  padding: 3px 5px;
+  border-radius: 20px;
   margin: 4px 0px 4px 8px;
-  font-size: 10px;
+  font-size: 14px;
   border: 1px solid ${(props) => props.theme.text.lightGray};
   color: ${(props) => props.theme.text.white};
   background-color: ${(props) => props.theme.text.lightBlue};

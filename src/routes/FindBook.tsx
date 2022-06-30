@@ -55,7 +55,7 @@ const BookResults = styled.section`
   > span {
     display: block;
     padding-bottom: 10px;
-    font-size: 13px;
+    font-size: 14px;
   }
 `;
 
@@ -68,19 +68,19 @@ const Input = styled.input`
   display: flex;
   justify-items: center;
   width: 85%;
-  height: 40px;
+  height: 44px;
   border: none;
   border: 1px solid ${(props) => props.theme.container.blue};
   border-radius: 5px;
   padding: 0 10px;
-  font-size: 15px;
+  font-size: 16px;
   &:focus {
     outline: none;
   }
 `;
 
 const Button = styled.input`
-  font-size: 13px;
+  font-size: 14px;
   width: 15%;
   margin-left: 10px;
   border: none;

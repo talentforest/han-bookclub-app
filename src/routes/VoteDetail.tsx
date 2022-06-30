@@ -430,6 +430,7 @@ const SubmitButton = styled.button`
 `;
 
 const VoteMember = styled.div`
+  margin-top: 20px;
   h4 {
     font-size: 14px;
     width: fit-content;

@@ -1,5 +1,4 @@
 import { BookDocument, recommendBookState } from "data/bookAtom";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
@@ -12,11 +11,8 @@ const RegisterRecommendButton = ({ findbookData }: PropsType) => {
   const navigator = useNavigate();
   const setRecommendedBook = useSetRecoilState(recommendBookState);
 
-  useEffect(() => {
-    setRecommendedBook(findbookData);
-  }, [findbookData]);
-
   const onClick = () => {
+    setRecommendedBook(findbookData);
     const confirm = window.confirm(
       "추천책 정보가 등록되었어요. 작성 페이지로 돌아갈게요!"
     );

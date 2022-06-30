@@ -33,12 +33,13 @@ const ButtonBox = styled.div`
       padding: 0;
       border: none;
       background-color: transparent;
-      font-size: 11px;
+      font-size: 14px;
       color: ${(props) => props.theme.text.lightBlue};
     }
     svg {
-      width: 12px;
-      height: 10px;
+      width: 14px;
+      height: 14px;
+      padding-top: 2px;
       fill: ${(props) => props.theme.text.lightBlue};
     }
   }

@@ -46,7 +46,6 @@ const BookDetail = styled.ul`
   border-radius: 10px;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
   background-color: ${(props) => props.theme.container.default};
-  font-size: 14px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,13 +54,12 @@ const BookDetail = styled.ul`
   padding: 15px;
   width: 95%;
   > h3 {
-    font-size: 16px;
     font-weight: 700;
     margin-bottom: 10px;
   }
   > li {
     margin-bottom: 5px;
-    font-size: 13px;
+    font-size: 16px;
     display: flex;
     align-items: center;
     svg {
@@ -76,7 +74,7 @@ const BookDetail = styled.ul`
   }
   a {
     padding-top: 10px;
-    font-size: 12px;
+    font-size: 14px;
     text-decoration: underline;
     color: ${(props) => props.theme.text.accent};
   }

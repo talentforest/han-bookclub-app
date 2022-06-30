@@ -2,7 +2,7 @@ import { AddCircleOutline } from "@mui/icons-material";
 import { Overlay } from "components/bookmeeting/SubjectCreateModal";
 import { useEffect, useState } from "react";
 import { ButtonHeader, Container } from "theme/commonStyle";
-import { deviceSizes } from "theme/mediaQueries";
+import device, { deviceSizes } from "theme/mediaQueries";
 import { getVote } from "util/getFirebaseDoc";
 import useWindowSize from "hooks/useWindowSize";
 import VoteBox from "components/vote/VoteBox";
@@ -92,6 +92,18 @@ const VoteList = styled.div`
   gap: 15px;
   margin: 20px auto 40px;
   width: 100%;
+  @media ${device.tablet} {
+    > div {
+      height: 260px;
+      width: 48%;
+    }
+  }
+  @media ${device.desktop} {
+    > div {
+      height: 260px;
+      width: 30%;
+    }
+  }
 `;
 
 const VoteButton = styled.button`

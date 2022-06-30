@@ -15,14 +15,15 @@ const BackButtonHeader = ({ title }: PropsType) => {
   };
 
   return (
-    <BackHeader>
-      <ArrowBackIosNewIcon onClick={onClick} />
+    <BackHeader onClick={onClick}>
+      <ArrowBackIosNewIcon />
       <h3>{title}</h3>
     </BackHeader>
   );
 };
 
 const BackHeader = styled(Header)`
+  width: fit-content;
   svg {
     width: 16px;
     height: 16px;

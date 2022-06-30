@@ -53,6 +53,12 @@ const ClubHistoryDetail = () => {
         </Infos>
         <BookSection>
           <button
+            onClick={() => onButtonClick("recommend")}
+            className={selectedCategory === "recommend" ? "isActive" : ""}
+          >
+            추천책 보기
+          </button>
+          <button
             onClick={() => onButtonClick("subjects")}
             className={selectedCategory === "subjects" ? "isActive" : ""}
           >
@@ -64,14 +70,16 @@ const ClubHistoryDetail = () => {
           >
             모임 후기 보기
           </button>
-          <button
-            onClick={() => onButtonClick("recommend")}
-            className={selectedCategory === "recommend" ? "isActive" : ""}
-          >
-            추천책 보기
-          </button>
         </BookSection>
         <Documents>
+          {selectedCategory === "recommend" &&
+            (recommends.length !== 0 ? (
+              recommends.map((item) => (
+                <BookRecomBox key={item.id} item={item} docMonth={docMonth} />
+              ))
+            ) : (
+              <EmptyRecord>기록된 추천책이 아직 없어요.</EmptyRecord>
+            ))}
           {selectedCategory === "subjects" &&
             (subjects.length !== 0 ? (
               subjects.map((item) => (
@@ -87,15 +95,6 @@ const ClubHistoryDetail = () => {
               ))
             ) : (
               <EmptyRecord>기록된 모임 후기가 아직 없어요.</EmptyRecord>
-            ))}
-
-          {selectedCategory === "recommend" &&
-            (recommends.length !== 0 ? (
-              recommends.map((item) => (
-                <BookRecomBox key={item.id} item={item} docMonth={docMonth} />
-              ))
-            ) : (
-              <EmptyRecord>기록된 추천책이 아직 없어요.</EmptyRecord>
             ))}
         </Documents>
       </Container>
@@ -135,8 +134,8 @@ const BookSection = styled.div`
   margin-top: 20px;
   button {
     cursor: pointer;
-    padding: 5px 8px;
-    font-size: 12px;
+    padding: 8px;
+    font-size: 13px;
     font-weight: 700;
     width: fit-content;
     margin: 0 5px;
@@ -163,12 +162,8 @@ const EmptyRecord = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px 0;
-  font-size: 13px;
-  background-color: ${(props) => props.theme.container.default};
+  padding: 20px 0;
+  font-size: 16px;
   @media ${device.tablet} {
     font-size: 18px;
     min-height: 20vh;

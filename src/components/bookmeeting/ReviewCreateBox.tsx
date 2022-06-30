@@ -70,9 +70,9 @@ const Button = styled.div`
 `;
 
 const TextArea = styled.textarea`
-  font-size: 13px;
+  font-size: 16px;
   width: 100%;
-  height: 60px;
+  height: 100px;
   border: none;
   resize: none;
   &::placeholder {

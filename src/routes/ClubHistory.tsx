@@ -86,11 +86,11 @@ const HistoryList = styled.ul`
 
 const YearCategory = styled.select`
   height: 30px;
-  width: 100px;
+  width: fit-content;
   display: flex;
   border-radius: 5px;
   margin-left: 15px;
-  font-size: 14px;
+  font-size: 16px;
   &:focus {
     outline: none;
   }

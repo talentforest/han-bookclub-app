@@ -26,10 +26,13 @@ const RecommendInfo = ({ smSize }: PropsType) => {
 export const Recommend = styled.div<{ smSize: string }>`
   display: flex;
   align-items: center;
+  background-color: ${(props) => props.theme.container.default};
+  padding: 5px 10px;
+  border-radius: 5px;
   > img {
-    width: min-content;
+    width: auto;
     height: ${(props) => (props.smSize ? "40px" : "70px")};
-    margin-right: 8px;
+    margin-right: 15px;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
   }
   > div {

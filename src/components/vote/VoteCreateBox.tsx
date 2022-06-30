@@ -82,7 +82,7 @@ const CreateBox = styled.form`
   right: 0;
   left: 0;
   min-height: 30vh;
-  max-height: 75vh;
+  max-height: 80vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -97,7 +97,7 @@ const CreateBox = styled.form`
   }
   > button {
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     margin-top: 30px;
     padding: 8px;
@@ -120,7 +120,7 @@ const CreateBox = styled.form`
 `;
 
 const Input = styled.input`
-  font-size: 15px;
+  font-size: 16px;
   width: 100%;
   height: 30px;
   padding-left: 3px;
@@ -148,13 +148,13 @@ const Vote = styled.div`
     display: block;
     margin-bottom: 6px;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 16px;
   }
   > ul {
     margin-top: 20px;
     span {
       display: block;
-      font-size: 14px;
+      font-size: 16px;
       margin-bottom: 6px;
       font-weight: 700;
     }
@@ -181,6 +181,7 @@ const Vote = styled.div`
       input {
         width: 100%;
         height: 30px;
+        font-size: 16px;
       }
     }
   }
@@ -214,11 +215,11 @@ const Deadline = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 5px;
-  padding: 20px;
+  padding: 20px 10px;
   background-color: ${(props) => props.theme.container.default};
   span {
     display: block;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     margin-bottom: 8px;
   }
@@ -233,9 +234,9 @@ const Deadline = styled.div`
 const DatePick = styled(DatePicker)`
   width: 100%;
   height: 32px;
-  padding: 10px;
+  padding: 10px 5px;
   border-radius: 5px;
-  font-size: 15px;
+  font-size: 16px;
   border: 1px solid ${(props) => props.theme.text.lightGray};
   cursor: pointer;
   &:focus {

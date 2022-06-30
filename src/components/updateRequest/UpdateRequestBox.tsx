@@ -106,8 +106,9 @@ const Request = styled.li`
     > p {
       margin: 10px 0;
       line-height: 1.6;
+      font-size: 16px;
       > span {
-        font-size: 12px;
+        font-size: 14px;
         width: fit-content;
         border-radius: 30px;
         padding: 2px 10px;
@@ -121,9 +122,11 @@ const Request = styled.li`
     }
     > textarea {
       width: 100%;
-      height: 80px;
+      height: 100px;
+      margin-top: 10px;
       resize: none;
       border-radius: 5px;
+      font-size: 16px;
       border: 1px solid ${(props) => props.theme.text.lightGray};
       &:focus {
         outline: none;
@@ -131,7 +134,7 @@ const Request = styled.li`
     }
   }
   > span {
-    font-size: 12px;
+    font-size: 14px;
   }
   @media ${device.tablet} {
     margin-top: 20px;

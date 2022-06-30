@@ -118,6 +118,7 @@ const Record = styled.div`
 const Book = styled.div`
   display: flex;
   align-items: center;
+  width: 90%;
   img {
     height: 50px;
     width: auto;
@@ -125,6 +126,8 @@ const Book = styled.div`
     margin-right: 10px;
   }
   h3 {
+    width: 100%;
+    display: block;
     font-size: 13px;
     font-weight: 700;
   }

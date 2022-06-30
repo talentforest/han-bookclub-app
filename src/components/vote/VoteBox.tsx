@@ -53,21 +53,13 @@ const Vote = styled.div`
   margin-bottom: 10px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-  @media ${device.tablet} {
-    height: 260px;
-    width: 48%;
-  }
-  @media ${device.desktop} {
-    height: 260px;
-    width: 30%;
-  }
 `;
 
 const VoteLists = styled.ul`
   > h4 {
     display: flex;
     align-items: center;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
     padding-bottom: 10px;
@@ -113,19 +105,17 @@ const VoteBottom = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: end;
+  font-size: 14px;
   > p {
     color: ${(props) => props.theme.text.accent};
-    font-size: 12px;
   }
   > a {
     display: flex;
     align-items: center;
     color: ${(props) => props.theme.text.accent};
-    font-size: 12px;
-
     svg {
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       fill: ${(props) => props.theme.text.accent};
     }
   }

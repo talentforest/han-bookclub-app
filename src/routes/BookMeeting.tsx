@@ -78,7 +78,7 @@ const BookMeeting = () => {
     <>
       {windowSize.width < +deviceSizes.tablet ? (
         <Header>
-          <h1>지난 책모임</h1>
+          <h1>이달의 책모임</h1>
         </Header>
       ) : (
         <></>
@@ -179,9 +179,9 @@ const CategoryButton = styled.div`
     justify-content: center;
     align-items: center;
     width: 32%;
-    height: 30px;
-    border-radius: 30px;
-    font-size: 11px;
+    height: 36px;
+    border-radius: 80px;
+    font-size: 14px;
     font-weight: 700;
     color: #aaa;
     cursor: pointer;

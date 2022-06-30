@@ -3,11 +3,12 @@ import device from "./mediaQueries";
 
 export const Header = styled.header`
   color: ${(props) => props.theme.text.gray};
-  font-weight: 700;
   display: flex;
   align-items: center;
   height: 50px;
   padding: 15px;
+  font-size: 16px;
+  font-weight: 700;
   @media ${device.tablet} {
     font-size: 22px;
   }
@@ -73,15 +74,12 @@ export const SubmitBtn = styled.input`
   border: none;
   background-color: ${(props) => props.theme.container.blue};
   color: ${(props) => props.theme.text.white};
-  font-size: 13px;
-  width: 65px;
-  height: 28px;
+  font-size: 16px;
+  padding: 8px 10px;
   border-radius: 5px;
   cursor: pointer;
   @media ${device.tablet} {
     font-size: 18px;
-    width: 80px;
-    height: 40px;
   }
 `;
 

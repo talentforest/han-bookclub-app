@@ -3,8 +3,6 @@ import { createGlobalStyle } from "styled-components";
 export const ResetStyle = createGlobalStyle`
   body {
     background-color: ${(props) => props.theme.bgColor};
-    font-size: 16px;
-    
   }
   * {
     font-family: "Noto Sans KR", sans-serif;
@@ -14,6 +12,21 @@ export const ResetStyle = createGlobalStyle`
     display: none;
     }
   }
+  input, textarea, button {
+    -webkit-appearance:none; 
+    -moz-appearance:none; 
+    appearance:none;
+  }
+  input, 
+  textarea, 
+  button, 
+  select {
+    -webkit-border-radius:0; 
+    -moz-border-radius:0; 
+    -o-border-radius:0; 
+    border-radius:0;
+  }
+
   a {
     text-decoration: none;
     color: ${(props) => props.theme.text.gray}

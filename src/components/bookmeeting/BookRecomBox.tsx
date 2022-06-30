@@ -149,11 +149,15 @@ const RecommendBook = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  background-color: ${(props) => props.theme.container.default};
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 5px;
   > img {
     width: auto;
     height: 50px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    margin-right: 10px;
+    margin-right: 15px;
   }
   > div {
     display: flex;
@@ -169,7 +173,7 @@ const RecommendBook = styled.div`
 `;
 
 const RegisterTime = styled.div`
-  font-size: 10px;
+  font-size: 13px;
   color: ${(props) => props.theme.text.gray};
   text-align: end;
 `;

@@ -107,16 +107,16 @@ const Reviews = ({ item, onReviewRemove, docMonth }: PropsType) => {
 };
 
 export const TextBox = styled.div`
-  padding: 10px;
+  padding: 20px 10px;
   font-size: 14px;
   border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
   pre {
     white-space: pre-wrap;
     word-wrap: break-word;
     line-height: 1.6;
-    font-size: 14px;
+    font-size: 16px;
     min-height: 60px;
-    margin-bottom: 5px;
+    margin: 10px 0;
   }
   @media ${device.tablet} {
     padding: 15px;
@@ -128,14 +128,14 @@ export const TextBox = styled.div`
 `;
 
 export const TextArea = styled.textarea`
-  font-size: 14px;
+  font-size: 16px;
   width: 100%;
   white-space: pre-wrap;
   word-wrap: break-word;
   border: none;
   border-radius: 5px;
-  height: 60px;
-  line-height: 1.3;
+  height: 100px;
+  line-height: 1.6;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
   resize: none;

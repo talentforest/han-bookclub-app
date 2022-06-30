@@ -58,7 +58,7 @@ const BookResultBox = styled.div`
   }
   img {
     width: auto;
-    height: 65px;
+    height: 80px;
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
   }
   > div:first-child {
@@ -79,14 +79,14 @@ const BookResultBox = styled.div`
 const BookDetail = styled.div`
   display: flex;
   flex-direction: column;
-  font-size: 12px;
+  font-size: 14px;
   margin-left: 20px;
   > h3 {
     font-weight: 700;
     margin-bottom: 3px;
   }
   > span {
-    font-size: 11px;
+    font-size: 14px;
   }
 `;
 export default ResultBox;

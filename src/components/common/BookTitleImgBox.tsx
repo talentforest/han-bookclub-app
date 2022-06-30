@@ -42,13 +42,13 @@ export const BookCoverTitleBox = styled.div<{ smSize: string }>`
   justify-content: ${(props) =>
     props.smSize ? "flex-start" : "space-between"};
   align-items: center;
-  margin: 5px auto;
+  margin: 10px auto;
   width: 100%;
-  height: ${(props) => (props.smSize ? "fit-content" : "135px")};
+  height: ${(props) => (props.smSize ? "fit-content" : "190px")};
   img {
     box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
     width: auto;
-    height: ${(props) => (props.smSize ? "24px" : "100px")};
+    height: ${(props) => (props.smSize ? "30px" : "140px")};
   }
   svg {
     height: ${(props) => (props.smSize ? "24px" : "100%")};
@@ -57,18 +57,18 @@ export const BookCoverTitleBox = styled.div<{ smSize: string }>`
   h3 {
     text-align: center;
     margin-left: ${(props) => (props.smSize ? "10px" : "0px")};
-    font-size: ${(props) => (props.smSize ? "10px" : "14px")};
+    font-size: ${(props) => (props.smSize ? "12px" : "16px")};
     font-weight: 700;
   }
   @media ${device.tablet} {
     height: ${(props) => (props.smSize ? "fit-content" : "200px")};
     svg,
     img {
-      height: ${(props) => (props.smSize ? "38px" : "150px")};
+      height: ${(props) => (props.smSize ? "46px" : "150px")};
     }
     h3 {
       margin-top: 10px;
-      font-size: ${(props) => (props.smSize ? "14px" : "18px")};
+      font-size: ${(props) => (props.smSize ? "16px" : "18px")};
       margin-left: ${(props) => (props.smSize ? "16px" : "0px")};
     }
   }

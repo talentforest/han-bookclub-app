@@ -44,7 +44,6 @@ const MeetingInfo = styled.div`
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  font-size: 14px;
   margin-top: 20px;
   padding: 15px 10px;
   > div {

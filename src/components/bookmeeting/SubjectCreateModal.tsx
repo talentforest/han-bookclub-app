@@ -84,21 +84,21 @@ const AddSubject = styled.div`
   padding: 0 3px;
   p {
     margin: 4px 0px 0px 4px;
-    font-size: 12px;
+    font-size: 14px;
     color: ${(props) => props.theme.text.lightBlue};
   }
   span {
     width: fit-content;
     color: ${(props) => props.theme.text.accent};
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     display: flex;
     align-items: center;
     svg {
       fill: ${(props) => props.theme.text.accent};
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       margin-right: 5px;
     }
   }
@@ -134,13 +134,12 @@ export const Overlay = styled.div`
 const Form = styled.form`
   z-index: 2;
   position: fixed;
-  top: 20px;
+  top: 30px;
   right: 0;
   left: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px;
   padding: 10px 15px;
   border-radius: 10px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
@@ -151,7 +150,7 @@ const Form = styled.form`
     align-items: center;
     padding-bottom: 10px;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 17px;
     width: 100%;
     text-align: start;
     svg {
@@ -164,6 +163,7 @@ const Form = styled.form`
     justify-content: end;
   }
   > textarea {
+    font-size: 16px;
     width: 100%;
     min-height: 350px;
     border: none;

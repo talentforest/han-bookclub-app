@@ -80,7 +80,7 @@ const BookRecomCreateBox = ({ uid, thisMonthBook, docMonth }: PropsType) => {
           value={text}
         />
 
-        {myRecommendBook.thumbnail !== "" ? (
+        {myRecommendBook?.thumbnail ? (
           <>
             <h5>추천책 정보</h5>
             <RecommendInfo />
@@ -107,7 +107,7 @@ const Form = styled.form`
   justify-content: space-between;
   margin-bottom: 20px;
   h5 {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
     padding: 10px 0 5px;
   }
@@ -116,19 +116,19 @@ const Form = styled.form`
     align-items: center;
     border-radius: 5px;
     width: fit-content;
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 10px;
     color: ${(props) => props.theme.text.accent};
     svg {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       padding-top: 2px;
       fill: ${(props) => props.theme.text.accent};
     }
   }
   textarea {
     width: 100%;
-    height: 90px;
+    height: 100px;
     font-size: 16px;
     border-radius: 5px;
     padding: 5px 10px;
@@ -141,7 +141,6 @@ const Form = styled.form`
     }
   }
   @media ${device.tablet} {
-    height: 200px;
     padding: 20px;
     textarea {
       height: 150px;
@@ -165,7 +164,7 @@ const ThisMonthBook = styled.div`
     color: #fff;
     border-radius: 5px;
     padding: 3px 5px;
-    font-size: 12px;
+    font-size: 14px;
     height: 30px;
   }
 `;

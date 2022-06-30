@@ -54,7 +54,7 @@ const Home = () => {
     pauseOnHover: true,
     autoplay: true,
     autoplaySpeed: 4000,
-    speed: 3000,
+    speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
     responsive: [
@@ -101,9 +101,13 @@ const Home = () => {
         </section>
         <section>
           <Subtitle
-            title={bookMeetingInfoDoc[0] ? `${docMonth}월의 책` : "월의 책"}
+            title={
+              bookMeetingInfoDoc[0]
+                ? `${docMonth}월의 모임 일정`
+                : "월의 모임 일정"
+            }
           />
-          <p>한페이지 북클럽 멤버는 매월 셋째주 일요일에 만나요.</p>
+          <p>한페이지 멤버는 매월 셋째주 일요일에 만나요.</p>
           <MeetingInfoBox docData={bookMeetingInfoDoc[0]?.meeting} />
           <LinkButton
             link={"/bookmeeting/review"}
@@ -177,22 +181,13 @@ const EmptyBox = styled.div`
 
 const NewContainer = styled(Container)`
   > section {
-    margin-top: 50px;
+    margin-top: 60px;
     position: relative;
     > p {
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 700;
       margin: 0 15px 10px;
       color: ${(props) => props.theme.text.lightBlue};
-    }
-    > a {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      svg {
-        padding-top: 2px;
-        fill: ${(props) => props.theme.text.lightBlue};
-      }
     }
   }
   > section:first-child {
@@ -232,6 +227,7 @@ const ScheduleBox = styled.ul`
     align-items: center;
     height: 30px;
     font-size: 14px;
+    padding: 20px 0;
     > span:first-child {
       margin-right: 10px;
       color: ${(props) => props.theme.text.accent};

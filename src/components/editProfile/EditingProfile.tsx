@@ -64,7 +64,7 @@ const EditingProfile = ({
         <Edit>
           <List>
             <div>
-              <span>별명</span>
+              <span>닉네임</span>
               <input
                 onChange={onChange}
                 type="text"
@@ -122,8 +122,8 @@ const AfterFavEdit = styled.div`
   align-items: flex-start;
   padding: 10px;
   > span {
+    font-size: 14px;
     font-weight: 700;
-    font-size: 12px;
   }
   > div {
     width: 70%;
@@ -134,7 +134,7 @@ const AfterFavEdit = styled.div`
       cursor: pointer;
       padding: 3px 5px;
       margin: 0px 0px 8px 8px;
-      font-size: 12px;
+      font-size: 14px;
       border-radius: 20px;
       border: none;
       background-color: ${(props) => props.theme.container.default};
@@ -143,15 +143,6 @@ const AfterFavEdit = styled.div`
         background-color: #5162ff;
         color: #fff;
       }
-    }
-    > span {
-      background-color: ${(props) => props.theme.text.lightBlue};
-      color: ${(props) => props.theme.text.white};
-    }
-    > span {
-      font-size: 10px;
-      color: ${(props) => props.theme.text.lightBlue};
-      margin-top: 5px;
     }
   }
   @media ${device.tablet} {
@@ -193,7 +184,8 @@ const List = styled.li`
   width: 100%;
   padding: 10px;
   > p {
-    font-size: 10px;
+    font-size: 14px;
+    margin-top: 5px;
     color: ${(props) => props.theme.text.lightBlue};
     text-align: end;
   }
@@ -203,9 +195,10 @@ const List = styled.li`
     align-items: center;
     > span:first-child {
       font-weight: 700;
-      font-size: 12px;
+      font-size: 14px;
     }
     > input {
+      width: 70%;
       text-align: end;
       border: none;
       border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
