@@ -88,7 +88,7 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
             required
           />
           <Info>성별</Info>
-          <FieldSet>
+          <fieldset>
             {gender.map((item) => (
               <div key={item}>
                 <label htmlFor={item}>{item}</label>
@@ -102,9 +102,9 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
                 />
               </div>
             ))}
-          </FieldSet>
+          </fieldset>
           <Info>관심 분야</Info>
-          <FieldSet>
+          <fieldset>
             {bookFields.map((item, index) => (
               <BookField
                 key={index}
@@ -113,7 +113,7 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
                 checkedBoxHandler={checkedBoxHandler}
               />
             ))}
-          </FieldSet>
+          </fieldset>
           <Button type="submit" value="등록하기" />
         </UserInfoForm>
       </Container>
@@ -122,9 +122,30 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
 };
 
 const UserInfoForm = styled.form`
+  > fieldset {
+    margin-bottom: 20px;
+    border: 1px solid ${(props) => props.theme.text.lightGray};
+    border-radius: 10px;
+    padding: 5px 10px 0;
+    background-color: ${(props) => props.theme.text.white};
+    > div {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+      > label {
+        font-size: 16px;
+        color: ${(props) => props.theme.text.gray};
+      }
+    }
+  }
   > div {
     display: flex;
     flex-direction: column;
+    > label {
+      font-size: 12px;
+      color: ${(props) => props.theme.text.gray};
+      margin-bottom: 5px;
+    }
     > input {
       &[type="checkbox"] {
         width: 100%;
@@ -133,60 +154,19 @@ const UserInfoForm = styled.form`
         border: 1px solid ${(props) => props.theme.text.lightGray};
         padding: 10px;
         margin-bottom: 10px;
-        font-size: 16px;
-      }
-    }
-  }
-`;
-
-const FieldSet = styled.fieldset`
-  margin-bottom: 20px;
-  background-color: ${(props) => props.theme.text.white};
-  border: 1px solid ${(props) => props.theme.text.lightGray};
-  border-radius: 10px;
-  > div {
-    display: flex;
-    align-items: center;
-    padding: 10px 30px;
-    label {
-      width: 80%;
-      font-size: 16px;
-      color: ${(props) => props.theme.text.gray};
-      cursor: pointer;
-    }
-    input {
-      &[type="checkbox"],
-      &[type="radio"] {
-        width: 22px;
-        height: 22px;
-        border: 1px solid ${(props) => props.theme.text.lightGray};
-        font-size: 18px;
-        &:checked {
-          content: "";
-          width: 22px;
-          height: 22px;
+        &::placeholder {
+          font-size: 16px;
         }
       }
     }
   }
-  @media ${device.tablet} {
-    margin-bottom: 40px;
-    > div {
-      padding: 15px 30px;
-    }
-  }
 `;
-
 const Info = styled.span`
   display: block;
   margin-bottom: 5px;
   font-size: 12px;
   font-weight: 400;
   color: ${(props) => props.theme.text.gray};
-  @media ${device.tablet} {
-    font-size: 16px;
-    margin: 20px 0 10px;
-  }
 `;
 
 export default UserDataInputForm;

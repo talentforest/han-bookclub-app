@@ -12,12 +12,22 @@ export const ResetStyle = createGlobalStyle`
     display: none;
     }
   }
-  input, textarea, button {
+  input 
+    &[type="password"],
+    &[type="email"],
+    &[type="text"],
+    &[type="submit"], 
+  textarea, 
+  button {
     -webkit-appearance:none; 
     -moz-appearance:none; 
     appearance:none;
   }
-  input, 
+  input 
+    &[type="password"],
+    &[type="email"],
+    &[type="text"],
+    &[type="submit"], 
   textarea, 
   button, 
   select {
