@@ -46,7 +46,7 @@ const Vote = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 240px;
+  height: 250px;
   width: 100%;
   border-radius: 10px;
   padding: 15px 20px 10px;

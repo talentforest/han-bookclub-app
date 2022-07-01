@@ -2,11 +2,11 @@ import { BookFieldType } from "components/loginForm/UserDataInputForm";
 import { currentUserState } from "data/userAtom";
 import { authService, dbService, storageService } from "fbase";
 import { getAuth, updateProfile } from "firebase/auth";
-import { doc, onSnapshot, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { extraUserData } from "routes/EditProfile";
+import { getUserData } from "util/getFirebaseDoc";
 
 const useHandleProfile = () => {
   const [userData, setUserData] = useRecoilState(currentUserState);
@@ -22,10 +22,12 @@ const useHandleProfile = () => {
   const [newDisplayName, setNewDisplayName] = useState(userData.displayName);
   const user = useRecoilValue(currentUserState);
 
-  const getUserData = useMemo(() => {
-    onSnapshot(doc(dbService, "User Data", `${user?.uid}`), (doc) => {
-      setExtraUserData(doc.data() as extraUserData);
-    });
+  useEffect(() => {
+    getUserData(user.uid, setExtraUserData);
+
+    return () => {
+      getUserData(user.uid, setExtraUserData);
+    };
   }, [user.uid]);
 
   const refreshUser = () => {

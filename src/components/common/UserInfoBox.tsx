@@ -19,6 +19,9 @@ const UserInfoBox = ({ creatorId }: PropsType) => {
 
   useEffect(() => {
     getUserData(creatorId, setUserDataDoc);
+    return () => {
+      getUserData(creatorId, setUserDataDoc);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

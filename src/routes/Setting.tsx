@@ -53,6 +53,7 @@ const NewContainer = styled(Container)`
       font-size: 14px;
       padding: 15px 0;
       > button {
+        font-size: 14px;
         cursor: pointer;
         padding: 0;
       }

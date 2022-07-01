@@ -60,7 +60,7 @@ const Nav = styled.nav`
   position: fixed;
   bottom: 0;
   width: 100%;
-  padding: 3px 0;
+  padding: 5px 0;
   background-color: ${(props) => props.theme.bgColor};
   ul {
     display: flex;

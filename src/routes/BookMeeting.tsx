@@ -172,7 +172,7 @@ const CategoryButton = styled.div`
   justify-content: space-between;
   padding: 5px 8px;
   margin: 25px 0 20px;
-  border-radius: 20px;
+  border-radius: 60px;
   background-color: ${(props) => props.theme.container.lightBlue};
   > a {
     display: flex;

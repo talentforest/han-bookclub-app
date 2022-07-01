@@ -66,6 +66,7 @@ const Button = styled.div`
   width: 100%;
   display: flex;
   justify-content: end;
+  -webkit-justify-content: end;
   padding: 0px 0 10px;
 `;
 

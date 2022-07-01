@@ -213,6 +213,11 @@ const SliderSection = styled.section`
     width: 100%;
     padding: 0 10px;
   }
+  > div {
+    > a {
+      margin-top: 30px;
+    }
+  }
 `;
 
 const ScheduleBox = styled.ul`

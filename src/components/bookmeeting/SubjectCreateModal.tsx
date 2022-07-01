@@ -141,6 +141,7 @@ const Form = styled.form`
   flex-direction: column;
   align-items: center;
   padding: 10px 15px;
+  margin: 0 20px;
   border-radius: 10px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   background-color: ${(props) => props.theme.container.lightBlue};
@@ -161,6 +162,7 @@ const Form = styled.form`
     width: 100%;
     display: flex;
     justify-content: end;
+    -webkit-justify-content: end;
   }
   > textarea {
     font-size: 16px;

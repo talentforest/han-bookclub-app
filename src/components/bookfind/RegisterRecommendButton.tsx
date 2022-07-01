@@ -36,13 +36,13 @@ const Container = styled.div`
 `;
 
 const RegisterButton = styled.button`
-  font-size: 13px;
+  font-size: 14px;
   border: none;
-  border-radius: 5px;
-  padding: 3px 6px;
-  margin: 15px auto;
+  border-radius: 10px;
+  padding: 3px 10px;
+  margin: 10px auto 15px;
   width: fit-content;
-  height: 30px;
+  height: 40px;
   font-weight: 700;
   color: ${(props) => props.theme.text.accent};
   background-color: ${(props) => props.theme.container.lightBlue};

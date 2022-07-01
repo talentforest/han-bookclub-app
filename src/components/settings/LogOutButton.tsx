@@ -18,6 +18,7 @@ const LogOutButton = () => {
 };
 
 const LogOutBtn = styled.button`
+  font-size: 14px;
   border: none;
   background-color: transparent;
   @media ${device.tablet} {
