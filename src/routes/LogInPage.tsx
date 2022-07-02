@@ -39,10 +39,14 @@ const LogInPage = () => {
 
   return (
     <NewContainer>
-      <Title>한 페이지</Title>
       <Logo>
-        <div />
+        <img src={process.env.PUBLIC_URL + "/logo.png"} alt="logo" />
       </Logo>
+      <Title>
+        북클럽: 한페이지
+        <br />
+        자신의 책을 나누고 싶은 사람들의 모임
+      </Title>
       <Form onSubmit={onSubmit}>
         <Input
           name="email"
@@ -84,35 +88,35 @@ const NewContainer = styled(Container)`
   }
 `;
 
-const Title = styled.h1`
-  font-size: 24px;
-  font-weight: 700;
-  text-align: center;
-  padding-top: 20px;
-  color: ${(props) => props.theme.text.lightBlue};
-  @media ${device.tablet} {
-    margin-top: 50px;
-    font-size: 40px;
-  }
-`;
-
 const Logo = styled.div`
-  margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  div {
+  img {
     width: 150px;
     height: 150px;
-    margin: 10px 0 20px;
+    margin: 10px 0;
     border-radius: 50%;
     background-color: ${(props) => props.theme.container.lightBlue};
   }
   @media ${device.tablet} {
-    div {
+    img {
+      margin-top: 60px;
       width: 230px;
       height: 230px;
     }
+  }
+`;
+
+const Title = styled.h1`
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 2;
+  color: ${(props) => props.theme.text.lightBlue};
+  @media ${device.tablet} {
+    margin-top: 50px;
+    font-size: 24px;
   }
 `;
 

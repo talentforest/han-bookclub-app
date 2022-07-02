@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { authService } from "fbase";
 import styled from "styled-components";
-import device from "theme/mediaQueries";
 
 const LogOutButton = () => {
   const navigate = useNavigate();
@@ -18,12 +17,8 @@ const LogOutButton = () => {
 };
 
 const LogOutBtn = styled.button`
-  font-size: 14px;
   border: none;
   background-color: transparent;
-  @media ${device.tablet} {
-    font-size: 18px;
-  }
 `;
 
 export default LogOutButton;

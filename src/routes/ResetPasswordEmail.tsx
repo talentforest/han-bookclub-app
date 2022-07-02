@@ -42,7 +42,7 @@ const ResetPasswordEmail = () => {
             onChange={onChange}
             required
           />
-          <input type="submit" value="전송하기" />
+          <Input type="submit" value="전송하기" />
         </InputForm>
         {submitSuccess ? (
           <Message>
@@ -79,33 +79,25 @@ const InputForm = styled.form`
   align-items: center;
   justify-content: space-between;
   > input:first-child {
-    margin: 0;
-    margin-right: 5px;
+    margin: 0 5px 0 0;
     width: 78%;
   }
   > input:last-child {
+    margin: 0;
     width: fit-content;
-    text-align: center;
-    height: 40px;
-    border: none;
-    font-size: 12px;
+    font-size: 14px;
     background-color: ${(props) => props.theme.container.blue};
     color: #fff;
-    border-radius: 10px;
-    cursor: pointer;
   }
   @media ${device.tablet} {
     > input:first-child {
-      margin: 0;
-      margin-right: 15px;
+      margin: 0 15px 0 0;
       width: 80%;
-      height: 60px;
     }
     > input:last-child {
       width: 20%;
       font-size: 20px;
-      height: 60px;
-      cursor: pointer;
+      margin: 0;
     }
   }
 `;

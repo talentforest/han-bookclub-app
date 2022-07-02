@@ -1,13 +1,14 @@
 import { authService, dbService } from "fbase";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Container, Header, Input } from "theme/commonStyle";
+import { Button, Container, Input } from "theme/commonStyle";
 import { bookFields, gender } from "util/constants";
 import { doc, setDoc } from "firebase/firestore";
 import BookField from "components/loginForm/BookField";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import BackButtonHeader from "components/common/BackButtonHeader";
 
 export interface BookFieldType {
   id: number;
@@ -75,7 +76,7 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
 
   return (
     <>
-      <Header>개인정보와 취향 등록하기</Header>
+      <BackButtonHeader title="개인정보와 취향 등록하기" />
       <Container>
         <UserInfoForm onSubmit={onSubmit}>
           <Info>이름</Info>
@@ -88,7 +89,7 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
             required
           />
           <Info>성별</Info>
-          <fieldset>
+          <Fieldset>
             {gender.map((item) => (
               <div key={item}>
                 <label htmlFor={item}>{item}</label>
@@ -102,9 +103,9 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
                 />
               </div>
             ))}
-          </fieldset>
+          </Fieldset>
           <Info>관심 분야</Info>
-          <fieldset>
+          <Fieldset>
             {bookFields.map((item, index) => (
               <BookField
                 key={index}
@@ -113,7 +114,7 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
                 checkedBoxHandler={checkedBoxHandler}
               />
             ))}
-          </fieldset>
+          </Fieldset>
           <Button type="submit" value="등록하기" />
         </UserInfoForm>
       </Container>
@@ -122,22 +123,6 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
 };
 
 const UserInfoForm = styled.form`
-  > fieldset {
-    margin-bottom: 20px;
-    border: 1px solid ${(props) => props.theme.text.lightGray};
-    border-radius: 10px;
-    padding: 5px 10px 0;
-    background-color: ${(props) => props.theme.text.white};
-    > div {
-      display: flex;
-      align-items: center;
-      margin-bottom: 5px;
-      > label {
-        font-size: 16px;
-        color: ${(props) => props.theme.text.gray};
-      }
-    }
-  }
   > div {
     display: flex;
     flex-direction: column;
@@ -161,12 +146,45 @@ const UserInfoForm = styled.form`
     }
   }
 `;
+
+const Fieldset = styled.fieldset`
+  margin-bottom: 20px;
+  border: 1px solid ${(props) => props.theme.text.lightGray};
+  border-radius: 10px;
+  padding: 5px 10px 0;
+  background-color: ${(props) => props.theme.text.white};
+  > div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    > label {
+      font-size: 16px;
+      color: ${(props) => props.theme.text.gray};
+    }
+  }
+  @media ${device.tablet} {
+    padding: 20px 10px;
+    > div {
+      margin-bottom: 10px;
+      gap: 10px;
+      > label {
+        font-size: 18px;
+        color: ${(props) => props.theme.text.gray};
+        margin-top: 4px;
+      }
+    }
+  }
+`;
+
 const Info = styled.span`
   display: block;
   margin-bottom: 5px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   color: ${(props) => props.theme.text.gray};
+  @media ${device.tablet} {
+    font-size: 16px;
+  }
 `;
 
 export default UserDataInputForm;

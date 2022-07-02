@@ -53,6 +53,9 @@ const Vote = styled.div`
   margin-bottom: 10px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  @media ${device.tablet} {
+    height: 260px;
+  }
 `;
 
 const VoteLists = styled.ul`

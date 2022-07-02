@@ -159,7 +159,7 @@ export const Button = styled.input`
   color: ${(props) => props.theme.text.lightBlue};
   font-weight: 700;
   font-size: 16px;
-  margin: 10px 0 20px;
+  margin: 10px 0;
   cursor: pointer;
   @media ${device.tablet} {
     height: 64px;
