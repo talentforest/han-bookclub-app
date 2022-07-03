@@ -71,7 +71,7 @@ const Nav = styled.nav`
   }
   ul {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     gap: 0 30px;
     li {
       display: flex;

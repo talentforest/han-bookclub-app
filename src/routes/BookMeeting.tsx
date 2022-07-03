@@ -223,8 +223,9 @@ const BookDetail = styled.div`
   right: 0;
   left: 0;
   > ul {
+    z-index: 2;
     position: fixed;
-    top: 50px;
+    top: 30px;
     right: 0;
     left: 0;
     width: 80%;

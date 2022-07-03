@@ -12,22 +12,17 @@ export const ResetStyle = createGlobalStyle`
     display: none;
     }
   }
-  input 
-    &[type="password"],
-    &[type="email"],
-    &[type="text"],
-    &[type="submit"], 
+  input[type=password],
+  input[type=email],
+  input[type=text],
+  input[type=submit], 
   textarea, 
   button {
     -webkit-appearance:none; 
     -moz-appearance:none; 
     appearance:none;
   }
-  input 
-    &[type="password"],
-    &[type="email"],
-    &[type="text"],
-    &[type="submit"], 
+  
   textarea, 
   button, 
   select {
@@ -36,7 +31,6 @@ export const ResetStyle = createGlobalStyle`
     -o-border-radius:0; 
     border-radius:0;
   }
-
   a {
     text-decoration: none;
     color: ${(props) => props.theme.text.gray}

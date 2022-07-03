@@ -36,6 +36,7 @@ const MyRecommendBook = ({ item }: PropsType) => {
     const filteredArr = myRecommendBooks.filter(
       (item) => item.recommendBookThumbnail === booktitle
     );
+
     setOpenModal((prev) => !prev);
     setShowDetail(filteredArr);
   };
@@ -64,24 +65,27 @@ const MyRecommendBook = ({ item }: PropsType) => {
               <span>보기</span>
             </Record>
           ))}
-          {openModal &&
-            showDetail.map((item) => (
-              <div key={item.id}>
-                <Overlay
-                  onClick={() => {
-                    setOpenModal((prev) => !prev);
-                  }}
-                />
-                <SubjectBox>
-                  <BookRecomBox
-                    key={item.id}
-                    item={item}
-                    docMonth={docMonth}
-                    setShowDetail={setShowDetail}
-                  />
-                </SubjectBox>
-              </div>
-            ))}
+          {openModal && (
+            <>
+              <Overlay
+                onClick={() => {
+                  setOpenModal((prev) => !prev);
+                }}
+              />
+              <SubjectBox>
+                {showDetail.map((item) => (
+                  <div key={item.id}>
+                    <BookRecomBox
+                      key={item.id}
+                      item={item}
+                      docMonth={docMonth}
+                      setShowDetail={setShowDetail}
+                    />
+                  </div>
+                ))}
+              </SubjectBox>
+            </>
+          )}
         </>
       ) : (
         <></>

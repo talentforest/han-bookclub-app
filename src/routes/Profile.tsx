@@ -11,6 +11,7 @@ import useWindowSize from "hooks/useWindowSize";
 import device, { deviceSizes } from "theme/mediaQueries";
 import MyRecommendBook from "components/profile/MyRecommendBook";
 import MyRecord from "components/profile/MyRecord";
+import { authService } from "fbase";
 
 export interface IRecord {
   title: string;
@@ -22,6 +23,7 @@ const Profile = () => {
   const [docData, setDocData] = useState([]);
   const { windowSize } = useWindowSize();
   const userData = useRecoilValue(currentUserState);
+  const anonymous = authService.currentUser?.isAnonymous;
 
   useEffect(() => {
     getBookMeetingInfoData(setDocData);
@@ -50,7 +52,7 @@ const Profile = () => {
           ) : (
             <AccountCircle />
           )}
-          <span>{userData.displayName}</span>
+          <span>{anonymous ? "익명의 방문자" : userData.displayName}</span>
         </User>
         <section>
           <Subtitle title="나의 기록" />

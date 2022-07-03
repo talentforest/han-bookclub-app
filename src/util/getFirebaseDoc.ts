@@ -23,7 +23,6 @@ export interface VoteItem {
 
 export interface Vote {
   title: string;
-
   voteItem: VoteItem[];
 }
 

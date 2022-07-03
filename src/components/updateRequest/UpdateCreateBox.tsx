@@ -1,7 +1,8 @@
 import { currentUserState } from "data/userAtom";
-import { dbService } from "fbase";
+import { authService, dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
@@ -14,17 +15,36 @@ interface PropsType {
 const UpdateCreateBox = ({ request, setRequest }: PropsType) => {
   const [requestType, setRequestType] = useState("bug");
   const userData = useRecoilValue(currentUserState);
+  const navigate = useNavigate();
+
+  const moveCreateAccountPage = () => {
+    const confirm = window.confirm(
+      "한페이지 멤버가 되셔야 글 작성이 가능합니다. 아주 간단하게 가입하시겠어요?"
+    );
+    if (confirm) {
+      navigate("/create_account");
+      return;
+    }
+  };
+
+  const addDocRequest = async () => {
+    await addDoc(collection(dbService, "Update Request"), {
+      request: request,
+      createdAt: Date.now(),
+      creatorId: userData.uid,
+      type: requestType,
+    });
+  };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (request === "") return;
     try {
-      if (request === "") return;
-      await addDoc(collection(dbService, "Update Request"), {
-        request: request,
-        createdAt: Date.now(),
-        creatorId: userData.uid,
-        type: requestType,
-      });
+      if (authService.currentUser.isAnonymous) {
+        moveCreateAccountPage();
+      } else {
+        addDocRequest();
+      }
     } catch (error) {
       console.error("Error adding document:", error);
     }
@@ -65,7 +85,7 @@ const UpdateCreateBox = ({ request, setRequest }: PropsType) => {
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: flex-end;
   margin-bottom: 30px;
   padding: 10px;
   border-radius: 5px;

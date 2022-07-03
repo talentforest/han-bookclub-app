@@ -60,13 +60,13 @@ export const ButtonHeader = styled(Header)`
 `;
 
 export const Container = styled.main`
-  padding: 10px 20px 80px;
+  padding: 10px 20px 100px;
 
   @media ${device.tablet} {
-    padding: 20px 80px 80px;
+    padding: 20px 80px 100px;
   }
   @media ${device.desktop} {
-    padding: 20px 160px 80px;
+    padding: 20px 160px 100px;
   }
 `;
 
@@ -97,7 +97,7 @@ export const Form = styled.form`
     border-radius: 10px;
     background-color: ${(props) => props.theme.text.lightBlue};
     color: ${(props) => props.theme.container.yellow};
-    font-weight: 500;
+    font-weight: 700;
     font-size: 16px;
   }
   @media ${device.tablet} {
@@ -152,14 +152,14 @@ export const Input = styled.input`
 export const Button = styled.input`
   text-align: center;
   width: 100%;
-  height: 48px;
+  height: 44px;
   border-radius: 10px;
   border: none;
   background-color: ${(props) => props.theme.container.yellow};
   color: ${(props) => props.theme.text.lightBlue};
   font-weight: 700;
   font-size: 16px;
-  margin: 10px 0;
+  margin: 5px 0;
   cursor: pointer;
   @media ${device.tablet} {
     height: 64px;

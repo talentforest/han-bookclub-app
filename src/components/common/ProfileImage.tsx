@@ -81,29 +81,27 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   > div {
-    width: 160px;
-    height: 160px;
-    margin: 10px 0;
+    margin-top: 20px;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+    > img {
+      object-fit: cover;
+      width: 140px;
+      height: 140px;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
     > svg {
       height: 140px;
       width: 140px;
     }
-    > img {
-      object-fit: cover;
-      padding: 20px;
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      cursor: pointer;
-    }
     > button {
       cursor: pointer;
       position: absolute;
-      right: 3px;
+      right: 12px;
       bottom: 10px;
       display: flex;
       justify-content: center;
@@ -121,16 +119,13 @@ const Container = styled.div`
   }
   @media ${device.tablet} {
     > div {
-      height: 240px;
-      width: 240px;
       > svg {
-        height: 220px;
-        width: 220px;
+        height: 200px;
+        width: 200px;
       }
       > img {
-        padding: 20px;
-        width: 240px;
-        height: 240px;
+        width: 200px;
+        height: 200px;
       }
       > button {
         width: 40px;

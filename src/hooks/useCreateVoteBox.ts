@@ -1,7 +1,8 @@
 import { currentUserState } from "data/userAtom";
-import { dbService } from "fbase";
+import { authService, dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { pickDay } from "util/constants";
 
@@ -17,18 +18,39 @@ const useCreateVoteBox = (
       { id: 2, item: "", voteCount: 0 },
     ],
   });
+  const navigate = useNavigate();
+
+  const moveCreateAccountPage = () => {
+    if (authService.currentUser.isAnonymous) {
+      const confirm = window.confirm(
+        "한페이지 멤버가 되셔야 글 작성이 가능합니다. 아주 간단하게 가입하시겠어요?"
+      );
+      if (confirm) {
+        navigate("/create_account");
+        return;
+      }
+    }
+  };
+
+  const addDocVote = async () => {
+    await addDoc(collection(dbService, "Vote"), {
+      createdAt: Date.now(),
+      creatorId: userData.uid,
+      deadline: pickDay(endDate),
+      vote,
+    });
+  };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!vote.title) return;
     try {
-      if (!vote.title) return;
-      await addDoc(collection(dbService, "Vote"), {
-        createdAt: Date.now(),
-        creatorId: userData.uid,
-        deadline: pickDay(endDate),
-        vote,
-      });
-      window.alert("투표가 성공적으로 등록되었습니다!");
+      if (authService.currentUser.isAnonymous) {
+        moveCreateAccountPage();
+      } else {
+        addDocVote();
+        window.alert("투표가 성공적으로 등록되었습니다!");
+      }
       setModalOpen(false);
     } catch (error) {
       console.error("Error adding document:", error);

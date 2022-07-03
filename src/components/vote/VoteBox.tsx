@@ -5,10 +5,10 @@ import {
   MoreHoriz,
 } from "@mui/icons-material";
 import { VoteDocument } from "util/getFirebaseDoc";
-import styled from "styled-components";
 import { dDay } from "util/timestamp";
 import { Link } from "react-router-dom";
 import device from "theme/mediaQueries";
+import styled from "styled-components";
 
 interface PropsType {
   item: VoteDocument;
@@ -107,7 +107,7 @@ const VoteLists = styled.ul`
 const VoteBottom = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  align-items: flex-end;
   font-size: 14px;
   > p {
     color: ${(props) => props.theme.text.accent};

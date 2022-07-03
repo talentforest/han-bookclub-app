@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { dbService } from "fbase";
+import { authService, dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { SubmitBtn } from "theme/commonStyle";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { BookDocument } from "data/bookAtom";
+import { useNavigate } from "react-router-dom";
 
 interface PropsType {
   bookInfo: BookDocument;
@@ -15,21 +16,40 @@ interface PropsType {
 const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
   const userData = useRecoilValue(currentUserState);
   const [review, setReview] = useState("");
+  const navigate = useNavigate();
+
+  const moveCreateAccountPage = () => {
+    const confirm = window.confirm(
+      "한페이지 멤버가 되셔야 글 작성이 가능합니다. 아주 간단하게 가입하시겠어요?"
+    );
+    if (confirm) {
+      navigate("/create_account");
+      return;
+    }
+  };
+
+  const addDocReview = async () => {
+    await addDoc(
+      collection(dbService, `BookMeeting Info/${docMonth}/reviews`),
+      {
+        text: review,
+        createdAt: Date.now(),
+        creatorId: userData.uid,
+        title: bookInfo.title,
+        thumbnail: bookInfo.thumbnail,
+      }
+    );
+  };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (review === "") return;
     try {
-      if (review === "") return;
-      await addDoc(
-        collection(dbService, `BookMeeting Info/${docMonth}/reviews`),
-        {
-          text: review,
-          createdAt: Date.now(),
-          creatorId: userData.uid,
-          title: bookInfo.title,
-          thumbnail: bookInfo.thumbnail,
-        }
-      );
+      if (authService.currentUser.isAnonymous) {
+        moveCreateAccountPage();
+      } else {
+        addDocReview();
+      }
     } catch (error) {
       console.error("Error adding document:", error);
     }
@@ -65,8 +85,8 @@ const Form = styled.form`
 const Button = styled.div`
   width: 100%;
   display: flex;
-  justify-content: end;
-  -webkit-justify-content: end;
+  justify-content: flex-end;
+  -webkit-justify-content: flex-end;
   padding: 0px 0 10px;
 `;
 

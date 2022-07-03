@@ -174,7 +174,7 @@ export const DoneBtn = styled.input<{ eventdone?: boolean }>`
 export const EditDeleteIcon = styled.div`
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   svg {
     width: 18px;
     height: 18px;

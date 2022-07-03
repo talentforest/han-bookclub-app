@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  onAuthStateChanged,
+  signInAnonymously,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { authService } from "fbase";
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Form, Input, Button } from "theme/commonStyle";
@@ -23,6 +27,20 @@ const LogInPage = () => {
 
       if ((error as Error).message.includes("password"))
         return setError("비밀번호가 일치하지 않습니다.");
+    }
+  };
+
+  const onGuestModeClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    try {
+      signInAnonymously(authService);
+      onAuthStateChanged(authService, (user) => {
+        if (user) {
+          navigator("/");
+        }
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -66,8 +84,14 @@ const LogInPage = () => {
           required
         />
         <ErrorMessage>{error}</ErrorMessage>
-        <Button type="submit" value="로그인" />
+        <Button name="login" type="submit" value="로그인" />
         <Link to="/create_account">회원가입</Link>
+        <Button
+          name="guestLogin"
+          type="button"
+          value="게스트로 입장"
+          onClick={onGuestModeClick}
+        />
       </Form>
       <Footer>
         <Link to="/find_pw">비밀번호 찾기</Link>

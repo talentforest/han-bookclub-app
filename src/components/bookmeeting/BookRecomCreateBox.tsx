@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { dbService } from "fbase";
+import { authService, dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { BookDocument, recommendBookState } from "data/bookAtom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Search } from "@mui/icons-material";
 import { useRecoilValue } from "recoil";
 import device from "theme/mediaQueries";
@@ -19,43 +19,47 @@ interface PropsType {
 const BookRecomCreateBox = ({ uid, thisMonthBook, docMonth }: PropsType) => {
   const [text, setText] = useState("");
   const myRecommendBook = useRecoilValue(recommendBookState);
+  const navigate = useNavigate();
+
+  const moveCreateAccountPage = () => {
+    const confirm = window.confirm(
+      "한페이지 멤버가 되셔야 글 작성이 가능합니다. 아주 간단하게 가입하시겠어요?"
+    );
+    if (confirm) {
+      navigate("/create_account");
+      return;
+    }
+  };
+
+  const addDocRecomBook = async () => {
+    await addDoc(
+      collection(dbService, `BookMeeting Info/${docMonth}/recommended book`),
+      {
+        text: text,
+        createdAt: Date.now(),
+        creatorId: uid,
+        title: thisMonthBook?.title,
+        thumbnail: thisMonthBook?.thumbnail,
+        recommendBookTitle: myRecommendBook?.title,
+        recommendBookThumbnail: myRecommendBook?.thumbnail,
+        recommendBookUrl: myRecommendBook?.url,
+        recommendBookAuthor: myRecommendBook?.authors,
+      }
+    );
+  };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (text === "") return;
+    if (myRecommendBook.title === "") {
+      window.alert("추천책 정보를 찾아서 넣어주세요.");
+      return;
+    }
     try {
-      if (text === "") return;
-      if (myRecommendBook.title !== "") {
-        await addDoc(
-          collection(
-            dbService,
-            `BookMeeting Info/${docMonth}/recommended book`
-          ),
-          {
-            text: text,
-            createdAt: Date.now(),
-            creatorId: uid,
-            title: thisMonthBook?.title,
-            thumbnail: thisMonthBook?.thumbnail,
-            recommendBookTitle: myRecommendBook?.title,
-            recommendBookThumbnail: myRecommendBook?.thumbnail,
-            recommendBookUrl: myRecommendBook?.url,
-            recommendBookAuthor: myRecommendBook?.authors,
-          }
-        );
-      } else if (myRecommendBook.title === "") {
-        await addDoc(
-          collection(
-            dbService,
-            `BookMeeting Info/${docMonth}/recommended book`
-          ),
-          {
-            text: text,
-            createdAt: Date.now(),
-            creatorId: uid,
-            title: thisMonthBook?.title,
-            thumbnail: thisMonthBook?.thumbnail,
-          }
-        );
+      if (authService.currentUser.isAnonymous) {
+        moveCreateAccountPage();
+      } else {
+        addDocRecomBook();
       }
       setText("");
     } catch (error) {
@@ -75,7 +79,7 @@ const BookRecomCreateBox = ({ uid, thisMonthBook, docMonth }: PropsType) => {
           추천책 정보 찾기
         </Link>
         <textarea
-          placeholder="이달의 책과 관련해 추천하고 싶은 책이나, 이달에 재미있게 읽었던 책을 작성해주세요."
+          placeholder="이달의 책과 관련해 추천하고 싶은 책을 작성해주세요. 위에서 추천책 정보를 찾으실 수 있습니다."
           onChange={onChange}
           value={text}
         />
@@ -165,7 +169,7 @@ const ThisMonthBook = styled.div`
     border-radius: 5px;
     padding: 3px 5px;
     font-size: 14px;
-    height: 30px;
+    height: 40px;
   }
 `;
 

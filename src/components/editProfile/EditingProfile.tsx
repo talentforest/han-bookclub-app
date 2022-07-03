@@ -90,7 +90,7 @@ const EditingProfile = ({
                 </button>
               ))}
               {extraUserData?.favoriteBookField.length === 0 ? (
-                <span>변경하실 분야를 하나 이상 선택해주세요</span>
+                <EmptySign>변경하실 분야를 하나 이상 선택해주세요</EmptySign>
               ) : (
                 <></>
               )}
@@ -105,7 +105,6 @@ const EditingProfile = ({
 
 const Form = styled.form`
   width: 100%;
-  margin-top: 10px;
 `;
 
 const Edit = styled.div`
@@ -129,7 +128,6 @@ const AfterFavEdit = styled.div`
     width: 70%;
     display: flex;
     flex-wrap: wrap;
-    > span,
     > button {
       cursor: pointer;
       padding: 3px 5px;
@@ -151,22 +149,24 @@ const AfterFavEdit = styled.div`
       font-size: 16px;
     }
     > div {
-      > span {
-        font-size: 16px;
-      }
       > button {
         font-size: 16px;
         padding: 5px 6px;
         border-radius: 20px;
         margin: 0px 0px 15px 15px;
       }
-      > span {
-        background-color: ${(props) => props.theme.text.lightBlue};
-        color: ${(props) => props.theme.text.white};
-        display: block;
-        text-align: end;
-      }
     }
+  }
+`;
+
+const EmptySign = styled.span`
+  display: block;
+  width: 100%;
+  text-align: end;
+  color: ${(props) => props.theme.text.accent};
+  font-size: 13px;
+  @media ${device.tablet} {
+    font-size: 16px;
   }
 `;
 
@@ -212,7 +212,7 @@ const List = styled.li`
     }
     > div:last-child {
       display: flex;
-      justify-content: end;
+      justify-content: flex-end;
       flex-wrap: wrap;
     }
   }

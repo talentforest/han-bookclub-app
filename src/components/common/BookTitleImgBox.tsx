@@ -83,19 +83,20 @@ const EmptySign = styled.div<{ smSize: string }>`
     props.smSize ? "flex-start" : "space-between"};
   align-items: center;
   margin: 5px auto 0;
-  height: ${(props) => (props.smSize ? "fit-content" : "140px")};
+  height: ${(props) => (props.smSize ? "fit-content" : "200px")};
   div {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: ${(props) => (props.smSize ? "17px" : "70px")};
-    height: ${(props) => (props.smSize ? "24px" : "100px")};
+    width: ${(props) => (props.smSize ? "30px" : "110px")};
+    height: ${(props) => (props.smSize ? "46px" : "150px")};
     box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
     background-color: ${(props) => props.theme.container.default};
   }
   span {
-    margin-left: 10px;
-    font-size: ${(props) => (props.smSize ? "10px" : "14px")};
+    margin-top: 10px;
+    font-size: ${(props) => (props.smSize ? "16px" : "18px")};
+    margin-left: ${(props) => (props.smSize ? "16px" : "0px")};
     font-weight: 700;
   }
 `;

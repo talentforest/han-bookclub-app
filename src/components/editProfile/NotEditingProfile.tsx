@@ -4,6 +4,7 @@ import { AccountCircle } from "@mui/icons-material";
 import { extraUserData } from "routes/EditProfile";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
+import { authService } from "fbase";
 
 interface PropsType {
   setEditing: (editing: boolean) => void;
@@ -12,6 +13,8 @@ interface PropsType {
 
 const NotEditingProfile = ({ setEditing, extraUserData }: PropsType) => {
   const userData = useRecoilValue(currentUserState);
+  const anonymous = authService.currentUser?.isAnonymous;
+
   const onClick = () => {
     setEditing(true);
   };
@@ -24,28 +27,34 @@ const NotEditingProfile = ({ setEditing, extraUserData }: PropsType) => {
           <AccountCircle />
         )}
       </UserImg>
-      <EditBtn onClick={onClick} type="button" value="프로필 수정하기" />
+      {anonymous ? (
+        <></>
+      ) : (
+        <EditBtn onClick={onClick} type="button" value="프로필 수정하기" />
+      )}
       <UserInfo>
         <List>
           <div>
             <span>이메일</span>
-            <span>{userData.email}</span>
+            <span>{anonymous ? "익명의 방문자" : userData.email}</span>
           </div>
-          <p>이메일은 변경할 수 없습니다.</p>
+          {anonymous ? <></> : <p>이메일은 변경할 수 없습니다.</p>}
         </List>
         <List>
           <div>
             <span>닉네임</span>
-            <span>{userData.displayName}</span>
+            <span>{anonymous ? "익명의 방문자" : userData.displayName}</span>
           </div>
         </List>
         <List>
           <div>
             <span>좋아하는 분야</span>
             <div>
-              {extraUserData?.favoriteBookField?.map((item, index) => (
-                <FavFieldItem key={index}>{item.name}</FavFieldItem>
-              ))}
+              {anonymous
+                ? "익명의 방문자"
+                : extraUserData?.favoriteBookField?.map((item, index) => (
+                    <FavFieldItem key={index}>{item.name}</FavFieldItem>
+                  ))}
             </div>
           </div>
         </List>
@@ -58,8 +67,9 @@ const UserImg = styled.div`
   margin-top: 20px;
   img {
     object-fit: cover;
-    width: 120px;
-    height: 120px;
+    width: 140px;
+    height: 140px;
+    padding: 10px;
     border-radius: 50%;
   }
   svg {
@@ -68,8 +78,8 @@ const UserImg = styled.div`
   }
   @media ${device.tablet} {
     img {
-      width: 180px;
-      height: 180px;
+      width: 200px;
+      height: 200px;
     }
     svg {
       width: 200px;
@@ -119,7 +129,7 @@ const List = styled.li`
     }
     > div:last-child {
       display: flex;
-      justify-content: end;
+      justify-content: flex-end;
       flex-wrap: wrap;
     }
   }

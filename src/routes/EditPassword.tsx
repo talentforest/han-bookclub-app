@@ -49,9 +49,8 @@ const EditPassword = () => {
       })
       .catch((error) => {
         console.error(error);
-        window.alert(
-          "기존의 비밀번호가 맞지 않습니다. 다시 한번 확인해주세요."
-        );
+        if ((error as Error).message.includes("auth/missing-email"))
+          return window.alert("익명의 방문자입니다.");
       });
   };
 

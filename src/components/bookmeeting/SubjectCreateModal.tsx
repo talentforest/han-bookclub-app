@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { dbService } from "fbase";
+import { authService, dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { SubmitBtn } from "theme/commonStyle";
 import { Add, Close } from "@mui/icons-material";
@@ -8,6 +8,7 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
+import { useNavigate } from "react-router-dom";
 
 interface PropsType {
   bookInfo: BookDocument;
@@ -18,25 +19,46 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
   const [subject, setSubject] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const userData = useRecoilValue(currentUserState);
+  const navigate = useNavigate();
 
   const onModalClick = () => {
     setModalOpen((prev) => !prev);
   };
 
+  const moveCreateAccountPage = () => {
+    if (authService.currentUser.isAnonymous) {
+      const confirm = window.confirm(
+        "한페이지 멤버가 되셔야 글 작성이 가능합니다. 아주 간단하게 가입하시겠어요?"
+      );
+      if (confirm) {
+        navigate("/create_account");
+        return;
+      }
+    }
+  };
+
+  const addDocSubject = async () => {
+    await addDoc(
+      collection(dbService, `BookMeeting Info/${docMonth}/subjects`),
+      {
+        text: subject,
+        createdAt: Date.now(),
+        creatorId: userData.uid,
+        title: bookInfo.title,
+        thumbnail: bookInfo.thumbnail,
+      }
+    );
+  };
+
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (subject === "") return;
     try {
-      if (subject === "") return;
-      await addDoc(
-        collection(dbService, `BookMeeting Info/${docMonth}/subjects`),
-        {
-          text: subject,
-          createdAt: Date.now(),
-          creatorId: userData.uid,
-          title: bookInfo.title,
-          thumbnail: bookInfo.thumbnail,
-        }
-      );
+      if (authService.currentUser.isAnonymous) {
+        moveCreateAccountPage();
+      } else {
+        addDocSubject();
+      }
     } catch (error) {
       console.error("Error adding document:", error);
     }
@@ -161,8 +183,8 @@ const Form = styled.form`
   > div {
     width: 100%;
     display: flex;
-    justify-content: end;
-    -webkit-justify-content: end;
+    justify-content: flex-end;
+    -webkit-justify-content: flex-end;
   }
   > textarea {
     font-size: 16px;
@@ -195,7 +217,7 @@ const Form = styled.form`
     > div {
       width: 100%;
       display: flex;
-      justify-content: end;
+      justify-content: flex-end;
     }
     > textarea {
       width: 100%;

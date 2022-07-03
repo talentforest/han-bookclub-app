@@ -1,5 +1,5 @@
 import { AccountCircle } from "@mui/icons-material";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { getUserData } from "util/getFirebaseDoc";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
@@ -78,4 +78,4 @@ const ProfileImg = styled.div<{ $bgPhoto: string }>`
   background-position: center;
 `;
 
-export default UserInfoBox;
+export default memo(UserInfoBox);
