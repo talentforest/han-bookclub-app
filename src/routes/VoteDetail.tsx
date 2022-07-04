@@ -145,7 +145,7 @@ const VoteDetail = () => {
                   </span>
                 </VoteHeader>
                 <Votelist className={"disalbe"}>
-                  <p>각 퍼센티지는 현재 득표율입니다.</p>
+                  <p>각 퍼센티지는 현재 득표율이며, 중복 투표도 가능합니다.</p>
                   {item.vote.voteItem.map((item, index) => (
                     <li
                       key={item.id}
