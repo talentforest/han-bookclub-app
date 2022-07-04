@@ -12,6 +12,7 @@ export const ResetStyle = createGlobalStyle`
     display: none;
     }
   }
+  input[type=button],
   input[type=password],
   input[type=email],
   input[type=text],

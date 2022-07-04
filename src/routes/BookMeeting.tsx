@@ -92,6 +92,7 @@ const BookMeeting = () => {
             docData={bookMeetingDocData[0]?.book}
             onModalOpen={onModalOpen}
           />
+          <p>도서 이미지를 클릭하시면 상세정보를 보실 수 있습니다.</p>
           <MeetingInfoBox docData={bookMeetingDocData[0]?.meeting} />
         </MeetingBox>
         {showBookDetail && (
@@ -211,6 +212,10 @@ const MeetingBox = styled.div`
     img {
       cursor: pointer;
     }
+  }
+  > p {
+    font-size: 13px;
+    color: ${(props) => props.theme.text.gray};
   }
 `;
 

@@ -137,6 +137,7 @@ const Title = styled.h1`
   font-weight: 700;
   text-align: center;
   line-height: 2;
+  margin-bottom: 10px;
   color: ${(props) => props.theme.text.lightBlue};
   @media ${device.tablet} {
     margin-top: 50px;
