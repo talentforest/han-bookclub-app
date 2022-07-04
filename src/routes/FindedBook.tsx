@@ -8,10 +8,13 @@ import BackButtonHeader from "components/common/BackButtonHeader";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import RegisterClubBookButton from "components/bookfind/RegisterClubBookButton";
 import RegisterRecommendButton from "components/bookfind/RegisterRecommendButton";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "data/userAtom";
 
 const FindedBook = () => {
   const [findbookData, setFindBookData] = useState([]);
   const [bookMeetingDocData, setBookMeetingDocData] = useState([]);
+  const userData = useRecoilValue(currentUserState);
 
   const match = useMatch(`/bookmeeting/find/:id`);
 
@@ -31,6 +34,14 @@ const FindedBook = () => {
       <BackButtonHeader title="도서 정보" />
       <Container>
         <BookTitleImgBox docData={findbookData[0]} />
+        {userData.email === "wowo6806@naver.com" ? (
+          <RegisterClubBookButton
+            bookMeetingDocData={bookMeetingDocData}
+            findbookData={findbookData[0]}
+          />
+        ) : (
+          <></>
+        )}
         <RegisterRecommendButton findbookData={findbookData[0]} />
         <BookDesc bookInfo={findbookData[0]} />
       </Container>
