@@ -21,11 +21,13 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { settings } from "util/sliderSetting";
 
 const Home = () => {
   const [bookMeetingInfoDoc, setBookMeetingInfoDoc] = useState([]);
   const [bookfieldDoc, setBookfieldDoc] = useState([]);
   const [voteDoc, setVoteDoc] = useState([]);
+
   const { windowSize } = useWindowSize();
 
   useEffect(() => {
@@ -46,41 +48,6 @@ const Home = () => {
   );
 
   const docMonth = bookMeetingInfoDoc[0]?.id.slice(6);
-
-  let settings = {
-    arrows: false,
-    dots: true,
-    infinite: progressVote.length > 1,
-    pauseOnHover: true,
-    autoplay: true,
-    autoplaySpeed: 4000,
-    speed: 1000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 520,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 1023,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 2000,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
 
   return (
     <>
@@ -107,31 +74,33 @@ const Home = () => {
                 : "월의 모임 일정"
             }
           />
-          <p>한페이지 멤버는 매월 셋째주 일요일에 만나요.</p>
+          <MeetingInfo>
+            한페이지 멤버는 매월 셋째주 일요일에 만나요.
+          </MeetingInfo>
           <MeetingInfoBox docData={bookMeetingInfoDoc[0]?.meeting} />
           <LinkButton
             link={"/bookmeeting/review"}
             title="모임 후기 작성하러 가기"
           />
         </section>
-        <SliderSection>
+        <VoteSlider>
           <Subtitle title={"한페이지의 투표함"} />
-          <Slider {...settings}>
-            {progressVote.length ? (
-              progressVote.map((item, index) => (
+          {progressVote.length ? (
+            <Slider {...settings}>
+              {progressVote.map((item, index) => (
                 <VoteBox key={item.id} item={item} index={index} />
-              ))
-            ) : (
-              <EmptyBox>
-                <span>진행중인 투표가 없습니다.</span>
-                <Link to={"/vote"}>
-                  투표 등록하러 가기 <ArrowForwardIosIcon />
-                </Link>
-              </EmptyBox>
-            )}
-          </Slider>
+              ))}
+            </Slider>
+          ) : (
+            <VoteEmptyBox>
+              <span>진행중인 투표가 없습니다.</span>
+              <Link to={"/vote"}>
+                투표 등록하러 가기 <ArrowForwardIosIcon />
+              </Link>
+            </VoteEmptyBox>
+          )}
           <LinkButton link={"/vote"} title="투표 더보기" />
-        </SliderSection>
+        </VoteSlider>
         <section>
           <Subtitle title={`한페이지의 독서 분야 일정`} />
           <ScheduleBox>
@@ -150,72 +119,67 @@ const Home = () => {
   );
 };
 
-const EmptyBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: 10px;
-  padding-top: 20px;
-  margin-bottom: 3px;
-  background-color: ${(props) => props.theme.container.default};
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-  height: 100px;
-  > span {
-    color: ${(props) => props.theme.text.gray};
-    display: block;
-    margin-bottom: 10px;
-    text-align: center;
-  }
-  > a {
-    width: fit-content;
-    margin: 0 auto;
-    color: ${(props) => props.theme.text.lightBlue};
-    display: flex;
-    align-items: center;
-    svg {
-      width: 16px;
-      height: 16px;
-      fill: ${(props) => props.theme.text.lightBlue};
-    }
-  }
-`;
-
 const NewContainer = styled(Container)`
   > section {
     margin-top: 60px;
     position: relative;
-    > p {
-      font-size: 14px;
-      font-weight: 700;
-      margin: 0 15px 10px;
-      color: ${(props) => props.theme.text.lightBlue};
-    }
-  }
-  > section:first-child {
-    margin-top: 0;
-  }
-  @media ${device.tablet} {
-    > section {
-      > p {
-        font-size: 16px;
-      }
+    &:first-child {
+      margin-top: 0;
     }
   }
 `;
 
-const SliderSection = styled.section`
+const MeetingInfo = styled.p`
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 15px 10px;
+  color: ${(props) => props.theme.text.lightBlue};
+  @media ${device.tablet} {
+    font-size: 16px;
+  }
+`;
+
+const VoteSlider = styled.section`
   position: relative;
   margin: 0 auto 50px;
   box-sizing: none;
+  width: 100%;
   .slick-slider {
     margin: 0 -10px;
   }
   .slick-slide {
-    width: 100%;
     padding: 0 10px;
   }
   > div {
     > a {
+      border: 1px solid red;
       margin-top: 30px;
+    }
+  }
+`;
+
+const VoteEmptyBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px 0;
+  border-radius: 10px;
+  background-color: ${(props) => props.theme.container.default};
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  > span {
+    color: ${(props) => props.theme.text.gray};
+    display: block;
+    text-align: center;
+  }
+  > a {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    color: ${(props) => props.theme.text.lightBlue};
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: ${(props) => props.theme.text.lightBlue};
     }
   }
 `;
