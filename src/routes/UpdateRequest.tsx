@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Container } from "theme/commonStyle";
 import { getUpdateRequestDoc } from "util/getFirebaseDoc";
-import BackButtonHeader from "components/common/BackButtonHeader";
+import BackButtonHeader from "components/header/BackButtonHeader";
 import UpdateCreateBox from "components/updateRequest/UpdateCreateBox";
 import UpdateRequestBox from "components/updateRequest/UpdateRequestBox";
 

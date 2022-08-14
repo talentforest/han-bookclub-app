@@ -6,11 +6,11 @@ import Profile from "./routes/Profile";
 import BookMeeting from "./routes/BookMeeting";
 import Vote from "./routes/Vote";
 import Setting from "./routes/Setting";
-import BottomNav from "components/common/BottomNav";
+import Navigation from "components/common/Navigation";
 import CreateAccount from "./routes/CreateAccount";
 import EditProfile from "./routes/EditProfile";
 import ScrollToTop from "util/ScrollToTop";
-import HeadNav from "components/common/HeadNav";
+import DesktopHeader from "components/header/DesktopHeader";
 import useWindowSize from "hooks/useWindowSize";
 import FindBook from "routes/FindBook";
 import SelectedBook from "routes/FindedBook";
@@ -33,10 +33,8 @@ function Router({ isLoggedIn }: PropsType) {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <ScrollToTop />
-      {isLoggedIn && windowSize.width >= +deviceSizes.tablet ? (
-        <HeadNav />
-      ) : (
-        <></>
+      {isLoggedIn && windowSize.width >= +deviceSizes.tablet && (
+        <DesktopHeader />
       )}
       <Routes>
         {isLoggedIn ? (
@@ -78,11 +76,7 @@ function Router({ isLoggedIn }: PropsType) {
           )}
         </>
       </Routes>
-      {isLoggedIn && windowSize.width < +deviceSizes.tablet ? (
-        <BottomNav />
-      ) : (
-        <></>
-      )}
+      {isLoggedIn && windowSize.width < +deviceSizes.tablet && <Navigation />}
     </BrowserRouter>
   );
 }

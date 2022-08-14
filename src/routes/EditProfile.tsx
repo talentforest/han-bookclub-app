@@ -3,7 +3,7 @@ import { BookFieldType } from "components/loginForm/UserDataInputForm";
 import styled from "styled-components";
 import NotEditingProfile from "components/editProfile/NotEditingProfile";
 import EditingProfile from "components/editProfile/EditingProfile";
-import BackButtonHeader from "components/common/BackButtonHeader";
+import BackButtonHeader from "components/header/BackButtonHeader";
 import useHandleProfile from "hooks/useHandleProfile";
 
 export interface extraUserData {

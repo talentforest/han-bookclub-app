@@ -3,7 +3,7 @@ import { Container, Input } from "theme/commonStyle";
 import { bookSearchHandler } from "api/api";
 import styled from "styled-components";
 import ResultBox from "components/bookfind/ResultBox";
-import BackButtonHeader from "components/common/BackButtonHeader";
+import BackButtonHeader from "components/header/BackButtonHeader";
 
 const FindBook = () => {
   const [bookInfo, setBookInfo] = useState([]);

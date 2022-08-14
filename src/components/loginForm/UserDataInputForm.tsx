@@ -8,7 +8,7 @@ import BookField from "components/loginForm/BookField";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import BackButtonHeader from "components/common/BackButtonHeader";
+import BackButtonHeader from "components/header/BackButtonHeader";
 
 export interface BookFieldType {
   id: number;

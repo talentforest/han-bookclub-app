@@ -4,7 +4,7 @@ import { useMatch } from "react-router-dom";
 import { Container } from "theme/commonStyle";
 import { getBookMeetingInfoData } from "util/getFirebaseDoc";
 import BookDesc from "components/common/BookDesc";
-import BackButtonHeader from "components/common/BackButtonHeader";
+import BackButtonHeader from "components/header/BackButtonHeader";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import RegisterClubBookButton from "components/bookfind/RegisterClubBookButton";
 import RegisterRecommendButton from "components/bookfind/RegisterRecommendButton";

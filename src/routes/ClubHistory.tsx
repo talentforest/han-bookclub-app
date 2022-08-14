@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-import { Container, Header } from "theme/commonStyle";
+import { Container } from "theme/commonStyle";
 import { getBookMeetingInfoData } from "util/getFirebaseDoc";
-import device, { deviceSizes } from "theme/mediaQueries";
-import useWindowSize from "hooks/useWindowSize";
+import device from "theme/mediaQueries";
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
 import HistoryBox from "components/clubbookhistory/HistoryBox";
+import MobileHeader from "components/header/MobileHeader";
 
 const ClubHistory = () => {
   const thisYear = `${new Date().getFullYear()}`;
-  const { windowSize } = useWindowSize();
   const [selectedYear, setSelectedYear] = useState(thisYear);
   const [allBookMeeting, setAllBookMeeting] = useState([]);
 
@@ -40,13 +39,7 @@ const ClubHistory = () => {
 
   return (
     <>
-      {windowSize.width < +deviceSizes.tablet ? (
-        <Header>
-          <h1>지난 책모임</h1>
-        </Header>
-      ) : (
-        <></>
-      )}
+      <MobileHeader title="지난 책모임" />
       <Container>
         <Subtitle title="한페이지 히스토리" />
         <YearCategory onChange={onChange} value={selectedYear}>

@@ -1,4 +1,4 @@
-import BackButtonHeader from "components/common/BackButtonHeader";
+import BackButtonHeader from "components/header/BackButtonHeader";
 import { authService } from "fbase";
 import {
   EmailAuthProvider,

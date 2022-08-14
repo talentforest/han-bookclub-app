@@ -2,7 +2,7 @@ import { Container } from "theme/commonStyle";
 import { Link } from "react-router-dom";
 import LogOutButton from "components/settings/LogOutButton";
 import styled from "styled-components";
-import BackButtonHeader from "components/common/BackButtonHeader";
+import BackButtonHeader from "components/header/BackButtonHeader";
 import device from "theme/mediaQueries";
 
 const Setting = () => {

@@ -1,16 +1,17 @@
 import { AddCircleOutline } from "@mui/icons-material";
 import { Overlay } from "components/bookmeeting/SubjectCreateModal";
 import { useEffect, useState } from "react";
-import { ButtonHeader, Container } from "theme/commonStyle";
+import { Container } from "theme/commonStyle";
 import device, { deviceSizes } from "theme/mediaQueries";
 import { getVote } from "util/getFirebaseDoc";
+import { today } from "util/constants";
 import useWindowSize from "hooks/useWindowSize";
 import VoteBox from "components/vote/VoteBox";
 import VoteCreateBox from "components/vote/VoteCreateBox";
 import styled from "styled-components";
 import Subtitle from "components/common/Subtitle";
-import { today } from "util/constants";
 import ExpiredVote from "components/vote/ExpiredVote";
+import MobileHeader from "components/header/MobileHeader";
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -33,28 +34,15 @@ const Vote = () => {
 
   return (
     <>
-      {windowSize.width < +deviceSizes.tablet ? (
-        <ButtonHeader>
-          <h1>한페이지의 투표함</h1>
-          <button onClick={onClick}>
-            <AddCircleOutline />
-            투표 등록하기
-          </button>
-        </ButtonHeader>
-      ) : (
-        <></>
-      )}
+      <MobileHeader title="한페이지의 투표함" onButtonClick={onClick} />
       <Container>
         <Subtitle title="투표함" />
-        {windowSize.width < +deviceSizes.tablet ? (
-          <></>
-        ) : (
+        {windowSize.width > +deviceSizes.tablet && (
           <VoteButton onClick={onClick}>
             <AddCircleOutline />
             투표 등록하기
           </VoteButton>
         )}
-
         {modalOpen && (
           <section>
             <Overlay onClick={onClick} />

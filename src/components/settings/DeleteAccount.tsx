@@ -10,7 +10,7 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { useState } from "react";
 import { Button, Container, Desc, Input } from "theme/commonStyle";
-import BackButtonHeader from "components/common/BackButtonHeader";
+import BackButtonHeader from "components/header/BackButtonHeader";
 import styled from "styled-components";
 
 const DeleteAccount = () => {

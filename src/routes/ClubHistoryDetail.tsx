@@ -11,7 +11,7 @@ import Reviews from "components/bookmeeting/Reviews";
 import device from "theme/mediaQueries";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
-import BackButtonHeader from "components/common/BackButtonHeader";
+import BackButtonHeader from "components/header/BackButtonHeader";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
 
 type LocationState = { item: BookMeetingInfo };

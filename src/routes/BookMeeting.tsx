@@ -1,4 +1,4 @@
-import { Container, Header } from "theme/commonStyle";
+import { Container } from "theme/commonStyle";
 import { useEffect, useState } from "react";
 import { Link, useMatch } from "react-router-dom";
 import { BookDocument } from "data/bookAtom";
@@ -22,9 +22,9 @@ import BookTitleImgBox from "components/common/BookTitleImgBox";
 import BookRecomCreateBox from "components/bookmeeting/BookRecomCreateBox";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
-import device, { deviceSizes } from "theme/mediaQueries";
+import device from "theme/mediaQueries";
 import Subtitle from "components/common/Subtitle";
-import useWindowSize from "hooks/useWindowSize";
+import MobileHeader from "components/header/MobileHeader";
 
 export interface meetingType {
   time: string;
@@ -46,8 +46,6 @@ const BookMeeting = () => {
   const [showBookDetail, setShowBookDetail] = useState(false);
   const [recommendBook, setRecommendBook] = useState([]);
   const userData = useRecoilValue(currentUserState);
-
-  const { windowSize } = useWindowSize();
 
   const bookUrlMatch = useMatch("/bookmeeting");
   const subjectUrlMatch = useMatch("/bookmeeting/subject");
@@ -76,13 +74,7 @@ const BookMeeting = () => {
 
   return (
     <>
-      {windowSize.width < +deviceSizes.tablet ? (
-        <Header>
-          <h1>이달의 책모임</h1>
-        </Header>
-      ) : (
-        <></>
-      )}
+      <MobileHeader title="이달의 책모임" />
       <Container>
         <Subtitle
           title={docMonth ? `${docMonth?.slice(6)}월의 책` : "월의 책"}

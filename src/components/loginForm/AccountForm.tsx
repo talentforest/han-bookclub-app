@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Container, Desc, Form, Input } from "theme/commonStyle";
 import device from "theme/mediaQueries";
-import BackButtonHeader from "components/common/BackButtonHeader";
+import BackButtonHeader from "components/header/BackButtonHeader";
 import styled from "styled-components";
 
 interface PropsType {

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { authService } from "fbase";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { Container, Desc, Input } from "theme/commonStyle";
-import BackButtonHeader from "components/common/BackButtonHeader";
+import BackButtonHeader from "components/header/BackButtonHeader";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 

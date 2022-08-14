@@ -11,7 +11,7 @@ import { percentage } from "util/percentage";
 import { Container } from "theme/commonStyle";
 import { today } from "util/constants";
 import styled from "styled-components";
-import BackButtonHeader from "components/common/BackButtonHeader";
+import BackButtonHeader from "components/header/BackButtonHeader";
 import UserInfoBox from "components/common/UserInfoBox";
 import device from "theme/mediaQueries";
 

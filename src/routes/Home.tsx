@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { Container, Header } from "theme/commonStyle";
-import device, { deviceSizes } from "theme/mediaQueries";
+import { Container } from "theme/commonStyle";
+import device from "theme/mediaQueries";
 import { useEffect, useState } from "react";
 import { today } from "util/constants";
 import {
@@ -10,8 +10,8 @@ import {
   thisYearField,
   VoteDocument,
 } from "util/getFirebaseDoc";
+import { settings } from "util/sliderSetting";
 import LinkButton from "components/common/LinkButton";
-import useWindowSize from "hooks/useWindowSize";
 import Subtitle from "components/common/Subtitle";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
 import styled from "styled-components";
@@ -21,14 +21,12 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { settings } from "util/sliderSetting";
+import MobileHeader from "components/header/MobileHeader";
 
 const Home = () => {
   const [bookMeetingInfoDoc, setBookMeetingInfoDoc] = useState([]);
   const [bookfieldDoc, setBookfieldDoc] = useState([]);
   const [voteDoc, setVoteDoc] = useState([]);
-
-  const { windowSize } = useWindowSize();
 
   useEffect(() => {
     getBookMeetingInfoData(setBookMeetingInfoDoc);
@@ -51,13 +49,7 @@ const Home = () => {
 
   return (
     <>
-      {windowSize.width < +deviceSizes.tablet ? (
-        <Header>
-          <h1>독서모임 한 페이지</h1>
-        </Header>
-      ) : (
-        <></>
-      )}
+      <MobileHeader title="독서모임 한페이지" />
       <NewContainer>
         <section>
           <Subtitle

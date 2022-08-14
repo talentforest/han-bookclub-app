@@ -6,8 +6,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import styled from "styled-components";
 import { History } from "@mui/icons-material";
 
-const BottomNav = () => {
-  const pathname = useLocation().pathname;
+const Navigation = () => {
+  const { pathname } = useLocation();
   return !pathname.includes("setting") && !pathname.includes("userInfo") ? (
     <Nav>
       <ul>
@@ -91,4 +91,4 @@ const Nav = styled.nav`
   }
 `;
 
-export default BottomNav;
+export default Navigation;

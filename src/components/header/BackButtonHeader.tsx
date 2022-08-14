@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import styled from "styled-components";
-import { Header } from "theme/commonStyle";
 import device from "theme/mediaQueries";
 
 interface PropsType {
@@ -22,7 +21,14 @@ const BackButtonHeader = ({ title }: PropsType) => {
   );
 };
 
-const BackHeader = styled(Header)`
+const BackHeader = styled.header`
+  color: ${(props) => props.theme.text.gray};
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 700;
   width: fit-content;
   svg {
     width: 16px;
@@ -36,6 +42,7 @@ const BackHeader = styled(Header)`
   @media ${device.tablet} {
     margin-top: 30px;
     padding-left: 80px;
+    font-size: 22px;
     svg {
       width: 22px;
       height: 22px;
