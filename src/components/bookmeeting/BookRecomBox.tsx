@@ -3,7 +3,7 @@ import { dbService } from "fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { timestamp } from "util/timestamp";
 import {
-  DocumentType,
+  IWrittenDocs,
   DoneBtn,
   EditDeleteIcon,
   FormHeader,
@@ -18,7 +18,7 @@ import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 
 interface PropsType {
-  item: DocumentType;
+  item: IWrittenDocs;
   docMonth?: string;
   setShowDetail?: (detail: []) => void;
 }

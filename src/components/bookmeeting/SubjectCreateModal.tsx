@@ -3,7 +3,7 @@ import { authService, dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { SubmitBtn } from "theme/commonStyle";
 import { Add, Close } from "@mui/icons-material";
-import { BookDocument } from "data/bookAtom";
+import { IBookApi } from "data/bookAtom";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import styled from "styled-components";
@@ -11,7 +11,7 @@ import device from "theme/mediaQueries";
 import { useNavigate } from "react-router-dom";
 
 interface PropsType {
-  bookInfo: BookDocument;
+  bookInfo: IBookApi;
   docMonth: string;
 }
 

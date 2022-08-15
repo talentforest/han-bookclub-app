@@ -5,11 +5,11 @@ import { SubmitBtn } from "theme/commonStyle";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import { BookDocument } from "data/bookAtom";
+import { IBookApi } from "data/bookAtom";
 import { useNavigate } from "react-router-dom";
 
 interface PropsType {
-  bookInfo: BookDocument;
+  bookInfo: IBookApi;
   docMonth: string;
 }
 

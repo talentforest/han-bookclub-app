@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BookDocument } from "data/bookAtom";
+import { IBookApi } from "data/bookAtom";
 
 interface BookQuery {
   query: string; // 검색을 원하는 질의어
@@ -23,7 +23,7 @@ export const bookSearch = (params: BookQuery) => {
 export const bookSearchHandler = async (
   query: string,
   reset: boolean,
-  setFunc: (bookData: BookDocument[]) => void
+  setFunc: (bookData: IBookApi[]) => void
 ) => {
   const params = {
     query: query,

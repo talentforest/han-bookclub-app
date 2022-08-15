@@ -16,7 +16,7 @@ const HistoryBox = ({ bookMeetingInfo }: PropsType) => {
   const { id, book, meeting } = bookMeetingInfo;
 
   return (
-    <BookMeeting to={`${id}`} state={{ item: bookMeetingInfo }}>
+    <BookMeeting to={`${id}`} state={{ bookMeetingInfo: bookMeetingInfo }}>
       <Subtitle title={`${getMonthNumber(id)}월의 책`} />
       <Info>
         <BookTitleImgBox docData={book} />

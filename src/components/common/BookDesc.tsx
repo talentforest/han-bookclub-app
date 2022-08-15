@@ -1,10 +1,10 @@
 import { ExpandCircleDown } from "@mui/icons-material";
-import { BookDocument } from "data/bookAtom";
+import { IBookApi } from "data/bookAtom";
 import styled from "styled-components";
 import { timestamp } from "util/timestamp";
 
 interface PropsType {
-  bookInfo: BookDocument;
+  bookInfo: IBookApi;
   onModalOpen?: () => void;
 }
 

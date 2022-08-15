@@ -5,6 +5,12 @@ import { getMonthNumber } from "util/getMonthNumber";
 import { useLocation } from "react-router-dom";
 import { Container } from "theme/commonStyle";
 import { IBookMeeting } from "util/getFirebaseDoc";
+import { useRecoilState } from "recoil";
+import {
+  recommendDocsState,
+  reviewDocsState,
+  subjectDocsState,
+} from "data/documentsAtom";
 import styled from "styled-components";
 import Subjects from "components/bookmeeting/Subjects";
 import Reviews from "components/bookmeeting/Reviews";
@@ -14,26 +20,39 @@ import MeetingInfoBox from "components/common/MeetingInfoBox";
 import BackButtonHeader from "components/header/BackButtonHeader";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
 
-type LocationState = { item: IBookMeeting };
+type LocationState = { state: { bookMeetingInfo: IBookMeeting } };
 
 const ClubHistoryDetail = () => {
-  const location = useLocation();
-  const { item } = location.state as LocationState;
+  const {
+    state: { bookMeetingInfo },
+  } = useLocation() as LocationState;
 
-  const [subjects, setSubjects] = useState([]);
-  const [reviews, setReviews] = useState([]);
-  const [recommends, setRecommends] = useState([]);
+  const [monthSubjects, setMonthSubjects] = useRecoilState(subjectDocsState);
+  const [monthReviews, setMonthReviews] = useRecoilState(reviewDocsState);
+  const [monthRecommends, setMonthRecommends] =
+    useRecoilState(recommendDocsState);
   const [selectedCategory, setSelectedCategory] = useState("subjects");
-  const docMonth = item.id;
+
+  const { id, book, meeting } = bookMeetingInfo;
+
+  const allWrittenByUserDocs =
+    monthSubjects.length && monthReviews.length && monthRecommends.length;
+
+  const getAllWrittenbyUserDocs = () => {
+    if (allWrittenByUserDocs === 0) {
+      getReviews(id, setMonthSubjects);
+      getSubjects(id, setMonthReviews);
+      getAllRecommends(id, setMonthRecommends);
+    } else {
+      return;
+    }
+  };
 
   useEffect(() => {
-    getSubjects(item.id, setSubjects);
-    getReviews(item.id, setReviews);
-    getAllRecommends(item.id, setRecommends);
+    getAllWrittenbyUserDocs();
+
     return () => {
-      getSubjects(item.id, setSubjects);
-      getReviews(item.id, setReviews);
-      getAllRecommends(item.id, setRecommends);
+      getAllWrittenbyUserDocs();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -45,11 +64,11 @@ const ClubHistoryDetail = () => {
   };
   return (
     <>
-      <BackButtonHeader title={`${getMonthNumber(item.id)}월의 책모임 기록`} />
+      <BackButtonHeader title={`${getMonthNumber(id)}월의 책모임 기록`} />
       <Container>
         <Infos>
-          <BookTitleImgBox docData={item?.book} />
-          <MeetingInfoBox docData={item?.meeting} />
+          <BookTitleImgBox docData={book} />
+          <MeetingInfoBox docData={meeting} />
         </Infos>
         <BookSection>
           <button
@@ -73,25 +92,25 @@ const ClubHistoryDetail = () => {
         </BookSection>
         <Documents>
           {selectedCategory === "recommend" &&
-            (recommends.length !== 0 ? (
-              recommends.map((item) => (
-                <BookRecomBox key={item.id} item={item} docMonth={docMonth} />
+            (monthRecommends.length !== 0 ? (
+              monthRecommends.map((item) => (
+                <BookRecomBox key={item.id} item={item} docMonth={id} />
               ))
             ) : (
               <EmptyRecord>기록된 추천책이 아직 없어요.</EmptyRecord>
             ))}
           {selectedCategory === "subjects" &&
-            (subjects.length !== 0 ? (
-              subjects.map((item) => (
-                <Subjects key={item.id} item={item} docMonth={docMonth} />
+            (monthSubjects.length !== 0 ? (
+              monthSubjects.map((item) => (
+                <Subjects key={item.id} item={item} docMonth={id} />
               ))
             ) : (
               <EmptyRecord>기록된 모임 후기가 아직 없어요.</EmptyRecord>
             ))}
           {selectedCategory === "reviews" &&
-            (reviews.length !== 0 ? (
-              reviews.map((item) => (
-                <Reviews key={item.id} item={item} docMonth={docMonth} />
+            (monthReviews.length !== 0 ? (
+              monthReviews.map((item) => (
+                <Reviews key={item.id} item={item} docMonth={id} />
               ))
             ) : (
               <EmptyRecord>기록된 모임 후기가 아직 없어요.</EmptyRecord>

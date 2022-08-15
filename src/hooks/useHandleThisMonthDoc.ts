@@ -1,4 +1,4 @@
-import { BookDocument } from "data/bookAtom";
+import { IBookApi } from "data/bookAtom";
 import { currentUserState } from "data/userAtom";
 import { dbService } from "fbase";
 import { deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore";
@@ -9,7 +9,7 @@ import { thisYearMonth } from "util/constants";
 
 interface PropsType {
   bookMeetingDocs: IBookMeeting[];
-  findbookData: BookDocument;
+  findbookData: IBookApi;
 }
 
 const useHandleThisMonthDoc = ({

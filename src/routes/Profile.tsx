@@ -10,11 +10,12 @@ import device from "theme/mediaQueries";
 import MyRecommendBook from "components/profile/MyRecommendBook";
 import MyRecord from "components/profile/MyRecord";
 import MobileHeader from "components/header/MobileHeader";
+import { IWrittenDocs } from "components/bookmeeting/Subjects";
 
 export interface IRecord {
   title: string;
-  subjects: DocumentType[];
-  reviews: DocumentType[];
+  subjects: IWrittenDocs[];
+  reviews: IWrittenDocs[];
 }
 
 const Profile = () => {

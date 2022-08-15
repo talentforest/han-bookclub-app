@@ -1,10 +1,10 @@
-import { BookDocument, recommendBookState } from "data/bookAtom";
+import { IBookApi, recommendBookState } from "data/bookAtom";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
 interface PropsType {
-  findbookData: BookDocument;
+  findbookData: IBookApi;
 }
 
 const RegisterRecommendButton = ({ findbookData }: PropsType) => {

@@ -1,7 +1,7 @@
 import { atom } from "recoil";
 import { v4 } from "uuid";
 
-export interface BookDocument {
+export interface IBookApi {
   title: string;
   contents?: string;
   url?: string;
@@ -14,12 +14,12 @@ export interface BookDocument {
   thumbnail: string;
 }
 
-export const bookDescState = atom<BookDocument[]>({
+export const bookDescState = atom<IBookApi[]>({
   key: `bookDesc${v4()}`,
   default: [],
 });
 
-export const recommendBookState = atom<BookDocument>({
+export const recommendBookState = atom<IBookApi>({
   key: `recommendBook${v4()}`,
   default: {
     thumbnail: "",

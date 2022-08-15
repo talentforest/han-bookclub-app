@@ -3,13 +3,13 @@ import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { timestamp } from "util/timestamp";
 import {
-  DocumentType,
+  IWrittenDocs,
   DoneBtn,
   FormHeader,
   GuideTextBox,
   RegisterTime,
 } from "components/bookmeeting/Subjects";
-import { BookDocument } from "data/bookAtom";
+import { IBookApi } from "data/bookAtom";
 import UserInfoBox from "components/common/UserInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import styled from "styled-components";
@@ -17,9 +17,9 @@ import EditDeleteDoc from "components/common/EditDeleteDoc";
 import device from "theme/mediaQueries";
 
 interface PropsType {
-  item: DocumentType;
+  item: IWrittenDocs;
   onReviewRemove?: (id: string) => void;
-  bookInfo?: BookDocument;
+  bookInfo?: IBookApi;
   docMonth?: string;
 }
 

@@ -10,7 +10,7 @@ import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import device from "theme/mediaQueries";
 
-export interface DocumentType {
+export interface IWrittenDocs {
   id: string;
   text?: string;
   creatorId: string;
@@ -24,7 +24,7 @@ export interface DocumentType {
 }
 
 interface ISubject {
-  item: DocumentType;
+  item: IWrittenDocs;
   onSubjectRemove?: (targetId: string) => void;
   docMonth?: string;
 }

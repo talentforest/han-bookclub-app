@@ -1,4 +1,4 @@
-import { BookDocument } from "data/bookAtom";
+import { IBookApi } from "data/bookAtom";
 import { thisYearMonth } from "util/constants";
 import { useRecoilValue } from "recoil";
 import { bookMeetingDocsState } from "data/documentsAtom";
@@ -6,7 +6,7 @@ import useHandleThisMonthDoc from "hooks/useHandleThisMonthDoc";
 import styled from "styled-components";
 
 interface PropsType {
-  findbookData: BookDocument;
+  findbookData: IBookApi;
 }
 
 const RegisterClubBookButton = ({ findbookData }: PropsType) => {

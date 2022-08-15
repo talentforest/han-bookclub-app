@@ -2,9 +2,14 @@ import { Container } from "theme/commonStyle";
 import { useEffect, useState } from "react";
 import { Link, useMatch } from "react-router-dom";
 import { getAllRecommends, getReviews, getSubjects } from "util/getFirebaseDoc";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import { bookMeetingDocsState } from "data/documentsAtom";
+import {
+  bookMeetingDocsState,
+  recommendDocsState,
+  reviewDocsState,
+  subjectDocsState,
+} from "data/documentsAtom";
 import Subjects from "components/bookmeeting/Subjects";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import BookRecomCreateBox from "components/bookmeeting/BookRecomCreateBox";
@@ -24,30 +29,39 @@ import styled from "styled-components";
 const BookMeeting = () => {
   const userData = useRecoilValue(currentUserState);
   const bookMeetingDocs = useRecoilValue(bookMeetingDocsState);
-  const [thisMonthSubjects, setThisMonthSubjects] = useState([]);
-  const [thisMonthReviews, setThisMonthReviews] = useState([]);
+  const [monthSubjects, setMonthSubjects] = useRecoilState(subjectDocsState);
+  const [monthReviews, setMonthReviews] = useRecoilState(reviewDocsState);
+  const [monthRecommends, setMonthRecommends] =
+    useRecoilState(recommendDocsState);
   const [showBookDetail, setShowBookDetail] = useState(false);
-  const [recommendBook, setRecommendBook] = useState([]);
 
   const bookUrlMatch = useMatch("/bookmeeting");
   const subjectUrlMatch = useMatch("/bookmeeting/subject");
   const reviewUrlMatch = useMatch("/bookmeeting/review");
 
-  const docMonth = bookMeetingDocs[0]?.id;
+  const { id, book, meeting } = bookMeetingDocs[0];
 
-  const getAllDocsRelatedBook = () => {
-    getReviews(docMonth, setThisMonthReviews);
-    getSubjects(docMonth, setThisMonthSubjects);
-    getAllRecommends(docMonth, setRecommendBook);
+  const allWrittenByUserDocs =
+    monthSubjects.length && monthReviews.length && monthRecommends.length;
+
+  const getAllWrittenbyUserDocs = () => {
+    if (allWrittenByUserDocs === 0) {
+      getReviews(id, setMonthSubjects);
+      getSubjects(id, setMonthReviews);
+      getAllRecommends(id, setMonthRecommends);
+    } else {
+      return;
+    }
   };
 
   useEffect(() => {
-    getAllDocsRelatedBook();
+    getAllWrittenbyUserDocs();
+
     return () => {
-      getAllDocsRelatedBook();
+      getAllWrittenbyUserDocs();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookMeetingDocs[0]?.id]);
+  }, [id]);
 
   const onModalOpen = () => {
     setShowBookDetail((prev) => !prev);
@@ -57,24 +71,16 @@ const BookMeeting = () => {
     <>
       <MobileHeader title="이달의 책모임" />
       <Container>
-        <Subtitle
-          title={docMonth ? `${docMonth?.slice(6)}월의 책` : "월의 책"}
-        />
+        <Subtitle title={id ? `${id.slice(6)}월의 책` : "월의 책"} />
         <MeetingBox>
-          <BookTitleImgBox
-            docData={bookMeetingDocs[0]?.book}
-            onModalOpen={onModalOpen}
-          />
+          <BookTitleImgBox docData={book} onModalOpen={onModalOpen} />
           <p>도서 이미지를 클릭하시면 상세정보를 보실 수 있습니다.</p>
-          <MeetingInfoBox docData={bookMeetingDocs[0]?.meeting} />
+          <MeetingInfoBox docData={meeting} />
         </MeetingBox>
         {showBookDetail && (
           <BookDetail>
             <Overlay onClick={onModalOpen} />
-            <BookDesc
-              bookInfo={bookMeetingDocs[0]?.book}
-              onModalOpen={onModalOpen}
-            />
+            <BookDesc bookInfo={book} onModalOpen={onModalOpen} />
           </BookDetail>
         )}
         <CategoryButton>
@@ -92,46 +98,32 @@ const BookMeeting = () => {
           <>
             <BookRecomCreateBox
               uid={userData?.uid}
-              thisMonthBook={bookMeetingDocs[0]?.book}
-              docMonth={bookMeetingDocs[0]?.id}
+              thisMonthBook={book}
+              docMonth={id}
             />
-            {recommendBook.length !== 0 &&
-              recommendBook?.map((item) => (
-                <BookRecomBox
-                  key={item.id}
-                  item={item}
-                  docMonth={bookMeetingDocs[0]?.id}
-                />
+            {monthRecommends.length !== 0 &&
+              monthRecommends?.map((item) => (
+                <BookRecomBox key={item.id} item={item} docMonth={id} />
               ))}
           </>
         )}
         {subjectUrlMatch && (
           <>
-            <SubjectCreateModal
-              bookInfo={bookMeetingDocs[0]?.book}
-              docMonth={bookMeetingDocs[0]?.id}
-            />
-            {thisMonthSubjects?.map((item) => (
-              <Subjects
-                item={item}
-                key={item.id}
-                docMonth={bookMeetingDocs[0]?.id}
-              />
+            <SubjectCreateModal bookInfo={book} docMonth={id} />
+            {monthSubjects?.map((item) => (
+              <Subjects item={item} key={item.id} docMonth={id} />
             ))}
           </>
         )}
         {reviewUrlMatch && (
           <>
-            <ReviewCreateBox
-              bookInfo={bookMeetingDocs[0]?.book}
-              docMonth={bookMeetingDocs[0]?.id}
-            />
-            {thisMonthReviews?.map((item) => (
+            <ReviewCreateBox bookInfo={book} docMonth={id} />
+            {monthReviews?.map((item) => (
               <Reviews
                 key={item.id}
                 item={item}
-                bookInfo={bookMeetingDocs[0]?.book}
-                docMonth={bookMeetingDocs[0]?.id}
+                bookInfo={book}
+                docMonth={id}
               />
             ))}
           </>

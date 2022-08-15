@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { authService, dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
-import { BookDocument, recommendBookState } from "data/bookAtom";
+import { IBookApi, recommendBookState } from "data/bookAtom";
 import { Link, useNavigate } from "react-router-dom";
 import { Search } from "@mui/icons-material";
 import { useRecoilValue } from "recoil";
@@ -12,7 +12,7 @@ import RecommendInfo from "./RecommendInfo";
 
 interface PropsType {
   uid: string;
-  thisMonthBook: BookDocument;
+  thisMonthBook: IBookApi;
   docMonth: string;
 }
 

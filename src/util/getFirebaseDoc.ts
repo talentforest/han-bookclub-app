@@ -1,5 +1,5 @@
-import { DocumentType } from "components/bookmeeting/Subjects";
-import { BookDocument } from "data/bookAtom";
+import { IWrittenDocs } from "components/bookmeeting/Subjects";
+import { IBookApi } from "data/bookAtom";
 import { dbService } from "fbase";
 import { extraUserData } from "routes/EditProfile";
 import {
@@ -16,7 +16,7 @@ export interface IMeeting {
 }
 
 export interface IBookMeeting {
-  book: BookDocument;
+  book: IBookApi;
   createdAt: number;
   creatorId: string;
   meeting: IMeeting;
@@ -82,7 +82,7 @@ export const getBookMeeting = async (
 
 export const getSubjects = async (
   month: string,
-  setSubjects: (doc: DocumentType[]) => void
+  setSubjects: (doc: IWrittenDocs[]) => void
 ) => {
   const q = query(
     collection(dbService, `BookMeeting Info/${month}/subjects`),
@@ -94,7 +94,7 @@ export const getSubjects = async (
       return {
         id: doc.id,
         ...doc.data(),
-      } as unknown as DocumentType;
+      } as IWrittenDocs;
     });
     setSubjects(newArray);
   });
@@ -102,7 +102,7 @@ export const getSubjects = async (
 
 export const getReviews = async (
   id: string,
-  setReviews: (doc: DocumentType[]) => void
+  setReviews: (doc: IWrittenDocs[]) => void
 ) => {
   const q = query(
     collection(dbService, `BookMeeting Info/${id}/reviews`),
@@ -114,24 +114,15 @@ export const getReviews = async (
       return {
         id: doc.id,
         ...doc.data(),
-      } as unknown as DocumentType;
+      } as IWrittenDocs;
     });
     setReviews(newArray);
   });
 };
 
-export const getUserData = (
-  uid: string,
-  setExtraUserData: (doc: extraUserData) => void
-) => {
-  onSnapshot(doc(dbService, "User Data", `${uid}`), (doc) => {
-    setExtraUserData(doc.data() as extraUserData);
-  });
-};
-
 export const getAllRecommends = async (
   id: string,
-  setState: (doc: DocumentType[]) => void
+  setState: (doc: IWrittenDocs[]) => void
 ) => {
   const q = query(
     collection(dbService, `BookMeeting Info/${id}/recommended book`),
@@ -143,9 +134,18 @@ export const getAllRecommends = async (
       return {
         id: doc.id,
         ...doc.data(),
-      };
+      } as IWrittenDocs;
     });
-    setState(newArray as DocumentType[]);
+    setState(newArray);
+  });
+};
+
+export const getUserData = (
+  uid: string,
+  setExtraUserData: (doc: extraUserData) => void
+) => {
+  onSnapshot(doc(dbService, "User Data", `${uid}`), (doc) => {
+    setExtraUserData(doc.data() as extraUserData);
   });
 };
 

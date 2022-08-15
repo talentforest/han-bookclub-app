@@ -1,11 +1,11 @@
-import { BookDocument } from "data/bookAtom";
-import { DocumentType } from "components/bookmeeting/Subjects";
+import { IBookApi } from "data/bookAtom";
+import { IWrittenDocs } from "components/bookmeeting/Subjects";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import { EventAvailable } from "@mui/icons-material";
 
 interface PropsType {
-  docData: BookDocument | DocumentType;
+  docData: IBookApi | IWrittenDocs;
   onModalOpen?: () => void;
   smSize?: string;
 }
