@@ -1,12 +1,7 @@
 import { Container } from "theme/commonStyle";
 import { useEffect, useState } from "react";
 import { Link, useMatch } from "react-router-dom";
-import {
-  getAllRecommends,
-  getBookMeeting,
-  getReviews,
-  getSubjects,
-} from "util/getFirebaseDoc";
+import { getAllRecommends, getReviews, getSubjects } from "util/getFirebaseDoc";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import styled from "styled-components";
@@ -24,35 +19,35 @@ import MeetingInfoBox from "components/common/MeetingInfoBox";
 import device from "theme/mediaQueries";
 import Subtitle from "components/common/Subtitle";
 import MobileHeader from "components/header/MobileHeader";
+import { bookMeetingDocsState } from "data/documentsAtom";
 
 const BookMeeting = () => {
-  const [bookMeetingDocData, setBookMeetingDocData] = useState([]);
+  const userData = useRecoilValue(currentUserState);
+  const bookMeetingDocs = useRecoilValue(bookMeetingDocsState);
   const [thisMonthSubjects, setThisMonthSubjects] = useState([]);
   const [thisMonthReviews, setThisMonthReviews] = useState([]);
   const [showBookDetail, setShowBookDetail] = useState(false);
   const [recommendBook, setRecommendBook] = useState([]);
-  const userData = useRecoilValue(currentUserState);
 
   const bookUrlMatch = useMatch("/bookmeeting");
   const subjectUrlMatch = useMatch("/bookmeeting/subject");
   const reviewUrlMatch = useMatch("/bookmeeting/review");
 
-  const docMonth = bookMeetingDocData[0]?.id;
+  const docMonth = bookMeetingDocs[0]?.id;
 
-  const getBookMeetingData = () => {
-    getBookMeeting(setBookMeetingDocData);
+  const getAllDocsRelatedBook = () => {
     getReviews(docMonth, setThisMonthReviews);
     getSubjects(docMonth, setThisMonthSubjects);
     getAllRecommends(docMonth, setRecommendBook);
   };
 
   useEffect(() => {
-    getBookMeetingData();
+    getAllDocsRelatedBook();
     return () => {
-      getBookMeetingData();
+      getAllDocsRelatedBook();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookMeetingDocData[0]?.id]);
+  }, [bookMeetingDocs[0]?.id]);
 
   const onModalOpen = () => {
     setShowBookDetail((prev) => !prev);
@@ -67,17 +62,17 @@ const BookMeeting = () => {
         />
         <MeetingBox>
           <BookTitleImgBox
-            docData={bookMeetingDocData[0]?.book}
+            docData={bookMeetingDocs[0]?.book}
             onModalOpen={onModalOpen}
           />
           <p>도서 이미지를 클릭하시면 상세정보를 보실 수 있습니다.</p>
-          <MeetingInfoBox docData={bookMeetingDocData[0]?.meeting} />
+          <MeetingInfoBox docData={bookMeetingDocs[0]?.meeting} />
         </MeetingBox>
         {showBookDetail && (
           <BookDetail>
             <Overlay onClick={onModalOpen} />
             <BookDesc
-              bookInfo={bookMeetingDocData[0]?.book}
+              bookInfo={bookMeetingDocs[0]?.book}
               onModalOpen={onModalOpen}
             />
           </BookDetail>
@@ -97,15 +92,15 @@ const BookMeeting = () => {
           <>
             <BookRecomCreateBox
               uid={userData?.uid}
-              thisMonthBook={bookMeetingDocData[0]?.book}
-              docMonth={bookMeetingDocData[0]?.id}
+              thisMonthBook={bookMeetingDocs[0]?.book}
+              docMonth={bookMeetingDocs[0]?.id}
             />
             {recommendBook.length !== 0 &&
               recommendBook?.map((item) => (
                 <BookRecomBox
                   key={item.id}
                   item={item}
-                  docMonth={bookMeetingDocData[0]?.id}
+                  docMonth={bookMeetingDocs[0]?.id}
                 />
               ))}
           </>
@@ -113,14 +108,14 @@ const BookMeeting = () => {
         {subjectUrlMatch && (
           <>
             <SubjectCreateModal
-              bookInfo={bookMeetingDocData[0]?.book}
-              docMonth={bookMeetingDocData[0]?.id}
+              bookInfo={bookMeetingDocs[0]?.book}
+              docMonth={bookMeetingDocs[0]?.id}
             />
             {thisMonthSubjects?.map((item) => (
               <Subjects
                 item={item}
                 key={item.id}
-                docMonth={bookMeetingDocData[0]?.id}
+                docMonth={bookMeetingDocs[0]?.id}
               />
             ))}
           </>
@@ -128,15 +123,15 @@ const BookMeeting = () => {
         {reviewUrlMatch && (
           <>
             <ReviewCreateBox
-              bookInfo={bookMeetingDocData[0]?.book}
-              docMonth={bookMeetingDocData[0]?.id}
+              bookInfo={bookMeetingDocs[0]?.book}
+              docMonth={bookMeetingDocs[0]?.id}
             />
             {thisMonthReviews?.map((item) => (
               <Reviews
                 key={item.id}
                 item={item}
-                bookInfo={bookMeetingDocData[0]?.book}
-                docMonth={bookMeetingDocData[0]?.id}
+                bookInfo={bookMeetingDocs[0]?.book}
+                docMonth={bookMeetingDocs[0]?.id}
               />
             ))}
           </>

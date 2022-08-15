@@ -1,24 +1,23 @@
 import { BookDocument } from "data/bookAtom";
-import useHandleThisMonthDoc from "hooks/useHandleThisMonthDoc";
 import { thisYearMonth } from "util/constants";
+import { useRecoilValue } from "recoil";
+import { bookMeetingDocsState } from "data/documentsAtom";
+import useHandleThisMonthDoc from "hooks/useHandleThisMonthDoc";
 import styled from "styled-components";
-import { IBookMeeting } from "util/getFirebaseDoc";
 
 interface PropsType {
-  bookMeetingDocData: IBookMeeting[];
   findbookData: BookDocument;
 }
 
-const RegisterClubBookButton = ({
-  bookMeetingDocData,
-  findbookData,
-}: PropsType) => {
+const RegisterClubBookButton = ({ findbookData }: PropsType) => {
+  const bookMeetingDocs = useRecoilValue(bookMeetingDocsState);
+
   const { toggle, onSubmit, onMonthChange } = useHandleThisMonthDoc({
-    bookMeetingDocData,
+    bookMeetingDocs,
     findbookData,
   });
 
-  const checkClubBook = bookMeetingDocData
+  const checkClubBook = bookMeetingDocs
     .map((item) => item.book?.title)
     .includes(findbookData?.title);
 

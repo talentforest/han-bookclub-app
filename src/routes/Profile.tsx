@@ -2,14 +2,13 @@ import { Container } from "theme/commonStyle";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { AccountCircle } from "@mui/icons-material";
-import { useEffect, useState } from "react";
-import { getBookMeeting } from "util/getFirebaseDoc";
+import { authService } from "fbase";
+import { bookMeetingDocsState } from "data/documentsAtom";
 import styled from "styled-components";
 import Subtitle from "components/common/Subtitle";
 import device from "theme/mediaQueries";
 import MyRecommendBook from "components/profile/MyRecommendBook";
 import MyRecord from "components/profile/MyRecord";
-import { authService } from "fbase";
 import MobileHeader from "components/header/MobileHeader";
 
 export interface IRecord {
@@ -19,18 +18,10 @@ export interface IRecord {
 }
 
 const Profile = () => {
-  const [docData, setDocData] = useState([]);
+  const bookMeetingDocs = useRecoilValue(bookMeetingDocsState);
   const userData = useRecoilValue(currentUserState);
 
   const anonymous = authService.currentUser?.isAnonymous;
-
-  useEffect(() => {
-    getBookMeeting(setDocData);
-
-    return () => {
-      getBookMeeting(setDocData);
-    };
-  }, []);
 
   return (
     <>
@@ -48,7 +39,7 @@ const Profile = () => {
           <Subtitle title="나의 기록" />
           <span>내가 작성한 발제문과 모임 후기를 볼 수 있어요.</span>
           <Wrapper>
-            {docData.map((item) => (
+            {bookMeetingDocs.map((item) => (
               <MyRecord key={item.id} item={item} />
             ))}
           </Wrapper>
@@ -56,7 +47,7 @@ const Profile = () => {
         <section>
           <Subtitle title="내가 추천한 책" />
           <span>내가 추천한 책을 볼 수 있어요.</span>
-          {docData.map((item) => (
+          {bookMeetingDocs.map((item) => (
             <MyRecommendBook key={item.id} item={item} />
           ))}
         </section>

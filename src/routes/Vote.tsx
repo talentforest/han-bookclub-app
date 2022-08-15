@@ -1,9 +1,8 @@
 import { AddCircleOutline } from "@mui/icons-material";
 import { Overlay } from "components/bookmeeting/SubjectCreateModal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container } from "theme/commonStyle";
 import device, { deviceSizes } from "theme/mediaQueries";
-import { getVotes } from "util/getFirebaseDoc";
 import { today } from "util/constants";
 import useWindowSize from "hooks/useWindowSize";
 import VoteBox from "components/vote/VoteBox";
@@ -12,25 +11,20 @@ import styled from "styled-components";
 import Subtitle from "components/common/Subtitle";
 import ExpiredVote from "components/vote/ExpiredVote";
 import MobileHeader from "components/header/MobileHeader";
+import { useRecoilValue } from "recoil";
+import { voteDocsState } from "data/documentsAtom";
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [voteDoc, setVoteDoc] = useState([]);
+  const voteDocs = useRecoilValue(voteDocsState);
   const { windowSize } = useWindowSize();
-
-  useEffect(() => {
-    getVotes(setVoteDoc);
-    return () => {
-      getVotes(setVoteDoc);
-    };
-  }, []);
 
   const onClick = () => {
     setModalOpen((prev) => !prev);
   };
 
-  const progressVote = voteDoc.filter((item) => item.deadline >= today());
-  const expiredVote = voteDoc.filter((item) => item.deadline < today());
+  const progressVote = voteDocs.filter((item) => item.deadline >= today());
+  const expiredVote = voteDocs.filter((item) => item.deadline < today());
 
   return (
     <>

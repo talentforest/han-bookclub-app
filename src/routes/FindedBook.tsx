@@ -1,30 +1,26 @@
 import { bookSearchHandler } from "api/api";
 import { useEffect, useState } from "react";
-import { useMatch } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Container } from "theme/commonStyle";
-import { getBookMeeting } from "util/getFirebaseDoc";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "data/userAtom";
 import BookDesc from "components/common/BookDesc";
 import BackButtonHeader from "components/header/BackButtonHeader";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import RegisterClubBookButton from "components/bookfind/RegisterClubBookButton";
 import RegisterRecommendButton from "components/bookfind/RegisterRecommendButton";
-import { useRecoilValue } from "recoil";
-import { currentUserState } from "data/userAtom";
 
 const FindedBook = () => {
-  const [findbookData, setFindBookData] = useState([]);
-  const [bookMeetingDocData, setBookMeetingDocData] = useState([]);
   const userData = useRecoilValue(currentUserState);
+  const [findbookData, setFindBookData] = useState([]);
 
-  const match = useMatch(`/bookmeeting/find/:id`);
+  const { id } = useParams();
 
   useEffect(() => {
-    bookSearchHandler(match?.params.id, true, setFindBookData);
-    getBookMeeting(setBookMeetingDocData);
+    bookSearchHandler(id, true, setFindBookData);
 
     return () => {
-      bookSearchHandler(match?.params.id, true, setFindBookData);
-      getBookMeeting(setBookMeetingDocData);
+      bookSearchHandler(id, true, setFindBookData);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -35,10 +31,7 @@ const FindedBook = () => {
       <Container>
         <BookTitleImgBox docData={findbookData[0]} />
         {userData.email === "wowo6806@naver.com" ? (
-          <RegisterClubBookButton
-            bookMeetingDocData={bookMeetingDocData}
-            findbookData={findbookData[0]}
-          />
+          <RegisterClubBookButton findbookData={findbookData[0]} />
         ) : (
           <></>
         )}

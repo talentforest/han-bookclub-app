@@ -28,6 +28,11 @@ export interface IMonthField {
   value: string;
 }
 
+export interface IFixedBookField {
+  thisYearField: IMonthField[];
+  createdAt: number;
+}
+
 export interface IVoteItem {
   id: number;
   item: string;
@@ -54,26 +59,6 @@ export interface UpdateRequestDoc {
   type: string;
   id: string;
 }
-
-export const getLatestBookMeeting = async (
-  setState: (docData: IBookMeeting[]) => void
-) => {
-  const q = query(
-    collection(dbService, "BookMeeting Info"),
-    orderBy("createdAt", "desc")
-  );
-
-  onSnapshot(q, (querySnapshot) => {
-    const newArray = querySnapshot.docs.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data(),
-      } as IBookMeeting;
-    });
-
-    setState(newArray);
-  });
-};
 
 export const getBookMeeting = async (
   setState: (docData: IBookMeeting[]) => void
@@ -165,7 +150,7 @@ export const getAllRecommends = async (
 };
 
 export const getFixedBookFields = async (
-  setState: (monthField: IMonthField[]) => void
+  setState: (fixedField: IFixedBookField[]) => void
 ) => {
   const q = query(
     collection(dbService, "bookfield"),
@@ -178,7 +163,7 @@ export const getFixedBookFields = async (
         ...doc.data(),
       };
     });
-    setState(newArray as IMonthField[]);
+    setState(newArray as IFixedBookField[]);
   });
 };
 

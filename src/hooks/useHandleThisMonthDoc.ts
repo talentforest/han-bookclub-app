@@ -8,12 +8,12 @@ import { IBookMeeting } from "util/getFirebaseDoc";
 import { thisYearMonth } from "util/constants";
 
 interface PropsType {
-  bookMeetingDocData: IBookMeeting[];
+  bookMeetingDocs: IBookMeeting[];
   findbookData: BookDocument;
 }
 
 const useHandleThisMonthDoc = ({
-  bookMeetingDocData,
+  bookMeetingDocs,
   findbookData,
 }: PropsType) => {
   const [toggle, setToggle] = useState(false);
@@ -22,7 +22,7 @@ const useHandleThisMonthDoc = ({
 
   const handleThisMonthBookDoc = async () => {
     if (toggle === false) {
-      if (bookMeetingDocData[0]?.id !== selectedMonth) {
+      if (bookMeetingDocs[0]?.id !== selectedMonth) {
         setThisMonthBookMeetingDoc();
       } else {
         updateThisMonthBookMeetingDoc();

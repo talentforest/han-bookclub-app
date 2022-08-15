@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container } from "theme/commonStyle";
-import { getBookMeeting } from "util/getFirebaseDoc";
+import { useRecoilValue } from "recoil";
+import { bookMeetingDocsState } from "data/documentsAtom";
+import { IBookMeeting } from "util/getFirebaseDoc";
 import device from "theme/mediaQueries";
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
@@ -10,19 +12,12 @@ import MobileHeader from "components/header/MobileHeader";
 const ClubHistory = () => {
   const thisYear = `${new Date().getFullYear()}`;
   const [selectedYear, setSelectedYear] = useState(thisYear);
-  const [allBookMeeting, setAllBookMeeting] = useState([]);
+  const bookMeetingDocs = useRecoilValue(bookMeetingDocsState);
 
-  useEffect(() => {
-    getBookMeeting(setAllBookMeeting);
-
-    return () => {
-      getBookMeeting(setAllBookMeeting);
-    };
-  }, []);
-
-  const yearKey = allBookMeeting?.reduce((acc, current) => {
+  const yearKey = bookMeetingDocs?.reduce((acc: any, current: IBookMeeting) => {
     acc[current.id.split("-")[0]] = acc[current.id.split("-")[0]] || [];
     acc[current.id.split("-")[0]].push(current);
+
     return acc;
   }, {});
 
