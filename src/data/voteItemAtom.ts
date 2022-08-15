@@ -1,8 +1,8 @@
 import { atom } from "recoil";
-import { VoteItem } from "util/getFirebaseDoc";
+import { IVoteItem } from "util/getFirebaseDoc";
 import { v4 } from "uuid";
 
-export const voteItemState = atom<VoteItem[]>({
+export const voteItemState = atom<IVoteItem[]>({
   key: `voteItem${v4()}`,
   default: [],
 });

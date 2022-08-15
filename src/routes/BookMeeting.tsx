@@ -1,10 +1,9 @@
 import { Container } from "theme/commonStyle";
 import { useEffect, useState } from "react";
 import { Link, useMatch } from "react-router-dom";
-import { BookDocument } from "data/bookAtom";
 import {
   getAllRecommends,
-  getBookMeetingInfoData,
+  getBookMeeting,
   getReviews,
   getSubjects,
 } from "util/getFirebaseDoc";
@@ -26,19 +25,6 @@ import device from "theme/mediaQueries";
 import Subtitle from "components/common/Subtitle";
 import MobileHeader from "components/header/MobileHeader";
 
-export interface meetingType {
-  time: string;
-  place: string;
-}
-
-export interface BookMeetingInfo {
-  book: BookDocument;
-  createdAt: number;
-  creatorId: string;
-  meeting: meetingType;
-  id?: string;
-}
-
 const BookMeeting = () => {
   const [bookMeetingDocData, setBookMeetingDocData] = useState([]);
   const [thisMonthSubjects, setThisMonthSubjects] = useState([]);
@@ -54,7 +40,7 @@ const BookMeeting = () => {
   const docMonth = bookMeetingDocData[0]?.id;
 
   const getBookMeetingData = () => {
-    getBookMeetingInfoData(setBookMeetingDocData);
+    getBookMeeting(setBookMeetingDocData);
     getReviews(docMonth, setThisMonthReviews);
     getSubjects(docMonth, setThisMonthSubjects);
     getAllRecommends(docMonth, setRecommendBook);

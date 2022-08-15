@@ -2,11 +2,11 @@ import { ArrowForwardIos, Help } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
-import { VoteDocument } from "util/getFirebaseDoc";
+import { IVote } from "util/getFirebaseDoc";
 import { timestamp } from "util/timestamp";
 
 interface PropsType {
-  item: VoteDocument;
+  item: IVote;
   index: number;
 }
 

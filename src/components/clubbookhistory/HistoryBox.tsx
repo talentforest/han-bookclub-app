@@ -6,10 +6,10 @@ import MeetingInfoBox from "components/common/MeetingInfoBox";
 import { Link } from "react-router-dom";
 import { ChevronRight } from "@mui/icons-material";
 import { getMonthNumber } from "util/getMonthNumber";
-import { BookMeetingInfo } from "routes/BookMeeting";
+import { IBookMeeting } from "util/getFirebaseDoc";
 
 interface PropsType {
-  item: BookMeetingInfo;
+  item: IBookMeeting;
 }
 
 const HistoryBox = ({ item }: PropsType) => {

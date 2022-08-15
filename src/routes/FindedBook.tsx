@@ -2,7 +2,7 @@ import { bookSearchHandler } from "api/api";
 import { useEffect, useState } from "react";
 import { useMatch } from "react-router-dom";
 import { Container } from "theme/commonStyle";
-import { getBookMeetingInfoData } from "util/getFirebaseDoc";
+import { getBookMeeting } from "util/getFirebaseDoc";
 import BookDesc from "components/common/BookDesc";
 import BackButtonHeader from "components/header/BackButtonHeader";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
@@ -20,11 +20,11 @@ const FindedBook = () => {
 
   useEffect(() => {
     bookSearchHandler(match?.params.id, true, setFindBookData);
-    getBookMeetingInfoData(setBookMeetingDocData);
+    getBookMeeting(setBookMeetingDocData);
 
     return () => {
       bookSearchHandler(match?.params.id, true, setFindBookData);
-      getBookMeetingInfoData(setBookMeetingDocData);
+      getBookMeeting(setBookMeetingDocData);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

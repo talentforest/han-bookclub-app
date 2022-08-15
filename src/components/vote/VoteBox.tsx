@@ -4,14 +4,14 @@ import {
   Help,
   MoreHoriz,
 } from "@mui/icons-material";
-import { VoteDocument } from "util/getFirebaseDoc";
+import { IVote } from "util/getFirebaseDoc";
 import { dDay } from "util/timestamp";
 import { Link } from "react-router-dom";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 
 interface PropsType {
-  item: VoteDocument;
+  item: IVote;
   index: number;
 }
 

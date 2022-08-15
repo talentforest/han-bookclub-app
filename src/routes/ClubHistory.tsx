@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container } from "theme/commonStyle";
-import { getBookMeetingInfoData } from "util/getFirebaseDoc";
+import { getBookMeeting } from "util/getFirebaseDoc";
 import device from "theme/mediaQueries";
 import Subtitle from "components/common/Subtitle";
 import styled from "styled-components";
@@ -13,10 +13,10 @@ const ClubHistory = () => {
   const [allBookMeeting, setAllBookMeeting] = useState([]);
 
   useEffect(() => {
-    getBookMeetingInfoData(setAllBookMeeting);
+    getBookMeeting(setAllBookMeeting);
 
     return () => {
-      getBookMeetingInfoData(setAllBookMeeting);
+      getBookMeeting(setAllBookMeeting);
     };
   }, []);
 

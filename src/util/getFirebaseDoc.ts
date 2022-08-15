@@ -1,5 +1,7 @@
 import { DocumentType } from "components/bookmeeting/Subjects";
+import { BookDocument } from "data/bookAtom";
 import { dbService } from "fbase";
+import { extraUserData } from "routes/EditProfile";
 import {
   collection,
   doc,
@@ -7,31 +9,42 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
-import { BookMeetingInfo } from "routes/BookMeeting";
-import { extraUserData } from "routes/EditProfile";
 
-export interface thisYearField {
+export interface IMeeting {
+  time: string;
+  place: string;
+}
+
+export interface IBookMeeting {
+  book: BookDocument;
+  createdAt: number;
+  creatorId: string;
+  meeting: IMeeting;
+  id?: string;
+}
+
+export interface IMonthField {
   month: string;
   value: string;
 }
 
-export interface VoteItem {
+export interface IVoteItem {
   id: number;
   item: string;
   voteCount: number;
 }
 
-export interface Vote {
+export interface IVoteDocument {
   title: string;
-  voteItem: VoteItem[];
+  voteItem: IVoteItem[];
 }
 
-export interface VoteDocument {
+export interface IVote {
+  vote: IVoteDocument;
   createdAt: number;
   creatorId: string;
   deadline: string;
   id: string;
-  vote: Vote;
 }
 
 export interface UpdateRequestDoc {
@@ -42,8 +55,8 @@ export interface UpdateRequestDoc {
   id: string;
 }
 
-export const getBookMeetingInfoData = async (
-  setState: (docData: BookMeetingInfo[]) => void
+export const getLatestBookMeeting = async (
+  setState: (docData: IBookMeeting[]) => void
 ) => {
   const q = query(
     collection(dbService, "BookMeeting Info"),
@@ -55,7 +68,27 @@ export const getBookMeetingInfoData = async (
       return {
         id: doc.id,
         ...doc.data(),
-      } as BookMeetingInfo;
+      } as IBookMeeting;
+    });
+
+    setState(newArray);
+  });
+};
+
+export const getBookMeeting = async (
+  setState: (docData: IBookMeeting[]) => void
+) => {
+  const q = query(
+    collection(dbService, "BookMeeting Info"),
+    orderBy("createdAt", "desc")
+  );
+
+  onSnapshot(q, (querySnapshot) => {
+    const newArray = querySnapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      } as IBookMeeting;
     });
 
     setState(newArray);
@@ -131,8 +164,8 @@ export const getAllRecommends = async (
   });
 };
 
-export const getThisYearBookField = async (
-  setState: (thisYearField: thisYearField[]) => void
+export const getFixedBookFields = async (
+  setState: (monthField: IMonthField[]) => void
 ) => {
   const q = query(
     collection(dbService, "bookfield"),
@@ -145,11 +178,11 @@ export const getThisYearBookField = async (
         ...doc.data(),
       };
     });
-    setState(newArray as thisYearField[]);
+    setState(newArray as IMonthField[]);
   });
 };
 
-export const getVote = async (setState: (voteDoc: VoteDocument[]) => void) => {
+export const getVotes = async (setState: (voteDoc: IVote[]) => void) => {
   const q = query(collection(dbService, "Vote"), orderBy("createdAt", "desc"));
 
   onSnapshot(q, (querySnapshot) => {
@@ -157,7 +190,7 @@ export const getVote = async (setState: (voteDoc: VoteDocument[]) => void) => {
       return {
         id: doc.id,
         ...doc.data(),
-      } as VoteDocument;
+      } as IVote;
     });
     setState(newArray);
   });
@@ -165,7 +198,7 @@ export const getVote = async (setState: (voteDoc: VoteDocument[]) => void) => {
 
 export const getMembersVote = async (
   id: string,
-  setState: (myVoteDoc: VoteDocument[]) => void
+  setState: (myVoteDoc: IVote[]) => void
 ) => {
   const q = query(
     collection(dbService, `Vote/${id}/Voted Items`),
@@ -177,7 +210,7 @@ export const getMembersVote = async (
       return {
         id: doc.id,
         ...doc.data(),
-      } as VoteDocument;
+      } as IVote;
     });
 
     setState(newArray);

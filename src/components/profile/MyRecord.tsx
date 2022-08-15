@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getReviews, getSubjects } from "util/getFirebaseDoc";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import { BookMeetingInfo } from "routes/BookMeeting";
+import { IBookMeeting } from "util/getFirebaseDoc";
 import Subjects from "components/bookmeeting/Subjects";
 import styled from "styled-components";
 import Reviews from "components/bookmeeting/Reviews";
@@ -10,7 +10,7 @@ import device from "theme/mediaQueries";
 import { Overlay } from "components/bookmeeting/SubjectCreateModal";
 
 interface PropsType {
-  item: BookMeetingInfo;
+  item: IBookMeeting;
 }
 
 const MyRecord = ({ item }: PropsType) => {

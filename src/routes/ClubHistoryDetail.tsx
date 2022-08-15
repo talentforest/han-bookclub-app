@@ -4,7 +4,7 @@ import { Info } from "components/clubbookhistory/HistoryBox";
 import { getMonthNumber } from "util/getMonthNumber";
 import { useLocation } from "react-router-dom";
 import { Container } from "theme/commonStyle";
-import { BookMeetingInfo } from "./BookMeeting";
+import { IBookMeeting } from "util/getFirebaseDoc";
 import styled from "styled-components";
 import Subjects from "components/bookmeeting/Subjects";
 import Reviews from "components/bookmeeting/Reviews";
@@ -14,7 +14,7 @@ import MeetingInfoBox from "components/common/MeetingInfoBox";
 import BackButtonHeader from "components/header/BackButtonHeader";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
 
-type LocationState = { item: BookMeetingInfo };
+type LocationState = { item: IBookMeeting };
 
 const ClubHistoryDetail = () => {
   const location = useLocation();

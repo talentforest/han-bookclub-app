@@ -3,7 +3,7 @@ import { Overlay } from "components/bookmeeting/SubjectCreateModal";
 import { useEffect, useState } from "react";
 import { Container } from "theme/commonStyle";
 import device, { deviceSizes } from "theme/mediaQueries";
-import { getVote } from "util/getFirebaseDoc";
+import { getVotes } from "util/getFirebaseDoc";
 import { today } from "util/constants";
 import useWindowSize from "hooks/useWindowSize";
 import VoteBox from "components/vote/VoteBox";
@@ -19,9 +19,9 @@ const Vote = () => {
   const { windowSize } = useWindowSize();
 
   useEffect(() => {
-    getVote(setVoteDoc);
+    getVotes(setVoteDoc);
     return () => {
-      getVote(setVoteDoc);
+      getVotes(setVoteDoc);
     };
   }, []);
 

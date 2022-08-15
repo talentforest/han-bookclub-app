@@ -3,7 +3,7 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { AccountCircle } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { getBookMeetingInfoData } from "util/getFirebaseDoc";
+import { getBookMeeting } from "util/getFirebaseDoc";
 import styled from "styled-components";
 import Subtitle from "components/common/Subtitle";
 import device from "theme/mediaQueries";
@@ -25,10 +25,10 @@ const Profile = () => {
   const anonymous = authService.currentUser?.isAnonymous;
 
   useEffect(() => {
-    getBookMeetingInfoData(setDocData);
+    getBookMeeting(setDocData);
 
     return () => {
-      getBookMeetingInfoData(setDocData);
+      getBookMeeting(setDocData);
     };
   }, []);
 

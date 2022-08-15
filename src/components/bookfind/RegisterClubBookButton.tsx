@@ -2,10 +2,10 @@ import { BookDocument } from "data/bookAtom";
 import useHandleThisMonthDoc from "hooks/useHandleThisMonthDoc";
 import { thisYearMonth } from "util/constants";
 import styled from "styled-components";
-import { BookMeetingInfo } from "routes/BookMeeting";
+import { IBookMeeting } from "util/getFirebaseDoc";
 
 interface PropsType {
-  bookMeetingDocData: BookMeetingInfo[];
+  bookMeetingDocData: IBookMeeting[];
   findbookData: BookDocument;
 }
 

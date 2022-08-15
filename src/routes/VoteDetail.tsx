@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { dDay } from "util/timestamp";
-import { getMembersVote, VoteDocument, VoteItem } from "util/getFirebaseDoc";
+import { getMembersVote, IVote, IVoteItem } from "util/getFirebaseDoc";
 import { percentage } from "util/percentage";
 import { Container } from "theme/commonStyle";
 import { today } from "util/constants";
@@ -15,7 +15,7 @@ import BackButtonHeader from "components/header/BackButtonHeader";
 import UserInfoBox from "components/common/UserInfoBox";
 import device from "theme/mediaQueries";
 
-type LocationState = { item: VoteDocument };
+type LocationState = { item: IVote };
 
 const VoteDetail = () => {
   const location = useLocation();
@@ -113,13 +113,13 @@ const VoteDetail = () => {
     setDisabled(false);
     setSelectedItem([]);
     item.vote.voteItem = voteItem.map((item) =>
-      myVote[0].votedItem.some((vote: VoteItem) => vote.id === item.id)
+      myVote[0].votedItem.some((vote: IVoteItem) => vote.id === item.id)
         ? { ...item, voteCount: item.voteCount - 1 }
         : item
     );
     setVoteItem(
       voteItem.map((item) =>
-        myVote[0].votedItem.some((vote: VoteItem) => vote.id === item.id)
+        myVote[0].votedItem.some((vote: IVoteItem) => vote.id === item.id)
           ? { ...item, voteCount: item.voteCount - 1 }
           : item
       )
@@ -151,7 +151,7 @@ const VoteDetail = () => {
                       key={item.id}
                       className={
                         myVote[0].votedItem.find(
-                          (ele: VoteItem) => ele.id === item.id
+                          (ele: IVoteItem) => ele.id === item.id
                         )
                           ? "isActive"
                           : ""
@@ -160,7 +160,7 @@ const VoteDetail = () => {
                       <CheckCircleOutline
                         className={
                           myVote[0].votedItem.find(
-                            (ele: VoteItem) => ele.id === item.id
+                            (ele: IVoteItem) => ele.id === item.id
                           )
                             ? "isActive"
                             : ""

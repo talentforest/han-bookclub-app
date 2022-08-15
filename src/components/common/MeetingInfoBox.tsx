@@ -1,11 +1,11 @@
 import { AccessTime, Place } from "@mui/icons-material";
-import { meetingType } from "routes/BookMeeting";
+import { IMeeting } from "util/getFirebaseDoc";
 import { meetingTimestamp } from "util/timestamp";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 
 interface PropsType {
-  docData: meetingType;
+  docData: IMeeting;
 }
 
 const MeetingInfoBox = ({ docData }: PropsType) => {

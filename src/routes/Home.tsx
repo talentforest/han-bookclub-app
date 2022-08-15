@@ -1,27 +1,27 @@
 import { Link } from "react-router-dom";
 import { Container } from "theme/commonStyle";
-import device from "theme/mediaQueries";
 import { useEffect, useState } from "react";
 import { today } from "util/constants";
 import {
-  getBookMeetingInfoData,
-  getThisYearBookField,
-  getVote,
-  thisYearField,
-  VoteDocument,
+  getBookMeeting,
+  getFixedBookFields,
+  getVotes,
+  IMonthField,
+  IVote,
 } from "util/getFirebaseDoc";
 import { settings } from "util/sliderSetting";
 import LinkButton from "components/common/LinkButton";
 import Subtitle from "components/common/Subtitle";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
-import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import VoteBox from "components/vote/VoteBox";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import MobileHeader from "components/header/MobileHeader";
+import device from "theme/mediaQueries";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import MobileHeader from "components/header/MobileHeader";
+import styled from "styled-components";
 
 const Home = () => {
   const [bookMeetingInfoDoc, setBookMeetingInfoDoc] = useState([]);
@@ -29,84 +29,84 @@ const Home = () => {
   const [voteDoc, setVoteDoc] = useState([]);
 
   useEffect(() => {
-    getBookMeetingInfoData(setBookMeetingInfoDoc);
-    getThisYearBookField(setBookfieldDoc);
-    getVote(setVoteDoc);
+    getBookMeeting(setBookMeetingInfoDoc);
+    getFixedBookFields(setBookfieldDoc);
+    getVotes(setVoteDoc);
 
     return () => {
-      getBookMeetingInfoData(setBookMeetingInfoDoc);
-      getThisYearBookField(setBookfieldDoc);
-      getVote(setVoteDoc);
+      getBookMeeting(setBookMeetingInfoDoc);
+      getFixedBookFields(setBookfieldDoc);
+      getVotes(setVoteDoc);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const progressVote = voteDoc.filter(
-    (item: VoteDocument) => item.deadline >= today()
+    (item: IVote) => item.deadline >= today()
   );
 
-  const docMonth = bookMeetingInfoDoc[0]?.id.slice(6);
+  const latestDocMonth = bookMeetingInfoDoc[0]?.id.slice(6);
 
   return (
     <>
-      <MobileHeader title="독서모임 한페이지" />
-      <NewContainer>
-        <section>
-          <Subtitle
-            title={bookMeetingInfoDoc[0] ? `${docMonth}월의 책` : "월의 책"}
-          />
-          <BookTitleImgBox docData={bookMeetingInfoDoc[0]?.book} />
-          <LinkButton link={"/bookmeeting/subject"} title="발제하러 가기" />
-        </section>
-        <section>
-          <Subtitle
-            title={
-              bookMeetingInfoDoc[0]
-                ? `${docMonth}월의 모임 일정`
-                : "월의 모임 일정"
-            }
-          />
-          <MeetingInfo>
-            한페이지 멤버는 매월 셋째주 일요일에 만나요.
-          </MeetingInfo>
-          <MeetingInfoBox docData={bookMeetingInfoDoc[0]?.meeting} />
-          <LinkButton
-            link={"/bookmeeting/review"}
-            title="모임 후기 작성하러 가기"
-          />
-        </section>
-        <VoteSlider>
-          <Subtitle title={"한페이지의 투표함"} />
-          {progressVote.length ? (
-            <Slider {...settings}>
-              {progressVote.map((item, index) => (
-                <VoteBox key={item.id} item={item} index={index} />
-              ))}
-            </Slider>
-          ) : (
-            <VoteEmptyBox>
-              <span>진행중인 투표가 없습니다.</span>
-              <Link to={"/vote"}>
-                투표 등록하러 가기 <ArrowForwardIosIcon />
-              </Link>
-            </VoteEmptyBox>
-          )}
-          <LinkButton link={"/vote"} title="투표 더보기" />
-        </VoteSlider>
-        <section>
-          <Subtitle title={`한페이지의 독서 분야 일정`} />
-          <ScheduleBox>
-            {bookfieldDoc[0]?.thisYearField?.map(
-              (item: thisYearField, index: number) => (
-                <li key={index}>
-                  <span>{item.month}</span>
-                  <span>{item.value}</span>
-                </li>
-              )
-            )}
-          </ScheduleBox>
-        </section>
-      </NewContainer>
+      {bookfieldDoc && bookMeetingInfoDoc && (
+        <>
+          <MobileHeader title="독서모임 한페이지" />
+          <NewContainer>
+            <section>
+              <Subtitle title={`${latestDocMonth}월의 책`} />
+              <BookTitleImgBox docData={bookMeetingInfoDoc[0]?.book} />
+              <LinkButton link={"/bookmeeting/subject"} title="발제하러 가기" />
+            </section>
+            <section>
+              <Subtitle
+                title={
+                  bookMeetingInfoDoc[0] && `${latestDocMonth}월의 모임 일정`
+                }
+              />
+              <MeetingInfo>
+                한페이지 멤버는 매월 셋째주 일요일에 만나요.
+              </MeetingInfo>
+              <MeetingInfoBox docData={bookMeetingInfoDoc[0]?.meeting} />
+              <LinkButton
+                link={"/bookmeeting/review"}
+                title="모임 후기 작성하러 가기"
+              />
+            </section>
+            <VoteSlider>
+              <Subtitle title={"한페이지의 투표함"} />
+              {progressVote.length ? (
+                <Slider {...settings}>
+                  {progressVote.map((item, index) => (
+                    <VoteBox key={item.id} item={item} index={index} />
+                  ))}
+                </Slider>
+              ) : (
+                <VoteEmptyBox>
+                  <span>진행중인 투표가 없습니다.</span>
+                  <Link to={"/vote"}>
+                    투표 등록하러 가기 <ArrowForwardIosIcon />
+                  </Link>
+                </VoteEmptyBox>
+              )}
+              <LinkButton link={"/vote"} title="투표 더보기" />
+            </VoteSlider>
+            <section>
+              <Subtitle title={`한페이지의 독서 분야 일정`} />
+              <ScheduleBox>
+                {bookfieldDoc[0]?.thisYearField?.map(
+                  (item: IMonthField, index: number) => (
+                    <li key={index}>
+                      <span>{item.month}</span>
+                      <span>{item.value}</span>
+                    </li>
+                  )
+                )}
+              </ScheduleBox>
+            </section>
+          </NewContainer>
+        </>
+      )}
     </>
   );
 };

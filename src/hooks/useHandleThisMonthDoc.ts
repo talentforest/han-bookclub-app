@@ -4,11 +4,11 @@ import { dbService } from "fbase";
 import { deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
-import { BookMeetingInfo } from "routes/BookMeeting";
+import { IBookMeeting } from "util/getFirebaseDoc";
 import { thisYearMonth } from "util/constants";
 
 interface PropsType {
-  bookMeetingDocData: BookMeetingInfo[];
+  bookMeetingDocData: IBookMeeting[];
   findbookData: BookDocument;
 }
 
