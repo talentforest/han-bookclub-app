@@ -6,6 +6,20 @@ import { v4 } from "uuid";
 export const bookMeetingDocsState = atom<IBookMeeting[]>({
   key: `bookMeetingDocs/${v4()}`,
   default: [],
+  effects: [
+    ({ setSelf, onSet }) => {
+      const bookMeetingStoreKey = "bookMeeting";
+      const savedValue = localStorage.getItem(bookMeetingStoreKey);
+      if (savedValue != null) {
+        setSelf(JSON.parse(savedValue));
+      }
+      onSet((newValue, _, isReset) => {
+        isReset
+          ? localStorage.removeItem(bookMeetingStoreKey)
+          : localStorage.setItem(bookMeetingStoreKey, JSON.stringify(newValue));
+      });
+    },
+  ],
 });
 
 export const bookFieldDocsState = atom<IFixedBookField[]>({

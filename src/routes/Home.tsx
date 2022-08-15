@@ -52,7 +52,7 @@ const Home = () => {
     (item: IVote) => item.deadline >= today()
   );
 
-  const latestDocMonth = bookMeetingDocs[0]?.id.slice(6);
+  const latestDocMonth = bookMeetingDocs[0]?.id?.slice(6);
 
   return (
     <>
