@@ -1,24 +1,26 @@
-import Subtitle from "components/common/Subtitle";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
-import BookTitleImgBox from "components/common/BookTitleImgBox";
-import MeetingInfoBox from "components/common/MeetingInfoBox";
 import { Link } from "react-router-dom";
 import { ChevronRight } from "@mui/icons-material";
 import { getMonthNumber } from "util/getMonthNumber";
 import { IBookMeeting } from "util/getFirebaseDoc";
+import Subtitle from "components/common/Subtitle";
+import BookTitleImgBox from "components/common/BookTitleImgBox";
+import MeetingInfoBox from "components/common/MeetingInfoBox";
+import device from "theme/mediaQueries";
+import styled from "styled-components";
 
 interface PropsType {
-  item: IBookMeeting;
+  bookMeetingInfo: IBookMeeting;
 }
 
-const HistoryBox = ({ item }: PropsType) => {
+const HistoryBox = ({ bookMeetingInfo }: PropsType) => {
+  const { id, book, meeting } = bookMeetingInfo;
+
   return (
-    <BookMeeting to={`${item.id}`} state={{ item: item }}>
-      <Subtitle title={`${getMonthNumber(item.id)}월의 책`} />
+    <BookMeeting to={`${id}`} state={{ item: bookMeetingInfo }}>
+      <Subtitle title={`${getMonthNumber(id)}월의 책`} />
       <Info>
-        <BookTitleImgBox docData={item?.book} />
-        <MeetingInfoBox docData={item?.meeting} />
+        <BookTitleImgBox docData={book} />
+        <MeetingInfoBox docData={meeting} />
       </Info>
       <button type="button">
         자세히 보기 <ChevronRight />

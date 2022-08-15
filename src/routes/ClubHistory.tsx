@@ -2,33 +2,22 @@ import { useState } from "react";
 import { Container } from "theme/commonStyle";
 import { useRecoilValue } from "recoil";
 import { bookMeetingDocsState } from "data/documentsAtom";
+import { thisYear } from "util/constants";
 import { IBookMeeting } from "util/getFirebaseDoc";
-import device from "theme/mediaQueries";
 import Subtitle from "components/common/Subtitle";
-import styled from "styled-components";
 import HistoryBox from "components/clubbookhistory/HistoryBox";
 import MobileHeader from "components/header/MobileHeader";
+import useGroupedBookByYear from "hooks/useGroupedBookByYear";
+import device from "theme/mediaQueries";
+import styled from "styled-components";
 
 const ClubHistory = () => {
-  const thisYear = `${new Date().getFullYear()}`;
-  const [selectedYear, setSelectedYear] = useState(thisYear);
   const bookMeetingDocs = useRecoilValue(bookMeetingDocsState);
+  const [selectedYear, setSelectedYear] = useState(`${thisYear}`);
 
-  const yearKey = bookMeetingDocs?.reduce((acc: any, current: IBookMeeting) => {
-    acc[current.id.split("-")[0]] = acc[current.id.split("-")[0]] || [];
-    acc[current.id.split("-")[0]].push(current);
+  const { GroupedBookByYear } = useGroupedBookByYear({ bookMeetingDocs });
 
-    return acc;
-  }, {});
-
-  const GroupedBySameYear = Object.keys(yearKey).map((key) => {
-    return {
-      id: key,
-      bookMeetingInfo: yearKey[key] || [],
-    };
-  });
-
-  const onChange = (event: React.FormEvent<HTMLSelectElement>) => {
+  const onYearChange = (event: React.FormEvent<HTMLSelectElement>) => {
     setSelectedYear(event.currentTarget.value);
   };
 
@@ -37,25 +26,23 @@ const ClubHistory = () => {
       <MobileHeader title="지난 책모임" />
       <Container>
         <Subtitle title="한페이지 히스토리" />
-        <YearCategory onChange={onChange} value={selectedYear}>
-          {GroupedBySameYear.length !== 0 ? (
-            GroupedBySameYear?.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.id}년의 책
-              </option>
-            ))
-          ) : (
-            <option>{`${selectedYear}년의 책`}</option>
-          )}
-        </YearCategory>
-        {GroupedBySameYear.length !== 0 ? (
-          GroupedBySameYear?.map((item: any) => (
+        <YearSelect onChange={onYearChange} value={selectedYear}>
+          {GroupedBookByYear?.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.id}년의 책
+            </option>
+          ))}
+        </YearSelect>
+        {GroupedBookByYear.length !== 0 ? (
+          GroupedBookByYear?.map((item) => (
             <HistoryList key={item.id}>
-              {item.id === selectedYear
-                ? item?.bookMeetingInfo.map((item: any) => (
-                    <HistoryBox item={item} key={item.id} />
-                  ))
-                : null}
+              {item.id === selectedYear &&
+                item.bookMeetingInfo.map((bookMeetingInfo: IBookMeeting) => (
+                  <HistoryBox
+                    key={bookMeetingInfo.id}
+                    bookMeetingInfo={bookMeetingInfo}
+                  />
+                ))}
             </HistoryList>
           ))
         ) : (
@@ -72,7 +59,7 @@ const HistoryList = styled.ul`
   justify-content: space-between;
 `;
 
-const YearCategory = styled.select`
+const YearSelect = styled.select`
   height: 30px;
   width: fit-content;
   display: flex;
