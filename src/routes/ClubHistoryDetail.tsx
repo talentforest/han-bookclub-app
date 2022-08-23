@@ -35,17 +35,10 @@ const ClubHistoryDetail = () => {
 
   const { id, book, meeting } = bookMeetingInfo;
 
-  const allWrittenByUserDocs =
-    monthSubjects.length && monthReviews.length && monthRecommends.length;
-
   const getAllWrittenbyUserDocs = () => {
-    if (allWrittenByUserDocs === 0) {
-      getReviews(id, setMonthSubjects);
-      getSubjects(id, setMonthReviews);
-      getAllRecommends(id, setMonthRecommends);
-    } else {
-      return;
-    }
+    getReviews(id, setMonthReviews);
+    getSubjects(id, setMonthSubjects);
+    getAllRecommends(id, setMonthRecommends);
   };
 
   useEffect(() => {

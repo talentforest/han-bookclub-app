@@ -29,6 +29,7 @@ import styled from "styled-components";
 const BookMeeting = () => {
   const userData = useRecoilValue(currentUserState);
   const bookMeetingDocs = useRecoilValue(bookMeetingDocsState);
+
   const [monthSubjects, setMonthSubjects] = useRecoilState(subjectDocsState);
   const [monthReviews, setMonthReviews] = useRecoilState(reviewDocsState);
   const [monthRecommends, setMonthRecommends] =
@@ -46,8 +47,8 @@ const BookMeeting = () => {
 
   const getAllWrittenbyUserDocs = () => {
     if (allWrittenByUserDocs === 0) {
-      getReviews(id, setMonthSubjects);
-      getSubjects(id, setMonthReviews);
+      getReviews(id, setMonthReviews);
+      getSubjects(id, setMonthSubjects);
       getAllRecommends(id, setMonthRecommends);
     } else {
       return;
