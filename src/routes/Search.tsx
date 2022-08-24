@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Container, Input } from "theme/commonStyle";
-import { bookSearchHandler } from "api/api";
+import { bookSearchHandler } from "api/searchBookApi";
 import styled from "styled-components";
-import ResultBox from "components/bookfind/ResultBox";
+import ResultBox from "components/search/ResultBox";
 import BackButtonHeader from "components/header/BackButtonHeader";
 
 const Search = () => {

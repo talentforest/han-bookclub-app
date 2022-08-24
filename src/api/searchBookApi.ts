@@ -2,7 +2,7 @@ import axios from "axios";
 import { IBookApi } from "data/bookAtom";
 
 interface BookQuery {
-  query: string; // 검색을 원하는 질의어
+  query: string;
   sort?: string; // accuracy 정확도(기본값) | latest 최신
   page?: number; // 페이지 번호
   size?: number; // 한 페이지에 보여질 문서 수, 1 ~ 50 사이 기본값 10

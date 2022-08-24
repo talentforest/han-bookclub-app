@@ -1,12 +1,12 @@
-import { bookSearchHandler } from "api/api";
+import { bookSearchHandler } from "api/searchBookApi";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container } from "theme/commonStyle";
 import BookDesc from "components/common/BookDesc";
 import BackButtonHeader from "components/header/BackButtonHeader";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
-import RegisterClubBookButton from "components/bookfind/RegisterClubBookButton";
-import RegisterRecommendButton from "components/bookfind/RegisterRecommendButton";
+import RegisterClubBookButton from "components/search/RegisterClubBookButton";
+import RegisterRecommendButton from "components/search/RegisterRecommendButton";
 
 const SearchedBookInfo = () => {
   const [bookInfo, setBookInfo] = useState([]);
