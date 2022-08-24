@@ -9,14 +9,14 @@ import device from "theme/mediaQueries";
 import styled from "styled-components";
 
 interface PropsType {
-  bookMeetingInfo: IBookMeeting;
+  bookMeeting: IBookMeeting;
 }
 
-const HistoryBox = ({ bookMeetingInfo }: PropsType) => {
-  const { id, book, meeting } = bookMeetingInfo;
+const HistoryBox = ({ bookMeeting }: PropsType) => {
+  const { id, book, meeting } = bookMeeting;
 
   return (
-    <BookMeeting to={`${id}`} state={{ bookMeetingInfo: bookMeetingInfo }}>
+    <BookMeeting to={id} state={{ bookMeeting }}>
       <Subtitle title={`${getMonthNumber(id)}월의 책`} />
       <Info>
         <BookTitleImgBox docData={book} />

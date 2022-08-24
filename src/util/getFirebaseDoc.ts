@@ -60,7 +60,7 @@ export interface UpdateRequestDoc {
   id: string;
 }
 
-export const getBookMeeting = async (
+export const getBookMeetings = async (
   setState: (docData: IBookMeeting[]) => void
 ) => {
   const q = query(

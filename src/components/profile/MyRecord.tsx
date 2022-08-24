@@ -1,103 +1,60 @@
-import { useEffect, useState } from "react";
-import { getReviews, getSubjects } from "util/getFirebaseDoc";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
+import { Overlay } from "components/bookmeeting/SubjectCreateModal";
 import { IBookMeeting } from "util/getFirebaseDoc";
 import Subjects from "components/bookmeeting/Subjects";
 import styled from "styled-components";
 import Reviews from "components/bookmeeting/Reviews";
 import device from "theme/mediaQueries";
-import { Overlay } from "components/bookmeeting/SubjectCreateModal";
+import useFilterMyRecords from "hooks/useFilterMyRecords";
 
 interface PropsType {
-  item: IBookMeeting;
+  bookMeeting: IBookMeeting;
 }
 
-const MyRecord = ({ item }: PropsType) => {
-  const [subjects, setSubjects] = useState([]);
-  const [reviews, setReviews] = useState([]);
-  const [mySubjectsByBook, setMySubjectsByBook] = useState([]);
-  const [myReviewsByBook, setMyReviewsByBook] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-  const [guide, setGuide] = useState("");
+const MyRecord = ({ bookMeeting }: PropsType) => {
   const userData = useRecoilValue(currentUserState);
-  const docMonth = item.id;
 
-  useEffect(() => {
-    getSubjects(item.id, setSubjects);
-    getReviews(item.id, setReviews);
+  const { id, book } = bookMeeting;
 
-    return () => {
-      getSubjects(item.id, setSubjects);
-      getReviews(item.id, setReviews);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const mySubjects = subjects?.filter(
-    (item) => item?.creatorId === userData.uid
-  );
-
-  const myReviews = reviews?.filter((item) => item?.creatorId === userData.uid);
-
-  const onSubjectClick = (booktitle: string) => {
-    const filteredArr = mySubjects.filter((item) => item.title === booktitle);
-    setGuide("");
-    if (filteredArr.length === 0) {
-      setGuide("작성한 발제문이 없어요.");
-      return;
-    }
-    setOpenModal((prev) => !prev);
-    setMyReviewsByBook([]);
-    setMySubjectsByBook(filteredArr);
-  };
-
-  const onReviewClick = (booktitle: string) => {
-    const filteredArr = myReviews.filter((item) => item.title === booktitle);
-    setGuide("");
-    if (filteredArr.length === 0) {
-      setGuide("작성한 모임후기가 없어요.");
-      return;
-    }
-    setOpenModal((prev) => !prev);
-    setMySubjectsByBook([]);
-    setMyReviewsByBook(filteredArr);
-  };
-
-  const onSubjectRemove = (targetId: string) => {
-    const newSubjectArr = mySubjectsByBook.filter(
-      (item) => item.id !== targetId
-    );
-    setMySubjectsByBook(newSubjectArr);
-  };
-
-  const onReviewRemove = (targetId: string) => {
-    const newSubjectArr = myReviewsByBook.filter(
-      (item) => item.id !== targetId
-    );
-    setMyReviewsByBook(newSubjectArr);
-  };
+  const {
+    mySubjects,
+    myReviews,
+    mySubjectsByBook,
+    myReviewsByBook,
+    openModal,
+    setOpenModal,
+    guide,
+    onSubjectClick,
+    onReviewClick,
+    onSubjectRemove,
+    onReviewRemove,
+  } = useFilterMyRecords(id, userData.uid);
 
   return (
     <>
-      {mySubjects.length !== 0 || myReviews.length !== 0 ? (
+      {(mySubjects.length || myReviews.length) !== 0 ? (
         <>
           <Record>
-            <img src={item.book.thumbnail} alt="thumbnail" />
+            <img src={book.thumbnail} alt={`${book.title} thumbnail`} />
             <div>
-              <h4>{item.book.title}</h4>
+              <h1>{book.title}</h1>
               <Category>
-                <button onClick={() => onSubjectClick(item.book.title)}>
-                  나의 발제문
-                </button>
-                <button onClick={() => onReviewClick(item.book.title)}>
-                  나의 모임후기
-                </button>
+                {mySubjects.length !== 0 && (
+                  <button onClick={() => onSubjectClick(book.title)}>
+                    나의 발제문
+                  </button>
+                )}
+                {myReviews.length !== 0 && (
+                  <button onClick={() => onReviewClick(book.title)}>
+                    나의 모임후기
+                  </button>
+                )}
               </Category>
-              {guide ? <Guide>{guide}</Guide> : <></>}
+              {guide && <Guide>{guide}</Guide>}
             </div>
           </Record>
-          {openModal ? (
+          {openModal && (
             <>
               <Overlay
                 onClick={() => {
@@ -105,28 +62,24 @@ const MyRecord = ({ item }: PropsType) => {
                 }}
               />
               <SubjectBox>
-                {mySubjectsByBook &&
-                  mySubjectsByBook?.map((item) => (
-                    <Subjects
-                      key={item.id}
-                      item={item}
-                      docMonth={docMonth}
-                      onSubjectRemove={onSubjectRemove}
-                    />
-                  ))}
-                {myReviewsByBook &&
-                  myReviewsByBook.map((item) => (
-                    <Reviews
-                      key={item.id}
-                      item={item}
-                      docMonth={docMonth}
-                      onReviewRemove={onReviewRemove}
-                    />
-                  ))}
+                {mySubjectsByBook?.map((subject) => (
+                  <Subjects
+                    key={id}
+                    subject={subject}
+                    docMonth={id}
+                    onSubjectRemove={onSubjectRemove}
+                  />
+                ))}
+                {myReviewsByBook?.map((review) => (
+                  <Reviews
+                    key={id}
+                    review={review}
+                    docMonth={id}
+                    onReviewRemove={onReviewRemove}
+                  />
+                ))}
               </SubjectBox>
             </>
-          ) : (
-            <></>
           )}
         </>
       ) : (
@@ -155,7 +108,7 @@ const Record = styled.div`
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    > h4 {
+    > h1 {
       font-weight: 700;
       font-size: 13px;
       margin-bottom: 10px;
@@ -169,7 +122,7 @@ const Record = styled.div`
       height: 70px;
     }
     > div {
-      > h4 {
+      > h1 {
         font-size: 16px;
       }
     }

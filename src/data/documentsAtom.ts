@@ -3,7 +3,7 @@ import { atom } from "recoil";
 import { IBookMeeting, IFixedBookField, IVote } from "util/getFirebaseDoc";
 import { v4 } from "uuid";
 
-export const bookMeetingDocsState = atom<IBookMeeting[]>({
+export const bookMeetingsState = atom<IBookMeeting[]>({
   key: `bookMeetingDocs/${v4()}`,
   default: [],
   effects: [
@@ -22,27 +22,27 @@ export const bookMeetingDocsState = atom<IBookMeeting[]>({
   ],
 });
 
-export const bookFieldDocsState = atom<IFixedBookField[]>({
+export const bookFieldsState = atom<IFixedBookField[]>({
   key: `bookFieldDocs/${v4()}`,
   default: [],
 });
 
-export const voteDocsState = atom<IVote[]>({
+export const votesState = atom<IVote[]>({
   key: `voteDocs/${v4()}`,
   default: [],
 });
 
-export const subjectDocsState = atom<IWrittenDocs[]>({
+export const subjectsState = atom<IWrittenDocs[]>({
   key: `subjectDocs/${v4()}`,
   default: [],
 });
 
-export const reviewDocsState = atom<IWrittenDocs[]>({
+export const reviewsState = atom<IWrittenDocs[]>({
   key: `reviewDocs/${v4()}`,
   default: [],
 });
 
-export const recommendDocsState = atom<IWrittenDocs[]>({
+export const recommendsState = atom<IWrittenDocs[]>({
   key: `recommendDocs/${v4()}`,
   default: [],
 });

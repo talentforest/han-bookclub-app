@@ -5,7 +5,7 @@ import styled from "styled-components";
 import ResultBox from "components/bookfind/ResultBox";
 import BackButtonHeader from "components/header/BackButtonHeader";
 
-const FindBook = () => {
+const Search = () => {
   const [bookInfo, setBookInfo] = useState([]);
   const [bookQuery, setBookQuery] = useState("");
 
@@ -13,7 +13,6 @@ const FindBook = () => {
     event.preventDefault();
     try {
       if (bookQuery === "") return;
-
       bookSearchHandler(bookQuery, true, setBookInfo);
       setBookQuery("");
     } catch (error) {
@@ -83,4 +82,4 @@ const Form = styled.form`
   }
 `;
 
-export default FindBook;
+export default Search;

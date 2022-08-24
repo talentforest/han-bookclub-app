@@ -1,4 +1,3 @@
-import BackButtonHeader from "components/header/BackButtonHeader";
 import { authService } from "fbase";
 import {
   EmailAuthProvider,
@@ -8,13 +7,15 @@ import {
 import { useState } from "react";
 import { Container, Input } from "theme/commonStyle";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import BackButtonHeader from "components/header/BackButtonHeader";
 import device from "theme/mediaQueries";
+import styled from "styled-components";
 
 const EditPassword = () => {
   const [originPassword, setOriginPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [checkNewPassword, setCheckNewPassword] = useState("");
+
   const user = authService?.currentUser;
   const navigate = useNavigate();
 
@@ -57,12 +58,15 @@ const EditPassword = () => {
   const onNewChange = (event: React.FormEvent<HTMLInputElement>) => {
     setNewPassword(event.currentTarget.value);
   };
+
   const onOriginChange = (event: React.FormEvent<HTMLInputElement>) => {
     setOriginPassword(event.currentTarget.value);
   };
+
   const onCheckNewChange = (event: React.FormEvent<HTMLInputElement>) => {
     setCheckNewPassword(event.currentTarget.value);
   };
+
   return (
     <>
       <BackButtonHeader title="비밀번호 변경하기" />

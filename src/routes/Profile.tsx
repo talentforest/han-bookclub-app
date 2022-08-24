@@ -3,14 +3,14 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { AccountCircle } from "@mui/icons-material";
 import { authService } from "fbase";
-import { bookMeetingDocsState } from "data/documentsAtom";
-import styled from "styled-components";
+import { IWrittenDocs } from "components/bookmeeting/Subjects";
 import Subtitle from "components/common/Subtitle";
-import device from "theme/mediaQueries";
 import MyRecommendBook from "components/profile/MyRecommendBook";
 import MyRecord from "components/profile/MyRecord";
 import MobileHeader from "components/header/MobileHeader";
-import { IWrittenDocs } from "components/bookmeeting/Subjects";
+import useCallBookMeeting from "hooks/useCallBookMeeting";
+import device from "theme/mediaQueries";
+import styled from "styled-components";
 
 export interface IRecord {
   title: string;
@@ -19,8 +19,8 @@ export interface IRecord {
 }
 
 const Profile = () => {
-  const bookMeetingDocs = useRecoilValue(bookMeetingDocsState);
   const userData = useRecoilValue(currentUserState);
+  const { bookMeetings } = useCallBookMeeting();
 
   const anonymous = authService.currentUser?.isAnonymous;
 
@@ -28,27 +28,27 @@ const Profile = () => {
     <>
       <MobileHeader title="나의 책장" button={true} />
       <NewContainer>
-        <User>
+        <UserInfo>
           {userData?.photoURL ? (
             <img src={userData.photoURL} alt="profile" />
           ) : (
             <AccountCircle />
           )}
           <span>{anonymous ? "익명의 방문자" : userData.displayName}</span>
-        </User>
+        </UserInfo>
         <section>
           <Subtitle title="나의 기록" />
           <span>내가 작성한 발제문과 모임 후기를 볼 수 있어요.</span>
           <Wrapper>
-            {bookMeetingDocs.map((item) => (
-              <MyRecord key={item.id} item={item} />
+            {bookMeetings.map((bookMeeting) => (
+              <MyRecord key={bookMeeting.id} bookMeeting={bookMeeting} />
             ))}
           </Wrapper>
         </section>
         <section>
           <Subtitle title="내가 추천한 책" />
           <span>내가 추천한 책을 볼 수 있어요.</span>
-          {bookMeetingDocs.map((item) => (
+          {bookMeetings.map((item) => (
             <MyRecommendBook key={item.id} item={item} />
           ))}
         </section>
@@ -82,7 +82,7 @@ const NewContainer = styled(Container)`
   }
 `;
 
-const User = styled.div`
+const UserInfo = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;

@@ -11,29 +11,29 @@ import device from "theme/mediaQueries";
 import styled from "styled-components";
 
 interface PropsType {
-  item: IVote;
+  vote: IVote;
   index: number;
 }
 
-const VoteBox = ({ item, index }: PropsType) => {
+const VoteBox = ({ vote, index }: PropsType) => {
   return (
     <Vote>
       <VoteLists>
         <h4>
           <Help />
-          {item.vote.title}
+          {vote.vote.title}
         </h4>
-        {item.vote?.voteItem?.slice(0, 3).map((item) => (
+        {vote.vote?.voteItem?.slice(0, 3).map((item) => (
           <li key={item.id}>
             <CheckCircleOutline />
             <span>{item.item}</span>
           </li>
         ))}
-        {item.vote.voteItem.length > 3 ? <MoreHoriz /> : <></>}
+        {vote.vote.voteItem.length > 3 ? <MoreHoriz /> : <></>}
       </VoteLists>
       <VoteBottom>
-        <p>D-Day: {dDay(item.deadline)}</p>
-        <Link to={`/vote/${index}`} state={{ item: item }}>
+        <p>D-Day: {dDay(vote.deadline)}</p>
+        <Link to={`/vote/${index}`} state={{ vote }}>
           투표하러 가기
           <ArrowForwardIosOutlined />
         </Link>
@@ -50,7 +50,6 @@ const Vote = styled.div`
   width: 100%;
   border-radius: 10px;
   padding: 15px 20px 10px;
-  margin-bottom: 10px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   @media ${device.tablet} {

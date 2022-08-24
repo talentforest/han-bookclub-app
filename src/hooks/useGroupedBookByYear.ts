@@ -1,10 +1,6 @@
 import { IBookMeeting } from "util/getFirebaseDoc";
 
-interface PropsType {
-  bookMeetingDocs: IBookMeeting[];
-}
-
-const useGroupedBookByYear = ({ bookMeetingDocs }: PropsType) => {
+const useGroupedBookByYear = (bookMeetingDocs: IBookMeeting[]) => {
   const yearKey = bookMeetingDocs?.reduce((acc: any, current: IBookMeeting) => {
     const bookRegisteredYear = current.id.split("-")[0];
 
@@ -17,7 +13,7 @@ const useGroupedBookByYear = ({ bookMeetingDocs }: PropsType) => {
   const GroupedBookByYear = Object.keys(yearKey).map((key) => {
     return {
       id: key,
-      bookMeetingInfo: yearKey[key] || [],
+      bookMeeting: yearKey[key] || [],
     };
   });
 

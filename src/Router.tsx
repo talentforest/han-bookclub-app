@@ -12,8 +12,8 @@ import EditProfile from "./routes/EditProfile";
 import ScrollToTop from "util/ScrollToTop";
 import DesktopHeader from "components/header/DesktopHeader";
 import useWindowSize from "hooks/useWindowSize";
-import FindBook from "routes/FindBook";
-import SelectedBook from "routes/FindedBook";
+import Search from "routes/Search";
+import SearchedBookInfo from "routes/SearchedBookInfo";
 import ClubHistory from "routes/ClubHistory";
 import UserDataInputForm from "components/loginForm/UserDataInputForm";
 import ResetPasswordEmail from "routes/ResetPasswordEmail";
@@ -52,8 +52,11 @@ function Router({ isLoggedIn }: PropsType) {
           {isLoggedIn ? (
             <>
               <Route path="/bookmeeting/*" element={<BookMeeting />} />
-              <Route path="/bookmeeting/find" element={<FindBook />} />
-              <Route path="/bookmeeting/find/:id" element={<SelectedBook />} />
+              <Route path="/bookmeeting/search" element={<Search />} />
+              <Route
+                path="/bookmeeting/search/:id"
+                element={<SearchedBookInfo />}
+              />
               <Route path="/history" element={<ClubHistory />} />
               <Route path="/history/:id" element={<ClubHistoryDetail />} />
               <Route path="/vote" element={<Vote />} />

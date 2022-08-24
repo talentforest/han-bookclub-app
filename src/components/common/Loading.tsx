@@ -11,14 +11,10 @@ const Loading = () => {
 
 const Load = styled.div`
   width: 100vw;
-  height: 80vh;
+  height: 50vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  svg {
-    width: 50px;
-    height: 50px;
-  }
 `;
 
 export default Loading;

@@ -2,41 +2,36 @@ import { AddCircleOutline } from "@mui/icons-material";
 import { Overlay } from "components/bookmeeting/SubjectCreateModal";
 import { useState } from "react";
 import { Container } from "theme/commonStyle";
-import device, { deviceSizes } from "theme/mediaQueries";
 import { today } from "util/constants";
-import useWindowSize from "hooks/useWindowSize";
 import VoteBox from "components/vote/VoteBox";
 import VoteCreateBox from "components/vote/VoteCreateBox";
-import styled from "styled-components";
 import Subtitle from "components/common/Subtitle";
 import ExpiredVote from "components/vote/ExpiredVote";
 import MobileHeader from "components/header/MobileHeader";
-import { useRecoilValue } from "recoil";
-import { voteDocsState } from "data/documentsAtom";
+import styled from "styled-components";
+import device from "theme/mediaQueries";
+import useCallVotes from "hooks/useCallVotes";
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const voteDocs = useRecoilValue(voteDocsState);
-  const { windowSize } = useWindowSize();
+  const { votes } = useCallVotes();
 
   const onClick = () => {
     setModalOpen((prev) => !prev);
   };
 
-  const progressVote = voteDocs.filter((item) => item.deadline >= today());
-  const expiredVote = voteDocs.filter((item) => item.deadline < today());
+  const progressVote = votes.filter((item) => item.deadline >= today());
+  const expiredVote = votes.filter((item) => item.deadline < today());
 
   return (
     <>
-      <MobileHeader title="한페이지의 투표함" onButtonClick={onClick} />
+      <MobileHeader title="한페이지의 투표함" />
       <Container>
         <Subtitle title="투표함" />
-        {windowSize.width > +deviceSizes.tablet && (
-          <VoteButton onClick={onClick}>
-            <AddCircleOutline />
-            투표 등록하기
-          </VoteButton>
-        )}
+        <VoteButton onClick={onClick}>
+          <AddCircleOutline />
+          투표 등록하기
+        </VoteButton>
         {modalOpen && (
           <section>
             <Overlay onClick={onClick} />
@@ -45,8 +40,8 @@ const Vote = () => {
         )}
         <VoteList>
           {progressVote?.length ? (
-            progressVote.map((item, index) => (
-              <VoteBox key={item.id} item={item} index={index} />
+            progressVote.map((vote, index) => (
+              <VoteBox key={vote.id} vote={vote} index={index} />
             ))
           ) : (
             <EmptyBox>아직 등록된 투표가 없습니다.</EmptyBox>
@@ -55,8 +50,8 @@ const Vote = () => {
         <Subtitle title="기한이 만료된 투표함" />
         <VoteList>
           {expiredVote?.length ? (
-            expiredVote.map((item, index) => (
-              <ExpiredVote key={item.id} item={item} index={index} />
+            expiredVote.map((vote, index) => (
+              <ExpiredVote key={vote.id} vote={vote} index={index} />
             ))
           ) : (
             <EmptyBox>아직 만료된 투표가 없습니다.</EmptyBox>
@@ -89,17 +84,27 @@ const VoteList = styled.div`
 `;
 
 const VoteButton = styled.button`
-  border: none;
-  padding: 10px;
-  margin: 0 10px 10px;
-  border-radius: 10px;
-  color: ${(props) => props.theme.text.accent};
+  position: absolute;
+  top: 5px;
+  right: 20px;
   display: flex;
   align-items: center;
+  border: none;
+  padding: 5px;
+  border-radius: 10px;
+  color: ${(props) => props.theme.text.accent};
   font-size: 16px;
   svg {
     fill: ${(props) => props.theme.text.accent};
     margin-right: 5px;
+  }
+  @media ${device.tablet} {
+    top: 10px;
+    right: 80px;
+    padding: 10px;
+  }
+  @media ${device.desktop} {
+    right: 160px;
   }
 `;
 

@@ -17,21 +17,21 @@ import EditDeleteDoc from "components/common/EditDeleteDoc";
 import device from "theme/mediaQueries";
 
 interface PropsType {
-  item: IWrittenDocs;
+  review: IWrittenDocs;
   onReviewRemove?: (id: string) => void;
   bookInfo?: IBookApi;
   docMonth?: string;
 }
 
-const Reviews = ({ item, onReviewRemove, docMonth }: PropsType) => {
+const Reviews = ({ review, onReviewRemove, docMonth }: PropsType) => {
   const [editing, setEditing] = useState(false);
-  const [newText, setNewText] = useState(item.text);
+  const [newText, setNewText] = useState(review.text);
   const [showingGuide, setShowingGuide] = useState(false);
 
   const ReviewTextRef = doc(
     dbService,
     `BookMeeting Info/${docMonth}/reviews`,
-    `${item.id}`
+    `${review.id}`
   );
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -52,7 +52,7 @@ const Reviews = ({ item, onReviewRemove, docMonth }: PropsType) => {
   const onDeleteClick = async () => {
     await deleteDoc(ReviewTextRef);
     if (onReviewRemove) {
-      onReviewRemove(item.id);
+      onReviewRemove(review.id);
     }
   };
 
@@ -67,7 +67,7 @@ const Reviews = ({ item, onReviewRemove, docMonth }: PropsType) => {
       {editing ? (
         <form onSubmit={onSubmit}>
           <FormHeader>
-            <UserInfoBox creatorId={item.creatorId} />
+            <UserInfoBox creatorId={review.creatorId} />
             {showingGuide && (
               <GuideTextBox>
                 한 글자 이상 작성해주세요. <div></div>
@@ -84,22 +84,22 @@ const Reviews = ({ item, onReviewRemove, docMonth }: PropsType) => {
             placeholder="모임 후기를 수정해주세요."
             onChange={onChange}
           />
-          <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
-          <BookTitleImgBox docData={item} smSize={"smSize"} />
+          <RegisterTime>{timestamp(review.createdAt)}</RegisterTime>
+          <BookTitleImgBox docData={review} smSize={"smSize"} />
         </form>
       ) : (
         <>
           <FormHeader>
-            <UserInfoBox creatorId={item.creatorId} />
+            <UserInfoBox creatorId={review.creatorId} />
             <EditDeleteDoc
-              creatorId={item.creatorId}
+              creatorId={review.creatorId}
               onDeleteClick={onDeleteClick}
               toggleEditing={toggleEditing}
             />
           </FormHeader>
           <pre>{newText}</pre>
-          <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
-          <BookTitleImgBox docData={item} smSize={"smSize"} />
+          <RegisterTime>{timestamp(review.createdAt)}</RegisterTime>
+          <BookTitleImgBox docData={review} smSize={"smSize"} />
         </>
       )}
     </TextBox>

@@ -3,7 +3,7 @@ import device from "./mediaQueries";
 
 export const Container = styled.main`
   padding: 10px 20px 100px;
-
+  position: relative;
   @media ${device.tablet} {
     padding: 20px 80px 100px;
   }
@@ -37,7 +37,7 @@ export const Form = styled.form`
     align-items: center;
     border: none;
     border-radius: 10px;
-    background-color: ${(props) => props.theme.text.lightBlue};
+    background-color: ${(props) => props.theme.container.blue};
     color: ${(props) => props.theme.container.yellow};
     font-weight: 700;
     font-size: 16px;
@@ -97,8 +97,8 @@ export const Button = styled.input`
   height: 44px;
   border-radius: 10px;
   border: none;
-  background-color: ${(props) => props.theme.container.yellow};
-  color: ${(props) => props.theme.text.lightBlue};
+  background-color: ${(props) => props.theme.container.blue};
+  color: ${(props) => props.theme.text.white};
   font-weight: 700;
   font-size: 16px;
   margin: 5px 0;

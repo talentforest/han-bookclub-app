@@ -6,19 +6,19 @@ import { IVote } from "util/getFirebaseDoc";
 import { timestamp } from "util/timestamp";
 
 interface PropsType {
-  item: IVote;
+  vote: IVote;
   index: number;
 }
 
-const ExpiredVote = ({ item, index }: PropsType) => {
+const ExpiredVote = ({ vote, index }: PropsType) => {
   return (
-    <Vote to={`/vote/${index}`} state={{ item: item }}>
+    <Vote to={`/vote/${index}`} state={{ vote: vote }}>
       <div>
         <h4>
           <Help />
-          {item.vote.title}
+          {vote.vote.title}
         </h4>
-        <span>{timestamp(item.deadline)}</span>
+        <span>{timestamp(vote.deadline)}</span>
       </div>
       <ArrowForwardIos />
     </Vote>

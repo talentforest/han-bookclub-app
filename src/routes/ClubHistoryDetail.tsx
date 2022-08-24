@@ -1,60 +1,37 @@
-import { useEffect, useState } from "react";
-import { getAllRecommends, getReviews, getSubjects } from "util/getFirebaseDoc";
+import { useState } from "react";
 import { Info } from "components/clubbookhistory/HistoryBox";
 import { getMonthNumber } from "util/getMonthNumber";
 import { useLocation } from "react-router-dom";
 import { Container } from "theme/commonStyle";
 import { IBookMeeting } from "util/getFirebaseDoc";
-import { useRecoilState } from "recoil";
-import {
-  recommendDocsState,
-  reviewDocsState,
-  subjectDocsState,
-} from "data/documentsAtom";
-import styled from "styled-components";
 import Subjects from "components/bookmeeting/Subjects";
 import Reviews from "components/bookmeeting/Reviews";
-import device from "theme/mediaQueries";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
 import BackButtonHeader from "components/header/BackButtonHeader";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
+import device from "theme/mediaQueries";
+import styled from "styled-components";
+import useCallAllRecords from "hooks/useCallAllRecords";
 
-type LocationState = { state: { bookMeetingInfo: IBookMeeting } };
+type LocationState = { state: { bookMeeting: IBookMeeting } };
 
 const ClubHistoryDetail = () => {
   const {
-    state: { bookMeetingInfo },
+    state: { bookMeeting },
   } = useLocation() as LocationState;
 
-  const [monthSubjects, setMonthSubjects] = useRecoilState(subjectDocsState);
-  const [monthReviews, setMonthReviews] = useRecoilState(reviewDocsState);
-  const [monthRecommends, setMonthRecommends] =
-    useRecoilState(recommendDocsState);
+  const { monthSubjects, monthReviews, monthRecommends } = useCallAllRecords(
+    bookMeeting?.id
+  );
   const [selectedCategory, setSelectedCategory] = useState("subjects");
 
-  const { id, book, meeting } = bookMeetingInfo;
-
-  const getAllWrittenbyUserDocs = () => {
-    getReviews(id, setMonthReviews);
-    getSubjects(id, setMonthSubjects);
-    getAllRecommends(id, setMonthRecommends);
-  };
-
-  useEffect(() => {
-    getAllWrittenbyUserDocs();
-
-    return () => {
-      getAllWrittenbyUserDocs();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const onButtonClick = (name: string) => {
-    if (name === "subjects") return setSelectedCategory("subjects");
-    if (name === "reviews") return setSelectedCategory("reviews");
-    if (name === "recommend") return setSelectedCategory("recommend");
+    if (name) return setSelectedCategory(name);
   };
+
+  const { id, book, meeting } = bookMeeting;
+
   return (
     <>
       <BackButtonHeader title={`${getMonthNumber(id)}월의 책모임 기록`} />
@@ -94,16 +71,16 @@ const ClubHistoryDetail = () => {
             ))}
           {selectedCategory === "subjects" &&
             (monthSubjects.length !== 0 ? (
-              monthSubjects.map((item) => (
-                <Subjects key={item.id} item={item} docMonth={id} />
+              monthSubjects.map((subject) => (
+                <Subjects key={subject.id} subject={subject} docMonth={id} />
               ))
             ) : (
               <EmptyRecord>기록된 모임 후기가 아직 없어요.</EmptyRecord>
             ))}
           {selectedCategory === "reviews" &&
             (monthReviews.length !== 0 ? (
-              monthReviews.map((item) => (
-                <Reviews key={item.id} item={item} docMonth={id} />
+              monthReviews.map((review) => (
+                <Reviews key={review.id} review={review} docMonth={id} />
               ))
             ) : (
               <EmptyRecord>기록된 모임 후기가 아직 없어요.</EmptyRecord>

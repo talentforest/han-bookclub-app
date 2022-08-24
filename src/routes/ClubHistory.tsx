@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Container } from "theme/commonStyle";
-import { useRecoilValue } from "recoil";
-import { bookMeetingDocsState } from "data/documentsAtom";
 import { thisYear } from "util/constants";
 import { IBookMeeting } from "util/getFirebaseDoc";
 import Subtitle from "components/common/Subtitle";
@@ -10,12 +8,13 @@ import MobileHeader from "components/header/MobileHeader";
 import useGroupedBookByYear from "hooks/useGroupedBookByYear";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
+import useCallBookMeeting from "hooks/useCallBookMeeting";
 
 const ClubHistory = () => {
-  const bookMeetingDocs = useRecoilValue(bookMeetingDocsState);
   const [selectedYear, setSelectedYear] = useState(`${thisYear}`);
 
-  const { GroupedBookByYear } = useGroupedBookByYear({ bookMeetingDocs });
+  const { bookMeetings } = useCallBookMeeting();
+  const { GroupedBookByYear } = useGroupedBookByYear(bookMeetings);
 
   const onYearChange = (event: React.FormEvent<HTMLSelectElement>) => {
     setSelectedYear(event.currentTarget.value);
@@ -37,11 +36,8 @@ const ClubHistory = () => {
           GroupedBookByYear?.map((item) => (
             <HistoryList key={item.id}>
               {item.id === selectedYear &&
-                item.bookMeetingInfo.map((bookMeetingInfo: IBookMeeting) => (
-                  <HistoryBox
-                    key={bookMeetingInfo.id}
-                    bookMeetingInfo={bookMeetingInfo}
-                  />
+                item.bookMeeting.map((bookMeeting: IBookMeeting) => (
+                  <HistoryBox key={bookMeeting.id} bookMeeting={bookMeeting} />
                 ))}
             </HistoryList>
           ))

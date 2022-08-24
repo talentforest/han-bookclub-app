@@ -1,4 +1,4 @@
-import { AddCircleOutline, Settings } from "@mui/icons-material";
+import { Settings } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import useWindowSize from "hooks/useWindowSize";
 import device, { deviceSizes } from "theme/mediaQueries";
@@ -25,15 +25,6 @@ const MobileHeader = ({ title, button, onButtonClick }: PropsType) => {
               </Link>
             </ButtonHeader>
           )}
-          {onButtonClick && (
-            <ButtonHeader>
-              {title}
-              <button onClick={onButtonClick}>
-                <AddCircleOutline />
-                투표 등록하기
-              </button>
-            </ButtonHeader>
-          )}
           {!button && !onButtonClick && <Header>{title}</Header>}
         </>
       )}
@@ -55,6 +46,7 @@ export const Header = styled.header`
 `;
 
 export const ButtonHeader = styled(Header)`
+  border: 1px solid red;
   display: flex;
   align-items: center;
   justify-content: space-between;

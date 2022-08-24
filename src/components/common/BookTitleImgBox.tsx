@@ -42,7 +42,7 @@ export const BookCoverTitleBox = styled.div<{ smSize: string }>`
   justify-content: ${(props) =>
     props.smSize ? "flex-start" : "space-between"};
   align-items: center;
-  margin: 10px auto;
+  margin: 0 auto;
   width: 100%;
   height: ${(props) => (props.smSize ? "fit-content" : "190px")};
   img {

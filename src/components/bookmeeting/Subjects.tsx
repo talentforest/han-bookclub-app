@@ -24,27 +24,27 @@ export interface IWrittenDocs {
 }
 
 interface ISubject {
-  item: IWrittenDocs;
+  subject: IWrittenDocs;
   onSubjectRemove?: (targetId: string) => void;
   docMonth?: string;
 }
 
-const Subjects = ({ item, onSubjectRemove, docMonth }: ISubject) => {
+const Subjects = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
   const [editing, setEditing] = useState(false);
-  const [newText, setNewText] = useState(item.text);
+  const [newText, setNewText] = useState(subject.text);
   const [showingGuide, setShowingGuide] = useState(false);
   const userData = useRecoilValue(currentUserState);
 
   const thisMonthSubjectRef = doc(
     dbService,
     `BookMeeting Info/${docMonth}/subjects`,
-    `${item.id}`
+    `${subject.id}`
   );
 
   const otherMonthSubjectRef = doc(
     dbService,
     `BookMeeting Info/${docMonth}/subjects`,
-    `${item.id}`
+    `${subject.id}`
   );
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -69,7 +69,7 @@ const Subjects = ({ item, onSubjectRemove, docMonth }: ISubject) => {
   const onDeleteClick = async () => {
     await deleteDoc(thisMonthSubjectRef);
     if (onSubjectRemove) {
-      onSubjectRemove(item.id);
+      onSubjectRemove(subject.id);
     }
   };
 
@@ -84,7 +84,7 @@ const Subjects = ({ item, onSubjectRemove, docMonth }: ISubject) => {
       {editing ? (
         <form onSubmit={onSubmit}>
           <FormHeader>
-            <UserInfoBox creatorId={item.creatorId} />
+            <UserInfoBox creatorId={subject.creatorId} />
             {showingGuide && (
               <GuideTextBox>
                 한 글자 이상 작성해주세요. <div></div>
@@ -101,14 +101,14 @@ const Subjects = ({ item, onSubjectRemove, docMonth }: ISubject) => {
             placeholder="발제문을 수정해주세요."
             onChange={onChange}
           />
-          <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
-          <BookTitleImgBox docData={item} smSize={"smSize"} />
+          <RegisterTime>{timestamp(subject.createdAt)}</RegisterTime>
+          <BookTitleImgBox docData={subject} smSize={"smSize"} />
         </form>
       ) : (
         <>
           <FormHeader>
-            <UserInfoBox creatorId={item.creatorId} />
-            {userData.uid === item.creatorId && (
+            <UserInfoBox creatorId={subject.creatorId} />
+            {userData.uid === subject.creatorId && (
               <EditDeleteIcon>
                 <Edit role="button" onClick={toggleEditing} />
                 <Delete role="button" onClick={onDeleteClick} />
@@ -116,8 +116,8 @@ const Subjects = ({ item, onSubjectRemove, docMonth }: ISubject) => {
             )}
           </FormHeader>
           <pre>{newText}</pre>
-          <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
-          <BookTitleImgBox docData={item} smSize={"smSize"} />
+          <RegisterTime>{timestamp(subject.createdAt)}</RegisterTime>
+          <BookTitleImgBox docData={subject} smSize={"smSize"} />
         </>
       )}
     </TextBox>

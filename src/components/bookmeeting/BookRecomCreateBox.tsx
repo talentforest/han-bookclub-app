@@ -74,7 +74,7 @@ const BookRecomCreateBox = ({ uid, thisMonthBook, docMonth }: PropsType) => {
   return (
     <>
       <Form onSubmit={onSubmit}>
-        <Link to="find">
+        <Link to="search">
           <Search />
           추천책 정보 찾기
         </Link>

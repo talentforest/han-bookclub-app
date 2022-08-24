@@ -1,7 +1,7 @@
 import { IBookApi } from "data/bookAtom";
 import { thisYearMonth } from "util/constants";
 import { useRecoilValue } from "recoil";
-import { bookMeetingDocsState } from "data/documentsAtom";
+import { bookMeetingsState } from "data/documentsAtom";
 import useHandleThisMonthDoc from "hooks/useHandleThisMonthDoc";
 import styled from "styled-components";
 
@@ -10,7 +10,7 @@ interface PropsType {
 }
 
 const RegisterClubBookButton = ({ findbookData }: PropsType) => {
-  const bookMeetingDocs = useRecoilValue(bookMeetingDocsState);
+  const bookMeetingDocs = useRecoilValue(bookMeetingsState);
 
   const { toggle, onSubmit, onMonthChange } = useHandleThisMonthDoc({
     bookMeetingDocs,

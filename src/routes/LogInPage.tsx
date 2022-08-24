@@ -58,13 +58,10 @@ const LogInPage = () => {
   return (
     <NewContainer>
       <Logo>
-        <img src={process.env.PUBLIC_URL + "/logo.png"} alt="logo" />
+        <img src={process.env.PUBLIC_URL + "/logo.png"} alt="Han page logo" />
       </Logo>
-      <Title>
-        북클럽: 한페이지
-        <br />
-        자신의 책을 나누고 싶은 사람들의 모임
-      </Title>
+      <Title>북클럽: 한페이지</Title>
+      <Subtitle>자신의 책을 나누고 싶은 사람들의 모임</Subtitle>
       <Form onSubmit={onSubmit}>
         <Input
           name="email"
@@ -95,7 +92,6 @@ const LogInPage = () => {
       </Form>
       <Footer>
         <Link to="/find_pw">비밀번호 찾기</Link>
-        <h3>&copy; 2022 Book Club: Han Page </h3>
       </Footer>
     </NewContainer>
   );
@@ -133,12 +129,24 @@ const Logo = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
   text-align: center;
   line-height: 2;
-  margin-bottom: 10px;
   color: ${(props) => props.theme.text.lightBlue};
+  @media ${device.tablet} {
+    margin-top: 50px;
+    font-size: 24px;
+  }
+`;
+
+const Subtitle = styled.h2`
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 2;
+  margin-bottom: 15px;
+  color: ${(props) => props.theme.text.gray};
   @media ${device.tablet} {
     margin-top: 50px;
     font-size: 24px;
@@ -154,7 +162,7 @@ export const ErrorMessage = styled.span`
 
 const Footer = styled.footer`
   text-align: center;
-  margin-top: 20px;
+  margin: 20px 0;
   > a {
     font-size: 12px;
     text-decoration: underline;
