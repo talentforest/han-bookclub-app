@@ -9,6 +9,7 @@ import { currentUserState } from "data/userAtom";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import useAlertAskJoin from "hooks/useAlertAskJoin";
+import Overlay from "components/common/Overlay";
 
 interface PropsType {
   bookInfo: IBookApi;
@@ -68,7 +69,7 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
       </AddSubject>
       {modalOpen ? (
         <>
-          <Overlay onClick={onModalClick} />
+          <Overlay onModalClick={onModalClick} />
           <Form onSubmit={onSubmit}>
             <h3>
               발제문 작성하기 <Close onClick={onModalClick} />
@@ -127,18 +128,6 @@ const AddSubject = styled.div`
       }
     }
   }
-`;
-
-export const Overlay = styled.div`
-  cursor: pointer;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  min-height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
 `;
 
 const Form = styled.form`

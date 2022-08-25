@@ -6,11 +6,11 @@ import { EventAvailable } from "@mui/icons-material";
 
 interface PropsType {
   docData: IBookApi | IWrittenDocs;
-  onModalOpen?: () => void;
+  onModalClick?: () => void;
   smSize?: string;
 }
 
-const BookTitleImgBox = ({ docData, onModalOpen, smSize }: PropsType) => {
+const BookTitleImgBox = ({ docData, onModalClick, smSize }: PropsType) => {
   return (
     <>
       {docData ? (
@@ -19,7 +19,7 @@ const BookTitleImgBox = ({ docData, onModalOpen, smSize }: PropsType) => {
             <img
               src={docData?.thumbnail}
               alt="Book_Image"
-              onClick={onModalOpen}
+              onClick={onModalClick}
             />
           ) : (
             <EventAvailable />

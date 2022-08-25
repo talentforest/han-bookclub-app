@@ -5,7 +5,7 @@ import { timestamp } from "util/timestamp";
 
 interface PropsType {
   bookInfo: IBookApi;
-  onModalOpen?: () => void;
+  onModalClick?: () => void;
 }
 
 const BookDesc = ({ bookInfo }: PropsType) => {

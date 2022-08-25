@@ -7,7 +7,7 @@ import { SubjectBox } from "./MyRecord";
 import device from "theme/mediaQueries";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
 import styled from "styled-components";
-import { Overlay } from "components/bookmeeting/SubjectCreateModal";
+import Overlay from "components/common/Overlay";
 
 interface PropsType {
   item: IBookMeeting;
@@ -68,7 +68,7 @@ const MyRecommendBook = ({ item }: PropsType) => {
           {openModal && (
             <>
               <Overlay
-                onClick={() => {
+                onModalClick={() => {
                   setOpenModal((prev) => !prev);
                 }}
               />

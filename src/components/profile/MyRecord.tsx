@@ -1,12 +1,12 @@
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import { Overlay } from "components/bookmeeting/SubjectCreateModal";
 import { IBookMeeting } from "util/getFirebaseDoc";
 import Subjects from "components/bookmeeting/Subjects";
 import styled from "styled-components";
 import Reviews from "components/bookmeeting/Reviews";
 import device from "theme/mediaQueries";
 import useFilterMyRecords from "hooks/useFilterMyRecords";
+import Overlay from "components/common/Overlay";
 
 interface PropsType {
   bookMeeting: IBookMeeting;
@@ -57,7 +57,7 @@ const MyRecord = ({ bookMeeting }: PropsType) => {
           {openModal && (
             <>
               <Overlay
-                onClick={() => {
+                onModalClick={() => {
                   setOpenModal((prev) => !prev);
                 }}
               />

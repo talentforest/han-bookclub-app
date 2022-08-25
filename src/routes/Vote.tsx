@@ -1,5 +1,4 @@
 import { AddCircleOutline } from "@mui/icons-material";
-import { Overlay } from "components/bookmeeting/SubjectCreateModal";
 import { useState } from "react";
 import { Container } from "theme/commonStyle";
 import { today } from "util/constants";
@@ -11,12 +10,13 @@ import MobileHeader from "components/header/MobileHeader";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import useCallVotes from "hooks/useCallVotes";
+import Overlay from "components/common/Overlay";
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const { votes } = useCallVotes();
 
-  const onClick = () => {
+  const onModalClick = () => {
     setModalOpen((prev) => !prev);
   };
 
@@ -28,13 +28,13 @@ const Vote = () => {
       <MobileHeader title="한페이지의 투표함" />
       <Container>
         <Subtitle title="투표함" />
-        <VoteButton onClick={onClick}>
+        <VoteButton onClick={onModalClick}>
           <AddCircleOutline />
           투표 등록하기
         </VoteButton>
         {modalOpen && (
           <section>
-            <Overlay onClick={onClick} />
+            <Overlay onModalClick={onModalClick} />
             <VoteCreateBox setModalOpen={setModalOpen} />
           </section>
         )}

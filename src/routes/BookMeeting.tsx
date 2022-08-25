@@ -13,13 +13,12 @@ import MobileHeader from "components/header/MobileHeader";
 import BookDesc from "components/common/BookDesc";
 import ReviewCreateBox from "components/bookmeeting/ReviewCreateBox";
 import Reviews from "components/bookmeeting/Reviews";
-import SubjectCreateModal, {
-  Overlay,
-} from "components/bookmeeting/SubjectCreateModal";
+import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 import useCallAllRecords from "hooks/useCallAllRecords";
 import useCallBookMeeting from "hooks/useCallBookMeeting";
+import Overlay from "components/common/Overlay";
 
 const BookMeeting = () => {
   const userData = useRecoilValue(currentUserState);
@@ -33,7 +32,7 @@ const BookMeeting = () => {
   const subjectUrlMatch = useMatch("/bookmeeting/subject");
   const reviewUrlMatch = useMatch("/bookmeeting/review");
 
-  const onModalOpen = () => {
+  const onModalClick = () => {
     setShowBookDetail((prev) => !prev);
   };
 
@@ -49,15 +48,15 @@ const BookMeeting = () => {
         <MeetingBox>
           <BookTitleImgBox
             docData={latestDoc?.book}
-            onModalOpen={onModalOpen}
+            onModalClick={onModalClick}
           />
           <p>도서 이미지를 클릭하시면 상세정보를 보실 수 있습니다.</p>
           <MeetingInfoBox docData={latestDoc?.meeting} />
         </MeetingBox>
         {showBookDetail && (
           <BookDetail>
-            <Overlay onClick={onModalOpen} />
-            <BookDesc bookInfo={latestDoc?.book} onModalOpen={onModalOpen} />
+            <Overlay onModalClick={onModalClick} />
+            <BookDesc bookInfo={latestDoc?.book} onModalClick={onModalClick} />
           </BookDetail>
         )}
         <CategoryButton>
