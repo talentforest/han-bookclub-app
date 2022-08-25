@@ -13,7 +13,6 @@ import MeetingInfoBox from "components/common/MeetingInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import VoteBox from "components/vote/VoteBox";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import MobileHeader from "components/header/MobileHeader";
 import device from "theme/mediaQueries";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -42,7 +41,6 @@ const Home = () => {
 
   return (
     <>
-      <MobileHeader title="독서모임 한페이지" />
       {bookMeetings && bookFields ? (
         <NewContainer>
           <section>
@@ -70,8 +68,8 @@ const Home = () => {
             <Subtitle title={"한페이지의 투표함"} />
             {progressVote.length ? (
               <Slider {...settings}>
-                {progressVote?.map((vote, index) => (
-                  <VoteBox key={vote.id} vote={vote} index={index} />
+                {progressVote?.map((vote) => (
+                  <VoteBox key={vote.id} vote={vote} />
                 ))}
               </Slider>
             ) : (

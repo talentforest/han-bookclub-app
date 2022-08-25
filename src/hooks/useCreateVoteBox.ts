@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { pickDay } from "util/constants";
 import useAlertAskJoin from "./useAlertAskJoin";
+import useCallVotes from "./useCallVotes";
 
 const useCreateVoteBox = (
   setModalOpen: (modalOpen: boolean) => void,
@@ -18,6 +19,7 @@ const useCreateVoteBox = (
       { id: 2, item: "", voteCount: 0 },
     ],
   });
+  const { votes } = useCallVotes();
   const { alertAskJoin } = useAlertAskJoin();
 
   const addDocVote = async () => {
@@ -26,6 +28,7 @@ const useCreateVoteBox = (
       creatorId: userData.uid,
       deadline: pickDay(endDate),
       vote,
+      voteId: votes.length + 1,
     });
   };
 

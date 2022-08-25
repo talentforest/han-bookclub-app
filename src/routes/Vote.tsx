@@ -6,7 +6,6 @@ import VoteBox from "components/vote/VoteBox";
 import VoteCreateBox from "components/vote/VoteCreateBox";
 import Subtitle from "components/common/Subtitle";
 import ExpiredVote from "components/vote/ExpiredVote";
-import MobileHeader from "components/header/MobileHeader";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import useCallVotes from "hooks/useCallVotes";
@@ -24,41 +23,36 @@ const Vote = () => {
   const expiredVote = votes.filter((item) => item.deadline < today());
 
   return (
-    <>
-      <MobileHeader title="한페이지의 투표함" />
-      <Container>
-        <Subtitle title="투표함" />
-        <VoteButton onClick={onModalClick}>
-          <AddCircleOutline />
-          투표 등록하기
-        </VoteButton>
-        {modalOpen && (
-          <section>
-            <Overlay onModalClick={onModalClick} />
-            <VoteCreateBox setModalOpen={setModalOpen} />
-          </section>
+    <Container>
+      <Subtitle title="투표함" />
+      <VoteButton onClick={onModalClick}>
+        <AddCircleOutline />
+        투표 등록하기
+      </VoteButton>
+      {modalOpen && (
+        <section>
+          <Overlay onModalClick={onModalClick} />
+          <VoteCreateBox setModalOpen={setModalOpen} />
+        </section>
+      )}
+      <VoteList>
+        {progressVote?.length ? (
+          progressVote.map((vote) => <VoteBox key={vote.id} vote={vote} />)
+        ) : (
+          <EmptyBox>아직 등록된 투표가 없습니다.</EmptyBox>
         )}
-        <VoteList>
-          {progressVote?.length ? (
-            progressVote.map((vote, index) => (
-              <VoteBox key={vote.id} vote={vote} index={index} />
-            ))
-          ) : (
-            <EmptyBox>아직 등록된 투표가 없습니다.</EmptyBox>
-          )}
-        </VoteList>
-        <Subtitle title="기한이 만료된 투표함" />
-        <VoteList>
-          {expiredVote?.length ? (
-            expiredVote.map((vote, index) => (
-              <ExpiredVote key={vote.id} vote={vote} index={index} />
-            ))
-          ) : (
-            <EmptyBox>아직 만료된 투표가 없습니다.</EmptyBox>
-          )}
-        </VoteList>
-      </Container>
-    </>
+      </VoteList>
+      <Subtitle title="기한이 만료된 투표함" />
+      <VoteList>
+        {expiredVote?.length ? (
+          expiredVote.map((vote, index) => (
+            <ExpiredVote key={vote.id} vote={vote} index={index} />
+          ))
+        ) : (
+          <EmptyBox>아직 만료된 투표가 없습니다.</EmptyBox>
+        )}
+      </VoteList>
+    </Container>
   );
 };
 

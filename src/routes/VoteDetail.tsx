@@ -19,6 +19,8 @@ const VoteDetail = () => {
   const location = useLocation();
   const { vote } = location.state as LocationState;
 
+  console.log(vote);
+
   const userData = useRecoilValue(currentUserState);
 
   const {
