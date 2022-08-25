@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Info } from "components/clubbookhistory/HistoryBox";
-import { getMonthNumber } from "util/getMonthNumber";
 import { useLocation } from "react-router-dom";
 import { Container } from "theme/commonStyle";
 import { IBookMeeting } from "util/getFirebaseDoc";
@@ -8,7 +7,6 @@ import Subjects from "components/bookmeeting/Subjects";
 import Reviews from "components/bookmeeting/Reviews";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
-import BackButtonHeader from "components/header/BackButtonHeader";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
@@ -33,61 +31,58 @@ const ClubHistoryDetail = () => {
   const { id, book, meeting } = bookMeeting;
 
   return (
-    <>
-      <BackButtonHeader title={`${getMonthNumber(id)}월의 책모임 기록`} />
-      <Container>
-        <Infos>
-          <BookTitleImgBox docData={book} />
-          <MeetingInfoBox docData={meeting} />
-        </Infos>
-        <BookSection>
-          <button
-            onClick={() => onButtonClick("recommend")}
-            className={selectedCategory === "recommend" ? "isActive" : ""}
-          >
-            추천책 보기
-          </button>
-          <button
-            onClick={() => onButtonClick("subjects")}
-            className={selectedCategory === "subjects" ? "isActive" : ""}
-          >
-            발제문 보기
-          </button>
-          <button
-            onClick={() => onButtonClick("reviews")}
-            className={selectedCategory === "reviews" ? "isActive" : ""}
-          >
-            모임 후기 보기
-          </button>
-        </BookSection>
-        <Documents>
-          {selectedCategory === "recommend" &&
-            (monthRecommends.length !== 0 ? (
-              monthRecommends.map((item) => (
-                <BookRecomBox key={item.id} item={item} docMonth={id} />
-              ))
-            ) : (
-              <EmptyRecord>기록된 추천책이 아직 없어요.</EmptyRecord>
-            ))}
-          {selectedCategory === "subjects" &&
-            (monthSubjects.length !== 0 ? (
-              monthSubjects.map((subject) => (
-                <Subjects key={subject.id} subject={subject} docMonth={id} />
-              ))
-            ) : (
-              <EmptyRecord>기록된 모임 후기가 아직 없어요.</EmptyRecord>
-            ))}
-          {selectedCategory === "reviews" &&
-            (monthReviews.length !== 0 ? (
-              monthReviews.map((review) => (
-                <Reviews key={review.id} review={review} docMonth={id} />
-              ))
-            ) : (
-              <EmptyRecord>기록된 모임 후기가 아직 없어요.</EmptyRecord>
-            ))}
-        </Documents>
-      </Container>
-    </>
+    <Container>
+      <Infos>
+        <BookTitleImgBox docData={book} />
+        <MeetingInfoBox docData={meeting} />
+      </Infos>
+      <BookSection>
+        <button
+          onClick={() => onButtonClick("recommend")}
+          className={selectedCategory === "recommend" ? "isActive" : ""}
+        >
+          추천책 보기
+        </button>
+        <button
+          onClick={() => onButtonClick("subjects")}
+          className={selectedCategory === "subjects" ? "isActive" : ""}
+        >
+          발제문 보기
+        </button>
+        <button
+          onClick={() => onButtonClick("reviews")}
+          className={selectedCategory === "reviews" ? "isActive" : ""}
+        >
+          모임 후기 보기
+        </button>
+      </BookSection>
+      <Documents>
+        {selectedCategory === "recommend" &&
+          (monthRecommends.length !== 0 ? (
+            monthRecommends.map((item) => (
+              <BookRecomBox key={item.id} item={item} docMonth={id} />
+            ))
+          ) : (
+            <EmptyRecord>기록된 추천책이 아직 없어요.</EmptyRecord>
+          ))}
+        {selectedCategory === "subjects" &&
+          (monthSubjects.length !== 0 ? (
+            monthSubjects.map((subject) => (
+              <Subjects key={subject.id} subject={subject} docMonth={id} />
+            ))
+          ) : (
+            <EmptyRecord>기록된 모임 후기가 아직 없어요.</EmptyRecord>
+          ))}
+        {selectedCategory === "reviews" &&
+          (monthReviews.length !== 0 ? (
+            monthReviews.map((review) => (
+              <Reviews key={review.id} review={review} docMonth={id} />
+            ))
+          ) : (
+            <EmptyRecord>기록된 모임 후기가 아직 없어요.</EmptyRecord>
+          ))}
+      </Documents>
+    </Container>
   );
 };
 

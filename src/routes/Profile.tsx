@@ -7,7 +7,6 @@ import { IWrittenDocs } from "components/bookmeeting/Subjects";
 import Subtitle from "components/common/Subtitle";
 import MyRecommendBook from "components/profile/MyRecommendBook";
 import MyRecord from "components/profile/MyRecord";
-import MobileHeader from "components/header/MobileHeader";
 import useCallBookMeeting from "hooks/useCallBookMeeting";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
@@ -25,35 +24,32 @@ const Profile = () => {
   const anonymous = authService.currentUser?.isAnonymous;
 
   return (
-    <>
-      <MobileHeader title="나의 책장" button={true} />
-      <NewContainer>
-        <UserInfo>
-          {userData?.photoURL ? (
-            <img src={userData.photoURL} alt="profile" />
-          ) : (
-            <AccountCircle />
-          )}
-          <span>{anonymous ? "익명의 방문자" : userData.displayName}</span>
-        </UserInfo>
-        <section>
-          <Subtitle title="나의 기록" />
-          <span>내가 작성한 발제문과 모임 후기를 볼 수 있어요.</span>
-          <Wrapper>
-            {bookMeetings.map((bookMeeting) => (
-              <MyRecord key={bookMeeting.id} bookMeeting={bookMeeting} />
-            ))}
-          </Wrapper>
-        </section>
-        <section>
-          <Subtitle title="내가 추천한 책" />
-          <span>내가 추천한 책을 볼 수 있어요.</span>
-          {bookMeetings.map((item) => (
-            <MyRecommendBook key={item.id} item={item} />
+    <NewContainer>
+      <UserInfo>
+        {userData?.photoURL ? (
+          <img src={userData.photoURL} alt="profile" />
+        ) : (
+          <AccountCircle />
+        )}
+        <span>{anonymous ? "익명의 방문자" : userData.displayName}</span>
+      </UserInfo>
+      <section>
+        <Subtitle title="나의 기록" />
+        <span>내가 작성한 발제문과 모임 후기를 볼 수 있어요.</span>
+        <Wrapper>
+          {bookMeetings.map((bookMeeting) => (
+            <MyRecord key={bookMeeting.id} bookMeeting={bookMeeting} />
           ))}
-        </section>
-      </NewContainer>
-    </>
+        </Wrapper>
+      </section>
+      <section>
+        <Subtitle title="내가 추천한 책" />
+        <span>내가 추천한 책을 볼 수 있어요.</span>
+        {bookMeetings.map((item) => (
+          <MyRecommendBook key={item.id} item={item} />
+        ))}
+      </section>
+    </NewContainer>
   );
 };
 

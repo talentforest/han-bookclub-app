@@ -7,7 +7,6 @@ import { IVote, IVoteItem } from "util/getFirebaseDoc";
 import { percentage } from "util/percentage";
 import { Container } from "theme/commonStyle";
 import { today } from "util/constants";
-import BackButtonHeader from "components/header/BackButtonHeader";
 import UserInfoBox from "components/common/UserInfoBox";
 import useHandleVoting from "hooks/useHandleVoting";
 import device from "theme/mediaQueries";
@@ -16,12 +15,10 @@ import styled from "styled-components";
 type LocationState = { vote: IVote };
 
 const VoteDetail = () => {
+  const userData = useRecoilValue(currentUserState);
+
   const location = useLocation();
   const { vote } = location.state as LocationState;
-
-  console.log(vote);
-
-  const userData = useRecoilValue(currentUserState);
 
   const {
     disabled,
@@ -36,28 +33,35 @@ const VoteDetail = () => {
   } = useHandleVoting(vote, userData.uid);
 
   return (
-    <>
-      <BackButtonHeader title="투표함" />
-      <Container>
-        <Vote className={vote.deadline < today() ? "disalbe" : ""}>
-          {myVote.length ? (
-            <>
-              <form>
-                <p>D-Day: {dDay(vote.deadline)}</p>
-                <VoteHeader>
-                  <h4>
-                    <Help />
-                    {vote.vote.title}
-                  </h4>
-                  <span>
-                    투표 등록: <UserInfoBox creatorId={vote.creatorId} />
-                  </span>
-                </VoteHeader>
-                <Votelist className={"disalbe"}>
-                  <p>각 퍼센티지는 현재 득표율이며, 중복 투표도 가능합니다.</p>
-                  {vote.vote.voteItem.map((item, index) => (
-                    <li
-                      key={item.id}
+    <Container>
+      <Vote className={vote.deadline < today() ? "disalbe" : ""}>
+        {myVote.length ? (
+          <>
+            <form>
+              <p>D-Day: {dDay(vote.deadline)}</p>
+              <VoteHeader>
+                <h4>
+                  <Help />
+                  {vote.vote.title}
+                </h4>
+                <span>
+                  투표 등록: <UserInfoBox creatorId={vote.creatorId} />
+                </span>
+              </VoteHeader>
+              <Votelist className={"disalbe"}>
+                <p>각 퍼센티지는 현재 득표율이며, 중복 투표도 가능합니다.</p>
+                {vote.vote.voteItem.map((item, index) => (
+                  <li
+                    key={item.id}
+                    className={
+                      myVote[0].votedItem.find(
+                        (ele: IVoteItem) => ele.id === item.id
+                      )
+                        ? "isActive"
+                        : ""
+                    }
+                  >
+                    <CheckCircleOutline
                       className={
                         myVote[0].votedItem.find(
                           (ele: IVoteItem) => ele.id === item.id
@@ -65,134 +69,115 @@ const VoteDetail = () => {
                           ? "isActive"
                           : ""
                       }
+                    />
+                    <span>{item.item}</span>
+                    <Percentage
+                      style={{
+                        width: voteItem[index].voteCount
+                          ? `${percentage(
+                              voteItem[index].voteCount,
+                              totalCount
+                            )}%`
+                          : "",
+                      }}
                     >
-                      <CheckCircleOutline
-                        className={
-                          myVote[0].votedItem.find(
-                            (ele: IVoteItem) => ele.id === item.id
-                          )
-                            ? "isActive"
-                            : ""
-                        }
-                      />
-                      <span>{item.item}</span>
-                      <Percentage
-                        style={{
-                          width: voteItem[index].voteCount
-                            ? `${percentage(
-                                voteItem[index].voteCount,
-                                totalCount
-                              )}%`
-                            : "",
-                        }}
-                      >
-                        {voteItem[index].voteCount !== 0 ? (
-                          `${percentage(
-                            voteItem[index].voteCount,
-                            totalCount
-                          )}%`
-                        ) : (
-                          <></>
-                        )}
-                      </Percentage>
-                    </li>
-                  ))}
-                </Votelist>
-                <SubmitButton className={"disalbe"}>투표하기</SubmitButton>
-                <SubmitButton onClick={onRevoteClick}>
-                  다시 투표하기 <Replay />
-                </SubmitButton>
-              </form>
-              <VoteMember>
-                <h4>투표인원: {membersVote.length}명</h4>
-                <ul>
-                  {membersVote.map((member) => (
-                    <li key={member.id}>
-                      <UserInfoBox creatorId={member.id} key={member.id} />
-                    </li>
-                  ))}
-                </ul>
-              </VoteMember>
-            </>
-          ) : (
-            <>
-              <form onSubmit={onSubmit}>
-                <p>D-Day: {dDay(vote.deadline)}</p>
-                <VoteHeader>
-                  <h4>
-                    <Help />
-                    {vote.vote.title}
-                  </h4>
-                  <span>
-                    투표 등록: <UserInfoBox creatorId={vote.creatorId} />
-                  </span>
-                </VoteHeader>
-                <Votelist className={disabled ? "disalbe" : ""}>
-                  <p>각 퍼센티지는 현재 득표율입니다.</p>
-                  {vote.vote.voteItem.map((item, index) => (
-                    <li
-                      key={item.id}
-                      onClick={() =>
-                        onVoteItemClick(item.id, item.item, item.voteCount)
-                      }
+                      {voteItem[index].voteCount !== 0 ? (
+                        `${percentage(voteItem[index].voteCount, totalCount)}%`
+                      ) : (
+                        <></>
+                      )}
+                    </Percentage>
+                  </li>
+                ))}
+              </Votelist>
+              <SubmitButton className={"disalbe"}>투표하기</SubmitButton>
+              <SubmitButton onClick={onRevoteClick}>
+                다시 투표하기 <Replay />
+              </SubmitButton>
+            </form>
+            <VoteMember>
+              <h4>투표인원: {membersVote.length}명</h4>
+              <ul>
+                {membersVote.map((member) => (
+                  <li key={member.id}>
+                    <UserInfoBox creatorId={member.id} key={member.id} />
+                  </li>
+                ))}
+              </ul>
+            </VoteMember>
+          </>
+        ) : (
+          <>
+            <form onSubmit={onSubmit}>
+              <p>D-Day: {dDay(vote.deadline)}</p>
+              <VoteHeader>
+                <h4>
+                  <Help />
+                  {vote.vote.title}
+                </h4>
+                <span>
+                  투표 등록: <UserInfoBox creatorId={vote.creatorId} />
+                </span>
+              </VoteHeader>
+              <Votelist className={disabled ? "disalbe" : ""}>
+                <p>각 퍼센티지는 현재 득표율입니다.</p>
+                {vote.vote.voteItem.map((item, index) => (
+                  <li
+                    key={item.id}
+                    onClick={() =>
+                      onVoteItemClick(item.id, item.item, item.voteCount)
+                    }
+                    className={
+                      selectedItem.find((ele) => ele.id === item.id)
+                        ? "isActive"
+                        : ""
+                    }
+                  >
+                    <CheckCircleOutline
                       className={
                         selectedItem.find((ele) => ele.id === item.id)
                           ? "isActive"
                           : ""
                       }
+                    />
+                    <span>{item.item}</span>
+                    <Percentage
+                      style={{
+                        width: voteItem[index].voteCount
+                          ? `${percentage(
+                              voteItem[index].voteCount,
+                              totalCount
+                            )}%`
+                          : "",
+                      }}
                     >
-                      <CheckCircleOutline
-                        className={
-                          selectedItem.find((ele) => ele.id === item.id)
-                            ? "isActive"
-                            : ""
-                        }
-                      />
-                      <span>{item.item}</span>
-                      <Percentage
-                        style={{
-                          width: voteItem[index].voteCount
-                            ? `${percentage(
-                                voteItem[index].voteCount,
-                                totalCount
-                              )}%`
-                            : "",
-                        }}
-                      >
-                        {voteItem[index].voteCount !== 0 ? (
-                          `${percentage(
-                            voteItem[index].voteCount,
-                            totalCount
-                          )}%`
-                        ) : (
-                          <></>
-                        )}
-                      </Percentage>
-                    </li>
-                  ))}
-                </Votelist>
-                <SubmitButton
-                  type="submit"
-                  className={disabled ? "disalbe" : ""}
-                >
-                  투표하기
-                </SubmitButton>
-              </form>
-              <VoteMember>
-                <h4>투표인원: {membersVote.length}명</h4>
-                <ul>
-                  {membersVote.map((member) => (
-                    <li key={member.id}>
-                      <UserInfoBox creatorId={member.id} key={member.id} />
-                    </li>
-                  ))}
-                </ul>
-              </VoteMember>
-            </>
-          )}
-        </Vote>
-      </Container>
-    </>
+                      {voteItem[index].voteCount !== 0 ? (
+                        `${percentage(voteItem[index].voteCount, totalCount)}%`
+                      ) : (
+                        <></>
+                      )}
+                    </Percentage>
+                  </li>
+                ))}
+              </Votelist>
+              <SubmitButton type="submit" className={disabled ? "disalbe" : ""}>
+                투표하기
+              </SubmitButton>
+            </form>
+            <VoteMember>
+              <h4>투표인원: {membersVote.length}명</h4>
+              <ul>
+                {membersVote.map((member) => (
+                  <li key={member.id}>
+                    <UserInfoBox creatorId={member.id} key={member.id} />
+                  </li>
+                ))}
+              </ul>
+            </VoteMember>
+          </>
+        )}
+      </Vote>
+    </Container>
   );
 };
 

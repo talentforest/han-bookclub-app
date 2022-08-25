@@ -7,7 +7,6 @@ import {
 import { useState } from "react";
 import { Container, Input } from "theme/commonStyle";
 import { useNavigate } from "react-router-dom";
-import BackButtonHeader from "components/header/BackButtonHeader";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 
@@ -68,44 +67,41 @@ const EditPassword = () => {
   };
 
   return (
-    <>
-      <BackButtonHeader title="비밀번호 변경하기" />
-      <Container>
-        <InputForm onSubmit={onSubmit}>
-          <input
-            hidden
-            type="text"
-            autoComplete="username"
-            defaultValue={user?.email}
-          />
-          <Input
-            aria-hidden
-            type="password"
-            value={originPassword}
-            placeholder="기존 비밀번호를 작성해주세요."
-            onChange={onOriginChange}
-            autoComplete="current-password"
-          />
-          <Input
-            aria-hidden
-            type="password"
-            value={newPassword}
-            placeholder="새로운 비밀번호를 작성해주세요."
-            onChange={onNewChange}
-            autoComplete="new-password"
-          />
-          <Input
-            aria-hidden
-            type="password"
-            value={checkNewPassword}
-            placeholder="새로운 비밀번호를 다시 한번 작성해주세요."
-            onChange={onCheckNewChange}
-            autoComplete="new-password"
-          />
-          <Input type="submit" value="변경하기" />
-        </InputForm>
-      </Container>
-    </>
+    <Container>
+      <InputForm onSubmit={onSubmit}>
+        <input
+          hidden
+          type="text"
+          autoComplete="username"
+          defaultValue={user?.email}
+        />
+        <Input
+          aria-hidden
+          type="password"
+          value={originPassword}
+          placeholder="기존 비밀번호를 작성해주세요."
+          onChange={onOriginChange}
+          autoComplete="current-password"
+        />
+        <Input
+          aria-hidden
+          type="password"
+          value={newPassword}
+          placeholder="새로운 비밀번호를 작성해주세요."
+          onChange={onNewChange}
+          autoComplete="new-password"
+        />
+        <Input
+          aria-hidden
+          type="password"
+          value={checkNewPassword}
+          placeholder="새로운 비밀번호를 다시 한번 작성해주세요."
+          onChange={onCheckNewChange}
+          autoComplete="new-password"
+        />
+        <Input type="submit" value="변경하기" />
+      </InputForm>
+    </Container>
   );
 };
 

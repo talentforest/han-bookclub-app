@@ -8,7 +8,6 @@ import BookField from "components/loginForm/BookField";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import BackButtonHeader from "components/header/BackButtonHeader";
 
 export interface BookFieldType {
   id: number;
@@ -75,50 +74,47 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
   };
 
   return (
-    <>
-      <BackButtonHeader title="개인정보와 취향 등록하기" />
-      <Container>
-        <UserInfoForm onSubmit={onSubmit}>
-          <Info>이름</Info>
-          <Input
-            type="text"
-            name="username"
-            placeholder="이름을 입력해주세요."
-            onChange={onChange}
-            value={username}
-            required
-          />
-          <Info>성별</Info>
-          <Fieldset>
-            {gender.map((item) => (
-              <div key={item}>
-                <label htmlFor={item}>{item}</label>
-                <input
-                  id={item}
-                  type="radio"
-                  name="gender"
-                  value={item}
-                  onChange={onChange}
-                  required
-                />
-              </div>
-            ))}
-          </Fieldset>
-          <Info>관심 분야</Info>
-          <Fieldset>
-            {bookFields.map((item, index) => (
-              <BookField
-                key={index}
-                bookFieldName={item.name}
-                bookFields={item}
-                checkedBoxHandler={checkedBoxHandler}
+    <Container>
+      <UserInfoForm onSubmit={onSubmit}>
+        <Info>이름</Info>
+        <Input
+          type="text"
+          name="username"
+          placeholder="이름을 입력해주세요."
+          onChange={onChange}
+          value={username}
+          required
+        />
+        <Info>성별</Info>
+        <Fieldset>
+          {gender.map((item) => (
+            <div key={item}>
+              <label htmlFor={item}>{item}</label>
+              <input
+                id={item}
+                type="radio"
+                name="gender"
+                value={item}
+                onChange={onChange}
+                required
               />
-            ))}
-          </Fieldset>
-          <Button type="submit" value="등록하기" />
-        </UserInfoForm>
-      </Container>
-    </>
+            </div>
+          ))}
+        </Fieldset>
+        <Info>관심 분야</Info>
+        <Fieldset>
+          {bookFields.map((item, index) => (
+            <BookField
+              key={index}
+              bookFieldName={item.name}
+              bookFields={item}
+              checkedBoxHandler={checkedBoxHandler}
+            />
+          ))}
+        </Fieldset>
+        <Button type="submit" value="등록하기" />
+      </UserInfoForm>
+    </Container>
   );
 };
 

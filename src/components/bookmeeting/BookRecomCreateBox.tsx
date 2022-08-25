@@ -63,32 +63,30 @@ const BookRecomCreateBox = ({ uid, thisMonthBook, docMonth }: PropsType) => {
   };
 
   return (
-    <>
-      <Form onSubmit={onSubmit}>
-        <Link to="search">
-          <Search />
-          추천책 정보 찾기
-        </Link>
-        <textarea
-          placeholder="이달의 책과 관련해 추천하고 싶은 책을 작성해주세요. 위에서 추천책 정보를 찾으실 수 있습니다."
-          onChange={onChange}
-          value={text}
-        />
+    <Form onSubmit={onSubmit}>
+      <Link to="/search">
+        <Search />
+        추천책 정보 찾기
+      </Link>
+      <textarea
+        placeholder="이달의 책과 관련해 추천하고 싶은 책을 작성해주세요. 위에서 추천책 정보를 찾으실 수 있습니다."
+        onChange={onChange}
+        value={text}
+      />
 
-        {myRecommendBook?.thumbnail ? (
-          <>
-            <h5>추천책 정보</h5>
-            <RecommendInfo />
-          </>
-        ) : (
-          <></>
-        )}
-        <ThisMonthBook>
-          <BookTitleImgBox docData={thisMonthBook} smSize={"smSize"} />
-          <input type="submit" value="추천하기" />
-        </ThisMonthBook>
-      </Form>
-    </>
+      {myRecommendBook?.thumbnail ? (
+        <>
+          <h5>추천책 정보</h5>
+          <RecommendInfo />
+        </>
+      ) : (
+        <></>
+      )}
+      <ThisMonthBook>
+        <BookTitleImgBox docData={thisMonthBook} smSize={"smSize"} />
+        <input type="submit" value="추천하기" />
+      </ThisMonthBook>
+    </Form>
   );
 };
 

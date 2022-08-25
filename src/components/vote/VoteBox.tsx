@@ -12,10 +12,9 @@ import styled from "styled-components";
 
 interface PropsType {
   vote: IVote;
-  index: number;
 }
 
-const VoteBox = ({ vote, index }: PropsType) => {
+const VoteBox = ({ vote }: PropsType) => {
   return (
     <Vote>
       <VoteLists>
@@ -29,11 +28,11 @@ const VoteBox = ({ vote, index }: PropsType) => {
             <span>{item.item}</span>
           </li>
         ))}
-        {vote.vote.voteItem.length > 3 ? <MoreHoriz /> : <></>}
+        {vote.vote.voteItem.length > 3 && <MoreHoriz />}
       </VoteLists>
       <VoteBottom>
         <p>D-Day: {dDay(vote.deadline)}</p>
-        <Link to={`/vote/${index}`} state={{ vote }}>
+        <Link to={`/vote/${vote.voteId}`} state={{ vote }}>
           투표하러 가기
           <ArrowForwardIosOutlined />
         </Link>

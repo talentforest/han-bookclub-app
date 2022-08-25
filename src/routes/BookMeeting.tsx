@@ -9,7 +9,6 @@ import BookRecomCreateBox from "components/bookmeeting/BookRecomCreateBox";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
 import Subtitle from "components/common/Subtitle";
-import MobileHeader from "components/header/MobileHeader";
 import BookDesc from "components/common/BookDesc";
 import ReviewCreateBox from "components/bookmeeting/ReviewCreateBox";
 import Reviews from "components/bookmeeting/Reviews";
@@ -23,7 +22,6 @@ import Overlay from "components/common/Overlay";
 const BookMeeting = () => {
   const userData = useRecoilValue(currentUserState);
   const [showBookDetail, setShowBookDetail] = useState(false);
-
   const { bookMeetings } = useCallBookMeeting();
   const { monthSubjects, monthReviews, monthRecommends } = useCallAllRecords(
     bookMeetings[0]?.id
@@ -39,87 +37,84 @@ const BookMeeting = () => {
   const latestDoc = bookMeetings[0];
 
   return (
-    <>
-      <MobileHeader title="이달의 책모임" />
-      <Container>
-        <Subtitle
-          title={latestDoc?.id ? `${latestDoc?.id.slice(6)}월의 책` : "월의 책"}
+    <Container>
+      <Subtitle
+        title={latestDoc?.id ? `${latestDoc?.id.slice(6)}월의 책` : "월의 책"}
+      />
+      <MeetingBox>
+        <BookTitleImgBox
+          docData={latestDoc?.book}
+          onModalClick={onModalClick}
         />
-        <MeetingBox>
-          <BookTitleImgBox
-            docData={latestDoc?.book}
-            onModalClick={onModalClick}
+        <p>도서 이미지를 클릭하시면 상세정보를 보실 수 있습니다.</p>
+        <MeetingInfoBox docData={latestDoc?.meeting} />
+      </MeetingBox>
+      {showBookDetail && (
+        <BookDetail>
+          <Overlay onModalClick={onModalClick} />
+          <BookDesc bookInfo={latestDoc?.book} onModalClick={onModalClick} />
+        </BookDetail>
+      )}
+      <CategoryButton>
+        <Link to="" className={bookUrlMatch && "isActive"}>
+          추천책
+        </Link>
+        <Link to="subject" className={subjectUrlMatch && "isActive"}>
+          발제문 작성
+        </Link>
+        <Link to="review" className={reviewUrlMatch && "isActive"}>
+          모임 후기
+        </Link>
+      </CategoryButton>
+      {bookUrlMatch && (
+        <>
+          <BookRecomCreateBox
+            uid={userData?.uid}
+            thisMonthBook={latestDoc?.book}
+            docMonth={latestDoc?.id}
           />
-          <p>도서 이미지를 클릭하시면 상세정보를 보실 수 있습니다.</p>
-          <MeetingInfoBox docData={latestDoc?.meeting} />
-        </MeetingBox>
-        {showBookDetail && (
-          <BookDetail>
-            <Overlay onModalClick={onModalClick} />
-            <BookDesc bookInfo={latestDoc?.book} onModalClick={onModalClick} />
-          </BookDetail>
-        )}
-        <CategoryButton>
-          <Link to="" className={bookUrlMatch && "isActive"}>
-            추천책
-          </Link>
-          <Link to="subject" className={subjectUrlMatch && "isActive"}>
-            발제문 작성
-          </Link>
-          <Link to="review" className={reviewUrlMatch && "isActive"}>
-            모임 후기
-          </Link>
-        </CategoryButton>
-        {bookUrlMatch && (
-          <>
-            <BookRecomCreateBox
-              uid={userData?.uid}
-              thisMonthBook={latestDoc?.book}
-              docMonth={latestDoc?.id}
-            />
-            {monthRecommends.length !== 0 &&
-              monthRecommends?.map((item) => (
-                <BookRecomBox
-                  key={item.id}
-                  item={item}
-                  docMonth={latestDoc?.id}
-                />
-              ))}
-          </>
-        )}
-        {subjectUrlMatch && (
-          <>
-            <SubjectCreateModal
-              bookInfo={latestDoc?.book}
-              docMonth={latestDoc?.id}
-            />
-            {monthSubjects?.map((subject) => (
-              <Subjects
-                key={subject.id}
-                subject={subject}
+          {monthRecommends.length !== 0 &&
+            monthRecommends?.map((item) => (
+              <BookRecomBox
+                key={item.id}
+                item={item}
                 docMonth={latestDoc?.id}
               />
             ))}
-          </>
-        )}
-        {reviewUrlMatch && (
-          <>
-            <ReviewCreateBox
+        </>
+      )}
+      {subjectUrlMatch && (
+        <>
+          <SubjectCreateModal
+            bookInfo={latestDoc?.book}
+            docMonth={latestDoc?.id}
+          />
+          {monthSubjects?.map((subject) => (
+            <Subjects
+              key={subject.id}
+              subject={subject}
+              docMonth={latestDoc?.id}
+            />
+          ))}
+        </>
+      )}
+      {reviewUrlMatch && (
+        <>
+          <ReviewCreateBox
+            bookInfo={latestDoc?.book}
+            docMonth={latestDoc?.id}
+          />
+          {monthReviews?.map((review) => (
+            <Reviews
+              key={review.id}
+              review={review}
               bookInfo={latestDoc?.book}
               docMonth={latestDoc?.id}
             />
-            {monthReviews?.map((review) => (
-              <Reviews
-                key={review.id}
-                review={review}
-                bookInfo={latestDoc?.book}
-                docMonth={latestDoc?.id}
-              />
-            ))}
-          </>
-        )}
-      </Container>
-    </>
+          ))}
+        </>
+      )}
+    </Container>
   );
 };
 

@@ -3,7 +3,6 @@ import { Container, Input } from "theme/commonStyle";
 import { bookSearchHandler } from "api/searchBookApi";
 import styled from "styled-components";
 import ResultBox from "components/search/ResultBox";
-import BackButtonHeader from "components/header/BackButtonHeader";
 
 const Search = () => {
   const [bookInfo, setBookInfo] = useState([]);
@@ -25,28 +24,25 @@ const Search = () => {
   };
 
   return (
-    <>
-      <BackButtonHeader title="책 검색하기" />
-      <Container>
-        <Form onSubmit={onSubmit}>
-          <Input
-            type="text"
-            placeholder="등록하실 책을 검색해주세요."
-            autoFocus
-            value={bookQuery}
-            onChange={onChange}
-          />
-          <Input type="submit" value="검색" />
-        </Form>
-        <BookResults>
-          <span>검색결과 {bookInfo.length}건</span>
-          <p>최대 10건이 검색됩니다.</p>
-          {bookInfo.map((bookInfo, index) => (
-            <ResultBox bookInfo={bookInfo} key={index} />
-          ))}
-        </BookResults>
-      </Container>
-    </>
+    <Container>
+      <Form onSubmit={onSubmit}>
+        <Input
+          type="text"
+          placeholder="등록하실 책을 검색해주세요."
+          autoFocus
+          value={bookQuery}
+          onChange={onChange}
+        />
+        <Input type="submit" value="검색" />
+      </Form>
+      <BookResults>
+        <span>검색결과 {bookInfo.length}건</span>
+        <p>최대 10건이 검색됩니다.</p>
+        {bookInfo.map((bookInfo, index) => (
+          <ResultBox bookInfo={bookInfo} key={index} />
+        ))}
+      </BookResults>
+    </Container>
   );
 };
 

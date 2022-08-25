@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button, Container, Desc, Form, Input } from "theme/commonStyle";
 import device from "theme/mediaQueries";
-import BackButtonHeader from "components/header/BackButtonHeader";
 import styled from "styled-components";
 
 interface PropsType {
@@ -67,45 +66,42 @@ const AccountForm = ({
   };
 
   return (
-    <>
-      <BackButtonHeader title="계정 생성하기" />
-      <Container>
-        <Desc>사용하실 계정 정보를 입력해 주세요.</Desc>
-        <Form onSubmit={onSubmit}>
-          <EmailMessage>{emailMessage}</EmailMessage>
-          <Input
-            name="email"
-            type="email"
-            placeholder="자주 사용하는 이메일 계정을 입력해주세요."
-            value={email}
-            onChange={onChange}
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-            required
-          />
-          <Input
-            name="password"
-            type="password"
-            placeholder="비밀번호는 8자 이상이어야 합니다."
-            value={password}
-            onChange={onChange}
-            autoComplete="on"
-            required
-          />
-          <Input
-            name="checkPassword"
-            type="password"
-            placeholder="비밀번호를 다시 한번 입력해주세요."
-            value={checkPassword}
-            onChange={onChange}
-            autoComplete="on"
-            required
-          />
-          <Message>{errorMessage}</Message>
-          <Message>{accountMessage}</Message>
-          <Button type="submit" value="계정 생성하기" />
-        </Form>
-      </Container>
-    </>
+    <Container>
+      <Desc>사용하실 계정 정보를 입력해 주세요.</Desc>
+      <Form onSubmit={onSubmit}>
+        <EmailMessage>{emailMessage}</EmailMessage>
+        <Input
+          name="email"
+          type="email"
+          placeholder="자주 사용하는 이메일 계정을 입력해주세요."
+          value={email}
+          onChange={onChange}
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+          required
+        />
+        <Input
+          name="password"
+          type="password"
+          placeholder="비밀번호는 8자 이상이어야 합니다."
+          value={password}
+          onChange={onChange}
+          autoComplete="on"
+          required
+        />
+        <Input
+          name="checkPassword"
+          type="password"
+          placeholder="비밀번호를 다시 한번 입력해주세요."
+          value={checkPassword}
+          onChange={onChange}
+          autoComplete="on"
+          required
+        />
+        <Message>{errorMessage}</Message>
+        <Message>{accountMessage}</Message>
+        <Button type="submit" value="계정 생성하기" />
+      </Form>
+    </Container>
   );
 };
 

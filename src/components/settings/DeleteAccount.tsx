@@ -10,7 +10,6 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { useState } from "react";
 import { Button, Container, Desc, Input } from "theme/commonStyle";
-import BackButtonHeader from "components/header/BackButtonHeader";
 import styled from "styled-components";
 
 const DeleteAccount = () => {
@@ -52,27 +51,24 @@ const DeleteAccount = () => {
   };
 
   return (
-    <>
-      <BackButtonHeader title="탈퇴" />
-      <Container>
-        <Desc>
-          탈퇴할 시 회원님의 데이터는 즉시 모두 삭제되며, 데이터는 복구
-          불가능합니다.
-        </Desc>
-        <form onSubmit={onDeleteSubmit}>
-          {showMessage ? <Msg>비밀번호가 맞지 않습니다.</Msg> : <></>}
-          <Input
-            type="password"
-            placeholder="현재 비밀번호를 입력해주세요."
-            value={password}
-            onChange={onChange}
-            autoComplete="true"
-            required
-          />
-          <Button type="submit" value="탈퇴하기" />
-        </form>
-      </Container>
-    </>
+    <Container>
+      <Desc>
+        탈퇴할 시 회원님의 데이터는 즉시 모두 삭제되며, 데이터는 복구
+        불가능합니다.
+      </Desc>
+      <form onSubmit={onDeleteSubmit}>
+        {showMessage ? <Msg>비밀번호가 맞지 않습니다.</Msg> : <></>}
+        <Input
+          type="password"
+          placeholder="현재 비밀번호를 입력해주세요."
+          value={password}
+          onChange={onChange}
+          autoComplete="true"
+          required
+        />
+        <Button type="submit" value="탈퇴하기" />
+      </form>
+    </Container>
   );
 };
 

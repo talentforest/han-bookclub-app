@@ -50,6 +50,7 @@ export interface IVote {
   creatorId: string;
   deadline: string;
   id: string;
+  voteId: number;
 }
 
 export interface UpdateRequestDoc {

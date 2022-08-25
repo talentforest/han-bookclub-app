@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container } from "theme/commonStyle";
 import { getUpdateRequestDoc } from "util/getFirebaseDoc";
-import BackButtonHeader from "components/header/BackButtonHeader";
 import UpdateCreateBox from "components/updateRequest/UpdateCreateBox";
 import UpdateRequestBox from "components/updateRequest/UpdateRequestBox";
 
@@ -17,17 +16,14 @@ const UpdateRequest = () => {
   }, []);
 
   return (
-    <>
-      <BackButtonHeader title="업데이트 요청하기" />
-      <Container>
-        <UpdateCreateBox request={request} setRequest={setRequest} />
-        <ul>
-          {requestDoc.map((item) => (
-            <UpdateRequestBox key={item.id} item={item} />
-          ))}
-        </ul>
-      </Container>
-    </>
+    <Container>
+      <UpdateCreateBox request={request} setRequest={setRequest} />
+      <ul>
+        {requestDoc.map((item) => (
+          <UpdateRequestBox key={item.id} item={item} />
+        ))}
+      </ul>
+    </Container>
   );
 };
 

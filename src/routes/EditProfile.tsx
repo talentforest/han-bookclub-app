@@ -3,7 +3,6 @@ import { BookFieldType } from "components/loginForm/UserDataInputForm";
 import styled from "styled-components";
 import NotEditingProfile from "components/editProfile/NotEditingProfile";
 import EditingProfile from "components/editProfile/EditingProfile";
-import BackButtonHeader from "components/header/BackButtonHeader";
 import useHandleProfile from "hooks/useHandleProfile";
 
 export interface extraUserData {
@@ -28,27 +27,24 @@ const EditProfile = () => {
   } = useHandleProfile();
 
   return (
-    <>
-      <BackButtonHeader title="프로필 정보" />
-      <NewContainer>
-        {editing ? (
-          <EditingProfile
-            onProfileSubmit={onProfileSubmit}
-            profileImgUrl={profileImgUrl}
-            setProfileImgUrl={setProfileImgUrl}
-            extraUserData={extraUserData}
-            newDisplayName={newDisplayName}
-            setNewDisplayName={setNewDisplayName}
-            onHandleClick={onHandleClick}
-          />
-        ) : (
-          <NotEditingProfile
-            setEditing={setEditing}
-            extraUserData={extraUserData}
-          />
-        )}
-      </NewContainer>
-    </>
+    <NewContainer>
+      {editing ? (
+        <EditingProfile
+          onProfileSubmit={onProfileSubmit}
+          profileImgUrl={profileImgUrl}
+          setProfileImgUrl={setProfileImgUrl}
+          extraUserData={extraUserData}
+          newDisplayName={newDisplayName}
+          setNewDisplayName={setNewDisplayName}
+          onHandleClick={onHandleClick}
+        />
+      ) : (
+        <NotEditingProfile
+          setEditing={setEditing}
+          extraUserData={extraUserData}
+        />
+      )}
+    </NewContainer>
   );
 };
 

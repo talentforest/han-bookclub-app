@@ -2,7 +2,6 @@ import { useState } from "react";
 import { authService } from "fbase";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { Container, Desc, Input } from "theme/commonStyle";
-import BackButtonHeader from "components/header/BackButtonHeader";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 
@@ -26,34 +25,31 @@ const ResetPasswordEmail = () => {
   };
 
   return (
-    <>
-      <BackButtonHeader title="비밀번호 찾기" />
-      <Container>
-        <Desc>비밀번호가 생각나지 않으세요?</Desc>
-        <Detail>
-          가입할 때 사용하신 계정 이메일을 적어주세요. <br />
-          해당 이메일에 비밀번호 재설정 링크를 전송해 드릴게요.
-        </Detail>
-        <InputForm onSubmit={onSubmit}>
-          <Input
-            type="email"
-            value={email}
-            placeholder="계정 이메일을 적어주세요."
-            onChange={onChange}
-            required
-          />
-          <Input type="submit" value="전송하기" />
-        </InputForm>
-        {submitSuccess ? (
-          <Message>
-            해당 이메일에 성공적으로 전송되었습니다.
-            <br /> 수신함에 메일이 보이지 않는다면 스팸을 확인해주세요.
-          </Message>
-        ) : (
-          <></>
-        )}
-      </Container>
-    </>
+    <Container>
+      <Desc>비밀번호가 생각나지 않으세요?</Desc>
+      <Detail>
+        가입할 때 사용하신 계정 이메일을 적어주세요. <br />
+        해당 이메일에 비밀번호 재설정 링크를 전송해 드릴게요.
+      </Detail>
+      <InputForm onSubmit={onSubmit}>
+        <Input
+          type="email"
+          value={email}
+          placeholder="계정 이메일을 적어주세요."
+          onChange={onChange}
+          required
+        />
+        <Input type="submit" value="전송하기" />
+      </InputForm>
+      {submitSuccess ? (
+        <Message>
+          해당 이메일에 성공적으로 전송되었습니다.
+          <br /> 수신함에 메일이 보이지 않는다면 스팸을 확인해주세요.
+        </Message>
+      ) : (
+        <></>
+      )}
+    </Container>
   );
 };
 
