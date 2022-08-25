@@ -18,21 +18,21 @@ import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 
 interface PropsType {
-  item: IWrittenDocs;
+  recommend: IWrittenDocs;
   docMonth?: string;
   setShowDetail?: (detail: []) => void;
 }
 
-const BookRecomBox = ({ item, docMonth, setShowDetail }: PropsType) => {
+const BookRecomBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
   const [editing, setEditing] = useState(false);
-  const [newText, setNewText] = useState(item.text);
+  const [newText, setNewText] = useState(recommend.text);
   const [showingGuide, setShowingGuide] = useState(false);
   const userData = useRecoilValue(currentUserState);
 
   const RecommendedBookRef = doc(
     dbService,
     `BookMeeting Info/${docMonth}/recommended book`,
-    `${item.id}`
+    `${recommend.id}`
   );
 
   const onEditSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -69,7 +69,7 @@ const BookRecomBox = ({ item, docMonth, setShowDetail }: PropsType) => {
         <TextBox>
           <form onSubmit={onEditSubmit}>
             <FormHeader>
-              <UserInfoBox creatorId={item.creatorId} />
+              <UserInfoBox creatorId={recommend.creatorId} />
               {showingGuide && (
                 <GuideTextBox>
                   한 글자 이상 작성해주세요. <div></div>
@@ -81,14 +81,17 @@ const BookRecomBox = ({ item, docMonth, setShowDetail }: PropsType) => {
                 <DoneBtn type="submit" value="수정완료" />
               )}
             </FormHeader>
-            {item.recommendBookTitle ? (
+            {recommend.recommendBookTitle ? (
               <RecommendBook>
-                <img src={item.recommendBookThumbnail} alt="recommend book" />
+                <img
+                  src={recommend.recommendBookThumbnail}
+                  alt="recommend book"
+                />
                 <div>
-                  <h5>{item.recommendBookTitle}</h5>
-                  <span>{item.recommendBookAuthor?.join(", ")}</span>
+                  <h5>{recommend.recommendBookTitle}</h5>
+                  <span>{recommend.recommendBookAuthor?.join(", ")}</span>
                   <a
-                    href={item.recommendBookUrl}
+                    href={recommend.recommendBookUrl}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -105,27 +108,30 @@ const BookRecomBox = ({ item, docMonth, setShowDetail }: PropsType) => {
               onChange={onChange}
             />
           </form>
-          <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
+          <RegisterTime>{timestamp(recommend.createdAt)}</RegisterTime>
         </TextBox>
       ) : (
         <TextBox>
           <FormHeader>
-            <UserInfoBox creatorId={item.creatorId} />
-            {userData.uid === item.creatorId && (
+            <UserInfoBox creatorId={recommend.creatorId} />
+            {userData.uid === recommend.creatorId && (
               <EditDeleteIcon>
                 <Edit role="button" onClick={toggleEditing} />
                 <Delete role="button" onClick={onDeleteClick} />
               </EditDeleteIcon>
             )}
           </FormHeader>
-          {item.recommendBookTitle ? (
+          {recommend.recommendBookTitle ? (
             <RecommendBook>
-              <img src={item.recommendBookThumbnail} alt="recommend book" />
+              <img
+                src={recommend.recommendBookThumbnail}
+                alt="recommend book"
+              />
               <div>
-                <h5>{item.recommendBookTitle}</h5>
-                <span>{item.recommendBookAuthor?.join(", ")}</span>
+                <h5>{recommend.recommendBookTitle}</h5>
+                <span>{recommend.recommendBookAuthor?.join(", ")}</span>
                 <a
-                  href={item.recommendBookUrl}
+                  href={recommend.recommendBookUrl}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -137,10 +143,10 @@ const BookRecomBox = ({ item, docMonth, setShowDetail }: PropsType) => {
             <></>
           )}
           <pre>{newText}</pre>
-          <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
+          <RegisterTime>{timestamp(recommend.createdAt)}</RegisterTime>
           <BookTitleImgBox
-            thumbnail={item.thumbnail}
-            title={item.title}
+            thumbnail={recommend.thumbnail}
+            title={recommend.title}
             smSize={"smSize"}
           />
         </TextBox>

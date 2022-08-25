@@ -73,11 +73,11 @@ const MyRecommendBook = ({ item }: PropsType) => {
                 }}
               />
               <SubjectBox>
-                {showDetail.map((item) => (
+                {showDetail.map((recommend) => (
                   <div key={item.id}>
                     <BookRecomBox
                       key={item.id}
-                      item={item}
+                      recommend={recommend}
                       docMonth={docMonth}
                       setShowDetail={setShowDetail}
                     />

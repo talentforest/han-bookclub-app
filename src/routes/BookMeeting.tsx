@@ -1,39 +1,33 @@
 import { Container } from "theme/commonStyle";
 import { Link, useMatch } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { currentUserState } from "data/userAtom";
-import Subjects from "components/bookmeeting/Subjects";
-import BookTitleImgBox from "components/common/BookTitleImgBox";
-import BookRecomCreateBox from "components/bookmeeting/BookRecomCreateBox";
-import BookRecomBox from "components/bookmeeting/BookRecomBox";
-import MeetingInfoBox from "components/common/MeetingInfoBox";
-import Subtitle from "components/common/Subtitle";
-import ReviewCreateBox from "components/bookmeeting/ReviewCreateBox";
-import Reviews from "components/bookmeeting/Reviews";
-import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
-import device from "theme/mediaQueries";
-import styled from "styled-components";
 import useCallAllRecords from "hooks/useCallAllRecords";
 import useCallBookMeeting from "hooks/useCallBookMeeting";
 import Loading from "components/common/Loading";
+import Subtitle from "components/common/Subtitle";
+import RecommendationArea from "components/template/RecommendationArea";
+import SubjectArea from "components/template/SubjectArea";
+import ReviewArea from "components/template/ReviewArea";
+import MeetingInfoBox from "components/common/MeetingInfoBox";
+import BookTitleImgBox from "components/common/BookTitleImgBox";
+import device from "theme/mediaQueries";
+import styled from "styled-components";
 
 const BookMeeting = () => {
-  const userData = useRecoilValue(currentUserState);
-
   const { bookMeetings } = useCallBookMeeting();
+  const latestDoc = bookMeetings[0];
   const { monthSubjects, monthReviews, monthRecommends } = useCallAllRecords(
-    bookMeetings[0]?.id
+    latestDoc?.id
   );
 
   const bookUrlMatch = useMatch("/bookmeeting");
   const subjectUrlMatch = useMatch("/bookmeeting/subject");
   const reviewUrlMatch = useMatch("/bookmeeting/review");
 
-  const latestDoc = bookMeetings[0];
-
   return (
     <>
-      {latestDoc ? (
+      {!latestDoc ? (
+        <Loading />
+      ) : (
         <Container>
           <Subtitle title={`${latestDoc?.id.slice(6)}월의 책`} />
           <MeetingBox>
@@ -57,56 +51,18 @@ const BookMeeting = () => {
             </Link>
           </CategoryButton>
           {bookUrlMatch && (
-            <>
-              <BookRecomCreateBox
-                uid={userData?.uid}
-                thisMonthBook={latestDoc?.book}
-                docMonth={latestDoc?.id}
-              />
-              {monthRecommends.length !== 0 &&
-                monthRecommends?.map((item) => (
-                  <BookRecomBox
-                    key={item.id}
-                    item={item}
-                    docMonth={latestDoc?.id}
-                  />
-                ))}
-            </>
+            <RecommendationArea
+              monthRecommends={monthRecommends}
+              latestDoc={latestDoc}
+            />
           )}
           {subjectUrlMatch && (
-            <>
-              <SubjectCreateModal
-                bookInfo={latestDoc?.book}
-                docMonth={latestDoc?.id}
-              />
-              {monthSubjects?.map((subject) => (
-                <Subjects
-                  key={subject.id}
-                  subject={subject}
-                  docMonth={latestDoc?.id}
-                />
-              ))}
-            </>
+            <SubjectArea monthSubjects={monthSubjects} latestDoc={latestDoc} />
           )}
           {reviewUrlMatch && (
-            <>
-              <ReviewCreateBox
-                bookInfo={latestDoc?.book}
-                docMonth={latestDoc?.id}
-              />
-              {monthReviews?.map((review) => (
-                <Reviews
-                  key={review.id}
-                  review={review}
-                  bookInfo={latestDoc?.book}
-                  docMonth={latestDoc?.id}
-                />
-              ))}
-            </>
+            <ReviewArea monthReviews={monthReviews} latestDoc={latestDoc} />
           )}
         </Container>
-      ) : (
-        <Loading />
       )}
     </>
   );
