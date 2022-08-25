@@ -15,7 +15,6 @@ import useWindowSize from "hooks/useWindowSize";
 import Search from "routes/Search";
 import SearchedBookInfo from "routes/SearchedBookInfo";
 import ClubHistory from "routes/ClubHistory";
-import UserDataInputForm from "components/loginForm/UserDataInputForm";
 import ResetPasswordEmail from "routes/ResetPasswordEmail";
 import EditPassword from "routes/EditPassword";
 import VoteDetail from "routes/VoteDetail";
@@ -37,7 +36,7 @@ function Router({ isLoggedIn }: PropsType) {
       {isLoggedIn && windowSize.width >= +deviceSizes.tablet ? (
         <DesktopHeader />
       ) : (
-        <MobileHeader />
+        <MobileHeader isLoggedIn={isLoggedIn} />
       )}
       <Routes>
         {isLoggedIn ? (
@@ -62,10 +61,6 @@ function Router({ isLoggedIn }: PropsType) {
             <Route path="/" element={<LogInPage />} />
             <Route path="/find_pw" element={<ResetPasswordEmail />} />
             <Route path="/create_account" element={<CreateAccount />} />
-            <Route
-              path="/create_account/userInfo"
-              element={<UserDataInputForm />}
-            />
             <Route path="/*" element={<LogInPage />} />
           </>
         )}
