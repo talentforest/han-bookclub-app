@@ -8,7 +8,7 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
-import { useNavigate } from "react-router-dom";
+import useAlertAskJoin from "hooks/useAlertAskJoin";
 
 interface PropsType {
   bookInfo: IBookApi;
@@ -19,22 +19,10 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
   const [subject, setSubject] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const userData = useRecoilValue(currentUserState);
-  const navigate = useNavigate();
+  const { alertAskJoin } = useAlertAskJoin();
 
   const onModalClick = () => {
     setModalOpen((prev) => !prev);
-  };
-
-  const moveCreateAccountPage = () => {
-    if (authService.currentUser.isAnonymous) {
-      const confirm = window.confirm(
-        "한페이지 멤버가 되셔야 글 작성이 가능합니다. 아주 간단하게 가입하시겠어요?"
-      );
-      if (confirm) {
-        navigate("/create_account");
-        return;
-      }
-    }
   };
 
   const addDocSubject = async () => {
@@ -55,7 +43,7 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
     if (subject === "") return;
     try {
       if (authService.currentUser.isAnonymous) {
-        moveCreateAccountPage();
+        alertAskJoin();
       } else {
         addDocSubject();
       }

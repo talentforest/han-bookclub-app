@@ -7,10 +7,10 @@ const useCallBookMeeting = () => {
   const [bookMeetings, setBookMeetings] = useRecoilState(bookMeetingsState);
 
   const checkBookMeetingData = () => {
-    if (!bookMeetings?.length) {
-      getBookMeetings(setBookMeetings);
-    } else {
+    if (bookMeetings?.length) {
       return;
+    } else {
+      getBookMeetings(setBookMeetings);
     }
   };
 

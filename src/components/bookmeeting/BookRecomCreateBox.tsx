@@ -2,13 +2,14 @@ import { useState } from "react";
 import { authService, dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { IBookApi, recommendBookState } from "data/bookAtom";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Search } from "@mui/icons-material";
 import { useRecoilValue } from "recoil";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import RecommendInfo from "./RecommendInfo";
+import useAlertAskJoin from "hooks/useAlertAskJoin";
 
 interface PropsType {
   uid: string;
@@ -19,17 +20,7 @@ interface PropsType {
 const BookRecomCreateBox = ({ uid, thisMonthBook, docMonth }: PropsType) => {
   const [text, setText] = useState("");
   const myRecommendBook = useRecoilValue(recommendBookState);
-  const navigate = useNavigate();
-
-  const moveCreateAccountPage = () => {
-    const confirm = window.confirm(
-      "한페이지 멤버가 되셔야 글 작성이 가능합니다. 아주 간단하게 가입하시겠어요?"
-    );
-    if (confirm) {
-      navigate("/create_account");
-      return;
-    }
-  };
+  const { alertAskJoin } = useAlertAskJoin();
 
   const addDocRecomBook = async () => {
     await addDoc(
@@ -57,7 +48,7 @@ const BookRecomCreateBox = ({ uid, thisMonthBook, docMonth }: PropsType) => {
     }
     try {
       if (authService.currentUser.isAnonymous) {
-        moveCreateAccountPage();
+        alertAskJoin();
       } else {
         addDocRecomBook();
       }

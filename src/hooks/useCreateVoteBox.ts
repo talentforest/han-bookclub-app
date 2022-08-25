@@ -2,9 +2,9 @@ import { currentUserState } from "data/userAtom";
 import { authService, dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { pickDay } from "util/constants";
+import useAlertAskJoin from "./useAlertAskJoin";
 
 const useCreateVoteBox = (
   setModalOpen: (modalOpen: boolean) => void,
@@ -18,19 +18,7 @@ const useCreateVoteBox = (
       { id: 2, item: "", voteCount: 0 },
     ],
   });
-  const navigate = useNavigate();
-
-  const moveCreateAccountPage = () => {
-    if (authService.currentUser.isAnonymous) {
-      const confirm = window.confirm(
-        "한페이지 멤버가 되셔야 글 작성이 가능합니다. 아주 간단하게 가입하시겠어요?"
-      );
-      if (confirm) {
-        navigate("/create_account");
-        return;
-      }
-    }
-  };
+  const { alertAskJoin } = useAlertAskJoin();
 
   const addDocVote = async () => {
     await addDoc(collection(dbService, "Vote"), {
@@ -46,7 +34,7 @@ const useCreateVoteBox = (
     if (!vote.title) return;
     try {
       if (authService.currentUser.isAnonymous) {
-        moveCreateAccountPage();
+        alertAskJoin();
       } else {
         addDocVote();
         window.alert("투표가 성공적으로 등록되었습니다!");

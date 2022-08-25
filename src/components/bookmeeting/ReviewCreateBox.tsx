@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { IBookApi } from "data/bookAtom";
-import { useNavigate } from "react-router-dom";
+import useAlertAskJoin from "hooks/useAlertAskJoin";
 
 interface PropsType {
   bookInfo: IBookApi;
@@ -16,17 +16,7 @@ interface PropsType {
 const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
   const userData = useRecoilValue(currentUserState);
   const [review, setReview] = useState("");
-  const navigate = useNavigate();
-
-  const moveCreateAccountPage = () => {
-    const confirm = window.confirm(
-      "한페이지 멤버가 되셔야 글 작성이 가능합니다. 아주 간단하게 가입하시겠어요?"
-    );
-    if (confirm) {
-      navigate("/create_account");
-      return;
-    }
-  };
+  const { alertAskJoin } = useAlertAskJoin();
 
   const addDocReview = async () => {
     await addDoc(
@@ -46,7 +36,7 @@ const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
     if (review === "") return;
     try {
       if (authService.currentUser.isAnonymous) {
-        moveCreateAccountPage();
+        alertAskJoin();
       } else {
         addDocReview();
       }

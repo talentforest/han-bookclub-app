@@ -2,8 +2,8 @@ import { currentUserState } from "data/userAtom";
 import { authService, dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import useAlertAskJoin from "hooks/useAlertAskJoin";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 
@@ -15,17 +15,7 @@ interface PropsType {
 const UpdateCreateBox = ({ request, setRequest }: PropsType) => {
   const [requestType, setRequestType] = useState("bug");
   const userData = useRecoilValue(currentUserState);
-  const navigate = useNavigate();
-
-  const moveCreateAccountPage = () => {
-    const confirm = window.confirm(
-      "한페이지 멤버가 되셔야 글 작성이 가능합니다. 아주 간단하게 가입하시겠어요?"
-    );
-    if (confirm) {
-      navigate("/create_account");
-      return;
-    }
-  };
+  const { alertAskJoin } = useAlertAskJoin();
 
   const addDocRequest = async () => {
     await addDoc(collection(dbService, "Update Request"), {
@@ -41,7 +31,7 @@ const UpdateCreateBox = ({ request, setRequest }: PropsType) => {
     if (request === "") return;
     try {
       if (authService.currentUser.isAnonymous) {
-        moveCreateAccountPage();
+        alertAskJoin();
       } else {
         addDocRequest();
       }

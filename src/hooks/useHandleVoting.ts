@@ -1,8 +1,8 @@
 import { authService, dbService } from "fbase";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { getMembersVote, IVote, IVoteItem } from "util/getFirebaseDoc";
+import useAlertAskJoin from "./useAlertAskJoin";
 
 const useHandleVoting = (vote: IVote, userDataUid: string) => {
   const [disabled, setDisabled] = useState(false);
@@ -10,18 +10,9 @@ const useHandleVoting = (vote: IVote, userDataUid: string) => {
   const [voteItem, setVoteItem] = useState(vote.vote.voteItem);
   const [membersVote, setMembersVote] = useState([]);
 
-  const voteRef = doc(dbService, "Vote", `${vote.id}`);
-  const navigate = useNavigate();
+  const { alertAskJoin } = useAlertAskJoin();
 
-  const moveCreateAccountPage = () => {
-    const confirm = window.confirm(
-      "한페이지 멤버가 되셔야 투표가 가능합니다. 아주 간단하게 가입하시겠어요?"
-    );
-    if (confirm) {
-      navigate("/create_account");
-      return;
-    }
-  };
+  const voteRef = doc(dbService, "Vote", `${vote.id}`);
 
   const addDocVoteItems = async () => {
     await setDoc(
@@ -51,7 +42,7 @@ const useHandleVoting = (vote: IVote, userDataUid: string) => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (authService.currentUser.isAnonymous) return moveCreateAccountPage();
+    if (authService.currentUser.isAnonymous) return alertAskJoin();
     if (selectedItem.length === 0) return;
     try {
       addDocVoteItems();
@@ -64,7 +55,7 @@ const useHandleVoting = (vote: IVote, userDataUid: string) => {
 
   const onVoteItemClick = (index: number, value: string, voteCount: number) => {
     if (authService.currentUser.isAnonymous) {
-      moveCreateAccountPage();
+      alertAskJoin();
     } else {
       setSelectedItem([...selectedItem, { id: index, item: value }]);
       if (selectedItem.some((item) => item.id === index)) {
