@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ChevronRight } from "@mui/icons-material";
+import { ChevronRight, LocalActivity } from "@mui/icons-material";
 import { getMonthNumber } from "util/getMonthNumber";
 import { IBookMeeting } from "util/getFirebaseDoc";
 import Subtitle from "components/common/Subtitle";
@@ -19,7 +19,14 @@ const HistoryBox = ({ bookMeeting }: PropsType) => {
     <BookMeeting to={id} state={{ bookMeeting }}>
       <Subtitle title={`${getMonthNumber(id)}월의 책`} />
       <Info>
-        <BookTitleImgBox docData={book} />
+        {book.thumbnail ? (
+          <BookTitleImgBox thumbnail={book.thumbnail} title={book.title} />
+        ) : (
+          <Event>
+            <LocalActivity />
+            <span>이벤트</span>
+          </Event>
+        )}
         <MeetingInfoBox docData={meeting} />
       </Info>
       <button type="button">
@@ -65,11 +72,31 @@ export const Info = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   margin: 0 auto;
   > div:last-child {
     box-shadow: none;
     width: fit-content;
+  }
+`;
+
+const Event = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 20px 0;
+  background-color: ${(props) => props.theme.container.blue};
+  > svg {
+    height: 60px;
+    width: 60px;
+    fill: gold;
+  }
+  > span {
+    color: ${(props) => props.theme.text.white};
+    font-weight: 700;
   }
 `;
 

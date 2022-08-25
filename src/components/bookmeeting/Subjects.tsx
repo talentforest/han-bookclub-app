@@ -102,7 +102,11 @@ const Subjects = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
             onChange={onChange}
           />
           <RegisterTime>{timestamp(subject.createdAt)}</RegisterTime>
-          <BookTitleImgBox docData={subject} smSize={"smSize"} />
+          <BookTitleImgBox
+            thumbnail={subject.thumbnail}
+            title={subject.title}
+            smSize={"smSize"}
+          />
         </form>
       ) : (
         <>
@@ -117,7 +121,11 @@ const Subjects = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
           </FormHeader>
           <pre>{newText}</pre>
           <RegisterTime>{timestamp(subject.createdAt)}</RegisterTime>
-          <BookTitleImgBox docData={subject} smSize={"smSize"} />
+          <BookTitleImgBox
+            thumbnail={subject.thumbnail}
+            title={subject.title}
+            smSize={"smSize"}
+          />
         </>
       )}
     </TextBox>

@@ -138,7 +138,11 @@ const BookRecomBox = ({ item, docMonth, setShowDetail }: PropsType) => {
           )}
           <pre>{newText}</pre>
           <RegisterTime>{timestamp(item.createdAt)}</RegisterTime>
-          <BookTitleImgBox docData={item} smSize={"smSize"} />
+          <BookTitleImgBox
+            thumbnail={item.thumbnail}
+            title={item.title}
+            smSize={"smSize"}
+          />
         </TextBox>
       )}
     </>

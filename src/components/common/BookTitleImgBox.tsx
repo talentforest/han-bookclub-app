@@ -1,30 +1,45 @@
 import { IBookApi } from "data/bookAtom";
-import { IWrittenDocs } from "components/bookmeeting/Subjects";
+import { useState } from "react";
+import Overlay from "./Overlay";
+import BookDesc from "./BookDesc";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
-import { EventAvailable } from "@mui/icons-material";
 
 interface PropsType {
-  docData: IBookApi | IWrittenDocs;
-  onModalClick?: () => void;
+  thumbnail: string;
+  title: string;
+  detailInfo?: IBookApi;
   smSize?: string;
 }
 
-const BookTitleImgBox = ({ docData, onModalClick, smSize }: PropsType) => {
+const BookTitleImgBox = ({
+  thumbnail,
+  title,
+  detailInfo,
+  smSize,
+}: PropsType) => {
+  const [showBookDetail, setShowBookDetail] = useState(false);
+
+  const onModalClick = () => {
+    setShowBookDetail((prev) => !prev);
+  };
+
   return (
     <>
-      {docData ? (
+      {thumbnail && title ? (
         <BookCoverTitleBox smSize={smSize}>
-          {docData?.thumbnail !== "" ? (
-            <img
-              src={docData?.thumbnail}
-              alt="Book_Image"
-              onClick={onModalClick}
-            />
-          ) : (
-            <EventAvailable />
+          <img
+            src={thumbnail}
+            alt={`${title}Book_Image`}
+            onClick={onModalClick}
+          />
+          <h3>{title}</h3>
+          {detailInfo && showBookDetail && (
+            <BookDetail>
+              <Overlay onModalClick={onModalClick} />
+              <BookDesc detailInfo={detailInfo} onModalClick={onModalClick} />
+            </BookDetail>
           )}
-          <h3>{docData?.title}</h3>
         </BookCoverTitleBox>
       ) : (
         <EmptySign smSize={smSize}>
@@ -76,6 +91,26 @@ export const BookCoverTitleBox = styled.div<{ smSize: string }>`
   }
 `;
 
+const BookDetail = styled.div`
+  z-index: 1;
+  position: fixed;
+  height: 100vh;
+  top: 0px;
+  bottom: 0px;
+  right: 0;
+  left: 0;
+  > ul {
+    z-index: 2;
+    position: fixed;
+    top: 30px;
+    right: 0;
+    left: 0;
+    width: 80%;
+    margin: 0 auto;
+    border-radius: 5px;
+  }
+`;
+
 const EmptySign = styled.div<{ smSize: string }>`
   display: flex;
   flex-direction: ${(props) => (props.smSize ? "row" : "column")};
@@ -88,8 +123,8 @@ const EmptySign = styled.div<{ smSize: string }>`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: ${(props) => (props.smSize ? "30px" : "110px")};
-    height: ${(props) => (props.smSize ? "46px" : "150px")};
+    width: ${(props) => (props.smSize ? "30px" : "95px")};
+    height: ${(props) => (props.smSize ? "46px" : "130px")};
     box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
     background-color: ${(props) => props.theme.container.default};
   }

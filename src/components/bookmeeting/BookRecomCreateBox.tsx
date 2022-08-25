@@ -83,7 +83,11 @@ const BookRecomCreateBox = ({ uid, thisMonthBook, docMonth }: PropsType) => {
         <></>
       )}
       <ThisMonthBook>
-        <BookTitleImgBox docData={thisMonthBook} smSize={"smSize"} />
+        <BookTitleImgBox
+          thumbnail={thisMonthBook.thumbnail}
+          title={thisMonthBook.title}
+          smSize={"smSize"}
+        />
         <input type="submit" value="추천하기" />
       </ThisMonthBook>
     </Form>

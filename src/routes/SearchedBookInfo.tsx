@@ -9,7 +9,6 @@ import RegisterRecommendButton from "components/search/RegisterRecommendButton";
 
 const SearchedBookInfo = () => {
   const [bookInfo, setBookInfo] = useState([]);
-
   const { id } = useParams();
 
   useEffect(() => {
@@ -23,10 +22,13 @@ const SearchedBookInfo = () => {
 
   return (
     <Container>
-      <BookTitleImgBox docData={bookInfo[0]} />
+      <BookTitleImgBox
+        thumbnail={bookInfo[0]?.thumbnail}
+        title={bookInfo[0]?.title}
+      />
       <RegisterClubBookButton findbookData={bookInfo[0]} />
       <RegisterRecommendButton findbookData={bookInfo[0]} />
-      <BookDesc bookInfo={bookInfo[0]} />
+      <BookDesc detailInfo={bookInfo[0]} />
     </Container>
   );
 };

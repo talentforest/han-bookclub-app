@@ -4,38 +4,38 @@ import styled from "styled-components";
 import { timestamp } from "util/timestamp";
 
 interface PropsType {
-  bookInfo: IBookApi;
+  detailInfo: IBookApi;
   onModalClick?: () => void;
 }
 
-const BookDesc = ({ bookInfo }: PropsType) => {
+const BookDesc = ({ detailInfo }: PropsType) => {
   return (
     <BookDetail>
-      <h3>{bookInfo?.title}</h3>
+      <h3>{detailInfo?.title}</h3>
       <li>
         <ExpandCircleDown />
-        저자: {bookInfo?.authors?.join(", ")}
+        저자: {detailInfo?.authors?.join(", ")}
       </li>
-      {bookInfo?.translators?.length !== 0 ? (
+      {detailInfo?.translators?.length !== 0 ? (
         <li>
           <ExpandCircleDown />
-          역자: {bookInfo?.translators?.join(", ")}
+          역자: {detailInfo?.translators?.join(", ")}
         </li>
       ) : null}
       <li>
         <ExpandCircleDown />
-        출간일: {timestamp(bookInfo?.datetime)}
+        출간일: {timestamp(detailInfo?.datetime)}
       </li>
       <li>
         <ExpandCircleDown />
-        출판사: {bookInfo?.publisher}
+        출판사: {detailInfo?.publisher}
       </li>
       <li>
         <ExpandCircleDown />
-        정가: {bookInfo?.price}원
+        정가: {detailInfo?.price}원
       </li>
-      <p>줄거리 {bookInfo?.contents}...</p>
-      <a href={bookInfo?.url} target="_blank" rel="noreferrer">
+      <p>줄거리 {detailInfo?.contents}...</p>
+      <a href={detailInfo?.url} target="_blank" rel="noreferrer">
         상세정보 보러가기
       </a>
     </BookDetail>

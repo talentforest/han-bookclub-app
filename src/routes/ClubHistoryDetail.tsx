@@ -33,7 +33,7 @@ const ClubHistoryDetail = () => {
   return (
     <Container>
       <Infos>
-        <BookTitleImgBox docData={book} />
+        <BookTitleImgBox thumbnail={book.thumbnail} title={book.title} />
         <MeetingInfoBox docData={meeting} />
       </Infos>
       <BookSection>

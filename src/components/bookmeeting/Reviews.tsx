@@ -85,7 +85,11 @@ const Reviews = ({ review, onReviewRemove, docMonth }: PropsType) => {
             onChange={onChange}
           />
           <RegisterTime>{timestamp(review.createdAt)}</RegisterTime>
-          <BookTitleImgBox docData={review} smSize={"smSize"} />
+          <BookTitleImgBox
+            thumbnail={review.thumbnail}
+            title={review.title}
+            smSize={"smSize"}
+          />
         </form>
       ) : (
         <>
@@ -99,7 +103,11 @@ const Reviews = ({ review, onReviewRemove, docMonth }: PropsType) => {
           </FormHeader>
           <pre>{newText}</pre>
           <RegisterTime>{timestamp(review.createdAt)}</RegisterTime>
-          <BookTitleImgBox docData={review} smSize={"smSize"} />
+          <BookTitleImgBox
+            thumbnail={review.thumbnail}
+            title={review.title}
+            smSize={"smSize"}
+          />
         </>
       )}
     </TextBox>

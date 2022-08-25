@@ -45,7 +45,10 @@ const Home = () => {
         <NewContainer>
           <section>
             <Subtitle title={`${latestDocMonth}월의 책`} />
-            <BookTitleImgBox docData={bookMeetings[0]?.book} />
+            <BookTitleImgBox
+              thumbnail={bookMeetings[0]?.book.thumbnail}
+              title={bookMeetings[0]?.book.title}
+            />
             <LinkButton link={"/bookmeeting/subject"} title="발제하러 가기" />
           </section>
           <section>
