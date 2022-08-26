@@ -1,5 +1,5 @@
+import { useState } from "react";
 import { Container } from "theme/commonStyle";
-import { Link, useMatch } from "react-router-dom";
 import useCallAllRecords from "hooks/useCallAllRecords";
 import useCallBookMeeting from "hooks/useCallBookMeeting";
 import Loading from "components/common/Loading";
@@ -9,19 +9,16 @@ import SubjectArea from "components/template/SubjectArea";
 import ReviewArea from "components/template/ReviewArea";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
-import device from "theme/mediaQueries";
+import CategoryButton from "components/common/CategoryButton";
 import styled from "styled-components";
 
 const BookMeeting = () => {
+  const [selectedCategory, setSelectedCategory] = useState("subjects");
   const { bookMeetings } = useCallBookMeeting();
   const latestDoc = bookMeetings[0];
   const { monthSubjects, monthReviews, monthRecommends } = useCallAllRecords(
     latestDoc?.id
   );
-
-  const bookUrlMatch = useMatch("/bookmeeting");
-  const subjectUrlMatch = useMatch("/bookmeeting/subject");
-  const reviewUrlMatch = useMatch("/bookmeeting/review");
 
   return (
     <>
@@ -39,27 +36,20 @@ const BookMeeting = () => {
             <p>도서 이미지를 클릭하시면 상세정보를 보실 수 있습니다.</p>
             <MeetingInfoBox docData={latestDoc?.meeting} />
           </MeetingBox>
-          <CategoryButton>
-            <Link to="" className={bookUrlMatch && "isActive"}>
-              추천책
-            </Link>
-            <Link to="subject" className={subjectUrlMatch && "isActive"}>
-              발제문 작성
-            </Link>
-            <Link to="review" className={reviewUrlMatch && "isActive"}>
-              모임 후기
-            </Link>
-          </CategoryButton>
-          {bookUrlMatch && (
+          <CategoryButton
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
+          {selectedCategory === "recommends" && (
             <RecommendationArea
               monthRecommends={monthRecommends}
               latestDoc={latestDoc}
             />
           )}
-          {subjectUrlMatch && (
+          {selectedCategory === "subjects" && (
             <SubjectArea monthSubjects={monthSubjects} latestDoc={latestDoc} />
           )}
-          {reviewUrlMatch && (
+          {selectedCategory === "reviews" && (
             <ReviewArea monthReviews={monthReviews} latestDoc={latestDoc} />
           )}
         </Container>
@@ -67,39 +57,6 @@ const BookMeeting = () => {
     </>
   );
 };
-
-const CategoryButton = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 5px 8px;
-  margin: 25px 0 20px;
-  border-radius: 60px;
-  background-color: ${(props) => props.theme.container.lightBlue};
-  > a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 32%;
-    height: 36px;
-    border-radius: 80px;
-    font-size: 14px;
-    font-weight: 700;
-    color: #aaa;
-    cursor: pointer;
-    &.isActive {
-      background-color: ${(props) => props.theme.container.blue};
-      color: ${(props) => props.theme.text.white};
-    }
-  }
-  @media ${device.tablet} {
-    height: 50px;
-    border-radius: 30px;
-    > a {
-      height: 100%;
-      font-size: 16px;
-    }
-  }
-`;
 
 const MeetingBox = styled.div`
   display: flex;

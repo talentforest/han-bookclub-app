@@ -12,13 +12,14 @@ import useHandleVoting from "hooks/useHandleVoting";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 
-type LocationState = { vote: IVote };
+type LocationState = { state: { vote: IVote } };
 
 const VoteDetail = () => {
   const userData = useRecoilValue(currentUserState);
 
-  const location = useLocation();
-  const { vote } = location.state as LocationState;
+  const {
+    state: { vote },
+  } = useLocation() as LocationState;
 
   const {
     disabled,

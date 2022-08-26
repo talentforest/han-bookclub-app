@@ -11,6 +11,7 @@ import BookRecomBox from "components/bookmeeting/BookRecomBox";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 import useCallAllRecords from "hooks/useCallAllRecords";
+import CategoryButton from "components/common/CategoryButton";
 
 type LocationState = { state: { bookMeeting: IBookMeeting } };
 
@@ -24,10 +25,6 @@ const ClubHistoryDetail = () => {
   );
   const [selectedCategory, setSelectedCategory] = useState("subjects");
 
-  const onButtonClick = (name: string) => {
-    if (name) return setSelectedCategory(name);
-  };
-
   const { id, book, meeting } = bookMeeting;
 
   return (
@@ -36,28 +33,12 @@ const ClubHistoryDetail = () => {
         <BookTitleImgBox thumbnail={book.thumbnail} title={book.title} />
         <MeetingInfoBox docData={meeting} />
       </Infos>
-      <BookSection>
-        <button
-          onClick={() => onButtonClick("recommend")}
-          className={selectedCategory === "recommend" ? "isActive" : ""}
-        >
-          추천책 보기
-        </button>
-        <button
-          onClick={() => onButtonClick("subjects")}
-          className={selectedCategory === "subjects" ? "isActive" : ""}
-        >
-          발제문 보기
-        </button>
-        <button
-          onClick={() => onButtonClick("reviews")}
-          className={selectedCategory === "reviews" ? "isActive" : ""}
-        >
-          모임 후기 보기
-        </button>
-      </BookSection>
+      <CategoryButton
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
       <Documents>
-        {selectedCategory === "recommend" &&
+        {selectedCategory === "recommends" &&
           (monthRecommends.length !== 0 ? (
             monthRecommends.map((recommend) => (
               <BookRecomBox
@@ -115,34 +96,6 @@ const Infos = styled(Info)`
   > div {
     background-color: transparent;
     width: fit-content;
-  }
-`;
-
-const BookSection = styled.div`
-  margin-top: 20px;
-  button {
-    cursor: pointer;
-    padding: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    width: fit-content;
-    margin: 0 5px;
-    border: none;
-    border-radius: 30px;
-    background-color: #eaeaea;
-    color: #aaa;
-    &.isActive {
-      background-color: ${(props) => props.theme.container.blue};
-      color: ${(props) => props.theme.text.white};
-    }
-  }
-  @media ${device.tablet} {
-    button {
-      cursor: pointer;
-      padding: 10px 14px;
-      font-size: 16px;
-      margin: 0 8px 15px;
-    }
   }
 `;
 
