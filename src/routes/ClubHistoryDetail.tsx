@@ -16,16 +16,16 @@ import CategoryButton from "components/common/CategoryButton";
 type LocationState = { state: { bookMeeting: IBookMeeting } };
 
 const ClubHistoryDetail = () => {
+  const [selectedCategory, setSelectedCategory] = useState("subjects");
+
   const {
     state: { bookMeeting },
   } = useLocation() as LocationState;
 
-  const { monthSubjects, monthReviews, monthRecommends } = useCallAllRecords(
-    bookMeeting?.id
-  );
-  const [selectedCategory, setSelectedCategory] = useState("subjects");
-
   const { id, book, meeting } = bookMeeting;
+
+  const { monthSubjects, monthReviews, monthRecommends } =
+    useCallAllRecords(id);
 
   return (
     <Container>
@@ -37,7 +37,7 @@ const ClubHistoryDetail = () => {
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
       />
-      <Documents>
+      <Records>
         {selectedCategory === "recommends" &&
           (monthRecommends.length !== 0 ? (
             monthRecommends.map((recommend) => (
@@ -66,12 +66,12 @@ const ClubHistoryDetail = () => {
           ) : (
             <EmptyRecord>기록된 모임 후기가 아직 없어요.</EmptyRecord>
           ))}
-      </Documents>
+      </Records>
     </Container>
   );
 };
 
-const Documents = styled.div`
+const Records = styled.div`
   padding: 5px 10px;
   margin-top: 10px;
   background-color: ${(props) => props.theme.text.lightGray};

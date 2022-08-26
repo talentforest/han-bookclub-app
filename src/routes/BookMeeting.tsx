@@ -16,6 +16,7 @@ const BookMeeting = () => {
   const [selectedCategory, setSelectedCategory] = useState("subjects");
   const { bookMeetings } = useCallBookMeeting();
   const latestDoc = bookMeetings[0];
+
   const { monthSubjects, monthReviews, monthRecommends } = useCallAllRecords(
     latestDoc?.id
   );

@@ -12,23 +12,15 @@ const useCallAllRecords = (bookMeetingsId: string) => {
   const [monthReviews, setMonthReviews] = useRecoilState(reviewsState);
   const [monthRecommends, setMonthRecommends] = useRecoilState(recommendsState);
 
-  const recordsNotExist =
-    monthSubjects?.length === 0 &&
-    monthReviews?.length === 0 &&
-    monthRecommends?.length === 0;
-
   const getAllRecords = () => {
-    if (!recordsNotExist) {
-      return;
-    } else {
-      getReviews(bookMeetingsId, setMonthReviews);
-      getSubjects(bookMeetingsId, setMonthSubjects);
-      getAllRecommends(bookMeetingsId, setMonthRecommends);
-    }
+    getReviews(bookMeetingsId, setMonthReviews);
+    getSubjects(bookMeetingsId, setMonthSubjects);
+    getAllRecommends(bookMeetingsId, setMonthRecommends);
   };
 
   useEffect(() => {
     getAllRecords();
+
     return () => {
       getAllRecords();
     };
