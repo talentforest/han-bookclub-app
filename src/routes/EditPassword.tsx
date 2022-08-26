@@ -20,9 +20,8 @@ const EditPassword = () => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (originPassword === "" || newPassword === "" || checkNewPassword === "")
-      return;
 
+    checkEmptyInput();
     const credential = EmailAuthProvider.credential(
       user?.email,
       originPassword
@@ -30,22 +29,10 @@ const EditPassword = () => {
     reauthenticateWithCredential(user, credential)
       .then(() => {
         if (newPassword !== checkNewPassword) {
-          window.alert(
-            "새로운 비밀번호가 같지 않습니다. 다시 한번 확인해주세요."
-          );
+          alertNotSameNewPassword();
           return;
         }
-        updatePassword(user, newPassword)
-          .then(() => {
-            window.alert("비밀번호가 성공적으로 변경되었습니다.");
-            setOriginPassword("");
-            setNewPassword("");
-            setCheckNewPassword("");
-            navigate(-1);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        successUpdatePassword();
       })
       .catch((error) => {
         console.error(error);
@@ -66,6 +53,28 @@ const EditPassword = () => {
     setCheckNewPassword(event.currentTarget.value);
   };
 
+  function checkEmptyInput() {
+    if (!originPassword || !newPassword || !checkNewPassword) return;
+  }
+
+  function alertNotSameNewPassword() {
+    window.alert("새로운 비밀번호가 똑같지 않습니다. 다시 한번 확인해주세요.");
+  }
+
+  function successUpdatePassword() {
+    updatePassword(user, newPassword)
+      .then(() => {
+        window.alert("비밀번호가 성공적으로 변경되었습니다.");
+        setOriginPassword("");
+        setNewPassword("");
+        setCheckNewPassword("");
+        navigate(-1);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   return (
     <Container>
       <InputForm onSubmit={onSubmit}>
@@ -76,7 +85,6 @@ const EditPassword = () => {
           defaultValue={user?.email}
         />
         <Input
-          aria-hidden
           type="password"
           value={originPassword}
           placeholder="기존 비밀번호를 작성해주세요."
@@ -84,7 +92,6 @@ const EditPassword = () => {
           autoComplete="current-password"
         />
         <Input
-          aria-hidden
           type="password"
           value={newPassword}
           placeholder="새로운 비밀번호를 작성해주세요."
@@ -92,7 +99,6 @@ const EditPassword = () => {
           autoComplete="new-password"
         />
         <Input
-          aria-hidden
           type="password"
           value={checkNewPassword}
           placeholder="새로운 비밀번호를 다시 한번 작성해주세요."
