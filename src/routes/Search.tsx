@@ -5,7 +5,7 @@ import styled from "styled-components";
 import ResultBox from "components/search/ResultBox";
 
 const Search = () => {
-  const [bookInfo, setBookInfo] = useState([]);
+  const [searchedBookList, setSearchedBookList] = useState([]);
   const [bookQuery, setBookQuery] = useState("");
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -13,16 +13,18 @@ const Search = () => {
 
     try {
       if (bookQuery === "") return;
-      bookSearchHandler(bookQuery, true, setBookInfo);
+      bookSearchHandler(bookQuery, true, setSearchedBookList);
       setBookQuery("");
     } catch (error) {
       console.error("Error adding document:", error);
     }
   };
 
-  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
+  const onBookQueryChange = (event: React.FormEvent<HTMLInputElement>) => {
     setBookQuery(event.currentTarget.value);
   };
+
+  console.log(searchedBookList);
 
   return (
     <Container>
@@ -32,15 +34,15 @@ const Search = () => {
           placeholder="등록하실 책을 검색해주세요."
           autoFocus
           value={bookQuery}
-          onChange={onChange}
+          onChange={onBookQueryChange}
         />
         <Input type="submit" value="검색" />
       </Form>
       <BookResults>
-        <span>검색결과 {bookInfo.length}건</span>
+        <span>검색결과 {searchedBookList.length}건</span>
         <p>최대 10건이 검색됩니다.</p>
-        {bookInfo.map((bookInfo, index) => (
-          <ResultBox bookInfo={bookInfo} key={index} />
+        {searchedBookList.map((searchedBook) => (
+          <ResultBox searchedBook={searchedBook} key={searchedBook.title} />
         ))}
       </BookResults>
     </Container>

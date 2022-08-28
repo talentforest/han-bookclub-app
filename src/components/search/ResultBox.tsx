@@ -1,49 +1,41 @@
 import { Book } from "@mui/icons-material";
 import { IBookApi } from "data/bookAtom";
 import { timestamp } from "util/timestamp";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 interface PropsType {
-  bookInfo: IBookApi;
+  searchedBook: IBookApi;
 }
 
-const ResultBox = ({ bookInfo }: PropsType) => {
-  const bookTitle = bookInfo.title.includes("/")
-    ? bookInfo.title.split("/")[0]
-    : bookInfo.title;
+const ResultBox = ({ searchedBook }: PropsType) => {
+  const { title, thumbnail, authors, translators, publisher, datetime } =
+    searchedBook;
+  const bookTitle = title.includes("/") ? title.split("/")[0] : title;
+
   return (
     <>
-      <BookResultBox as={Link} to={`${bookTitle}`}>
-        {bookInfo?.thumbnail ? (
-          <img src={bookInfo.thumbnail} alt="Book_Image" />
+      <BookResultBox to={`${bookTitle}`} state={{ searchedBook }}>
+        {thumbnail ? (
+          <img src={thumbnail} alt={`${thumbnail} book`} />
         ) : (
           <div>
             <Book />
           </div>
         )}
         <BookDetail>
-          <h3>
-            {bookInfo.title.length > 17
-              ? `${bookInfo.title.slice(0, 17)}...`
-              : bookInfo.title}
-          </h3>
-          <span>저자: {bookInfo.authors.join(", ")}</span>
-          {bookInfo?.translators.length !== 0 ? (
-            <span>역자: {bookInfo.translators}</span>
-          ) : (
-            <></>
-          )}
-          <span>출판사: {bookInfo.publisher}</span>
-          <span>출간일: {timestamp(bookInfo.datetime)}</span>
+          <h3>{title.length > 17 ? `${title.slice(0, 17)}...` : title}</h3>
+          <span>저자: {authors.join(", ")}</span>
+          {translators.length !== 0 && <span>역자: {translators}</span>}
+          <span>출판사: {publisher}</span>
+          <span>출간일: {timestamp(datetime)}</span>
         </BookDetail>
       </BookResultBox>
-      <Outlet />
     </>
   );
 };
 
-const BookResultBox = styled.div`
+const BookResultBox = styled(Link)`
   position: relative;
   margin-bottom: 15px;
   display: flex;

@@ -6,20 +6,20 @@ import useHandleThisMonthDoc from "hooks/useHandleThisMonthDoc";
 import styled from "styled-components";
 
 interface PropsType {
-  findbookData: IBookApi;
+  searchedBook: IBookApi;
 }
 
-const RegisterClubBookButton = ({ findbookData }: PropsType) => {
+const RegisterClubBookButton = ({ searchedBook }: PropsType) => {
   const bookMeetingDocs = useRecoilValue(bookMeetingsState);
 
   const { toggle, onSubmit, onMonthChange } = useHandleThisMonthDoc({
     bookMeetingDocs,
-    findbookData,
+    searchedBook,
   });
 
   const checkClubBook = bookMeetingDocs
     .map((item) => item.book?.title)
-    .includes(findbookData?.title);
+    .includes(searchedBook?.title);
 
   return (
     <>

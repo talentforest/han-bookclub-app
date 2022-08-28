@@ -9,12 +9,12 @@ import { thisYearMonth } from "util/constants";
 
 interface PropsType {
   bookMeetingDocs: IBookMeeting[];
-  findbookData: IBookApi;
+  searchedBook: IBookApi;
 }
 
 const useHandleThisMonthDoc = ({
   bookMeetingDocs,
-  findbookData,
+  searchedBook,
 }: PropsType) => {
   const [toggle, setToggle] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(`${thisYearMonth}`);
@@ -33,7 +33,7 @@ const useHandleThisMonthDoc = ({
   };
 
   const setThisMonthBookMeetingDoc = async () => {
-    const book = findbookData;
+    const book = searchedBook;
     await setDoc(doc(dbService, "BookMeeting Info", `${selectedMonth}`), {
       book: {
         thumbnail: book.thumbnail,
@@ -61,7 +61,7 @@ const useHandleThisMonthDoc = ({
       "BookMeeting Info",
       `${selectedMonth}`
     );
-    const book = findbookData;
+    const book = searchedBook;
     await updateDoc(thisMonthBookRef, {
       book: {
         thumbnail: book.thumbnail,

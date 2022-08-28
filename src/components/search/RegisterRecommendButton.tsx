@@ -4,15 +4,15 @@ import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
 interface PropsType {
-  findbookData: IBookApi;
+  searchedBook: IBookApi;
 }
 
-const RegisterRecommendButton = ({ findbookData }: PropsType) => {
+const RegisterRecommendButton = ({ searchedBook }: PropsType) => {
   const navigator = useNavigate();
   const setRecommendedBook = useSetRecoilState(recommendBookState);
 
   const onClick = () => {
-    setRecommendedBook(findbookData);
+    setRecommendedBook(searchedBook);
     const confirm = window.confirm(
       "추천책 정보가 등록되었어요. 작성 페이지로 돌아갈게요!"
     );
