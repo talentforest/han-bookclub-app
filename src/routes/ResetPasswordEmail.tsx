@@ -11,6 +11,7 @@ const ResetPasswordEmail = () => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     sendPasswordResetEmail(authService, email).catch((error) => {
       console.log(error);
     });

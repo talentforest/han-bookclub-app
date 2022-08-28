@@ -10,6 +10,7 @@ const Search = () => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     try {
       if (bookQuery === "") return;
       bookSearchHandler(bookQuery, true, setBookInfo);

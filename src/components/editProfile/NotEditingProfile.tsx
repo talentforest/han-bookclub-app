@@ -52,8 +52,8 @@ const NotEditingProfile = ({ setEditing, extraUserData }: PropsType) => {
             <div>
               {anonymous
                 ? "익명의 방문자"
-                : extraUserData?.favoriteBookField?.map((item, index) => (
-                    <FavFieldItem key={index}>{item.name}</FavFieldItem>
+                : extraUserData?.favoriteBookField?.map((item) => (
+                    <FavFieldItem key={item.id}>{item.name}</FavFieldItem>
                   ))}
             </div>
           </div>
