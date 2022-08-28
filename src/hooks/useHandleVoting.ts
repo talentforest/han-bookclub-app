@@ -5,7 +5,7 @@ import { getMembersVote, IVote, IVoteItem } from "util/getFirebaseDoc";
 import useAlertAskJoin from "./useAlertAskJoin";
 
 const useHandleVoting = (vote: IVote, userDataUid: string) => {
-  const [disabled, setDisabled] = useState(false);
+  const [voteDisabled, setVoteDisabled] = useState(false);
   const [selectedItem, setSelectedItem] = useState([]);
   const [voteItem, setVoteItem] = useState(vote.vote.voteItem);
   const [membersVote, setMembersVote] = useState([]);
@@ -40,14 +40,14 @@ const useHandleVoting = (vote: IVote, userDataUid: string) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onVotingSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (authService.currentUser.isAnonymous) return alertAskJoin();
     if (selectedItem.length === 0) return;
     try {
       addDocVoteItems();
       window.alert("투표가 완료되었습니다!");
-      setDisabled(true);
+      setVoteDisabled(true);
     } catch (error) {
       console.error(error);
     }
@@ -84,7 +84,7 @@ const useHandleVoting = (vote: IVote, userDataUid: string) => {
 
   const onRevoteClick = () => {
     setMembersVote(membersVote.filter((item) => item.id !== userDataUid));
-    setDisabled(false);
+    setVoteDisabled(false);
     setSelectedItem([]);
     vote.vote.voteItem = voteItem.map((item) =>
       myVote[0].votedItem.some((vote: IVoteItem) => vote.id === item.id)
@@ -101,14 +101,14 @@ const useHandleVoting = (vote: IVote, userDataUid: string) => {
   };
 
   return {
-    disabled,
+    voteDisabled,
     voteItem,
     totalCount,
     myVote,
     onRevoteClick,
     selectedItem,
     membersVote,
-    onSubmit,
+    onVotingSubmit,
     onVoteItemClick,
   };
 };

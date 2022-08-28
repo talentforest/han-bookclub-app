@@ -7,12 +7,11 @@ import { timestamp } from "util/timestamp";
 
 interface PropsType {
   vote: IVote;
-  index: number;
 }
 
-const ExpiredVote = ({ vote, index }: PropsType) => {
+const ExpiredVote = ({ vote }: PropsType) => {
   return (
-    <Vote to={`/vote/${index}`} state={{ vote: vote }}>
+    <Vote to={`/vote/${vote.voteId}`} state={{ vote: vote }}>
       <div>
         <h4>
           <Help />

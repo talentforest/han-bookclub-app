@@ -32,7 +32,7 @@ const useCreateVoteBox = (
     });
   };
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onRegisterSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!vote.title) return;
     try {
@@ -48,9 +48,9 @@ const useCreateVoteBox = (
     }
   };
 
-  const onChange = (
+  const onTitleChange = (
     event: React.FormEvent<HTMLInputElement>,
-    index?: number
+    id?: number
   ) => {
     const { name, value } = event.currentTarget;
 
@@ -58,18 +58,18 @@ const useCreateVoteBox = (
       const newVote = { ...vote, title: value };
       setVote(newVote);
     }
-    if (name === `vote_item${index}`) {
+    if (name === `vote_item${id}`) {
       const newVote = {
         ...vote,
         voteItem: vote.voteItem.map((item) =>
-          item.id === index + 1 ? { ...item, item: value } : item
+          item.id === id ? { ...item, item: value } : item
         ),
       };
       setVote(newVote);
     }
   };
 
-  const onPlusClick = () => {
+  const onItemPlusClick = () => {
     if (vote.voteItem.length > 7) return;
 
     const newVote = {
@@ -82,20 +82,20 @@ const useCreateVoteBox = (
     setVote(newVote);
   };
 
-  const onDeleteClick = (index: number) => {
+  const onItemDeleteClick = (id: number) => {
     const newVote = {
       ...vote,
-      voteItem: vote.voteItem.filter((item) => item.id !== index + 1),
+      voteItem: vote.voteItem.filter((item) => item.id !== id),
     };
     setVote(newVote);
   };
 
   return {
     vote,
-    onSubmit,
-    onChange,
-    onPlusClick,
-    onDeleteClick,
+    onRegisterSubmit,
+    onTitleChange,
+    onItemPlusClick,
+    onItemDeleteClick,
   };
 };
 

@@ -45,9 +45,7 @@ const Vote = () => {
       <Subtitle title="기한이 만료된 투표함" />
       <VoteList>
         {expiredVote?.length ? (
-          expiredVote.map((vote, index) => (
-            <ExpiredVote key={vote.id} vote={vote} index={index} />
-          ))
+          expiredVote.map((vote) => <ExpiredVote key={vote.id} vote={vote} />)
         ) : (
           <EmptyBox>아직 만료된 투표가 없습니다.</EmptyBox>
         )}
