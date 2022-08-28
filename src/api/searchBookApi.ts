@@ -22,7 +22,6 @@ export const bookSearch = (params: BookQuery) => {
 
 export const bookSearchHandler = async (
   query: string,
-  reset: boolean,
   setFunc: (bookData: IBookApi[]) => void
 ) => {
   const params = {

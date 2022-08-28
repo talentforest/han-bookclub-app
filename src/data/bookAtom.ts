@@ -27,3 +27,8 @@ export const recommendBookState = atom<IBookApi>({
     authors: [],
   },
 });
+
+export const searchListState = atom<IBookApi[]>({
+  key: `searchList${v4()}`,
+  default: [],
+});

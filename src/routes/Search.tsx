@@ -1,19 +1,20 @@
 import { useState } from "react";
 import { Container, Input } from "theme/commonStyle";
 import { bookSearchHandler } from "api/searchBookApi";
-import styled from "styled-components";
+import { useRecoilState } from "recoil";
+import { searchListState } from "data/bookAtom";
 import ResultBox from "components/search/ResultBox";
+import styled from "styled-components";
 
 const Search = () => {
-  const [searchedBookList, setSearchedBookList] = useState([]);
+  const [searchList, setSearchList] = useRecoilState(searchListState);
   const [bookQuery, setBookQuery] = useState("");
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     try {
       if (bookQuery === "") return;
-      bookSearchHandler(bookQuery, true, setSearchedBookList);
+      bookSearchHandler(bookQuery, setSearchList);
       setBookQuery("");
     } catch (error) {
       console.error("Error adding document:", error);
@@ -23,8 +24,6 @@ const Search = () => {
   const onBookQueryChange = (event: React.FormEvent<HTMLInputElement>) => {
     setBookQuery(event.currentTarget.value);
   };
-
-  console.log(searchedBookList);
 
   return (
     <Container>
@@ -39,10 +38,10 @@ const Search = () => {
         <Input type="submit" value="검색" />
       </Form>
       <BookResults>
-        <span>검색결과 {searchedBookList.length}건</span>
+        <span>검색결과 {searchList.length}건</span>
         <p>최대 10건이 검색됩니다.</p>
-        {searchedBookList.map((searchedBook) => (
-          <ResultBox searchedBook={searchedBook} key={searchedBook.title} />
+        {searchList.map((searchedBook) => (
+          <ResultBox searchedBook={searchedBook} key={searchedBook.isbn} />
         ))}
       </BookResults>
     </Container>
