@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "theme/commonStyle";
+import { getThisMonthBookMeeting } from "util/getFirebaseDoc";
+import { useRecoilState } from "recoil";
+import { testbookMeetingsState } from "data/documentsAtom";
+import { thisYearMonth } from "util/constants";
 import useCallAllRecords from "hooks/useCallAllRecords";
-import useCallBookMeeting from "hooks/useCallBookMeeting";
 import Loading from "components/common/Loading";
 import Subtitle from "components/common/Subtitle";
 import RecommendationArea from "components/template/RecommendationArea";
@@ -13,26 +16,32 @@ import CategoryButton from "components/common/CategoryButton";
 import styled from "styled-components";
 
 const BookMeeting = () => {
+  const [latestDoc, setLatestDoc] = useRecoilState(testbookMeetingsState);
   const [selectedCategory, setSelectedCategory] = useState("subjects");
-  const { bookMeetings } = useCallBookMeeting();
-  const latestDoc = bookMeetings[0];
 
   const { monthSubjects, monthReviews, monthRecommends } = useCallAllRecords(
     latestDoc?.id
   );
 
+  useEffect(() => {
+    getThisMonthBookMeeting(setLatestDoc, thisYearMonth);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const checkObjKeys = Object.keys(latestDoc).length;
+
   return (
     <>
-      {!latestDoc ? (
+      {checkObjKeys === 0 ? (
         <Loading />
       ) : (
         <Container>
-          <Subtitle title={`${latestDoc?.id.slice(6)}월의 책`} />
+          <Subtitle title={`${latestDoc.id.slice(6)}월의 책`} />
           <MeetingBox>
             <BookTitleImgBox
-              thumbnail={latestDoc?.book.thumbnail}
-              title={latestDoc?.book.title}
-              detailInfo={latestDoc?.book}
+              thumbnail={latestDoc.book.thumbnail}
+              title={latestDoc.book.title}
+              detailInfo={latestDoc.book}
             />
             <p>도서 이미지를 클릭하시면 상세정보를 보실 수 있습니다.</p>
             <MeetingInfoBox docData={latestDoc?.meeting} />

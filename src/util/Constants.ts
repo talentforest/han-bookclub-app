@@ -19,7 +19,7 @@ export const thisYearMonth = `${date.toISOString().substr(0, 7)}`;
 
 export const thisYear = date.getFullYear();
 
-export const thisMonth = date.getMonth() + 1;
+export const thisMonth = `${date.getMonth() + 1}`;
 
 export const today = () => {
   const month = ("0" + (date.getMonth() + 1)).slice(-2);

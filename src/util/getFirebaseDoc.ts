@@ -5,6 +5,7 @@ import { extraUserData } from "routes/EditProfile";
 import {
   collection,
   doc,
+  getDoc,
   onSnapshot,
   orderBy,
   query,
@@ -79,6 +80,21 @@ export const getBookMeetings = async (
 
     setState(newArray);
   });
+};
+
+export const getThisMonthBookMeeting = async (
+  setState: (doc: IBookMeeting) => void,
+  thisMonth: string
+) => {
+  const docRef = doc(dbService, "BookMeeting Info", thisMonth);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    const docData = { id: docSnap.id, ...docSnap.data() };
+    setState(docData as unknown as IBookMeeting);
+  } else {
+    console.log("No such document!");
+  }
 };
 
 export const getSubjects = async (
