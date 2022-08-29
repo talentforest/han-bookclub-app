@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import { Container } from "theme/commonStyle";
 import { useEffect } from "react";
-import { today } from "util/constants";
-import { getFixedBookFields, IMonthField, IVote } from "util/getFirebaseDoc";
+import { thisYearMonth, today } from "util/constants";
+import {
+  getFixedBookFields,
+  getThisMonthBookMeeting,
+  IMonthField,
+  IVote,
+} from "util/getFirebaseDoc";
 import { useRecoilState } from "recoil";
-import { bookFieldsState } from "data/documentsAtom";
+import { bookFieldsState, thisMonthBookMeetingState } from "data/documentsAtom";
 import { settings } from "util/sliderSetting";
 import { Info } from "@mui/icons-material";
 import LinkButton from "components/common/LinkButton";
@@ -19,49 +24,48 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 import Loading from "components/common/Loading";
-import useCallBookMeeting from "hooks/useCallBookMeeting";
 import useCallVotes from "hooks/useCallVotes";
 
 const Home = () => {
+  const [latestDoc, setLatestDoc] = useRecoilState(thisMonthBookMeetingState);
   const [bookFields, setBookFields] = useRecoilState(bookFieldsState);
-  const { bookMeetings } = useCallBookMeeting();
   const { votes } = useCallVotes();
 
   useEffect(() => {
+    getThisMonthBookMeeting(setLatestDoc, thisYearMonth);
     getFixedBookFields(setBookFields);
 
     return () => {
+      getThisMonthBookMeeting(setLatestDoc, thisYearMonth);
       getFixedBookFields(setBookFields);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const progressVote = votes.filter((item: IVote) => item.deadline >= today());
-  const latestDocMonth = bookMeetings[0]?.id?.slice(6);
+  const latestDocMonth = latestDoc?.id?.slice(6);
 
   return (
     <>
-      {bookMeetings && bookFields ? (
+      {latestDoc && bookFields ? (
         <NewContainer>
           <section>
             <Subtitle title={`${latestDocMonth}월의 책`} />
             <BookTitleImgBox
-              thumbnail={bookMeetings[0]?.book.thumbnail}
-              title={bookMeetings[0]?.book.title}
+              thumbnail={latestDoc?.book.thumbnail}
+              title={latestDoc?.book.title}
             />
             <LinkButton link={"/bookmeeting/subject"} title="발제하러 가기" />
           </section>
           <section>
-            <Subtitle
-              title={bookMeetings[0] && `${latestDocMonth}월의 모임 일정`}
-            />
+            <Subtitle title={latestDoc && `${latestDocMonth}월의 모임 일정`} />
             <Guide>
               <Info />
               <p>
                 한페이지 멤버는 <span>매월 셋째주 일요일</span>에 만나요.
               </p>
             </Guide>
-            <MeetingInfoBox docData={bookMeetings[0]?.meeting} />
+            <MeetingInfoBox docData={latestDoc?.meeting} />
             <LinkButton
               link={"/bookmeeting/review"}
               title="모임 후기 작성하러 가기"
@@ -88,7 +92,7 @@ const Home = () => {
           <section>
             <Subtitle title={`한페이지의 독서 분야 일정`} />
             <ScheduleBox>
-              {bookFields[0]?.thisYearField?.map((item: IMonthField) => (
+              {bookFields?.map((item: IMonthField) => (
                 <li key={item.month}>
                   <div>{item.month}</div>
                   <span>{item.value}</span>

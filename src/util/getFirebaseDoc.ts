@@ -10,6 +10,7 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
+import { thisYear } from "./constants";
 
 export interface IMeeting {
   time: string;
@@ -167,21 +168,16 @@ export const getUserData = (
 };
 
 export const getFixedBookFields = async (
-  setState: (fixedField: IFixedBookField[]) => void
+  setState: (fixedField: IMonthField[]) => void
 ) => {
-  const q = query(
-    collection(dbService, "bookfield"),
-    orderBy("createdAt", "desc")
-  );
+  const docRef = doc(dbService, "bookfield", `${thisYear}`);
+  const docSnap = await getDoc(docRef);
 
-  onSnapshot(q, (querySnapshot) => {
-    const newArray = querySnapshot.docs.map((doc) => {
-      return {
-        ...doc.data(),
-      };
-    });
-    setState(newArray as IFixedBookField[]);
-  });
+  if (docSnap.exists()) {
+    setState(docSnap.data().thisYearField as IMonthField[]);
+  } else {
+    console.log("No such document!");
+  }
 };
 
 export const getVotes = async (setState: (voteDoc: IVote[]) => void) => {

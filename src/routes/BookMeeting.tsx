@@ -25,6 +25,10 @@ const BookMeeting = () => {
 
   useEffect(() => {
     getThisMonthBookMeeting(setLatestDoc, thisYearMonth);
+
+    return () => {
+      getThisMonthBookMeeting(setLatestDoc, thisYearMonth);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
