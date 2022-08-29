@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Container } from "theme/commonStyle";
 import { getThisMonthBookMeeting } from "util/getFirebaseDoc";
 import { useRecoilState } from "recoil";
-import { testbookMeetingsState } from "data/documentsAtom";
+import { thisMonthBookMeetingState } from "data/documentsAtom";
 import { thisYearMonth } from "util/constants";
 import useCallAllRecords from "hooks/useCallAllRecords";
 import Loading from "components/common/Loading";
@@ -16,7 +16,7 @@ import CategoryButton from "components/common/CategoryButton";
 import styled from "styled-components";
 
 const BookMeeting = () => {
-  const [latestDoc, setLatestDoc] = useRecoilState(testbookMeetingsState);
+  const [latestDoc, setLatestDoc] = useRecoilState(thisMonthBookMeetingState);
   const [selectedCategory, setSelectedCategory] = useState("subjects");
 
   const { monthSubjects, monthReviews, monthRecommends } = useCallAllRecords(

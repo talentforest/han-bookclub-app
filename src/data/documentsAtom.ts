@@ -22,20 +22,20 @@ export const bookMeetingsState = atom<IBookMeeting[]>({
   ],
 });
 
-export const testbookMeetingsState = atom<IBookMeeting>({
-  key: `bookMeetingDocs/${v4()}`,
+export const thisMonthBookMeetingState = atom<IBookMeeting>({
+  key: `thisMonthBookMeeting/${v4()}`,
   default: {} as IBookMeeting,
   effects: [
     ({ setSelf, onSet }) => {
-      const bookMeetingStoreKey = "bookMeeting";
-      const savedValue = localStorage.getItem(bookMeetingStoreKey);
+      const storeKey = "thisMonthBookMeeting";
+      const savedValue = localStorage.getItem(storeKey);
       if (savedValue != null) {
         setSelf(JSON.parse(savedValue));
       }
       onSet((newValue, _, isReset) => {
         isReset
-          ? localStorage.removeItem(bookMeetingStoreKey)
-          : localStorage.setItem(bookMeetingStoreKey, JSON.stringify(newValue));
+          ? localStorage.removeItem(storeKey)
+          : localStorage.setItem(storeKey, JSON.stringify(newValue));
       });
     },
   ],
