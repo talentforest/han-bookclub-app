@@ -90,13 +90,15 @@ const BookRecomBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
                 <div>
                   <h5>{recommend.recommendBookTitle}</h5>
                   <span>{recommend.recommendBookAuthor?.join(", ")}</span>
-                  <a
-                    href={recommend.recommendBookUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    상세정보 보러가기
-                  </a>
+                  {recommend.recommendBookUrl && (
+                    <a
+                      href={recommend.recommendBookUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      상세정보 보러가기
+                    </a>
+                  )}
                 </div>
               </RecommendBook>
             ) : (
