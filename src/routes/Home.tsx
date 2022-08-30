@@ -1,15 +1,19 @@
 import { Link } from "react-router-dom";
 import { Container } from "theme/commonStyle";
 import { useEffect } from "react";
-import { thisYearMonth, today } from "util/constants";
+import { thisYear, thisYearMonth, today } from "util/constants";
 import {
-  getFixedBookFields,
-  getThisMonthBookMeeting,
+  getCollection,
+  getDocument,
   IMonthField,
   IVote,
 } from "util/getFirebaseDoc";
 import { useRecoilState } from "recoil";
-import { bookFieldsState, thisMonthBookMeetingState } from "data/documentsAtom";
+import {
+  bookFieldsState,
+  thisMonthBookMeetingState,
+  votesState,
+} from "data/documentsAtom";
 import { settings } from "util/sliderSetting";
 import { Info } from "@mui/icons-material";
 import LinkButton from "components/common/LinkButton";
@@ -18,44 +22,42 @@ import MeetingInfoBox from "components/common/MeetingInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import VoteBox from "components/vote/VoteBox";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import Loading from "components/common/Loading";
 import device from "theme/mediaQueries";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
-import Loading from "components/common/Loading";
-import useCallVotes from "hooks/useCallVotes";
 
 const Home = () => {
   const [latestDoc, setLatestDoc] = useRecoilState(thisMonthBookMeetingState);
   const [bookFields, setBookFields] = useRecoilState(bookFieldsState);
-  const { votes } = useCallVotes();
+  const [votes, setVotes] = useRecoilState(votesState);
 
   useEffect(() => {
-    getThisMonthBookMeeting(setLatestDoc, thisYearMonth);
-    getFixedBookFields(setBookFields);
-
-    return () => {
-      getThisMonthBookMeeting(setLatestDoc, thisYearMonth);
-      getFixedBookFields(setBookFields);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    getDocument("BookMeeting Info", `${thisYearMonth}`, setLatestDoc);
+    getDocument("bookfield", `${thisYear}`, setBookFields);
+    getCollection("Vote", setVotes);
+  }, [setLatestDoc, setBookFields, setVotes]);
 
   const progressVote = votes.filter((item: IVote) => item.deadline >= today());
   const latestDocMonth = latestDoc?.id?.slice(6);
 
+  const checkLatestDoc = Object.keys(latestDoc).length;
+
   return (
     <>
-      {latestDoc && bookFields ? (
+      {checkLatestDoc === 0 ? (
+        <Loading />
+      ) : (
         <NewContainer>
           <section>
             <Subtitle title={`${latestDocMonth}월의 책`} />
             <BookTitleImgBox
-              thumbnail={latestDoc?.book.thumbnail}
-              title={latestDoc?.book.title}
+              thumbnail={latestDoc?.book?.thumbnail}
+              title={latestDoc?.book?.title}
             />
-            <LinkButton link={"/bookmeeting/subject"} title="발제하러 가기" />
+            <LinkButton link={"/bookmeeting/subjects"} title="발제하러 가기" />
           </section>
           <section>
             <Subtitle title={latestDoc && `${latestDocMonth}월의 모임 일정`} />
@@ -67,7 +69,7 @@ const Home = () => {
             </Guide>
             <MeetingInfoBox docData={latestDoc?.meeting} />
             <LinkButton
-              link={"/bookmeeting/review"}
+              link={"/bookmeeting/reviews"}
               title="모임 후기 작성하러 가기"
             />
           </section>
@@ -92,7 +94,7 @@ const Home = () => {
           <section>
             <Subtitle title={`한페이지의 독서 분야 일정`} />
             <ScheduleBox>
-              {bookFields?.map((item: IMonthField) => (
+              {bookFields?.thisYearField?.map((item: IMonthField) => (
                 <li key={item.month}>
                   <div>{item.month}</div>
                   <span>{item.value}</span>
@@ -101,8 +103,6 @@ const Home = () => {
             </ScheduleBox>
           </section>
         </NewContainer>
-      ) : (
-        <Loading />
       )}
     </>
   );

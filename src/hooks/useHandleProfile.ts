@@ -5,8 +5,8 @@ import { getAuth, updateProfile } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { getUserData } from "util/getFirebaseDoc";
+import { useRecoilState } from "recoil";
+import { getDocument } from "util/getFirebaseDoc";
 
 const useHandleProfile = () => {
   const [userData, setUserData] = useRecoilState(currentUserState);
@@ -20,15 +20,12 @@ const useHandleProfile = () => {
   const [editing, setEditing] = useState(false);
   const [profileImgUrl, setProfileImgUrl] = useState("");
   const [newDisplayName, setNewDisplayName] = useState(userData.displayName);
-  const user = useRecoilValue(currentUserState);
 
   useEffect(() => {
-    getUserData(user.uid, setExtraUserData);
-
-    return () => {
-      getUserData(user.uid, setExtraUserData);
-    };
-  }, [user.uid]);
+    if (userData.uid) {
+      getDocument("User Data", userData.uid, setExtraUserData);
+    }
+  }, [userData.uid]);
 
   const refreshUser = () => {
     const user = getAuth().currentUser;
@@ -129,7 +126,6 @@ const useHandleProfile = () => {
   return {
     editing,
     setEditing,
-    getUserData,
     onHandleClick,
     onProfileSubmit,
     profileImgUrl,

@@ -46,7 +46,7 @@ function Router({ isLoggedIn }: PropsType) {
             <Route path="/search" element={<Search />} />
             <Route path="/search/:id" element={<SearchedBookInfo />} />
             <Route path="/history" element={<ClubHistory />} />
-            <Route path="/history/:id" element={<ClubHistoryDetail />} />
+            <Route path="/history/:id/*" element={<ClubHistoryDetail />} />
             <Route path="/vote" element={<Vote />} />
             <Route path="/vote/:id" element={<VoteDetail />} />
             <Route path="/profile" element={<Profile />} />

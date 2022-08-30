@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getReviews, getSubjects } from "util/getFirebaseDoc";
+import { getCollection } from "util/getFirebaseDoc";
 
 const useFilterMyRecords = (itemId: string, userDataUid: string) => {
   const [subjects, setSubjects] = useState([]);
@@ -10,13 +10,8 @@ const useFilterMyRecords = (itemId: string, userDataUid: string) => {
   const [guide, setGuide] = useState("");
 
   useEffect(() => {
-    getSubjects(itemId, setSubjects);
-    getReviews(itemId, setReviews);
-
-    return () => {
-      getSubjects(itemId, setSubjects);
-      getReviews(itemId, setReviews);
-    };
+    getCollection(`BookMeeting Info/${itemId}/subjects`, setSubjects);
+    getCollection(`BookMeeting Info/${itemId}/reviews`, setReviews);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

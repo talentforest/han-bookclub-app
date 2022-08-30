@@ -1,6 +1,6 @@
 import { IWrittenDocs } from "components/bookmeeting/Subjects";
 import { atom } from "recoil";
-import { IBookMeeting, IMonthField, IVote } from "util/getFirebaseDoc";
+import { IBookMeeting, IFixedBookField, IVote } from "util/getFirebaseDoc";
 import { v4 } from "uuid";
 
 export const bookMeetingsState = atom<IBookMeeting[]>({
@@ -41,9 +41,9 @@ export const thisMonthBookMeetingState = atom<IBookMeeting>({
   ],
 });
 
-export const bookFieldsState = atom<IMonthField[]>({
+export const bookFieldsState = atom<IFixedBookField>({
   key: `bookFieldDocs/${v4()}`,
-  default: [],
+  default: {} as IFixedBookField,
 });
 
 export const votesState = atom<IVote[]>({

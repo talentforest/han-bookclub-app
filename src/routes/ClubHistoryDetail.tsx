@@ -11,7 +11,6 @@ import BookRecomBox from "components/bookmeeting/BookRecomBox";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 import useCallAllRecords from "hooks/useCallAllRecords";
-import CategoryButton from "components/common/CategoryButton";
 
 type LocationState = { state: { bookMeeting: IBookMeeting } };
 
@@ -27,16 +26,36 @@ const ClubHistoryDetail = () => {
   const { monthSubjects, monthReviews, monthRecommends } =
     useCallAllRecords(id);
 
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category);
+  };
+
   return (
     <Container>
       <Infos>
         <BookTitleImgBox thumbnail={book.thumbnail} title={book.title} />
         <MeetingInfoBox docData={meeting} />
       </Infos>
-      <CategoryButton
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-      />
+      <Categories>
+        <button
+          className={selectedCategory === "recommends" && "isActive"}
+          onClick={() => handleCategoryClick("recommends")}
+        >
+          추천했던 책
+        </button>
+        <button
+          className={selectedCategory === "subjects" && "isActive"}
+          onClick={() => handleCategoryClick("subjects")}
+        >
+          발제문 기록
+        </button>
+        <button
+          className={selectedCategory === "reviews" && "isActive"}
+          onClick={() => handleCategoryClick("reviews")}
+        >
+          모임 기록
+        </button>
+      </Categories>
       <Records>
         {selectedCategory === "recommends" &&
           (monthRecommends.length !== 0 ? (
@@ -86,6 +105,39 @@ const Records = styled.div`
       box-shadow: none;
       border-radius: 0;
       border-bottom: 1px solid ${(props) => props.theme.text.gray};
+    }
+  }
+`;
+
+const Categories = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  padding: 5px;
+  margin: 20px 0;
+  border-radius: 60px;
+  background-color: ${(props) => props.theme.container.lightBlue};
+  > button {
+    cursor: pointer;
+    width: 100%;
+    padding: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    border: none;
+    border-radius: 30px;
+    background-color: #eaeaea;
+    color: #aaa;
+    &.isActive {
+      background-color: ${(props) => props.theme.container.blue};
+      color: ${(props) => props.theme.text.white};
+    }
+  }
+  @media ${device.tablet} {
+    height: 50px;
+    border-radius: 30px;
+    > a {
+      height: 100%;
+      font-size: 16px;
     }
   }
 `;

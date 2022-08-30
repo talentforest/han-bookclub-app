@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container } from "theme/commonStyle";
 import { thisYear } from "util/constants";
-import { IBookMeeting } from "util/getFirebaseDoc";
-import useCallBookMeeting from "hooks/useCallBookMeeting";
+import { IBookMeeting, getCollection } from "util/getFirebaseDoc";
+import { bookMeetingsState } from "data/documentsAtom";
+import { useRecoilState } from "recoil";
 import useGroupedBookByYear from "hooks/useGroupedBookByYear";
 import Subtitle from "components/common/Subtitle";
 import HistoryBox from "components/clubbookhistory/HistoryBox";
@@ -11,9 +12,13 @@ import styled from "styled-components";
 
 const ClubHistory = () => {
   const [selectedYear, setSelectedYear] = useState(`${thisYear}`);
+  const [bookMeetings, setBookMeetings] = useRecoilState(bookMeetingsState);
 
-  const { bookMeetings } = useCallBookMeeting();
   const { GroupedBookByYear } = useGroupedBookByYear(bookMeetings);
+
+  useEffect(() => {
+    getCollection("BookMeeting Info", setBookMeetings);
+  }, [setBookMeetings]);
 
   const onYearChange = (event: React.FormEvent<HTMLSelectElement>) => {
     setSelectedYear(event.currentTarget.value);

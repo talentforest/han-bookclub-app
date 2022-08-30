@@ -1,19 +1,25 @@
 import { AddCircleOutline } from "@mui/icons-material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "theme/commonStyle";
 import { today } from "util/constants";
+import { useRecoilState } from "recoil";
+import { votesState } from "data/documentsAtom";
+import { getCollection } from "util/getFirebaseDoc";
 import VoteBox from "components/vote/VoteBox";
 import VoteCreateBox from "components/vote/VoteCreateBox";
 import Subtitle from "components/common/Subtitle";
 import ExpiredVote from "components/vote/ExpiredVote";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
-import useCallVotes from "hooks/useCallVotes";
 import Overlay from "components/common/Overlay";
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const { votes } = useCallVotes();
+  const [votes, setVotes] = useRecoilState(votesState);
+
+  useEffect(() => {
+    getCollection("Vote", setVotes);
+  }, [setVotes]);
 
   const onModalClick = () => {
     setModalOpen((prev) => !prev);

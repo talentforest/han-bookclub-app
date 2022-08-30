@@ -1,6 +1,6 @@
 import { AccountCircle } from "@mui/icons-material";
 import { memo, useEffect, useState } from "react";
-import { getUserData } from "util/getFirebaseDoc";
+import { getDocument } from "util/getFirebaseDoc";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 
@@ -18,12 +18,8 @@ const UserInfoBox = ({ creatorId }: PropsType) => {
   });
 
   useEffect(() => {
-    getUserData(creatorId, setUserDataDoc);
-    return () => {
-      getUserData(creatorId, setUserDataDoc);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    getDocument("User Data", creatorId, setUserDataDoc);
+  }, [creatorId]);
 
   return (
     <User>

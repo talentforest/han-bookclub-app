@@ -1,8 +1,7 @@
 import { currentUserState } from "data/userAtom";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { getAllRecommends } from "util/getFirebaseDoc";
-import { IBookMeeting } from "util/getFirebaseDoc";
+import { getCollection, IBookMeeting } from "util/getFirebaseDoc";
 import { SubjectBox } from "./MyRecord";
 import device from "theme/mediaQueries";
 import BookRecomBox from "components/bookmeeting/BookRecomBox";
@@ -21,10 +20,10 @@ const MyRecommendBook = ({ item }: PropsType) => {
   const docMonth = item.id;
 
   useEffect(() => {
-    getAllRecommends(item.id, setRecommendBook);
-    return () => {
-      getAllRecommends(item.id, setRecommendBook);
-    };
+    getCollection(
+      `BookMeeting Info/${item.id}/recommended book`,
+      setRecommendBook
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

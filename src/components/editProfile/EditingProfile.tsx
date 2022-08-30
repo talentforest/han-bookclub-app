@@ -35,7 +35,6 @@ const EditingProfile = ({
     if (!newDisplayName) {
       setNewDisplayName(userData.displayName);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

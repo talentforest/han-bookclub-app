@@ -15,7 +15,6 @@ const auth = getAuth();
 export const refreshUserState = atom({
   key: `refreshUser/${v4}`,
   default: authService.currentUser,
-
   effects: [
     ({ setSelf }) => {
       setSelf(authService.currentUser);
@@ -26,7 +25,6 @@ export const refreshUserState = atom({
 export const currentUserState = atom<CurrUserInfo | null>({
   key: `currentUser/${v4}`,
   default: null,
-
   effects: [
     ({ setSelf, onSet }) => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {

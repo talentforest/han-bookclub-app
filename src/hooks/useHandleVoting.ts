@@ -1,7 +1,7 @@
 import { authService, dbService } from "fbase";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { getMembersVote, IVote, IVoteItem } from "util/getFirebaseDoc";
+import { getCollection, IVote, IVoteItem } from "util/getFirebaseDoc";
 import useAlertAskJoin from "./useAlertAskJoin";
 
 const useHandleVoting = (vote: IVote, userDataUid: string) => {
@@ -32,13 +32,8 @@ const useHandleVoting = (vote: IVote, userDataUid: string) => {
   };
 
   useEffect(() => {
-    getMembersVote(vote.id, setMembersVote);
-
-    return () => {
-      getMembersVote(vote.id, setMembersVote);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    getCollection(`Vote/${vote.id}/Voted Items`, setMembersVote);
+  }, [setMembersVote, vote.id]);
 
   const onVotingSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -4,10 +4,13 @@ import { currentUserState } from "data/userAtom";
 import { AccountCircle } from "@mui/icons-material";
 import { authService } from "fbase";
 import { IWrittenDocs } from "components/bookmeeting/Subjects";
+import { bookMeetingsState } from "data/documentsAtom";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { getCollection } from "util/getFirebaseDoc";
 import Subtitle from "components/common/Subtitle";
 import MyRecommendBook from "components/profile/MyRecommendBook";
 import MyRecord from "components/profile/MyRecord";
-import useCallBookMeeting from "hooks/useCallBookMeeting";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 
@@ -19,7 +22,11 @@ export interface IRecord {
 
 const Profile = () => {
   const userData = useRecoilValue(currentUserState);
-  const { bookMeetings } = useCallBookMeeting();
+  const [bookMeetings, setBookMeetings] = useRecoilState(bookMeetingsState);
+
+  useEffect(() => {
+    getCollection("BookMeeting Info", setBookMeetings);
+  }, [setBookMeetings]);
 
   const anonymous = authService.currentUser?.isAnonymous;
 

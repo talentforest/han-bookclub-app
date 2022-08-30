@@ -5,25 +5,28 @@ import {
 } from "data/documentsAtom";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { getAllRecommends, getReviews, getSubjects } from "util/getFirebaseDoc";
+import { getCollection } from "util/getFirebaseDoc";
 
 const useCallAllRecords = (bookMeetingsId: string) => {
   const [monthSubjects, setMonthSubjects] = useRecoilState(subjectsState);
   const [monthReviews, setMonthReviews] = useRecoilState(reviewsState);
   const [monthRecommends, setMonthRecommends] = useRecoilState(recommendsState);
 
-  const getAllRecords = () => {
-    getReviews(bookMeetingsId, setMonthReviews);
-    getSubjects(bookMeetingsId, setMonthSubjects);
-    getAllRecommends(bookMeetingsId, setMonthRecommends);
-  };
-
   useEffect(() => {
-    getAllRecords();
+    getCollection(
+      `BookMeeting Info/${bookMeetingsId}/subjects`,
+      setMonthSubjects
+    );
 
-    return () => {
-      getAllRecords();
-    };
+    getCollection(
+      `BookMeeting Info/${bookMeetingsId}/reviews`,
+      setMonthReviews
+    );
+
+    getCollection(
+      `BookMeeting Info/${bookMeetingsId}/recommended book`,
+      setMonthRecommends
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookMeetingsId]);
 

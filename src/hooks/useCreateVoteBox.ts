@@ -1,3 +1,4 @@
+import { votesState } from "data/documentsAtom";
 import { currentUserState } from "data/userAtom";
 import { authService, dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
@@ -5,13 +6,13 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { pickDay } from "util/constants";
 import useAlertAskJoin from "./useAlertAskJoin";
-import useCallVotes from "./useCallVotes";
 
 const useCreateVoteBox = (
   setModalOpen: (modalOpen: boolean) => void,
   endDate: Date
 ) => {
   const userData = useRecoilValue(currentUserState);
+  const votes = useRecoilValue(votesState);
   const [vote, setVote] = useState({
     title: "",
     voteItem: [
@@ -19,7 +20,7 @@ const useCreateVoteBox = (
       { id: 2, item: "", voteCount: 0 },
     ],
   });
-  const { votes } = useCallVotes();
+
   const { alertAskJoin } = useAlertAskJoin();
 
   const addDocVote = async () => {
