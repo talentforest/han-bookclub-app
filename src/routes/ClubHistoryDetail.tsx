@@ -38,19 +38,19 @@ const ClubHistoryDetail = () => {
       </Infos>
       <Categories>
         <button
-          className={selectedCategory === "recommends" && "isActive"}
+          className={selectedCategory === "recommends" ? "isActive" : ""}
           onClick={() => handleCategoryClick("recommends")}
         >
           추천했던 책
         </button>
         <button
-          className={selectedCategory === "subjects" && "isActive"}
+          className={selectedCategory === "subjects" ? "isActive" : ""}
           onClick={() => handleCategoryClick("subjects")}
         >
           발제문 기록
         </button>
         <button
-          className={selectedCategory === "reviews" && "isActive"}
+          className={selectedCategory === "reviews" ? "isActive" : ""}
           onClick={() => handleCategoryClick("reviews")}
         >
           모임 기록
@@ -111,12 +111,8 @@ const Records = styled.div`
 
 const Categories = styled.div`
   display: flex;
-  justify-content: space-between;
-  gap: 5px;
-  padding: 5px;
-  margin: 20px 0;
-  border-radius: 60px;
-  background-color: ${(props) => props.theme.container.lightBlue};
+  gap: 10px;
+  margin: 20px 0 10px;
   > button {
     cursor: pointer;
     width: 100%;
@@ -130,14 +126,6 @@ const Categories = styled.div`
     &.isActive {
       background-color: ${(props) => props.theme.container.blue};
       color: ${(props) => props.theme.text.white};
-    }
-  }
-  @media ${device.tablet} {
-    height: 50px;
-    border-radius: 30px;
-    > a {
-      height: 100%;
-      font-size: 16px;
     }
   }
 `;

@@ -51,13 +51,13 @@ const BookMeeting = () => {
             <MeetingInfoBox docData={latestDoc?.meeting} />
           </MeetingBox>
           <Categories>
-            <Link to="recommends" className={recomUrlMatch && "isActive"}>
+            <Link to="recommends" className={recomUrlMatch ? "isActive" : ""}>
               추천책 작성
             </Link>
-            <Link to="subjects" className={subjectUrlMatch && "isActive"}>
+            <Link to="subjects" className={subjectUrlMatch ? "isActive" : ""}>
               발제문 작성
             </Link>
-            <Link to="reviews" className={reviewUrlMatch && "isActive"}>
+            <Link to="reviews" className={reviewUrlMatch ? "isActive" : ""}>
               모임후기 작성
             </Link>
           </Categories>
