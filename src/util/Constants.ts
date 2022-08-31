@@ -15,7 +15,10 @@ export const bookFields = [
   { id: 10, name: "과학" },
 ];
 
-export const thisYearMonth = `${date.toISOString().substr(0, 7)}`;
+const offset = date.getTimezoneOffset() * 60000;
+const today_offset = new Date(date.getTime() - offset);
+
+export const thisYearMonth = `${today_offset.toISOString().substr(0, 7)}`;
 
 export const thisYear = date.getFullYear();
 
