@@ -4,25 +4,25 @@ import { useEffect, useState } from "react";
 import { getCollection, IVote, IVoteItem } from "util/getFirebaseDoc";
 import useAlertAskJoin from "./useAlertAskJoin";
 
-const useHandleVoting = (vote: IVote, userDataUid: string) => {
+const useHandleVoting = (voteDetail: IVote, userDataUid: string) => {
   const [voteDisabled, setVoteDisabled] = useState(false);
   const [selectedItem, setSelectedItem] = useState([]);
-  const [voteItem, setVoteItem] = useState(vote.vote.voteItem);
+  const [voteItem, setVoteItem] = useState(voteDetail?.vote.voteItem);
   const [membersVote, setMembersVote] = useState([]);
 
   const { alertAskJoin } = useAlertAskJoin();
 
-  const voteRef = doc(dbService, "Vote", `${vote.id}`);
+  const voteRef = doc(dbService, "Vote", `${voteDetail.id}`);
 
   const addDocVoteItems = async () => {
     await setDoc(
-      doc(dbService, `Vote/${vote.id}/Voted Items`, `${userDataUid}`),
+      doc(dbService, `Vote/${voteDetail?.id}/Voted Items`, `${userDataUid}`),
       {
         createdAt: Date.now(),
         creatorId: userDataUid,
-        voteId: vote.id,
-        voteTitle: vote.vote.title,
-        voteDeadline: vote.deadline,
+        voteId: voteDetail?.id,
+        voteTitle: voteDetail?.vote.title,
+        voteDeadline: voteDetail.deadline,
         votedItem: selectedItem,
       }
     );
@@ -32,8 +32,8 @@ const useHandleVoting = (vote: IVote, userDataUid: string) => {
   };
 
   useEffect(() => {
-    getCollection(`Vote/${vote.id}/Voted Items`, setMembersVote);
-  }, [setMembersVote, vote.id]);
+    getCollection(`Vote/${voteDetail.id}/Voted Items`, setMembersVote);
+  }, [setMembersVote, voteDetail.id]);
 
   const onVotingSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -73,6 +73,7 @@ const useHandleVoting = (vote: IVote, userDataUid: string) => {
   };
 
   const myVote = membersVote.filter((item) => item.id === userDataUid);
+
   const totalCount = voteItem
     .map((item) => item.voteCount)
     .reduce((prev, curr) => prev + curr);
@@ -81,7 +82,7 @@ const useHandleVoting = (vote: IVote, userDataUid: string) => {
     setMembersVote(membersVote.filter((item) => item.id !== userDataUid));
     setVoteDisabled(false);
     setSelectedItem([]);
-    vote.vote.voteItem = voteItem.map((item) =>
+    voteDetail.vote.voteItem = voteItem.map((item) =>
       myVote[0].votedItem.some((vote: IVoteItem) => vote.id === item.id)
         ? { ...item, voteCount: item.voteCount - 1 }
         : item

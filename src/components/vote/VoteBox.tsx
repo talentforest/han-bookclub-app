@@ -11,28 +11,28 @@ import device from "theme/mediaQueries";
 import styled from "styled-components";
 
 interface PropsType {
-  vote: IVote;
+  voteDetail: IVote;
 }
 
-const VoteBox = ({ vote }: PropsType) => {
+const VoteBox = ({ voteDetail }: PropsType) => {
   return (
     <Vote>
       <VoteLists>
         <h4>
           <Help />
-          {vote.vote.title}
+          {voteDetail.vote.title}
         </h4>
-        {vote.vote?.voteItem?.slice(0, 3).map((item) => (
+        {voteDetail.vote?.voteItem?.slice(0, 3).map((item) => (
           <li key={item.id}>
             <CheckCircleOutline />
             <span>{item.item}</span>
           </li>
         ))}
-        {vote.vote.voteItem.length > 3 && <MoreHoriz />}
+        {voteDetail.vote.voteItem.length > 3 && <MoreHoriz />}
       </VoteLists>
       <VoteBottom>
-        <p>D-Day: {dDay(vote.deadline)}</p>
-        <Link to={`/vote/${vote.voteId}`} state={{ vote }}>
+        <p>D-Day: {dDay(voteDetail.deadline)}</p>
+        <Link to={`/vote/${voteDetail.voteId}`} state={{ voteDetail }}>
           투표하러 가기
           <ArrowForwardIosOutlined />
         </Link>
@@ -45,7 +45,7 @@ const Vote = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 250px;
+  min-height: 250px;
   width: 100%;
   border-radius: 10px;
   padding: 15px 20px 10px;
@@ -58,16 +58,15 @@ const Vote = styled.div`
 
 const VoteLists = styled.ul`
   > h4 {
-    display: flex;
-    align-items: center;
     font-size: 16px;
     font-weight: 700;
     border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
     padding-bottom: 10px;
     svg {
+      float: left;
+      margin: 2px 5px 0 0;
       width: 20px;
       height: 20px;
-      margin-right: 5px;
     }
   }
   > li {
@@ -79,7 +78,6 @@ const VoteLists = styled.ul`
     background-color: ${(props) => props.theme.container.lightBlue};
     display: flex;
     align-items: center;
-    height: 32px;
     > svg {
       width: 15px;
       height: 15px;

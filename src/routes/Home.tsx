@@ -77,8 +77,8 @@ const Home = () => {
             <Subtitle title={"한페이지의 투표함"} />
             {progressVote.length ? (
               <Slider {...settings}>
-                {progressVote?.map((vote) => (
-                  <VoteBox key={vote.id} vote={vote} />
+                {progressVote?.map((voteDetail) => (
+                  <VoteBox key={voteDetail.id} voteDetail={voteDetail} />
                 ))}
               </Slider>
             ) : (

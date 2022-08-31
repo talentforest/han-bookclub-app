@@ -1,24 +1,24 @@
-import { CheckCircleOutline, Help, Replay } from "@mui/icons-material";
+import { CheckCircleOutline, Replay } from "@mui/icons-material";
 import { currentUserState } from "data/userAtom";
 import { useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { dDay } from "util/timestamp";
 import { IVote, IVoteItem } from "util/getFirebaseDoc";
-import { percentage } from "util/percentage";
 import { Container } from "theme/commonStyle";
 import { today } from "util/constants";
 import UserInfoBox from "components/common/UserInfoBox";
 import useHandleVoting from "hooks/useHandleVoting";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
+import FormDetails from "components/voteDetail/FormDetails";
+import Percentage from "components/voteDetail/Percentage";
 
-type LocationState = { state: { vote: IVote } };
+type LocationState = { state: { voteDetail: IVote } };
 
 const VoteDetail = () => {
   const userData = useRecoilValue(currentUserState);
 
   const {
-    state: { vote },
+    state: { voteDetail },
   } = useLocation() as LocationState;
 
   const {
@@ -31,120 +31,48 @@ const VoteDetail = () => {
     membersVote,
     onVotingSubmit,
     onVoteItemClick,
-  } = useHandleVoting(vote, userData.uid);
+  } = useHandleVoting(voteDetail, userData.uid);
+
+  function mySelectingItem(item: IVoteItem) {
+    return selectedItem.find((ele) => ele.id === item.id);
+  }
+
+  function mySelectedItem(item: IVoteItem) {
+    return myVote[0].votedItem.find((ele: IVoteItem) => ele.id === item.id);
+  }
+
+  function existVoteCount(itemId: number) {
+    return voteItem[itemId - 1].voteCount;
+  }
 
   return (
     <Container>
-      <Vote className={vote.deadline < today() ? "disabled" : ""}>
-        {myVote.length ? (
-          <form>
-            <p>D-Day: {dDay(vote.deadline)}</p>
-            <VoteHeader>
-              <h4>
-                <Help />
-                {vote.vote.title}
-              </h4>
-              <span>
-                투표 등록: <UserInfoBox creatorId={vote.creatorId} />
-              </span>
-            </VoteHeader>
-            <Votelist className={"disabled"}>
-              <p>각 퍼센티지는 현재 득표율이며, 중복 투표도 가능합니다.</p>
-              {vote.vote.voteItem.map((item, index) => (
-                <li
-                  key={item.id}
-                  className={
-                    myVote[0].votedItem.find(
-                      (ele: IVoteItem) => ele.id === item.id
-                    )
-                      ? "isActive"
-                      : ""
-                  }
-                >
-                  <CheckCircleOutline
-                    className={
-                      myVote[0].votedItem.find(
-                        (ele: IVoteItem) => ele.id === item.id
-                      )
-                        ? "isActive"
-                        : ""
-                    }
-                  />
-                  <span>{item.item}</span>
-                  <Percentage
-                    style={{
-                      width: voteItem[index].voteCount
-                        ? `${percentage(
-                            voteItem[index].voteCount,
-                            totalCount
-                          )}%`
-                        : "",
-                    }}
-                  >
-                    {voteItem[index].voteCount !== 0 ? (
-                      `${percentage(voteItem[index].voteCount, totalCount)}%`
-                    ) : (
-                      <></>
-                    )}
-                  </Percentage>
-                </li>
-              ))}
-            </Votelist>
-            <SubmitButton className={"disabled"}>투표하기</SubmitButton>
-            <SubmitButton onClick={onRevoteClick}>
-              다시 투표하기 <Replay />
-            </SubmitButton>
-          </form>
-        ) : (
+      <Vote className={voteDetail.deadline < today() ? "expired" : ""}>
+        {!myVote.length ? (
           <form onSubmit={onVotingSubmit}>
-            <p>D-Day: {dDay(vote.deadline)}</p>
-            <VoteHeader>
-              <h4>
-                <Help />
-                {vote.vote.title}
-              </h4>
-              <span>
-                투표 등록: <UserInfoBox creatorId={vote.creatorId} />
-              </span>
-            </VoteHeader>
+            <FormDetails voteDetail={voteDetail} />
             <Votelist className={voteDisabled ? "disabled" : ""}>
-              <p>각 퍼센티지는 현재 득표율이며, 중복 투표도 가능합니다.</p>
-              {vote.vote.voteItem.map((item, index) => (
+              {voteDetail.vote.voteItem.map((item) => (
                 <li
                   key={item.id}
                   onClick={() =>
                     onVoteItemClick(item.id, item.item, item.voteCount)
                   }
-                  className={
-                    selectedItem.find((ele) => ele.id === item.id)
-                      ? "isActive"
-                      : ""
-                  }
+                  className={mySelectingItem(item) ? "isActive" : ""}
                 >
                   <CheckCircleOutline
-                    className={
-                      selectedItem.find((ele) => ele.id === item.id)
-                        ? "isActive"
-                        : ""
-                    }
+                    className={mySelectingItem(item) ? "isActive" : ""}
                   />
-                  <span>{item.item}</span>
-                  <Percentage
-                    style={{
-                      width: voteItem[index].voteCount
-                        ? `${percentage(
-                            voteItem[index].voteCount,
-                            totalCount
-                          )}%`
-                        : "",
-                    }}
+                  <span
+                    className={existVoteCount(item.id) ? "shrinkWidth" : ""}
                   >
-                    {voteItem[index].voteCount !== 0 ? (
-                      `${percentage(voteItem[index].voteCount, totalCount)}%`
-                    ) : (
-                      <></>
-                    )}
-                  </Percentage>
+                    {item.item}
+                  </span>
+                  <Percentage
+                    voteItem={voteItem}
+                    item={item}
+                    totalCount={totalCount}
+                  />
                 </li>
               ))}
             </Votelist>
@@ -153,6 +81,34 @@ const VoteDetail = () => {
               className={voteDisabled ? "disabled" : ""}
             >
               투표하기
+            </SubmitButton>
+          </form>
+        ) : (
+          <form>
+            <FormDetails voteDetail={voteDetail} />
+            <Votelist className={"disabled"}>
+              {voteDetail.vote.voteItem.map((item) => (
+                <li
+                  key={item.id}
+                  className={mySelectedItem(item) ? "isActive" : ""}
+                >
+                  <CheckCircleOutline />
+                  <span
+                    className={existVoteCount(item.id) ? "shrinkWidth" : ""}
+                  >
+                    {item.item}
+                  </span>
+                  <Percentage
+                    voteItem={voteItem}
+                    item={item}
+                    totalCount={totalCount}
+                  />
+                </li>
+              ))}
+            </Votelist>
+            <SubmitButton className={"disabled"}>투표하기</SubmitButton>
+            <SubmitButton onClick={onRevoteClick}>
+              다시 투표하기 <Replay />
             </SubmitButton>
           </form>
         )}
@@ -174,19 +130,13 @@ const VoteDetail = () => {
 const Vote = styled.div`
   width: 100%;
   padding: 0 20px;
-  > form {
-    > p {
-      width: fit-content;
-      font-size: 12px;
-      border-radius: 15px;
-      padding: 5px 10px 3px;
-      margin-bottom: 10px;
-      background-color: ${(props) => props.theme.container.yellow};
-      color: ${(props) => props.theme.text.accent};
-    }
-  }
-  &.disabled {
+  &.expired {
     pointer-events: none;
+    > form {
+      > details {
+        pointer-events: all;
+      }
+    }
     button {
       background-color: ${(props) => props.theme.text.lightGray};
       color: ${(props) => props.theme.text.gray};
@@ -195,58 +145,27 @@ const Vote = styled.div`
       }
     }
   }
-  @media ${device.tablet} {
-    > form {
-      > p {
-        font-size: 16px;
-      }
-    }
-  }
-`;
-
-const VoteHeader = styled.header`
-  margin: 15px 0;
-  padding: 10px 0;
-  border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
-  > h4 {
-    font-size: 18px;
-    font-weight: 700;
-    padding-bottom: 10px;
-    display: flex;
-    align-items: center;
-    svg {
-      width: 20px;
-      height: 20px;
-      margin-right: 5px;
-    }
-  }
-  > span {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    > div {
-      margin-left: 5px;
-    }
-  }
-  @media ${device.tablet} {
-    > h4 {
-      font-size: 22px;
-    }
+  > form {
     > span {
-      font-size: 16px;
+      width: fit-content;
+      font-size: 12px;
+      border-radius: 15px;
+      padding: 5px 10px 3px;
+      background-color: ${(props) => props.theme.container.yellow};
+      color: ${(props) => props.theme.text.accent};
+    }
+    > p {
+      font-size: 14px;
+      color: ${(props) => props.theme.text.lightBlue};
     }
   }
 `;
 
 const Votelist = styled.ul`
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   &.disabled {
     pointer-events: none;
-  }
-  p {
-    font-size: 14px;
-    color: ${(props) => props.theme.text.lightBlue};
   }
   > li {
     position: relative;
@@ -258,9 +177,11 @@ const Votelist = styled.ul`
     background-color: ${(props) => props.theme.container.default};
     display: flex;
     align-items: center;
-    height: 45px;
     &.isActive {
       border: 2px solid ${(props) => props.theme.container.blue};
+      svg {
+        fill: ${(props) => props.theme.container.blue};
+      }
     }
     > svg {
       z-index: 1;
@@ -268,12 +189,12 @@ const Votelist = styled.ul`
       height: 18px;
       margin-right: 5px;
       fill: ${(props) => props.theme.text.lightGray};
-      &.isActive {
-        fill: ${(props) => props.theme.container.blue};
-      }
     }
     > span {
       z-index: 1;
+      &.shrinkWidth {
+        width: 78%;
+      }
     }
   }
   @media ${device.tablet} {
@@ -292,24 +213,6 @@ const Votelist = styled.ul`
         font-size: 18px;
       }
     }
-  }
-`;
-
-const Percentage = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 10px;
-  color: ${(props) => props.theme.text.gray};
-  font-size: 13px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  border-radius: 3px;
-  background-color: ${(props) => props.theme.container.purple};
-  @media ${device.tablet} {
-    font-size: 16px;
   }
 `;
 

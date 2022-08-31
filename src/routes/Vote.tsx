@@ -1,10 +1,10 @@
 import { AddCircleOutline } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { Container } from "theme/commonStyle";
-import { today } from "util/constants";
 import { useRecoilState } from "recoil";
 import { votesState } from "data/documentsAtom";
 import { getCollection } from "util/getFirebaseDoc";
+import { today } from "util/constants";
 import VoteBox from "components/vote/VoteBox";
 import VoteCreateBox from "components/vote/VoteCreateBox";
 import Subtitle from "components/common/Subtitle";
@@ -43,7 +43,9 @@ const Vote = () => {
       )}
       <VoteList>
         {progressVote?.length ? (
-          progressVote.map((vote) => <VoteBox key={vote.id} vote={vote} />)
+          progressVote.map((voteDetail) => (
+            <VoteBox key={voteDetail.id} voteDetail={voteDetail} />
+          ))
         ) : (
           <EmptyBox>아직 등록된 투표가 없습니다.</EmptyBox>
         )}
@@ -51,7 +53,9 @@ const Vote = () => {
       <Subtitle title="기한이 만료된 투표함" />
       <VoteList>
         {expiredVote?.length ? (
-          expiredVote.map((vote) => <ExpiredVote key={vote.id} vote={vote} />)
+          expiredVote.map((voteDetail) => (
+            <ExpiredVote key={voteDetail.id} voteDetail={voteDetail} />
+          ))
         ) : (
           <EmptyBox>아직 만료된 투표가 없습니다.</EmptyBox>
         )}

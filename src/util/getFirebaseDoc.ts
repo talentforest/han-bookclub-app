@@ -36,6 +36,7 @@ export interface IVoteItem {
   id: number;
   item: string;
   voteCount: number;
+  selectReason: string;
 }
 
 export interface IVoteDocument {

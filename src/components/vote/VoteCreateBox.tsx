@@ -1,5 +1,5 @@
-import { Add, CheckCircleOutline, Close } from "@mui/icons-material";
-import { useState } from "react";
+import { Add, CheckCircleOutline, Close, Info } from "@mui/icons-material";
+import React, { useState } from "react";
 import useCreateVoteBox from "hooks/useCreateVoteBox";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
@@ -35,30 +35,52 @@ const VoteCreateBox = ({ setModalOpen }: PropsType) => {
           required
         />
         <h2>투표 항목</h2>
-        <ul>
-          {vote.voteItem.map((item) => (
+        <Explain>
+          <p>
+            <Info />
+            선정 이유에 대한 작성은 선택사항입니다.
+          </p>
+          <p>
+            <Info />
+            하지만 만약 책을 투표에 올렸다면, 왜 이 책을 선정했는지를 각 항목에
+            작성해주세요.
+          </p>
+        </Explain>
+        <VoteItems>
+          {vote.voteItem?.map((item) => (
             <li key={item.id}>
-              <CheckCircleOutline />
-              <Input
-                type="text"
-                placeholder="투표항목을 적어주세요."
-                name={`vote_item${item.id}`}
-                value={item.item}
+              <div>
+                <CheckCircleOutline />
+                <Input
+                  type="text"
+                  placeholder="투표항목을 적어주세요."
+                  name={`vote_item${item.id}`}
+                  value={item.item}
+                  onChange={(event) => onTitleChange(event, item.id)}
+                  required
+                />
+                {item.id > 2 && (
+                  <Close onClick={() => onItemDeleteClick(item.id)} />
+                )}
+              </div>
+              <textarea
+                placeholder="투표항목으로 선정한 이유를 간단하게 작성해주세요."
+                value={item.selectReason}
+                name={`selectReason${item.id}`}
                 onChange={(event) => onTitleChange(event, item.id)}
-                required
               />
-              {item.id > 2 && (
-                <Close onClick={() => onItemDeleteClick(item.id)} />
-              )}
             </li>
           ))}
-        </ul>
+        </VoteItems>
         <AddVoteItem onClick={onItemPlusClick}>
           <Add />
           투표항목 추가하기
         </AddVoteItem>
-        {vote.voteItem.length > 7 && (
-          <span>투표항목은 8개를 넘을 수 없습니다.</span>
+        {vote.voteItem?.length > 5 && (
+          <span>
+            <Info />
+            투표항목은 6개를 넘을 수 없습니다.
+          </span>
         )}
       </Vote>
       <Deadline>
@@ -92,7 +114,7 @@ const CreateBox = styled.form`
   justify-content: space-between;
   min-height: 30vh;
   max-height: 80vh;
-  margin: 40px;
+  margin: 40px 25px;
   padding: 20px;
   border-radius: 5px;
   background-color: ${(props) => props.theme.container.blue};
@@ -150,42 +172,24 @@ const Vote = styled.div`
     margin-bottom: 6px;
     font-weight: 700;
     font-size: 16px;
-    color: ${(props) => props.theme.text.accent};
+    color: ${(props) => props.theme.text.default};
   }
   > h2 {
     display: block;
     font-size: 16px;
     margin: 20px 0 6px;
     font-weight: 700;
-    color: ${(props) => props.theme.text.accent};
+    color: ${(props) => props.theme.text.default};
   }
-  > ul {
-    li {
-      position: relative;
-      display: flex;
-      align-items: center;
-      margin-bottom: 15px;
-      &:last-child {
-        margin-bottom: 0;
-      }
-      svg {
-        margin-right: 5px;
-        width: 18px;
-        height: 18px;
-        fill: ${(props) => props.theme.text.accent};
-        &:last-child {
-          position: absolute;
-          right: 0;
-          cursor: pointer;
-          width: 14px;
-          height: 14px;
-        }
-      }
-      input {
-        width: 100%;
-        height: 30px;
-        font-size: 16px;
-      }
+  > span {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 5px 0;
+    svg {
+      float: left;
+      margin: 5px 3px 0 0;
+      width: 16px;
+      height: 16px;
     }
   }
   @media ${device.tablet} {
@@ -196,19 +200,90 @@ const Vote = styled.div`
       font-size: 16px;
       font-weight: 700;
     }
-    > ul {
-      margin-top: 20px;
-      span {
-        font-size: 16px;
-      }
-      li {
-        svg {
+  }
+`;
+
+const Explain = styled.div`
+  margin-bottom: 10px;
+  > p {
+    font-size: 14px;
+    color: ${(props) => props.theme.text.lightBlue};
+    margin-bottom: 8px;
+    svg {
+      float: left;
+      margin: 2px 3px 0 0;
+      width: 16px;
+      height: 16px;
+      fill: ${(props) => props.theme.text.accent};
+    }
+  }
+`;
+
+const VoteItems = styled.div`
+  li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    > div {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      svg {
+        margin-right: 5px;
+        width: 18px;
+        height: 18px;
+        fill: ${(props) => props.theme.text.accent};
+        &:last-child {
+          position: absolute;
+          right: 0;
           width: 18px;
           height: 18px;
+          cursor: pointer;
         }
-        input {
-          height: 45px;
-        }
+      }
+      input {
+        width: 100%;
+        height: 30px;
+        font-size: 16px;
+      }
+    }
+    > textarea {
+      width: 100%;
+      margin-top: 5px;
+      padding: 10px 5px;
+      border-radius: 5px;
+      border: none;
+      border: 1px solid ${(props) => props.theme.text.lightGray};
+      resize: none;
+      &::placeholder {
+        line-height: 22px;
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+  @media ${device.tablet} {
+    margin-top: 20px;
+    span {
+      font-size: 16px;
+    }
+    li {
+      display: flex;
+      flex-direction: column;
+      div {
+      }
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+      input {
+        height: 45px;
       }
     }
   }

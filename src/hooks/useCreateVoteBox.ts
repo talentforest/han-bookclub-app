@@ -16,8 +16,8 @@ const useCreateVoteBox = (
   const [vote, setVote] = useState({
     title: "",
     voteItem: [
-      { id: 1, item: "", voteCount: 0 },
-      { id: 2, item: "", voteCount: 0 },
+      { id: 1, item: "", voteCount: 0, selectReason: "" },
+      { id: 2, item: "", voteCount: 0, selectReason: "" },
     ],
   });
 
@@ -50,7 +50,9 @@ const useCreateVoteBox = (
   };
 
   const onTitleChange = (
-    event: React.FormEvent<HTMLInputElement>,
+    event:
+      | React.FormEvent<HTMLInputElement>
+      | React.FormEvent<HTMLTextAreaElement>,
     id?: number
   ) => {
     const { name, value } = event.currentTarget;
@@ -68,16 +70,30 @@ const useCreateVoteBox = (
       };
       setVote(newVote);
     }
+    if (name === `selectReason${id}`) {
+      const newVote = {
+        ...vote,
+        voteItem: vote.voteItem.map((item) =>
+          item.id === id ? { ...item, selectReason: value } : item
+        ),
+      };
+      setVote(newVote);
+    }
   };
 
   const onItemPlusClick = () => {
-    if (vote.voteItem.length > 7) return;
+    if (vote.voteItem.length > 5) return;
 
     const newVote = {
       ...vote,
       voteItem: [
         ...vote.voteItem,
-        { id: vote.voteItem.length + 1, item: "", voteCount: 0 },
+        {
+          id: vote.voteItem.length + 1,
+          item: "",
+          voteCount: 0,
+          selectReason: "",
+        },
       ],
     };
     setVote(newVote);

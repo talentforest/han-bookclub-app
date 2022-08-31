@@ -6,20 +6,23 @@ import { IVote } from "util/getFirebaseDoc";
 import { timestamp } from "util/timestamp";
 
 interface PropsType {
-  vote: IVote;
+  voteDetail: IVote;
 }
 
-const ExpiredVote = ({ vote }: PropsType) => {
+const ExpiredVote = ({ voteDetail }: PropsType) => {
   return (
-    <Vote to={`/vote/${vote.voteId}`} state={{ vote: vote }}>
+    <Vote to={`/vote/${voteDetail.voteId}`} state={{ voteDetail }}>
       <div>
         <h4>
           <Help />
-          {vote.vote.title}
+          {voteDetail.vote.title}
         </h4>
-        <span>{timestamp(vote.deadline)}</span>
+        <span>{timestamp(voteDetail.deadline)}</span>
       </div>
-      <ArrowForwardIos />
+      <div>
+        <span>투표결과 보기</span>
+        <ArrowForwardIos />
+      </div>
     </Vote>
   );
 };
@@ -38,7 +41,6 @@ const Vote = styled(Link)`
     h4 {
       display: flex;
       align-items: center;
-      font-size: 14px;
       font-weight: 700;
       svg {
         width: 20px;
@@ -46,17 +48,26 @@ const Vote = styled(Link)`
         margin-right: 5px;
       }
     }
-    span {
+    > span {
       display: block;
       font-size: 14px;
       margin-top: 10px;
     }
+    &:last-child {
+      display: flex;
+      align-items: center;
+      span {
+        margin: 0;
+      }
+      svg {
+        margin-left: 5px;
+        width: 16px;
+        height: 16px;
+        fill: ${(props) => props.theme.text.accent};
+      }
+    }
   }
-  > svg {
-    width: 16px;
-    height: 16px;
-    fill: ${(props) => props.theme.text.accent};
-  }
+
   @media ${device.tablet} {
     > div {
       h4 {
