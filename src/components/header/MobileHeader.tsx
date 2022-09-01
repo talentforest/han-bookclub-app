@@ -1,7 +1,6 @@
 import { Settings } from "@mui/icons-material";
 import { Link, useLocation, useMatch, useNavigate } from "react-router-dom";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import device from "theme/mediaQueries";
 import styled from "styled-components";
 
 interface PropsType {
@@ -71,9 +70,6 @@ export const Header = styled.header`
   padding: 15px;
   font-size: 16px;
   font-weight: 700;
-  @media ${device.tablet} {
-    font-size: 22px;
-  }
 `;
 
 export const SettingIconHeader = styled(Header)`
@@ -107,18 +103,6 @@ export const SettingIconHeader = styled(Header)`
       margin-right: 0px;
     }
   }
-  @media ${device.tablet} {
-    margin: 0;
-    button {
-      font-size: 18px;
-      svg {
-        fill: ${(props) => props.theme.text.lightBlue};
-        width: 18px;
-        height: 18px;
-        margin-right: 3px;
-      }
-    }
-  }
 `;
 
 const BackButtonHeader = styled.header`
@@ -136,18 +120,6 @@ const BackButtonHeader = styled.header`
     height: 18px;
     padding-bottom: 2px;
     margin-right: 5px;
-  }
-  @media ${device.tablet} {
-    margin-top: 30px;
-    padding-left: 80px;
-    font-size: 22px;
-    svg {
-      width: 22px;
-      height: 22px;
-    }
-  }
-  @media ${device.desktop} {
-    padding-left: 160px;
   }
 `;
 

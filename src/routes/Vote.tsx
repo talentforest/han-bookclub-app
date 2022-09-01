@@ -29,8 +29,6 @@ const Vote = () => {
   const progressVote = votes.filter((item) => item.deadline >= today());
   const expiredVote = votes.filter((item) => item.deadline < today());
 
-  console.log(votes);
-
   return (
     <>
       {votes.length === 0 ? (

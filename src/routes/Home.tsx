@@ -14,7 +14,6 @@ import {
   thisMonthState,
   votesState,
 } from "data/documentsAtom";
-import { settings } from "util/sliderSetting";
 import LinkButton from "components/common/LinkButton";
 import Subtitle from "components/common/Subtitle";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
@@ -24,6 +23,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Loading from "components/common/Loading";
 import Guide from "components/common/Guide";
 import device from "theme/mediaQueries";
+import { settings } from "util/sliderSetting";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -78,7 +78,7 @@ const Home = () => {
           <VoteSlider>
             <Subtitle title={"한페이지의 투표함"} />
             {progressVote.length ? (
-              <Slider {...settings}>
+              <Slider {...settings(progressVote.length)}>
                 {progressVote?.map((voteDetail) => (
                   <VoteBox key={voteDetail.id} voteDetail={voteDetail} />
                 ))}
@@ -99,7 +99,13 @@ const Home = () => {
               {bookFields?.thisYearField?.map((item: IMonthField) => (
                 <li key={item.month}>
                   <div>{item.month}</div>
-                  <span>{item.value}</span>
+                  <span
+                    className={
+                      item.month === `${thisMonth}월` ? "highlight" : ""
+                    }
+                  >
+                    {item.value}
+                  </span>
                 </li>
               ))}
             </ScheduleBox>
@@ -115,6 +121,15 @@ const NewContainer = styled(Container)`
     margin-top: 40px;
     &:first-child {
       margin-top: 0;
+    }
+  }
+  @media ${device.tablet} {
+    > section {
+      &:first-child {
+        > div:nth-child(2) {
+          margin-bottom: 30px;
+        }
+      }
     }
   }
 `;
@@ -194,6 +209,9 @@ const ScheduleBox = styled.ul`
       padding: 0 5px;
       border-radius: 5px;
       font-weight: 700;
+      &.highlight {
+        color: ${(props) => props.theme.text.accent};
+      }
     }
   }
   @media ${device.tablet} {

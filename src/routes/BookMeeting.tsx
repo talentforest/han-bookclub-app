@@ -26,6 +26,7 @@ const BookMeeting = () => {
 
   useEffect(() => {
     getDocument("BookMeeting Info", `${thisYearMonth}`, setLatestDoc);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

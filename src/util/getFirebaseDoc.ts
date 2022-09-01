@@ -98,7 +98,7 @@ export function getCollection<T>(
   unsubscribe(listener);
 }
 
-function unsubscribe(listener: () => void) {
+export function unsubscribe(listener: () => void) {
   onAuthStateChanged(authService, (user) => {
     if (user == null) {
       listener();

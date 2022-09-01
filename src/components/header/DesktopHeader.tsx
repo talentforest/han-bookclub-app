@@ -58,8 +58,8 @@ const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 66px;
-  padding: 4px 50px 0;
+  height: 100px;
+  padding: 0 60px;
   > a {
     display: flex;
     align-items: center;

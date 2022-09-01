@@ -27,10 +27,10 @@ const BookTitleImgBox = ({
   return (
     <>
       {thumbnail && title ? (
-        <BookCoverTitleBox smSize={smSize}>
+        <BookCoverTitleBox className={smSize ? "smSize" : ""}>
           <img
             src={thumbnail}
-            alt={`${title}Book_Image`}
+            alt={`${title} thumbnail`}
             onClick={onModalClick}
           />
           <h3>{title}</h3>
@@ -42,7 +42,7 @@ const BookTitleImgBox = ({
           )}
         </BookCoverTitleBox>
       ) : (
-        <EmptySign smSize={smSize}>
+        <EmptySign className={smSize ? "smSize" : ""}>
           <div />
           <span>등록된 책이 없습니다.</span>
         </EmptySign>
@@ -51,43 +51,65 @@ const BookTitleImgBox = ({
   );
 };
 
-export const BookCoverTitleBox = styled.div<{ smSize: string }>`
+export const BookCoverTitleBox = styled.div`
   display: flex;
-  flex-direction: ${(props) => (props.smSize ? "row" : "column")};
-  justify-content: ${(props) => (props.smSize ? "flex-start" : "space-around")};
-  gap: 5px;
+  flex-direction: column;
+  gap: 10px;
   align-items: center;
-  margin: 0 auto 10px;
   width: 100%;
-  height: ${(props) => (props.smSize ? "fit-content" : "200px")};
+  min-height: 180px;
+  margin-top: 10px;
   img {
     box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
     width: auto;
-    height: ${(props) => (props.smSize ? "30px" : "140px")};
+    height: 140px;
   }
   svg {
-    height: ${(props) => (props.smSize ? "24px" : "100%")};
+    height: 100%;
     width: 70px;
   }
   h3 {
     text-align: center;
-    margin-left: ${(props) => (props.smSize ? "10px" : "0px")};
-    font-size: ${(props) => (props.smSize ? "12px" : "16px")};
+    font-size: 16px;
     font-weight: 700;
   }
+  &.smSize {
+    flex-direction: row;
+    justify-content: flex-start;
+    height: fit-content;
+    img {
+      height: 30px;
+    }
+    svg {
+      height: 24px;
+    }
+    h3 {
+      margin-left: 10px;
+      font-size: 12px;
+    }
+  }
   @media ${device.tablet} {
-    height: ${(props) => (props.smSize ? "fit-content" : "200px")};
+    min-height: 230px;
     svg,
     img {
-      height: ${(props) => (props.smSize ? "46px" : "150px")};
+      height: 180px;
     }
     h3 {
       margin-top: 10px;
-      font-size: ${(props) => (props.smSize ? "16px" : "18px")};
-      margin-left: ${(props) => (props.smSize ? "16px" : "0px")};
+      font-size: 18px;
+      margin-left: 0px;
     }
-  }
-  @media ${device.desktop} {
+    &.smSize {
+      height: fit-content;
+      svg,
+      img {
+        height: 46px;
+      }
+      h3 {
+        margin-left: 16px;
+        font-size: 16px;
+      }
+    }
   }
 `;
 
@@ -111,28 +133,40 @@ const BookDetail = styled.div`
   }
 `;
 
-const EmptySign = styled.div<{ smSize: string }>`
+const EmptySign = styled.div`
   display: flex;
-  flex-direction: ${(props) => (props.smSize ? "row" : "column")};
-  justify-content: ${(props) =>
-    props.smSize ? "flex-start" : "space-between"};
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   margin: 5px auto 0;
-  height: ${(props) => (props.smSize ? "fit-content" : "200px")};
+  height: 200px;
   div {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: ${(props) => (props.smSize ? "30px" : "95px")};
-    height: ${(props) => (props.smSize ? "46px" : "130px")};
+    width: 95px;
+    height: 130px;
     box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
     background-color: ${(props) => props.theme.container.default};
   }
   span {
     margin-top: 10px;
-    font-size: ${(props) => (props.smSize ? "16px" : "18px")};
-    margin-left: ${(props) => (props.smSize ? "16px" : "0px")};
+    font-size: 18px;
+    margin-left: 0px;
     font-weight: 700;
+  }
+  &.smSize {
+    flex-direction: row;
+    justify-content: flex-start;
+    height: fit-content;
+    div {
+      width: 30px;
+      height: 46px;
+    }
+    span {
+      font-size: 16px;
+      margin-left: 16px;
+    }
   }
 `;
 

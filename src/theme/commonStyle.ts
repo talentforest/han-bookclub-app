@@ -5,10 +5,10 @@ export const Container = styled.main`
   padding: 10px 20px 100px;
   position: relative;
   @media ${device.tablet} {
-    padding: 20px 80px 100px;
+    padding: 0 80px 100px;
   }
   @media ${device.desktop} {
-    padding: 20px 160px 100px;
+    padding: 0 160px 100px;
   }
 `;
 
