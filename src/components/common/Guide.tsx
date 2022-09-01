@@ -31,6 +31,10 @@ const Container = styled.div<{ $margin: boolean }>`
   }
   @media ${device.tablet} {
     font-size: 16px;
+    svg {
+      width: 18px;
+      height: 18px;
+    }
   }
 `;
 

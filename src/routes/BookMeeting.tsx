@@ -32,11 +32,11 @@ const BookMeeting = () => {
   const reviewUrlMatch = useMatch("/bookmeeting/reviews");
   const recomUrlMatch = useMatch("/bookmeeting/recommends");
 
-  const checkLatestDoc = Object.keys(thisMonthDoc).length;
+  const checkThisMonthDoc = Object.keys(thisMonthDoc).length;
 
   return (
     <>
-      {checkLatestDoc === 0 ? (
+      {checkThisMonthDoc === 0 ? (
         <Loading />
       ) : (
         <Container>
@@ -93,7 +93,8 @@ const MeetingBox = styled.div`
   align-items: center;
   width: 100%;
   margin: 0 auto;
-  > div {
+  > div:first-child {
+    margin-bottom: 15px;
     img {
       cursor: pointer;
     }
@@ -122,15 +123,18 @@ const Categories = styled.div`
     border-radius: 30px;
     background-color: #eaeaea;
     color: #aaa;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     &.isActive {
       background-color: ${(props) => props.theme.container.blue};
       color: ${(props) => props.theme.text.white};
     }
   }
   @media ${device.tablet} {
-    height: 50px;
+    height: 60px;
     border-radius: 30px;
+    padding: 8px 10px;
     > a {
       height: 100%;
       font-size: 16px;

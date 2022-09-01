@@ -138,9 +138,9 @@ const Form = styled.form`
     }
   }
   @media ${device.tablet} {
-    padding: 20px;
+    padding: 15px 20px;
     textarea {
-      height: 150px;
+      height: 130px;
     }
   }
 `;

@@ -115,7 +115,7 @@ const AddSubject = styled.div`
   }
   @media ${device.tablet} {
     p {
-      margin: 10px 0 30px;
+      margin: 10px 0;
       font-size: 16px;
     }
     span {

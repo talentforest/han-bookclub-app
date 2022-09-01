@@ -12,10 +12,10 @@ import {
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { Delete, Edit } from "@mui/icons-material";
-import { TextArea, TextBox } from "./Reviews";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
+import device from "theme/mediaQueries";
 
 interface PropsType {
   recommend: IWrittenDocs;
@@ -66,54 +66,52 @@ const BookRecomBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
   return (
     <>
       {editing ? (
-        <TextBox>
-          <form onSubmit={onEditSubmit}>
-            <FormHeader>
-              <UserInfoBox creatorId={recommend.creatorId} />
-              {showingGuide && (
-                <GuideTextBox>
-                  한 글자 이상 작성해주세요. <div></div>
-                </GuideTextBox>
-              )}
-              {showingGuide ? (
-                <DoneBtn type="submit" value="수정완료" eventdone />
-              ) : (
-                <DoneBtn type="submit" value="수정완료" />
-              )}
-            </FormHeader>
-            {recommend.recommendBookTitle ? (
-              <RecommendBook>
-                <img
-                  src={recommend.recommendBookThumbnail}
-                  alt="recommend book"
-                />
-                <div>
-                  <h5>{recommend.recommendBookTitle}</h5>
-                  <span>{recommend.recommendBookAuthor?.join(", ")}</span>
-                  {recommend.recommendBookUrl && (
-                    <a
-                      href={recommend.recommendBookUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      상세정보 보러가기
-                    </a>
-                  )}
-                </div>
-              </RecommendBook>
-            ) : (
-              <></>
+        <Form onSubmit={onEditSubmit}>
+          <FormHeader>
+            <UserInfoBox creatorId={recommend.creatorId} />
+            {showingGuide && (
+              <GuideTextBox>
+                한 글자 이상 작성해주세요. <div></div>
+              </GuideTextBox>
             )}
-            <TextArea
-              value={newText}
-              placeholder="수정해주세요."
-              onChange={onChange}
-            />
-          </form>
+            {showingGuide ? (
+              <DoneBtn type="submit" value="수정완료" eventdone />
+            ) : (
+              <DoneBtn type="submit" value="수정완료" />
+            )}
+          </FormHeader>
+          {recommend.recommendBookTitle ? (
+            <RecommendBook>
+              <img
+                src={recommend.recommendBookThumbnail}
+                alt="recommend book"
+              />
+              <div>
+                <h5>{recommend.recommendBookTitle}</h5>
+                <span>{recommend.recommendBookAuthor?.join(", ")}</span>
+                {recommend.recommendBookUrl && (
+                  <a
+                    href={recommend.recommendBookUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    상세정보 보러가기
+                  </a>
+                )}
+              </div>
+            </RecommendBook>
+          ) : (
+            <></>
+          )}
+          <TextArea
+            value={newText}
+            placeholder="수정해주세요."
+            onChange={onChange}
+          />
           <RegisterTime>{timestamp(recommend.createdAt)}</RegisterTime>
-        </TextBox>
+        </Form>
       ) : (
-        <TextBox>
+        <Form>
           <FormHeader>
             <UserInfoBox creatorId={recommend.creatorId} />
             {userData.uid === recommend.creatorId && (
@@ -123,7 +121,7 @@ const BookRecomBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
               </EditDeleteIcon>
             )}
           </FormHeader>
-          {recommend.recommendBookTitle ? (
+          {recommend.recommendBookTitle && (
             <RecommendBook>
               <img
                 src={recommend.recommendBookThumbnail}
@@ -141,8 +139,6 @@ const BookRecomBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
                 </a>
               </div>
             </RecommendBook>
-          ) : (
-            <></>
           )}
           <pre>{newText}</pre>
           <RegisterTime>{timestamp(recommend.createdAt)}</RegisterTime>
@@ -151,11 +147,57 @@ const BookRecomBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
             title={recommend.title}
             smSize={"smSize"}
           />
-        </TextBox>
+        </Form>
       )}
     </>
   );
 };
+
+export const Form = styled.form`
+  padding: 15px 10px 20px;
+  border-bottom: 1px solid #ccc;
+  font-size: 14px;
+  &:last-child {
+    border: none;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 1.6;
+    font-size: 16px;
+    min-height: 60px;
+    margin: 10px 0;
+  }
+  @media ${device.tablet} {
+    padding: 20px 10px 25px;
+    font-size: 16px;
+    pre {
+      font-size: 18px;
+      min-height: 80px;
+    }
+  }
+`;
+
+export const TextArea = styled.textarea`
+  font-size: 16px;
+  width: 100%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  border: none;
+  border-radius: 5px;
+  height: 100px;
+  line-height: 1.6;
+  background-color: ${(props) => props.theme.container.default};
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  resize: none;
+  &:focus {
+    outline: none;
+  }
+  @media ${device.tablet} {
+    font-size: 18px;
+    min-height: 100px;
+  }
+`;
 
 const RecommendBook = styled.div`
   display: flex;
@@ -182,12 +224,24 @@ const RecommendBook = styled.div`
       color: ${(props) => props.theme.text.accent};
     }
   }
+  @media ${device.tablet} {
+    padding: 15px;
+    > img {
+      height: 65px;
+    }
+    > div {
+      font-size: 16px;
+    }
+  }
 `;
 
 const RegisterTime = styled.div`
   font-size: 13px;
   color: ${(props) => props.theme.text.gray};
   text-align: end;
+  @media ${device.tablet} {
+    font-size: 15px;
+  }
 `;
 
 export default BookRecomBox;

@@ -80,7 +80,7 @@ const Subjects = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
   const toggleEditing = () => setEditing((prev) => !prev);
 
   return (
-    <TextBox>
+    <SubjectBox>
       {editing ? (
         <form onSubmit={onSubmit}>
           <FormHeader>
@@ -128,11 +128,11 @@ const Subjects = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
           />
         </>
       )}
-    </TextBox>
+    </SubjectBox>
   );
 };
 
-const TextBox = styled.div`
+const SubjectBox = styled.div`
   width: 100%;
   box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.3);
   margin: 10px 0;
@@ -147,11 +147,11 @@ const TextBox = styled.div`
     padding-bottom: 10px;
     min-height: 200px;
     margin-bottom: 15px;
-    font-size: 17px;
+    font-size: 16px;
   }
   @media ${device.tablet} {
     margin-bottom: 20px;
-    padding: 20px 30px;
+    padding: 20px 25px;
     border-radius: 10px;
     pre {
       font-size: 18px;

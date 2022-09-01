@@ -10,11 +10,10 @@ import {
   RegisterTime,
 } from "components/bookmeeting/Subjects";
 import { IBookApi } from "data/bookAtom";
+import { Form, TextArea } from "./BookRecomBox";
 import UserInfoBox from "components/common/UserInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
-import styled from "styled-components";
 import EditDeleteDoc from "components/common/EditDeleteDoc";
-import device from "theme/mediaQueries";
 
 interface PropsType {
   review: IWrittenDocs;
@@ -63,9 +62,9 @@ const Reviews = ({ review, onReviewRemove, docMonth }: PropsType) => {
   const toggleEditing = () => setEditing((prev) => !prev);
 
   return (
-    <TextBox>
+    <>
       {editing ? (
-        <form onSubmit={onSubmit}>
+        <Form onSubmit={onSubmit}>
           <FormHeader>
             <UserInfoBox creatorId={review.creatorId} />
             {showingGuide && (
@@ -90,9 +89,9 @@ const Reviews = ({ review, onReviewRemove, docMonth }: PropsType) => {
             title={review.title}
             smSize={"smSize"}
           />
-        </form>
+        </Form>
       ) : (
-        <>
+        <Form>
           <FormHeader>
             <UserInfoBox creatorId={review.creatorId} />
             <EditDeleteDoc
@@ -108,52 +107,10 @@ const Reviews = ({ review, onReviewRemove, docMonth }: PropsType) => {
             title={review.title}
             smSize={"smSize"}
           />
-        </>
+        </Form>
       )}
-    </TextBox>
+    </>
   );
 };
-
-export const TextBox = styled.div`
-  padding: 20px 10px;
-  font-size: 14px;
-  border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
-  pre {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    line-height: 1.6;
-    font-size: 16px;
-    min-height: 60px;
-    margin: 10px 0;
-  }
-  @media ${device.tablet} {
-    padding: 15px;
-    pre {
-      font-size: 18px;
-      min-height: 100px;
-    }
-  }
-`;
-
-export const TextArea = styled.textarea`
-  font-size: 16px;
-  width: 100%;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  border: none;
-  border-radius: 5px;
-  height: 100px;
-  line-height: 1.6;
-  background-color: ${(props) => props.theme.container.default};
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-  resize: none;
-  &:focus {
-    outline: none;
-  }
-  @media ${device.tablet} {
-    font-size: 18px;
-    min-height: 100px;
-  }
-`;
 
 export default Reviews;

@@ -76,7 +76,7 @@ export const BookCoverTitleBox = styled.div`
   &.smSize {
     flex-direction: row;
     justify-content: flex-start;
-    height: fit-content;
+    min-height: fit-content;
     img {
       height: 30px;
     }
@@ -100,7 +100,6 @@ export const BookCoverTitleBox = styled.div`
       margin-left: 0px;
     }
     &.smSize {
-      height: fit-content;
       svg,
       img {
         height: 46px;
