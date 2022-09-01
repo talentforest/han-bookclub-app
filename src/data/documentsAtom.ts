@@ -22,7 +22,7 @@ export const bookMeetingsState = atom<IBookMeeting[]>({
   ],
 });
 
-export const thisMonthBookMeetingState = atom<IBookMeeting>({
+export const thisMonthState = atom<IBookMeeting>({
   key: `thisMonthBookMeeting/${v4()}`,
   default: {} as IBookMeeting,
   effects: [

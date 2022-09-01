@@ -4,6 +4,7 @@ import styled from "styled-components";
 import NotEditingProfile from "components/editProfile/NotEditingProfile";
 import EditingProfile from "components/editProfile/EditingProfile";
 import useHandleProfile from "hooks/useHandleProfile";
+import Loading from "components/common/Loading";
 
 export interface extraUserData {
   name: string;
@@ -26,25 +27,33 @@ const EditProfile = () => {
     onProfileSubmit,
   } = useHandleProfile();
 
+  const checkObj = Object.keys(extraUserData).length;
+
   return (
-    <NewContainer>
-      {editing ? (
-        <EditingProfile
-          onProfileSubmit={onProfileSubmit}
-          profileImgUrl={profileImgUrl}
-          setProfileImgUrl={setProfileImgUrl}
-          extraUserData={extraUserData}
-          newDisplayName={newDisplayName}
-          setNewDisplayName={setNewDisplayName}
-          onHandleClick={onHandleClick}
-        />
+    <>
+      {checkObj === 0 ? (
+        <Loading />
       ) : (
-        <NotEditingProfile
-          setEditing={setEditing}
-          extraUserData={extraUserData}
-        />
+        <NewContainer>
+          {editing ? (
+            <EditingProfile
+              onProfileSubmit={onProfileSubmit}
+              profileImgUrl={profileImgUrl}
+              setProfileImgUrl={setProfileImgUrl}
+              extraUserData={extraUserData}
+              newDisplayName={newDisplayName}
+              setNewDisplayName={setNewDisplayName}
+              onHandleClick={onHandleClick}
+            />
+          ) : (
+            <NotEditingProfile
+              setEditing={setEditing}
+              extraUserData={extraUserData}
+            />
+          )}
+        </NewContainer>
       )}
-    </NewContainer>
+    </>
   );
 };
 

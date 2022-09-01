@@ -8,15 +8,17 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { getDocument } from "util/getFirebaseDoc";
 
+interface IExtraUserData {
+  name: string;
+  favoriteBookField: BookFieldType[];
+  email: string;
+  displayName: string;
+  photoUrl: string;
+}
+
 const useHandleProfile = () => {
   const [userData, setUserData] = useRecoilState(currentUserState);
-  const [extraUserData, setExtraUserData] = useState({
-    name: "",
-    favoriteBookField: [],
-    email: "",
-    displayName: "",
-    photoUrl: "",
-  });
+  const [extraUserData, setExtraUserData] = useState({} as IExtraUserData);
   const [editing, setEditing] = useState(false);
   const [profileImgUrl, setProfileImgUrl] = useState("");
   const [newDisplayName, setNewDisplayName] = useState(userData.displayName);

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Container } from "theme/commonStyle";
 import { useRecoilState } from "recoil";
-import { thisMonthBookMeetingState } from "data/documentsAtom";
+import { thisMonthState } from "data/documentsAtom";
 import { getDocument } from "util/getFirebaseDoc";
 import { thisYearMonth } from "util/constants";
 import { Link, useMatch } from "react-router-dom";
@@ -18,7 +18,7 @@ import device from "theme/mediaQueries";
 import Guide from "components/common/Guide";
 
 const BookMeeting = () => {
-  const [latestDoc, setLatestDoc] = useRecoilState(thisMonthBookMeetingState);
+  const [latestDoc, setLatestDoc] = useRecoilState(thisMonthState);
 
   const { monthSubjects, monthReviews, monthRecommends } = useCallAllRecords(
     latestDoc?.id

@@ -11,7 +11,7 @@ const Loading = () => {
 
 const Load = styled.div`
   width: 100vw;
-  height: 50vh;
+  height: 70vh;
   display: flex;
   justify-content: center;
   align-items: center;

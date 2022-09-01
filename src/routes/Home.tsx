@@ -11,7 +11,7 @@ import {
 import { useRecoilState } from "recoil";
 import {
   bookFieldsState,
-  thisMonthBookMeetingState,
+  thisMonthState,
   votesState,
 } from "data/documentsAtom";
 import { settings } from "util/sliderSetting";
@@ -22,54 +22,54 @@ import BookTitleImgBox from "components/common/BookTitleImgBox";
 import VoteBox from "components/vote/VoteBox";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Loading from "components/common/Loading";
+import Guide from "components/common/Guide";
 import device from "theme/mediaQueries";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
-import Guide from "components/common/Guide";
 
 const Home = () => {
-  const [latestDoc, setLatestDoc] = useRecoilState(thisMonthBookMeetingState);
+  const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
   const [bookFields, setBookFields] = useRecoilState(bookFieldsState);
   const [votes, setVotes] = useRecoilState(votesState);
 
   useEffect(() => {
-    getDocument("BookMeeting Info", `${thisYearMonth}`, setLatestDoc);
+    getDocument("BookMeeting Info", `${thisYearMonth}`, setThisMonthDoc);
     getDocument("bookfield", `${thisYear}`, setBookFields);
     getCollection("Vote", setVotes);
-  }, [setLatestDoc, setBookFields, setVotes]);
+  }, [setThisMonthDoc, setBookFields, setVotes]);
 
   const progressVote = votes.filter((item: IVote) => item.deadline >= today());
-  const latestDocMonth = latestDoc?.id?.slice(6);
+  const thisMonth = thisMonthDoc?.id?.slice(6);
 
-  const checkLatestDoc = Object.keys(latestDoc).length;
+  const checkThisMonthDoc = Object.keys(thisMonthDoc).length;
 
   return (
     <>
-      {checkLatestDoc === 0 ? (
+      {checkThisMonthDoc === 0 ? (
         <Loading />
       ) : (
         <NewContainer>
           <section>
-            <Subtitle title={`${latestDocMonth}월의 책`} />
+            <Subtitle title={`${thisMonth}월의 책`} />
             <Guide
               margin={true}
               text="이달의 책은 매월 1일에 업데이트 됩니다."
             />
             <BookTitleImgBox
-              thumbnail={latestDoc?.book?.thumbnail}
-              title={latestDoc?.book?.title}
+              thumbnail={thisMonthDoc?.book?.thumbnail}
+              title={thisMonthDoc?.book?.title}
             />
             <LinkButton link={"/bookmeeting/subjects"} title="발제하러 가기" />
           </section>
           <section>
-            <Subtitle title={latestDoc && `${latestDocMonth}월의 모임 일정`} />
+            <Subtitle title={thisMonthDoc && `${thisMonth}월의 모임 일정`} />
             <Guide
               margin={true}
               text="한페이지 멤버는 매월 셋째주 일요일에 만나요."
             />
-            <MeetingInfoBox docData={latestDoc?.meeting} />
+            <MeetingInfoBox docData={thisMonthDoc?.meeting} />
             <LinkButton
               link={"/bookmeeting/reviews"}
               title="모임 후기 작성하러 가기"

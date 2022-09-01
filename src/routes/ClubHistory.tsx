@@ -9,6 +9,7 @@ import Subtitle from "components/common/Subtitle";
 import HistoryBox from "components/clubbookhistory/HistoryBox";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
+import Loading from "components/common/Loading";
 
 const ClubHistory = () => {
   const [selectedYear, setSelectedYear] = useState(`${thisYear}`);
@@ -25,28 +26,37 @@ const ClubHistory = () => {
   };
 
   return (
-    <Container>
-      <Subtitle title="한페이지 히스토리" />
-      <YearSelect onChange={onYearChange} value={selectedYear}>
-        {GroupedBookByYear?.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.id}년의 책
-          </option>
-        ))}
-      </YearSelect>
-      {GroupedBookByYear.length !== 0 ? (
-        GroupedBookByYear?.map((item) => (
-          <HistoryList key={item.id}>
-            {item.id === selectedYear &&
-              item.bookMeeting.map((bookMeeting: IBookMeeting) => (
-                <HistoryBox key={bookMeeting.id} bookMeeting={bookMeeting} />
-              ))}
-          </HistoryList>
-        ))
+    <>
+      {bookMeetings?.length === 0 ? (
+        <Loading />
       ) : (
-        <EmptyBox>북클럽에 아직 등록된 책이 없습니다.</EmptyBox>
+        <Container>
+          <Subtitle title="한페이지 히스토리" />
+          <YearSelect onChange={onYearChange} value={selectedYear}>
+            {GroupedBookByYear?.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.id}년의 책
+              </option>
+            ))}
+          </YearSelect>
+          {GroupedBookByYear.length !== 0 ? (
+            GroupedBookByYear?.map((item) => (
+              <HistoryList key={item.id}>
+                {item.id === selectedYear &&
+                  item.bookMeeting.map((bookMeeting: IBookMeeting) => (
+                    <HistoryBox
+                      key={bookMeeting.id}
+                      bookMeeting={bookMeeting}
+                    />
+                  ))}
+              </HistoryList>
+            ))
+          ) : (
+            <EmptyBox>북클럽에 아직 등록된 책이 없습니다.</EmptyBox>
+          )}
+        </Container>
       )}
-    </Container>
+    </>
   );
 };
 
