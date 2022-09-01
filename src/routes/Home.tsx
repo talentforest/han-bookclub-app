@@ -15,7 +15,6 @@ import {
   votesState,
 } from "data/documentsAtom";
 import { settings } from "util/sliderSetting";
-import { Info } from "@mui/icons-material";
 import LinkButton from "components/common/LinkButton";
 import Subtitle from "components/common/Subtitle";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
@@ -28,6 +27,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
+import Guide from "components/common/Guide";
 
 const Home = () => {
   const [latestDoc, setLatestDoc] = useRecoilState(thisMonthBookMeetingState);
@@ -53,6 +53,10 @@ const Home = () => {
         <NewContainer>
           <section>
             <Subtitle title={`${latestDocMonth}월의 책`} />
+            <Guide
+              margin={true}
+              text="이달의 책은 매월 1일에 업데이트 됩니다."
+            />
             <BookTitleImgBox
               thumbnail={latestDoc?.book?.thumbnail}
               title={latestDoc?.book?.title}
@@ -61,12 +65,10 @@ const Home = () => {
           </section>
           <section>
             <Subtitle title={latestDoc && `${latestDocMonth}월의 모임 일정`} />
-            <Guide>
-              <Info />
-              <p>
-                한페이지 멤버는 <span>매월 셋째주 일요일</span>에 만나요.
-              </p>
-            </Guide>
+            <Guide
+              margin={true}
+              text="한페이지 멤버는 매월 셋째주 일요일에 만나요."
+            />
             <MeetingInfoBox docData={latestDoc?.meeting} />
             <LinkButton
               link={"/bookmeeting/reviews"}
@@ -110,29 +112,10 @@ const Home = () => {
 
 const NewContainer = styled(Container)`
   > section {
-    margin-top: 60px;
+    margin-top: 40px;
     &:first-child {
       margin-top: 0;
     }
-  }
-`;
-
-const Guide = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 700;
-  margin: 0 15px 10px;
-  span {
-    color: ${(props) => props.theme.text.lightBlue};
-  }
-  svg {
-    width: 18px;
-    height: 18px;
-    margin-right: 5px;
-  }
-  @media ${device.tablet} {
-    font-size: 16px;
   }
 `;
 

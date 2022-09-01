@@ -15,6 +15,7 @@ import MeetingInfoBox from "components/common/MeetingInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
+import Guide from "components/common/Guide";
 
 const BookMeeting = () => {
   const [latestDoc, setLatestDoc] = useRecoilState(thisMonthBookMeetingState);
@@ -41,13 +42,16 @@ const BookMeeting = () => {
       ) : (
         <Container>
           <Subtitle title={`${latestDoc?.id?.slice(6)}월의 책`} />
+          <Guide
+            margin={true}
+            text="도서 이미지를 클릭하면 상세정보를 볼 수 있어요."
+          />
           <MeetingBox>
             <BookTitleImgBox
               thumbnail={latestDoc.book.thumbnail}
               title={latestDoc.book.title}
               detailInfo={latestDoc.book}
             />
-            <p>도서 이미지를 클릭하시면 상세정보를 보실 수 있습니다.</p>
             <MeetingInfoBox docData={latestDoc?.meeting} />
           </MeetingBox>
           <Categories>
@@ -61,6 +65,10 @@ const BookMeeting = () => {
               모임후기 작성
             </Link>
           </Categories>
+          <Guide
+            margin={true}
+            text="모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 작성이 불가능한 점 유의해주세요."
+          />
           {recomUrlMatch && (
             <RecommendationArea
               monthRecommends={monthRecommends}
@@ -102,7 +110,7 @@ const Categories = styled.div`
   justify-content: space-between;
   gap: 5px;
   padding: 5px;
-  margin: 20px 0;
+  margin: 20px 0 10px;
   border-radius: 60px;
   background-color: ${(props) => props.theme.container.lightBlue};
   > a {

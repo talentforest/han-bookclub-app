@@ -54,12 +54,12 @@ const BookTitleImgBox = ({
 export const BookCoverTitleBox = styled.div<{ smSize: string }>`
   display: flex;
   flex-direction: ${(props) => (props.smSize ? "row" : "column")};
-  justify-content: ${(props) =>
-    props.smSize ? "flex-start" : "space-between"};
+  justify-content: ${(props) => (props.smSize ? "flex-start" : "space-around")};
+  gap: 5px;
   align-items: center;
-  margin: 0 auto;
+  margin: 0 auto 10px;
   width: 100%;
-  height: ${(props) => (props.smSize ? "fit-content" : "190px")};
+  height: ${(props) => (props.smSize ? "fit-content" : "200px")};
   img {
     box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
     width: auto;

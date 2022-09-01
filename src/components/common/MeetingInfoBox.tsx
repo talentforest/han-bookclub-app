@@ -41,7 +41,6 @@ const MeetingInfo = styled.div`
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
-  margin-top: 20px;
   padding: 15px 10px;
   @media ${device.tablet} {
     padding: 20px;

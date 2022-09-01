@@ -5,6 +5,7 @@ import { dDay } from "util/timestamp";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
+import Guide from "components/common/Guide";
 
 interface PropsType {
   voteDetail: IVote;
@@ -41,7 +42,7 @@ const FormDetails = ({ voteDetail }: PropsType) => {
           ))}
         </Reasons>
       )}
-      <p>각 퍼센티지는 현재 득표율이며, 중복 투표도 가능합니다.</p>
+      <Guide text="각 퍼센티지는 현재 득표율이며, 중복 투표도 가능해요!" />
     </>
   );
 };
