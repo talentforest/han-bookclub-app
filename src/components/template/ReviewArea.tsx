@@ -4,20 +4,23 @@ import { IWrittenDocs } from "components/bookmeeting/Subjects";
 import { IBookMeeting } from "util/getFirebaseDoc";
 
 interface PropsType {
-  latestDoc: IBookMeeting;
-  monthReviews: IWrittenDocs[];
+  thisMonthDoc: IBookMeeting;
+  reviews: IWrittenDocs[];
 }
 
-const ReviewArea = ({ latestDoc, monthReviews }: PropsType) => {
+const ReviewArea = ({ thisMonthDoc, reviews }: PropsType) => {
   return (
     <>
-      <ReviewCreateBox bookInfo={latestDoc?.book} docMonth={latestDoc?.id} />
-      {monthReviews?.map((review) => (
+      <ReviewCreateBox
+        bookInfo={thisMonthDoc?.book}
+        docMonth={thisMonthDoc?.id}
+      />
+      {reviews?.map((review) => (
         <Reviews
           key={review.id}
           review={review}
-          bookInfo={latestDoc?.book}
-          docMonth={latestDoc?.id}
+          bookInfo={thisMonthDoc?.book}
+          docMonth={thisMonthDoc?.id}
         />
       ))}
     </>

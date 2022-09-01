@@ -23,8 +23,7 @@ const ClubHistoryDetail = () => {
 
   const { id, book, meeting } = bookMeeting;
 
-  const { monthSubjects, monthReviews, monthRecommends } =
-    useCallAllRecords(id);
+  const { subjects, reviews, recommends } = useCallAllRecords(id);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
@@ -58,8 +57,8 @@ const ClubHistoryDetail = () => {
       </Categories>
       <Records>
         {selectedCategory === "recommends" &&
-          (monthRecommends.length !== 0 ? (
-            monthRecommends.map((recommend) => (
+          (recommends.length !== 0 ? (
+            recommends.map((recommend) => (
               <BookRecomBox
                 key={recommend.id}
                 recommend={recommend}
@@ -70,16 +69,16 @@ const ClubHistoryDetail = () => {
             <EmptyRecord>기록된 추천책이 아직 없어요.</EmptyRecord>
           ))}
         {selectedCategory === "subjects" &&
-          (monthSubjects.length !== 0 ? (
-            monthSubjects.map((subject) => (
+          (subjects.length !== 0 ? (
+            subjects.map((subject) => (
               <Subjects key={subject.id} subject={subject} docMonth={id} />
             ))
           ) : (
             <EmptyRecord>기록된 모임 후기가 아직 없어요.</EmptyRecord>
           ))}
         {selectedCategory === "reviews" &&
-          (monthReviews.length !== 0 ? (
-            monthReviews.map((review) => (
+          (reviews.length !== 0 ? (
+            reviews.map((review) => (
               <Reviews key={review.id} review={review} docMonth={id} />
             ))
           ) : (

@@ -6,26 +6,26 @@ import { useRecoilValue } from "recoil";
 import { IBookMeeting } from "util/getFirebaseDoc";
 
 interface PropsType {
-  latestDoc: IBookMeeting;
-  monthRecommends: IWrittenDocs[];
+  thisMonthDoc: IBookMeeting;
+  recommends: IWrittenDocs[];
 }
 
-const RecommendationArea = ({ latestDoc, monthRecommends }: PropsType) => {
+const RecommendationArea = ({ thisMonthDoc, recommends }: PropsType) => {
   const userData = useRecoilValue(currentUserState);
 
   return (
     <>
       <BookRecomCreateBox
         uid={userData?.uid}
-        thisMonthBook={latestDoc?.book}
-        docMonth={latestDoc?.id}
+        thisMonthBook={thisMonthDoc?.book}
+        docMonth={thisMonthDoc?.id}
       />
-      {monthRecommends.length !== 0 &&
-        monthRecommends?.map((recommend) => (
+      {recommends.length !== 0 &&
+        recommends?.map((recommend) => (
           <BookRecomBox
             key={recommend.id}
             recommend={recommend}
-            docMonth={latestDoc?.id}
+            docMonth={thisMonthDoc?.id}
           />
         ))}
     </>

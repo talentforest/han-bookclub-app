@@ -18,14 +18,12 @@ import device from "theme/mediaQueries";
 import Guide from "components/common/Guide";
 
 const BookMeeting = () => {
-  const [latestDoc, setLatestDoc] = useRecoilState(thisMonthState);
+  const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
 
-  const { monthSubjects, monthReviews, monthRecommends } = useCallAllRecords(
-    latestDoc?.id
-  );
+  const { subjects, reviews, recommends } = useCallAllRecords(thisMonthDoc?.id);
 
   useEffect(() => {
-    getDocument("BookMeeting Info", `${thisYearMonth}`, setLatestDoc);
+    getDocument("BookMeeting Info", `${thisYearMonth}`, setThisMonthDoc);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -34,7 +32,7 @@ const BookMeeting = () => {
   const reviewUrlMatch = useMatch("/bookmeeting/reviews");
   const recomUrlMatch = useMatch("/bookmeeting/recommends");
 
-  const checkLatestDoc = Object.keys(latestDoc).length;
+  const checkLatestDoc = Object.keys(thisMonthDoc).length;
 
   return (
     <>
@@ -42,18 +40,18 @@ const BookMeeting = () => {
         <Loading />
       ) : (
         <Container>
-          <Subtitle title={`${latestDoc?.id?.slice(6)}월의 책`} />
+          <Subtitle title={`${thisMonthDoc?.id?.slice(6)}월의 책`} />
           <Guide
             margin={true}
             text="도서 이미지를 클릭하면 상세정보를 볼 수 있어요."
           />
           <MeetingBox>
             <BookTitleImgBox
-              thumbnail={latestDoc.book.thumbnail}
-              title={latestDoc.book.title}
-              detailInfo={latestDoc.book}
+              thumbnail={thisMonthDoc.book.thumbnail}
+              title={thisMonthDoc.book.title}
+              detailInfo={thisMonthDoc.book}
             />
-            <MeetingInfoBox docData={latestDoc?.meeting} />
+            <MeetingInfoBox docData={thisMonthDoc?.meeting} />
           </MeetingBox>
           <Categories>
             <Link to="recommends" className={recomUrlMatch ? "isActive" : ""}>
@@ -72,15 +70,15 @@ const BookMeeting = () => {
           />
           {recomUrlMatch && (
             <RecommendationArea
-              monthRecommends={monthRecommends}
-              latestDoc={latestDoc}
+              recommends={recommends}
+              thisMonthDoc={thisMonthDoc}
             />
           )}
           {subjectUrlMatch && (
-            <SubjectArea monthSubjects={monthSubjects} latestDoc={latestDoc} />
+            <SubjectArea subjects={subjects} thisMonthDoc={thisMonthDoc} />
           )}
           {reviewUrlMatch && (
-            <ReviewArea monthReviews={monthReviews} latestDoc={latestDoc} />
+            <ReviewArea reviews={reviews} thisMonthDoc={thisMonthDoc} />
           )}
         </Container>
       )}

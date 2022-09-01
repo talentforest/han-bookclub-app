@@ -3,16 +3,23 @@ import Subjects, { IWrittenDocs } from "components/bookmeeting/Subjects";
 import { IBookMeeting } from "util/getFirebaseDoc";
 
 interface PropsType {
-  latestDoc: IBookMeeting;
-  monthSubjects: IWrittenDocs[];
+  thisMonthDoc: IBookMeeting;
+  subjects: IWrittenDocs[];
 }
 
-const SubjectArea = ({ latestDoc, monthSubjects }: PropsType) => {
+const SubjectArea = ({ thisMonthDoc, subjects }: PropsType) => {
   return (
     <>
-      <SubjectCreateModal bookInfo={latestDoc?.book} docMonth={latestDoc?.id} />
-      {monthSubjects?.map((subject) => (
-        <Subjects key={subject.id} subject={subject} docMonth={latestDoc?.id} />
+      <SubjectCreateModal
+        bookInfo={thisMonthDoc?.book}
+        docMonth={thisMonthDoc?.id}
+      />
+      {subjects?.map((subject) => (
+        <Subjects
+          key={subject.id}
+          subject={subject}
+          docMonth={thisMonthDoc?.id}
+        />
       ))}
     </>
   );
