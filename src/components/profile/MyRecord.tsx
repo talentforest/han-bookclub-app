@@ -141,7 +141,7 @@ const Category = styled.div`
     font-size: 12px;
     font-weight: 700;
     border-radius: 15px;
-    border: 1px solid ${(props) => props.theme.container.yellow};
+    border: none;
     background-color: ${(props) => props.theme.container.lightBlue};
     color: ${(props) => props.theme.text.accent};
     cursor: pointer;
@@ -179,12 +179,12 @@ export const SubjectBox = styled.article`
   margin: 0 auto;
   border-radius: 5px;
   z-index: 2;
+  background-color: ${(props) => props.theme.container.default};
   > div {
     border-radius: 5px;
     padding: 10px 15px;
     margin: 0 0 10px;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-    background-color: ${(props) => props.theme.container.default};
   }
   > div:last-child {
     margin: 0;

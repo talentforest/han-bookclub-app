@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { IBookApi } from "data/bookAtom";
 import { Container } from "theme/commonStyle";
-import BookDesc from "components/common/BookDesc";
+import BookDesc from "components/search/BookDesc";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import RegisterClubBookButton from "components/search/RegisterClubBookButton";
 import RegisterRecommendButton from "components/search/RegisterRecommendButton";

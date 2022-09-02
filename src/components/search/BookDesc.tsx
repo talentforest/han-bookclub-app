@@ -46,11 +46,9 @@ const BookDesc = ({ detailInfo }: PropsType) => {
 };
 
 const BookDetail = styled.div`
-  top: 30px;
-  right: 0;
-  left: 0;
-  width: 80%;
-  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   margin: 0 auto;
   padding: 15px;
   border-radius: 10px;
@@ -62,7 +60,6 @@ const BookDetail = styled.div`
   }
   ul {
     margin-bottom: 20px;
-    border: 1px solid red;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -82,12 +79,21 @@ const BookDetail = styled.div`
     line-height: 1.6;
   }
   a {
+    align-self: flex-end;
     font-size: 14px;
     text-decoration: underline;
     color: ${(props) => props.theme.text.accent};
   }
   @media ${device.tablet} {
-    /* height: /; */
+    min-height: 40vh;
+    padding: 30px;
+    > h3 {
+      font-size: 20px;
+    }
+  }
+  a {
+    font-size: 16px;
+    margin-top: 20px;
   }
 `;
 

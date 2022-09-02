@@ -42,7 +42,7 @@ const MyRecommendBook = ({ item }: PropsType) => {
 
   return (
     <>
-      {myRecommendBooks.length !== 0 ? (
+      {myRecommendBooks.length !== 0 && (
         <>
           {myRecommendBooks.map((item) => (
             <Record
@@ -86,8 +86,6 @@ const MyRecommendBook = ({ item }: PropsType) => {
             </>
           )}
         </>
-      ) : (
-        <></>
       )}
     </>
   );
