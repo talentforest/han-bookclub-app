@@ -6,6 +6,7 @@ import { extraUserData } from "routes/EditProfile";
 import styled from "styled-components";
 import ProfileImage from "components/common/ProfileImage";
 import device from "theme/mediaQueries";
+import { Check } from "@mui/icons-material";
 
 interface PropsType {
   onProfileSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -52,6 +53,10 @@ const EditingProfile = ({
         profileImgUrl={profileImgUrl}
         setProfileImgUrl={setProfileImgUrl}
       />
+      <EditBtn>
+        <input type="submit" value="수정완료" />
+        <Check />
+      </EditBtn>
       <UserInfo>
         <List>
           <div>
@@ -96,11 +101,39 @@ const EditingProfile = ({
             </div>
           </AfterFavEdit>
         </Edit>
-        <EditBtn type="submit" value="수정완료" />
       </UserInfo>
     </Form>
   );
 };
+
+export const EditBtn = styled.div`
+  margin: 0 auto;
+  cursor: pointer;
+  border: 1px solid ${(props) => props.theme.container.lightBlue};
+  background-color: ${(props) => props.theme.container.default};
+  padding: 2px 10px;
+  border-radius: 20px;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  input {
+    border: none;
+    background-color: transparent;
+    color: ${(props) => props.theme.text.lightBlue};
+    font-weight: 700;
+    font-size: 12px;
+  }
+  svg {
+    width: 14px;
+    height: 14px;
+    fill: ${(props) => props.theme.text.lightBlue};
+  }
+  @media ${device.tablet} {
+    input {
+      font-size: 18px;
+    }
+  }
+`;
 
 const Form = styled.form`
   width: 100%;
@@ -230,24 +263,6 @@ const List = styled.li`
         font-size: 18px;
       }
     }
-  }
-`;
-
-const EditBtn = styled.input`
-  cursor: pointer;
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  border: none;
-  background-color: transparent;
-  color: ${(props) => props.theme.text.accent};
-  font-weight: 700;
-  padding-top: 2px;
-  font-size: 12px;
-  @media ${device.tablet} {
-    top: 40px;
-    right: 80px;
-    font-size: 18px;
   }
 `;
 

@@ -15,9 +15,11 @@ const RecommendInfo = ({ smSize }: PropsType) => {
       <div>
         <h5>{myRecommendBook.title}</h5>
         <span>{myRecommendBook?.authors?.join(", ")}</span>
-        <a href={myRecommendBook.url} target="_blank" rel="noreferrer">
-          상세정보 보러가기
-        </a>
+        {myRecommendBook.url && (
+          <a href={myRecommendBook.url} target="_blank" rel="noreferrer">
+            상세정보 보러가기
+          </a>
+        )}
       </div>
     </Recommend>
   );

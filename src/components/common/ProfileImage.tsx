@@ -81,7 +81,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   > div {
-    margin-top: 20px;
+    margin: 20px 0 5px;
     position: relative;
     display: flex;
     justify-content: center;

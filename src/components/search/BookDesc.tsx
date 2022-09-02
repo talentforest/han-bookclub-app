@@ -38,9 +38,11 @@ const BookDesc = ({ detailInfo }: PropsType) => {
         </li>
       </ul>
       <p>줄거리 {detailInfo?.contents}...</p>
-      <a href={detailInfo?.url} target="_blank" rel="noreferrer">
-        상세정보 보러가기
-      </a>
+      {detailInfo?.url && (
+        <a href={detailInfo?.url} target="_blank" rel="noreferrer">
+          상세정보 보러가기
+        </a>
+      )}
     </BookDetail>
   );
 };

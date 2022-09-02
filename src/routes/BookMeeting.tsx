@@ -40,7 +40,7 @@ const BookMeeting = () => {
         <Loading />
       ) : (
         <Container>
-          <Subtitle title={`${thisMonthDoc?.id?.slice(6)}월의 책`} />
+          <Subtitle title={`${thisMonthDoc.id?.slice(6)}월의 책`} />
           <MeetingBox>
             <BookTitleImgBox
               thumbnail={thisMonthDoc.book.thumbnail}
@@ -52,7 +52,7 @@ const BookMeeting = () => {
                 Daum책 상세정보 보러가기
               </a>
             )}
-            <MeetingInfoBox docData={thisMonthDoc?.meeting} />
+            <MeetingInfoBox docData={thisMonthDoc.meeting} />
           </MeetingBox>
           <Categories>
             <Link to="recommends" className={recomUrlMatch ? "isActive" : ""}>

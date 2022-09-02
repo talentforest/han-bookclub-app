@@ -178,7 +178,6 @@ const Form = styled.form`
     }
   }
   @media ${device.tablet} {
-    border: 1px solid rebeccapurple;
     width: 70%;
     margin: 0 auto;
     padding: 20px;

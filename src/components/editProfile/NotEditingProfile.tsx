@@ -1,10 +1,11 @@
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import { AccountCircle } from "@mui/icons-material";
+import { AccountCircle, ModeEditOutline } from "@mui/icons-material";
 import { extraUserData } from "routes/EditProfile";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import { authService } from "fbase";
+import { EditBtn } from "./EditingProfile";
 
 interface PropsType {
   setEditing: (editing: boolean) => void;
@@ -27,10 +28,11 @@ const NotEditingProfile = ({ setEditing, extraUserData }: PropsType) => {
           <AccountCircle />
         )}
       </UserImg>
-      {anonymous ? (
-        <></>
-      ) : (
-        <EditBtn onClick={onClick} type="button" value="프로필 수정하기" />
+      {!anonymous && (
+        <EditBtn>
+          <input onClick={onClick} type="button" value="프로필 수정하기" />
+          <ModeEditOutline />
+        </EditBtn>
       )}
       <UserInfo>
         <List>
@@ -38,7 +40,7 @@ const NotEditingProfile = ({ setEditing, extraUserData }: PropsType) => {
             <span>이메일</span>
             <span>{anonymous ? "익명의 방문자" : userData.email}</span>
           </div>
-          {anonymous ? <></> : <p>이메일은 변경할 수 없습니다.</p>}
+          {!anonymous && <p>이메일은 변경할 수 없습니다.</p>}
         </List>
         <List>
           <div>
@@ -165,24 +167,6 @@ const FavFieldItem = styled.span`
     font-size: 16px;
     padding: 5px 10px;
     border-radius: 30px;
-  }
-`;
-
-const EditBtn = styled.input`
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  border: none;
-  background-color: transparent;
-  color: ${(props) => props.theme.text.accent};
-  font-weight: 700;
-  padding-top: 2px;
-  font-size: 12px;
-  cursor: pointer;
-  @media ${device.tablet} {
-    top: 40px;
-    right: 80px;
-    font-size: 18px;
   }
 `;
 
