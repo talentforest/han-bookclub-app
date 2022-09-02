@@ -1,7 +1,4 @@
 import { IBookApi } from "data/bookAtom";
-import { useState } from "react";
-import Overlay from "./Overlay";
-import BookDesc from "./BookDesc";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 
@@ -15,31 +12,15 @@ interface PropsType {
 const BookTitleImgBox = ({
   thumbnail,
   title,
-  detailInfo,
+
   smSize,
 }: PropsType) => {
-  const [showBookDetail, setShowBookDetail] = useState(false);
-
-  const onModalClick = () => {
-    setShowBookDetail((prev) => !prev);
-  };
-
   return (
     <>
       {thumbnail && title ? (
         <BookCoverTitleBox className={smSize ? "smSize" : ""}>
-          <img
-            src={thumbnail}
-            alt={`${title} thumbnail`}
-            onClick={onModalClick}
-          />
+          <img src={thumbnail} alt={`${title} thumbnail`} />
           <h3>{title}</h3>
-          {detailInfo && showBookDetail && (
-            <BookDetail>
-              <Overlay onModalClick={onModalClick} />
-              <BookDesc detailInfo={detailInfo} onModalClick={onModalClick} />
-            </BookDetail>
-          )}
         </BookCoverTitleBox>
       ) : (
         <EmptySign className={smSize ? "smSize" : ""}>
@@ -109,26 +90,6 @@ export const BookCoverTitleBox = styled.div`
         font-size: 16px;
       }
     }
-  }
-`;
-
-const BookDetail = styled.div`
-  z-index: 1;
-  position: fixed;
-  height: 100vh;
-  top: 0px;
-  bottom: 0px;
-  right: 0;
-  left: 0;
-  > ul {
-    z-index: 2;
-    position: fixed;
-    top: 30px;
-    right: 0;
-    left: 0;
-    width: 80%;
-    margin: 0 auto;
-    border-radius: 5px;
   }
 `;
 

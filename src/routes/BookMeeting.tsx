@@ -41,16 +41,17 @@ const BookMeeting = () => {
       ) : (
         <Container>
           <Subtitle title={`${thisMonthDoc?.id?.slice(6)}월의 책`} />
-          <Guide
-            margin={true}
-            text="도서 이미지를 클릭하면 상세정보를 볼 수 있어요."
-          />
           <MeetingBox>
             <BookTitleImgBox
               thumbnail={thisMonthDoc.book.thumbnail}
               title={thisMonthDoc.book.title}
               detailInfo={thisMonthDoc.book}
             />
+            {thisMonthDoc.book.url && (
+              <a href={thisMonthDoc.book.url} target="_blank" rel="noreferrer">
+                Daum책 상세정보 보러가기
+              </a>
+            )}
             <MeetingInfoBox docData={thisMonthDoc?.meeting} />
           </MeetingBox>
           <Categories>
@@ -87,6 +88,7 @@ const BookMeeting = () => {
 };
 
 const MeetingBox = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -94,14 +96,21 @@ const MeetingBox = styled.div`
   width: 100%;
   margin: 0 auto;
   > div:first-child {
-    margin-bottom: 15px;
-    img {
-      cursor: pointer;
-    }
+    margin-bottom: 50px;
   }
   > p {
     font-size: 13px;
     color: ${(props) => props.theme.text.gray};
+  }
+  a {
+    border: 1px solid ${(props) => props.theme.text.lightGray};
+    position: absolute;
+    bottom: 115px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: ${(props) => props.theme.text.accent};
+    background-color: ${(props) => props.theme.container.default};
   }
 `;
 
