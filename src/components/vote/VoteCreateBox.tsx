@@ -27,7 +27,7 @@ const VoteCreateBox = ({ setModalOpen }: PropsType) => {
     <CreateBox onSubmit={onRegisterSubmit}>
       <Vote>
         <h1>투표 제목</h1>
-        <Input
+        <TitleInput
           type="text"
           placeholder="투표의 제목을 적어주세요."
           value={vote.title}
@@ -139,6 +139,23 @@ const CreateBox = styled.form`
   }
 `;
 
+const TitleInput = styled.input`
+  font-size: 16px;
+  width: 100%;
+  padding: 10px 3px;
+  border-radius: 5px;
+  border: 1px solid ${(props) => props.theme.text.lightGray};
+  background-color: transparent;
+  margin-bottom: 10px;
+  &:focus {
+    outline: none;
+    border-bottom: 2px solid ${(props) => props.theme.container.yellow};
+  }
+  @media ${device.tablet} {
+    margin-bottom: 20px;
+  }
+`;
+
 const Input = styled.input`
   font-size: 16px;
   width: 100%;
@@ -244,6 +261,7 @@ const VoteItems = styled.div`
       }
     }
     > textarea {
+      font-size: 16px;
       width: 100%;
       margin-top: 5px;
       padding: 10px 5px;
