@@ -136,21 +136,21 @@ const SubjectBox = styled.div`
   width: 100%;
   box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.3);
   margin: 10px 0;
-  padding: 10px;
+  padding: 15px;
   background-color: ${(props) => props.theme.container.default};
   border-radius: 5px;
-  min-height: 200px;
+  min-height: 150px;
   pre {
     white-space: pre-wrap;
     word-wrap: break-word;
     line-height: 1.6;
     padding-bottom: 10px;
-    min-height: 200px;
+    min-height: 100px;
     margin-bottom: 15px;
     font-size: 16px;
   }
   @media ${device.tablet} {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     padding: 20px 25px;
     border-radius: 10px;
     pre {

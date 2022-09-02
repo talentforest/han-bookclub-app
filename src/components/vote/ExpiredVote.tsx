@@ -2,6 +2,7 @@ import { ArrowForwardIos, Help } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
+import { cutLetter } from "util/cutLetter";
 import { IVote } from "util/getFirebaseDoc";
 import { timestamp } from "util/timestamp";
 
@@ -12,17 +13,17 @@ interface PropsType {
 const ExpiredVote = ({ voteDetail }: PropsType) => {
   return (
     <Vote to={`/vote/${voteDetail.voteId}`} state={{ voteDetail }}>
-      <div>
+      <Info>
         <h4>
           <Help />
-          {voteDetail.vote.title}
+          {cutLetter(voteDetail.vote.title, 30)}
         </h4>
         <span>{timestamp(voteDetail.deadline)}</span>
-      </div>
-      <div>
-        <span>투표결과 보기</span>
+      </Info>
+      <ShowButton>
+        <span>보기</span>
         <ArrowForwardIos />
-      </div>
+      </ShowButton>
     </Vote>
   );
 };
@@ -32,59 +33,67 @@ const Vote = styled(Link)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 5px;
   width: 100%;
+  min-height: 100px;
   border-radius: 10px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   padding: 15px;
   background-color: ${(props) => props.theme.container.default};
-  > div {
-    h4 {
-      display: flex;
-      align-items: center;
-      font-weight: 700;
-      svg {
-        width: 20px;
-        height: 20px;
-        margin-right: 5px;
-      }
-    }
-    > span {
-      display: block;
-      font-size: 14px;
-      margin-top: 10px;
-    }
-    &:last-child {
-      display: flex;
-      align-items: center;
-      span {
-        margin: 0;
-      }
-      svg {
-        margin-left: 5px;
-        width: 16px;
-        height: 16px;
-        fill: ${(props) => props.theme.text.accent};
-      }
+`;
+
+const Info = styled.div`
+  width: 82%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  h4 {
+    font-weight: 700;
+    svg {
+      float: left;
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
     }
   }
-
+  > span {
+    display: block;
+    font-size: 14px;
+    margin-top: 10px;
+  }
   @media ${device.tablet} {
-    > div {
-      h4 {
-        font-size: 16px;
-        svg {
-          width: 22px;
-          height: 22px;
-          margin-right: 10px;
-        }
-      }
-      span {
-        font-size: 16px;
+    h4 {
+      font-size: 16px;
+      svg {
+        width: 22px;
+        height: 22px;
+        margin-right: 10px;
       }
     }
+    span {
+      font-size: 16px;
+    }
+  }
+  > svg {
+    width: 18px;
+    height: 18px;
+  }
+`;
+
+const ShowButton = styled.div`
+  width: 18%;
+  display: flex;
+  align-items: center;
+  svg {
+    margin: 2px 0 0 3px;
+    width: 16px;
+    height: 16px;
+  }
+  @media ${device.tablet} {
     > svg {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
     }
   }
 `;

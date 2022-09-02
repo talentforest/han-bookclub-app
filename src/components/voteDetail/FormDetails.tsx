@@ -52,6 +52,8 @@ const VoteHeader = styled.header`
   padding: 10px 0;
   border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
   > h4 {
+    white-space: pre-line;
+    word-break: break-all;
     font-size: 18px;
     font-weight: 700;
     padding-bottom: 10px;
@@ -73,6 +75,9 @@ const VoteHeader = styled.header`
   @media ${device.tablet} {
     > h4 {
       font-size: 22px;
+      svg {
+        margin: 8px 5px 0 0;
+      }
     }
     > span {
       font-size: 16px;
@@ -98,6 +103,8 @@ const Reasons = styled.details`
       border: none;
     }
     div {
+      white-space: pre-line;
+      word-break: break-all;
       padding: 5px;
       border-radius: 5px;
       background-color: ${(props) => props.theme.container.default};
@@ -108,9 +115,15 @@ const Reasons = styled.details`
       }
     }
     p {
+      white-space: pre-line;
+      word-break: break-all;
       padding-top: 10px;
       line-height: 1.6;
     }
+  }
+  @media ${device.tablet} {
+    font-size: 16px;
+    margin: 5px 0 40px;
   }
 `;
 

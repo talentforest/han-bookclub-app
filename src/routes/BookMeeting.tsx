@@ -132,10 +132,10 @@ const Categories = styled.div`
     }
   }
   @media ${device.tablet} {
-    height: 60px;
     border-radius: 30px;
     padding: 8px 10px;
     > a {
+      padding: 12px 8px;
       height: 100%;
       font-size: 16px;
     }

@@ -3,6 +3,7 @@ import { IBookApi } from "data/bookAtom";
 import { timestamp } from "util/timestamp";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { cutLetter } from "util/cutLetter";
 
 interface PropsType {
   searchedBook: IBookApi;
@@ -24,7 +25,7 @@ const ResultBox = ({ searchedBook }: PropsType) => {
           </div>
         )}
         <BookDetail>
-          <h3>{title.length > 17 ? `${title.slice(0, 17)}...` : title}</h3>
+          <h3>{cutLetter(title, 17)}</h3>
           <span>저자: {authors.join(", ")}</span>
           {translators.length !== 0 && <span>역자: {translators}</span>}
           <span>출판사: {publisher}</span>

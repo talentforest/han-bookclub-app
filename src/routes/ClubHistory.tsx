@@ -61,9 +61,16 @@ const ClubHistory = () => {
 };
 
 const HistoryList = styled.ul`
+  margin-top: 10px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  @media ${device.tablet} {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 20px;
+  }
 `;
 
 const YearSelect = styled.select`

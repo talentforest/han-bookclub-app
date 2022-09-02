@@ -35,11 +35,13 @@ const Vote = () => {
         <Loading />
       ) : (
         <Container>
-          <Subtitle title="투표함" />
-          <VoteButton onClick={onModalClick}>
-            <AddCircleOutline />
-            투표 등록하기
-          </VoteButton>
+          <Header>
+            <Subtitle title="투표함" />
+            <VoteButton onClick={onModalClick}>
+              <AddCircleOutline />
+              투표 등록하기
+            </VoteButton>
+          </Header>
           {modalOpen && (
             <section>
               <Overlay onModalClick={onModalClick} />
@@ -71,31 +73,13 @@ const Vote = () => {
   );
 };
 
-const VoteList = styled.div`
+const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin: 20px auto 40px;
-  width: 100%;
-  @media ${device.tablet} {
-    > div {
-      height: 260px;
-      width: 48%;
-    }
-  }
-  @media ${device.desktop} {
-    > div {
-      height: 260px;
-      width: 30%;
-    }
-  }
+  align-items: center;
 `;
 
 const VoteButton = styled.button`
-  position: absolute;
-  top: 5px;
-  right: 20px;
   display: flex;
   align-items: center;
   border: none;
@@ -108,12 +92,21 @@ const VoteButton = styled.button`
     margin-right: 5px;
   }
   @media ${device.tablet} {
-    top: 10px;
-    right: 80px;
     padding: 10px;
   }
-  @media ${device.desktop} {
-    right: 160px;
+`;
+
+const VoteList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 10px auto 40px;
+  width: 100%;
+  @media ${device.tablet} {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
   }
 `;
 

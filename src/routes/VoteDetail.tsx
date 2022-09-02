@@ -168,6 +168,9 @@ const Votelist = styled.ul`
     pointer-events: none;
   }
   > li {
+    white-space: pre-line;
+    word-break: break-all;
+    z-index: 0;
     position: relative;
     cursor: pointer;
     border: 1px solid ${(props) => props.theme.text.lightGray};
@@ -193,7 +196,7 @@ const Votelist = styled.ul`
     > span {
       z-index: 1;
       &.shrinkWidth {
-        width: 78%;
+        width: 77%;
       }
     }
   }
@@ -203,14 +206,18 @@ const Votelist = styled.ul`
       font-size: 16px;
     }
     > li {
+      padding: 10px 15px;
       margin-top: 15px;
-      height: 60px;
+      min-height: 50px;
       > svg {
         width: 24px;
         height: 24px;
       }
       > span {
         font-size: 18px;
+        &.shrinkWidth {
+          width: 85%;
+        }
       }
     }
   }
@@ -218,7 +225,7 @@ const Votelist = styled.ul`
 
 const SubmitButton = styled.button`
   width: 100%;
-  height: 40px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;

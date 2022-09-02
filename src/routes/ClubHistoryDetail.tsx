@@ -11,6 +11,7 @@ import BookRecomBox from "components/bookmeeting/BookRecomBox";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 import useCallAllRecords from "hooks/useCallAllRecords";
+import { RecordBox } from "components/template/RecommendationArea";
 
 type LocationState = { state: { bookMeeting: IBookMeeting } };
 
@@ -55,7 +56,7 @@ const ClubHistoryDetail = () => {
           모임 기록
         </button>
       </Categories>
-      <Records>
+      <RecordBox>
         {selectedCategory === "recommends" &&
           (recommends.length !== 0 ? (
             recommends.map((recommend) => (
@@ -66,7 +67,7 @@ const ClubHistoryDetail = () => {
               />
             ))
           ) : (
-            <EmptyRecord>기록된 추천책이 아직 없어요.</EmptyRecord>
+            <EmptyRecord>기록된 추천책이 없어요.</EmptyRecord>
           ))}
         {selectedCategory === "subjects" &&
           (subjects.length !== 0 ? (
@@ -74,7 +75,7 @@ const ClubHistoryDetail = () => {
               <Subjects key={subject.id} subject={subject} docMonth={id} />
             ))
           ) : (
-            <EmptyRecord>기록된 모임 후기가 아직 없어요.</EmptyRecord>
+            <EmptyRecord>기록된 발제문이 없어요.</EmptyRecord>
           ))}
         {selectedCategory === "reviews" &&
           (reviews.length !== 0 ? (
@@ -82,31 +83,12 @@ const ClubHistoryDetail = () => {
               <Reviews key={review.id} review={review} docMonth={id} />
             ))
           ) : (
-            <EmptyRecord>기록된 모임 후기가 아직 없어요.</EmptyRecord>
+            <EmptyRecord>기록된 모임후기가 없어요.</EmptyRecord>
           ))}
-      </Records>
+      </RecordBox>
     </Container>
   );
 };
-
-const Records = styled.div`
-  padding: 5px 10px;
-  margin-top: 10px;
-  background-color: ${(props) => props.theme.text.lightGray};
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
-  width: 100%;
-  @media ${device.tablet} {
-    > div {
-      margin: 0;
-      padding: 10px;
-      background-color: transparent;
-      box-shadow: none;
-      border-radius: 0;
-      border-bottom: 1px solid ${(props) => props.theme.text.gray};
-    }
-  }
-`;
 
 const Categories = styled.div`
   display: flex;
@@ -127,6 +109,12 @@ const Categories = styled.div`
       color: ${(props) => props.theme.text.white};
     }
   }
+  @media ${device.tablet} {
+    > button {
+      padding: 12px 8px;
+      font-size: 16px;
+    }
+  }
 `;
 
 const Infos = styled(Info)`
@@ -135,6 +123,7 @@ const Infos = styled(Info)`
   > div {
     background-color: transparent;
     width: fit-content;
+    box-shadow: none;
   }
 `;
 
@@ -142,6 +131,9 @@ const EmptyRecord = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 40vh;
+  border-radius: 5px;
+  background-color: ${(props) => props.theme.text.lightGray};
   padding: 20px 0;
   font-size: 16px;
   @media ${device.tablet} {

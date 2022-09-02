@@ -2,6 +2,7 @@ import { Settings } from "@mui/icons-material";
 import { Link, useLocation, useMatch, useNavigate } from "react-router-dom";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import styled from "styled-components";
+import device from "theme/mediaQueries";
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -120,6 +121,11 @@ const BackButtonHeader = styled.header`
     height: 18px;
     padding-bottom: 2px;
     margin-right: 5px;
+  }
+  @media ${device.tablet} {
+    /* 계정 생성하기를 위한 css */
+    margin: 40px 60px;
+    font-size: 20px;
   }
 `;
 

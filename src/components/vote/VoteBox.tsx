@@ -9,6 +9,7 @@ import { dDay } from "util/timestamp";
 import { Link } from "react-router-dom";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
+import { cutLetter } from "util/cutLetter";
 
 interface PropsType {
   voteDetail: IVote;
@@ -17,19 +18,19 @@ interface PropsType {
 const VoteBox = ({ voteDetail }: PropsType) => {
   return (
     <Vote>
-      <VoteLists>
+      <VoteInfo>
         <h4>
           <Help />
-          {voteDetail.vote.title}
+          {cutLetter(voteDetail.vote.title, 30)}
         </h4>
         {voteDetail.vote?.voteItem?.slice(0, 3).map((item) => (
           <li key={item.id}>
             <CheckCircleOutline />
-            <span>{item.item}</span>
+            <span>{cutLetter(item.item, 30)}</span>
           </li>
         ))}
         {voteDetail.vote.voteItem.length > 3 && <MoreHoriz />}
-      </VoteLists>
+      </VoteInfo>
       <VoteBottom>
         <p>D-Day: {dDay(voteDetail.deadline)}</p>
         <Link to={`/vote/${voteDetail.voteId}`} state={{ voteDetail }}>
@@ -52,15 +53,14 @@ const Vote = styled.div`
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   @media ${device.tablet} {
-    height: 260px;
+    min-height: 270px;
   }
 `;
 
-const VoteLists = styled.ul`
+const VoteInfo = styled.ul`
   > h4 {
     font-size: 16px;
     font-weight: 700;
-    border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
     padding-bottom: 10px;
     svg {
       float: left;
@@ -70,11 +70,12 @@ const VoteLists = styled.ul`
     }
   }
   > li {
+    min-height: 40px;
     font-size: 14px;
     border: 1px solid ${(props) => props.theme.container.blue};
     border-radius: 5px;
     padding: 4px 10px;
-    margin-top: 10px;
+    margin: 5px 0;
     background-color: ${(props) => props.theme.container.lightBlue};
     display: flex;
     align-items: center;
@@ -95,7 +96,7 @@ const VoteLists = styled.ul`
     > li {
       font-size: 16px;
       margin-top: 13px;
-      height: 34px;
+      min-height: 40px;
     }
   }
 `;
@@ -105,6 +106,7 @@ const VoteBottom = styled.div`
   justify-content: space-between;
   align-items: flex-end;
   font-size: 14px;
+  margin-top: 10px;
   > p {
     color: ${(props) => props.theme.text.accent};
   }

@@ -210,7 +210,7 @@ const ScheduleBox = styled.ul`
       border-radius: 5px;
       font-weight: 700;
       &.highlight {
-        color: ${(props) => props.theme.text.accent};
+        color: ${(props) => props.theme.text.lightBlue};
       }
     }
   }
