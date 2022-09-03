@@ -6,6 +6,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 export interface titleType {
   link?: string;
   title: string;
+  stateData?: string;
 }
 
 const LinkButton = ({ link, title }: titleType) => {
@@ -20,7 +21,6 @@ const LinkButton = ({ link, title }: titleType) => {
 };
 
 const ButtonBox = styled.div`
-  width: 100%;
   display: flex;
   justify-content: flex-end;
   a {
@@ -43,7 +43,6 @@ const ButtonBox = styled.div`
       fill: ${(props) => props.theme.text.lightBlue};
     }
   }
-
   @media ${device.tablet} {
     a {
       span {

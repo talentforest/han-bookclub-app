@@ -1,10 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "theme/commonStyle";
 import { useRecoilState } from "recoil";
 import { thisMonthState } from "data/documentsAtom";
 import { getDocument } from "util/getFirebaseDoc";
 import { thisYearMonth } from "util/constants";
-import { Link, useMatch } from "react-router-dom";
 import useCallAllRecords from "hooks/useCallAllRecords";
 import Loading from "components/common/Loading";
 import Subtitle from "components/common/Subtitle";
@@ -19,18 +18,16 @@ import Guide from "components/common/Guide";
 
 const BookMeeting = () => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
-
+  const [selectedCategory, setSelectedCategory] = useState("subjects");
   const { subjects, reviews, recommends } = useCallAllRecords(thisMonthDoc?.id);
 
   useEffect(() => {
     getDocument("BookMeeting Info", `${thisYearMonth}`, setThisMonthDoc);
+  }, [setThisMonthDoc]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const subjectUrlMatch = useMatch("/bookmeeting/subjects");
-  const reviewUrlMatch = useMatch("/bookmeeting/reviews");
-  const recomUrlMatch = useMatch("/bookmeeting/recommends");
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category);
+  };
 
   const checkThisMonthDoc = Object.keys(thisMonthDoc).length;
 
@@ -55,30 +52,39 @@ const BookMeeting = () => {
             <MeetingInfoBox docData={thisMonthDoc.meeting} />
           </MeetingBox>
           <Categories>
-            <Link to="recommends" className={recomUrlMatch ? "isActive" : ""}>
+            <button
+              className={selectedCategory === "recommends" ? "isActive" : ""}
+              onClick={() => handleCategoryClick("recommends")}
+            >
               추천책 작성
-            </Link>
-            <Link to="subjects" className={subjectUrlMatch ? "isActive" : ""}>
+            </button>
+            <button
+              className={selectedCategory === "subjects" ? "isActive" : ""}
+              onClick={() => handleCategoryClick("subjects")}
+            >
               발제문 작성
-            </Link>
-            <Link to="reviews" className={reviewUrlMatch ? "isActive" : ""}>
+            </button>
+            <button
+              className={selectedCategory === "reviews" ? "isActive" : ""}
+              onClick={() => handleCategoryClick("reviews")}
+            >
               모임후기 작성
-            </Link>
+            </button>
           </Categories>
           <Guide
             margin={true}
             text="모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 작성이 불가능한 점 유의해주세요."
           />
-          {recomUrlMatch && (
+          {selectedCategory === "recommends" && (
             <RecommendationArea
               recommends={recommends}
               thisMonthDoc={thisMonthDoc}
             />
           )}
-          {subjectUrlMatch && (
+          {selectedCategory === "subjects" && (
             <SubjectArea subjects={subjects} thisMonthDoc={thisMonthDoc} />
           )}
-          {reviewUrlMatch && (
+          {selectedCategory === "reviews" && (
             <ReviewArea reviews={reviews} thisMonthDoc={thisMonthDoc} />
           )}
         </Container>
@@ -122,7 +128,7 @@ const Categories = styled.div`
   margin: 20px 0 10px;
   border-radius: 60px;
   background-color: ${(props) => props.theme.container.lightBlue};
-  > a {
+  > button {
     cursor: pointer;
     width: 100%;
     padding: 8px;
@@ -143,7 +149,7 @@ const Categories = styled.div`
   @media ${device.tablet} {
     border-radius: 30px;
     padding: 8px 10px;
-    > a {
+    > button {
       padding: 12px 8px;
       height: 100%;
       font-size: 16px;

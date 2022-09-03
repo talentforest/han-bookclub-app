@@ -8,6 +8,7 @@ import { History } from "@mui/icons-material";
 
 const Navigation = () => {
   const { pathname } = useLocation();
+
   return !pathname.includes("setting") && !pathname.includes("userInfo") ? (
     <Nav>
       <ul>
@@ -26,7 +27,7 @@ const Navigation = () => {
           </Link>
         </li>
         <li>
-          <Link to="/bookmeeting/subjects">
+          <Link to="/bookmeeting">
             <MenuBookIcon
               className={pathname.includes("/book") ? "isActive" : ""}
             />

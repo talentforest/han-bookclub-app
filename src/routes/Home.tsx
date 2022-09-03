@@ -61,7 +61,6 @@ const Home = () => {
               thumbnail={thisMonthDoc?.book?.thumbnail}
               title={thisMonthDoc?.book?.title}
             />
-            <LinkButton link={"/bookmeeting/subjects"} title="발제하러 가기" />
           </section>
           <section>
             <Subtitle title={thisMonthDoc && `${thisMonth}월의 모임 일정`} />
@@ -70,10 +69,7 @@ const Home = () => {
               text="한페이지 멤버는 매월 셋째주 일요일에 만나요."
             />
             <MeetingInfoBox docData={thisMonthDoc?.meeting} />
-            <LinkButton
-              link={"/bookmeeting/reviews"}
-              title="모임 후기 작성하러 가기"
-            />
+            <LinkButton link={"/bookmeeting"} title="발제하러 가기" />
           </section>
           <VoteSlider>
             <Subtitle title={"한페이지의 투표함"} />

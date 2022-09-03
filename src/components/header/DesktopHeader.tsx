@@ -19,7 +19,7 @@ const DesktopHeader = () => {
             </Link>
           </li>
           <li>
-            <Link to="/bookmeeting/subjects">
+            <Link to="/bookmeeting">
               <span
                 className={pathname.includes("/bookmeeting") ? "isActive" : ""}
               >

@@ -9,7 +9,6 @@ import Setting from "./routes/Setting";
 import Navigation from "components/common/Navigation";
 import CreateAccount from "./routes/CreateAccount";
 import EditProfile from "./routes/EditProfile";
-import ScrollToTop from "util/ScrollToTop";
 import DesktopHeader from "components/header/DesktopHeader";
 import useWindowSize from "hooks/useWindowSize";
 import Search from "routes/Search";
@@ -22,6 +21,7 @@ import UpdateRequest from "routes/UpdateRequest";
 import DeleteAccount from "components/settings/DeleteAccount";
 import ClubHistoryDetail from "routes/ClubHistoryDetail";
 import MobileHeader from "components/header/MobileHeader";
+import ScrollToTop from "components/common/ScrollToTop";
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -42,7 +42,7 @@ function Router({ isLoggedIn }: PropsType) {
         {isLoggedIn ? (
           <>
             <Route path="/" element={<Home />} />
-            <Route path="/bookmeeting/*" element={<BookMeeting />} />
+            <Route path="/bookmeeting" element={<BookMeeting />} />
             <Route path="/search" element={<Search />} />
             <Route path="/search/:id" element={<SearchedBookInfo />} />
             <Route path="/history" element={<ClubHistory />} />
