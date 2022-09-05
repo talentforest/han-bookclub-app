@@ -4,7 +4,7 @@ import {
   EditDeleteIcon,
   GuideTextBox,
   IWrittenDocs,
-} from "components/bookmeeting/Subjects";
+} from "components/common/SubjectBox";
 import { timestamp } from "util/timestamp";
 import { useRecoilValue } from "recoil";
 import { useState } from "react";
@@ -25,7 +25,7 @@ interface PropsType {
   onRemove?: (targetId: string) => void;
 }
 
-const FinalReview = ({ finalReview, docMonth, onRemove }: PropsType) => {
+const PresenterReviewBox = ({ finalReview, docMonth, onRemove }: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(finalReview.text);
   const [showingGuide, setShowingGuide] = useState(false);
@@ -237,4 +237,4 @@ const Page = styled.div`
   }
 `;
 
-export default FinalReview;
+export default PresenterReviewBox;

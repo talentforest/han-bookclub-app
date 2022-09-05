@@ -2,9 +2,9 @@ import { currentUserState } from "data/userAtom";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { getCollection, IBookMeeting } from "util/getFirebaseDoc";
-import { SubjectBox } from "./MyRecord";
+import { Modal } from "./MyRecord";
 import device from "theme/mediaQueries";
-import BookRecomBox from "components/bookmeeting/BookRecomBox";
+import RecommandBox from "components/common/RecommandBox";
 import styled from "styled-components";
 import Overlay from "components/common/Overlay";
 
@@ -71,10 +71,10 @@ const MyRecommendBook = ({ item }: PropsType) => {
                   setOpenModal((prev) => !prev);
                 }}
               />
-              <SubjectBox>
+              <Modal>
                 {showDetail.map((recommend) => (
                   <div key={item.id}>
-                    <BookRecomBox
+                    <RecommandBox
                       key={item.id}
                       recommend={recommend}
                       docMonth={docMonth}
@@ -82,7 +82,7 @@ const MyRecommendBook = ({ item }: PropsType) => {
                     />
                   </div>
                 ))}
-              </SubjectBox>
+              </Modal>
             </>
           )}
         </>

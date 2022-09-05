@@ -1,6 +1,6 @@
-import BookRecomBox from "components/bookmeeting/BookRecomBox";
-import BookRecomCreateBox from "components/bookmeeting/BookRecomCreateBox";
-import { IWrittenDocs } from "components/bookmeeting/Subjects";
+import RecommandBox from "components/common/RecommandBox";
+import RecommendCreateBox from "components/bookmeeting/RecommendCreateBox";
+import { IWrittenDocs } from "components/common/SubjectBox";
 import { currentUserState } from "data/userAtom";
 import { useRecoilValue } from "recoil";
 import { IBookMeeting } from "util/getFirebaseDoc";
@@ -17,7 +17,7 @@ const RecommendationArea = ({ thisMonthDoc, recommends }: PropsType) => {
 
   return (
     <>
-      <BookRecomCreateBox
+      <RecommendCreateBox
         uid={userData?.uid}
         thisMonthBook={thisMonthDoc?.book}
         docMonth={thisMonthDoc?.id}
@@ -25,7 +25,7 @@ const RecommendationArea = ({ thisMonthDoc, recommends }: PropsType) => {
       <RecordBox>
         {recommends.length !== 0 ? (
           recommends?.map((recommend) => (
-            <BookRecomBox
+            <RecommandBox
               key={recommend.id}
               recommend={recommend}
               docMonth={thisMonthDoc?.id}

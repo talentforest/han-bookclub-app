@@ -14,7 +14,7 @@ interface PropsType {
   bookInfo: IBookApi;
 }
 
-const FinalReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
+const PresenterReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
   const [text, setText] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const collectionName = `BookMeeting Info/${docMonth}/presenter's review`;
@@ -196,4 +196,4 @@ const Form = styled.form`
   }
 `;
 
-export default FinalReviewCreateModal;
+export default PresenterReviewCreateModal;

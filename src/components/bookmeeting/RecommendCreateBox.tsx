@@ -6,7 +6,6 @@ import { useRecoilValue } from "recoil";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
-import RecommendInfo from "./RecommendInfo";
 import useAddDoc from "hooks/useAddDoc";
 import { currentUserState } from "data/userAtom";
 
@@ -16,7 +15,7 @@ interface PropsType {
   docMonth: string;
 }
 
-const BookRecomCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
+const RecommendCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
   const [text, setText] = useState("");
   const myRecommendBook = useRecoilValue(recommendBookState);
   const userData = useRecoilValue(currentUserState);
@@ -60,11 +59,21 @@ const BookRecomCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
         onChange={onTextChange}
         value={text}
       />
-
       {myRecommendBook?.thumbnail ? (
         <>
           <h5>추천책 정보</h5>
-          <RecommendInfo />
+          <Recommend smSize="smSize">
+            <img src={myRecommendBook.thumbnail} alt="recommend book" />
+            <div>
+              <h5>{myRecommendBook.title}</h5>
+              <span>{myRecommendBook?.authors?.join(", ")}</span>
+              {myRecommendBook.url && (
+                <a href={myRecommendBook.url} target="_blank" rel="noreferrer">
+                  상세정보 보러가기
+                </a>
+              )}
+            </div>
+          </Recommend>
         </>
       ) : (
         <></>
@@ -80,6 +89,35 @@ const BookRecomCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
     </Form>
   );
 };
+
+export const Recommend = styled.div<{ smSize: string }>`
+  display: flex;
+  align-items: center;
+  background-color: ${(props) => props.theme.container.default};
+  padding: 5px 10px;
+  border-radius: 5px;
+  > img {
+    width: auto;
+    height: ${(props) => (props.smSize ? "40px" : "70px")};
+    margin-right: 15px;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
+  }
+  > div {
+    font-size: 12px;
+    height: min-content;
+
+    > h5 {
+      font-weight: 700;
+    }
+    > span {
+      margin-right: 10px;
+    }
+    > a {
+      font-size: 12px;
+      color: ${(props) => props.theme.text.accent};
+    }
+  }
+`;
 
 const Form = styled.form`
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
@@ -153,4 +191,4 @@ const ThisMonthBook = styled.div`
   }
 `;
 
-export default BookRecomCreateBox;
+export default RecommendCreateBox;

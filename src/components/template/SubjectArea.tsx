@@ -1,5 +1,5 @@
 import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
-import Subjects, { IWrittenDocs } from "components/bookmeeting/Subjects";
+import Subjects, { IWrittenDocs } from "components/common/SubjectBox";
 import { IBookMeeting } from "util/getFirebaseDoc";
 import { EmptyRecord, RecordBox } from "./RecommendationArea";
 

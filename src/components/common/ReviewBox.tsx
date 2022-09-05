@@ -8,9 +8,9 @@ import {
   FormHeader,
   GuideTextBox,
   RegisterTime,
-} from "components/bookmeeting/Subjects";
+} from "components/common/SubjectBox";
 import { IBookApi } from "data/bookAtom";
-import { Form, TextArea } from "./BookRecomBox";
+import { Form, TextArea } from "./RecommandBox";
 import UserInfoBox from "components/common/UserInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import EditDeleteDoc from "components/common/EditDeleteDoc";
@@ -22,7 +22,7 @@ interface PropsType {
   docMonth?: string;
 }
 
-const Reviews = ({ review, onReviewRemove, docMonth }: PropsType) => {
+const ReviewBox = ({ review, onReviewRemove, docMonth }: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(review.text);
   const [showingGuide, setShowingGuide] = useState(false);
@@ -113,4 +113,4 @@ const Reviews = ({ review, onReviewRemove, docMonth }: PropsType) => {
   );
 };
 
-export default Reviews;
+export default ReviewBox;

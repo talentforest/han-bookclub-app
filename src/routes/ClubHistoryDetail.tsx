@@ -4,15 +4,15 @@ import { useLocation } from "react-router-dom";
 import { Container } from "theme/commonStyle";
 import { IBookMeeting } from "util/getFirebaseDoc";
 import { RecordBox } from "components/template/RecommendationArea";
-import Subjects from "components/bookmeeting/Subjects";
-import Reviews from "components/bookmeeting/Reviews";
+import Subjects from "components/common/SubjectBox";
+import ReviewBox from "components/common/ReviewBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
-import BookRecomBox from "components/bookmeeting/BookRecomBox";
+import RecommandBox from "components/common/RecommandBox";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 import useCallAllRecords from "hooks/useCallAllRecords";
-import FinalReview from "components/common/FinalReview";
+import PresenterReviewBox from "components/common/PresenterReviewBox";
 import Subtitle from "components/common/Subtitle";
 
 type LocationState = { state: { bookMeeting: IBookMeeting } };
@@ -40,7 +40,7 @@ const ClubHistoryDetail = () => {
         <Subtitle title="발제자의 모임 정리" />
         {finalRecord?.length !== 0 ? (
           finalRecord?.map((finalReview) => (
-            <FinalReview
+            <PresenterReviewBox
               key={finalReview.id}
               docMonth={id}
               finalReview={finalReview}
@@ -74,7 +74,7 @@ const ClubHistoryDetail = () => {
         {selectedCategory === "recommends" &&
           (recommends.length !== 0 ? (
             recommends.map((recommend) => (
-              <BookRecomBox
+              <RecommandBox
                 key={recommend.id}
                 recommend={recommend}
                 docMonth={id}
@@ -94,7 +94,7 @@ const ClubHistoryDetail = () => {
         {selectedCategory === "reviews" &&
           (reviews.length !== 0 ? (
             reviews.map((review) => (
-              <Reviews key={review.id} review={review} docMonth={id} />
+              <ReviewBox key={review.id} review={review} docMonth={id} />
             ))
           ) : (
             <EmptyRecord>기록된 모임후기가 없어요.</EmptyRecord>

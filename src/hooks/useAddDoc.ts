@@ -1,4 +1,4 @@
-import { IWrittenDocs } from "components/bookmeeting/Subjects";
+import { IWrittenDocs } from "components/common/SubjectBox";
 import { authService, dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
 import useAlertAskJoin from "./useAlertAskJoin";

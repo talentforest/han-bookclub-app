@@ -1,4 +1,4 @@
-import { DoneBtn, GuideTextBox } from "components/bookmeeting/Subjects";
+import { DoneBtn, GuideTextBox } from "components/common/SubjectBox";
 import EditDeleteDoc from "components/common/EditDeleteDoc";
 import UserInfoBox from "components/common/UserInfoBox";
 import { dbService } from "fbase";

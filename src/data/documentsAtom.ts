@@ -1,4 +1,4 @@
-import { IWrittenDocs } from "components/bookmeeting/Subjects";
+import { IWrittenDocs } from "components/common/SubjectBox";
 import { atom } from "recoil";
 import { IBookMeeting, IFixedBookField, IVote } from "util/getFirebaseDoc";
 import { v4 } from "uuid";

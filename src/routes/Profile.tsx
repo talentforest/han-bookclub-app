@@ -3,7 +3,7 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { AccountCircle } from "@mui/icons-material";
 import { authService } from "fbase";
-import { IWrittenDocs } from "components/bookmeeting/Subjects";
+import { IWrittenDocs } from "components/common/SubjectBox";
 import { bookMeetingsState } from "data/documentsAtom";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";

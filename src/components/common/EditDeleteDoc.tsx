@@ -1,5 +1,5 @@
 import { Delete, Edit } from "@mui/icons-material";
-import { EditDeleteIcon } from "components/bookmeeting/Subjects";
+import { EditDeleteIcon } from "components/common/SubjectBox";
 import { currentUserState } from "data/userAtom";
 import { useRecoilValue } from "recoil";
 

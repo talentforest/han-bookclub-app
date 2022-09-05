@@ -17,8 +17,8 @@ import BookTitleImgBox from "components/common/BookTitleImgBox";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import Guide from "components/common/Guide";
-import FinalReviewCreateModal from "components/bookmeeting/FinalReviewCreateModal";
-import FinalReview from "components/common/FinalReview";
+import PresenterReviewCreateModal from "components/bookmeeting/PresenterReviewCreateModal";
+import PresenterReviewBox from "components/common/PresenterReviewBox";
 
 const BookMeeting = () => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
@@ -58,12 +58,11 @@ const BookMeeting = () => {
             <MeetingInfoBox docData={thisMonthDoc.meeting} />
           </MeetingBox>
           <Guide text="모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 작성이 불가능한 점 유의해주세요." />
-
           <AfterMeetingRecord>
             <Subtitle title="발제자의 모임 정리 기록" />
             {finalRecord?.length !== 0 ? (
               finalRecord?.map((finalReview) => (
-                <FinalReview
+                <PresenterReviewBox
                   key={finalReview.id}
                   finalReview={finalReview}
                   docMonth={thisMonthDoc.id}
@@ -71,7 +70,7 @@ const BookMeeting = () => {
               ))
             ) : (
               <>
-                <FinalReviewCreateModal
+                <PresenterReviewCreateModal
                   bookInfo={thisMonthDoc?.book}
                   docMonth={thisMonthDoc.id}
                 />

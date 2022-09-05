@@ -29,7 +29,7 @@ interface ISubject {
   docMonth?: string;
 }
 
-const Subjects = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
+const SubjectBox = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(subject.text);
   const [showingGuide, setShowingGuide] = useState(false);
@@ -80,7 +80,7 @@ const Subjects = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
   const toggleEditing = () => setEditing((prev) => !prev);
 
   return (
-    <SubjectBox>
+    <Box>
       {editing ? (
         <form onSubmit={onSubmit}>
           <FormHeader>
@@ -128,11 +128,11 @@ const Subjects = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
           />
         </>
       )}
-    </SubjectBox>
+    </Box>
   );
 };
 
-const SubjectBox = styled.div`
+const Box = styled.div`
   width: 100%;
   box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.3);
   margin: 10px 0;
@@ -250,4 +250,4 @@ export const RegisterTime = styled.div`
   }
 `;
 
-export default Subjects;
+export default SubjectBox;

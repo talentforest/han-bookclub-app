@@ -8,7 +8,7 @@ import {
   EditDeleteIcon,
   FormHeader,
   GuideTextBox,
-} from "components/bookmeeting/Subjects";
+} from "components/common/SubjectBox";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { Delete, Edit } from "@mui/icons-material";
@@ -23,7 +23,7 @@ interface PropsType {
   setShowDetail?: (detail: []) => void;
 }
 
-const BookRecomBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
+const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(recommend.text);
   const [showingGuide, setShowingGuide] = useState(false);
@@ -244,4 +244,4 @@ const RegisterTime = styled.div`
   }
 `;
 
-export default BookRecomBox;
+export default RecommandBox;

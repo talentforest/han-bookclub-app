@@ -1,9 +1,9 @@
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { IBookMeeting } from "util/getFirebaseDoc";
-import Subjects from "components/bookmeeting/Subjects";
+import SubjectBox from "components/common/SubjectBox";
 import styled from "styled-components";
-import Reviews from "components/bookmeeting/Reviews";
+import ReviewBox from "components/common/ReviewBox";
 import device from "theme/mediaQueries";
 import useFilterMyRecords from "hooks/useFilterMyRecords";
 import Overlay from "components/common/Overlay";
@@ -61,9 +61,9 @@ const MyRecord = ({ bookMeeting }: PropsType) => {
                   setOpenModal((prev) => !prev);
                 }}
               />
-              <SubjectBox>
+              <Modal>
                 {mySubjectsByBook?.map((subject) => (
-                  <Subjects
+                  <SubjectBox
                     key={id}
                     subject={subject}
                     docMonth={id}
@@ -71,14 +71,14 @@ const MyRecord = ({ bookMeeting }: PropsType) => {
                   />
                 ))}
                 {myReviewsByBook?.map((review) => (
-                  <Reviews
+                  <ReviewBox
                     key={id}
                     review={review}
                     docMonth={id}
                     onReviewRemove={onReviewRemove}
                   />
                 ))}
-              </SubjectBox>
+              </Modal>
             </>
           )}
         </>
@@ -168,7 +168,7 @@ const Guide = styled.span`
   }
 `;
 
-export const SubjectBox = styled.article`
+export const Modal = styled.article`
   overflow: scroll;
   position: fixed;
   top: 30px;

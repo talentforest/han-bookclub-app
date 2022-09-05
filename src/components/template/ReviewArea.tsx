@@ -1,6 +1,6 @@
 import ReviewCreateBox from "components/bookmeeting/ReviewCreateBox";
-import Reviews from "components/bookmeeting/Reviews";
-import { IWrittenDocs } from "components/bookmeeting/Subjects";
+import ReviewBox from "components/common/ReviewBox";
+import { IWrittenDocs } from "components/common/SubjectBox";
 import { IBookMeeting } from "util/getFirebaseDoc";
 import { EmptyRecord, RecordBox } from "./RecommendationArea";
 
@@ -19,7 +19,7 @@ const ReviewArea = ({ thisMonthDoc, reviews }: PropsType) => {
       <RecordBox>
         {reviews?.length !== 0 ? (
           reviews?.map((review) => (
-            <Reviews
+            <ReviewBox
               key={review.id}
               review={review}
               bookInfo={thisMonthDoc?.book}
