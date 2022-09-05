@@ -1,4 +1,5 @@
 import {
+  finalRecordState,
   recommendsState,
   reviewsState,
   subjectsState,
@@ -11,6 +12,7 @@ const useCallAllRecords = (bookMeetingsId: string) => {
   const [subjects, setSubjects] = useRecoilState(subjectsState);
   const [reviews, setReviews] = useRecoilState(reviewsState);
   const [recommends, setRecommends] = useRecoilState(recommendsState);
+  const [finalRecord, setFinalRecord] = useRecoilState(finalRecordState);
 
   useEffect(() => {
     getCollection(`BookMeeting Info/${bookMeetingsId}/subjects`, setSubjects);
@@ -21,6 +23,10 @@ const useCallAllRecords = (bookMeetingsId: string) => {
       `BookMeeting Info/${bookMeetingsId}/recommended book`,
       setRecommends
     );
+    getCollection(
+      `BookMeeting Info/${bookMeetingsId}/final records`,
+      setFinalRecord
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookMeetingsId]);
 
@@ -28,6 +34,7 @@ const useCallAllRecords = (bookMeetingsId: string) => {
     subjects,
     reviews,
     recommends,
+    finalRecord,
   };
 };
 

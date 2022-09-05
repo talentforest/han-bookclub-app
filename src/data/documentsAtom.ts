@@ -65,3 +65,8 @@ export const recommendsState = atom<IWrittenDocs[]>({
   key: `recommendDocs/${v4()}`,
   default: [],
 });
+
+export const finalRecordState = atom<IWrittenDocs[]>({
+  key: `finalRecordDocs/${v4()}`,
+  default: [],
+});

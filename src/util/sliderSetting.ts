@@ -34,3 +34,27 @@ export const settings = (length: number) => {
     ],
   };
 };
+
+export const setting = {
+  infinite: false,
+  arrows: false,
+  dots: false,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  responsive: [
+    {
+      breakpoint: 1023,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 3000,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+};

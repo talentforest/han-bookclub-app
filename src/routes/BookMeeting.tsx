@@ -7,7 +7,9 @@ import { thisYearMonth } from "util/constants";
 import useCallAllRecords from "hooks/useCallAllRecords";
 import Loading from "components/common/Loading";
 import Subtitle from "components/common/Subtitle";
-import RecommendationArea from "components/template/RecommendationArea";
+import RecommendationArea, {
+  EmptyRecord,
+} from "components/template/RecommendationArea";
 import SubjectArea from "components/template/SubjectArea";
 import ReviewArea from "components/template/ReviewArea";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
@@ -15,11 +17,15 @@ import BookTitleImgBox from "components/common/BookTitleImgBox";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import Guide from "components/common/Guide";
+import FinalReviewCreateModal from "components/bookmeeting/FinalReviewCreateModal";
+import FinalReview from "components/common/FinalReview";
 
 const BookMeeting = () => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
   const [selectedCategory, setSelectedCategory] = useState("subjects");
-  const { subjects, reviews, recommends } = useCallAllRecords(thisMonthDoc?.id);
+  const { subjects, reviews, recommends, finalRecord } = useCallAllRecords(
+    thisMonthDoc?.id
+  );
 
   useEffect(() => {
     getDocument("BookMeeting Info", `${thisYearMonth}`, setThisMonthDoc);
@@ -51,6 +57,30 @@ const BookMeeting = () => {
             )}
             <MeetingInfoBox docData={thisMonthDoc.meeting} />
           </MeetingBox>
+          <Guide text="모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 작성이 불가능한 점 유의해주세요." />
+
+          <AfterMeetingRecord>
+            <Subtitle title="발제자의 모임 정리 기록" />
+            {finalRecord?.length !== 0 ? (
+              finalRecord?.map((finalReview) => (
+                <FinalReview
+                  key={finalReview.id}
+                  finalReview={finalReview}
+                  docMonth={thisMonthDoc.id}
+                />
+              ))
+            ) : (
+              <>
+                <FinalReviewCreateModal
+                  bookInfo={thisMonthDoc?.book}
+                  docMonth={thisMonthDoc.id}
+                />
+                <EmptyRecord>
+                  아직 모임 후 정리된 기록물이 없습니다.
+                </EmptyRecord>
+              </>
+            )}
+          </AfterMeetingRecord>
           <Categories>
             <button
               className={selectedCategory === "recommends" ? "isActive" : ""}
@@ -71,10 +101,6 @@ const BookMeeting = () => {
               모임후기 작성
             </button>
           </Categories>
-          <Guide
-            margin={true}
-            text="모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 작성이 불가능한 점 유의해주세요."
-          />
           {selectedCategory === "recommends" && (
             <RecommendationArea
               recommends={recommends}
@@ -93,6 +119,10 @@ const BookMeeting = () => {
   );
 };
 
+const AfterMeetingRecord = styled.section`
+  margin: 20px 0;
+`;
+
 const MeetingBox = styled.div`
   position: relative;
   display: flex;
@@ -100,7 +130,7 @@ const MeetingBox = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin: 0 auto;
+  margin: 0 auto 15px;
   > div:first-child {
     margin-bottom: 50px;
   }

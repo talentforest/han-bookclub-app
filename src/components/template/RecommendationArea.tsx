@@ -49,16 +49,16 @@ export const EmptyRecord = styled.div`
   align-items: center;
   justify-content: center;
   width: fit-content;
-  margin: 30px auto 0;
-  padding: 10px 20px;
+  margin: 50px auto 70px;
+  padding: 5px 20px;
   border-radius: 20px;
-  font-size: 16px;
-  background-color: ${(props) => props.theme.container.lightBlue};
+  font-size: 14px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  background-color: ${(props) => props.theme.container.default};
   @media ${device.tablet} {
-    font-size: 18px;
+    font-size: 16px;
     border-radius: 30px;
-    padding: 10px 30px;
-    margin: 50px auto 0;
+    padding: 8px 30px;
   }
 `;
 

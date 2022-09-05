@@ -3,6 +3,7 @@ import { Info } from "components/clubbookhistory/HistoryBox";
 import { useLocation } from "react-router-dom";
 import { Container } from "theme/commonStyle";
 import { IBookMeeting } from "util/getFirebaseDoc";
+import { RecordBox } from "components/template/RecommendationArea";
 import Subjects from "components/bookmeeting/Subjects";
 import Reviews from "components/bookmeeting/Reviews";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
@@ -11,7 +12,8 @@ import BookRecomBox from "components/bookmeeting/BookRecomBox";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 import useCallAllRecords from "hooks/useCallAllRecords";
-import { RecordBox } from "components/template/RecommendationArea";
+import FinalReview from "components/common/FinalReview";
+import Subtitle from "components/common/Subtitle";
 
 type LocationState = { state: { bookMeeting: IBookMeeting } };
 
@@ -21,10 +23,8 @@ const ClubHistoryDetail = () => {
   const {
     state: { bookMeeting },
   } = useLocation() as LocationState;
-
   const { id, book, meeting } = bookMeeting;
-
-  const { subjects, reviews, recommends } = useCallAllRecords(id);
+  const { subjects, reviews, recommends, finalRecord } = useCallAllRecords(id);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
@@ -36,6 +36,16 @@ const ClubHistoryDetail = () => {
         <BookTitleImgBox thumbnail={book.thumbnail} title={book.title} />
         <MeetingInfoBox docData={meeting} />
       </Infos>
+      <AfterMeetingRecord>
+        <Subtitle title="발제자의 모임 정리" />
+        {finalRecord?.map((finalReview) => (
+          <FinalReview
+            key={finalReview.id}
+            docMonth={id}
+            finalReview={finalReview}
+          />
+        ))}
+      </AfterMeetingRecord>
       <Categories>
         <button
           className={selectedCategory === "recommends" ? "isActive" : ""}
@@ -89,6 +99,11 @@ const ClubHistoryDetail = () => {
     </Container>
   );
 };
+
+const AfterMeetingRecord = styled.section`
+  margin: 20px 0;
+  min-height: 400px;
+`;
 
 const Categories = styled.div`
   display: flex;
