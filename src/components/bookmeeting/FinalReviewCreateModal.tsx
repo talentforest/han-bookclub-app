@@ -1,15 +1,13 @@
 import { Add, Close } from "@mui/icons-material";
-import { currentUserState } from "data/userAtom";
-import { authService, dbService } from "fbase";
-import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
 import { SubmitBtn } from "theme/commonStyle";
 import { IBookApi } from "data/bookAtom";
 import styled from "styled-components";
-import useAlertAskJoin from "hooks/useAlertAskJoin";
 import device from "theme/mediaQueries";
 import Overlay from "components/common/Overlay";
+import useAddDoc from "hooks/useAddDoc";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "data/userAtom";
 
 interface PropsType {
   docMonth: string;
@@ -17,46 +15,33 @@ interface PropsType {
 }
 
 const FinalReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
-  const [finalRecord, setFinalRecord] = useState("");
-  const userData = useRecoilValue(currentUserState);
+  const [text, setText] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const { alertAskJoin } = useAlertAskJoin();
+  const collectionName = `BookMeeting Info/${docMonth}/presenter's review`;
+  const userData = useRecoilValue(currentUserState);
+
+  const document = {
+    text,
+    createdAt: Date.now(),
+    creatorId: userData.uid,
+    title: bookInfo.title,
+    thumbnail: bookInfo.thumbnail,
+  };
+
+  const { onAddDocSubmit, onTextChange } = useAddDoc({
+    text,
+    setText,
+    collectionName,
+    document,
+  });
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    onAddDocSubmit(event);
+    if (setModalOpen) return setModalOpen(false);
+  };
 
   const onModalClick = () => {
     setModalOpen((prev) => !prev);
-  };
-
-  const addDocument = async () => {
-    await addDoc(
-      collection(dbService, `BookMeeting Info/${docMonth}/final records`),
-      {
-        text: finalRecord,
-        createdAt: Date.now(),
-        creatorId: userData.uid,
-        title: bookInfo.title,
-        thumbnail: bookInfo.thumbnail,
-      }
-    );
-  };
-
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (finalRecord === "") return;
-    try {
-      if (authService.currentUser.isAnonymous) {
-        alertAskJoin();
-      } else {
-        addDocument();
-      }
-    } catch (error) {
-      console.error("Error adding document:", error);
-    }
-    setModalOpen(false);
-    setFinalRecord("");
-  };
-
-  const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
-    setFinalRecord(event.currentTarget.value);
   };
 
   return (
@@ -69,14 +54,14 @@ const FinalReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
       {modalOpen ? (
         <>
           <Overlay onModalClick={onModalClick} />
-          <Form onSubmit={onSubmit}>
+          <Form onSubmit={handleSubmit}>
             <h3>
               발제자의 정리 기록 작성하기 <Close onClick={onModalClick} />
             </h3>
             <textarea
               placeholder="책을 읽으며 이야기하고 싶었던 주제들을 자유롭게 작성해주세요."
-              value={finalRecord}
-              onChange={onChange}
+              value={text}
+              onChange={onTextChange}
             />
             <div>
               <SubmitBtn type="submit" value="남기기" />

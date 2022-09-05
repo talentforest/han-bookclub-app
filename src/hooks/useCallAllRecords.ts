@@ -24,7 +24,7 @@ const useCallAllRecords = (bookMeetingsId: string) => {
       setRecommends
     );
     getCollection(
-      `BookMeeting Info/${bookMeetingsId}/final records`,
+      `BookMeeting Info/${bookMeetingsId}/presenter's review`,
       setFinalRecord
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps

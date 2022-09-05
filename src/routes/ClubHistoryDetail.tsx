@@ -38,13 +38,17 @@ const ClubHistoryDetail = () => {
       </Infos>
       <AfterMeetingRecord>
         <Subtitle title="발제자의 모임 정리" />
-        {finalRecord?.map((finalReview) => (
-          <FinalReview
-            key={finalReview.id}
-            docMonth={id}
-            finalReview={finalReview}
-          />
-        ))}
+        {finalRecord?.length !== 0 ? (
+          finalRecord?.map((finalReview) => (
+            <FinalReview
+              key={finalReview.id}
+              docMonth={id}
+              finalReview={finalReview}
+            />
+          ))
+        ) : (
+          <EmptyRecord>아직 모임 후 정리된 기록이 없습니다.</EmptyRecord>
+        )}
       </AfterMeetingRecord>
       <Categories>
         <button
@@ -102,7 +106,7 @@ const ClubHistoryDetail = () => {
 
 const AfterMeetingRecord = styled.section`
   margin: 20px 0;
-  min-height: 400px;
+  min-height: 300px;
 `;
 
 const Categories = styled.div`

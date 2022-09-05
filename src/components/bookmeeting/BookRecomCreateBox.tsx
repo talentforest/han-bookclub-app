@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { authService, dbService } from "fbase";
-import { addDoc, collection } from "firebase/firestore";
 import { IBookApi, recommendBookState } from "data/bookAtom";
 import { Link } from "react-router-dom";
 import { Search } from "@mui/icons-material";
@@ -9,7 +7,8 @@ import device from "theme/mediaQueries";
 import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import RecommendInfo from "./RecommendInfo";
-import useAlertAskJoin from "hooks/useAlertAskJoin";
+import useAddDoc from "hooks/useAddDoc";
+import { currentUserState } from "data/userAtom";
 
 interface PropsType {
   uid: string;
@@ -17,60 +16,48 @@ interface PropsType {
   docMonth: string;
 }
 
-const BookRecomCreateBox = ({ uid, thisMonthBook, docMonth }: PropsType) => {
+const BookRecomCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
   const [text, setText] = useState("");
   const myRecommendBook = useRecoilValue(recommendBookState);
-  const { alertAskJoin } = useAlertAskJoin();
+  const userData = useRecoilValue(currentUserState);
+  const collectionName = `BookMeeting Info/${docMonth}/recommended book`;
 
-  const addDocRecomBook = async () => {
-    await addDoc(
-      collection(dbService, `BookMeeting Info/${docMonth}/recommended book`),
-      {
-        text: text,
-        createdAt: Date.now(),
-        creatorId: uid,
-        title: thisMonthBook?.title,
-        thumbnail: thisMonthBook?.thumbnail,
-        recommendBookTitle: myRecommendBook?.title,
-        recommendBookThumbnail: myRecommendBook?.thumbnail,
-        recommendBookUrl: myRecommendBook?.url,
-        recommendBookAuthor: myRecommendBook?.authors,
-      }
-    );
+  const document = {
+    text: text,
+    createdAt: Date.now(),
+    creatorId: userData.uid,
+    title: thisMonthBook?.title,
+    thumbnail: thisMonthBook?.thumbnail,
+    recommendBookTitle: myRecommendBook?.title,
+    recommendBookThumbnail: myRecommendBook?.thumbnail,
+    recommendBookUrl: myRecommendBook?.url,
+    recommendBookAuthor: myRecommendBook?.authors,
   };
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (text === "") return;
-    if (myRecommendBook.title === "") {
+  const { onAddDocSubmit, onTextChange } = useAddDoc({
+    text,
+    setText,
+    collectionName,
+    document,
+  });
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    if (myRecommendBook?.title === "") {
       window.alert("추천책 정보를 찾아서 넣어주세요.");
       return;
     }
-    try {
-      if (authService.currentUser.isAnonymous) {
-        alertAskJoin();
-      } else {
-        addDocRecomBook();
-      }
-      setText("");
-    } catch (error) {
-      console.error("Error adding document:", error);
-    }
-  };
-
-  const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
-    setText(event.currentTarget.value);
+    onAddDocSubmit(event);
   };
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <Link to="/search">
         <Search />
         추천책 정보 찾기
       </Link>
       <textarea
         placeholder="이달의 책과 관련해 추천하고 싶은 책을 작성해주세요. 위에서 추천책 정보를 찾으실 수 있습니다."
-        onChange={onChange}
+        onChange={onTextChange}
         value={text}
       />
 

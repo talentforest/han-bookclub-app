@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { authService, dbService } from "fbase";
-import { addDoc, collection } from "firebase/firestore";
-import { SubmitBtn } from "theme/commonStyle";
+import useAddDoc from "hooks/useAddDoc";
 import styled from "styled-components";
+import { IBookApi } from "data/bookAtom";
+import { SubmitBtn } from "theme/commonStyle";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import { IBookApi } from "data/bookAtom";
-import useAlertAskJoin from "hooks/useAlertAskJoin";
 
 interface PropsType {
   bookInfo: IBookApi;
@@ -14,48 +12,31 @@ interface PropsType {
 }
 
 const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
+  const [text, setText] = useState("");
+  const collectionName = `BookMeeting Info/${docMonth}/reviews`;
   const userData = useRecoilValue(currentUserState);
-  const [review, setReview] = useState("");
-  const { alertAskJoin } = useAlertAskJoin();
 
-  const addDocReview = async () => {
-    await addDoc(
-      collection(dbService, `BookMeeting Info/${docMonth}/reviews`),
-      {
-        text: review,
-        createdAt: Date.now(),
-        creatorId: userData.uid,
-        title: bookInfo.title,
-        thumbnail: bookInfo.thumbnail,
-      }
-    );
+  const document = {
+    text,
+    createdAt: Date.now(),
+    creatorId: userData.uid,
+    title: bookInfo.title,
+    thumbnail: bookInfo.thumbnail,
   };
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (review === "") return;
-    try {
-      if (authService.currentUser.isAnonymous) {
-        alertAskJoin();
-      } else {
-        addDocReview();
-      }
-    } catch (error) {
-      console.error("Error adding document:", error);
-    }
-    setReview("");
-  };
-
-  const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
-    setReview(event.currentTarget.value);
-  };
+  const { onAddDocSubmit, onTextChange } = useAddDoc({
+    text,
+    setText,
+    collectionName,
+    document,
+  });
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={onAddDocSubmit}>
       <TextArea
         placeholder="모임에서 가장 인상적이었던 이야기나 모임 후기를 작성해주세요(한 문장도 좋아요!)."
-        value={review}
-        onChange={onChange}
+        value={text}
+        onChange={onTextChange}
       />
       <Button>
         <SubmitBtn type="submit" value="남기기" />

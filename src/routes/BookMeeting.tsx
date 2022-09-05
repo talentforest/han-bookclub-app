@@ -75,9 +75,7 @@ const BookMeeting = () => {
                   bookInfo={thisMonthDoc?.book}
                   docMonth={thisMonthDoc.id}
                 />
-                <EmptyRecord>
-                  아직 모임 후 정리된 기록물이 없습니다.
-                </EmptyRecord>
+                <EmptyRecord>아직 모임 후 정리된 기록이 없습니다.</EmptyRecord>
               </>
             )}
           </AfterMeetingRecord>

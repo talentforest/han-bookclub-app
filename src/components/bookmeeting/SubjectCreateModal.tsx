@@ -1,15 +1,13 @@
 import { useState } from "react";
-import { authService, dbService } from "fbase";
-import { addDoc, collection } from "firebase/firestore";
 import { SubmitBtn } from "theme/commonStyle";
 import { Add, Close } from "@mui/icons-material";
 import { IBookApi } from "data/bookAtom";
-import { useRecoilValue } from "recoil";
-import { currentUserState } from "data/userAtom";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
-import useAlertAskJoin from "hooks/useAlertAskJoin";
 import Overlay from "components/common/Overlay";
+import useAddDoc from "hooks/useAddDoc";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "data/userAtom";
 
 interface PropsType {
   bookInfo: IBookApi;
@@ -17,46 +15,33 @@ interface PropsType {
 }
 
 const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
-  const [subject, setSubject] = useState("");
+  const [text, setText] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const collectionName = `BookMeeting Info/${docMonth}/subjects`;
   const userData = useRecoilValue(currentUserState);
-  const { alertAskJoin } = useAlertAskJoin();
+
+  const document = {
+    text,
+    createdAt: Date.now(),
+    creatorId: userData.uid,
+    title: bookInfo.title,
+    thumbnail: bookInfo.thumbnail,
+  };
+
+  const { onAddDocSubmit, onTextChange } = useAddDoc({
+    text,
+    setText,
+    collectionName,
+    document,
+  });
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    onAddDocSubmit(event);
+    if (setModalOpen) return setModalOpen(false);
+  };
 
   const onModalClick = () => {
     setModalOpen((prev) => !prev);
-  };
-
-  const addDocSubject = async () => {
-    await addDoc(
-      collection(dbService, `BookMeeting Info/${docMonth}/subjects`),
-      {
-        text: subject,
-        createdAt: Date.now(),
-        creatorId: userData.uid,
-        title: bookInfo.title,
-        thumbnail: bookInfo.thumbnail,
-      }
-    );
-  };
-
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (subject === "") return;
-    try {
-      if (authService.currentUser.isAnonymous) {
-        alertAskJoin();
-      } else {
-        addDocSubject();
-      }
-    } catch (error) {
-      console.error("Error adding document:", error);
-    }
-    setModalOpen(false);
-    setSubject("");
-  };
-
-  const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
-    setSubject(event.currentTarget.value);
   };
 
   return (
@@ -70,14 +55,14 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
       {modalOpen ? (
         <>
           <Overlay onModalClick={onModalClick} />
-          <Form onSubmit={onSubmit}>
+          <Form onSubmit={handleSubmit}>
             <h3>
               발제문 작성하기 <Close onClick={onModalClick} />
             </h3>
             <textarea
               placeholder="책을 읽으며 이야기하고 싶었던 주제들을 자유롭게 작성해주세요."
-              value={subject}
-              onChange={onChange}
+              value={text}
+              onChange={onTextChange}
             />
             <div>
               <SubmitBtn type="submit" value="남기기" />

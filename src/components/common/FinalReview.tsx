@@ -33,7 +33,7 @@ const FinalReview = ({ finalReview, docMonth, onRemove }: PropsType) => {
 
   const finalReviewRef = doc(
     dbService,
-    `BookMeeting Info/${docMonth}/final records`,
+    `BookMeeting Info/${docMonth}/presenter's review`,
     `${finalReview.id}`
   );
 

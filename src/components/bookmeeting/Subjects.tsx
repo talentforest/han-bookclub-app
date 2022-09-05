@@ -11,7 +11,7 @@ import BookTitleImgBox from "components/common/BookTitleImgBox";
 import device from "theme/mediaQueries";
 
 export interface IWrittenDocs {
-  id: string;
+  id?: string;
   text?: string;
   creatorId: string;
   createdAt: number;
@@ -20,7 +20,7 @@ export interface IWrittenDocs {
   recommendBookTitle?: string;
   recommendBookThumbnail?: string;
   recommendBookUrl?: string;
-  recommendBookAuthor?: [];
+  recommendBookAuthor?: string[];
 }
 
 interface ISubject {
