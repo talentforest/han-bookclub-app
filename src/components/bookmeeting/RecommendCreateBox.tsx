@@ -2,12 +2,12 @@ import { useState } from "react";
 import { IBookApi, recommendBookState } from "data/bookAtom";
 import { Link } from "react-router-dom";
 import { Search } from "@mui/icons-material";
+import { currentUserState } from "data/userAtom";
 import { useRecoilValue } from "recoil";
-import device from "theme/mediaQueries";
-import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import useAddDoc from "hooks/useAddDoc";
-import { currentUserState } from "data/userAtom";
+import device from "theme/mediaQueries";
+import styled from "styled-components";
 
 interface PropsType {
   uid: string;
