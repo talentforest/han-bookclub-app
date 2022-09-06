@@ -1,23 +1,15 @@
 import { setting } from "util/sliderSetting";
-import {
-  DoneBtn,
-  EditDeleteIcon,
-  GuideTextBox,
-  IWrittenDocs,
-} from "components/common/SubjectBox";
+import { IWrittenDocs } from "components/common/SubjectBox";
 import { timestamp } from "util/timestamp";
-import { useRecoilValue } from "recoil";
 import { useState } from "react";
-import { dbService } from "fbase";
-import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { currentUserState } from "data/userAtom";
 import UserInfoBox from "components/common/UserInfoBox";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
-import { Delete, Edit } from "@mui/icons-material";
 import device from "theme/mediaQueries";
+import useEditDeleteDoc from "hooks/useEditDeleteDoc";
+import EditDeleteButton from "./EditDeleteButton";
 
 interface PropsType {
   finalReview: IWrittenDocs;
@@ -28,46 +20,16 @@ interface PropsType {
 const PresenterReviewBox = ({ finalReview, docMonth, onRemove }: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(finalReview.text);
-  const [showingGuide, setShowingGuide] = useState(false);
-  const userData = useRecoilValue(currentUserState);
+  const collectionName = `BookMeeting Info/${docMonth}/presenter's review`;
 
-  const finalReviewRef = doc(
-    dbService,
-    `BookMeeting Info/${docMonth}/presenter's review`,
-    `${finalReview.id}`
-  );
-
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!docMonth) {
-      await updateDoc(finalReviewRef, { text: newText });
-    } else {
-      await updateDoc(finalReviewRef, { text: newText });
-    }
-    if (newText === "") {
-      setTimeout(() => {
-        setShowingGuide((toggle) => !toggle);
-      }, 1000);
-      setShowingGuide((toggle) => !toggle);
-      setEditing(true);
-    } else {
-      setShowingGuide(false);
-      setEditing(false);
-    }
-  };
-
-  const onDeleteClick = async () => {
-    await deleteDoc(finalReviewRef);
-    if (onRemove) {
-      onRemove(finalReview.id);
-    }
-  };
-
-  const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
-    setNewText(event.currentTarget.value);
-  };
-
-  const toggleEditing = () => setEditing((prev) => !prev);
+  const { showingGuide, onNewTextSubmit, onDeleteClick, onNewTextChange } =
+    useEditDeleteDoc({
+      docId: finalReview.id,
+      newText,
+      setNewText,
+      collectionName,
+      setEditing,
+    });
 
   function calculatePageNumbers(textLength: number) {
     return Math.ceil(textLength / 435);
@@ -87,28 +49,24 @@ const PresenterReviewBox = ({ finalReview, docMonth, onRemove }: PropsType) => {
   return (
     <Article>
       {editing ? (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onNewTextSubmit}>
           <DocInfo>
             <UserInfoBox creatorId={finalReview.creatorId} />
-            {showingGuide && (
-              <GuideTextBox>
-                한 글자 이상 작성해주세요. <div></div>
-              </GuideTextBox>
-            )}
-            {showingGuide ? (
-              <DoneBtn type="submit" value="수정완료" eventdone />
-            ) : (
-              <DoneBtn type="submit" value="수정완료" />
-            )}
+            <EditDeleteButton
+              editing={editing}
+              showingGuide={showingGuide}
+              creatorId={finalReview.creatorId}
+              onDeleteClick={onDeleteClick}
+              toggleEditing={() => setEditing((prev) => !prev)}
+            />
           </DocInfo>
-
           <Slider {...setting}>
             {makePageNumberArray(finalReview.text.length).map((pageNumber) => (
               <Page key={pageNumber}>
                 <textarea
                   value={newText}
                   placeholder="발제문을 수정해주세요."
-                  onChange={onChange}
+                  onChange={onNewTextChange}
                 >
                   {sliceTextToFitPage(finalReview.text, pageNumber)}
                 </textarea>
@@ -125,12 +83,13 @@ const PresenterReviewBox = ({ finalReview, docMonth, onRemove }: PropsType) => {
         <form>
           <DocInfo>
             <UserInfoBox creatorId={finalReview.creatorId} />
-            {userData.uid === finalReview.creatorId && (
-              <EditDeleteIcon>
-                <Edit role="button" onClick={toggleEditing} />
-                <Delete role="button" onClick={onDeleteClick} />
-              </EditDeleteIcon>
-            )}
+            <EditDeleteButton
+              editing={editing}
+              showingGuide={showingGuide}
+              creatorId={finalReview.creatorId}
+              onDeleteClick={onDeleteClick}
+              toggleEditing={() => setEditing((prev) => !prev)}
+            />
           </DocInfo>
           <Slider {...setting}>
             {makePageNumberArray(finalReview.text.length).map((pageNumber) => (

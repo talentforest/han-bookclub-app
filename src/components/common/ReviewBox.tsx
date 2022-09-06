@@ -1,87 +1,63 @@
-import { dbService } from "fbase";
-import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { timestamp } from "util/timestamp";
 import {
   IWrittenDocs,
-  DoneBtn,
   FormHeader,
-  GuideTextBox,
   RegisterTime,
 } from "components/common/SubjectBox";
 import { IBookApi } from "data/bookAtom";
 import { Form, TextArea } from "./RecommandBox";
 import UserInfoBox from "components/common/UserInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
-import EditDeleteDoc from "components/common/EditDeleteDoc";
+import EditDeleteButton from "components/common/EditDeleteButton";
+import useEditDeleteDoc from "hooks/useEditDeleteDoc";
 
 interface PropsType {
   review: IWrittenDocs;
-  onReviewRemove?: (id: string) => void;
   bookInfo?: IBookApi;
   docMonth?: string;
+  onReviewRemove?: (id: string) => void;
 }
 
-const ReviewBox = ({ review, onReviewRemove, docMonth }: PropsType) => {
+const ReviewBox = ({ review, docMonth, onReviewRemove }: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(review.text);
-  const [showingGuide, setShowingGuide] = useState(false);
+  const collectionName = `BookMeeting Info/${docMonth}/reviews`;
 
-  const ReviewTextRef = doc(
-    dbService,
-    `BookMeeting Info/${docMonth}/reviews`,
-    `${review.id}`
-  );
+  const { showingGuide, onNewTextSubmit, onDeleteClick, onNewTextChange } =
+    useEditDeleteDoc({
+      docId: review.id,
+      newText,
+      setNewText,
+      collectionName,
+      setEditing,
+    });
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    await updateDoc(ReviewTextRef, { text: newText });
-    if (newText === "") {
-      setTimeout(() => {
-        setShowingGuide((toggle) => !toggle);
-      }, 1000);
-      setShowingGuide((toggle) => !toggle);
-      setEditing(true);
-    } else {
-      setShowingGuide(false);
-      setEditing(false);
-    }
-  };
-
-  const onDeleteClick = async () => {
-    await deleteDoc(ReviewTextRef);
+  const handleDeleteClick = async () => {
+    onDeleteClick();
     if (onReviewRemove) {
       onReviewRemove(review.id);
     }
   };
 
-  const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
-    setNewText(event.currentTarget.value);
-  };
-
-  const toggleEditing = () => setEditing((prev) => !prev);
-
   return (
     <>
       {editing ? (
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={onNewTextSubmit}>
           <FormHeader>
             <UserInfoBox creatorId={review.creatorId} />
-            {showingGuide && (
-              <GuideTextBox>
-                한 글자 이상 작성해주세요. <div></div>
-              </GuideTextBox>
-            )}
-            {showingGuide ? (
-              <DoneBtn type="submit" value="수정완료" eventdone />
-            ) : (
-              <DoneBtn type="submit" value="수정완료" />
-            )}
+            <EditDeleteButton
+              editing={editing}
+              showingGuide={showingGuide}
+              creatorId={review.creatorId}
+              onDeleteClick={handleDeleteClick}
+              toggleEditing={() => setEditing((prev) => !prev)}
+            />
           </FormHeader>
           <TextArea
             value={newText}
             placeholder="모임 후기를 수정해주세요."
-            onChange={onChange}
+            onChange={onNewTextChange}
           />
           <RegisterTime>{timestamp(review.createdAt)}</RegisterTime>
           <BookTitleImgBox
@@ -94,10 +70,12 @@ const ReviewBox = ({ review, onReviewRemove, docMonth }: PropsType) => {
         <Form>
           <FormHeader>
             <UserInfoBox creatorId={review.creatorId} />
-            <EditDeleteDoc
+            <EditDeleteButton
+              editing={editing}
+              showingGuide={showingGuide}
               creatorId={review.creatorId}
-              onDeleteClick={onDeleteClick}
-              toggleEditing={toggleEditing}
+              onDeleteClick={handleDeleteClick}
+              toggleEditing={() => setEditing((prev) => !prev)}
             />
           </FormHeader>
           <pre>{newText}</pre>

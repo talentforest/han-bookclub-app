@@ -1,93 +1,71 @@
-import { DoneBtn, GuideTextBox } from "components/common/SubjectBox";
-import EditDeleteDoc from "components/common/EditDeleteDoc";
-import UserInfoBox from "components/common/UserInfoBox";
-import { dbService } from "fbase";
-import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
 import { UpdateRequestDoc } from "util/getFirebaseDoc";
 import { timestamp } from "util/timestamp";
+import EditDeleteButton from "components/common/EditDeleteButton";
+import UserInfoBox from "components/common/UserInfoBox";
+import useEditDeleteDoc from "hooks/useEditDeleteDoc";
+import styled from "styled-components";
+import device from "theme/mediaQueries";
 
 interface PropsType {
-  item: UpdateRequestDoc;
+  request: UpdateRequestDoc;
 }
 
-const UpdateRequestBox = ({ item }: PropsType) => {
+const UpdateRequestBox = ({ request }: PropsType) => {
+  const [newText, setNewText] = useState(request.text);
   const [editing, setEditing] = useState(false);
-  const [newRequestText, setNewRequestText] = useState(item.request);
-  const [showingGuide, setShowingGuide] = useState(false);
+  const collectionName = "Update Request";
 
-  const onDeleteClick = async (id: string) => {
-    const RequestRef = doc(dbService, "Update Request", `${id}`);
-    await deleteDoc(RequestRef);
-  };
-
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const newRequestRef = doc(dbService, "Update Request", `${item.id}`);
-    await updateDoc(newRequestRef, { request: newRequestText });
-    if (newRequestText === "") {
-      setTimeout(() => {
-        setShowingGuide((toggle) => !toggle);
-      }, 1000);
-      setShowingGuide((toggle) => !toggle);
-      setEditing(true);
-    } else {
-      setShowingGuide(false);
-      setEditing(false);
-    }
-  };
-
-  const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
-    setNewRequestText(event.currentTarget.value);
-  };
-
-  const toggleEditing = () => setEditing((prev) => !prev);
+  const { showingGuide, onNewTextSubmit, onDeleteClick, onNewTextChange } =
+    useEditDeleteDoc({
+      docId: request.id,
+      newText,
+      setNewText,
+      collectionName,
+      setEditing,
+    });
 
   return (
     <Request>
       {editing ? (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onNewTextSubmit}>
           <div>
-            <UserInfoBox creatorId={item.creatorId} />
-            {showingGuide && (
-              <GuideTextBox>
-                한 글자 이상 작성해주세요. <div></div>
-              </GuideTextBox>
-            )}
-            {showingGuide ? (
-              <DoneBtn type="submit" value="수정완료" eventdone />
-            ) : (
-              <DoneBtn type="submit" value="수정완료" />
-            )}
+            <UserInfoBox creatorId={request.creatorId} />
+            <EditDeleteButton
+              editing={editing}
+              showingGuide={showingGuide}
+              creatorId={request.creatorId}
+              onDeleteClick={onDeleteClick}
+              toggleEditing={() => setEditing((prev) => !prev)}
+            />
           </div>
           <textarea
             placeholder="수정해주세요."
-            value={newRequestText}
-            onChange={onChange}
+            value={newText}
+            onChange={onNewTextChange}
           />
         </form>
       ) : (
         <form>
           <div>
-            <UserInfoBox creatorId={item.creatorId} />
-            <EditDeleteDoc
-              creatorId={item.creatorId}
-              onDeleteClick={() => onDeleteClick(item.id)}
-              toggleEditing={toggleEditing}
+            <UserInfoBox creatorId={request.creatorId} />
+            <EditDeleteButton
+              editing={editing}
+              showingGuide={showingGuide}
+              creatorId={request.creatorId}
+              onDeleteClick={onDeleteClick}
+              toggleEditing={() => setEditing((prev) => !prev)}
             />
           </div>
           <p>
-            <span className={item.type === "bug" ? "bug" : ""}>
-              {item.type}
+            <span className={request.type === "bug" ? "bug" : ""}>
+              {request.type}
             </span>
-            {item.request}
+            {newText}
           </p>
         </form>
       )}
-      <span>{timestamp(item.createdAt)}</span>
+      <span>{timestamp(request.createdAt)}</span>
     </Request>
   );
 };

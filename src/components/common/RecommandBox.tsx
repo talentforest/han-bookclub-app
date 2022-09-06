@@ -1,20 +1,11 @@
 import { useState } from "react";
-import { dbService } from "fbase";
-import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { timestamp } from "util/timestamp";
-import {
-  IWrittenDocs,
-  DoneBtn,
-  EditDeleteIcon,
-  FormHeader,
-  GuideTextBox,
-} from "components/common/SubjectBox";
-import { useRecoilValue } from "recoil";
-import { currentUserState } from "data/userAtom";
-import { Delete, Edit } from "@mui/icons-material";
+import { IWrittenDocs, FormHeader } from "components/common/SubjectBox";
 import UserInfoBox from "components/common/UserInfoBox";
-import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
+import useEditDeleteDoc from "hooks/useEditDeleteDoc";
+import EditDeleteButton from "./EditDeleteButton";
+import styled from "styled-components";
 import device from "theme/mediaQueries";
 
 interface PropsType {
@@ -24,61 +15,39 @@ interface PropsType {
 }
 
 const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
-  const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(recommend.text);
-  const [showingGuide, setShowingGuide] = useState(false);
-  const userData = useRecoilValue(currentUserState);
+  const [editing, setEditing] = useState(false);
+  const collectionName = `BookMeeting Info/${docMonth}/recommended book`;
 
-  const RecommendedBookRef = doc(
-    dbService,
-    `BookMeeting Info/${docMonth}/recommended book`,
-    `${recommend.id}`
-  );
+  const { showingGuide, onNewTextSubmit, onDeleteClick, onNewTextChange } =
+    useEditDeleteDoc({
+      docId: recommend.id,
+      newText,
+      setNewText,
+      collectionName,
+      setEditing,
+    });
 
-  const onEditSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    await updateDoc(RecommendedBookRef, { text: newText });
-    if (newText === "") {
-      setTimeout(() => {
-        setShowingGuide((toggle) => !toggle);
-      }, 1000);
-      setShowingGuide((toggle) => !toggle);
-      setEditing(true);
-    } else {
-      setShowingGuide(false);
-      setEditing(false);
-    }
-  };
-
-  const onDeleteClick = async () => {
-    await deleteDoc(RecommendedBookRef);
+  const HandleDeleteClick = async () => {
+    onDeleteClick();
     if (setShowDetail) {
       setShowDetail([]);
     }
   };
 
-  const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
-    setNewText(event.currentTarget.value);
-  };
-
-  const toggleEditing = () => setEditing((prev) => !prev);
-
   return (
     <>
       {editing ? (
-        <Form onSubmit={onEditSubmit}>
+        <Form onSubmit={onNewTextSubmit}>
           <FormHeader>
             <UserInfoBox creatorId={recommend.creatorId} />
-            {showingGuide && (
-              <GuideTextBox>
-                한 글자 이상 작성해주세요. <div></div>
-              </GuideTextBox>
-            )}
-            {showingGuide ? (
-              <DoneBtn type="submit" value="수정완료" eventdone />
-            ) : (
-              <DoneBtn type="submit" value="수정완료" />
-            )}
+            <EditDeleteButton
+              editing={editing}
+              showingGuide={showingGuide}
+              creatorId={recommend.creatorId}
+              onDeleteClick={HandleDeleteClick}
+              toggleEditing={() => setEditing((prev) => !prev)}
+            />
           </FormHeader>
           {recommend.recommendBookTitle ? (
             <RecommendBook>
@@ -106,7 +75,7 @@ const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
           <TextArea
             value={newText}
             placeholder="수정해주세요."
-            onChange={onChange}
+            onChange={onNewTextChange}
           />
           <RegisterTime>{timestamp(recommend.createdAt)}</RegisterTime>
         </Form>
@@ -114,12 +83,13 @@ const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
         <Form>
           <FormHeader>
             <UserInfoBox creatorId={recommend.creatorId} />
-            {userData.uid === recommend.creatorId && (
-              <EditDeleteIcon>
-                <Edit role="button" onClick={toggleEditing} />
-                <Delete role="button" onClick={onDeleteClick} />
-              </EditDeleteIcon>
-            )}
+            <EditDeleteButton
+              editing={editing}
+              showingGuide={showingGuide}
+              creatorId={recommend.creatorId}
+              onDeleteClick={HandleDeleteClick}
+              toggleEditing={() => setEditing((prev) => !prev)}
+            />
           </FormHeader>
           {recommend.recommendBookTitle && (
             <RecommendBook>

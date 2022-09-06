@@ -1,14 +1,11 @@
 import { useState } from "react";
-import { dbService } from "fbase";
-import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { timestamp } from "util/timestamp";
-import { useRecoilValue } from "recoil";
-import { currentUserState } from "data/userAtom";
-import { Delete, Edit } from "@mui/icons-material";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import device from "theme/mediaQueries";
+import useEditDeleteDoc from "hooks/useEditDeleteDoc";
+import EditDeleteButton from "./EditDeleteButton";
 
 export interface IWrittenDocs {
   id?: string;
@@ -32,74 +29,42 @@ interface ISubject {
 const SubjectBox = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
   const [editing, setEditing] = useState(false);
   const [newText, setNewText] = useState(subject.text);
-  const [showingGuide, setShowingGuide] = useState(false);
-  const userData = useRecoilValue(currentUserState);
+  const collectionName = `BookMeeting Info/${docMonth}/subjects`;
 
-  const thisMonthSubjectRef = doc(
-    dbService,
-    `BookMeeting Info/${docMonth}/subjects`,
-    `${subject.id}`
-  );
+  const { showingGuide, onNewTextSubmit, onDeleteClick, onNewTextChange } =
+    useEditDeleteDoc({
+      docId: subject.id,
+      newText,
+      setNewText,
+      collectionName,
+      setEditing,
+    });
 
-  const otherMonthSubjectRef = doc(
-    dbService,
-    `BookMeeting Info/${docMonth}/subjects`,
-    `${subject.id}`
-  );
-
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!docMonth) {
-      await updateDoc(thisMonthSubjectRef, { text: newText });
-    } else {
-      await updateDoc(otherMonthSubjectRef, { text: newText });
-    }
-    if (newText === "") {
-      setTimeout(() => {
-        setShowingGuide((toggle) => !toggle);
-      }, 1000);
-      setShowingGuide((toggle) => !toggle);
-      setEditing(true);
-    } else {
-      setShowingGuide(false);
-      setEditing(false);
-    }
-  };
-
-  const onDeleteClick = async () => {
-    await deleteDoc(thisMonthSubjectRef);
+  const HandleDeleteClick = async () => {
+    onDeleteClick();
     if (onSubjectRemove) {
       onSubjectRemove(subject.id);
     }
   };
 
-  const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
-    setNewText(event.currentTarget.value);
-  };
-
-  const toggleEditing = () => setEditing((prev) => !prev);
-
   return (
     <Box>
       {editing ? (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onNewTextSubmit}>
           <FormHeader>
             <UserInfoBox creatorId={subject.creatorId} />
-            {showingGuide && (
-              <GuideTextBox>
-                한 글자 이상 작성해주세요. <div></div>
-              </GuideTextBox>
-            )}
-            {showingGuide ? (
-              <DoneBtn type="submit" value="수정완료" eventdone />
-            ) : (
-              <DoneBtn type="submit" value="수정완료" />
-            )}
+            <EditDeleteButton
+              editing={editing}
+              showingGuide={showingGuide}
+              creatorId={subject.creatorId}
+              onDeleteClick={HandleDeleteClick}
+              toggleEditing={() => setEditing((prev) => !prev)}
+            />
           </FormHeader>
           <TextArea
             value={newText}
             placeholder="발제문을 수정해주세요."
-            onChange={onChange}
+            onChange={onNewTextChange}
           />
           <RegisterTime>{timestamp(subject.createdAt)}</RegisterTime>
           <BookTitleImgBox
@@ -112,12 +77,13 @@ const SubjectBox = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
         <>
           <FormHeader>
             <UserInfoBox creatorId={subject.creatorId} />
-            {userData.uid === subject.creatorId && (
-              <EditDeleteIcon>
-                <Edit role="button" onClick={toggleEditing} />
-                <Delete role="button" onClick={onDeleteClick} />
-              </EditDeleteIcon>
-            )}
+            <EditDeleteButton
+              editing={editing}
+              showingGuide={showingGuide}
+              creatorId={subject.creatorId}
+              onDeleteClick={HandleDeleteClick}
+              toggleEditing={() => setEditing((prev) => !prev)}
+            />
           </FormHeader>
           <pre>{newText}</pre>
           <RegisterTime>{timestamp(subject.createdAt)}</RegisterTime>
@@ -165,59 +131,6 @@ export const FormHeader = styled.div`
   justify-content: space-between;
   padding-bottom: 5px;
   margin-bottom: 10px;
-`;
-
-export const DoneBtn = styled.input<{ eventdone?: boolean }>`
-  border: none;
-  background-color: transparent;
-  font-size: 12px;
-  color: ${(props) => props.theme.text.lightBlue};
-  cursor: pointer;
-  pointer-events: ${(props) => (props.eventdone ? "none" : "fill")};
-  @media ${device.tablet} {
-    font-size: 18px;
-  }
-`;
-
-export const EditDeleteIcon = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  svg {
-    width: 18px;
-    height: 18px;
-    margin-left: 12px;
-    cursor: pointer;
-  }
-  svg:first-child {
-    margin-left: 0px;
-  }
-  @media ${device.tablet} {
-    svg {
-      width: 20px;
-      height: 20px;
-    }
-  }
-`;
-
-export const GuideTextBox = styled.span`
-  position: absolute;
-  right: 0px;
-  top: 30px;
-  font-size: 10px;
-  color: ${(props) => props.theme.text.accent};
-  background-color: ${(props) => props.theme.container.yellow};
-  padding: 2px 4px;
-  border-radius: 6px;
-  > div {
-    width: 8px;
-    height: 8px;
-    position: absolute;
-    top: -4px;
-    right: 20px;
-    transform: rotate(45deg);
-    background-color: ${(props) => props.theme.container.yellow};
-  }
 `;
 
 const TextArea = styled.textarea`

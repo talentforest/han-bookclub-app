@@ -5,7 +5,6 @@ import UpdateCreateBox from "components/updateRequest/UpdateCreateBox";
 import UpdateRequestBox from "components/updateRequest/UpdateRequestBox";
 
 const UpdateRequest = () => {
-  const [request, setRequest] = useState("");
   const [requestDoc, setRequestDoc] = useState([]);
 
   useEffect(() => {
@@ -14,10 +13,10 @@ const UpdateRequest = () => {
 
   return (
     <Container>
-      <UpdateCreateBox request={request} setRequest={setRequest} />
+      <UpdateCreateBox />
       <ul>
-        {requestDoc.map((item) => (
-          <UpdateRequestBox key={item.id} item={item} />
+        {requestDoc.map((request) => (
+          <UpdateRequestBox key={request.id} request={request} />
         ))}
       </ul>
     </Container>

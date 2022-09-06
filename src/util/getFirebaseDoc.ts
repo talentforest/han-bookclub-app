@@ -54,7 +54,7 @@ export interface IVote {
 }
 
 export interface UpdateRequestDoc {
-  request: string;
+  text: string;
   createdAt: Date;
   creatorId: string;
   type: string;
