@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { timestamp } from "util/timestamp";
 import UserInfoBox from "components/common/UserInfoBox";
-import styled from "styled-components";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
-import device from "theme/mediaQueries";
 import useEditDeleteDoc from "hooks/useEditDeleteDoc";
 import EditDeleteButton from "./EditDeleteButton";
+import styled from "styled-components";
+import device from "theme/mediaQueries";
 
 export interface IWrittenDocs {
   id?: string;

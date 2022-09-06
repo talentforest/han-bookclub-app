@@ -7,9 +7,9 @@ import {
 import { IVote } from "util/getFirebaseDoc";
 import { dDay } from "util/timestamp";
 import { Link } from "react-router-dom";
+import { cutLetter } from "util/cutLetter";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
-import { cutLetter } from "util/cutLetter";
 
 interface PropsType {
   voteDetail: IVote;

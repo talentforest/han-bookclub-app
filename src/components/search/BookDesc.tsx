@@ -1,8 +1,8 @@
 import { ExpandCircleDown } from "@mui/icons-material";
 import { IBookApi } from "data/bookAtom";
+import { timestamp } from "util/timestamp";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
-import { timestamp } from "util/timestamp";
 
 interface PropsType {
   detailInfo: IBookApi;

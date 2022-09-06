@@ -1,7 +1,7 @@
-import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
-import Subjects, { IWrittenDocs } from "components/common/SubjectBox";
 import { IBookMeeting } from "util/getFirebaseDoc";
 import { EmptyRecord, RecordBox } from "./RecommendationArea";
+import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
+import Subjects, { IWrittenDocs } from "components/common/SubjectBox";
 
 interface PropsType {
   thisMonthDoc: IBookMeeting;

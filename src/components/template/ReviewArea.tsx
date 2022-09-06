@@ -1,8 +1,8 @@
-import ReviewCreateBox from "components/bookmeeting/ReviewCreateBox";
-import ReviewBox from "components/common/ReviewBox";
 import { IWrittenDocs } from "components/common/SubjectBox";
 import { IBookMeeting } from "util/getFirebaseDoc";
 import { EmptyRecord, RecordBox } from "./RecommendationArea";
+import ReviewCreateBox from "components/bookmeeting/ReviewCreateBox";
+import ReviewBox from "components/common/ReviewBox";
 
 interface PropsType {
   thisMonthDoc: IBookMeeting;

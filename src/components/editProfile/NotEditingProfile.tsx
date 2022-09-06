@@ -2,10 +2,10 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { AccountCircle, ModeEditOutline } from "@mui/icons-material";
 import { extraUserData } from "routes/EditProfile";
+import { EditBtn } from "./EditingProfile";
+import { authService } from "fbase";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
-import { authService } from "fbase";
-import { EditBtn } from "./EditingProfile";
 
 interface PropsType {
   setEditing: (editing: boolean) => void;

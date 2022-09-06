@@ -1,5 +1,5 @@
 import { Add, CheckCircleOutline, Close, Info } from "@mui/icons-material";
-import React, { useState } from "react";
+import { useState } from "react";
 import useCreateVoteBox from "hooks/useCreateVoteBox";
 import styled from "styled-components";
 import device from "theme/mediaQueries";

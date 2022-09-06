@@ -2,8 +2,8 @@ import { Book } from "@mui/icons-material";
 import { IBookApi } from "data/bookAtom";
 import { timestamp } from "util/timestamp";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
 import { cutLetter } from "util/cutLetter";
+import styled from "styled-components";
 
 interface PropsType {
   searchedBook: IBookApi;

@@ -1,6 +1,6 @@
+import { titleType } from "./LinkButton";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
-import { titleType } from "./LinkButton";
 
 const Subtitle = ({ title }: titleType) => {
   return <Sub>{title}</Sub>;

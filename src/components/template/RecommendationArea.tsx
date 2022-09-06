@@ -1,9 +1,9 @@
-import RecommandBox from "components/common/RecommandBox";
-import RecommendCreateBox from "components/bookmeeting/RecommendCreateBox";
 import { IWrittenDocs } from "components/common/SubjectBox";
 import { currentUserState } from "data/userAtom";
 import { useRecoilValue } from "recoil";
 import { IBookMeeting } from "util/getFirebaseDoc";
+import RecommandBox from "components/common/RecommandBox";
+import RecommendCreateBox from "components/bookmeeting/RecommendCreateBox";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 

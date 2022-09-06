@@ -1,10 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
+import { History } from "@mui/icons-material";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import HomeIcon from "@mui/icons-material/Home";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import styled from "styled-components";
-import { History } from "@mui/icons-material";
 
 const Navigation = () => {
   const { pathname } = useLocation();

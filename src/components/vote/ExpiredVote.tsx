@@ -1,10 +1,10 @@
 import { ArrowForwardIos, Help } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
 import { cutLetter } from "util/cutLetter";
 import { IVote } from "util/getFirebaseDoc";
 import { timestamp } from "util/timestamp";
+import styled from "styled-components";
+import device from "theme/mediaQueries";
 
 interface PropsType {
   voteDetail: IVote;

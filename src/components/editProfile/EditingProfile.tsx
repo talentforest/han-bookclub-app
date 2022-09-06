@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { extraUserData } from "routes/EditProfile";
+import { Check } from "@mui/icons-material";
 import styled from "styled-components";
 import ProfileImage from "components/common/ProfileImage";
 import device from "theme/mediaQueries";
-import { Check } from "@mui/icons-material";
 
 interface PropsType {
   onProfileSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
