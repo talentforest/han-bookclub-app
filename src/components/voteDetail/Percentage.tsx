@@ -4,19 +4,21 @@ import { IVoteItem } from "util/getFirebaseDoc";
 import { percentage } from "util/percentage";
 
 interface PropsType {
-  voteItem: IVoteItem[];
+  voteItems: IVoteItem[];
   item: IVoteItem;
-  totalCount: number;
+  totalVoteCount: number;
 }
 
-const Percentage = ({ voteItem, item, totalCount }: PropsType) => {
-  const existVoteCount: number = voteItem[item.id - 1].voteCount;
+const Percentage = ({ voteItems, item, totalVoteCount }: PropsType) => {
+  const existVoteCount: number = voteItems[item.id - 1].voteCount;
 
   return (
     <Container
-      $gauge={existVoteCount && `${percentage(existVoteCount, totalCount)}%`}
+      $gauge={
+        existVoteCount && `${percentage(existVoteCount, totalVoteCount)}%`
+      }
     >
-      {existVoteCount !== 0 && `${percentage(existVoteCount, totalCount)}%`}
+      {existVoteCount !== 0 && `${percentage(existVoteCount, totalVoteCount)}%`}
     </Container>
   );
 };

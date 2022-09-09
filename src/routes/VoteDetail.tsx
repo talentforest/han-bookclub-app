@@ -23,18 +23,18 @@ const VoteDetail = () => {
 
   const {
     voteDisabled,
-    voteItem,
-    totalCount,
+    voteItems,
+    totalVoteCount,
     myVote,
     onRevoteClick,
-    selectedItem,
-    membersVote,
+    selectedItems,
+    personalVote,
     onVotingSubmit,
     onVoteItemClick,
   } = useHandleVoting(voteDetail, userData.uid);
 
   function mySelectingItem(item: IVoteItem) {
-    return selectedItem.find((ele) => ele.id === item.id);
+    return selectedItems.find((ele) => ele.id === item.id);
   }
 
   function mySelectedItem(item: IVoteItem) {
@@ -42,7 +42,7 @@ const VoteDetail = () => {
   }
 
   function existVoteCount(itemId: number) {
-    return voteItem[itemId - 1].voteCount;
+    return voteItems[itemId - 1].voteCount;
   }
 
   return (
@@ -69,9 +69,9 @@ const VoteDetail = () => {
                     {item.item}
                   </span>
                   <Percentage
-                    voteItem={voteItem}
+                    voteItems={voteItems}
                     item={item}
-                    totalCount={totalCount}
+                    totalVoteCount={totalVoteCount}
                   />
                 </li>
               ))}
@@ -99,9 +99,9 @@ const VoteDetail = () => {
                     {item.item}
                   </span>
                   <Percentage
-                    voteItem={voteItem}
+                    voteItems={voteItems}
                     item={item}
-                    totalCount={totalCount}
+                    totalVoteCount={totalVoteCount}
                   />
                 </li>
               ))}
@@ -113,9 +113,9 @@ const VoteDetail = () => {
           </form>
         )}
         <VoteMember>
-          <h4>투표인원: {membersVote.length}명</h4>
+          <h4>투표인원: {personalVote.length}명</h4>
           <ul>
-            {membersVote.map((member) => (
+            {personalVote.map((member) => (
               <li key={member.id}>
                 <UserInfoBox creatorId={member.id} key={member.id} />
               </li>

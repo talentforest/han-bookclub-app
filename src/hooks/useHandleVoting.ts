@@ -6,41 +6,22 @@ import useAlertAskJoin from "./useAlertAskJoin";
 
 const useHandleVoting = (voteDetail: IVote, userDataUid: string) => {
   const [voteDisabled, setVoteDisabled] = useState(false);
-  const [selectedItem, setSelectedItem] = useState([]);
-  const [voteItem, setVoteItem] = useState(voteDetail?.vote.voteItem);
-  const [membersVote, setMembersVote] = useState([]);
-
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [voteItems, setVoteItems] = useState(voteDetail?.vote.voteItem);
+  const [personalVote, setPersonalVote] = useState([]);
   const { alertAskJoin } = useAlertAskJoin();
-
-  const voteRef = doc(dbService, "Vote", `${voteDetail.id}`);
-
-  const addDocVoteItems = async () => {
-    await setDoc(
-      doc(dbService, `Vote/${voteDetail?.id}/Voted Items`, `${userDataUid}`),
-      {
-        createdAt: Date.now(),
-        creatorId: userDataUid,
-        voteId: voteDetail?.id,
-        voteTitle: voteDetail?.vote.title,
-        voteDeadline: voteDetail.deadline,
-        votedItem: selectedItem,
-      }
-    );
-    await updateDoc(voteRef, {
-      "vote.voteItem": voteItem,
-    });
-  };
+  const anonymous = authService.currentUser?.isAnonymous;
 
   useEffect(() => {
-    getCollection(`Vote/${voteDetail.id}/Voted Items`, setMembersVote);
-  }, [setMembersVote, voteDetail.id]);
+    getCollection(`Vote/${voteDetail.id}/Voted Items`, setPersonalVote);
+  }, [setPersonalVote, voteDetail.id]);
 
   const onVotingSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (authService.currentUser.isAnonymous) return alertAskJoin();
-    if (selectedItem.length === 0) return;
+    if (anonymous || selectedItems.length === 0) return;
     try {
-      addDocVoteItems();
+      await addPersonalVotingDoc();
+      updateVotingDoc();
       window.alert("투표가 완료되었습니다!");
       setVoteDisabled(true);
     } catch (error) {
@@ -48,62 +29,84 @@ const useHandleVoting = (voteDetail: IVote, userDataUid: string) => {
     }
   };
 
-  const onVoteItemClick = (index: number, value: string, voteCount: number) => {
-    if (authService.currentUser.isAnonymous) {
-      alertAskJoin();
-    } else {
-      setSelectedItem([...selectedItem, { id: index, item: value }]);
-      if (selectedItem.some((item) => item.id === index)) {
-        setSelectedItem(selectedItem.filter((vote) => vote.id !== index));
+  function addPersonalVotingDoc() {
+    return setDoc(
+      doc(dbService, `Vote/${voteDetail.id}/Voted Items`, `${userDataUid}`),
+      {
+        createdAt: Date.now(),
+        creatorId: userDataUid,
+        voteId: voteDetail?.id,
+        voteTitle: voteDetail?.vote.title,
+        voteDeadline: voteDetail.deadline,
+        votedItem: selectedItems,
       }
+    );
+  }
 
-      setVoteItem(
-        voteItem.map((item) =>
-          item.id === index ? { ...item, voteCount: voteCount + 1 } : item
-        )
-      );
-      if (selectedItem.some((item) => item.id === index)) {
-        setVoteItem(
-          voteItem.map((item) =>
-            item.id === index ? { ...item, voteCount: voteCount } : item
-          )
-        );
-      }
-    }
+  function updateVotingDoc() {
+    updateDoc(doc(dbService, "Vote", `${voteDetail.id}`), {
+      "vote.voteItem": voteItems,
+    });
+  }
+
+  const onVoteItemClick = (id: number, value: string, voteCount: number) => {
+    if (anonymous) return alertAskJoin();
+    handleClickVoteItem(id, value);
+    updateVoteCount(id, voteCount);
   };
 
-  const myVote = membersVote.filter((item) => item.id === userDataUid);
+  function handleClickVoteItem(id: number, value: string) {
+    setSelectedItems([...selectedItems, { id, item: value }]);
+    if (selectedItems.find((item) => item.id === id)) {
+      setSelectedItems(selectedItems.filter((vote) => vote.id !== id));
+    }
+  }
 
-  const totalCount = voteItem
-    .map((item) => item.voteCount)
-    .reduce((prev, curr) => prev + curr);
+  function updateVoteCount(id: number, voteCount: number) {
+    setVoteItems(
+      voteItems.map((voteItem) =>
+        voteItem.id === id ? checkIfSelectItem(voteItem, voteCount) : voteItem
+      )
+    );
+  }
+
+  function checkIfSelectItem(voteItem: IVoteItem, voteCount: number) {
+    return selectedItems.find((selectItem) => selectItem.id === voteItem.id)
+      ? { ...voteItem, voteCount }
+      : { ...voteItem, voteCount: voteCount + 1 };
+  }
+
+  const myVote = personalVote.filter((item) => item.id === userDataUid);
+  const othersVote = personalVote.filter((item) => item.id !== userDataUid);
 
   const onRevoteClick = () => {
-    setMembersVote(membersVote.filter((item) => item.id !== userDataUid));
+    setPersonalVote(othersVote);
     setVoteDisabled(false);
-    setSelectedItem([]);
-    voteDetail.vote.voteItem = voteItem.map((item) =>
+    setSelectedItems([]);
+    voteDetail.vote.voteItem = removeMyExistingVote();
+    setVoteItems(removeMyExistingVote());
+  };
+
+  function removeMyExistingVote() {
+    return voteItems.map((item) =>
       myVote[0].votedItem.some((vote: IVoteItem) => vote.id === item.id)
         ? { ...item, voteCount: item.voteCount - 1 }
         : item
     );
-    setVoteItem(
-      voteItem.map((item) =>
-        myVote[0].votedItem.some((vote: IVoteItem) => vote.id === item.id)
-          ? { ...item, voteCount: item.voteCount - 1 }
-          : item
-      )
-    );
-  };
+  }
+
+  const totalVoteCount = voteItems
+    .map((item) => item.voteCount)
+    .reduce((prev, curr) => prev + curr);
 
   return {
     voteDisabled,
-    voteItem,
-    totalCount,
+    voteItems,
+    totalVoteCount,
     myVote,
     onRevoteClick,
-    selectedItem,
-    membersVote,
+    selectedItems,
+    personalVote,
     onVotingSubmit,
     onVoteItemClick,
   };
