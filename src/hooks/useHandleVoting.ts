@@ -51,11 +51,11 @@ const useHandleVoting = (voteDetail: IVote, userDataUid: string) => {
 
   const onVoteItemClick = (id: number, value: string, voteCount: number) => {
     if (anonymous) return alertAskJoin();
-    handleClickVoteItem(id, value);
+    selectVoteItem(id, value);
     updateVoteCount(id, voteCount);
   };
 
-  function handleClickVoteItem(id: number, value: string) {
+  function selectVoteItem(id: number, value: string) {
     setSelectedItems([...selectedItems, { id, item: value }]);
     if (selectedItems.find((item) => item.id === id)) {
       setSelectedItems(selectedItems.filter((vote) => vote.id !== id));
@@ -83,11 +83,11 @@ const useHandleVoting = (voteDetail: IVote, userDataUid: string) => {
     setPersonalVote(othersVote);
     setVoteDisabled(false);
     setSelectedItems([]);
-    voteDetail.vote.voteItem = removeMyExistingVote();
-    setVoteItems(removeMyExistingVote());
+    voteDetail.vote.voteItem = allVotesExceptMine();
+    setVoteItems(allVotesExceptMine());
   };
 
-  function removeMyExistingVote() {
+  function allVotesExceptMine() {
     return voteItems.map((item) =>
       myVote[0].votedItem.some((vote: IVoteItem) => vote.id === item.id)
         ? { ...item, voteCount: item.voteCount - 1 }
