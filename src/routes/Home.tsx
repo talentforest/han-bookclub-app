@@ -14,6 +14,8 @@ import {
   thisMonthState,
   votesState,
 } from "data/documentsAtom";
+import { getMonthNumber } from "util/getMonthNumber";
+import { settings } from "util/sliderSetting";
 import LinkButton from "components/common/LinkButton";
 import Subtitle from "components/common/Subtitle";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
@@ -23,7 +25,6 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Loading from "components/common/Loading";
 import Guide from "components/common/Guide";
 import device from "theme/mediaQueries";
-import { settings } from "util/sliderSetting";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -41,8 +42,6 @@ const Home = () => {
   }, [setThisMonthDoc, setBookFields, setVotes]);
 
   const progressVote = votes.filter((item: IVote) => item.deadline >= today());
-  const thisMonth = thisMonthDoc?.id?.slice(6);
-
   const checkThisMonthDoc = Object.keys(thisMonthDoc).length;
 
   return (
@@ -52,7 +51,7 @@ const Home = () => {
       ) : (
         <NewContainer>
           <section>
-            <Subtitle title={`${thisMonth}월의 책`} />
+            <Subtitle title={`${getMonthNumber(thisMonthDoc?.id)}월의 책`} />
             <Guide
               margin={true}
               text="이달의 책은 매월 1일에 업데이트 됩니다."
@@ -63,7 +62,9 @@ const Home = () => {
             />
           </section>
           <section>
-            <Subtitle title={thisMonthDoc && `${thisMonth}월의 모임 일정`} />
+            <Subtitle
+              title={`${getMonthNumber(thisMonthDoc?.id)}월의 모임 일정`}
+            />
             <Guide
               margin={true}
               text="한페이지 멤버는 매월 셋째주 일요일에 만나요."
@@ -97,7 +98,9 @@ const Home = () => {
                   <div>{item.month}</div>
                   <span
                     className={
-                      item.month === `${thisMonth}월` ? "highlight" : ""
+                      item.month === `${getMonthNumber(thisMonthDoc?.id)}월`
+                        ? "highlight"
+                        : ""
                     }
                   >
                     {item.value}
