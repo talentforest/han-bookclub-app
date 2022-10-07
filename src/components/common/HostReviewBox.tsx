@@ -113,6 +113,7 @@ const ReviewBox = styled.div`
     background-color: ${(props) => props.theme.container.orange};
     box-shadow: ${(props) => props.theme.boxShadow};
     border-radius: 30px;
+    border: none;
     padding: 8px 15px;
     margin: 5px 0;
     font-weight: 700;
