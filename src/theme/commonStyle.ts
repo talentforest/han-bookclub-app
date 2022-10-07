@@ -29,25 +29,6 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  > a {
-    width: 100%;
-    height: 48px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    border-radius: 10px;
-    background-color: ${(props) => props.theme.container.blue};
-    color: ${(props) => props.theme.container.yellow};
-    font-weight: 700;
-    font-size: 16px;
-  }
-  @media ${device.tablet} {
-    a {
-      height: 64px;
-      font-size: 22px;
-    }
-  }
 `;
 
 export const Desc = styled.h4`
@@ -66,11 +47,10 @@ export const Input = styled.input`
   &[type="email"],
   &[type="text"],
   &[type="submit"] {
-    border: none;
     width: 100%;
     height: 50px;
     border-radius: 10px;
-    border: 1px solid ${(props) => props.theme.container.lightBlue};
+    border: 1px solid ${(props) => props.theme.container.blue};
     padding: 10px;
     margin-bottom: 10px;
     font-size: 16px;
@@ -84,9 +64,9 @@ export const Input = styled.input`
     &[type="email"],
     &[type="text"],
     &[type="submit"] {
-      height: 70px;
+      height: 60px;
       margin-bottom: 20px;
-      font-size: 20px;
+      font-size: 18px;
     }
   }
 `;
@@ -97,14 +77,15 @@ export const Button = styled.input`
   height: 44px;
   border-radius: 10px;
   border: none;
+  box-shadow: 1px 2px 5px ${(props) => props.theme.boxShadow};
   background-color: ${(props) => props.theme.container.blue};
   color: ${(props) => props.theme.text.white};
   font-weight: 700;
   font-size: 16px;
-  margin: 5px 0;
+  margin: 10px 0;
   cursor: pointer;
   @media ${device.tablet} {
-    height: 64px;
-    font-size: 22px;
+    height: 54px;
+    font-size: 20px;
   }
 `;

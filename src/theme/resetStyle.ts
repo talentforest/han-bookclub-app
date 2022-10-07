@@ -22,11 +22,8 @@ export const ResetStyle = createGlobalStyle`
     -webkit-appearance:none; 
     -moz-appearance:none; 
     appearance:none;
-    border: none;
-    background-color: transparent;
     cursor: pointer;
   }
-  
   textarea, 
   button, 
   select {
