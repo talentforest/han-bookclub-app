@@ -12,7 +12,7 @@ import RecommandBox from "components/common/RecommandBox";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 import useCallAllRecords from "hooks/useCallAllRecords";
-import PresenterReviewBox from "components/common/PresenterReviewBox";
+import HostReviewBox from "components/common/HostReviewBox";
 import Subtitle from "components/common/Subtitle";
 
 type LocationState = { state: { bookMeeting: IBookMeeting } };
@@ -24,7 +24,7 @@ const ClubHistoryDetail = () => {
     state: { bookMeeting },
   } = useLocation() as LocationState;
   const { id, book, meeting } = bookMeeting;
-  const { subjects, reviews, recommends, finalRecord } = useCallAllRecords(id);
+  const { subjects, reviews, recommends, hostReview } = useCallAllRecords(id);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
@@ -38,13 +38,9 @@ const ClubHistoryDetail = () => {
       </Infos>
       <AfterMeetingRecord>
         <Subtitle title="발제자의 모임 정리" />
-        {finalRecord?.length !== 0 ? (
-          finalRecord?.map((finalReview) => (
-            <PresenterReviewBox
-              key={finalReview.id}
-              docMonth={id}
-              finalReview={finalReview}
-            />
+        {hostReview?.length !== 0 ? (
+          hostReview?.map((review) => (
+            <HostReviewBox key={review.id} review={review} yearMonthId={id} />
           ))
         ) : (
           <EmptyRecord>아직 모임 후 정리된 기록이 없습니다.</EmptyRecord>
@@ -106,7 +102,6 @@ const ClubHistoryDetail = () => {
 
 const AfterMeetingRecord = styled.section`
   margin: 20px 0;
-  min-height: 300px;
 `;
 
 const Categories = styled.div`
@@ -150,7 +145,7 @@ const EmptyRecord = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 40vh;
+  height: 20vh;
   border-radius: 5px;
   background-color: ${(props) => props.theme.text.lightGray};
   padding: 20px 0;

@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 import { thisMonthState } from "data/documentsAtom";
 import { getDocument } from "util/getFirebaseDoc";
 import { thisYearMonth } from "util/constants";
+import { getMonthNumber } from "util/getMonthNumber";
 import useCallAllRecords from "hooks/useCallAllRecords";
 import Loading from "components/common/Loading";
 import Subtitle from "components/common/Subtitle";
@@ -17,13 +18,13 @@ import BookTitleImgBox from "components/common/BookTitleImgBox";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import Guide from "components/common/Guide";
-import PresenterReviewCreateModal from "components/bookmeeting/PresenterReviewCreateModal";
-import PresenterReviewBox from "components/common/PresenterReviewBox";
+import HostReviewCreateModal from "components/bookmeeting/HostReviewCreateModal";
+import HostReviewBox from "components/common/HostReviewBox";
 
 const BookMeeting = () => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
   const [selectedCategory, setSelectedCategory] = useState("subjects");
-  const { subjects, reviews, recommends, finalRecord } = useCallAllRecords(
+  const { subjects, reviews, recommends, hostReview } = useCallAllRecords(
     thisMonthDoc?.id
   );
 
@@ -43,7 +44,7 @@ const BookMeeting = () => {
         <Loading />
       ) : (
         <Container>
-          <Subtitle title={`${thisMonthDoc.id?.slice(6)}월의 책`} />
+          <Subtitle title={`${getMonthNumber(thisMonthDoc?.id)}월의 책`} />
           <MeetingBox>
             <BookTitleImgBox
               thumbnail={thisMonthDoc.book.thumbnail}
@@ -59,18 +60,18 @@ const BookMeeting = () => {
           </MeetingBox>
           <Guide text="모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 작성이 불가능한 점 유의해주세요." />
           <AfterMeetingRecord>
-            <Subtitle title="발제자의 모임 정리 기록" />
-            {finalRecord?.length !== 0 ? (
-              finalRecord?.map((finalReview) => (
-                <PresenterReviewBox
-                  key={finalReview.id}
-                  finalReview={finalReview}
-                  docMonth={thisMonthDoc.id}
+            <Subtitle title="발제자의 모임 정리" />
+            {hostReview?.length !== 0 ? (
+              hostReview?.map((review) => (
+                <HostReviewBox
+                  key={review.id}
+                  review={review}
+                  yearMonthId={thisYearMonth}
                 />
               ))
             ) : (
               <>
-                <PresenterReviewCreateModal
+                <HostReviewCreateModal
                   bookInfo={thisMonthDoc?.book}
                   docMonth={thisMonthDoc.id}
                 />

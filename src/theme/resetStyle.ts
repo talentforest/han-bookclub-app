@@ -22,6 +22,9 @@ export const ResetStyle = createGlobalStyle`
     -webkit-appearance:none; 
     -moz-appearance:none; 
     appearance:none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
   }
   
   textarea, 
@@ -157,5 +160,10 @@ export const ResetStyle = createGlobalStyle`
   table {
     border-collapse: collapse;
     border-spacing: 0;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 1.6;
   }
 `;

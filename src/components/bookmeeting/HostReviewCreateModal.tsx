@@ -14,10 +14,10 @@ interface PropsType {
   bookInfo: IBookApi;
 }
 
-const PresenterReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
+const HostReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
   const [text, setText] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const collectionName = `BookMeeting Info/${docMonth}/presenter's review`;
+  const collectionName = `BookMeeting Info/${docMonth}/host review`;
   const userData = useRecoilValue(currentUserState);
 
   const document = {
@@ -59,7 +59,7 @@ const PresenterReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
               발제자의 정리 기록 작성하기 <Close onClick={onModalClick} />
             </h3>
             <textarea
-              placeholder="책을 읽으며 이야기하고 싶었던 주제들을 자유롭게 작성해주세요."
+              placeholder="발제자는 모임 후 모임에서 나눈 이야기를 자유롭게 작성해주세요."
               value={text}
               onChange={onTextChange}
             />
@@ -196,4 +196,4 @@ const Form = styled.form`
   }
 `;
 
-export default PresenterReviewCreateModal;
+export default HostReviewCreateModal;

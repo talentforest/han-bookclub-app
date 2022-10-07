@@ -14,10 +14,11 @@ export const theme: DefaultTheme = {
     default: "#FEFEFE",
     lightBlue: "#D8E3FF",
     blue: "#5D8AFE",
-    orange: "#FFAE34",
+    orange: "#ffbc6b",
     green: "#80E37E",
     pink: "#FFC3F2",
     purple: "#B6C2FF",
     yellow: "#FFE455",
   },
+  boxShadow: "1px 2px 5px rgba(0,0,0,0.2)",
 };

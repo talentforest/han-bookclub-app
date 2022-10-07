@@ -21,5 +21,6 @@ declare module "styled-components" {
       purple: string;
       yellow: string;
     };
+    boxShadow: string;
   }
 }
