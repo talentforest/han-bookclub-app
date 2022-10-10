@@ -41,6 +41,7 @@ function Router({ isLoggedIn }: PropsType) {
         <MobileHeader isLoggedIn={isLoggedIn} />
       )}
       <Routes>
+        <Route path="/create_account" element={<CreateAccount />} />
         {isLoggedIn ? (
           <>
             <Route path="/" element={<Home />} />
@@ -66,7 +67,6 @@ function Router({ isLoggedIn }: PropsType) {
           <>
             <Route path="/" element={<LogInPage />} />
             <Route path="/find_pw" element={<ResetPasswordEmail />} />
-            <Route path="/create_account" element={<CreateAccount />} />
             <Route path="/*" element={<LogInPage />} />
           </>
         )}
