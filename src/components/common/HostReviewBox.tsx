@@ -1,4 +1,5 @@
-import useEditDeleteDoc from "hooks/useEditDeleteDoc";
+import useDeleteDoc from "hooks/useDeleteDoc";
+import useEditDoc from "hooks/useEditDoc";
 import { useState } from "react";
 import styled from "styled-components";
 import { cutLetter } from "util/cutLetter";
@@ -17,17 +18,17 @@ interface IHostReviewBoxProps {
 const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
   const [openModal, setOpenModal] = useState(false);
   const [editing, setEditing] = useState(false);
-  const [newText, setNewText] = useState(review.text);
-  const collectionName = `BookMeeting Info/${yearMonthId}/host review`;
+  const [editedText, setEditedText] = useState(review.text);
 
-  const { showingGuide, onNewTextSubmit, onDeleteClick, onNewTextChange } =
-    useEditDeleteDoc({
-      docId: review.id,
-      newText,
-      setNewText,
-      collectionName,
-      setEditing,
-    });
+  const collectionName = `BookMeeting Info/${yearMonthId}/host review`;
+  const { onDeleteClick } = useDeleteDoc({ docId: review.id, collectionName });
+  const { showingGuide, onEditedSubmit, onEditedChange } = useEditDoc({
+    docId: review.id,
+    editedText,
+    setEditedText,
+    setEditing,
+    collectionName,
+  });
 
   return (
     <>
@@ -65,10 +66,10 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
                   toggleEditing={() => setEditing((prev) => !prev)}
                 />
               </header>
-              <pre>{newText}</pre>
+              <pre>{editedText}</pre>
             </Modal>
           ) : (
-            <Modal $editing={editing} onSubmit={onNewTextSubmit}>
+            <Modal $editing={editing} onSubmit={onEditedSubmit}>
               <header>
                 <div>
                   <h4>발제자의 모임 정리</h4>
@@ -83,9 +84,9 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
                 />
               </header>
               <TextEditArea
-                value={newText}
+                value={editedText}
                 placeholder="수정해주세요."
-                onChange={onNewTextChange}
+                onChange={onEditedChange}
               />
               <TimeStamp>{timestamp(review.createdAt)}</TimeStamp>
             </Modal>

@@ -10,7 +10,8 @@ import { Form, TextArea } from "./RecommandBox";
 import UserInfoBox from "components/common/UserInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import EditDeleteButton from "components/common/EditDeleteButton";
-import useEditDeleteDoc from "hooks/useEditDeleteDoc";
+import useDeleteDoc from "hooks/useDeleteDoc";
+import useEditDoc from "hooks/useEditDoc";
 
 interface PropsType {
   review: IWrittenDocs;
@@ -21,17 +22,17 @@ interface PropsType {
 
 const ReviewBox = ({ review, docMonth, onReviewRemove }: PropsType) => {
   const [editing, setEditing] = useState(false);
-  const [newText, setNewText] = useState(review.text);
+  const [editedText, setEditedText] = useState(review.text);
   const collectionName = `BookMeeting Info/${docMonth}/reviews`;
 
-  const { showingGuide, onNewTextSubmit, onDeleteClick, onNewTextChange } =
-    useEditDeleteDoc({
-      docId: review.id,
-      newText,
-      setNewText,
-      collectionName,
-      setEditing,
-    });
+  const { onDeleteClick } = useDeleteDoc({ docId: review.id, collectionName });
+  const { showingGuide, onEditedSubmit, onEditedChange } = useEditDoc({
+    docId: review.id,
+    editedText,
+    setEditedText,
+    setEditing,
+    collectionName,
+  });
 
   const handleDeleteClick = async () => {
     onDeleteClick();
@@ -43,7 +44,7 @@ const ReviewBox = ({ review, docMonth, onReviewRemove }: PropsType) => {
   return (
     <>
       {editing ? (
-        <Form onSubmit={onNewTextSubmit}>
+        <Form onSubmit={onEditedSubmit}>
           <FormHeader>
             <UserInfoBox creatorId={review.creatorId} />
             <EditDeleteButton
@@ -55,9 +56,9 @@ const ReviewBox = ({ review, docMonth, onReviewRemove }: PropsType) => {
             />
           </FormHeader>
           <TextArea
-            value={newText}
+            value={editedText}
             placeholder="모임 후기를 수정해주세요."
-            onChange={onNewTextChange}
+            onChange={onEditedChange}
           />
           <RegisterTime>{timestamp(review.createdAt)}</RegisterTime>
           <BookTitleImgBox
@@ -78,7 +79,7 @@ const ReviewBox = ({ review, docMonth, onReviewRemove }: PropsType) => {
               toggleEditing={() => setEditing((prev) => !prev)}
             />
           </FormHeader>
-          <pre>{newText}</pre>
+          <pre>{editedText}</pre>
           <RegisterTime>{timestamp(review.createdAt)}</RegisterTime>
           <BookTitleImgBox
             thumbnail={review.thumbnail}

@@ -3,32 +3,33 @@ import { UpdateRequestDoc } from "util/getFirebaseDoc";
 import { timestamp } from "util/timestamp";
 import EditDeleteButton from "components/common/EditDeleteButton";
 import UserInfoBox from "components/common/UserInfoBox";
-import useEditDeleteDoc from "hooks/useEditDeleteDoc";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
+import useDeleteDoc from "hooks/useDeleteDoc";
+import useEditDoc from "hooks/useEditDoc";
 
 interface PropsType {
   request: UpdateRequestDoc;
 }
 
 const UpdateRequestBox = ({ request }: PropsType) => {
-  const [newText, setNewText] = useState(request.text);
+  const [editedText, setEditedText] = useState(request.text);
   const [editing, setEditing] = useState(false);
   const collectionName = "Update Request";
 
-  const { showingGuide, onNewTextSubmit, onDeleteClick, onNewTextChange } =
-    useEditDeleteDoc({
-      docId: request.id,
-      newText,
-      setNewText,
-      collectionName,
-      setEditing,
-    });
+  const { onDeleteClick } = useDeleteDoc({ docId: request.id, collectionName });
+  const { showingGuide, onEditedSubmit, onEditedChange } = useEditDoc({
+    docId: request.id,
+    editedText,
+    setEditedText,
+    setEditing,
+    collectionName,
+  });
 
   return (
     <Request>
       {editing ? (
-        <form onSubmit={onNewTextSubmit}>
+        <form onSubmit={onEditedSubmit}>
           <div>
             <UserInfoBox creatorId={request.creatorId} />
             <EditDeleteButton
@@ -41,8 +42,8 @@ const UpdateRequestBox = ({ request }: PropsType) => {
           </div>
           <textarea
             placeholder="수정해주세요."
-            value={newText}
-            onChange={onNewTextChange}
+            value={editedText}
+            onChange={onEditedChange}
           />
         </form>
       ) : (
@@ -61,7 +62,7 @@ const UpdateRequestBox = ({ request }: PropsType) => {
             <span className={request.type === "bug" ? "bug" : ""}>
               {request.type}
             </span>
-            {newText}
+            {editedText}
           </p>
         </form>
       )}

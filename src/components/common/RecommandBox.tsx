@@ -3,10 +3,11 @@ import { timestamp } from "util/timestamp";
 import { IWrittenDocs, FormHeader } from "components/common/SubjectBox";
 import UserInfoBox from "components/common/UserInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
-import useEditDeleteDoc from "hooks/useEditDeleteDoc";
 import EditDeleteButton from "./EditDeleteButton";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
+import useDeleteDoc from "hooks/useDeleteDoc";
+import useEditDoc from "hooks/useEditDoc";
 
 interface PropsType {
   recommend: IWrittenDocs;
@@ -15,18 +16,27 @@ interface PropsType {
 }
 
 const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
-  const [newText, setNewText] = useState(recommend.text);
+  const [editedText, setEditedText] = useState(recommend.text);
   const [editing, setEditing] = useState(false);
+
+  const {
+    id,
+    creatorId,
+    recommendBookTitle,
+    recommendBookAuthor,
+    recommendBookThumbnail,
+    recommendBookUrl,
+  } = recommend;
   const collectionName = `BookMeeting Info/${docMonth}/recommended book`;
 
-  const { showingGuide, onNewTextSubmit, onDeleteClick, onNewTextChange } =
-    useEditDeleteDoc({
-      docId: recommend.id,
-      newText,
-      setNewText,
-      collectionName,
-      setEditing,
-    });
+  const { onDeleteClick } = useDeleteDoc({ docId: id, collectionName });
+  const { showingGuide, onEditedSubmit, onEditedChange } = useEditDoc({
+    docId: id,
+    editedText,
+    setEditedText,
+    setEditing,
+    collectionName,
+  });
 
   const HandleDeleteClick = async () => {
     onDeleteClick();
@@ -38,32 +48,25 @@ const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
   return (
     <>
       {editing ? (
-        <Form onSubmit={onNewTextSubmit}>
+        <Form onSubmit={onEditedSubmit}>
           <FormHeader>
-            <UserInfoBox creatorId={recommend.creatorId} />
+            <UserInfoBox creatorId={creatorId} />
             <EditDeleteButton
               editing={editing}
               showingGuide={showingGuide}
-              creatorId={recommend.creatorId}
+              creatorId={creatorId}
               onDeleteClick={HandleDeleteClick}
               toggleEditing={() => setEditing((prev) => !prev)}
             />
           </FormHeader>
-          {recommend.recommendBookTitle ? (
+          {recommendBookTitle ? (
             <RecommendBook>
-              <img
-                src={recommend.recommendBookThumbnail}
-                alt="recommend book"
-              />
+              <img src={recommendBookThumbnail} alt="recommend book" />
               <div>
-                <h5>{recommend.recommendBookTitle}</h5>
-                <span>{recommend.recommendBookAuthor?.join(", ")}</span>
-                {recommend.recommendBookUrl && (
-                  <a
-                    href={recommend.recommendBookUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                <h5>{recommendBookTitle}</h5>
+                <span>{recommendBookAuthor?.join(", ")}</span>
+                {recommendBookUrl && (
+                  <a href={recommendBookUrl} target="_blank" rel="noreferrer">
                     상세정보 보러가기
                   </a>
                 )}
@@ -73,9 +76,9 @@ const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
             <></>
           )}
           <TextArea
-            value={newText}
+            value={editedText}
             placeholder="수정해주세요."
-            onChange={onNewTextChange}
+            onChange={onEditedChange}
           />
           <RegisterTime>{timestamp(recommend.createdAt)}</RegisterTime>
         </Form>
@@ -110,7 +113,7 @@ const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
               </div>
             </RecommendBook>
           )}
-          <pre>{newText}</pre>
+          <pre>{editedText}</pre>
           <RegisterTime>{timestamp(recommend.createdAt)}</RegisterTime>
           <BookTitleImgBox
             thumbnail={recommend.thumbnail}

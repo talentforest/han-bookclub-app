@@ -2,10 +2,11 @@ import { useState } from "react";
 import { timestamp } from "util/timestamp";
 import UserInfoBox from "components/common/UserInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
-import useEditDeleteDoc from "hooks/useEditDeleteDoc";
 import EditDeleteButton from "./EditDeleteButton";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
+import useDeleteDoc from "hooks/useDeleteDoc";
+import useEditDoc from "hooks/useEditDoc";
 
 export interface IWrittenDocs {
   id?: string;
@@ -28,19 +29,19 @@ interface ISubject {
 
 const SubjectBox = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
   const [editing, setEditing] = useState(false);
-  const [newText, setNewText] = useState(subject.text);
+  const [editedText, setEditedText] = useState(subject.text);
   const collectionName = `BookMeeting Info/${docMonth}/subjects`;
 
-  const { showingGuide, onNewTextSubmit, onDeleteClick, onNewTextChange } =
-    useEditDeleteDoc({
-      docId: subject.id,
-      newText,
-      setNewText,
-      collectionName,
-      setEditing,
-    });
+  const { onDeleteClick } = useDeleteDoc({ docId: subject.id, collectionName });
+  const { showingGuide, onEditedSubmit, onEditedChange } = useEditDoc({
+    docId: subject.id,
+    editedText,
+    setEditedText,
+    setEditing,
+    collectionName,
+  });
 
-  const HandleDeleteClick = async () => {
+  const handleDeleteClick = async () => {
     onDeleteClick();
     if (onSubjectRemove) {
       onSubjectRemove(subject.id);
@@ -50,21 +51,21 @@ const SubjectBox = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
   return (
     <Box>
       {editing ? (
-        <form onSubmit={onNewTextSubmit}>
+        <form onSubmit={onEditedSubmit}>
           <FormHeader>
             <UserInfoBox creatorId={subject.creatorId} />
             <EditDeleteButton
               editing={editing}
               showingGuide={showingGuide}
               creatorId={subject.creatorId}
-              onDeleteClick={HandleDeleteClick}
+              onDeleteClick={handleDeleteClick}
               toggleEditing={() => setEditing((prev) => !prev)}
             />
           </FormHeader>
           <TextArea
-            value={newText}
+            value={editedText}
             placeholder="발제문을 수정해주세요."
-            onChange={onNewTextChange}
+            onChange={onEditedChange}
           />
           <RegisterTime>{timestamp(subject.createdAt)}</RegisterTime>
           <BookTitleImgBox
@@ -81,11 +82,11 @@ const SubjectBox = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
               editing={editing}
               showingGuide={showingGuide}
               creatorId={subject.creatorId}
-              onDeleteClick={HandleDeleteClick}
+              onDeleteClick={handleDeleteClick}
               toggleEditing={() => setEditing((prev) => !prev)}
             />
           </FormHeader>
-          <pre>{newText}</pre>
+          <pre>{editedText}</pre>
           <RegisterTime>{timestamp(subject.createdAt)}</RegisterTime>
           <BookTitleImgBox
             thumbnail={subject.thumbnail}
