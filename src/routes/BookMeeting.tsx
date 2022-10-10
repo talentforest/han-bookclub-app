@@ -104,7 +104,7 @@ const BookMeeting = () => {
               모임후기 작성
             </Category>
           </Categories>
-          {pathname === "/bookmeeting/subjects" ? <SubjectArea /> : <Outlet />}
+          {pathname === "/bookmeeting" ? <SubjectArea /> : <Outlet />}
         </Container>
       )}
     </>

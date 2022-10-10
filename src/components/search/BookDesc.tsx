@@ -34,7 +34,7 @@ const BookDesc = ({ detailInfo }: PropsType) => {
         </li>
         <li>
           <ExpandCircleDown />
-          정가: {detailInfo?.price}원
+          정가: {detailInfo?.price.toLocaleString()}원
         </li>
       </ul>
       <p>줄거리 {detailInfo?.contents}...</p>
