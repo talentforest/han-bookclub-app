@@ -17,7 +17,7 @@ const useAddDoc = ({ text, setText, collectionName, docData }: PropsType) => {
   const onAddDocSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      if (text === "") return;
+      if (text.length === 0) return;
       if (authService.currentUser.isAnonymous) return alertAskJoinMember();
       await addDoc(docRef, docData);
     } catch (error) {

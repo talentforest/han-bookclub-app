@@ -11,10 +11,12 @@ import device from "theme/mediaQueries";
 import styled from "styled-components";
 import FormDetails from "components/voteDetail/FormDetails";
 import Percentage from "components/voteDetail/Percentage";
+import { useState } from "react";
 
 type LocationState = { state: { voteDetail: IVote } };
 
 const VoteDetail = () => {
+  const [voteDisabled, setVoteDisabled] = useState(false);
   const userData = useRecoilValue(currentUserState);
 
   const {
@@ -22,7 +24,6 @@ const VoteDetail = () => {
   } = useLocation() as LocationState;
 
   const {
-    voteDisabled,
     voteItems,
     totalVoteCount,
     myVote,
@@ -31,7 +32,7 @@ const VoteDetail = () => {
     personalVote,
     onVotingSubmit,
     onVoteItemClick,
-  } = useHandleVoting(voteDetail, userData.uid);
+  } = useHandleVoting(setVoteDisabled, voteDetail, userData.uid);
 
   function mySelectingItem(item: IVoteItem) {
     return selectedItems.find((ele) => ele.id === item.id);
