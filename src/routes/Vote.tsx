@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Container } from "theme/commonStyle";
 import { useRecoilState } from "recoil";
 import { votesState } from "data/documentsAtom";
-import { getCollection } from "util/getFirebaseDoc";
+import { getCollection, IVote } from "util/getFirebaseDoc";
 import { today } from "util/constants";
 import VoteBox from "components/vote/VoteBox";
 import VoteCreateBox from "components/vote/VoteCreateBox";
@@ -26,7 +26,7 @@ const Vote = () => {
     setModalOpen((prev) => !prev);
   };
 
-  const progressVote = votes.filter((item) => item.deadline >= today());
+  const progressVotes = votes.filter((item: IVote) => item.deadline >= today());
   const expiredVote = votes.filter((item) => item.deadline < today());
 
   return (
@@ -49,8 +49,8 @@ const Vote = () => {
             </section>
           )}
           <VoteList>
-            {progressVote?.length ? (
-              progressVote.map((voteDetail) => (
+            {progressVotes?.length ? (
+              progressVotes.map((voteDetail) => (
                 <VoteBox key={voteDetail.id} voteDetail={voteDetail} />
               ))
             ) : (

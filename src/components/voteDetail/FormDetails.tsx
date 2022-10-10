@@ -1,7 +1,12 @@
-import { Help } from "@mui/icons-material";
+import { Delete, Help } from "@mui/icons-material";
 import { today } from "util/constants";
 import { IVote } from "util/getFirebaseDoc";
 import { dDay } from "util/timestamp";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "data/userAtom";
+import { useNavigate } from "react-router-dom";
+import { deleteDoc, doc } from "firebase/firestore";
+import { dbService } from "fbase";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
@@ -12,7 +17,21 @@ interface PropsType {
 }
 
 const FormDetails = ({ voteDetail }: PropsType) => {
-  const { deadline, vote, creatorId } = voteDetail;
+  const { deadline, vote, creatorId, id } = voteDetail;
+  const userData = useRecoilValue(currentUserState);
+  const navigate = useNavigate();
+  const docRef = doc(dbService, `Vote`, `${id}`);
+
+  const onDeleteClick = async () => {
+    const confirm = window.confirm("정말 투표를 삭제하시겠습니까?");
+    if (confirm) {
+      await deleteDoc(docRef);
+      navigate(-1);
+    } else {
+      return;
+    }
+  };
+
   return (
     <>
       <span>
@@ -25,9 +44,12 @@ const FormDetails = ({ voteDetail }: PropsType) => {
           <Help />
           {vote.title}
         </h4>
-        <span>
-          투표 등록: <UserInfoBox creatorId={creatorId} />
-        </span>
+        <div>
+          <span>
+            투표 등록: <UserInfoBox creatorId={creatorId} />
+          </span>
+          {creatorId === userData.uid && <Delete onClick={onDeleteClick} />}
+        </div>
       </VoteHeader>
       {vote.voteItem[0].selectReason && (
         <Reasons>
@@ -64,12 +86,21 @@ const VoteHeader = styled.header`
       margin: 4px 5px 0 0;
     }
   }
-  > span {
+  > div {
     display: flex;
-    align-items: center;
-    font-size: 14px;
-    > div {
-      margin-left: 5px;
+    justify-content: space-between;
+    > span {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+    }
+    svg {
+      cursor: pointer;
+      transition: transform 0.3ms ease;
+      &:hover {
+        fill: ${(props) => props.theme.container.blue};
+        transform: scale(1.1);
+      }
     }
   }
   @media ${device.tablet} {
@@ -79,7 +110,7 @@ const VoteHeader = styled.header`
         margin: 8px 5px 0 0;
       }
     }
-    > span {
+    span {
       font-size: 16px;
     }
   }

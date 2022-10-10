@@ -41,7 +41,7 @@ const Home = () => {
     getCollection("Vote", setVotes);
   }, [setThisMonthDoc, setBookFields, setVotes]);
 
-  const progressVote = votes.filter((item: IVote) => item.deadline >= today());
+  const progressVotes = votes.filter((item: IVote) => item.deadline >= today());
   const checkThisMonthDoc = Object.keys(thisMonthDoc).length;
 
   return (
@@ -74,9 +74,9 @@ const Home = () => {
           </section>
           <VoteSlider>
             <Subtitle title={"한페이지의 투표함"} />
-            {progressVote.length ? (
-              <Slider {...settings(progressVote.length)}>
-                {progressVote?.map((voteDetail) => (
+            {progressVotes.length ? (
+              <Slider {...settings(progressVotes.length)}>
+                {progressVotes?.map((voteDetail) => (
                   <VoteBox key={voteDetail.id} voteDetail={voteDetail} />
                 ))}
               </Slider>
