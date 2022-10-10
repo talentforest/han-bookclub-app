@@ -1,19 +1,26 @@
-import { IWrittenDocs } from "components/common/SubjectBox";
 import { currentUserState } from "data/userAtom";
-import { useRecoilValue } from "recoil";
-import { IBookMeeting } from "util/getFirebaseDoc";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { getCollection, getDocument } from "util/getFirebaseDoc";
+import { useEffect } from "react";
+import { recommendsState, thisMonthState } from "data/documentsAtom";
+import { thisYearMonth } from "util/constants";
 import RecommandBox from "components/common/RecommandBox";
 import RecommendCreateBox from "components/bookmeeting/RecommendCreateBox";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 
-interface PropsType {
-  thisMonthDoc: IBookMeeting;
-  recommends: IWrittenDocs[];
-}
-
-const RecommendationArea = ({ thisMonthDoc, recommends }: PropsType) => {
+const RecommendationArea = () => {
   const userData = useRecoilValue(currentUserState);
+  const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
+  const [recommends, setRecommends] = useRecoilState(recommendsState);
+
+  useEffect(() => {
+    getDocument("BookMeeting Info", `${thisYearMonth}`, setThisMonthDoc);
+    getCollection(
+      `BookMeeting Info/${thisYearMonth}/recommended book`,
+      setRecommends
+    );
+  }, [setThisMonthDoc, setRecommends]);
 
   return (
     <>

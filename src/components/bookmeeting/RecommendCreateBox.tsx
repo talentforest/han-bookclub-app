@@ -41,6 +41,7 @@ const RecommendCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
   });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (myRecommendBook?.title === "") {
       window.alert("추천책 정보를 찾아서 넣어주세요.");
       return;

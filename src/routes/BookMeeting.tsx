@@ -1,18 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Container } from "theme/commonStyle";
 import { useRecoilState } from "recoil";
-import { thisMonthState } from "data/documentsAtom";
-import { getDocument } from "util/getFirebaseDoc";
+import { hostReviewState, thisMonthState } from "data/documentsAtom";
+import { getCollection, getDocument } from "util/getFirebaseDoc";
 import { thisYearMonth } from "util/constants";
 import { getMonthNumber } from "util/getMonthNumber";
-import useCallAllRecords from "hooks/useCallAllRecords";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Loading from "components/common/Loading";
 import Subtitle from "components/common/Subtitle";
-import RecommendationArea, {
-  EmptyRecord,
-} from "components/template/RecommendationArea";
-import SubjectArea from "components/template/SubjectArea";
-import ReviewArea from "components/template/ReviewArea";
+import { EmptyRecord } from "components/template/RecommendationArea";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import styled from "styled-components";
@@ -20,21 +16,21 @@ import device from "theme/mediaQueries";
 import Guide from "components/common/Guide";
 import HostReviewCreateModal from "components/bookmeeting/HostReviewCreateModal";
 import HostReviewBox from "components/common/HostReviewBox";
+import SubjectArea from "components/template/SubjectArea";
 
 const BookMeeting = () => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
-  const [selectedCategory, setSelectedCategory] = useState("subjects");
-  const { subjects, reviews, recommends, hostReview } = useCallAllRecords(
-    thisMonthDoc?.id
-  );
+  const [hostReview, setHostReview] = useRecoilState(hostReviewState);
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     getDocument("BookMeeting Info", `${thisYearMonth}`, setThisMonthDoc);
-  }, [setThisMonthDoc]);
-
-  const handleCategoryClick = (category: string) => {
-    setSelectedCategory(category);
-  };
+    getCollection(
+      `BookMeeting Info/${thisYearMonth}/host review`,
+      setHostReview
+    );
+  }, [setThisMonthDoc, setHostReview]);
 
   const checkThisMonthDoc = Object.keys(thisMonthDoc).length;
 
@@ -80,37 +76,35 @@ const BookMeeting = () => {
             )}
           </AfterMeetingRecord>
           <Categories>
-            <button
-              className={selectedCategory === "recommends" ? "isActive" : ""}
-              onClick={() => handleCategoryClick("recommends")}
+            <Category
+              $isActive={pathname === "/bookmeeting/recommends"}
+              onClick={() => {
+                navigate("/bookmeeting/recommends");
+              }}
             >
               추천책 작성
-            </button>
-            <button
-              className={selectedCategory === "subjects" ? "isActive" : ""}
-              onClick={() => handleCategoryClick("subjects")}
+            </Category>
+            <Category
+              $isActive={
+                pathname === "/bookmeeting" ||
+                pathname === "/bookmeeting/subjects"
+              }
+              onClick={() => {
+                navigate("/bookmeeting/subjects");
+              }}
             >
               발제문 작성
-            </button>
-            <button
-              className={selectedCategory === "reviews" ? "isActive" : ""}
-              onClick={() => handleCategoryClick("reviews")}
+            </Category>
+            <Category
+              $isActive={pathname === "/bookmeeting/reviews"}
+              onClick={() => {
+                navigate("/bookmeeting/reviews");
+              }}
             >
               모임후기 작성
-            </button>
+            </Category>
           </Categories>
-          {selectedCategory === "recommends" && (
-            <RecommendationArea
-              recommends={recommends}
-              thisMonthDoc={thisMonthDoc}
-            />
-          )}
-          {selectedCategory === "subjects" && (
-            <SubjectArea subjects={subjects} thisMonthDoc={thisMonthDoc} />
-          )}
-          {selectedCategory === "reviews" && (
-            <ReviewArea reviews={reviews} thisMonthDoc={thisMonthDoc} />
-          )}
+          {pathname === "/bookmeeting/subjects" ? <SubjectArea /> : <Outlet />}
         </Container>
       )}
     </>
@@ -156,32 +150,30 @@ const Categories = styled.div`
   margin: 20px 0 10px;
   border-radius: 60px;
   background-color: ${(props) => props.theme.container.lightBlue};
-  > button {
-    cursor: pointer;
-    width: 100%;
-    padding: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    border: none;
-    border-radius: 30px;
-    background-color: #eaeaea;
-    color: #aaa;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &.isActive {
-      background-color: ${(props) => props.theme.container.blue};
-      color: ${(props) => props.theme.text.white};
-    }
-  }
   @media ${device.tablet} {
     border-radius: 30px;
     padding: 8px 10px;
-    > button {
-      padding: 12px 8px;
-      height: 100%;
-      font-size: 16px;
-    }
+  }
+`;
+
+const Category = styled.button<{ $isActive: boolean }>`
+  cursor: pointer;
+  width: 100%;
+  padding: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  border: none;
+  border-radius: 30px;
+  background-color: ${(props) =>
+    props.$isActive ? props.theme.container.blue : "#eaeaea"};
+  color: ${(props) => (props.$isActive ? props.theme.text.white : "#aaa")};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media ${device.tablet} {
+    padding: 12px 8px;
+    height: 100%;
+    font-size: 16px;
   }
 `;
 

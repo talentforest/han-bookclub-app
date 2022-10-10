@@ -1,14 +1,21 @@
-import { IBookMeeting } from "util/getFirebaseDoc";
+import { getCollection, getDocument } from "util/getFirebaseDoc";
 import { EmptyRecord, RecordBox } from "./RecommendationArea";
 import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
-import Subjects, { IWrittenDocs } from "components/common/SubjectBox";
+import Subjects from "components/common/SubjectBox";
+import { useRecoilState } from "recoil";
+import { subjectsState, thisMonthState } from "data/documentsAtom";
+import { useEffect } from "react";
+import { thisYearMonth } from "util/constants";
 
-interface PropsType {
-  thisMonthDoc: IBookMeeting;
-  subjects: IWrittenDocs[];
-}
+const SubjectArea = () => {
+  const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
+  const [subjects, setSubjects] = useRecoilState(subjectsState);
 
-const SubjectArea = ({ thisMonthDoc, subjects }: PropsType) => {
+  useEffect(() => {
+    getDocument("BookMeeting Info", `${thisYearMonth}`, setThisMonthDoc);
+    getCollection(`BookMeeting Info/${thisYearMonth}/subjects`, setSubjects);
+  }, [setThisMonthDoc, setSubjects]);
+
   return (
     <>
       <SubjectCreateModal

@@ -22,7 +22,9 @@ import DeleteAccount from "components/settings/DeleteAccount";
 import ClubHistoryDetail from "routes/ClubHistoryDetail";
 import MobileHeader from "components/header/MobileHeader";
 import ScrollToTop from "components/common/ScrollToTop";
-
+import SubjectArea from "components/template/SubjectArea";
+import RecommendationArea from "components/template/RecommendationArea";
+import ReviewArea from "components/template/ReviewArea";
 interface PropsType {
   isLoggedIn: boolean;
 }
@@ -42,7 +44,11 @@ function Router({ isLoggedIn }: PropsType) {
         {isLoggedIn ? (
           <>
             <Route path="/" element={<Home />} />
-            <Route path="/bookmeeting" element={<BookMeeting />} />
+            <Route path="/bookmeeting" element={<BookMeeting />}>
+              <Route path="subjects" element={<SubjectArea />} />
+              <Route path="recommends" element={<RecommendationArea />} />
+              <Route path="reviews" element={<ReviewArea />} />
+            </Route>
             <Route path="/search" element={<Search />} />
             <Route path="/search/:id" element={<SearchedBookInfo />} />
             <Route path="/history" element={<ClubHistory />} />

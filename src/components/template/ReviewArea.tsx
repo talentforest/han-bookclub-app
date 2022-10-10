@@ -1,15 +1,21 @@
-import { IWrittenDocs } from "components/common/SubjectBox";
-import { IBookMeeting } from "util/getFirebaseDoc";
+import { getCollection, getDocument } from "util/getFirebaseDoc";
 import { EmptyRecord, RecordBox } from "./RecommendationArea";
+import { useEffect } from "react";
+import { thisYearMonth } from "util/constants";
+import { useRecoilState } from "recoil";
+import { reviewsState, thisMonthState } from "data/documentsAtom";
 import ReviewCreateBox from "components/bookmeeting/ReviewCreateBox";
 import ReviewBox from "components/common/ReviewBox";
 
-interface PropsType {
-  thisMonthDoc: IBookMeeting;
-  reviews: IWrittenDocs[];
-}
+const ReviewArea = () => {
+  const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
+  const [reviews, setReviews] = useRecoilState(reviewsState);
 
-const ReviewArea = ({ thisMonthDoc, reviews }: PropsType) => {
+  useEffect(() => {
+    getDocument("BookMeeting Info", `${thisYearMonth}`, setThisMonthDoc);
+    getCollection(`BookMeeting Info/${thisYearMonth}/reviews`, setReviews);
+  }, [setThisMonthDoc, setReviews]);
+
   return (
     <>
       <ReviewCreateBox
