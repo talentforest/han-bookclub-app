@@ -28,7 +28,7 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
     thumbnail: bookInfo.thumbnail,
   };
 
-  const { onAddDocSubmit, onTextChange } = useAddDoc({
+  const { onAddDocSubmit, onChange } = useAddDoc({
     text,
     setText,
     collectionName,
@@ -62,7 +62,7 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
             <textarea
               placeholder="책을 읽으며 이야기하고 싶었던 주제들을 자유롭게 작성해주세요."
               value={text}
-              onChange={onTextChange}
+              onChange={onChange}
             />
             <div>
               <SubmitBtn type="submit" value="남기기" />

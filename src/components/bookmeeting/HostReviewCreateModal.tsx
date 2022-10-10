@@ -28,7 +28,7 @@ const HostReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
     thumbnail: bookInfo.thumbnail,
   };
 
-  const { onAddDocSubmit, onTextChange } = useAddDoc({
+  const { onAddDocSubmit, onChange } = useAddDoc({
     text,
     setText,
     collectionName,
@@ -61,7 +61,7 @@ const HostReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
             <textarea
               placeholder="발제자는 모임 후 모임에서 나눈 이야기를 자유롭게 작성해주세요."
               value={text}
-              onChange={onTextChange}
+              onChange={onChange}
             />
             <div>
               <SubmitBtn type="submit" value="남기기" />

@@ -24,7 +24,7 @@ const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
     thumbnail: bookInfo.thumbnail,
   };
 
-  const { onAddDocSubmit, onTextChange } = useAddDoc({
+  const { onAddDocSubmit, onChange } = useAddDoc({
     text,
     setText,
     collectionName,
@@ -36,7 +36,7 @@ const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
       <TextArea
         placeholder="모임에서 가장 인상적이었던 이야기나 모임 후기를 작성해주세요(한 문장도 좋아요!)."
         value={text}
-        onChange={onTextChange}
+        onChange={onChange}
       />
       <Button>
         <SubmitBtn type="submit" value="남기기" />

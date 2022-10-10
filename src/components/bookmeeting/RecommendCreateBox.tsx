@@ -33,7 +33,7 @@ const RecommendCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
     recommendBookAuthor: myRecommendBook?.authors,
   };
 
-  const { onAddDocSubmit, onTextChange } = useAddDoc({
+  const { onAddDocSubmit, onChange } = useAddDoc({
     text,
     setText,
     collectionName,
@@ -57,7 +57,7 @@ const RecommendCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
       </Link>
       <textarea
         placeholder="이달의 책과 관련해 추천하고 싶은 책을 작성해주세요. 위에서 추천책 정보를 찾으실 수 있습니다."
-        onChange={onTextChange}
+        onChange={onChange}
         value={text}
       />
       {myRecommendBook?.thumbnail ? (

@@ -26,11 +26,11 @@ const useAddDoc = ({ text, setText, collectionName, docData }: PropsType) => {
     setText("");
   };
 
-  function onTextChange(event: React.FormEvent<HTMLTextAreaElement>) {
+  function onChange(event: React.FormEvent<HTMLTextAreaElement>) {
     setText(event.currentTarget.value);
   }
 
-  return { onAddDocSubmit, onTextChange };
+  return { onAddDocSubmit, onChange };
 };
 
 export default useAddDoc;
