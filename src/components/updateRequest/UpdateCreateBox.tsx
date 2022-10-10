@@ -11,7 +11,7 @@ const UpdateCreateBox = () => {
   const userData = useRecoilValue(currentUserState);
   const collectionName = "Update Request";
 
-  const document = {
+  const docData = {
     text,
     createdAt: Date.now(),
     creatorId: userData.uid,
@@ -22,7 +22,7 @@ const UpdateCreateBox = () => {
     text,
     setText,
     collectionName,
-    document,
+    docData,
   });
 
   const onRequestChange = (

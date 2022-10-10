@@ -21,7 +21,7 @@ const RecommendCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
   const userData = useRecoilValue(currentUserState);
   const collectionName = `BookMeeting Info/${docMonth}/recommended book`;
 
-  const document = {
+  const docData = {
     text: text,
     createdAt: Date.now(),
     creatorId: userData.uid,
@@ -37,7 +37,7 @@ const RecommendCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
     text,
     setText,
     collectionName,
-    document,
+    docData,
   });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

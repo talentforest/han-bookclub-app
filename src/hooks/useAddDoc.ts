@@ -7,33 +7,26 @@ interface PropsType {
   text: string;
   setText: (text: string) => void;
   collectionName: string;
-  document: IWrittenDocs;
+  docData: IWrittenDocs;
 }
 
-const useAddDoc = ({ text, setText, collectionName, document }: PropsType) => {
-  const { alertAskJoin } = useAlertAskJoin();
+const useAddDoc = ({ text, setText, collectionName, docData }: PropsType) => {
+  const { alertAskJoinMember } = useAlertAskJoin();
+  const docRef = collection(dbService, collectionName);
 
   const onAddDocSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (text === "") return;
-    addDocForMemberOnly();
-  };
-
-  function addDocForMemberOnly() {
     try {
-      if (authService.currentUser.isAnonymous) return alertAskJoin();
-      addDocument();
+      if (text === "") return;
+      if (authService.currentUser.isAnonymous) return alertAskJoinMember();
+      await addDoc(docRef, docData);
     } catch (error) {
       console.error("Error adding document:", error);
     }
     setText("");
-  }
+  };
 
-  async function addDocument() {
-    await addDoc(collection(dbService, collectionName), document);
-  }
-
-  async function onTextChange(event: React.FormEvent<HTMLTextAreaElement>) {
+  function onTextChange(event: React.FormEvent<HTMLTextAreaElement>) {
     setText(event.currentTarget.value);
   }
 

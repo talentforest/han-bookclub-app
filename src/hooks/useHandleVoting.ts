@@ -9,7 +9,7 @@ const useHandleVoting = (voteDetail: IVote, userDataUid: string) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [voteItems, setVoteItems] = useState(voteDetail?.vote.voteItem);
   const [personalVote, setPersonalVote] = useState([]);
-  const { alertAskJoin } = useAlertAskJoin();
+  const { alertAskJoinMember } = useAlertAskJoin();
   const anonymous = authService.currentUser?.isAnonymous;
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const useHandleVoting = (voteDetail: IVote, userDataUid: string) => {
   }
 
   const onVoteItemClick = (id: number, value: string, voteCount: number) => {
-    if (anonymous) return alertAskJoin();
+    if (anonymous) return alertAskJoinMember();
     selectVoteItem(id, value);
     updateVoteCount(id, voteCount);
   };

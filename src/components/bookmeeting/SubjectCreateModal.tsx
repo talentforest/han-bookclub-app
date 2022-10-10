@@ -20,7 +20,7 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
   const collectionName = `BookMeeting Info/${docMonth}/subjects`;
   const userData = useRecoilValue(currentUserState);
 
-  const document = {
+  const docData = {
     text,
     createdAt: Date.now(),
     creatorId: userData.uid,
@@ -32,7 +32,7 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
     text,
     setText,
     collectionName,
-    document,
+    docData,
   });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

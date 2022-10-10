@@ -16,7 +16,7 @@ const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
   const collectionName = `BookMeeting Info/${docMonth}/reviews`;
   const userData = useRecoilValue(currentUserState);
 
-  const document = {
+  const docData = {
     text,
     createdAt: Date.now(),
     creatorId: userData.uid,
@@ -28,7 +28,7 @@ const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
     text,
     setText,
     collectionName,
-    document,
+    docData,
   });
 
   return (

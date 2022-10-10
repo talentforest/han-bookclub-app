@@ -21,7 +21,7 @@ const useCreateVoteBox = (
     ],
   });
 
-  const { alertAskJoin } = useAlertAskJoin();
+  const { alertAskJoinMember } = useAlertAskJoin();
 
   const addDocVote = async () => {
     await addDoc(collection(dbService, "Vote"), {
@@ -38,7 +38,7 @@ const useCreateVoteBox = (
     if (!vote.title) return;
     try {
       if (authService.currentUser.isAnonymous) {
-        alertAskJoin();
+        alertAskJoinMember();
       } else {
         addDocVote();
         window.alert("투표가 성공적으로 등록되었습니다!");

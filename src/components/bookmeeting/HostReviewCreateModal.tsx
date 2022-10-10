@@ -20,7 +20,7 @@ const HostReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
   const collectionName = `BookMeeting Info/${docMonth}/host review`;
   const userData = useRecoilValue(currentUserState);
 
-  const document = {
+  const docData = {
     text,
     createdAt: Date.now(),
     creatorId: userData.uid,
@@ -32,7 +32,7 @@ const HostReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
     text,
     setText,
     collectionName,
-    document,
+    docData,
   });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
