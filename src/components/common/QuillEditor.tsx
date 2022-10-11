@@ -50,6 +50,7 @@ const QuillEditor = ({
 const Editor = styled(ReactQuill)`
   background-color: white;
   margin-bottom: 10px;
+  width: 100%;
   .ql-container {
     width: 100%;
     word-break: break-all;

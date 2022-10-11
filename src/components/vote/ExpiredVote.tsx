@@ -82,9 +82,10 @@ const Info = styled.div`
 `;
 
 const ShowButton = styled.div`
-  width: 18%;
   display: flex;
   align-items: center;
+  font-size: 14px;
+  width: 50px;
   svg {
     margin: 2px 0 0 3px;
     width: 16px;
