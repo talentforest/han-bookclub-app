@@ -8,6 +8,7 @@ import BookTitleImgBox from "components/common/BookTitleImgBox";
 import useAddDoc from "hooks/useAddDoc";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
+import PostButton from "components/common/PostButton";
 
 interface PropsType {
   uid: string;
@@ -85,7 +86,7 @@ const RecommendCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
           title={thisMonthBook.title}
           smSize={"smSize"}
         />
-        <input type="submit" value="추천하기" />
+        <PostButton value="추천하기" />
       </ThisMonthBook>
     </Form>
   );
@@ -177,19 +178,6 @@ const ThisMonthBook = styled.div`
   align-items: center;
   width: 100%;
   margin-top: 10px;
-  > div {
-    margin: 0;
-  }
-  input {
-    cursor: pointer;
-    border: none;
-    background-color: ${(props) => props.theme.container.blue};
-    color: #fff;
-    border-radius: 5px;
-    padding: 3px 5px;
-    font-size: 14px;
-    height: 40px;
-  }
 `;
 
 export default RecommendCreateBox;

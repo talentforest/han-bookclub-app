@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { IBookApi } from "data/bookAtom";
-import { SubmitBtn } from "theme/commonStyle";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import useAddDoc from "hooks/useAddDoc";
 import styled from "styled-components";
+import PostButton from "components/common/PostButton";
 
 interface PropsType {
   bookInfo: IBookApi;
@@ -38,9 +38,7 @@ const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
         value={text}
         onChange={onChange}
       />
-      <Button>
-        <SubmitBtn type="submit" value="남기기" />
-      </Button>
+      <PostButton value="남기기" />
     </Form>
   );
 };
@@ -48,17 +46,11 @@ const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
 const Form = styled.form`
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.2);
-  padding: 10px 15px 0px;
+  padding: 10px 15px;
   border-radius: 10px;
   margin-bottom: 20px;
-`;
-
-const Button = styled.div`
-  width: 100%;
   display: flex;
-  justify-content: flex-end;
-  -webkit-justify-content: flex-end;
-  padding: 0px 0 10px;
+  flex-direction: column;
 `;
 
 const TextArea = styled.textarea`

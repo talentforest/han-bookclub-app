@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { SubmitBtn } from "theme/commonStyle";
 import { Close } from "@mui/icons-material";
 import { IBookApi } from "data/bookAtom";
 import { useRecoilValue } from "recoil";
@@ -11,6 +10,7 @@ import device from "theme/mediaQueries";
 import "react-quill/dist/quill.snow.css";
 import QuillEditor from "components/common/QuillEditor";
 import AddDocButton from "./AddDocButton";
+import PostButton from "components/common/PostButton";
 
 interface PropsType {
   bookInfo: IBookApi;
@@ -67,7 +67,7 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
               content={text}
               setContent={setText}
             />
-            <SubmitBtn type="submit" value="남기기" />
+            <PostButton value="남기기" />
           </Modal>
         </>
       ) : (

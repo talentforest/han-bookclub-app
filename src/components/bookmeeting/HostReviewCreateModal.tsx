@@ -1,6 +1,5 @@
 import { Close } from "@mui/icons-material";
 import { useState } from "react";
-import { SubmitBtn } from "theme/commonStyle";
 import { IBookApi } from "data/bookAtom";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
@@ -10,6 +9,7 @@ import Overlay from "components/common/Overlay";
 import useAddDoc from "hooks/useAddDoc";
 import QuillEditor from "components/common/QuillEditor";
 import AddDocButton from "./AddDocButton";
+import PostButton from "components/common/PostButton";
 
 interface PropsType {
   docMonth: string;
@@ -66,7 +66,7 @@ const HostReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
               content={text}
               setContent={setText}
             />
-            <SubmitBtn type="submit" value="남기기" />
+            <PostButton value="남기기" />
           </Form>
         </>
       )}

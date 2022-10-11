@@ -12,19 +12,6 @@ export const Container = styled.main`
   }
 `;
 
-export const SubmitBtn = styled.input`
-  border: none;
-  background-color: ${(props) => props.theme.container.blue};
-  color: ${(props) => props.theme.text.white};
-  font-size: 16px;
-  padding: 8px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  @media ${device.tablet} {
-    font-size: 18px;
-  }
-`;
-
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
