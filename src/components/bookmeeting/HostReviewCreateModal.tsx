@@ -3,8 +3,7 @@ import { useState } from "react";
 import { IBookApi } from "data/bookAtom";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
+import { Modal } from "./SubjectCreateModal";
 import Overlay from "components/common/Overlay";
 import useAddDoc from "hooks/useAddDoc";
 import QuillEditor from "components/common/QuillEditor";
@@ -56,7 +55,7 @@ const HostReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
       {modalOpen && (
         <>
           <Overlay onModalClick={onModalClick} />
-          <Form onSubmit={handleSubmit}>
+          <Modal onSubmit={handleSubmit}>
             <h3>
               발제자의 정리 기록 작성하기 <Close onClick={onModalClick} />
             </h3>
@@ -67,54 +66,11 @@ const HostReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
               setContent={setText}
             />
             <PostButton value="남기기" />
-          </Form>
+          </Modal>
         </>
       )}
     </>
   );
 };
-
-const Form = styled.form`
-  z-index: 2;
-  position: fixed;
-  top: 30px;
-  right: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px 15px;
-  margin: 0 20px;
-  border-radius: 10px;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-  background-color: ${(props) => props.theme.container.lightBlue};
-  > h3 {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 10px;
-    font-weight: 700;
-    font-size: 17px;
-    width: 100%;
-    text-align: start;
-    svg {
-      cursor: pointer;
-    }
-  }
-  @media ${device.tablet} {
-    width: 70%;
-    margin: 0 auto;
-    padding: 20px;
-    border-radius: 10px;
-    > h3 {
-      font-size: 18px;
-      svg {
-        cursor: pointer;
-        width: 24px;
-        height: 24px;
-      }
-    }
-  }
-`;
 
 export default HostReviewCreateModal;

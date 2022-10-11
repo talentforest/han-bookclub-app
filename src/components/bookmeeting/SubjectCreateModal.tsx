@@ -54,7 +54,7 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
         title="발제문 참여하기"
         description="필수 발제자를 포함하여 누구나 참여 가능해요."
       />
-      {modalOpen ? (
+      {modalOpen && (
         <>
           <Overlay onModalClick={onModalClick} />
           <Modal onSubmit={handleSubmit}>
@@ -70,14 +70,12 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
             <PostButton value="남기기" />
           </Modal>
         </>
-      ) : (
-        <></>
       )}
     </>
   );
 };
 
-const Modal = styled.form`
+export const Modal = styled.form`
   z-index: 2;
   position: fixed;
   top: 50px;
@@ -88,7 +86,7 @@ const Modal = styled.form`
   align-items: center;
   padding: 20px;
   margin: 0 auto;
-  width: 80%;
+  width: 85%;
   border-radius: 10px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   background-color: ${(props) => props.theme.container.lightBlue};
