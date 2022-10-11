@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { timestamp } from "util/timestamp";
-import { IWrittenDocs, FormHeader } from "components/common/SubjectBox";
+import { IWrittenDocs } from "components/common/SubjectBox";
 import UserInfoBox from "components/common/UserInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import EditDeleteButton from "./EditDeleteButton";
@@ -49,7 +49,7 @@ const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
     <>
       {editing ? (
         <Form onSubmit={onEditedSubmit}>
-          <FormHeader>
+          <Header>
             <UserInfoBox creatorId={creatorId} />
             <EditDeleteButton
               editing={editing}
@@ -58,7 +58,7 @@ const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
               onDeleteClick={HandleDeleteClick}
               toggleEditing={() => setEditing((prev) => !prev)}
             />
-          </FormHeader>
+          </Header>
           {recommendBookTitle ? (
             <RecommendBook>
               <img src={recommendBookThumbnail} alt="recommend book" />
@@ -84,7 +84,7 @@ const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
         </Form>
       ) : (
         <Form>
-          <FormHeader>
+          <Header>
             <UserInfoBox creatorId={recommend.creatorId} />
             <EditDeleteButton
               editing={editing}
@@ -93,7 +93,7 @@ const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
               onDeleteClick={HandleDeleteClick}
               toggleEditing={() => setEditing((prev) => !prev)}
             />
-          </FormHeader>
+          </Header>
           {recommend.recommendBookTitle && (
             <RecommendBook>
               <img
@@ -125,6 +125,14 @@ const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
     </>
   );
 };
+
+const Header = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+`;
 
 export const Form = styled.form`
   padding: 15px 10px 20px;

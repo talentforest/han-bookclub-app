@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SubmitBtn } from "theme/commonStyle";
-import { Add, Close } from "@mui/icons-material";
+import { Close } from "@mui/icons-material";
 import { IBookApi } from "data/bookAtom";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
@@ -8,6 +8,9 @@ import Overlay from "components/common/Overlay";
 import useAddDoc from "hooks/useAddDoc";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
+import "react-quill/dist/quill.snow.css";
+import QuillEditor from "components/common/QuillEditor";
+import AddDocButton from "./AddDocButton";
 
 interface PropsType {
   bookInfo: IBookApi;
@@ -28,7 +31,7 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
     thumbnail: bookInfo.thumbnail,
   };
 
-  const { onAddDocSubmit, onChange } = useAddDoc({
+  const { onAddDocSubmit } = useAddDoc({
     text,
     setText,
     collectionName,
@@ -46,28 +49,26 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
 
   return (
     <>
-      <AddSubject>
-        <span onClick={onModalClick}>
-          <Add /> 발제문 참여하기
-        </span>
-        <p>필수 발제자를 포함하여 누구나 참여 가능해요.</p>
-      </AddSubject>
+      <AddDocButton
+        onModalClick={onModalClick}
+        title="발제문 참여하기"
+        description="필수 발제자를 포함하여 누구나 참여 가능해요."
+      />
       {modalOpen ? (
         <>
           <Overlay onModalClick={onModalClick} />
-          <Form onSubmit={handleSubmit}>
+          <Modal onSubmit={handleSubmit}>
             <h3>
               발제문 작성하기 <Close onClick={onModalClick} />
             </h3>
-            <textarea
-              placeholder="책을 읽으며 이야기하고 싶었던 주제들을 자유롭게 작성해주세요."
-              value={text}
-              onChange={onChange}
+            <QuillEditor
+              editing={true}
+              placeholder="모임에서 나누고 싶은 주제를 자유롭게 작성해주세요."
+              content={text}
+              setContent={setText}
             />
-            <div>
-              <SubmitBtn type="submit" value="남기기" />
-            </div>
-          </Form>
+            <SubmitBtn type="submit" value="남기기" />
+          </Modal>
         </>
       ) : (
         <></>
@@ -76,56 +77,18 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
   );
 };
 
-const AddSubject = styled.div`
-  padding: 0 3px;
-  p {
-    margin: 4px 0px 0px 4px;
-    font-size: 14px;
-    color: ${(props) => props.theme.text.lightBlue};
-  }
-  span {
-    width: fit-content;
-    color: ${(props) => props.theme.text.accent};
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    svg {
-      fill: ${(props) => props.theme.text.accent};
-      width: 22px;
-      height: 22px;
-      margin-right: 5px;
-    }
-  }
-  @media ${device.tablet} {
-    p {
-      margin: 10px 0;
-      font-size: 16px;
-    }
-    span {
-      font-size: 18px;
-      svg {
-        fill: ${(props) => props.theme.text.accent};
-        width: 25px;
-        height: 25px;
-        margin-right: 5px;
-      }
-    }
-  }
-`;
-
-const Form = styled.form`
+const Modal = styled.form`
   z-index: 2;
   position: fixed;
-  top: 30px;
+  top: 50px;
   right: 0;
   left: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 15px;
-  margin: 0 20px;
+  padding: 20px;
+  margin: 0 auto;
+  width: 80%;
   border-radius: 10px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   background-color: ${(props) => props.theme.container.lightBlue};
@@ -137,61 +100,20 @@ const Form = styled.form`
     font-weight: 700;
     font-size: 17px;
     width: 100%;
-    text-align: start;
     svg {
       cursor: pointer;
-    }
-  }
-  > div {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    -webkit-justify-content: flex-end;
-  }
-  > textarea {
-    font-size: 16px;
-    width: 100%;
-    min-height: 350px;
-    border: none;
-    border-radius: 5px;
-    background-color: ${(props) => props.theme.container.default};
-    margin-bottom: 10px;
-    padding: 10px;
-    resize: none;
-    &:focus {
-      outline: none;
     }
   }
   @media ${device.tablet} {
     width: 70%;
     margin: 0 auto;
     padding: 20px;
-    border-radius: 10px;
     > h3 {
       font-size: 18px;
       svg {
         cursor: pointer;
         width: 24px;
         height: 24px;
-      }
-    }
-    > div {
-      width: 100%;
-      display: flex;
-      justify-content: flex-end;
-    }
-    > textarea {
-      width: 100%;
-      min-height: 350px;
-      border: none;
-      border-radius: 5px;
-      background-color: ${(props) => props.theme.container.default};
-      margin: 10px 0 20px;
-      padding: 10px;
-      font-size: 18px;
-      resize: none;
-      &:focus {
-        outline: none;
       }
     }
   }

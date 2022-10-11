@@ -6,7 +6,7 @@ import { cutLetter } from "util/cutLetter";
 import { timestamp } from "util/timestamp";
 import EditDeleteButton from "./EditDeleteButton";
 import Overlay from "./Overlay";
-import { TextArea } from "./RecommandBox";
+import QuillEditor from "./QuillEditor";
 import { IWrittenDocs } from "./SubjectBox";
 import UserInfoBox from "./UserInfoBox";
 
@@ -22,7 +22,7 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
 
   const collectionName = `BookMeeting Info/${yearMonthId}/host review`;
   const { onDeleteClick } = useDeleteDoc({ docId: review.id, collectionName });
-  const { showingGuide, onEditedSubmit, onEditedChange } = useEditDoc({
+  const { showingGuide, onEditedSubmit } = useEditDoc({
     docId: review.id,
     editedText,
     setEditedText,
@@ -34,7 +34,11 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
     <>
       {!openModal && (
         <ReviewBox>
-          <pre>{cutLetter(review.text, 210)}</pre>
+          <QuillEditor
+            editing={editing}
+            content={cutLetter(review.text, 210)}
+            setContent={setEditedText}
+          />
           <button
             onClick={() => {
               setOpenModal((prev) => !prev);
@@ -66,7 +70,11 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
                   toggleEditing={() => setEditing((prev) => !prev)}
                 />
               </header>
-              <pre>{editedText}</pre>
+              <QuillEditor
+                editing={editing}
+                content={editedText}
+                setContent={setEditedText}
+              />
             </Modal>
           ) : (
             <Modal $editing={editing} onSubmit={onEditedSubmit}>
@@ -83,10 +91,11 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
                   toggleEditing={() => setEditing((prev) => !prev)}
                 />
               </header>
-              <TextEditArea
-                value={editedText}
-                placeholder="수정해주세요."
-                onChange={onEditedChange}
+              <QuillEditor
+                editing={editing}
+                placeholder="기록을 수정해주세요."
+                content={editedText}
+                setContent={setEditedText}
               />
               <TimeStamp>{timestamp(review.createdAt)}</TimeStamp>
             </Modal>
@@ -152,12 +161,6 @@ const Modal = styled.form<{ $editing: boolean }>`
       }
     }
   }
-`;
-
-const TextEditArea = styled(TextArea)`
-  height: 80vh;
-  padding: 10px;
-  margin: 10px 0;
 `;
 
 const TimeStamp = styled.span`

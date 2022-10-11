@@ -1,10 +1,6 @@
 import { useState } from "react";
 import { timestamp } from "util/timestamp";
-import {
-  IWrittenDocs,
-  FormHeader,
-  RegisterTime,
-} from "components/common/SubjectBox";
+import { IWrittenDocs, RegisterTime } from "components/common/SubjectBox";
 import { IBookApi } from "data/bookAtom";
 import { Form, TextArea } from "./RecommandBox";
 import UserInfoBox from "components/common/UserInfoBox";
@@ -12,6 +8,7 @@ import BookTitleImgBox from "components/common/BookTitleImgBox";
 import EditDeleteButton from "components/common/EditDeleteButton";
 import useDeleteDoc from "hooks/useDeleteDoc";
 import useEditDoc from "hooks/useEditDoc";
+import styled from "styled-components";
 
 interface PropsType {
   review: IWrittenDocs;
@@ -45,7 +42,7 @@ const ReviewBox = ({ review, docMonth, onReviewRemove }: PropsType) => {
     <>
       {editing ? (
         <Form onSubmit={onEditedSubmit}>
-          <FormHeader>
+          <Header>
             <UserInfoBox creatorId={review.creatorId} />
             <EditDeleteButton
               editing={editing}
@@ -54,7 +51,7 @@ const ReviewBox = ({ review, docMonth, onReviewRemove }: PropsType) => {
               onDeleteClick={handleDeleteClick}
               toggleEditing={() => setEditing((prev) => !prev)}
             />
-          </FormHeader>
+          </Header>
           <TextArea
             value={editedText}
             placeholder="모임 후기를 수정해주세요."
@@ -69,7 +66,7 @@ const ReviewBox = ({ review, docMonth, onReviewRemove }: PropsType) => {
         </Form>
       ) : (
         <Form>
-          <FormHeader>
+          <Header>
             <UserInfoBox creatorId={review.creatorId} />
             <EditDeleteButton
               editing={editing}
@@ -78,7 +75,7 @@ const ReviewBox = ({ review, docMonth, onReviewRemove }: PropsType) => {
               onDeleteClick={handleDeleteClick}
               toggleEditing={() => setEditing((prev) => !prev)}
             />
-          </FormHeader>
+          </Header>
           <pre>{editedText}</pre>
           <RegisterTime>{timestamp(review.createdAt)}</RegisterTime>
           <BookTitleImgBox
@@ -91,5 +88,13 @@ const ReviewBox = ({ review, docMonth, onReviewRemove }: PropsType) => {
     </>
   );
 };
+
+const Header = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+`;
 
 export default ReviewBox;
