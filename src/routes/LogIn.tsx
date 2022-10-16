@@ -10,7 +10,7 @@ import { Form, Input } from "theme/commonStyle";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 
-const LogInPage = () => {
+const LogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -196,4 +196,4 @@ const Footer = styled.footer`
   }
 `;
 
-export default LogInPage;
+export default LogIn;

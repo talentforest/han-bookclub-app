@@ -1,8 +1,8 @@
 import { Container } from "theme/commonStyle";
-import { BookFieldType } from "components/loginForm/UserDataInputForm";
+import { BookFieldType } from "components/login/UserDataInputForm";
 import styled from "styled-components";
-import NotEditingProfile from "components/editProfile/NotEditingProfile";
-import EditingProfile from "components/editProfile/EditingProfile";
+import NotEditingProfile from "components/appsetting/NotEditingProfile";
+import EditingProfile from "components/appsetting/EditingProfile";
 import useHandleProfile from "hooks/useHandleProfile";
 import Loading from "components/common/Loading";
 

@@ -1,10 +1,10 @@
 import { Container } from "theme/commonStyle";
 import { Link } from "react-router-dom";
-import LogOutButton from "components/settings/LogOutButton";
+import LogOutButton from "components/appsetting/LogOutButton";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 
-const Setting = () => {
+const AppSetting = () => {
   return (
     <NewContainer>
       <span>사용자 설정</span>
@@ -78,4 +78,4 @@ const NewContainer = styled(Container)`
   }
 `;
 
-export default Setting;
+export default AppSetting;

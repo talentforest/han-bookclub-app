@@ -9,8 +9,8 @@ import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { getCollection } from "util/getFirebaseDoc";
 import Subtitle from "components/common/Subtitle";
-import MyRecommendBook from "components/profile/MyRecommendBook";
-import MyRecord from "components/profile/MyRecord";
+import MyRecommendBook from "components/mybookshelf/MyRecommendBook";
+import MyRecord from "components/mybookshelf/MyRecord";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 
@@ -20,7 +20,7 @@ export interface IRecord {
   reviews: IWrittenDocs[];
 }
 
-const Profile = () => {
+const MyBookshelf = () => {
   const userData = useRecoilValue(currentUserState);
   const [bookMeetings, setBookMeetings] = useRecoilState(bookMeetingsState);
 
@@ -141,4 +141,4 @@ const Wrapper = styled.div`
   gap: 10px;
 `;
 
-export default Profile;
+export default MyBookshelf;

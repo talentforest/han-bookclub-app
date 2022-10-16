@@ -1,4 +1,4 @@
-import { BookFieldType } from "components/loginForm/UserDataInputForm";
+import { BookFieldType } from "components/login/UserDataInputForm";
 import { currentUserState } from "data/userAtom";
 import { authService, dbService, storageService } from "fbase";
 import { getAuth, updateProfile } from "firebase/auth";

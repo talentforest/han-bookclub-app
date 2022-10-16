@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Info } from "components/clubbookhistory/HistoryBox";
+import { Info } from "components/bookclubhistory/HistoryBox";
 import { useLocation } from "react-router-dom";
 import { Container } from "theme/commonStyle";
 import { IBookMeeting } from "util/getFirebaseDoc";
@@ -17,7 +17,7 @@ import Subtitle from "components/common/Subtitle";
 
 type LocationState = { state: { bookMeeting: IBookMeeting } };
 
-const ClubHistoryDetail = () => {
+const BookClubHistoryDetail = () => {
   const [selectedCategory, setSelectedCategory] = useState("subjects");
 
   const {
@@ -156,4 +156,4 @@ const EmptyRecord = styled.div`
   }
 `;
 
-export default ClubHistoryDetail;
+export default BookClubHistoryDetail;

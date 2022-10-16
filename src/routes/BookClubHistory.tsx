@@ -6,12 +6,12 @@ import { bookMeetingsState } from "data/documentsAtom";
 import { useRecoilState } from "recoil";
 import useGroupedBookByYear from "hooks/useGroupedBookByYear";
 import Subtitle from "components/common/Subtitle";
-import HistoryBox from "components/clubbookhistory/HistoryBox";
+import HistoryBox from "components/bookclubhistory/HistoryBox";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 import Loading from "components/common/Loading";
 
-const ClubHistory = () => {
+const BookClubHistory = () => {
   const [selectedYear, setSelectedYear] = useState(`${thisYear}`);
   const [bookMeetings, setBookMeetings] = useRecoilState(bookMeetingsState);
 
@@ -103,4 +103,4 @@ const EmptyBox = styled.div`
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
 `;
 
-export default ClubHistory;
+export default BookClubHistory;

@@ -14,11 +14,11 @@ import BookTitleImgBox from "components/common/BookTitleImgBox";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import Guide from "components/common/Guide";
-import HostReviewCreateModal from "components/bookmeeting/HostReviewCreateModal";
+import HostReviewCreateModal from "components/bookclub/HostReviewCreateModal";
 import HostReviewBox from "components/common/HostReviewBox";
 import SubjectArea from "components/template/SubjectArea";
 
-const BookMeeting = () => {
+const BookClubOfThisMonth = () => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
   const [hostReview, setHostReview] = useRecoilState(hostReviewState);
   const navigate = useNavigate();
@@ -77,34 +77,33 @@ const BookMeeting = () => {
           </AfterMeetingRecord>
           <Categories>
             <Category
-              $isActive={pathname === "/bookmeeting/recommends"}
+              $isActive={pathname === "/bookclub/recommends"}
               onClick={() => {
-                navigate("/bookmeeting/recommends");
+                navigate("/bookclub/recommends");
               }}
             >
               추천책 작성
             </Category>
             <Category
               $isActive={
-                pathname === "/bookmeeting" ||
-                pathname === "/bookmeeting/subjects"
+                pathname === "/bookclub" || pathname === "/bookclub/subjects"
               }
               onClick={() => {
-                navigate("/bookmeeting/subjects");
+                navigate("/bookclub/subjects");
               }}
             >
               발제문 작성
             </Category>
             <Category
-              $isActive={pathname === "/bookmeeting/reviews"}
+              $isActive={pathname === "/bookclub/reviews"}
               onClick={() => {
-                navigate("/bookmeeting/reviews");
+                navigate("/bookclub/reviews");
               }}
             >
               모임후기 작성
             </Category>
           </Categories>
-          {pathname === "/bookmeeting" ? <SubjectArea /> : <Outlet />}
+          {pathname === "/bookclub" ? <SubjectArea /> : <Outlet />}
         </Container>
       )}
     </>
@@ -177,4 +176,4 @@ const Category = styled.button<{ $isActive: boolean }>`
   }
 `;
 
-export default BookMeeting;
+export default BookClubOfThisMonth;

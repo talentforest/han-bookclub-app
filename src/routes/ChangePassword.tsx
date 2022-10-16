@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 
-const EditPassword = () => {
+const ChangePassword = () => {
   const [originPassword, setOriginPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [checkNewPassword, setCheckNewPassword] = useState("");
@@ -125,4 +125,4 @@ const InputForm = styled.form`
   }
 `;
 
-export default EditPassword;
+export default ChangePassword;

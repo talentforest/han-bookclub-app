@@ -1,6 +1,6 @@
 import { getCollection, getDocument } from "util/getFirebaseDoc";
 import { EmptyRecord, RecordBox } from "./RecommendationArea";
-import SubjectCreateModal from "components/bookmeeting/SubjectCreateModal";
+import SubjectCreateModal from "components/bookclub/SubjectCreateModal";
 import Subjects from "components/common/SubjectBox";
 import { useRecoilState } from "recoil";
 import { subjectsState, thisMonthState } from "data/documentsAtom";

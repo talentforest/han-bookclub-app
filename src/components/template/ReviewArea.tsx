@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { thisYearMonth } from "util/constants";
 import { useRecoilState } from "recoil";
 import { reviewsState, thisMonthState } from "data/documentsAtom";
-import ReviewCreateBox from "components/bookmeeting/ReviewCreateBox";
+import ReviewCreateBox from "components/bookclub/ReviewCreateBox";
 import ReviewBox from "components/common/ReviewBox";
 
 const ReviewArea = () => {

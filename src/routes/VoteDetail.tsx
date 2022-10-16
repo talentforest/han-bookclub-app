@@ -9,8 +9,8 @@ import UserInfoBox from "components/common/UserInfoBox";
 import useHandleVoting from "hooks/useHandleVoting";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
-import FormDetails from "components/voteDetail/FormDetails";
-import Percentage from "components/voteDetail/Percentage";
+import FormDetails from "components/votedetail/FormDetails";
+import Percentage from "components/votedetail/Percentage";
 import { useState } from "react";
 
 type LocationState = { state: { voteDetail: IVote } };

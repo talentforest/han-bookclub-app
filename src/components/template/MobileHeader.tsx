@@ -15,7 +15,7 @@ const MobileHeader = ({ isLoggedIn }: PropsType) => {
   const searchDetailMatch = useMatch("/search/:id");
   const voteDetailMatch = useMatch("/vote/:id");
   const historyDetailMatch = useMatch("/history/:id");
-  const bookMeetingMatch = useMatch("/bookmeeting/*");
+  const bookClubMatch = useMatch("/bookclub/*");
 
   const onClick = () => {
     navigate(-1);
@@ -24,7 +24,7 @@ const MobileHeader = ({ isLoggedIn }: PropsType) => {
   function mainPageTitle() {
     if (pathname === "/" && isLoggedIn) return "독서모임 한페이지";
     if (pathname === "/history") return "지난 책모임";
-    if (bookMeetingMatch) return "이달의 책모임";
+    if (bookClubMatch) return "이달의 책모임";
     if (pathname === "/vote") return "한페이지의 투표함";
   }
 
@@ -51,7 +51,7 @@ const MobileHeader = ({ isLoggedIn }: PropsType) => {
           {detailPageTitle()}
         </BackButtonHeader>
       )}
-      {pathname === "/profile" && (
+      {pathname === "/mybookshelf" && (
         <SettingIconHeader>
           나의 책장
           <Link to="/setting">

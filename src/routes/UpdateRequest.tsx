@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Container } from "theme/commonStyle";
 import { getCollection } from "util/getFirebaseDoc";
-import UpdateCreateBox from "components/updateRequest/UpdateCreateBox";
-import UpdateRequestBox from "components/updateRequest/UpdateRequestBox";
+import UpdateCreateBox from "components/appsetting/UpdateCreateBox";
+import UpdateRequestBox from "components/appsetting/UpdateRequestBox";
 
 const UpdateRequest = () => {
   const [requestDoc, setRequestDoc] = useState([]);

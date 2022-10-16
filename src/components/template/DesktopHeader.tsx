@@ -19,7 +19,7 @@ const DesktopHeader = () => {
             </Link>
           </li>
           <li>
-            <Link to="/bookmeeting">
+            <Link to="/bookclub">
               <span
                 className={pathname.includes("/bookmeeting") ? "isActive" : ""}
               >
@@ -35,7 +35,7 @@ const DesktopHeader = () => {
             </Link>
           </li>
           <li>
-            <Link to="/profile">
+            <Link to="/mybookshelf">
               <span className={pathname.includes("/profile") ? "isActive" : ""}>
                 나의 책장
               </span>

@@ -27,9 +27,9 @@ const Navigation = () => {
           </Link>
         </li>
         <li>
-          <Link to="/bookmeeting">
+          <Link to="/bookclub">
             <MenuBookIcon
-              className={pathname.includes("/book") ? "isActive" : ""}
+              className={pathname.includes("/bookclub") ? "isActive" : ""}
             />
             <span>이달의 책모임</span>
           </Link>
@@ -43,9 +43,9 @@ const Navigation = () => {
           </Link>
         </li>
         <li>
-          <Link to="/profile">
+          <Link to="/mybookshelf">
             <AccountCircleIcon
-              className={pathname.includes("/profile") ? "isActive" : ""}
+              className={pathname.includes("/mybookshelf") ? "isActive" : ""}
             />
             <span>나의 책장</span>
           </Link>

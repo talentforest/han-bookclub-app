@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { recommendsState, thisMonthState } from "data/documentsAtom";
 import { thisYearMonth } from "util/constants";
 import RecommandBox from "components/common/RecommandBox";
-import RecommendCreateBox from "components/bookmeeting/RecommendCreateBox";
+import RecommendCreateBox from "components/bookclub/RecommendCreateBox";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 

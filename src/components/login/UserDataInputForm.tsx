@@ -5,7 +5,7 @@ import { Button, Container, Input } from "theme/commonStyle";
 import { bookFields, gender } from "util/constants";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import BookField from "components/loginForm/BookField";
+import BookField from "components/login/BookField";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 
