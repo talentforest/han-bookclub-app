@@ -1,3 +1,4 @@
+import { BookFieldType } from "components/login/UserDataInputForm";
 import { authService } from "fbase";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import { atom } from "recoil";
@@ -8,6 +9,14 @@ export interface CurrUserInfo {
   email?: string;
   displayName?: string;
   photoURL?: string;
+}
+
+export interface IExtraUserData {
+  name: string;
+  favoriteBookField: BookFieldType[];
+  email: string;
+  displayName: string;
+  photoUrl: string;
 }
 
 const auth = getAuth();
@@ -48,4 +57,9 @@ export const currentUserState = atom<CurrUserInfo | null>({
       };
     },
   ],
+});
+
+export const usersState = atom<IExtraUserData[]>({
+  key: `users/${v4}`,
+  default: [],
 });

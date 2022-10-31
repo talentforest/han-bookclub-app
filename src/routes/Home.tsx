@@ -2,13 +2,8 @@ import { Link } from "react-router-dom";
 import { Container } from "theme/commonStyle";
 import { useEffect } from "react";
 import { thisYear, thisYearMonth, today } from "util/constants";
-import {
-  getCollection,
-  getDocument,
-  IMonthField,
-  IVote,
-} from "util/getFirebaseDoc";
-import { useRecoilState } from "recoil";
+import { getCollection, getDocument, IVote } from "util/getFirebaseDoc";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   bookFieldsState,
   thisMonthState,
@@ -29,17 +24,21 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
+import FieldScheduleBox from "components/FieldScheduleBox";
+import { usersState } from "data/userAtom";
 
 const Home = () => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
   const [bookFields, setBookFields] = useRecoilState(bookFieldsState);
   const [votes, setVotes] = useRecoilState(votesState);
+  const setUserDocs = useSetRecoilState(usersState);
 
   useEffect(() => {
+    getCollection("User Data", setUserDocs);
     getDocument("BookMeeting Info", `${thisYearMonth}`, setThisMonthDoc);
-    getDocument("bookfield", `${thisYear}`, setBookFields);
+    getDocument("Book Field", `${thisYear}`, setBookFields);
     getCollection("Vote", setVotes);
-  }, [setThisMonthDoc, setBookFields, setVotes]);
+  }, [setThisMonthDoc, setBookFields, setVotes, setUserDocs]);
 
   const progressVotes = votes.filter((item: IVote) => item.deadline >= today());
   const checkThisMonthDoc = Object.keys(thisMonthDoc).length;
@@ -90,25 +89,10 @@ const Home = () => {
             )}
             <LinkButton link={"/vote"} title="투표 더보기" />
           </VoteSlider>
-          <section>
-            <Subtitle title={`한페이지의 독서 분야 일정`} />
-            <ScheduleBox>
-              {bookFields?.thisYearField?.map((item: IMonthField) => (
-                <li key={item.month}>
-                  <div>{item.month}</div>
-                  <span
-                    className={
-                      item.month === `${getMonthNumber(thisMonthDoc?.id)}월`
-                        ? "highlight"
-                        : ""
-                    }
-                  >
-                    {item.value}
-                  </span>
-                </li>
-              ))}
-            </ScheduleBox>
-          </section>
+          <FieldScheduleBox
+            bookFields={bookFields?.bookField}
+            thisMonthDoc={thisMonthDoc}
+          />
         </NewContainer>
       )}
     </>
@@ -177,63 +161,6 @@ const VoteEmptyBox = styled.div`
       width: 14px;
       height: 14px;
       fill: ${(props) => props.theme.text.lightBlue};
-    }
-  }
-`;
-
-const ScheduleBox = styled.ul`
-  border-radius: 10px;
-  background-color: ${(props) => props.theme.container.default};
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-  padding: 10px 20px;
-  li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 30px;
-    font-size: 14px;
-    padding: 20px 0;
-    border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
-    > div {
-      border-radius: 20px;
-      padding: 3px 6px;
-      margin-right: 5px;
-      color: ${(props) => props.theme.text.accent};
-      background-color: ${(props) => props.theme.text.lightGray};
-    }
-    > span {
-      display: flex;
-      align-items: center;
-      height: 26px;
-      padding: 0 5px;
-      border-radius: 5px;
-      font-weight: 700;
-      &.highlight {
-        color: ${(props) => props.theme.text.lightBlue};
-      }
-    }
-  }
-  @media ${device.tablet} {
-    padding: 20px 30px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
-    li {
-      height: 50px;
-      font-size: 16px;
-      > div {
-        margin-right: 10px;
-        color: ${(props) => props.theme.text.accent};
-      }
-      > span {
-        display: flex;
-        align-items: center;
-        height: 26px;
-        padding: 0 5px;
-        border-radius: 5px;
-        font-weight: 700;
-      }
     }
   }
 `;

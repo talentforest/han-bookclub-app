@@ -15,6 +15,16 @@ export const bookFields = [
   { id: 10, name: "과학" },
 ];
 
+export const fieldOfClub = [
+  { id: 1, name: "정치, 사회, 자기계발" },
+  { id: 2, name: "역사, 문화예술" },
+  { id: 3, name: "경제경영" },
+  { id: 4, name: "문학" },
+  { id: 5, name: "과학, 기술, 환경" },
+  { id: 6, name: "인문, 철학" },
+  { id: 7, name: "이벤트" },
+];
+
 const offset = date.getTimezoneOffset() * 60000;
 const today_offset = new Date(date.getTime() - offset);
 

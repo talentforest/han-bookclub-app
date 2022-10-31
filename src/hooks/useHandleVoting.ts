@@ -54,7 +54,6 @@ const useHandleVoting = (
   ) => {
     selectVoteItem(itemId, value);
     updateVoteCount(itemId, voteCount);
-    console.log(itemId);
   };
 
   function selectVoteItem(id: number, value: string) {

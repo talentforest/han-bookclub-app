@@ -1,5 +1,5 @@
 import { BookFieldType } from "components/login/UserDataInputForm";
-import { currentUserState } from "data/userAtom";
+import { currentUserState, IExtraUserData } from "data/userAtom";
 import { authService, dbService, storageService } from "fbase";
 import { getAuth, updateProfile } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
@@ -7,14 +7,6 @@ import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { getDocument } from "util/getFirebaseDoc";
-
-interface IExtraUserData {
-  name: string;
-  favoriteBookField: BookFieldType[];
-  email: string;
-  displayName: string;
-  photoUrl: string;
-}
 
 const useHandleProfile = () => {
   const [userData, setUserData] = useRecoilState(currentUserState);

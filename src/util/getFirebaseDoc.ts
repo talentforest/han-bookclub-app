@@ -23,12 +23,13 @@ export interface IBookMeeting {
 }
 
 export interface IMonthField {
+  field: string;
   month: string;
-  value: string;
+  host: string;
 }
 
 export interface IFixedBookField {
-  thisYearField: IMonthField[];
+  bookField: IMonthField[];
   createdAt: number;
 }
 
@@ -72,7 +73,6 @@ export function getDocument<T>(
       setState({ id: doc.id, ...doc.data() } as unknown as T);
     }
   );
-
   unsubscribe(listener);
 }
 
@@ -80,10 +80,12 @@ export function getCollection<T>(
   collectionName: string,
   setState: (arr: T[]) => void
 ) {
-  const q = query(
+  const orderQ = query(
     collection(dbService, collectionName),
     orderBy("createdAt", "desc")
   );
+  const nonOrderQ = query(collection(dbService, collectionName));
+  const q = collectionName === "User Data" ? nonOrderQ : orderQ;
 
   const listener = onSnapshot(q, (querySnapshot) => {
     const newArray = querySnapshot.docs.map((doc) => {
