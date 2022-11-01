@@ -3,11 +3,12 @@ import { timestamp } from "util/timestamp";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
-import useDeleteDoc from "hooks/useDeleteDoc";
-import useEditDoc from "hooks/useEditDoc";
+import useDeleteDoc from "hooks/firebase/useDeleteDoc";
+import useEditDoc from "hooks/firebase/useEditDoc";
 import QuillEditor from "./QuillEditor";
 import "react-quill/dist/quill.snow.css";
 import FormHeader from "components/template/FormHeader";
+import { clubInfoCollection } from "util/constants";
 
 export interface IWrittenDocs {
   id?: string;
@@ -31,7 +32,7 @@ interface ISubject {
 const SubjectBox = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(subject.text);
-  const collectionName = `BookMeeting Info/${docMonth}/subjects`;
+  const collectionName = clubInfoCollection(docMonth).SUBJECT;
 
   const { onDeleteClick } = useDeleteDoc({ docId: subject.id, collectionName });
   const { showingGuide, onEditedSubmit } = useEditDoc({

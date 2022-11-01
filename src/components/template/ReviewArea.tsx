@@ -1,7 +1,7 @@
 import { getCollection, getDocument } from "util/getFirebaseDoc";
 import { EmptyRecord, RecordBox } from "./RecommendationArea";
 import { useEffect } from "react";
-import { thisYearMonth } from "util/constants";
+import { clubInfoCollection, CLUB_INFO, thisYearMonth } from "util/constants";
 import { useRecoilState } from "recoil";
 import { reviewsState, thisMonthState } from "data/documentsAtom";
 import ReviewCreateBox from "components/bookclub/ReviewCreateBox";
@@ -12,8 +12,8 @@ const ReviewArea = () => {
   const [reviews, setReviews] = useRecoilState(reviewsState);
 
   useEffect(() => {
-    getDocument("BookMeeting Info", `${thisYearMonth}`, setThisMonthDoc);
-    getCollection(`BookMeeting Info/${thisYearMonth}/reviews`, setReviews);
+    getDocument(CLUB_INFO, `${thisYearMonth}`, setThisMonthDoc);
+    getCollection(clubInfoCollection(thisYearMonth).REVIEW, setReviews);
   }, [setThisMonthDoc, setReviews]);
 
   return (

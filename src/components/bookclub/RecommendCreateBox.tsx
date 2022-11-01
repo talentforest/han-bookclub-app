@@ -5,10 +5,11 @@ import { Search } from "@mui/icons-material";
 import { currentUserState } from "data/userAtom";
 import { useRecoilValue } from "recoil";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
-import useAddDoc from "hooks/useAddDoc";
+import useAddDoc from "hooks/firebase/useAddDoc";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 import PostButton from "components/common/PostButton";
+import { clubInfoCollection } from "util/constants";
 
 interface PropsType {
   uid: string;
@@ -20,7 +21,7 @@ const RecommendCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
   const [text, setText] = useState("");
   const myRecommendBook = useRecoilValue(recommendBookState);
   const userData = useRecoilValue(currentUserState);
-  const collectionName = `BookMeeting Info/${docMonth}/recommended book`;
+  const collectionName = clubInfoCollection(docMonth).RECOMMEND;
 
   const docData = {
     text: text,

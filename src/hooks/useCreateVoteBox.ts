@@ -7,12 +7,15 @@ import { useRecoilValue } from "recoil";
 import { pickDay } from "util/constants";
 import useAlertAskJoin from "./useAlertAskJoin";
 
-const useCreateVoteBox = (
-  setModalOpen: (modalOpen: boolean) => void,
-  endDate: Date
-) => {
+interface ICreateVoteBox {
+  setModalOpen: (modalOpen: boolean) => void;
+  endDate: Date;
+}
+
+const useCreateVoteBox = ({ setModalOpen, endDate }: ICreateVoteBox) => {
   const userData = useRecoilValue(currentUserState);
   const votes = useRecoilValue(votesState);
+  const { alertAskJoinMember } = useAlertAskJoin();
   const [vote, setVote] = useState({
     title: "",
     voteItem: [
@@ -20,8 +23,6 @@ const useCreateVoteBox = (
       { id: 2, item: "", voteCount: 0, selectReason: "" },
     ],
   });
-
-  const { alertAskJoinMember } = useAlertAskJoin();
 
   const addDocVote = async () => {
     await addDoc(collection(dbService, "Vote"), {

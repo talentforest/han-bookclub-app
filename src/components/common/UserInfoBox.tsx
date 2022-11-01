@@ -3,6 +3,7 @@ import { memo, useEffect, useState } from "react";
 import { getDocument } from "util/getFirebaseDoc";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
+import { USER_DATA } from "util/constants";
 
 interface PropsType {
   creatorId: string;
@@ -18,7 +19,7 @@ const UserInfoBox = ({ creatorId }: PropsType) => {
   });
 
   useEffect(() => {
-    getDocument("User Data", creatorId, setUserDataDoc);
+    getDocument(USER_DATA, creatorId, setUserDataDoc);
   }, [creatorId]);
 
   return (

@@ -1,5 +1,3 @@
-const date = new Date();
-
 export const gender = ["여성", "남성"];
 
 export const bookFields = [
@@ -25,20 +23,18 @@ export const fieldOfClub = [
   { id: 7, name: "이벤트" },
 ];
 
+const date = new Date();
 const offset = date.getTimezoneOffset() * 60000;
 const today_offset = new Date(date.getTime() - offset);
 
 export const thisYearMonth = `${today_offset.toISOString().substr(0, 7)}`;
-
 export const thisYear = date.getFullYear();
-
 export const thisMonth = `${date.getMonth() + 1}`;
 
 export const today = () => {
   const month = ("0" + (date.getMonth() + 1)).slice(-2);
   const day = ("0" + date.getDate()).slice(-2);
   const today = `${thisYear}-${month}-${day}`;
-
   return today;
 };
 
@@ -47,6 +43,23 @@ export const pickDay = (pickDay: Date) => {
   const month = ("0" + (new Date(pickDay).getMonth() + 1)).slice(-2);
   const day = ("0" + new Date(pickDay).getDate()).slice(-2);
   const today = `${year}-${month}-${day}`;
-
   return today;
+};
+
+export const USER_DATA = "User Data";
+export const BOOK_FIELD = "Book Field";
+export const CLUB_INFO = "BookMeeting Info";
+export const VOTE = "Vote";
+
+export const clubInfoCollection = (id: string) => {
+  return {
+    SUBJECT: `BookMeeting Info/${id}/subjects`,
+    REVIEW: `BookMeeting Info/${id}/reviews`,
+    RECOMMEND: `BookMeeting Info/${id}/recommended book`,
+    HOST_REVIEW: `BookMeeting Info/${id}/host review`,
+  };
+};
+
+export const voteCollection = (id: number) => {
+  return { VOTE_ITEMS: `Vote/${id}/Voted Items` };
 };

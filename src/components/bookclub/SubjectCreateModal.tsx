@@ -4,13 +4,14 @@ import { IBookApi } from "data/bookAtom";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import Overlay from "components/common/Overlay";
-import useAddDoc from "hooks/useAddDoc";
+import useAddDoc from "hooks/firebase/useAddDoc";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import "react-quill/dist/quill.snow.css";
 import QuillEditor from "components/common/QuillEditor";
 import AddDocButton from "./AddDocButton";
 import PostButton from "components/common/PostButton";
+import { clubInfoCollection } from "util/constants";
 
 interface PropsType {
   bookInfo: IBookApi;
@@ -20,7 +21,7 @@ interface PropsType {
 const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
   const [text, setText] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const collectionName = `BookMeeting Info/${docMonth}/subjects`;
+  const collectionName = clubInfoCollection(docMonth).SUBJECT;
   const userData = useRecoilValue(currentUserState);
 
   const docData = {

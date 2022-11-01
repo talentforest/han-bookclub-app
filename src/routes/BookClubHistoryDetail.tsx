@@ -1,31 +1,49 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Info } from "components/bookclubhistory/HistoryBox";
 import { useLocation } from "react-router-dom";
 import { Container } from "theme/commonStyle";
-import { IBookMeeting } from "util/getFirebaseDoc";
+import { getCollection, IBookMeeting } from "util/getFirebaseDoc";
 import { RecordBox } from "components/template/RecommendationArea";
+import { meetingTimestamp } from "util/timestamp";
+import { AccessTime, Place } from "@mui/icons-material";
+import {
+  hostReviewState,
+  recommendsState,
+  reviewsState,
+  subjectsState,
+} from "data/documentsAtom";
+import { useRecoilState } from "recoil";
 import Subjects from "components/common/SubjectBox";
 import ReviewBox from "components/common/ReviewBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import RecommandBox from "components/common/RecommandBox";
-import device from "theme/mediaQueries";
-import styled from "styled-components";
-import useCallAllRecords from "hooks/useCallAllRecords";
 import HostReviewBox from "components/common/HostReviewBox";
 import Subtitle from "components/common/Subtitle";
-import { meetingTimestamp } from "util/timestamp";
-import { AccessTime, Place } from "@mui/icons-material";
+import device from "theme/mediaQueries";
+import styled from "styled-components";
+import { clubInfoCollection } from "util/constants";
 
 type LocationState = { state: { bookMeeting: IBookMeeting } };
 
 const BookClubHistoryDetail = () => {
   const [selectedCategory, setSelectedCategory] = useState("subjects");
+  const [subjects, setSubjects] = useRecoilState(subjectsState);
+  const [reviews, setReviews] = useRecoilState(reviewsState);
+  const [recommends, setRecommends] = useRecoilState(recommendsState);
+  const [hostReview, setHostReview] = useRecoilState(hostReviewState);
 
   const {
     state: { bookMeeting },
   } = useLocation() as LocationState;
   const { id, book, meeting } = bookMeeting;
-  const { subjects, reviews, recommends, hostReview } = useCallAllRecords(id);
+
+  useEffect(() => {
+    getCollection(clubInfoCollection(id).SUBJECT, setSubjects);
+    getCollection(clubInfoCollection(id).REVIEW, setReviews);
+    getCollection(clubInfoCollection(id).RECOMMEND, setRecommends);
+    getCollection(clubInfoCollection(id).HOST_REVIEW, setHostReview);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);

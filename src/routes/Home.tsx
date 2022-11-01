@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom";
 import { Container } from "theme/commonStyle";
 import { useEffect } from "react";
-import { thisYear, thisYearMonth, today } from "util/constants";
+import {
+  BOOK_FIELD,
+  CLUB_INFO,
+  thisYear,
+  thisYearMonth,
+  today,
+  USER_DATA,
+} from "util/constants";
 import { getCollection, getDocument, IVote } from "util/getFirebaseDoc";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
@@ -11,6 +18,7 @@ import {
 } from "data/documentsAtom";
 import { getMonthNumber } from "util/getMonthNumber";
 import { settings } from "util/sliderSetting";
+import { usersState } from "data/userAtom";
 import LinkButton from "components/common/LinkButton";
 import Subtitle from "components/common/Subtitle";
 import MeetingInfoBox from "components/common/MeetingInfoBox";
@@ -25,7 +33,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 import FieldScheduleBox from "components/FieldScheduleBox";
-import { usersState } from "data/userAtom";
 
 const Home = () => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
@@ -34,9 +41,9 @@ const Home = () => {
   const setUserDocs = useSetRecoilState(usersState);
 
   useEffect(() => {
-    getCollection("User Data", setUserDocs);
-    getDocument("BookMeeting Info", `${thisYearMonth}`, setThisMonthDoc);
-    getDocument("Book Field", `${thisYear}`, setBookFields);
+    getCollection(USER_DATA, setUserDocs);
+    getDocument(CLUB_INFO, `${thisYearMonth}`, setThisMonthDoc);
+    getDocument(BOOK_FIELD, `${thisYear}`, setBookFields);
     getCollection("Vote", setVotes);
   }, [setThisMonthDoc, setBookFields, setVotes, setUserDocs]);
 

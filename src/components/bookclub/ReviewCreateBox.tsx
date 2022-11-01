@@ -2,9 +2,10 @@ import { useState } from "react";
 import { IBookApi } from "data/bookAtom";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import useAddDoc from "hooks/useAddDoc";
+import useAddDoc from "hooks/firebase/useAddDoc";
 import styled from "styled-components";
 import PostButton from "components/common/PostButton";
+import { clubInfoCollection } from "util/constants";
 
 interface PropsType {
   bookInfo: IBookApi;
@@ -13,7 +14,7 @@ interface PropsType {
 
 const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
   const [text, setText] = useState("");
-  const collectionName = `BookMeeting Info/${docMonth}/reviews`;
+  const collectionName = clubInfoCollection(docMonth).REVIEW;
   const userData = useRecoilValue(currentUserState);
 
   const docData = {

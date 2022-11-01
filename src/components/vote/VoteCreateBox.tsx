@@ -1,12 +1,12 @@
 import { Add, CheckCircleOutline, Close, Info } from "@mui/icons-material";
 import { useState } from "react";
-import useCreateVoteBox from "hooks/useCreateVoteBox";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
-import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
-import "react-datepicker/dist/react-datepicker.css";
+import useCreateVoteBox from "hooks/useCreateVoteBox";
 import Guide from "components/common/Guide";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import device from "theme/mediaQueries";
+import styled from "styled-components";
 
 interface PropsType {
   setModalOpen: (modalOpen: boolean) => void;
@@ -21,7 +21,7 @@ const VoteCreateBox = ({ setModalOpen }: PropsType) => {
     onTitleChange,
     onItemPlusClick,
     onItemDeleteClick,
-  } = useCreateVoteBox(setModalOpen, endDate);
+  } = useCreateVoteBox({ setModalOpen, endDate });
 
   return (
     <CreateBox onSubmit={onRegisterSubmit}>

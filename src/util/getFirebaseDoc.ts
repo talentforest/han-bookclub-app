@@ -8,6 +8,7 @@ import {
   query,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import { USER_DATA } from "./constants";
 
 export interface IMeeting {
   time: string;
@@ -85,7 +86,7 @@ export function getCollection<T>(
     orderBy("createdAt", "desc")
   );
   const nonOrderQ = query(collection(dbService, collectionName));
-  const q = collectionName === "User Data" ? nonOrderQ : orderQ;
+  const q = collectionName === USER_DATA ? nonOrderQ : orderQ;
 
   const listener = onSnapshot(q, (querySnapshot) => {
     const newArray = querySnapshot.docs.map((doc) => {

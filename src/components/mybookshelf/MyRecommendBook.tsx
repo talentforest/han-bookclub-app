@@ -7,6 +7,7 @@ import device from "theme/mediaQueries";
 import RecommandBox from "components/common/RecommandBox";
 import styled from "styled-components";
 import Overlay from "components/common/Overlay";
+import { clubInfoCollection } from "util/constants";
 
 interface PropsType {
   item: IBookMeeting;
@@ -20,10 +21,7 @@ const MyRecommendBook = ({ item }: PropsType) => {
   const docMonth = item.id;
 
   useEffect(() => {
-    getCollection(
-      `BookMeeting Info/${item.id}/recommended book`,
-      setRecommendBook
-    );
+    getCollection(clubInfoCollection(item.id).RECOMMEND, setRecommendBook);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -6,9 +6,10 @@ import { Form, TextArea } from "./RecommandBox";
 import UserInfoBox from "components/common/UserInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import EditDeleteButton from "components/common/EditDeleteButton";
-import useDeleteDoc from "hooks/useDeleteDoc";
-import useEditDoc from "hooks/useEditDoc";
+import useDeleteDoc from "hooks/firebase/useDeleteDoc";
+import useEditDoc from "hooks/firebase/useEditDoc";
 import styled from "styled-components";
+import { clubInfoCollection } from "util/constants";
 
 interface PropsType {
   review: IWrittenDocs;
@@ -20,7 +21,7 @@ interface PropsType {
 const ReviewBox = ({ review, docMonth, onReviewRemove }: PropsType) => {
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(review.text);
-  const collectionName = `BookMeeting Info/${docMonth}/reviews`;
+  const collectionName = clubInfoCollection(docMonth).REVIEW;
 
   const { onDeleteClick } = useDeleteDoc({ docId: review.id, collectionName });
   const { showingGuide, onEditedSubmit, onEditedChange } = useEditDoc({

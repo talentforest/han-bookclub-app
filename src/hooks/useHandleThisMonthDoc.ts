@@ -5,7 +5,7 @@ import { deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { IBookMeeting } from "util/getFirebaseDoc";
-import { thisYearMonth } from "util/constants";
+import { CLUB_INFO, thisYearMonth } from "util/constants";
 
 interface PropsType {
   bookMeetingDocs: IBookMeeting[];
@@ -34,7 +34,7 @@ const useHandleThisMonthDoc = ({
 
   const setThisMonthBookMeetingDoc = async () => {
     const book = searchedBook;
-    await setDoc(doc(dbService, "BookMeeting Info", `${selectedMonth}`), {
+    await setDoc(doc(dbService, CLUB_INFO, `${selectedMonth}`), {
       book: {
         thumbnail: book.thumbnail,
         title: book.title,
@@ -56,11 +56,7 @@ const useHandleThisMonthDoc = ({
   };
 
   const updateThisMonthBookMeetingDoc = async () => {
-    const thisMonthBookRef = doc(
-      dbService,
-      "BookMeeting Info",
-      `${selectedMonth}`
-    );
+    const thisMonthBookRef = doc(dbService, CLUB_INFO, `${selectedMonth}`);
     const book = searchedBook;
     await updateDoc(thisMonthBookRef, {
       book: {
@@ -84,11 +80,7 @@ const useHandleThisMonthDoc = ({
   };
 
   const deleteThisMonthBookMeetingDoc = async () => {
-    const thisMonthBookRef = doc(
-      dbService,
-      "BookMeeting Info",
-      `${selectedMonth}`
-    );
+    const thisMonthBookRef = doc(dbService, CLUB_INFO, `${selectedMonth}`);
     await deleteDoc(thisMonthBookRef);
   };
 

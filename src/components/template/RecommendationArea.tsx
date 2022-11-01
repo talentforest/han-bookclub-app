@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { getCollection, getDocument } from "util/getFirebaseDoc";
 import { useEffect } from "react";
 import { recommendsState, thisMonthState } from "data/documentsAtom";
-import { thisYearMonth } from "util/constants";
+import { clubInfoCollection, CLUB_INFO, thisYearMonth } from "util/constants";
 import RecommandBox from "components/common/RecommandBox";
 import RecommendCreateBox from "components/bookclub/RecommendCreateBox";
 import styled from "styled-components";
@@ -15,11 +15,8 @@ const RecommendationArea = () => {
   const [recommends, setRecommends] = useRecoilState(recommendsState);
 
   useEffect(() => {
-    getDocument("BookMeeting Info", `${thisYearMonth}`, setThisMonthDoc);
-    getCollection(
-      `BookMeeting Info/${thisYearMonth}/recommended book`,
-      setRecommends
-    );
+    getDocument(CLUB_INFO, `${thisYearMonth}`, setThisMonthDoc);
+    getCollection(clubInfoCollection(thisYearMonth).RECOMMEND, setRecommends);
   }, [setThisMonthDoc, setRecommends]);
 
   return (

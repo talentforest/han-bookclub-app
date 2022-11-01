@@ -6,8 +6,9 @@ import BookTitleImgBox from "components/common/BookTitleImgBox";
 import EditDeleteButton from "./EditDeleteButton";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
-import useDeleteDoc from "hooks/useDeleteDoc";
-import useEditDoc from "hooks/useEditDoc";
+import useDeleteDoc from "hooks/firebase/useDeleteDoc";
+import useEditDoc from "hooks/firebase/useEditDoc";
+import { clubInfoCollection } from "util/constants";
 
 interface PropsType {
   recommend: IWrittenDocs;
@@ -27,7 +28,7 @@ const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
     recommendBookThumbnail,
     recommendBookUrl,
   } = recommend;
-  const collectionName = `BookMeeting Info/${docMonth}/recommended book`;
+  const collectionName = clubInfoCollection(docMonth).RECOMMEND;
 
   const { onDeleteClick } = useDeleteDoc({ docId: id, collectionName });
   const { showingGuide, onEditedSubmit, onEditedChange } = useEditDoc({

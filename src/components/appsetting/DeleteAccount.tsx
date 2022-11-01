@@ -11,6 +11,7 @@ import { currentUserState } from "data/userAtom";
 import { useState } from "react";
 import { Button, Container, Desc, Input } from "theme/commonStyle";
 import styled from "styled-components";
+import { USER_DATA } from "util/constants";
 
 const DeleteAccount = () => {
   const [password, setPassword] = useState("");
@@ -28,7 +29,7 @@ const DeleteAccount = () => {
       if (checkDeleteAccount === true) {
         reauthenticateWithCredential(user, credential)
           .then(() => {
-            const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
+            const UserDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
             deleteDoc(UserDataRef);
             deleteUser(user);
             navigate("/");

@@ -6,7 +6,7 @@ import { usersState } from "data/userAtom";
 import { useRecoilValue } from "recoil";
 import { doc, updateDoc } from "firebase/firestore";
 import { dbService } from "fbase";
-import { fieldOfClub, thisYear } from "util/constants";
+import { BOOK_FIELD, fieldOfClub, thisYear } from "util/constants";
 import Subtitle from "./common/Subtitle";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
@@ -34,7 +34,7 @@ const FieldScheduleBox = ({
     setNewFieldHost(bookFields);
   }, [bookFields]);
 
-  const docRef = doc(dbService, "Book Field", `${thisYear}`);
+  const docRef = doc(dbService, BOOK_FIELD, `${thisYear}`);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -1,7 +1,8 @@
-import useDeleteDoc from "hooks/useDeleteDoc";
-import useEditDoc from "hooks/useEditDoc";
+import useDeleteDoc from "hooks/firebase/useDeleteDoc";
+import useEditDoc from "hooks/firebase/useEditDoc";
 import { useState } from "react";
 import styled from "styled-components";
+import { clubInfoCollection } from "util/constants";
 import { cutLetter } from "util/cutLetter";
 import { timestamp } from "util/timestamp";
 import EditDeleteButton from "./EditDeleteButton";
@@ -20,7 +21,7 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(review.text);
 
-  const collectionName = `BookMeeting Info/${yearMonthId}/host review`;
+  const collectionName = clubInfoCollection(yearMonthId).HOST_REVIEW;
   const { onDeleteClick } = useDeleteDoc({ docId: review.id, collectionName });
   const { showingGuide, onEditedSubmit } = useEditDoc({
     docId: review.id,

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Container } from "theme/commonStyle";
-import { thisYear } from "util/constants";
+import { CLUB_INFO, thisYear } from "util/constants";
 import { IBookMeeting, getCollection } from "util/getFirebaseDoc";
 import { bookMeetingsState } from "data/documentsAtom";
 import { useRecoilState } from "recoil";
@@ -18,7 +18,7 @@ const BookClubHistory = () => {
   const { GroupedBookByYear } = useGroupedBookByYear(bookMeetings);
 
   useEffect(() => {
-    getCollection("BookMeeting Info", setBookMeetings);
+    getCollection(CLUB_INFO, setBookMeetings);
   }, [setBookMeetings]);
 
   const onYearChange = (event: React.FormEvent<HTMLSelectElement>) => {

@@ -3,7 +3,7 @@ import { Container } from "theme/commonStyle";
 import { useRecoilState } from "recoil";
 import { hostReviewState, thisMonthState } from "data/documentsAtom";
 import { getCollection, getDocument } from "util/getFirebaseDoc";
-import { thisYearMonth } from "util/constants";
+import { clubInfoCollection, CLUB_INFO, thisYearMonth } from "util/constants";
 import { getMonthNumber } from "util/getMonthNumber";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Loading from "components/common/Loading";
@@ -25,11 +25,8 @@ const BookClubOfThisMonth = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    getDocument("BookMeeting Info", `${thisYearMonth}`, setThisMonthDoc);
-    getCollection(
-      `BookMeeting Info/${thisYearMonth}/host review`,
-      setHostReview
-    );
+    getDocument(CLUB_INFO, `${thisYearMonth}`, setThisMonthDoc);
+    getCollection(clubInfoCollection(thisYearMonth).HOST_REVIEW, setHostReview);
   }, [setThisMonthDoc, setHostReview]);
 
   const checkThisMonthDoc = Object.keys(thisMonthDoc).length;

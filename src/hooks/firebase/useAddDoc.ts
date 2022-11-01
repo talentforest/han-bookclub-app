@@ -1,7 +1,7 @@
 import { IWrittenDocs } from "components/common/SubjectBox";
 import { authService, dbService } from "fbase";
 import { addDoc, collection } from "firebase/firestore";
-import useAlertAskJoin from "./useAlertAskJoin";
+import useAlertAskJoin from "../useAlertAskJoin";
 
 interface PropsType {
   text: string;

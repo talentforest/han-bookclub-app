@@ -2,7 +2,7 @@ import { authService, dbService } from "fbase";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Input } from "theme/commonStyle";
-import { bookFields, gender } from "util/constants";
+import { bookFields, gender, USER_DATA } from "util/constants";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import BookField from "components/login/BookField";
@@ -31,7 +31,7 @@ const UserDataInputForm = ({ email, password }: PropsType) => {
       await createUserWithEmailAndPassword(authService, email, password);
       if (username && userGender && checkedBookField.size !== 0) {
         await setDoc(
-          doc(dbService, "User Data", `${authService?.currentUser?.uid}`),
+          doc(dbService, USER_DATA, `${authService?.currentUser?.uid}`),
           {
             favoriteBookField: Array.from(checkedBookField),
             gender: userGender,

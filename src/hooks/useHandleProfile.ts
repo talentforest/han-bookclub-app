@@ -6,6 +6,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+import { USER_DATA } from "util/constants";
 import { getDocument } from "util/getFirebaseDoc";
 
 const useHandleProfile = () => {
@@ -17,7 +18,7 @@ const useHandleProfile = () => {
 
   useEffect(() => {
     if (userData.uid) {
-      getDocument("User Data", userData.uid, setExtraUserData);
+      getDocument(USER_DATA, userData.uid, setExtraUserData);
     }
   }, [userData.uid]);
 
@@ -34,7 +35,7 @@ const useHandleProfile = () => {
 
   const updateProfileImg = async () => {
     let userImageUrl = userData.photoURL;
-    const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
+    const UserDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
 
     const fileRef = ref(storageService, `${userData.uid}`);
     const response = await uploadString(fileRef, profileImgUrl, "data_url");
@@ -51,7 +52,7 @@ const useHandleProfile = () => {
   };
 
   const updateDisplayName = async () => {
-    const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
+    const UserDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
 
     await updateProfile(authService.currentUser, {
       displayName: newDisplayName,
@@ -65,7 +66,7 @@ const useHandleProfile = () => {
 
   const onProfileSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const UserDataRef = doc(dbService, "User Data", `${userData.uid}`);
+    const UserDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
     try {
       if (profileImgUrl !== "") {
         updateProfileImg();

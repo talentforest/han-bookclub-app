@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { clubInfoCollection } from "util/constants";
 import { getCollection } from "util/getFirebaseDoc";
 
 const useFilterMyRecords = (itemId: string, userDataUid: string) => {
@@ -10,8 +11,8 @@ const useFilterMyRecords = (itemId: string, userDataUid: string) => {
   const [guide, setGuide] = useState("");
 
   useEffect(() => {
-    getCollection(`BookMeeting Info/${itemId}/subjects`, setSubjects);
-    getCollection(`BookMeeting Info/${itemId}/reviews`, setReviews);
+    getCollection(clubInfoCollection(itemId).SUBJECT, setSubjects);
+    getCollection(clubInfoCollection(itemId).REVIEW, setReviews);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

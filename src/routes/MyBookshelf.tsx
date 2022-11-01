@@ -8,6 +8,7 @@ import { bookMeetingsState } from "data/documentsAtom";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { getCollection } from "util/getFirebaseDoc";
+import { CLUB_INFO } from "util/constants";
 import Subtitle from "components/common/Subtitle";
 import MyRecommendBook from "components/mybookshelf/MyRecommendBook";
 import MyRecord from "components/mybookshelf/MyRecord";
@@ -25,7 +26,7 @@ const MyBookshelf = () => {
   const [bookMeetings, setBookMeetings] = useRecoilState(bookMeetingsState);
 
   useEffect(() => {
-    getCollection("BookMeeting Info", setBookMeetings);
+    getCollection(CLUB_INFO, setBookMeetings);
   }, [setBookMeetings]);
 
   const anonymous = authService.currentUser?.isAnonymous;

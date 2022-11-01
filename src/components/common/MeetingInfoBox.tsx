@@ -5,7 +5,7 @@ import { Check, Edit } from "@mui/icons-material";
 import { useRef, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { authService, dbService } from "fbase";
-import { thisYearMonth } from "util/constants";
+import { CLUB_INFO, thisYearMonth } from "util/constants";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import useAlertAskJoin from "hooks/useAlertAskJoin";
@@ -21,7 +21,7 @@ const MeetingInfoBox = ({ docData }: PropsType) => {
 
   const timeRef = useRef(null);
   const placeRef = useRef(null);
-  const docRef = doc(dbService, "BookMeeting Info", `${thisYearMonth}`);
+  const docRef = doc(dbService, CLUB_INFO, `${thisYearMonth}`);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
