@@ -35,8 +35,8 @@ const BookTitleImgBox = ({
 export const BookCoverTitleBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
   align-items: center;
+  gap: 10px;
   width: 100%;
   min-height: 180px;
   margin-top: 10px;

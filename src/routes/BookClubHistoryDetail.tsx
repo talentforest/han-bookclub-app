@@ -7,13 +7,14 @@ import { RecordBox } from "components/template/RecommendationArea";
 import Subjects from "components/common/SubjectBox";
 import ReviewBox from "components/common/ReviewBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
-import MeetingInfoBox from "components/common/MeetingInfoBox";
 import RecommandBox from "components/common/RecommandBox";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 import useCallAllRecords from "hooks/useCallAllRecords";
 import HostReviewBox from "components/common/HostReviewBox";
 import Subtitle from "components/common/Subtitle";
+import { meetingTimestamp } from "util/timestamp";
+import { AccessTime, Place } from "@mui/icons-material";
 
 type LocationState = { state: { bookMeeting: IBookMeeting } };
 
@@ -34,7 +35,14 @@ const BookClubHistoryDetail = () => {
     <Container>
       <Infos>
         <BookTitleImgBox thumbnail={book.thumbnail} title={book.title} />
-        <MeetingInfoBox docData={meeting} />
+        <MeetingInfo>
+          <div>
+            <AccessTime /> {meetingTimestamp(meeting.time)}
+          </div>
+          <div>
+            <Place /> {meeting.place}
+          </div>
+        </MeetingInfo>
       </Infos>
       <AfterMeetingRecord>
         <Subtitle title="발제자의 모임 정리" />
@@ -138,6 +146,23 @@ const Infos = styled(Info)`
     background-color: transparent;
     width: fit-content;
     box-shadow: none;
+  }
+`;
+
+const MeetingInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: ${(props) => props.theme.text.accent};
+    }
   }
 `;
 

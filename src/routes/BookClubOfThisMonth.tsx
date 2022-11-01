@@ -122,17 +122,12 @@ const MeetingBox = styled.div`
   align-items: center;
   width: 100%;
   margin: 0 auto 15px;
-  > div:first-child {
-    margin-bottom: 50px;
-  }
   > p {
     font-size: 13px;
     color: ${(props) => props.theme.text.gray};
   }
-  a {
+  > a {
     border: 1px solid ${(props) => props.theme.text.lightGray};
-    position: absolute;
-    bottom: 115px;
     padding: 3px 10px;
     border-radius: 20px;
     font-size: 12px;
