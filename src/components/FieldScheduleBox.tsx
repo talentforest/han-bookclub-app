@@ -4,12 +4,13 @@ import { IBookMeeting, IMonthField } from "util/getFirebaseDoc";
 import { getMonthNumber } from "util/getMonthNumber";
 import { usersState } from "data/userAtom";
 import { useRecoilValue } from "recoil";
-import device from "theme/mediaQueries";
-import Subtitle from "./common/Subtitle";
-import styled from "styled-components";
 import { doc, updateDoc } from "firebase/firestore";
 import { dbService } from "fbase";
 import { fieldOfClub, thisYear } from "util/constants";
+import Subtitle from "./common/Subtitle";
+import device from "theme/mediaQueries";
+import styled from "styled-components";
+import UserInfoBox from "./common/UserInfoBox";
 
 interface FieldScheduleBoxProps {
   bookFields: IMonthField[];
@@ -23,6 +24,11 @@ const FieldScheduleBox = ({
   const userDocs = useRecoilValue(usersState);
   const [isEditing, setIsEditing] = useState(new Array(12).fill(false));
   const [newFieldHost, setNewFieldHost] = useState([]);
+
+  const addNoHost = [
+    ...userDocs,
+    { displayName: "발제자 없음", id: "no_host" },
+  ];
 
   useEffect(() => {
     setNewFieldHost(bookFields);
@@ -65,11 +71,11 @@ const FieldScheduleBox = ({
           <Form
             onSubmit={onSubmit}
             key={item.month}
-            $highlight={item.month === getMonthNumber(thisMonthDoc?.id)}
+            $highlight={+item.month === +getMonthNumber(thisMonthDoc?.id)}
           >
             <div>{`${item.month}월`}</div>
             <EditElement
-              $highlight={item.month === getMonthNumber(thisMonthDoc?.id)}
+              $highlight={item.month === +getMonthNumber(thisMonthDoc?.id)}
             >
               {isEditing[index] ? (
                 <>
@@ -78,8 +84,8 @@ const FieldScheduleBox = ({
                     onChange={(event) => onChange(event, index)}
                     defaultValue={item.host}
                   >
-                    {userDocs.map((user) => (
-                      <option key={`${user.name}`} value={user.displayName}>
+                    {addNoHost.map((user) => (
+                      <option key={`${user.id}`} value={user.id}>
                         {user.displayName}
                       </option>
                     ))}
@@ -98,7 +104,7 @@ const FieldScheduleBox = ({
                 </>
               ) : (
                 <>
-                  <span>{item.host ? item.host : "?"}</span>
+                  {item.host && <UserInfoBox creatorId={item.host} />}
                   <p>{item.field}</p>
                 </>
               )}
@@ -154,27 +160,24 @@ const Form = styled.form<{ $highlight: boolean }>`
 const EditElement = styled.div<{ $highlight: boolean }>`
   width: 100%;
   height: 80px;
-  padding: 5px 5px 0;
+  padding: 5px 4px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  > div,
   > span {
+    width: 100%;
     display: flex;
-    justify-content: center;
     align-items: center;
-    min-width: 40px;
-    padding: 2px 5px;
-    border-radius: 20px;
-    margin-bottom: 8px;
-    text-align: center;
-    font-size: 11px;
-    border: 1px solid ${(props) => props.theme.text.accent};
-    background-color: ${(props) => props.theme.container.lightBlue};
-    color: ${(props) =>
-      props.$highlight ? props.theme.text.accent : props.theme.text.default};
+    justify-content: center;
+    min-height: 32px;
+    > span {
+      font-size: 12px;
+    }
   }
   > p {
+    margin-top: 5px;
     height: 100%;
     font-weight: 700;
     text-align: center;
@@ -206,7 +209,6 @@ const EditElement = styled.div<{ $highlight: boolean }>`
 const SubmitBtn = styled.button`
   align-self: flex-end;
   font-weight: 700;
-  color: ${(props) => props.theme.text.lightBlue};
   background-color: ${(props) => props.theme.container.default};
   border: 1px solid ${(props) => props.theme.text.lightGray};
   border: none;
@@ -219,7 +221,7 @@ const SubmitBtn = styled.button`
   svg {
     width: 16px;
     height: 16px;
-    fill: ${(props) => props.theme.container.blue};
+    fill: ${(props) => props.theme.text.gray};
   }
 `;
 

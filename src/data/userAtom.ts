@@ -17,6 +17,7 @@ export interface IExtraUserData {
   email: string;
   displayName: string;
   photoUrl: string;
+  id?: string;
 }
 
 const auth = getAuth();

@@ -24,7 +24,7 @@ export interface IBookMeeting {
 
 export interface IMonthField {
   field: string;
-  month: string;
+  month: number;
   host: string;
 }
 
