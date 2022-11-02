@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IBookApi } from "data/bookAtom";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
-import useAddDoc from "hooks/firebase/useAddDoc";
+import useAddDoc from "hooks/handleFirebaseDoc/useAddDoc";
 import styled from "styled-components";
 import PostButton from "components/common/PostButton";
 import { clubInfoCollection } from "util/constants";

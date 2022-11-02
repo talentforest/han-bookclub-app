@@ -4,7 +4,7 @@ import { IBookApi } from "data/bookAtom";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import Overlay from "components/common/Overlay";
-import useAddDoc from "hooks/firebase/useAddDoc";
+import useAddDoc from "hooks/handleFirebaseDoc/useAddDoc";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import "react-quill/dist/quill.snow.css";

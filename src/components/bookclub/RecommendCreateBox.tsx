@@ -5,7 +5,7 @@ import { Search } from "@mui/icons-material";
 import { currentUserState } from "data/userAtom";
 import { useRecoilValue } from "recoil";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
-import useAddDoc from "hooks/firebase/useAddDoc";
+import useAddDoc from "hooks/handleFirebaseDoc/useAddDoc";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 import PostButton from "components/common/PostButton";

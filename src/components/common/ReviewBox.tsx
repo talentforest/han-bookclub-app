@@ -6,8 +6,8 @@ import { Form, TextArea } from "./RecommandBox";
 import UserInfoBox from "components/common/UserInfoBox";
 import BookTitleImgBox from "components/common/BookTitleImgBox";
 import EditDeleteButton from "components/common/EditDeleteButton";
-import useDeleteDoc from "hooks/firebase/useDeleteDoc";
-import useEditDoc from "hooks/firebase/useEditDoc";
+import useDeleteDoc from "hooks/handleFirebaseDoc/useDeleteDoc";
+import useEditDoc from "hooks/handleFirebaseDoc/useEditDoc";
 import styled from "styled-components";
 import { clubInfoCollection } from "util/constants";
 

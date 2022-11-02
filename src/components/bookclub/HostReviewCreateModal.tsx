@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "data/userAtom";
 import { Modal } from "./SubjectCreateModal";
 import Overlay from "components/common/Overlay";
-import useAddDoc from "hooks/firebase/useAddDoc";
+import useAddDoc from "hooks/handleFirebaseDoc/useAddDoc";
 import QuillEditor from "components/common/QuillEditor";
 import AddDocButton from "./AddDocButton";
 import PostButton from "components/common/PostButton";

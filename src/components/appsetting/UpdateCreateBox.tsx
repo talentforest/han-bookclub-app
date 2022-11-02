@@ -1,7 +1,7 @@
 import { currentUserState } from "data/userAtom";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
-import useAddDoc from "hooks/firebase/useAddDoc";
+import useAddDoc from "hooks/handleFirebaseDoc/useAddDoc";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 

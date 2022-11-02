@@ -1,5 +1,5 @@
-import useDeleteDoc from "hooks/firebase/useDeleteDoc";
-import useEditDoc from "hooks/firebase/useEditDoc";
+import useDeleteDoc from "hooks/handleFirebaseDoc/useDeleteDoc";
+import useEditDoc from "hooks/handleFirebaseDoc/useEditDoc";
 import { useState } from "react";
 import styled from "styled-components";
 import { clubInfoCollection } from "util/constants";

@@ -5,8 +5,8 @@ import EditDeleteButton from "components/common/EditDeleteButton";
 import UserInfoBox from "components/common/UserInfoBox";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
-import useDeleteDoc from "hooks/firebase/useDeleteDoc";
-import useEditDoc from "hooks/firebase/useEditDoc";
+import useDeleteDoc from "hooks/handleFirebaseDoc/useDeleteDoc";
+import useEditDoc from "hooks/handleFirebaseDoc/useEditDoc";
 
 interface PropsType {
   request: UpdateRequestDoc;

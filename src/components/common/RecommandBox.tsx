@@ -6,8 +6,8 @@ import BookTitleImgBox from "components/common/BookTitleImgBox";
 import EditDeleteButton from "./EditDeleteButton";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
-import useDeleteDoc from "hooks/firebase/useDeleteDoc";
-import useEditDoc from "hooks/firebase/useEditDoc";
+import useDeleteDoc from "hooks/handleFirebaseDoc/useDeleteDoc";
+import useEditDoc from "hooks/handleFirebaseDoc/useEditDoc";
 import { clubInfoCollection } from "util/constants";
 
 interface PropsType {
