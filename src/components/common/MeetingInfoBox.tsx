@@ -130,16 +130,19 @@ const SubmitBtn = styled.button`
 const TimePlace = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
   > input {
-    width: 220px;
+    width: 70%;
     padding: 3px 7px;
     border: 1px solid ${(props) => props.theme.container.blue};
     border-radius: 20px;
     font-size: 12px;
   }
   > p {
-    width: 220px;
+    width: 70%;
+    word-break: break-all;
     font-size: 14px;
+    overflow: hidden;
   }
   @media ${device.tablet} {
     p {
