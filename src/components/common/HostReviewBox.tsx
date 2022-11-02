@@ -1,15 +1,16 @@
-import useDeleteDoc from "hooks/handleFirebaseDoc/useDeleteDoc";
-import useEditDoc from "hooks/handleFirebaseDoc/useEditDoc";
 import { useState } from "react";
-import styled from "styled-components";
 import { clubInfoCollection } from "util/constants";
 import { cutLetter } from "util/cutLetter";
 import { timestamp } from "util/timestamp";
+import { IWrittenDocs } from "./SubjectBox";
+import useDeleteDoc from "hooks/handleFirebaseDoc/useDeleteDoc";
+import useEditDoc from "hooks/handleFirebaseDoc/useEditDoc";
+import UserInfoBox from "./UserInfoBox";
 import EditDeleteButton from "./EditDeleteButton";
 import Overlay from "./Overlay";
 import QuillEditor from "./QuillEditor";
-import { IWrittenDocs } from "./SubjectBox";
-import UserInfoBox from "./UserInfoBox";
+import styled from "styled-components";
+import ShareButton from "./ShareButton";
 
 interface IHostReviewBoxProps {
   review: IWrittenDocs;
@@ -40,13 +41,20 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
             content={cutLetter(review.text, 210)}
             setContent={setEditedText}
           />
-          <button
-            onClick={() => {
-              setOpenModal((prev) => !prev);
-            }}
-          >
-            발제자의 정리 더보기
-          </button>
+          <div>
+            <ShareButton
+              item="모임 기록이"
+              description="발제자의 모임 기록을 한번 보러 가볼까요?"
+              path="bookmeeting"
+            />
+            <button
+              onClick={() => {
+                setOpenModal((prev) => !prev);
+              }}
+            >
+              발제자의 정리 더보기
+            </button>
+          </div>
         </ReviewBox>
       )}
       {openModal && (
@@ -116,18 +124,20 @@ const ReviewBox = styled.div`
   border-radius: 5px;
   box-shadow: ${(props) => props.theme.boxShadow};
   background-color: ${(props) => props.theme.container.default};
-  pre {
+  > pre {
     margin-bottom: 10px;
   }
-  button {
-    align-self: end;
-    background-color: ${(props) => props.theme.container.orange};
-    box-shadow: ${(props) => props.theme.boxShadow};
-    border-radius: 30px;
-    border: none;
-    padding: 8px 15px;
-    margin: 5px 0;
-    font-weight: 700;
+  > div {
+    display: flex;
+    justify-content: space-between;
+    > button:last-child {
+      background-color: ${(props) => props.theme.container.orange};
+      box-shadow: ${(props) => props.theme.boxShadow};
+      border-radius: 30px;
+      border: none;
+      padding: 8px 15px;
+      font-weight: 700;
+    }
   }
 `;
 

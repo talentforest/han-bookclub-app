@@ -12,7 +12,7 @@ interface BookQuery {
 const Kakao = axios.create({
   baseURL: "https://dapi.kakao.com",
   headers: {
-    Authorization: "KakaoAK e8625f56dd420c3a1e0b08fa4e2550d4",
+    Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_BOOK_API_KEY}`,
   },
 });
 

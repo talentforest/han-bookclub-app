@@ -5,13 +5,14 @@ import { useRecoilValue } from "recoil";
 import { IVote, IVoteItem } from "util/getFirebaseDoc";
 import { Container } from "theme/commonStyle";
 import { today } from "util/constants";
+import { useState } from "react";
 import UserInfoBox from "components/common/UserInfoBox";
 import useHandleVoting from "hooks/useHandleVoting";
 import device from "theme/mediaQueries";
 import styled from "styled-components";
 import FormDetails from "components/votedetail/FormDetails";
 import Percentage from "components/votedetail/Percentage";
-import { useState } from "react";
+import ShareButton from "components/common/ShareButton";
 
 type LocationState = { state: { voteDetail: IVote } };
 
@@ -113,6 +114,13 @@ const VoteDetail = () => {
             </SubmitButton>
           </form>
         )}
+      </Vote>
+      <InfoBox>
+        <ShareButton
+          item="투표가"
+          description="투표하러 가볼까요?"
+          path="vote"
+        />
         <VoteMember>
           <h4>투표인원: {personalVote.length}명</h4>
           <ul>
@@ -123,7 +131,7 @@ const VoteDetail = () => {
             ))}
           </ul>
         </VoteMember>
-      </Vote>
+      </InfoBox>
     </Container>
   );
 };
@@ -131,6 +139,20 @@ const VoteDetail = () => {
 const Vote = styled.div`
   width: 100%;
   padding: 0 20px;
+  > form {
+    > span {
+      width: fit-content;
+      font-size: 12px;
+      border-radius: 15px;
+      padding: 5px 10px 3px;
+      background-color: ${(props) => props.theme.container.yellow};
+      color: ${(props) => props.theme.text.accent};
+    }
+    > p {
+      font-size: 14px;
+      color: ${(props) => props.theme.text.lightBlue};
+    }
+  }
   &.expired {
     pointer-events: none;
     > form {
@@ -144,20 +166,6 @@ const Vote = styled.div`
       svg {
         fill: ${(props) => props.theme.text.gray};
       }
-    }
-  }
-  > form {
-    > span {
-      width: fit-content;
-      font-size: 12px;
-      border-radius: 15px;
-      padding: 5px 10px 3px;
-      background-color: ${(props) => props.theme.container.yellow};
-      color: ${(props) => props.theme.text.accent};
-    }
-    > p {
-      font-size: 14px;
-      color: ${(props) => props.theme.text.lightBlue};
     }
   }
 `;
@@ -279,6 +287,15 @@ const VoteMember = styled.div`
     ul {
       font-size: 18px;
     }
+  }
+`;
+
+const InfoBox = styled.div`
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  > button {
+    align-self: flex-end;
   }
 `;
 
