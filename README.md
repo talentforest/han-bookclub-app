@@ -1,98 +1,90 @@
-# <div align="center"><strong>한페이지 독서모임 기록관리 앱</strong></div>
+# 한페이지 독서모임 기록관리 앱
 
-### <div align="center">✨ <strong>프로젝트에 사용한 스택</strong> ✨</div>
+### ✨ 프로젝트에 사용한 스택 ✨
 
-<div align="center" >
+<div>
   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black">
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white">
   <img src="https://img.shields.io/badge/recoil-007af4?style=for-the-badge&logo=recoil&logoColor=white">
-
   <img src="https://img.shields.io/badge/styled component-DB7093?style=for-the-badge&logo=styled-component&logoColor=white">
   <img src="https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=mui&logoColor=white">
-
   <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white">
   <img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black">
-  <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
 </div>
 
 <br/>
 
-#### <div align="center">✨ <strong>기타 React 라이브러리</strong> ✨</div>
+#### ✨ 기타 React 라이브러리 ✨
 
-<div align="center">
+<div>
   <img src="https://img.shields.io/badge/react quill-333?style=for-the-badge&logoColor=black">
   <img src="https://img.shields.io/badge/react slick-333?style=for-the-badge&logoColor=black">
 </div>
 
 <br/>
-<div align="center">
-  <h3>📍  프로젝트 살펴보기 
-    <a href="https://talentforest.github.io/han-bookclub-app/"><strong>Demo</strong>
-    </a> 👀
-  </h3>
-  <h5>(gh-pages로 배포하였습니다.)</h5>
-</div>
+
+### 📍 프로젝트 살펴보기
+
+[Demo 👀](https://talentforest.github.io/han-bookclub-app/)
+
+##### (gh-pages로 배포하였습니다.)
 
 <br/>
 
-<div align="center">
-  <h3>📍  프로젝트의 기획부터 개발 기간</h3>
-  <h5>기획: 2022.04.20 ~ 2022.04.27</h4>
-  <h5>개발: 2022.04.28 ~ 계속 기능 업데이트 중</h4>
-</div>
+### 📍 프로젝트의 기획부터 개발 기간</h3>
+
+#### 기획: 2022.04.20 ~ 2022.04.27</h4>
+
+#### 개발: 2022.04.28 ~ 계속 기능 업데이트 중</h4>
 
 <br/>
 
-<div align="center">
-  <h3>📍  버전 업데이트</h3>
-  
-  |버전|날짜|
-|------|---|
-|v0.0.0|22.06.30|
-|v0.0.1|22.07.03|
-|v0.1.1|22.08.31|
-|v0.2.1|22.09.03|
-</div>
+### 📍 버전 업데이트</h3>
+
+| 버전   | 날짜     |
+| ------ | -------- |
+| v0.0.0 | 22.06.30 |
+| v0.0.1 | 22.07.03 |
+| v0.1.1 | 22.08.31 |
+| v0.1.2 | 22.09.03 |
+| v0.2.2 | 22.10.11 |
+| v0.3.2 | 22.11.03 |
+
+[진행과정](https://jellieplanet.notion.site/c7cdb25ca7804e75953655c7e95c1acc)
 
 <br/>
 
-<div align="center">
-
-### 목차
-
-#### [목차 1. 한페이지 독서모임 기록관리 앱 프로젝트 계획 이유](#1-한페이지-독서모임-기록관리-앱-프로젝트-계획-이유)
-
-#### 1-1. 한페이지 독서모임은 무엇인가요?
-
-#### 1-2. 한페이지 독서모임 기록관리 앱을 계획한 이유
-
-#### [목차 2. 프로젝트 스펙과 파일구조 살펴보기](#2-프로젝트-스펙과-파일구조-살펴보기)
-
-#### [목차 3. 한페이지 독서모임 기록관리 앱의 기능 소개](#3-한페이지-독서모임-기록관리-앱의-기능-소개)
-
-##### 3-0. 반응형 웹페이지
-
-##### 3-1. 로그인 페이지
-
-##### 3-2. 회원가입 페이지
-
-##### 3-3. 홈 페이지
-
-##### 3-4. 지난 책모임 페이지
-
-##### 3-5. 이달의 책모임 페이지
-
-##### 3-6. 투표하기 페이지
-
-##### 3-7. 나의 책장 페이지
-
-##### 3-8. 설정 페이지
-
-#### [목차 4. 업데이트 계획](#4-업데이트-계획)
-
-</div>
-
-<br/>
+> ### 목차
+>
+> #### [목차 1. 한페이지 독서모임 기록관리 앱 프로젝트 계획 이유](#1-한페이지-독서모임-기록관리-앱-프로젝트-계획-이유)
+>
+> #### 1-1. 한페이지 독서모임은 무엇인가요?
+>
+> #### 1-2. 한페이지 독서모임 기록관리 앱을 계획한 이유
+>
+> #### [목차 2. 프로젝트 스펙과 파일구조 살펴보기](#2-프로젝트-스펙과-파일구조-살펴보기)
+>
+> #### [목차 3. 한페이지 독서모임 기록관리 앱의 기능 소개](#3-한페이지-독서모임-기록관리-앱의-기능-소개)
+>
+> #### 3-0. 반응형 웹페이지
+>
+> #### 3-1. 로그인 페이지
+>
+> #### 3-2. 회원가입 페이지
+>
+> #### 3-3. 홈 페이지
+>
+> #### 3-4. 지난 책모임 페이지
+>
+> #### 3-5. 이달의 책모임 페이지
+>
+> #### 3-6. 투표하기 페이지
+>
+> #### 3-7. 나의 책장 페이지
+>
+> #### 3-8. 설정 페이지
+>
+> #### [목차 4. 업데이트 계획](#4-업데이트-계획)
 
 <br/>
 
@@ -216,6 +208,7 @@
 
 - <strong>추천책 | 발제문 | 모임 후기</strong> 이렇게 세가지 작성 카테고리로 구분되어 있습니다.
 - 추천책 카테고리에서 추천하고 싶은 책은 카카오 도서 검색 api로 정보를 찾아 해당 정보를 등록할 수 있습니다.
+- 작성된 발제문과 모임 정리 기록은 카카오톡으로 공유할 수 있습니다.
 
 #### 3-6. 투표하기 페이지
 
