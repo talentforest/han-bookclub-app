@@ -9,6 +9,7 @@ import QuillEditor from "./QuillEditor";
 import "react-quill/dist/quill.snow.css";
 import FormHeader from "components/template/FormHeader";
 import { clubInfoCollection } from "util/constants";
+import ShareButton from "./ShareButton";
 
 export interface IWrittenDocs {
   id?: string;
@@ -75,11 +76,17 @@ const SubjectBox = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
         title={subject.title}
         smSize={"smSize"}
       />
+      <ShareButton
+        item="발제문이"
+        description="이번달의 발제문을 한번 보러 가볼까요?"
+        path="bookmeeting"
+      />
     </Box>
   );
 };
 
 const Box = styled.div`
+  position: relative;
   width: 100%;
   box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.3);
   margin: 10px 0;
@@ -87,6 +94,11 @@ const Box = styled.div`
   background-color: ${(props) => props.theme.container.default};
   border-radius: 5px;
   min-height: 150px;
+  > button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
   @media ${device.tablet} {
     margin-bottom: 15px;
     padding: 20px 25px;
