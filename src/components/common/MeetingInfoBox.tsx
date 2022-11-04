@@ -132,6 +132,7 @@ const TimePlace = styled.div`
   align-items: center;
   width: 100%;
   > input {
+    height: 30px;
     width: 70%;
     padding: 3px 7px;
     border: 1px solid ${(props) => props.theme.container.blue};
@@ -157,6 +158,7 @@ const Info = styled.div`
   justify-content: center;
   gap: 3px;
   width: 80px;
+  height: 30px;
   padding: 3px 0px;
   border: 1px solid ${(props) => props.theme.container.blue};
   background-color: ${(props) => props.theme.container.lightBlue};

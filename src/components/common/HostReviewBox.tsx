@@ -130,6 +130,7 @@ const ReviewBox = styled.div`
   > div {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     > button:last-child {
       background-color: ${(props) => props.theme.container.orange};
       box-shadow: ${(props) => props.theme.boxShadow};
