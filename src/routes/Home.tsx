@@ -76,7 +76,7 @@ const Home = () => {
               text="한페이지 멤버는 매월 셋째주 일요일에 만나요."
             />
             <MeetingInfoBox docData={thisMonthDoc?.meeting} />
-            <LinkButton link={"/bookmeeting"} title="발제하러 가기" />
+            <LinkButton link={"/bookclub"} title="발제하러 가기" />
           </section>
           <VoteSlider>
             <Subtitle title={"한페이지의 투표함"} />

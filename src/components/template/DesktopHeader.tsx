@@ -21,7 +21,7 @@ const DesktopHeader = () => {
           <li>
             <Link to="/bookclub">
               <span
-                className={pathname.includes("/bookmeeting") ? "isActive" : ""}
+                className={pathname.includes("/bookclub") ? "isActive" : ""}
               >
                 이달의 책모임
               </span>

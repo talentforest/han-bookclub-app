@@ -79,7 +79,7 @@ const SubjectBox = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
       <ShareButton
         item="발제문이"
         description="이번달의 발제문을 한번 보러 가볼까요?"
-        path="bookmeeting"
+        path="bookclub"
       />
     </Box>
   );

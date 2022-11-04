@@ -17,6 +17,8 @@ export const ResetStyle = createGlobalStyle`
   input[type=email],
   input[type=text],
   input[type=submit], 
+  input[type=datetime-local],
+  input[type=date],
   textarea, 
   button {
     -webkit-appearance:none; 
@@ -27,6 +29,10 @@ export const ResetStyle = createGlobalStyle`
   textarea, 
   button, 
   select {
+    background: transparent;
+    -webkit-appearance:none; 
+    -moz-appearance:none; 
+    appearance:none;
     -webkit-border-radius:0; 
     -moz-border-radius:0; 
     -o-border-radius:0; 

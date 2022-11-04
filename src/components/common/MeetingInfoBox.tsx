@@ -102,7 +102,7 @@ const Form = styled.form`
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
-  margin-top: 30px;
+  margin-top: 10px;
   padding: 15px 10px 30px;
   @media ${device.tablet} {
     padding: 20px;
