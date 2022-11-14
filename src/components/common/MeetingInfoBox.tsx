@@ -18,9 +18,9 @@ const MeetingInfoBox = ({ docData }: PropsType) => {
   const [isEditing, setIsEditing] = useState(false);
   const { alertAskJoinMember } = useAlertAskJoin();
   const anonymous = authService.currentUser?.isAnonymous;
-
   const timeRef = useRef(null);
   const placeRef = useRef(null);
+
   const docRef = doc(dbService, CLUB_INFO, `${thisYearMonth}`);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -35,7 +35,7 @@ const MeetingInfoBox = ({ docData }: PropsType) => {
     setIsEditing(false);
   };
 
-  const onClick = () => {
+  const onEditClick = () => {
     if (anonymous) return alertAskJoinMember();
     setIsEditing((prev) => !prev);
   };
@@ -49,7 +49,11 @@ const MeetingInfoBox = ({ docData }: PropsType) => {
         <Info>
           모임시간 <AccessTime />
         </Info>
-        <input type="datetime-local" ref={timeRef} />
+        <input
+          type="datetime-local"
+          ref={timeRef}
+          defaultValue={docData.time}
+        />
       </TimePlace>
       <TimePlace>
         <Info>
@@ -59,12 +63,13 @@ const MeetingInfoBox = ({ docData }: PropsType) => {
           type="text"
           placeholder="모임 장소을 적어주세요."
           ref={placeRef}
+          defaultValue={docData.place}
         />
       </TimePlace>
     </Form>
   ) : (
     <Form as="div">
-      <SubmitBtn onClick={onClick}>
+      <SubmitBtn onClick={onEditClick}>
         <Edit />
       </SubmitBtn>
       <TimePlace>
@@ -110,15 +115,17 @@ const Form = styled.form`
 `;
 
 const SubmitBtn = styled.button`
+  width: 30px;
+  height: 30px;
   position: absolute;
   right: 5px;
   bottom: 5px;
+  border: none;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   font-size: 12px;
-  border: none;
-  color: ${(props) => props.theme.text.lightBlue};
-  background-color: ${(props) => props.theme.container.default};
+  background-color: ${(props) => props.theme.container.lightBlue};
   cursor: pointer;
   svg {
     width: 18px;
