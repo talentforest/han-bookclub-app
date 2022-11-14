@@ -9,6 +9,7 @@ import { CLUB_INFO, thisYearMonth } from "util/constants";
 import styled from "styled-components";
 import device from "theme/mediaQueries";
 import useAlertAskJoin from "hooks/useAlertAskJoin";
+import ShareButton from "./ShareButton";
 
 interface PropsType {
   docData: IMeeting;
@@ -42,9 +43,11 @@ const MeetingInfoBox = ({ docData }: PropsType) => {
 
   return docData && isEditing ? (
     <Form onSubmit={onSubmit}>
-      <SubmitBtn type="submit">
-        <Check />
-      </SubmitBtn>
+      <Buttons>
+        <SubmitBtn type="submit">
+          <Check />
+        </SubmitBtn>
+      </Buttons>
       <TimePlace>
         <Info>
           모임시간 <AccessTime />
@@ -69,9 +72,6 @@ const MeetingInfoBox = ({ docData }: PropsType) => {
     </Form>
   ) : (
     <Form as="div">
-      <SubmitBtn onClick={onEditClick}>
-        <Edit />
-      </SubmitBtn>
       <TimePlace>
         <Info>
           모임시간 <AccessTime />
@@ -92,6 +92,21 @@ const MeetingInfoBox = ({ docData }: PropsType) => {
             : "아직 정해진 모임 장소가 없습니다."}
         </p>
       </TimePlace>
+      <Buttons>
+        <SubmitBtn
+          as={ShareButton}
+          title="✨이번달의 모임일정을 공지합니다~😆."
+          description={`이번 모임은 🏢${docData?.place}에서 🕰${new Date(
+            docData.time
+          )
+            .toLocaleString()
+            .slice(0, -3)}에 만나요!`}
+          path="bookclub"
+        />
+        <SubmitBtn onClick={onEditClick}>
+          <Edit />
+        </SubmitBtn>
+      </Buttons>
     </Form>
   );
 };
@@ -99,7 +114,7 @@ const MeetingInfoBox = ({ docData }: PropsType) => {
 const Form = styled.form`
   position: relative;
   display: flex;
-  gap: 10px;
+  gap: 5px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -107,19 +122,24 @@ const Form = styled.form`
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
-  margin-top: 10px;
-  padding: 15px 10px 30px;
+  margin-top: 20px;
+  padding: 10px;
   @media ${device.tablet} {
     padding: 20px;
   }
 `;
 
+const Buttons = styled.div`
+  position: absolute;
+  top: -15px;
+  display: flex;
+  gap: 10px;
+  align-self: flex-end;
+`;
+
 const SubmitBtn = styled.button`
   width: 30px;
   height: 30px;
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
   border: none;
   border-radius: 50%;
   display: flex;

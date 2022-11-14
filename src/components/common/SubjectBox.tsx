@@ -77,8 +77,8 @@ const SubjectBox = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
         smSize={"smSize"}
       />
       <ShareButton
-        item="발제문이"
-        description="이번달의 발제문을 한번 보러 가볼까요?"
+        title="✨새로운 발제문이 등록되었어요!"
+        description="이번달의 발제문을 한번 보러 가볼까요? 👀"
         path="bookclub"
       />
     </Box>

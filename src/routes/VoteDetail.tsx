@@ -117,8 +117,8 @@ const VoteDetail = () => {
       </Vote>
       <InfoBox>
         <ShareButton
-          item="투표가"
-          description="투표하러 가볼까요?"
+          title="✨새로운 투표가 등록되었어요!"
+          description="투표하러 가볼까요? 👀"
           path="vote"
         />
         <VoteMember>

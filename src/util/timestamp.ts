@@ -5,7 +5,6 @@ export function timestamp(createdAt: number | string | Date) {
 
 export function meetingTimestamp(timeText: number | string) {
   const date = new Date(timeText);
-
   return `${date.getFullYear()}년 ${
     date.getMonth() + 1
   }월 ${date.getDate()}일 ${date.getHours()}시 ${

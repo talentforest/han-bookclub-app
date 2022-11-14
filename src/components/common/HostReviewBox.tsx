@@ -43,8 +43,8 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
           />
           <div>
             <ShareButton
-              item="모임 기록이"
-              description="이번달 발제자의 모임 기록을 한번 보러 가볼까요?"
+              title="새로운 모임 기록이 등록되었어요~🚀"
+              description="이번달 발제자의 모임 기록을 한번 보러 가볼까요?🤩"
               path="bookclub"
             />
             <button

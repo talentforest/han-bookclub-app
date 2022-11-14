@@ -4,12 +4,12 @@ import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 interface IShareButtonProps {
-  item: string;
+  title: string;
   description: string;
   path: string;
 }
 
-const ShareButton = ({ item, description, path }: IShareButtonProps) => {
+const ShareButton = ({ title, description, path }: IShareButtonProps) => {
   const userData = useRecoilValue(currentUserState);
 
   if (!window.Kakao.isInitialized()) {
@@ -28,7 +28,7 @@ const ShareButton = ({ item, description, path }: IShareButtonProps) => {
       templateArgs: {
         userId: userData.displayName,
         THU: userData.photoURL,
-        title: `새로운 ${item} 등록되었어요!`,
+        title,
         description,
         path,
       },
