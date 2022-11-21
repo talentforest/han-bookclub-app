@@ -1,22 +1,22 @@
-import { useEffect } from "react";
-import { Container } from "theme/commonStyle";
-import { useRecoilState } from "recoil";
-import { hostReviewState, thisMonthState } from "data/documentsAtom";
-import { getCollection, getDocument } from "util/getFirebaseDoc";
-import { clubInfoCollection, CLUB_INFO, thisYearMonth } from "util/constants";
-import { getMonthNumber } from "util/getMonthNumber";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import Loading from "components/common/Loading";
-import Subtitle from "components/common/Subtitle";
-import { EmptyRecord } from "components/template/RecommendationArea";
-import MeetingInfoBox from "components/common/MeetingInfoBox";
-import BookTitleImgBox from "components/common/BookTitleImgBox";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
-import Guide from "components/common/Guide";
-import HostReviewCreateModal from "components/bookclub/HostReviewCreateModal";
-import HostReviewBox from "components/common/HostReviewBox";
-import SubjectArea from "components/template/SubjectArea";
+import { useEffect } from 'react';
+import { Container } from 'theme/commonStyle';
+import { useRecoilState } from 'recoil';
+import { hostReviewState, thisMonthState } from 'data/documentsAtom';
+import { getCollection, getDocument } from 'util/getFirebaseDoc';
+import { clubInfoCollection, CLUB_INFO, thisYearMonth } from 'util/constants';
+import { getMonthNumber } from 'util/getMonthNumber';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import Loading from 'components/common/Loading';
+import Subtitle from 'components/common/Subtitle';
+import { EmptyRecord } from 'components/template/RecommendationArea';
+import MeetingInfoBox from 'components/common/MeetingInfoBox';
+import BookTitleImgBox from 'components/common/BookTitleImgBox';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+import Guide from 'components/common/Guide';
+import HostReviewCreateModal from 'components/bookclub/HostReviewCreateModal';
+import HostReviewBox from 'components/common/HostReviewBox';
+import SubjectArea from 'components/template/SubjectArea';
 
 const BookClubOfThisMonth = () => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
@@ -35,25 +35,29 @@ const BookClubOfThisMonth = () => {
     <>
       {checkThisMonthDoc === 0 ? (
         <Loading />
-      ) : (
+      ) : thisMonthDoc ? (
         <Container>
           <Subtitle title={`${getMonthNumber(thisMonthDoc?.id)}월의 책`} />
           <MeetingBox>
             <BookTitleImgBox
-              thumbnail={thisMonthDoc.book.thumbnail}
-              title={thisMonthDoc.book.title}
-              detailInfo={thisMonthDoc.book}
+              thumbnail={thisMonthDoc?.book?.thumbnail}
+              title={thisMonthDoc?.book?.title}
+              detailInfo={thisMonthDoc?.book}
             />
-            {thisMonthDoc.book.url && (
-              <a href={thisMonthDoc.book.url} target="_blank" rel="noreferrer">
+            {thisMonthDoc?.book?.url && (
+              <a
+                href={thisMonthDoc?.book?.url}
+                target='_blank'
+                rel='noreferrer'
+              >
                 Daum책 상세정보 보러가기
               </a>
             )}
-            <MeetingInfoBox docData={thisMonthDoc.meeting} />
+            <MeetingInfoBox docData={thisMonthDoc?.meeting} />
           </MeetingBox>
-          <Guide text="모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 작성이 불가능한 점 유의해주세요." />
+          <Guide text='모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 작성이 불가능한 점 유의해주세요.' />
           <AfterMeetingRecord>
-            <Subtitle title="발제자의 모임 정리" />
+            <Subtitle title='발제자의 모임 정리' />
             {hostReview?.length !== 0 ? (
               hostReview?.map((review) => (
                 <HostReviewBox
@@ -66,7 +70,7 @@ const BookClubOfThisMonth = () => {
               <>
                 <HostReviewCreateModal
                   bookInfo={thisMonthDoc?.book}
-                  docMonth={thisMonthDoc.id}
+                  docMonth={thisMonthDoc?.id}
                 />
                 <EmptyRecord>아직 모임 후 정리된 기록이 없습니다.</EmptyRecord>
               </>
@@ -74,34 +78,36 @@ const BookClubOfThisMonth = () => {
           </AfterMeetingRecord>
           <Categories>
             <Category
-              $isActive={pathname === "/bookclub/recommends"}
+              $isActive={pathname === '/bookclub/recommends'}
               onClick={() => {
-                navigate("/bookclub/recommends");
+                navigate('/bookclub/recommends');
               }}
             >
               추천책 작성
             </Category>
             <Category
               $isActive={
-                pathname === "/bookclub" || pathname === "/bookclub/subjects"
+                pathname === '/bookclub' || pathname === '/bookclub/subjects'
               }
               onClick={() => {
-                navigate("/bookclub/subjects");
+                navigate('/bookclub/subjects');
               }}
             >
               발제문 작성
             </Category>
             <Category
-              $isActive={pathname === "/bookclub/reviews"}
+              $isActive={pathname === '/bookclub/reviews'}
               onClick={() => {
-                navigate("/bookclub/reviews");
+                navigate('/bookclub/reviews');
               }}
             >
               모임후기 작성
             </Category>
           </Categories>
-          {pathname === "/bookclub" ? <SubjectArea /> : <Outlet />}
+          {pathname === '/bookclub' ? <SubjectArea /> : <Outlet />}
         </Container>
+      ) : (
+        <></>
       )}
     </>
   );
@@ -156,8 +162,8 @@ const Category = styled.button<{ $isActive: boolean }>`
   border: none;
   border-radius: 30px;
   background-color: ${(props) =>
-    props.$isActive ? props.theme.container.blue : "#eaeaea"};
-  color: ${(props) => (props.$isActive ? props.theme.text.white : "#aaa")};
+    props.$isActive ? props.theme.container.blue : '#eaeaea'};
+  color: ${(props) => (props.$isActive ? props.theme.text.white : '#aaa')};
   display: flex;
   align-items: center;
   justify-content: center;

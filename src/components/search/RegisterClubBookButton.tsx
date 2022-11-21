@@ -2,7 +2,7 @@ import { IBookApi } from 'data/bookAtom';
 import { thisYearMonth } from 'util/constants';
 import { useRecoilValue } from 'recoil';
 import { bookMeetingsState } from 'data/documentsAtom';
-import useHandleThisMonthDoc from 'hooks/useHandleThisMonthDoc';
+import useHandleClubInfoDoc from 'hooks/useHandleClubInfoDoc';
 import styled from 'styled-components';
 import { useEffect } from 'react';
 
@@ -12,7 +12,7 @@ interface PropsType {
 
 const RegisterClubBookButton = ({ searchedBook }: PropsType) => {
   const bookMeetingDocs = useRecoilValue(bookMeetingsState);
-  const { toggle, setToggle, onSubmit, onMonthChange } = useHandleThisMonthDoc({
+  const { toggle, setToggle, onSubmit, onMonthChange } = useHandleClubInfoDoc({
     bookMeetingDocs,
     searchedBook,
   });
@@ -22,6 +22,7 @@ const RegisterClubBookButton = ({ searchedBook }: PropsType) => {
 
   useEffect(() => {
     isClubBook ? setToggle(true) : setToggle(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return toggle ? (

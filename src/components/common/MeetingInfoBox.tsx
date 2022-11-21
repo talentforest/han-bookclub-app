@@ -1,15 +1,15 @@
-import { AccessTime, Place } from "@mui/icons-material";
-import { IMeeting } from "util/getFirebaseDoc";
-import { meetingTimestamp } from "util/timestamp";
-import { Check, Edit } from "@mui/icons-material";
-import { useRef, useState } from "react";
-import { doc, updateDoc } from "firebase/firestore";
-import { authService, dbService } from "fbase";
-import { CLUB_INFO, thisYearMonth } from "util/constants";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
-import useAlertAskJoin from "hooks/useAlertAskJoin";
-import ShareButton from "./ShareButton";
+import { AccessTime, Place } from '@mui/icons-material';
+import { IMeeting } from 'util/getFirebaseDoc';
+import { meetingTimestamp } from 'util/timestamp';
+import { Check, Edit } from '@mui/icons-material';
+import { useRef, useState } from 'react';
+import { doc, updateDoc } from 'firebase/firestore';
+import { authService, dbService } from 'fbase';
+import { CLUB_INFO, thisYearMonth } from 'util/constants';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+import useAlertAskJoin from 'hooks/useAlertAskJoin';
+import ShareButton from './ShareButton';
 
 interface PropsType {
   docData: IMeeting;
@@ -44,7 +44,7 @@ const MeetingInfoBox = ({ docData }: PropsType) => {
   return docData && isEditing ? (
     <Form onSubmit={onSubmit}>
       <Buttons>
-        <SubmitBtn type="submit">
+        <SubmitBtn type='submit'>
           <Check />
         </SubmitBtn>
       </Buttons>
@@ -53,9 +53,9 @@ const MeetingInfoBox = ({ docData }: PropsType) => {
           모임시간 <AccessTime />
         </Info>
         <input
-          type="datetime-local"
+          type='datetime-local'
           ref={timeRef}
-          defaultValue={docData.time}
+          defaultValue={docData?.time}
         />
       </TimePlace>
       <TimePlace>
@@ -63,23 +63,23 @@ const MeetingInfoBox = ({ docData }: PropsType) => {
           모임장소 <Place />
         </Info>
         <input
-          type="text"
-          placeholder="모임 장소을 적어주세요."
+          type='text'
+          placeholder='모임 장소을 적어주세요.'
           ref={placeRef}
-          defaultValue={docData.place}
+          defaultValue={docData?.place}
         />
       </TimePlace>
     </Form>
   ) : (
-    <Form as="div">
+    <Form as='div'>
       <TimePlace>
         <Info>
           모임시간 <AccessTime />
         </Info>
         <p>
-          {docData.time
-            ? meetingTimestamp(docData.time)
-            : "아직 정해진 모임 시간이 없습니다."}
+          {docData?.time
+            ? meetingTimestamp(docData?.time)
+            : '아직 정해진 모임 시간이 없습니다.'}
         </p>
       </TimePlace>
       <TimePlace>
@@ -89,19 +89,19 @@ const MeetingInfoBox = ({ docData }: PropsType) => {
         <p>
           {docData?.place
             ? docData?.place
-            : "아직 정해진 모임 장소가 없습니다."}
+            : '아직 정해진 모임 장소가 없습니다.'}
         </p>
       </TimePlace>
       <Buttons>
         <SubmitBtn
           as={ShareButton}
-          title="✨이번달의 모임일정을 공지합니다~😆."
+          title='✨이번달의 모임일정을 공지합니다~😆.'
           description={`이번 모임은 🏢${docData?.place}에서 🕰${new Date(
-            docData.time
+            docData?.time
           )
             .toLocaleString()
             .slice(0, -3)}에 만나요!`}
-          path="bookclub"
+          path='bookclub'
         />
         <SubmitBtn onClick={onEditClick}>
           <Edit />
