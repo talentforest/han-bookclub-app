@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Check, Edit } from "@mui/icons-material";
-import { IBookMeeting, IMonthField } from "util/getFirebaseDoc";
-import { getMonthNumber } from "util/getMonthNumber";
-import { usersState } from "data/userAtom";
-import { useRecoilValue } from "recoil";
-import { doc, updateDoc } from "firebase/firestore";
-import { dbService } from "fbase";
-import { BOOK_FIELD, fieldOfClub, thisYear } from "util/constants";
-import Subtitle from "./common/Subtitle";
-import device from "theme/mediaQueries";
-import styled from "styled-components";
-import UserInfoBox from "./common/UserInfoBox";
+import React, { useEffect, useState } from 'react';
+import { Check, Edit } from '@mui/icons-material';
+import { IBookMeeting, IMonthField } from 'util/getFirebaseDoc';
+import { getMonthNumber } from 'util/getMonthNumber';
+import { usersState } from 'data/userAtom';
+import { useRecoilValue } from 'recoil';
+import { doc, updateDoc } from 'firebase/firestore';
+import { dbService } from 'fbase';
+import { BOOK_FIELD, fieldOfClub, thisYear } from 'util/constants';
+import Subtitle from './common/Subtitle';
+import device from 'theme/mediaQueries';
+import styled from 'styled-components';
+import UserInfoBox from './common/UserInfoBox';
 
 interface FieldScheduleBoxProps {
   bookFields: IMonthField[];
@@ -27,7 +27,7 @@ const FieldScheduleBox = ({
 
   const addNoHost = [
     ...userDocs,
-    { displayName: "발제자 없음", id: "no_host" },
+    { displayName: '발제자 없음', id: 'no_host' },
   ];
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const FieldScheduleBox = ({
     setNewFieldHost(
       newFieldHost.map((bookField) =>
         bookField.month === index + 1
-          ? name === "field"
+          ? name === 'field'
             ? { ...bookField, field: value }
             : { ...bookField, host: value }
           : bookField
@@ -80,7 +80,7 @@ const FieldScheduleBox = ({
               {isEditing[index] ? (
                 <>
                   <select
-                    name="host"
+                    name='host'
                     onChange={(event) => onChange(event, index)}
                     defaultValue={item.host}
                   >
@@ -91,7 +91,7 @@ const FieldScheduleBox = ({
                     ))}
                   </select>
                   <select
-                    name="field"
+                    name='field'
                     value={item.field}
                     onChange={(event) => onChange(event, index)}
                   >
@@ -110,7 +110,7 @@ const FieldScheduleBox = ({
               )}
             </EditElement>
             <SubmitBtn
-              type="submit"
+              type='submit'
               name={`${index}`}
               onClick={() => handleEditing(index)}
             >
@@ -147,7 +147,7 @@ const Form = styled.form<{ $highlight: boolean }>`
   border-radius: 5px;
   border: 1px solid ${(props) => props.theme.text.lightGray};
   background-color: ${(props) =>
-    props.$highlight ? props.theme.container.lightBlue : "transparent"};
+    props.$highlight ? props.theme.container.lightBlue : 'transparent'};
   font-size: 14px;
   > div:first-child {
     text-align: center;

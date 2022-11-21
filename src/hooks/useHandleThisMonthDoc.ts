@@ -1,11 +1,11 @@
-import { IBookApi } from "data/bookAtom";
-import { currentUserState } from "data/userAtom";
-import { dbService } from "fbase";
-import { deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore";
-import { useState } from "react";
-import { useRecoilValue } from "recoil";
-import { IBookMeeting } from "util/getFirebaseDoc";
-import { CLUB_INFO, thisYearMonth } from "util/constants";
+import { IBookApi } from 'data/bookAtom';
+import { currentUserState } from 'data/userAtom';
+import { dbService } from 'fbase';
+import { deleteDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
+import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { IBookMeeting } from 'util/getFirebaseDoc';
+import { CLUB_INFO, thisYearMonth } from 'util/constants';
 
 interface PropsType {
   bookMeetingDocs: IBookMeeting[];
@@ -47,8 +47,8 @@ const useHandleThisMonthDoc = ({
         url: book.url,
       },
       meeting: {
-        place: "",
-        time: "",
+        place: '',
+        time: '',
       },
       createdAt: Date.now(),
       creatorId: userData.uid,
@@ -71,8 +71,8 @@ const useHandleThisMonthDoc = ({
         url: book.url,
       },
       meeting: {
-        place: "",
-        time: "",
+        place: '',
+        time: '',
       },
       createdAt: Date.now(),
       creatorId: userData.uid,
@@ -86,6 +86,9 @@ const useHandleThisMonthDoc = ({
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (userData.uid !== process.env.REACT_APP_ADMIN_KEY) {
+      return alert('북클럽책 선정은 관리자에게 문의해주세요.');
+    }
     setToggle((prev) => !prev);
     handleThisMonthBookDoc();
   };
