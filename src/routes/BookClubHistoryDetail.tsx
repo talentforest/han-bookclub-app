@@ -1,32 +1,32 @@
-import { useEffect, useState } from "react";
-import { Info } from "components/bookclubhistory/HistoryBox";
-import { useLocation } from "react-router-dom";
-import { Container } from "theme/commonStyle";
-import { getCollection, IBookMeeting } from "util/getFirebaseDoc";
-import { RecordBox } from "components/template/RecommendationArea";
-import { meetingTimestamp } from "util/timestamp";
-import { AccessTime, Place } from "@mui/icons-material";
+import { useEffect, useState } from 'react';
+import { Info } from 'components/bookclubhistory/HistoryBox';
+import { useLocation } from 'react-router-dom';
+import { Container } from 'theme/commonStyle';
+import { getCollection, IBookMeeting } from 'util/getFirebaseDoc';
+import { RecordBox } from 'components/template/RecommendationArea';
+import { meetingTimestamp } from 'util/timestamp';
+import { AccessTime, Place } from '@mui/icons-material';
 import {
   hostReviewState,
   recommendsState,
   reviewsState,
   subjectsState,
-} from "data/documentsAtom";
-import { useRecoilState } from "recoil";
-import Subjects from "components/common/SubjectBox";
-import ReviewBox from "components/common/ReviewBox";
-import BookTitleImgBox from "components/common/BookTitleImgBox";
-import RecommandBox from "components/common/RecommandBox";
-import HostReviewBox from "components/common/HostReviewBox";
-import Subtitle from "components/common/Subtitle";
-import device from "theme/mediaQueries";
-import styled from "styled-components";
-import { clubInfoCollection } from "util/constants";
+} from 'data/documentsAtom';
+import { useRecoilState } from 'recoil';
+import Subjects from 'components/common/SubjectBox';
+import ReviewBox from 'components/common/ReviewBox';
+import BookTitleImgBox from 'components/common/BookTitleImgBox';
+import RecommandBox from 'components/common/RecommandBox';
+import HostReviewBox from 'components/common/HostReviewBox';
+import Subtitle from 'components/common/Subtitle';
+import device from 'theme/mediaQueries';
+import styled from 'styled-components';
+import { clubInfoCollection } from 'util/constants';
 
 type LocationState = { state: { bookMeeting: IBookMeeting } };
 
 const BookClubHistoryDetail = () => {
-  const [selectedCategory, setSelectedCategory] = useState("subjects");
+  const [selectedCategory, setSelectedCategory] = useState('subjects');
   const [subjects, setSubjects] = useRecoilState(subjectsState);
   const [reviews, setReviews] = useRecoilState(reviewsState);
   const [recommends, setRecommends] = useRecoilState(recommendsState);
@@ -63,7 +63,7 @@ const BookClubHistoryDetail = () => {
         </MeetingInfo>
       </Infos>
       <AfterMeetingRecord>
-        <Subtitle title="발제자의 모임 정리" />
+        <Subtitle title='발제자의 모임 정리' />
         {hostReview?.length !== 0 ? (
           hostReview?.map((review) => (
             <HostReviewBox key={review.id} review={review} yearMonthId={id} />
@@ -74,26 +74,26 @@ const BookClubHistoryDetail = () => {
       </AfterMeetingRecord>
       <Categories>
         <button
-          className={selectedCategory === "recommends" ? "isActive" : ""}
-          onClick={() => handleCategoryClick("recommends")}
+          className={selectedCategory === 'recommends' ? 'isActive' : ''}
+          onClick={() => handleCategoryClick('recommends')}
         >
           추천했던 책
         </button>
         <button
-          className={selectedCategory === "subjects" ? "isActive" : ""}
-          onClick={() => handleCategoryClick("subjects")}
+          className={selectedCategory === 'subjects' ? 'isActive' : ''}
+          onClick={() => handleCategoryClick('subjects')}
         >
           발제문 기록
         </button>
         <button
-          className={selectedCategory === "reviews" ? "isActive" : ""}
-          onClick={() => handleCategoryClick("reviews")}
+          className={selectedCategory === 'reviews' ? 'isActive' : ''}
+          onClick={() => handleCategoryClick('reviews')}
         >
           모임 기록
         </button>
       </Categories>
       <RecordBox>
-        {selectedCategory === "recommends" &&
+        {selectedCategory === 'recommends' &&
           (recommends.length !== 0 ? (
             recommends.map((recommend) => (
               <RecommandBox
@@ -105,7 +105,7 @@ const BookClubHistoryDetail = () => {
           ) : (
             <EmptyRecord>기록된 추천책이 없어요.</EmptyRecord>
           ))}
-        {selectedCategory === "subjects" &&
+        {selectedCategory === 'subjects' &&
           (subjects.length !== 0 ? (
             subjects.map((subject) => (
               <Subjects key={subject.id} subject={subject} docMonth={id} />
@@ -113,7 +113,7 @@ const BookClubHistoryDetail = () => {
           ) : (
             <EmptyRecord>기록된 발제문이 없어요.</EmptyRecord>
           ))}
-        {selectedCategory === "reviews" &&
+        {selectedCategory === 'reviews' &&
           (reviews.length !== 0 ? (
             reviews.map((review) => (
               <ReviewBox key={review.id} review={review} docMonth={id} />
@@ -173,12 +173,18 @@ const MeetingInfo = styled.div`
   align-items: flex-start;
   gap: 10px;
   > div {
+    width: 50vw;
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 20px;
+    border: 1px solid ${(props) => props.theme.container.lightBlue};
+    background-color: ${(props) => props.theme.container.default};
     display: flex;
     align-items: center;
     gap: 5px;
     svg {
-      width: 16px;
-      height: 16px;
+      width: 20px;
+      height: 20px;
       fill: ${(props) => props.theme.text.accent};
     }
   }
