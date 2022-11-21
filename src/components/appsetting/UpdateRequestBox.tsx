@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { UpdateRequestDoc } from "util/getFirebaseDoc";
-import { timestamp } from "util/timestamp";
-import EditDeleteButton from "components/common/EditDeleteButton";
-import UserInfoBox from "components/common/UserInfoBox";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
-import useDeleteDoc from "hooks/handleFirebaseDoc/useDeleteDoc";
-import useEditDoc from "hooks/handleFirebaseDoc/useEditDoc";
+import { useState } from 'react';
+import { UpdateRequestDoc } from 'util/getFirebaseDoc';
+import { timestamp } from 'util/timestamp';
+import EditDeleteButton from 'components/common/EditDeleteButton';
+import UserInfoBox from 'components/common/UserInfoBox';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+import useDeleteDoc from 'hooks/handleFbDoc/useDeleteDoc';
+import useEditDoc from 'hooks/handleFbDoc/useEditDoc';
 
 interface PropsType {
   request: UpdateRequestDoc;
@@ -15,7 +15,7 @@ interface PropsType {
 const UpdateRequestBox = ({ request }: PropsType) => {
   const [editedText, setEditedText] = useState(request.text);
   const [editing, setEditing] = useState(false);
-  const collectionName = "Update Request";
+  const collectionName = 'Update Request';
 
   const { onDeleteClick } = useDeleteDoc({ docId: request.id, collectionName });
   const { showingGuide, onEditedSubmit, onEditedChange } = useEditDoc({
@@ -41,7 +41,7 @@ const UpdateRequestBox = ({ request }: PropsType) => {
             />
           </div>
           <textarea
-            placeholder="수정해주세요."
+            placeholder='수정해주세요.'
             value={editedText}
             onChange={onEditedChange}
           />
@@ -59,7 +59,7 @@ const UpdateRequestBox = ({ request }: PropsType) => {
             />
           </div>
           <p>
-            <span className={request.type === "bug" ? "bug" : ""}>
+            <span className={request.type === 'bug' ? 'bug' : ''}>
               {request.type}
             </span>
             {editedText}

@@ -16,6 +16,7 @@ const RegisterClubBookButton = ({ searchedBook }: PropsType) => {
     bookMeetingDocs,
     searchedBook,
   });
+
   const isClubBook = bookMeetingDocs.some((item) =>
     item.book?.title.includes(searchedBook?.title)
   );

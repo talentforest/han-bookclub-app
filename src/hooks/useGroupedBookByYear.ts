@@ -1,8 +1,8 @@
-import { IBookMeeting } from "util/getFirebaseDoc";
+import { IBookMeeting } from 'util/getFirebaseDoc';
 
 const useGroupedBookByYear = (bookMeetingDocs: IBookMeeting[]) => {
   const yearKey = bookMeetingDocs?.reduce((acc: any, current: IBookMeeting) => {
-    const bookRegisteredYear = current.id.split("-")[0];
+    const bookRegisteredYear = current.id.split('-')[0];
 
     acc[bookRegisteredYear] = acc[bookRegisteredYear] || [];
     acc[bookRegisteredYear].push(current);

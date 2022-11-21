@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { IBookApi } from "data/bookAtom";
-import { useRecoilValue } from "recoil";
-import { currentUserState } from "data/userAtom";
-import useAddDoc from "hooks/handleFirebaseDoc/useAddDoc";
-import styled from "styled-components";
-import PostButton from "components/common/PostButton";
-import { clubInfoCollection } from "util/constants";
+import { useState } from 'react';
+import { IBookApi } from 'data/bookAtom';
+import { useRecoilValue } from 'recoil';
+import { currentUserState } from 'data/userAtom';
+import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
+import styled from 'styled-components';
+import PostButton from 'components/common/PostButton';
+import { clubInfoCollection } from 'util/constants';
 
 interface PropsType {
   bookInfo: IBookApi;
@@ -13,7 +13,7 @@ interface PropsType {
 }
 
 const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const collectionName = clubInfoCollection(docMonth).REVIEW;
   const userData = useRecoilValue(currentUserState);
 
@@ -35,11 +35,11 @@ const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
   return (
     <Form onSubmit={onAddDocSubmit}>
       <TextArea
-        placeholder="모임에서 가장 인상적이었던 이야기나 모임 후기를 작성해주세요(한 문장도 좋아요!)."
+        placeholder='모임에서 가장 인상적이었던 이야기나 모임 후기를 작성해주세요(한 문장도 좋아요!).'
         value={text}
         onChange={onChange}
       />
-      <PostButton value="남기기" />
+      <PostButton value='남기기' />
     </Form>
   );
 };

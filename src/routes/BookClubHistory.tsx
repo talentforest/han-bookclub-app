@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
-import { Container } from "theme/commonStyle";
-import { CLUB_INFO, thisYear } from "util/constants";
-import { IBookMeeting, getCollection } from "util/getFirebaseDoc";
-import { bookMeetingsState } from "data/documentsAtom";
-import { useRecoilState } from "recoil";
-import useGroupedBookByYear from "hooks/useGroupedBookByYear";
-import Subtitle from "components/common/Subtitle";
-import HistoryBox from "components/bookclubhistory/HistoryBox";
-import device from "theme/mediaQueries";
-import styled from "styled-components";
-import Loading from "components/common/Loading";
+import { useState, useEffect } from 'react';
+import { Container } from 'theme/commonStyle';
+import { CLUB_INFO, thisYear } from 'util/constants';
+import { IBookMeeting, getCollection } from 'util/getFirebaseDoc';
+import { bookMeetingsState } from 'data/documentsAtom';
+import { useRecoilState } from 'recoil';
+import useGroupedBookByYear from 'hooks/useGroupedBookByYear';
+import Subtitle from 'components/common/Subtitle';
+import HistoryBox from 'components/bookclubhistory/HistoryBox';
+import device from 'theme/mediaQueries';
+import styled from 'styled-components';
+import Loading from 'components/common/Loading';
 
 const BookClubHistory = () => {
   const [selectedYear, setSelectedYear] = useState(`${thisYear}`);
@@ -31,7 +31,7 @@ const BookClubHistory = () => {
         <Loading />
       ) : (
         <Container>
-          <Subtitle title="한페이지 히스토리" />
+          <Subtitle title='한페이지 히스토리' />
           <YearSelect onChange={onYearChange} value={selectedYear}>
             {GroupedBookByYear?.map((item) => (
               <option key={item.id} value={item.id}>
@@ -74,12 +74,14 @@ const HistoryList = styled.ul`
 `;
 
 const YearSelect = styled.select`
-  height: 30px;
+  cursor: pointer;
   width: fit-content;
-  display: flex;
-  border-radius: 5px;
+  height: 40px;
   margin-left: 15px;
+  padding: 0 10px;
+  border-radius: 5px;
   font-size: 16px;
+  background-color: ${(props) => props.theme.container.default};
   &:focus {
     outline: none;
   }

@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { timestamp } from "util/timestamp";
-import { IWrittenDocs } from "components/common/SubjectBox";
-import UserInfoBox from "components/common/UserInfoBox";
-import BookTitleImgBox from "components/common/BookTitleImgBox";
-import EditDeleteButton from "./EditDeleteButton";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
-import useDeleteDoc from "hooks/handleFirebaseDoc/useDeleteDoc";
-import useEditDoc from "hooks/handleFirebaseDoc/useEditDoc";
-import { clubInfoCollection } from "util/constants";
+import { useState } from 'react';
+import { timestamp } from 'util/timestamp';
+import { IWrittenDocs } from 'components/common/SubjectBox';
+import UserInfoBox from 'components/common/UserInfoBox';
+import BookTitleImgBox from 'components/common/BookTitleImgBox';
+import EditDeleteButton from './EditDeleteButton';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+import useDeleteDoc from 'hooks/handleFbDoc/useDeleteDoc';
+import useEditDoc from 'hooks/handleFbDoc/useEditDoc';
+import { clubInfoCollection } from 'util/constants';
 
 interface PropsType {
   recommend: IWrittenDocs;
@@ -62,12 +62,12 @@ const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
           </Header>
           {recommendBookTitle ? (
             <RecommendBook>
-              <img src={recommendBookThumbnail} alt="recommend book" />
+              <img src={recommendBookThumbnail} alt='recommend book' />
               <div>
                 <h5>{recommendBookTitle}</h5>
-                <span>{recommendBookAuthor?.join(", ")}</span>
+                <span>{recommendBookAuthor?.join(', ')}</span>
                 {recommendBookUrl && (
-                  <a href={recommendBookUrl} target="_blank" rel="noreferrer">
+                  <a href={recommendBookUrl} target='_blank' rel='noreferrer'>
                     상세정보 보러가기
                   </a>
                 )}
@@ -78,7 +78,7 @@ const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
           )}
           <TextArea
             value={editedText}
-            placeholder="수정해주세요."
+            placeholder='수정해주세요.'
             onChange={onEditedChange}
           />
           <RegisterTime>{timestamp(recommend.createdAt)}</RegisterTime>
@@ -99,15 +99,15 @@ const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
             <RecommendBook>
               <img
                 src={recommend.recommendBookThumbnail}
-                alt="recommend book"
+                alt='recommend book'
               />
               <div>
                 <h5>{recommend.recommendBookTitle}</h5>
-                <span>{recommend.recommendBookAuthor?.join(", ")}</span>
+                <span>{recommend.recommendBookAuthor?.join(', ')}</span>
                 <a
                   href={recommend.recommendBookUrl}
-                  target="_blank"
-                  rel="noreferrer"
+                  target='_blank'
+                  rel='noreferrer'
                 >
                   상세정보 보러가기
                 </a>
@@ -119,7 +119,7 @@ const RecommandBox = ({ recommend, docMonth, setShowDetail }: PropsType) => {
           <BookTitleImgBox
             thumbnail={recommend.thumbnail}
             title={recommend.title}
-            smSize={"smSize"}
+            smSize={'smSize'}
           />
         </Form>
       )}

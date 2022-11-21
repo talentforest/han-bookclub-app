@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { IBookApi, recommendBookState } from "data/bookAtom";
-import { Link } from "react-router-dom";
-import { Search } from "@mui/icons-material";
-import { currentUserState } from "data/userAtom";
-import { useRecoilValue } from "recoil";
-import BookTitleImgBox from "components/common/BookTitleImgBox";
-import useAddDoc from "hooks/handleFirebaseDoc/useAddDoc";
-import device from "theme/mediaQueries";
-import styled from "styled-components";
-import PostButton from "components/common/PostButton";
-import { clubInfoCollection } from "util/constants";
+import { useState } from 'react';
+import { IBookApi, recommendBookState } from 'data/bookAtom';
+import { Link } from 'react-router-dom';
+import { Search } from '@mui/icons-material';
+import { currentUserState } from 'data/userAtom';
+import { useRecoilValue } from 'recoil';
+import BookTitleImgBox from 'components/common/BookTitleImgBox';
+import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
+import device from 'theme/mediaQueries';
+import styled from 'styled-components';
+import PostButton from 'components/common/PostButton';
+import { clubInfoCollection } from 'util/constants';
 
 interface PropsType {
   uid: string;
@@ -18,7 +18,7 @@ interface PropsType {
 }
 
 const RecommendCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const myRecommendBook = useRecoilValue(recommendBookState);
   const userData = useRecoilValue(currentUserState);
   const collectionName = clubInfoCollection(docMonth).RECOMMEND;
@@ -44,8 +44,8 @@ const RecommendCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (myRecommendBook?.title === "") {
-      window.alert("추천책 정보를 찾아서 넣어주세요.");
+    if (myRecommendBook?.title === '') {
+      window.alert('추천책 정보를 찾아서 넣어주세요.');
       return;
     }
     onAddDocSubmit(event);
@@ -53,25 +53,25 @@ const RecommendCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Link to="/search">
+      <Link to='/search'>
         <Search />
         추천책 정보 찾기
       </Link>
       <textarea
-        placeholder="이달의 책과 관련해 추천하고 싶은 책을 작성해주세요. 위에서 추천책 정보를 찾으실 수 있습니다."
+        placeholder='이달의 책과 관련해 추천하고 싶은 책을 작성해주세요. 위에서 추천책 정보를 찾으실 수 있습니다.'
         onChange={onChange}
         value={text}
       />
       {myRecommendBook?.thumbnail ? (
         <>
           <h5>추천책 정보</h5>
-          <Recommend smSize="smSize">
-            <img src={myRecommendBook.thumbnail} alt="recommend book" />
+          <Recommend smSize='smSize'>
+            <img src={myRecommendBook.thumbnail} alt='recommend book' />
             <div>
               <h5>{myRecommendBook.title}</h5>
-              <span>{myRecommendBook?.authors?.join(", ")}</span>
+              <span>{myRecommendBook?.authors?.join(', ')}</span>
               {myRecommendBook.url && (
-                <a href={myRecommendBook.url} target="_blank" rel="noreferrer">
+                <a href={myRecommendBook.url} target='_blank' rel='noreferrer'>
                   상세정보 보러가기
                 </a>
               )}
@@ -85,9 +85,9 @@ const RecommendCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
         <BookTitleImgBox
           thumbnail={thisMonthBook.thumbnail}
           title={thisMonthBook.title}
-          smSize={"smSize"}
+          smSize={'smSize'}
         />
-        <PostButton value="추천하기" />
+        <PostButton value='추천하기' />
       </ThisMonthBook>
     </Form>
   );
@@ -101,7 +101,7 @@ export const Recommend = styled.div<{ smSize: string }>`
   border-radius: 5px;
   > img {
     width: auto;
-    height: ${(props) => (props.smSize ? "40px" : "70px")};
+    height: ${(props) => (props.smSize ? '40px' : '70px')};
     margin-right: 15px;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
   }

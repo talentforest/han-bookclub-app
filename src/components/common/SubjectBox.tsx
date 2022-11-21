@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { timestamp } from "util/timestamp";
-import BookTitleImgBox from "components/common/BookTitleImgBox";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
-import useDeleteDoc from "hooks/handleFirebaseDoc/useDeleteDoc";
-import useEditDoc from "hooks/handleFirebaseDoc/useEditDoc";
-import QuillEditor from "./QuillEditor";
-import "react-quill/dist/quill.snow.css";
-import FormHeader from "components/template/FormHeader";
-import { clubInfoCollection } from "util/constants";
-import ShareButton from "./ShareButton";
+import { useState } from 'react';
+import { timestamp } from 'util/timestamp';
+import BookTitleImgBox from 'components/common/BookTitleImgBox';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+import useDeleteDoc from 'hooks/handleFbDoc/useDeleteDoc';
+import useEditDoc from 'hooks/handleFbDoc/useEditDoc';
+import QuillEditor from './QuillEditor';
+import 'react-quill/dist/quill.snow.css';
+import FormHeader from 'components/template/FormHeader';
+import { clubInfoCollection } from 'util/constants';
+import ShareButton from './ShareButton';
 
 export interface IWrittenDocs {
   id?: string;
@@ -65,7 +65,7 @@ const SubjectBox = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
         />
         <QuillEditor
           editing={editing}
-          placeholder="발제문을 수정해주세요."
+          placeholder='발제문을 수정해주세요.'
           content={editedText}
           setContent={setEditedText}
         />
@@ -74,12 +74,12 @@ const SubjectBox = ({ subject, onSubjectRemove, docMonth }: ISubject) => {
       <BookTitleImgBox
         thumbnail={subject.thumbnail}
         title={subject.title}
-        smSize={"smSize"}
+        smSize={'smSize'}
       />
       <ShareButton
-        title="✨새로운 발제문이 등록되었어요!"
-        description="이번달의 발제문을 한번 보러 가볼까요? 👀"
-        path="bookclub"
+        title='✨새로운 발제문이 등록되었어요!'
+        description='이번달의 발제문을 한번 보러 가볼까요? 👀'
+        path='bookclub'
       />
     </Box>
   );

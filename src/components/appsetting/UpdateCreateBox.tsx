@@ -1,15 +1,15 @@
-import { currentUserState } from "data/userAtom";
-import { useState } from "react";
-import { useRecoilValue } from "recoil";
-import useAddDoc from "hooks/handleFirebaseDoc/useAddDoc";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
+import { currentUserState } from 'data/userAtom';
+import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
 
 const UpdateCreateBox = () => {
-  const [text, setText] = useState("");
-  const [requestType, setRequestType] = useState("bug");
+  const [text, setText] = useState('');
+  const [requestType, setRequestType] = useState('bug');
   const userData = useRecoilValue(currentUserState);
-  const collectionName = "Update Request";
+  const collectionName = 'Update Request';
 
   const docData = {
     text,
@@ -30,10 +30,10 @@ const UpdateCreateBox = () => {
   ) => {
     const { name } = event.currentTarget;
 
-    if (name === "request") {
+    if (name === 'request') {
       setText(event.currentTarget.value);
     }
-    if (name === "request-type") {
+    if (name === 'request-type') {
       setRequestType(event.currentTarget.value);
     }
   };
@@ -41,17 +41,17 @@ const UpdateCreateBox = () => {
   return (
     <Form onSubmit={onAddDocSubmit}>
       <textarea
-        name="request"
-        placeholder="앱에서 불편한 점을 발견하셨거나 추가되었으면 하는 기능이 있다면 여기에 이야기해주세요."
+        name='request'
+        placeholder='앱에서 불편한 점을 발견하셨거나 추가되었으면 하는 기능이 있다면 여기에 이야기해주세요.'
         value={text}
         onChange={onRequestChange}
       />
       <Bottom>
-        <select name="request-type" onChange={onRequestChange}>
-          <option value="bug">불편사항 수정</option>
-          <option value="feature">기능 추가</option>
+        <select name='request-type' onChange={onRequestChange}>
+          <option value='bug'>불편사항 수정</option>
+          <option value='feature'>기능 추가</option>
         </select>
-        <button type="submit">요청하기</button>
+        <button type='submit'>요청하기</button>
       </Bottom>
     </Form>
   );

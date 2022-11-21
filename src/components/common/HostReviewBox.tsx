@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { clubInfoCollection } from "util/constants";
-import { cutLetter } from "util/cutLetter";
-import { timestamp } from "util/timestamp";
-import { IWrittenDocs } from "./SubjectBox";
-import useDeleteDoc from "hooks/handleFirebaseDoc/useDeleteDoc";
-import useEditDoc from "hooks/handleFirebaseDoc/useEditDoc";
-import UserInfoBox from "./UserInfoBox";
-import EditDeleteButton from "./EditDeleteButton";
-import Overlay from "./Overlay";
-import QuillEditor from "./QuillEditor";
-import styled from "styled-components";
-import ShareButton from "./ShareButton";
+import { useState } from 'react';
+import { clubInfoCollection } from 'util/constants';
+import { cutLetter } from 'util/cutLetter';
+import { timestamp } from 'util/timestamp';
+import { IWrittenDocs } from './SubjectBox';
+import useDeleteDoc from 'hooks/handleFbDoc/useDeleteDoc';
+import useEditDoc from 'hooks/handleFbDoc/useEditDoc';
+import UserInfoBox from './UserInfoBox';
+import EditDeleteButton from './EditDeleteButton';
+import Overlay from './Overlay';
+import QuillEditor from './QuillEditor';
+import styled from 'styled-components';
+import ShareButton from './ShareButton';
 
 interface IHostReviewBoxProps {
   review: IWrittenDocs;
@@ -43,9 +43,9 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
           />
           <div>
             <ShareButton
-              title="새로운 모임 기록이 등록되었어요~🚀"
-              description="이번달 발제자의 모임 기록을 한번 보러 가볼까요?🤩"
-              path="bookclub"
+              title='새로운 모임 기록이 등록되었어요~🚀'
+              description='이번달 발제자의 모임 기록을 한번 보러 가볼까요?🤩'
+              path='bookclub'
             />
             <button
               onClick={() => {
@@ -102,7 +102,7 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
               </header>
               <QuillEditor
                 editing={editing}
-                placeholder="기록을 수정해주세요."
+                placeholder='기록을 수정해주세요.'
                 content={editedText}
                 setContent={setEditedText}
               />

@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { Close } from "@mui/icons-material";
-import { IBookApi } from "data/bookAtom";
-import { useRecoilValue } from "recoil";
-import { currentUserState } from "data/userAtom";
-import Overlay from "components/common/Overlay";
-import useAddDoc from "hooks/handleFirebaseDoc/useAddDoc";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
-import "react-quill/dist/quill.snow.css";
-import QuillEditor from "components/common/QuillEditor";
-import AddDocButton from "./AddDocButton";
-import PostButton from "components/common/PostButton";
-import { clubInfoCollection } from "util/constants";
+import { useState } from 'react';
+import { Close } from '@mui/icons-material';
+import { IBookApi } from 'data/bookAtom';
+import { useRecoilValue } from 'recoil';
+import { currentUserState } from 'data/userAtom';
+import Overlay from 'components/common/Overlay';
+import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+import 'react-quill/dist/quill.snow.css';
+import QuillEditor from 'components/common/QuillEditor';
+import AddDocButton from './AddDocButton';
+import PostButton from 'components/common/PostButton';
+import { clubInfoCollection } from 'util/constants';
 
 interface PropsType {
   bookInfo: IBookApi;
@@ -19,7 +19,7 @@ interface PropsType {
 }
 
 const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const collectionName = clubInfoCollection(docMonth).SUBJECT;
   const userData = useRecoilValue(currentUserState);
@@ -52,8 +52,8 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
     <>
       <AddDocButton
         onModalClick={onModalClick}
-        title="발제문 참여하기"
-        description="필수 발제자를 포함하여 누구나 참여 가능해요."
+        title='발제문 참여하기'
+        description='필수 발제자를 포함하여 누구나 참여 가능해요.'
       />
       {modalOpen && (
         <>
@@ -64,11 +64,11 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
             </h3>
             <QuillEditor
               editing={true}
-              placeholder="모임에서 나누고 싶은 주제를 자유롭게 작성해주세요."
+              placeholder='모임에서 나누고 싶은 주제를 자유롭게 작성해주세요.'
               content={text}
               setContent={setText}
             />
-            <PostButton value="남기기" />
+            <PostButton value='남기기' />
           </Modal>
         </>
       )}

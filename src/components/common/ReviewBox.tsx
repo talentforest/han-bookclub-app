@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { timestamp } from "util/timestamp";
-import { IWrittenDocs, RegisterTime } from "components/common/SubjectBox";
-import { IBookApi } from "data/bookAtom";
-import { Form, TextArea } from "./RecommandBox";
-import UserInfoBox from "components/common/UserInfoBox";
-import BookTitleImgBox from "components/common/BookTitleImgBox";
-import EditDeleteButton from "components/common/EditDeleteButton";
-import useDeleteDoc from "hooks/handleFirebaseDoc/useDeleteDoc";
-import useEditDoc from "hooks/handleFirebaseDoc/useEditDoc";
-import styled from "styled-components";
-import { clubInfoCollection } from "util/constants";
+import { useState } from 'react';
+import { timestamp } from 'util/timestamp';
+import { IWrittenDocs, RegisterTime } from 'components/common/SubjectBox';
+import { IBookApi } from 'data/bookAtom';
+import { Form, TextArea } from './RecommandBox';
+import UserInfoBox from 'components/common/UserInfoBox';
+import BookTitleImgBox from 'components/common/BookTitleImgBox';
+import EditDeleteButton from 'components/common/EditDeleteButton';
+import useDeleteDoc from 'hooks/handleFbDoc/useDeleteDoc';
+import useEditDoc from 'hooks/handleFbDoc/useEditDoc';
+import styled from 'styled-components';
+import { clubInfoCollection } from 'util/constants';
 
 interface PropsType {
   review: IWrittenDocs;
@@ -55,14 +55,14 @@ const ReviewBox = ({ review, docMonth, onReviewRemove }: PropsType) => {
           </Header>
           <TextArea
             value={editedText}
-            placeholder="모임 후기를 수정해주세요."
+            placeholder='모임 후기를 수정해주세요.'
             onChange={onEditedChange}
           />
           <RegisterTime>{timestamp(review.createdAt)}</RegisterTime>
           <BookTitleImgBox
             thumbnail={review.thumbnail}
             title={review.title}
-            smSize={"smSize"}
+            smSize={'smSize'}
           />
         </Form>
       ) : (
@@ -82,7 +82,7 @@ const ReviewBox = ({ review, docMonth, onReviewRemove }: PropsType) => {
           <BookTitleImgBox
             thumbnail={review.thumbnail}
             title={review.title}
-            smSize={"smSize"}
+            smSize={'smSize'}
           />
         </Form>
       )}

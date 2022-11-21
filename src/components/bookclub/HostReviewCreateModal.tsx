@@ -1,15 +1,15 @@
-import { Close } from "@mui/icons-material";
-import { useState } from "react";
-import { IBookApi } from "data/bookAtom";
-import { useRecoilValue } from "recoil";
-import { currentUserState } from "data/userAtom";
-import { Modal } from "./SubjectCreateModal";
-import Overlay from "components/common/Overlay";
-import useAddDoc from "hooks/handleFirebaseDoc/useAddDoc";
-import QuillEditor from "components/common/QuillEditor";
-import AddDocButton from "./AddDocButton";
-import PostButton from "components/common/PostButton";
-import { clubInfoCollection } from "util/constants";
+import { Close } from '@mui/icons-material';
+import { useState } from 'react';
+import { IBookApi } from 'data/bookAtom';
+import { useRecoilValue } from 'recoil';
+import { currentUserState } from 'data/userAtom';
+import { Modal } from './SubjectCreateModal';
+import Overlay from 'components/common/Overlay';
+import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
+import QuillEditor from 'components/common/QuillEditor';
+import AddDocButton from './AddDocButton';
+import PostButton from 'components/common/PostButton';
+import { clubInfoCollection } from 'util/constants';
 
 interface PropsType {
   docMonth: string;
@@ -17,7 +17,7 @@ interface PropsType {
 }
 
 const HostReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const userData = useRecoilValue(currentUserState);
 
@@ -50,8 +50,8 @@ const HostReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
     <>
       <AddDocButton
         onModalClick={onModalClick}
-        title="발제자의 모임 정리 기록하기"
-        description="이달의 발제자만 작성 가능해요."
+        title='발제자의 모임 정리 기록하기'
+        description='이달의 발제자만 작성 가능해요.'
       />
       {modalOpen && (
         <>
@@ -62,11 +62,11 @@ const HostReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
             </h3>
             <QuillEditor
               editing={true}
-              placeholder="발제자는 모임 후 모임에서 나눈 이야기를 자유롭게 작성해주세요."
+              placeholder='발제자는 모임 후 모임에서 나눈 이야기를 자유롭게 작성해주세요.'
               content={text}
               setContent={setText}
             />
-            <PostButton value="남기기" />
+            <PostButton value='남기기' />
           </Modal>
         </>
       )}
