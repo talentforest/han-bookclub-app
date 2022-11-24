@@ -1,11 +1,11 @@
-import { votesState } from "data/documentsAtom";
-import { currentUserState } from "data/userAtom";
-import { authService, dbService } from "fbase";
-import { addDoc, collection } from "firebase/firestore";
-import { useState } from "react";
-import { useRecoilValue } from "recoil";
-import { pickDay } from "util/constants";
-import useAlertAskJoin from "./useAlertAskJoin";
+import { votesState } from 'data/documentsAtom';
+import { currentUserState } from 'data/userAtom';
+import { authService, dbService } from 'fbase';
+import { addDoc, collection } from 'firebase/firestore';
+import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { pickDay } from 'util/constants';
+import useAlertAskJoin from './useAlertAskJoin';
 
 interface ICreateVoteBox {
   setModalOpen: (modalOpen: boolean) => void;
@@ -17,21 +17,23 @@ const useCreateVoteBox = ({ setModalOpen, endDate }: ICreateVoteBox) => {
   const votes = useRecoilValue(votesState);
   const { alertAskJoinMember } = useAlertAskJoin();
   const [vote, setVote] = useState({
-    title: "",
+    title: '',
     voteItem: [
-      { id: 1, item: "", voteCount: 0, selectReason: "" },
-      { id: 2, item: "", voteCount: 0, selectReason: "" },
+      { id: 1, item: '', voteCount: 0, selectReason: '' },
+      { id: 2, item: '', voteCount: 0, selectReason: '' },
     ],
   });
 
+  const voteBox = {
+    createdAt: Date.now(),
+    creatorId: userData.uid,
+    deadline: pickDay(endDate),
+    vote,
+    voteId: votes.length + 1,
+  };
+
   const addDocVote = async () => {
-    await addDoc(collection(dbService, "Vote"), {
-      createdAt: Date.now(),
-      creatorId: userData.uid,
-      deadline: pickDay(endDate),
-      vote,
-      voteId: votes.length + 1,
-    });
+    await addDoc(collection(dbService, 'Vote'), voteBox);
   };
 
   const onRegisterSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -42,11 +44,11 @@ const useCreateVoteBox = ({ setModalOpen, endDate }: ICreateVoteBox) => {
         alertAskJoinMember();
       } else {
         addDocVote();
-        window.alert("투표가 성공적으로 등록되었습니다!");
+        window.alert('투표가 성공적으로 등록되었습니다!');
       }
       setModalOpen(false);
     } catch (error) {
-      console.error("Error adding document:", error);
+      console.error('Error adding document:', error);
     }
   };
 
@@ -58,7 +60,7 @@ const useCreateVoteBox = ({ setModalOpen, endDate }: ICreateVoteBox) => {
   ) => {
     const { name, value } = event.currentTarget;
 
-    if (name === "title") {
+    if (name === 'title') {
       const newVote = { ...vote, title: value };
       setVote(newVote);
     }
@@ -91,9 +93,9 @@ const useCreateVoteBox = ({ setModalOpen, endDate }: ICreateVoteBox) => {
         ...vote.voteItem,
         {
           id: vote.voteItem.length + 1,
-          item: "",
+          item: '',
           voteCount: 0,
-          selectReason: "",
+          selectReason: '',
         },
       ],
     };
