@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 export const ResetStyle = createGlobalStyle`
   body {
@@ -30,9 +30,6 @@ export const ResetStyle = createGlobalStyle`
   button, 
   select {
     background: transparent;
-    -webkit-appearance:none; 
-    -moz-appearance:none; 
-    appearance:none;
     -webkit-border-radius:0; 
     -moz-border-radius:0; 
     -o-border-radius:0; 

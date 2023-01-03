@@ -1,6 +1,7 @@
-import { IBookApi } from "data/bookAtom";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
+import { Book } from '@mui/icons-material';
+import { IBookApi } from 'data/bookAtom';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
 
 interface PropsType {
   thumbnail: string;
@@ -9,24 +10,21 @@ interface PropsType {
   smSize?: string;
 }
 
-const BookTitleImgBox = ({
-  thumbnail,
-  title,
-
-  smSize,
-}: PropsType) => {
+const BookTitleImgBox = ({ thumbnail, title, smSize }: PropsType) => {
   return (
     <>
       {thumbnail && title ? (
-        <BookCoverTitleBox className={smSize ? "smSize" : ""}>
+        <BookCoverTitleBox className={smSize ? 'smSize' : ''}>
           <img src={thumbnail} alt={`${title} thumbnail`} />
           <h3>{title}</h3>
         </BookCoverTitleBox>
       ) : (
-        <EmptySign className={smSize ? "smSize" : ""}>
-          <div />
+        <EmptyBox className={smSize ? 'smSize' : ''}>
+          <div>
+            <Book />
+          </div>
           <span>등록된 책이 없습니다.</span>
-        </EmptySign>
+        </EmptyBox>
       )}
     </>
   );
@@ -93,14 +91,15 @@ export const BookCoverTitleBox = styled.div`
   }
 `;
 
-const EmptySign = styled.div`
+const EmptyBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   margin: 5px auto 0;
-  height: 200px;
+  height: 180px;
   div {
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;

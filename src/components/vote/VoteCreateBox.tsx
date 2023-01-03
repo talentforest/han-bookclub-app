@@ -36,13 +36,11 @@ const VoteCreateBox = ({ setModalOpen }: PropsType) => {
           name='title'
           required
         />
-        <VoteTitle>투표 항목</VoteTitle>
-        <Explain>
-          <Guide
-            text='투표항목으로 선정한 이유에 대한 작성은 선택사항입니다. 그렇지만 만약 책을 투표에 올렸다면, 왜 이 책을 선정했는지를 각 항목에
-            작성해주세요!~'
-          />
-        </Explain>
+        <Guide
+          text='투표항목으로 선정한 이유에 대한 작성은 선택사항입니다. 그렇지만 만약 책을 투표에 올렸다면, 왜 이 책을 선정했는지를 각 항목에
+          작성해주세요!~'
+        />
+        <VoteTitle $marginTop={'20px'}>투표 항목</VoteTitle>
         <VoteItems
           vote={vote}
           onTitleChange={onTitleChange}
@@ -117,10 +115,11 @@ const Title = styled.span`
   color: ${(props) => props.theme.text.default};
 `;
 
-const VoteTitle = styled.div`
+const VoteTitle = styled.div<{ $marginTop?: string }>`
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 10px;
+  margin-top: ${(props) => props.$marginTop};
 `;
 
 const RegisterBtn = styled.button`
@@ -138,16 +137,6 @@ const RegisterBtn = styled.button`
     font-size: 16px;
     padding: 10px 12px;
   }
-`;
-
-const Explain = styled.div`
-  border-radius: 5px;
-  background-color: ${(props) => props.theme.container.lightBlue};
-  margin-bottom: 10px;
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 `;
 
 export default VoteCreateBox;

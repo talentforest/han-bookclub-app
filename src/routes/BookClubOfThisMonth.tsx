@@ -6,9 +6,9 @@ import { getCollection, getDocument } from 'util/getFirebaseDoc';
 import { clubInfoCollection, CLUB_INFO, thisYearMonth } from 'util/constants';
 import { getMonthNumber } from 'util/getMonthNumber';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { EmptyRecord } from 'components/template/RecommendationArea';
 import Loading from 'components/common/Loading';
 import Subtitle from 'components/common/Subtitle';
-import { EmptyRecord } from 'components/template/RecommendationArea';
 import MeetingInfoBox from 'components/common/MeetingInfoBox';
 import BookTitleImgBox from 'components/common/BookTitleImgBox';
 import styled from 'styled-components';
@@ -37,7 +37,9 @@ const BookClubOfThisMonth = () => {
         <Loading />
       ) : thisMonthDoc ? (
         <Container>
-          <Subtitle title={`${getMonthNumber(thisMonthDoc?.id)}월의 책`} />
+          <Subtitle
+            title={`${getMonthNumber(thisMonthDoc?.id)}월의 책과 모임`}
+          />
           <MeetingBox>
             <BookTitleImgBox
               thumbnail={thisMonthDoc?.book?.thumbnail}
@@ -83,7 +85,7 @@ const BookClubOfThisMonth = () => {
                 navigate('/bookclub/recommends');
               }}
             >
-              추천책 작성
+              책 추천
             </Category>
             <Category
               $isActive={
@@ -101,7 +103,7 @@ const BookClubOfThisMonth = () => {
                 navigate('/bookclub/reviews');
               }}
             >
-              모임후기 작성
+              모임후기
             </Category>
           </Categories>
           {pathname === '/bookclub' ? <SubjectArea /> : <Outlet />}
@@ -114,20 +116,16 @@ const BookClubOfThisMonth = () => {
 };
 
 const AfterMeetingRecord = styled.section`
-  margin: 20px 0;
+  margin: 60px 0 40px;
 `;
-
 const MeetingBox = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin: 0 auto 15px;
-  > p {
-    font-size: 13px;
-    color: ${(props) => props.theme.text.gray};
+  > div {
+    &:first-child {
+      margin: 20px 0 40px;
+    }
+    &:last-child {
+      margin-bottom: 20px;
+    }
   }
   > a {
     border: 1px solid ${(props) => props.theme.text.lightGray};

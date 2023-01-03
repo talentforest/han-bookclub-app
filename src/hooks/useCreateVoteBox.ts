@@ -24,7 +24,7 @@ const useCreateVoteBox = ({ setModalOpen, endDate }: ICreateVoteBox) => {
     ],
   });
 
-  const voteBox = {
+  const voteBoxData = {
     createdAt: Date.now(),
     creatorId: userData.uid,
     deadline: pickDay(endDate),
@@ -33,7 +33,7 @@ const useCreateVoteBox = ({ setModalOpen, endDate }: ICreateVoteBox) => {
   };
 
   const addDocVote = async () => {
-    await addDoc(collection(dbService, 'Vote'), voteBox);
+    await addDoc(collection(dbService, 'Vote'), voteBoxData);
   };
 
   const onRegisterSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import { Container } from "theme/commonStyle";
-import { useEffect } from "react";
+import { Link } from 'react-router-dom';
+import { Container } from 'theme/commonStyle';
+import { useEffect } from 'react';
 import {
   BOOK_FIELD,
   CLUB_INFO,
@@ -8,31 +8,31 @@ import {
   thisYearMonth,
   today,
   USER_DATA,
-} from "util/constants";
-import { getCollection, getDocument, IVote } from "util/getFirebaseDoc";
-import { useRecoilState, useSetRecoilState } from "recoil";
+} from 'util/constants';
+import { getCollection, getDocument, IVote } from 'util/getFirebaseDoc';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   bookFieldsState,
   thisMonthState,
   votesState,
-} from "data/documentsAtom";
-import { getMonthNumber } from "util/getMonthNumber";
-import { settings } from "util/sliderSetting";
-import { usersState } from "data/userAtom";
-import LinkButton from "components/common/LinkButton";
-import Subtitle from "components/common/Subtitle";
-import MeetingInfoBox from "components/common/MeetingInfoBox";
-import BookTitleImgBox from "components/common/BookTitleImgBox";
-import VoteBox from "components/vote/VoteBox";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import Loading from "components/common/Loading";
-import Guide from "components/common/Guide";
-import device from "theme/mediaQueries";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import styled from "styled-components";
-import FieldScheduleBox from "components/FieldScheduleBox";
+} from 'data/documentsAtom';
+import { getMonthNumber } from 'util/getMonthNumber';
+import { settings } from 'util/sliderSetting';
+import { usersState } from 'data/userAtom';
+import LinkButton from 'components/common/LinkButton';
+import Subtitle from 'components/common/Subtitle';
+import MeetingInfoBox from 'components/common/MeetingInfoBox';
+import BookTitleImgBox from 'components/common/BookTitleImgBox';
+import VoteBox from 'components/vote/VoteBox';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import Loading from 'components/common/Loading';
+import Guide from 'components/common/Guide';
+import device from 'theme/mediaQueries';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import styled from 'styled-components';
+import FieldScheduleBox from 'components/FieldScheduleBox';
 
 const Home = () => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
@@ -44,7 +44,7 @@ const Home = () => {
     getCollection(USER_DATA, setUserDocs);
     getDocument(CLUB_INFO, `${thisYearMonth}`, setThisMonthDoc);
     getDocument(BOOK_FIELD, `${thisYear}`, setBookFields);
-    getCollection("Vote", setVotes);
+    getCollection('Vote', setVotes);
   }, [setThisMonthDoc, setBookFields, setVotes, setUserDocs]);
 
   const progressVotes = votes.filter((item: IVote) => item.deadline >= today());
@@ -60,7 +60,7 @@ const Home = () => {
             <Subtitle title={`${getMonthNumber(thisMonthDoc?.id)}월의 책`} />
             <Guide
               margin={true}
-              text="이달의 책은 매월 1일에 업데이트 됩니다."
+              text='이달의 책은 매월 1일에 업데이트 됩니다.'
             />
             <BookTitleImgBox
               thumbnail={thisMonthDoc?.book?.thumbnail}
@@ -73,13 +73,13 @@ const Home = () => {
             />
             <Guide
               margin={true}
-              text="한페이지 멤버는 매월 셋째주 일요일에 만나요."
+              text='한페이지 멤버는 매월 셋째주 일요일에 만나요.'
             />
             <MeetingInfoBox docData={thisMonthDoc?.meeting} />
-            <LinkButton link={"/bookclub"} title="발제하러 가기" />
+            <LinkButton link={'/bookclub'} title='발제하러 가기' />
           </section>
           <VoteSlider>
-            <Subtitle title={"한페이지의 투표함"} />
+            <Subtitle title={'한페이지의 투표함'} />
             {progressVotes.length ? (
               <Slider {...settings(progressVotes.length)}>
                 {progressVotes?.map((voteDetail) => (
@@ -88,13 +88,13 @@ const Home = () => {
               </Slider>
             ) : (
               <VoteEmptyBox>
-                <span>진행중인 투표가 없습니다.</span>
-                <Link to={"/vote"}>
+                <span>진행중인 투표가 없어요.</span>
+                <Link to={'/vote'}>
                   투표 등록하러 가기 <ArrowForwardIosIcon />
                 </Link>
               </VoteEmptyBox>
             )}
-            <LinkButton link={"/vote"} title="투표 더보기" />
+            <LinkButton link={'/vote'} title='투표 더보기' />
           </VoteSlider>
           <FieldScheduleBox
             bookFields={bookFields?.bookField}
@@ -142,9 +142,9 @@ const VoteSlider = styled.section`
 const VoteEmptyBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 30px;
   width: 100%;
-  padding: 20px 0;
+  padding: 30px 0;
   border-radius: 10px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);

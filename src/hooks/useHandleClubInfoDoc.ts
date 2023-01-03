@@ -41,8 +41,8 @@ const useHandleClubInfoDoc = ({ bookMeetingDocs, searchedBook }: PropsType) => {
       url,
     },
     meeting: {
-      place: '아직 정해진 장소가 없습니다.',
-      time: '아직 정해진 시간이 없습니다.',
+      place: '',
+      time: '',
     },
     createdAt: Date.now(),
     creatorId: userData.uid,

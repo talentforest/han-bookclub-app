@@ -83,8 +83,8 @@ const RecommendCreateBox = ({ thisMonthBook, docMonth }: PropsType) => {
       )}
       <ThisMonthBook>
         <BookTitleImgBox
-          thumbnail={thisMonthBook.thumbnail}
-          title={thisMonthBook.title}
+          thumbnail={thisMonthBook?.thumbnail}
+          title={thisMonthBook?.title}
           smSize={'smSize'}
         />
         <PostButton value='추천하기' />
@@ -137,10 +137,14 @@ const Form = styled.form`
     padding: 10px 0 5px;
   }
   a {
+    width: 100%;
+    padding: 5px;
+    background-color: #fff;
+    border: 1px solid ${(props) => props.theme.text.lightGray};
     display: flex;
     align-items: center;
-    border-radius: 5px;
-    width: fit-content;
+    gap: 4px;
+    border-radius: 10px;
     font-size: 16px;
     margin-bottom: 10px;
     color: ${(props) => props.theme.text.accent};
@@ -152,10 +156,11 @@ const Form = styled.form`
     }
   }
   textarea {
+    background-color: #fff;
     width: 100%;
     height: 100px;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 5px 10px;
     white-space: pre-wrap;
     word-wrap: break-word;

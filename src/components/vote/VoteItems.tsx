@@ -54,7 +54,6 @@ const VoteItems = ({ vote, onTitleChange, onItemDeleteClick }: IVoteProps) => {
 
 const List = styled.div`
   @media ${device.tablet} {
-    margin-top: 20px;
     span {
       font-size: 16px;
     }

@@ -25,9 +25,9 @@ const HostReviewCreateModal = ({ docMonth, bookInfo }: PropsType) => {
   const docData = {
     text,
     createdAt: Date.now(),
-    creatorId: userData.uid,
-    title: bookInfo.title,
-    thumbnail: bookInfo.thumbnail,
+    creatorId: userData?.uid,
+    title: bookInfo?.title,
+    thumbnail: bookInfo?.thumbnail,
   };
 
   const { onAddDocSubmit } = useAddDoc({

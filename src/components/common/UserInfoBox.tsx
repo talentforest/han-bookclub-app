@@ -1,9 +1,9 @@
-import { AccountCircle } from "@mui/icons-material";
-import { memo, useEffect, useState } from "react";
-import { getDocument } from "util/getFirebaseDoc";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
-import { USER_DATA } from "util/constants";
+import { AccountCircle } from '@mui/icons-material';
+import { memo, useEffect, useState } from 'react';
+import { getDocument } from 'util/getFirebaseDoc';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+import { USER_DATA } from 'util/constants';
 
 interface PropsType {
   creatorId: string;
@@ -11,11 +11,11 @@ interface PropsType {
 
 const UserInfoBox = ({ creatorId }: PropsType) => {
   const [userDataDoc, setUserDataDoc] = useState({
-    displayName: "",
-    email: "",
+    displayName: '',
+    email: '',
     favoriteBookField: [],
-    name: "",
-    photoUrl: "",
+    name: '',
+    photoUrl: '',
   });
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const UserInfoBox = ({ creatorId }: PropsType) => {
       ) : (
         <AccountCircle />
       )}
-      <span>{userDataDoc?.displayName}</span>
+      {userDataDoc?.displayName && <span>{userDataDoc?.displayName}</span>}
     </User>
   );
 };
@@ -48,12 +48,11 @@ const User = styled.div`
   @media ${device.tablet} {
     > span {
       font-size: 16px;
-      margin-left: 4px;
+      margin-left: 5px;
     }
     > svg {
       width: 24px;
       height: 24px;
-      margin-right: 5px;
     }
   }
 `;
