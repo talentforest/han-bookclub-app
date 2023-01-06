@@ -1,14 +1,57 @@
-import { IWrittenDocs } from "components/common/SubjectBox";
-import { atom } from "recoil";
-import { IBookMeeting, IFixedBookField, IVote } from "util/getFirebaseDoc";
-import { v4 } from "uuid";
+import { atom } from 'recoil';
+import { v4 } from 'uuid';
+import { IBookApi } from './bookAtom';
+import { IVote } from './voteItemAtom';
 
-export const bookMeetingsState = atom<IBookMeeting[]>({
-  key: `bookMeetingDocs/${v4()}`,
+export interface IBookClubMonthInfo {
+  id?: string;
+  creatorId: string;
+  createdAt: number;
+  book: IBookApi;
+  meeting: ISchedule;
+}
+
+export interface ISchedule {
+  time: string;
+  place: string;
+}
+
+export interface IBasicDoc {
+  id?: string;
+  text: string;
+  creatorId: string;
+  createdAt: number;
+  title: string;
+  thumbnail: string;
+}
+
+export interface IRecommendDoc {
+  id?: string;
+  text: string;
+  creatorId: string;
+  createdAt: number;
+  title: string;
+  thumbnail: string;
+  recommendBookTitle: string;
+  recommendBookThumbnail: string;
+  recommendBookUrl: string;
+  recommendBookAuthor: string[];
+}
+
+export interface IFieldHost {
+  bookField: {
+    field: string;
+    month: number;
+    host: string;
+  }[];
+}
+
+export const clubDocsState = atom<IBookClubMonthInfo[]>({
+  key: `clubDocs/${v4()}`,
   default: [],
   effects: [
     ({ setSelf, onSet }) => {
-      const bookMeetingStoreKey = "bookMeeting";
+      const bookMeetingStoreKey = 'bookMeeting';
       const savedValue = localStorage.getItem(bookMeetingStoreKey);
       if (savedValue != null) {
         setSelf(JSON.parse(savedValue));
@@ -22,12 +65,12 @@ export const bookMeetingsState = atom<IBookMeeting[]>({
   ],
 });
 
-export const thisMonthState = atom<IBookMeeting>({
+export const thisMonthState = atom<IBookClubMonthInfo>({
   key: `thisMonthBookMeeting/${v4()}`,
-  default: {} as IBookMeeting,
+  default: {} as IBookClubMonthInfo,
   effects: [
     ({ setSelf, onSet }) => {
-      const storeKey = "thisMonthBookMeeting";
+      const storeKey = 'thisMonthBookMeeting';
       const savedValue = localStorage.getItem(storeKey);
       if (savedValue != null) {
         setSelf(JSON.parse(savedValue));
@@ -41,9 +84,9 @@ export const thisMonthState = atom<IBookMeeting>({
   ],
 });
 
-export const bookFieldsState = atom<IFixedBookField>({
+export const bookFieldsState = atom<IFieldHost>({
   key: `bookFieldDocs/${v4()}`,
-  default: {} as IFixedBookField,
+  default: {} as IFieldHost,
 });
 
 export const votesState = atom<IVote[]>({
@@ -51,22 +94,22 @@ export const votesState = atom<IVote[]>({
   default: [],
 });
 
-export const subjectsState = atom<IWrittenDocs[]>({
+export const subjectsState = atom<IBasicDoc[]>({
   key: `subjectDocs/${v4()}`,
   default: [],
 });
 
-export const reviewsState = atom<IWrittenDocs[]>({
+export const reviewsState = atom<IBasicDoc[]>({
   key: `reviewDocs/${v4()}`,
   default: [],
 });
 
-export const recommendsState = atom<IWrittenDocs[]>({
+export const recommendsState = atom<IRecommendDoc[]>({
   key: `recommendDocs/${v4()}`,
   default: [],
 });
 
-export const hostReviewState = atom<IWrittenDocs[]>({
+export const hostReviewState = atom<IBasicDoc[]>({
   key: `hostReview/${v4()}`,
   default: [],
 });

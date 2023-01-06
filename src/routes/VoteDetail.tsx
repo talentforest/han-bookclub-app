@@ -1,301 +1,194 @@
-import { CheckCircleOutline, Replay } from "@mui/icons-material";
-import { currentUserState } from "data/userAtom";
-import { useLocation } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { IVote, IVoteItem } from "util/getFirebaseDoc";
-import { Container } from "theme/commonStyle";
-import { today } from "util/constants";
-import { useState } from "react";
-import UserInfoBox from "components/common/UserInfoBox";
-import useHandleVoting from "hooks/useHandleVoting";
-import device from "theme/mediaQueries";
-import styled from "styled-components";
-import FormDetails from "components/votedetail/FormDetails";
-import Percentage from "components/votedetail/Percentage";
-import ShareButton from "components/common/ShareButton";
+import { CheckCircleOutline, Replay } from '@mui/icons-material';
+import { useLocation } from 'react-router-dom';
+import { today } from 'util/index';
+import { IVote } from 'data/voteItemAtom';
+import UsernameBox from 'components/organisms/UsernameBox';
+import useHandleVoting from 'hooks/useHandleVoting';
+import device from 'theme/mediaQueries';
+import styled from 'styled-components';
+import FormDetails from 'components/organisms/votedetail/FormDetails';
+import Percentage from 'components/organisms/votedetail/Percentage';
+import ShareButton from 'components/atoms/buttons/ShareBtn';
+import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
+import HandleBtn from 'components/atoms/buttons/HandleBtn';
+import Subtitle from 'components/atoms/Subtitle';
 
 type LocationState = { state: { voteDetail: IVote } };
 
 const VoteDetail = () => {
-  const [voteDisabled, setVoteDisabled] = useState(false);
-  const userData = useRecoilValue(currentUserState);
-
   const {
     state: { voteDetail },
   } = useLocation() as LocationState;
-
   const {
+    voteDisabled,
     voteItems,
     totalVoteCount,
     myVote,
-    onRevoteClick,
-    selectedItems,
     personalVote,
+    onRevoteClick,
+    mySelectingItem,
+    mySelectedItem,
+    existVoteCount,
     onVotingSubmit,
     onVoteItemClick,
-  } = useHandleVoting(setVoteDisabled, voteDetail, userData.uid);
-
-  function mySelectingItem(item: IVoteItem) {
-    return selectedItems.find((ele) => ele.id === item.id);
-  }
-
-  function mySelectedItem(item: IVoteItem) {
-    return myVote[0].votedItem.find((ele: IVoteItem) => ele.id === item.id);
-  }
-
-  function existVoteCount(itemId: number) {
-    return voteItems[itemId - 1].voteCount;
-  }
+  } = useHandleVoting(voteDetail);
+  const expiredVote = voteDetail.deadline < today;
 
   return (
-    <Container>
-      <Vote className={voteDetail.deadline < today() ? "expired" : ""}>
+    <main>
+      <Vote $expired={!!expiredVote}>
         {!myVote.length ? (
-          <form onSubmit={onVotingSubmit}>
+          <Form $expired={!!expiredVote} onSubmit={onVotingSubmit}>
             <FormDetails voteDetail={voteDetail} />
-            <Votelist className={voteDisabled ? "disabled" : ""}>
+            <Votelist $disabled={!!voteDisabled}>
               {voteDetail.vote.voteItem.map((item) => (
-                <li
+                <VoteItem
                   key={item.id}
                   onClick={() =>
                     onVoteItemClick(item.id, item.item, item.voteCount)
                   }
-                  className={mySelectingItem(item) ? "isActive" : ""}
-                >
-                  <CheckCircleOutline
-                    className={mySelectingItem(item) ? "isActive" : ""}
-                  />
-                  <span
-                    className={existVoteCount(item.id) ? "shrinkWidth" : ""}
-                  >
-                    {item.item}
-                  </span>
-                  <Percentage
-                    voteItems={voteItems}
-                    item={item}
-                    totalVoteCount={totalVoteCount}
-                  />
-                </li>
-              ))}
-            </Votelist>
-            <SubmitButton
-              type="submit"
-              className={voteDisabled ? "disabled" : ""}
-            >
-              투표하기
-            </SubmitButton>
-          </form>
-        ) : (
-          <form>
-            <FormDetails voteDetail={voteDetail} />
-            <Votelist className={"disabled"}>
-              {voteDetail.vote.voteItem.map((item) => (
-                <li
-                  key={item.id}
-                  className={mySelectedItem(item) ? "isActive" : ""}
+                  $selected={!!mySelectingItem(item)}
                 >
                   <CheckCircleOutline />
-                  <span
-                    className={existVoteCount(item.id) ? "shrinkWidth" : ""}
-                  >
+                  <ItemText $shrinkWidth={!!existVoteCount(item.id)}>
                     {item.item}
-                  </span>
+                  </ItemText>
                   <Percentage
                     voteItems={voteItems}
                     item={item}
                     totalVoteCount={totalVoteCount}
                   />
-                </li>
+                </VoteItem>
               ))}
             </Votelist>
-            <SubmitButton className={"disabled"}>투표하기</SubmitButton>
-            <SubmitButton onClick={onRevoteClick}>
+            <SubmitBtn children='투표하기' disabled={!!voteDisabled} />
+          </Form>
+        ) : (
+          <Form $expired={!!expiredVote}>
+            <FormDetails voteDetail={voteDetail} />
+            <Votelist $disabled>
+              {voteDetail.vote.voteItem.map((item) => (
+                <VoteItem key={item.id} $selected={!!mySelectedItem(item)}>
+                  <CheckCircleOutline />
+                  <ItemText $shrinkWidth={!!existVoteCount(item.id)}>
+                    {item.item}
+                  </ItemText>
+                  <Percentage
+                    voteItems={voteItems}
+                    item={item}
+                    totalVoteCount={totalVoteCount}
+                  />
+                </VoteItem>
+              ))}
+            </Votelist>
+            <SubmitBtn children='투표하기' disabled />
+            <HandleBtn handleClick={onRevoteClick}>
               다시 투표하기 <Replay />
-            </SubmitButton>
-          </form>
+            </HandleBtn>
+          </Form>
         )}
       </Vote>
       <InfoBox>
         <ShareButton
-          title="✨새로운 투표가 등록되었어요!"
-          description="투표하러 가볼까요? 👀"
-          path="vote"
+          title='✨새로운 투표가 등록되었어요!'
+          description='투표하러 가볼까요? 👀'
+          path='vote'
         />
+        <Subtitle title={`투표인원: ${personalVote.length}명`} />
         <VoteMember>
-          <h4>투표인원: {personalVote.length}명</h4>
-          <ul>
-            {personalVote.map((member) => (
-              <li key={member.id}>
-                <UserInfoBox creatorId={member.id} key={member.id} />
-              </li>
-            ))}
-          </ul>
+          {personalVote.map((member) => (
+            <li key={member.id}>
+              <UsernameBox creatorId={member.id} key={member.id} />
+            </li>
+          ))}
         </VoteMember>
       </InfoBox>
-    </Container>
+    </main>
   );
 };
 
-const Vote = styled.div`
+const Vote = styled.div<{ $expired: boolean }>`
   width: 100%;
-  padding: 0 20px;
-  > form {
-    > span {
-      width: fit-content;
-      font-size: 12px;
-      border-radius: 15px;
-      padding: 5px 10px 3px;
-      background-color: ${(props) => props.theme.container.yellow};
-      color: ${(props) => props.theme.text.accent};
-    }
-    > p {
-      font-size: 14px;
-      color: ${(props) => props.theme.text.lightBlue};
-    }
-  }
-  &.expired {
-    pointer-events: none;
-    > form {
-      > details {
-        pointer-events: all;
-      }
-    }
-    button {
-      background-color: ${(props) => props.theme.text.lightGray};
-      color: ${(props) => props.theme.text.gray};
-      svg {
-        fill: ${(props) => props.theme.text.gray};
-      }
+  margin-bottom: 20px;
+  pointer-events: ${(props) => (props.$expired ? 'none' : 'all')};
+`;
+const Form = styled.form<{ $expired: boolean }>`
+  > button {
+    margin-bottom: 5px;
+    background-color: ${(props) =>
+      props.$expired ? props.theme.text.lightGray : ''};
+    color: ${(props) => (props.$expired ? props.theme.text.gray : '')};
+    svg {
+      fill: ${(props) => (props.$expired ? props.theme.text.gray : '')};
     }
   }
 `;
-
-const Votelist = styled.ul`
+const Votelist = styled.ul<{ $disabled: boolean }>`
   position: relative;
   margin-bottom: 10px;
-  &.disabled {
-    pointer-events: none;
-  }
-  > li {
-    white-space: pre-line;
-    word-break: break-all;
-    z-index: 0;
-    position: relative;
-    cursor: pointer;
-    border: 1px solid ${(props) => props.theme.text.lightGray};
-    border-radius: 5px;
-    padding: 4px 10px;
-    margin-top: 10px;
-    background-color: ${(props) => props.theme.container.default};
-    display: flex;
-    align-items: center;
-    &.isActive {
-      border: 2px solid ${(props) => props.theme.container.blue};
-      svg {
-        fill: ${(props) => props.theme.container.blue};
-      }
-    }
-    > svg {
-      z-index: 1;
-      width: 18px;
-      height: 18px;
-      margin-right: 5px;
-      fill: ${(props) => props.theme.text.lightGray};
-    }
-    > span {
-      z-index: 1;
-      &.shrinkWidth {
-        width: 77%;
-      }
-    }
-  }
+  pointer-events: ${(props) => (props.$disabled ? 'none' : 'all')};
   @media ${device.tablet} {
     margin-bottom: 30px;
-    p {
-      font-size: 16px;
-    }
-    > li {
-      padding: 10px 15px;
-      margin-top: 15px;
-      min-height: 50px;
-      > svg {
-        width: 24px;
-        height: 24px;
-      }
-      > span {
-        font-size: 18px;
-        &.shrinkWidth {
-          width: 85%;
-        }
-      }
-    }
   }
 `;
-
-const SubmitButton = styled.button`
-  width: 100%;
-  height: 36px;
+const VoteItem = styled.li<{ $selected: boolean }>`
+  cursor: pointer;
+  white-space: pre-line;
+  word-break: break-all;
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-  padding: 8px;
-  background-color: ${(props) => props.theme.container.lightBlue};
-  color: ${(props) => props.theme.text.accent};
-  border: none;
+  border: ${(props) =>
+    props.$selected
+      ? `2px solid ${props.theme.container.blue}`
+      : `1px solid ${props.theme.text.lightGray}`};
   border-radius: 5px;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: ${(props) => props.theme.container.default};
   > svg {
+    z-index: 1;
     width: 18px;
     height: 18px;
-    fill: ${(props) => props.theme.text.accent};
-  }
-  &.disabled {
-    pointer-events: none;
-    background-color: ${(props) => props.theme.text.lightGray};
-    color: ${(props) => props.theme.text.gray};
-  }
-  @media ${device.tablet} {
-    font-size: 16px;
-    height: 60px;
-    padding: 0px;
-  }
-`;
-
-const VoteMember = styled.div`
-  margin-top: 20px;
-  h4 {
-    font-size: 14px;
-    width: fit-content;
-    margin-bottom: 10px;
-    border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
-  }
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px 10px;
+    margin-right: 5px;
+    fill: ${(props) =>
+      props.$selected
+        ? props.theme.container.blue
+        : props.theme.text.lightGray};
   }
   @media ${device.tablet} {
-    width: 100%;
-    margin-top: 30px;
-    h4 {
-      font-size: 18px;
-      margin-bottom: 15px;
-    }
-    ul {
-      font-size: 18px;
+    padding: 10px 15px;
+    margin-top: 15px;
+    min-height: 50px;
+    > svg {
+      width: 24px;
+      height: 24px;
     }
   }
 `;
-
+const ItemText = styled.span<{ $shrinkWidth: boolean }>`
+  z-index: 1;
+  width: ${(props) => (props.$shrinkWidth ? '77%' : '100%')};
+  @media ${device.tablet} {
+    font-size: 18px;
+    width: ${(props) => (props.$shrinkWidth ? '85%' : '100%')};
+  }
+`;
 const InfoBox = styled.div`
-  padding: 0 20px;
   display: flex;
   flex-direction: column;
   > button {
     align-self: flex-end;
+  }
+`;
+const VoteMember = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 10px;
+  list-style: none;
+  @media ${device.tablet} {
+    font-size: 18px;
   }
 `;
 

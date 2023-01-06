@@ -1,18 +1,18 @@
 import { IBookApi } from 'data/bookAtom';
+import { IBookClubMonthInfo } from 'data/documentsAtom';
 import { currentUserState } from 'data/userAtom';
 import { dbService } from 'fbase';
 import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { IBookMeeting } from 'util/getFirebaseDoc';
-import { CLUB_INFO, thisYearMonth } from 'util/constants';
+import { CLUB_INFO, thisYearMonth } from 'util/index';
 
 interface PropsType {
-  bookMeetingDocs: IBookMeeting[];
+  clubDocs: IBookClubMonthInfo[];
   searchedBook: IBookApi;
 }
 
-const useHandleClubInfoDoc = ({ bookMeetingDocs, searchedBook }: PropsType) => {
+const useHandleClubInfoDoc = ({ clubDocs, searchedBook }: PropsType) => {
   const [toggle, setToggle] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(`${thisYearMonth}`);
   const userData = useRecoilValue(currentUserState);
@@ -54,7 +54,7 @@ const useHandleClubInfoDoc = ({ bookMeetingDocs, searchedBook }: PropsType) => {
   };
 
   const deleteClubInfoDoc = async () => {
-    const isClubBook = bookMeetingDocs.find(
+    const isClubBook = clubDocs.find(
       (item) => item.book.title === searchedBook.title
     );
     const clubInfoDocRef = doc(dbService, CLUB_INFO, `${isClubBook?.id}`);

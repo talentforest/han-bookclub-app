@@ -1,8 +1,22 @@
 import { createGlobalStyle } from 'styled-components';
+import device from './mediaQueries';
 
 export const ResetStyle = createGlobalStyle`
   body {
     background-color: ${(props) => props.theme.bgColor};
+    > div {
+      > main {
+        padding: 10px 20px 100px;
+        position: relative;
+        @media ${device.tablet} {
+        padding: 10px 80px 100px;
+        }
+        @media ${device.desktop} {
+          padding: 10px 160px 100px;
+        }
+      }
+    }
+    
   }
   * {
     font-family: "Noto Sans KR", sans-serif;
@@ -12,15 +26,11 @@ export const ResetStyle = createGlobalStyle`
     display: none;
     }
   }
-  input[type=button],
-  input[type=password],
-  input[type=email],
-  input[type=text],
-  input[type=submit], 
-  input[type=datetime-local],
-  input[type=date],
   textarea, 
   button {
+    padding: 0;
+    margin: 0;
+    border: none;
     -webkit-appearance:none; 
     -moz-appearance:none; 
     appearance:none;
@@ -44,7 +54,6 @@ export const ResetStyle = createGlobalStyle`
     list-style: none;
   }
   html,
-  body,
   div,
   span,
   applet,
@@ -121,7 +130,8 @@ export const ResetStyle = createGlobalStyle`
   time,
   mark,
   audio,
-  video {
+  video,
+  body {
     margin: 0;
     padding: 0;
     border: 0;

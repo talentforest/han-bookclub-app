@@ -1,23 +1,23 @@
-import { useState } from "react";
-import { authService } from "fbase";
-import { sendPasswordResetEmail } from "firebase/auth";
-import { Container, Desc, Input } from "theme/commonStyle";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
+import { useState } from 'react';
+import { authService } from 'fbase';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+import EmailInput from 'components/atoms/inputs/EmailInput';
+import Subtitle from 'components/atoms/Subtitle';
+import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
 
 const ResetPasswordEmail = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     sendPasswordResetEmail(authService, email).catch((error) => {
       console.log(error);
     });
-
     setSubmitSuccess(true);
-    setEmail("");
+    setEmail('');
   };
 
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -26,21 +26,19 @@ const ResetPasswordEmail = () => {
   };
 
   return (
-    <Container>
-      <Desc>비밀번호가 생각나지 않으세요?</Desc>
+    <main>
+      <Subtitle title='비밀번호가 생각나지 않으세요?' />
       <Detail>
         가입할 때 사용하신 계정 이메일을 적어주세요. <br />
         해당 이메일에 비밀번호 재설정 링크를 전송해 드릴게요.
       </Detail>
       <InputForm onSubmit={onSubmit}>
-        <Input
-          type="email"
+        <EmailInput
           value={email}
-          placeholder="계정 이메일을 적어주세요."
+          placeholder='계정 이메일을 적어주세요.'
           onChange={onChange}
-          required
         />
-        <Input type="submit" value="전송하기" />
+        <SubmitBtn children='전송하기' />
       </InputForm>
       {submitSuccess ? (
         <Message>
@@ -50,7 +48,7 @@ const ResetPasswordEmail = () => {
       ) : (
         <></>
       )}
-    </Container>
+    </main>
   );
 };
 
@@ -63,14 +61,12 @@ const Detail = styled.p`
     font-size: 18px;
   }
 `;
-
 const Message = styled(Detail)`
   color: #666;
   font-size: 10px;
   margin: 10px 0;
   text-align: end;
 `;
-
 const InputForm = styled.form`
   display: flex;
   align-items: center;

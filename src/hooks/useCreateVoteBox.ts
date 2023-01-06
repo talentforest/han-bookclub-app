@@ -4,7 +4,7 @@ import { authService, dbService } from 'fbase';
 import { addDoc, collection } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { pickDay } from 'util/constants';
+import { pickDay } from 'util/index';
 import useAlertAskJoin from './useAlertAskJoin';
 
 interface ICreateVoteBox {
@@ -15,7 +15,7 @@ interface ICreateVoteBox {
 const useCreateVoteBox = ({ setModalOpen, endDate }: ICreateVoteBox) => {
   const userData = useRecoilValue(currentUserState);
   const votes = useRecoilValue(votesState);
-  const { alertAskJoinMember } = useAlertAskJoin();
+  const { alertAskJoinMember } = useAlertAskJoin('register');
   const [vote, setVote] = useState({
     title: '',
     voteItem: [

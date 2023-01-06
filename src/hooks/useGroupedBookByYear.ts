@@ -1,14 +1,17 @@
-import { IBookMeeting } from 'util/getFirebaseDoc';
+import { IBookClubMonthInfo } from 'data/documentsAtom';
 
-const useGroupedBookByYear = (bookMeetingDocs: IBookMeeting[]) => {
-  const yearKey = bookMeetingDocs?.reduce((acc: any, current: IBookMeeting) => {
-    const bookRegisteredYear = current.id.split('-')[0];
+const useGroupedBookByYear = (bookMeetingDocs: IBookClubMonthInfo[]) => {
+  const yearKey = bookMeetingDocs?.reduce(
+    (acc: any, current: IBookClubMonthInfo) => {
+      const bookRegisteredYear = current.id.split('-')[0];
 
-    acc[bookRegisteredYear] = acc[bookRegisteredYear] || [];
-    acc[bookRegisteredYear].push(current);
+      acc[bookRegisteredYear] = acc[bookRegisteredYear] || [];
+      acc[bookRegisteredYear].push(current);
 
-    return acc;
-  }, {});
+      return acc;
+    },
+    {}
+  );
 
   const GroupedBookByYear = Object.keys(yearKey).map((key) => {
     return {

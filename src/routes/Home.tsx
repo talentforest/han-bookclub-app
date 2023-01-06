@@ -1,132 +1,88 @@
-import { Link } from 'react-router-dom';
-import { Container } from 'theme/commonStyle';
 import { useEffect } from 'react';
 import {
   BOOK_FIELD,
   CLUB_INFO,
+  thisMonth,
   thisYear,
   thisYearMonth,
-  today,
-  USER_DATA,
-} from 'util/constants';
-import { getCollection, getDocument, IVote } from 'util/getFirebaseDoc';
+} from 'util/index';
+import { getCollection, getDocument } from 'api/getFbDoc';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   bookFieldsState,
   thisMonthState,
   votesState,
 } from 'data/documentsAtom';
-import { getMonthNumber } from 'util/getMonthNumber';
-import { settings } from 'util/sliderSetting';
-import { usersState } from 'data/userAtom';
-import LinkButton from 'components/common/LinkButton';
-import Subtitle from 'components/common/Subtitle';
-import MeetingInfoBox from 'components/common/MeetingInfoBox';
-import BookTitleImgBox from 'components/common/BookTitleImgBox';
-import VoteBox from 'components/vote/VoteBox';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import Loading from 'components/common/Loading';
-import Guide from 'components/common/Guide';
-import device from 'theme/mediaQueries';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import Subtitle from 'components/atoms/Subtitle';
+import BookImgTitle from 'components/atoms/BookImgTitle';
+import Loading from 'components/atoms/Loading';
+import Guide from 'components/atoms/Guide';
+import FieldScheduleBox from 'components/organisms/home/FieldScheduleBox';
+import VoteSlider from 'components/organisms/home/VoteSlider';
 import styled from 'styled-components';
-import FieldScheduleBox from 'components/FieldScheduleBox';
+import ScheduleBox from 'components/organisms/ScheduleBox';
+import { onAuthStateChanged, signInAnonymously } from 'firebase/auth';
+import { authService } from 'fbase';
 
-const Home = () => {
+interface PropsType {
+  isLoggedIn: boolean;
+}
+
+const Home = ({ isLoggedIn }: PropsType) => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
-  const [bookFields, setBookFields] = useRecoilState(bookFieldsState);
-  const [votes, setVotes] = useRecoilState(votesState);
-  const setUserDocs = useSetRecoilState(usersState);
+  const setBookFields = useSetRecoilState(bookFieldsState);
+  const setVotes = useSetRecoilState(votesState);
+  const checkThisMonthDoc = Object.keys(thisMonthDoc).length;
+  const { book, meeting } = thisMonthDoc;
 
   useEffect(() => {
-    getCollection(USER_DATA, setUserDocs);
+    if (!isLoggedIn) {
+      try {
+        signInAnonymously(authService);
+        onAuthStateChanged(authService, (user) => {
+          if (user) {
+            console.log('success');
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
     getDocument(CLUB_INFO, `${thisYearMonth}`, setThisMonthDoc);
     getDocument(BOOK_FIELD, `${thisYear}`, setBookFields);
     getCollection('Vote', setVotes);
-  }, [setThisMonthDoc, setBookFields, setVotes, setUserDocs]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn]);
 
-  const progressVotes = votes.filter((item: IVote) => item.deadline >= today());
-  const checkThisMonthDoc = Object.keys(thisMonthDoc).length;
-
-  return (
-    <>
-      {checkThisMonthDoc === 0 ? (
-        <Loading />
-      ) : (
-        <NewContainer>
-          <section>
-            <Subtitle title={`${getMonthNumber(thisMonthDoc?.id)}월의 책`} />
-            <Guide
-              margin={true}
-              text='이달의 책은 매월 1일에 업데이트 됩니다.'
-            />
-            <BookTitleImgBox
-              thumbnail={thisMonthDoc?.book?.thumbnail}
-              title={thisMonthDoc?.book?.title}
-            />
-          </section>
-          <section>
-            <Subtitle
-              title={`${getMonthNumber(thisMonthDoc?.id)}월의 모임 일정`}
-            />
-            <Guide
-              margin={true}
-              text='한페이지 멤버는 매월 셋째주 일요일에 만나요.'
-            />
-            <MeetingInfoBox docData={thisMonthDoc?.meeting} />
-            <LinkButton link={'/bookclub'} title='발제하러 가기' />
-          </section>
-          <VoteSlider>
-            <Subtitle title={'한페이지의 투표함'} />
-            {progressVotes.length ? (
-              <Slider {...settings(progressVotes.length)}>
-                {progressVotes?.map((voteDetail) => (
-                  <VoteBox key={voteDetail.id} voteDetail={voteDetail} />
-                ))}
-              </Slider>
-            ) : (
-              <VoteEmptyBox>
-                <span>진행중인 투표가 없어요.</span>
-                <Link to={'/vote'}>
-                  투표 등록하러 가기 <ArrowForwardIosIcon />
-                </Link>
-              </VoteEmptyBox>
-            )}
-            <LinkButton link={'/vote'} title='투표 더보기' />
-          </VoteSlider>
-          <FieldScheduleBox
-            bookFields={bookFields?.bookField}
-            thisMonthDoc={thisMonthDoc}
-          />
-        </NewContainer>
-      )}
-    </>
+  return checkThisMonthDoc === 0 ? (
+    <Loading />
+  ) : (
+    <main>
+      <Section>
+        <Subtitle title={`${thisMonth}월의 책`} />
+        <Guide text='이달의 책은 매월 1일에 업데이트 됩니다.' />
+        <BookImgTitle thumbnail={book?.thumbnail} title={book?.title} />
+      </Section>
+      <Section>
+        <Subtitle title={`${thisMonth}월의 모임 일정`} />
+        <Guide text='한페이지 멤버는 매월 셋째주 일요일에 만나요.' />
+        <ScheduleBox schedule={meeting} />
+      </Section>
+      <VoteSection>
+        <Subtitle title={'한페이지의 투표함'} />
+        <VoteSlider />
+      </VoteSection>
+      <FieldScheduleBox />
+    </main>
   );
 };
 
-const NewContainer = styled(Container)`
-  > section {
-    margin-top: 40px;
-    &:first-child {
-      margin-top: 0;
-    }
-  }
-  @media ${device.tablet} {
-    > section {
-      &:first-child {
-        > div:nth-child(2) {
-          margin-bottom: 30px;
-        }
-      }
-    }
-  }
+const Section = styled.section`
+  margin-bottom: 60px;
 `;
-
-const VoteSlider = styled.section`
-  margin: 0 auto 0px;
-  box-sizing: none;
+const VoteSection = styled(Section)`
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
   .slick-list {
     padding-bottom: 3px;
@@ -136,39 +92,6 @@ const VoteSlider = styled.section`
   }
   .slick-slide {
     padding: 0 10px;
-  }
-`;
-
-const VoteEmptyBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  width: 100%;
-  padding: 30px 0;
-  border-radius: 10px;
-  background-color: ${(props) => props.theme.container.default};
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-  > span {
-    color: ${(props) => props.theme.text.gray};
-    display: block;
-    text-align: center;
-  }
-  > a {
-    display: flex;
-    align-items: center;
-    align-self: center;
-    padding: 5px 8px;
-    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-    border-radius: 5px;
-    background-color: ${(props) => props.theme.container.lightBlue};
-    color: ${(props) => props.theme.text.lightBlue};
-    font-size: 14px;
-    cursor: pointer;
-    svg {
-      width: 14px;
-      height: 14px;
-      fill: ${(props) => props.theme.text.lightBlue};
-    }
   }
 `;
 

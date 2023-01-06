@@ -1,10 +1,9 @@
-import { useLocation } from "react-router-dom";
-import { IBookApi } from "data/bookAtom";
-import { Container } from "theme/commonStyle";
-import BookDesc from "components/search/BookDesc";
-import BookTitleImgBox from "components/common/BookTitleImgBox";
-import RegisterClubBookButton from "components/search/RegisterClubBookButton";
-import RegisterRecommendButton from "components/search/RegisterRecommendButton";
+import { useLocation } from 'react-router-dom';
+import { IBookApi } from 'data/bookAtom';
+import BookDesc from 'components/organisms/search/BookDesc';
+import BookImgTitle from 'components/atoms/BookImgTitle';
+import RegisterClubBookButton from 'components/organisms/search/RegisterClubBookButton';
+import RegisterRecommendButton from 'components/organisms/search/RegisterRecommendButton';
 
 type LocationState = { state: { searchedBook: IBookApi } };
 
@@ -14,15 +13,15 @@ const SearchedBookInfo = () => {
   } = useLocation() as LocationState;
 
   return (
-    <Container>
-      <BookTitleImgBox
+    <main>
+      <BookImgTitle
         thumbnail={searchedBook.thumbnail}
         title={searchedBook.title}
       />
       <RegisterClubBookButton searchedBook={searchedBook} />
       <RegisterRecommendButton searchedBook={searchedBook} />
       <BookDesc detailInfo={searchedBook} />
-    </Container>
+    </main>
   );
 };
 

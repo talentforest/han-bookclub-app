@@ -1,34 +1,35 @@
-import { useEffect, useState } from "react";
-import { clubInfoCollection } from "util/constants";
-import { getCollection } from "util/getFirebaseDoc";
+import { useEffect, useState } from 'react';
+import { getFbRoute } from 'util/index';
+import { getCollection } from 'api/getFbDoc';
+import { useRecoilValue } from 'recoil';
+import { currentUserState } from 'data/userAtom';
 
-const useFilterMyRecords = (itemId: string, userDataUid: string) => {
+const useFilterMyRecords = (id: string, userUid: string) => {
   const [subjects, setSubjects] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [mySubjectsByBook, setMySubjectsByBook] = useState([]);
   const [myReviewsByBook, setMyReviewsByBook] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-  const [guide, setGuide] = useState("");
+  const [recommendBook, setRecommendBook] = useState([]);
+  const [myRecommendByBook, setMyRecommendByBook] = useState([]);
+  const [openRecommendModal, setOpenRecommendModal] = useState(false);
+  const userData = useRecoilValue(currentUserState);
 
   useEffect(() => {
-    getCollection(clubInfoCollection(itemId).SUBJECT, setSubjects);
-    getCollection(clubInfoCollection(itemId).REVIEW, setReviews);
+    getCollection(getFbRoute(id).SUBJECT, setSubjects);
+    getCollection(getFbRoute(id).REVIEW, setReviews);
+    getCollection(getFbRoute(id).RECOMMEND, setRecommendBook);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const mySubjects = subjects?.filter(
-    (item) => item?.creatorId === userDataUid
+  const mySubjects = subjects?.filter((item) => item?.creatorId === userUid);
+  const myReviews = reviews?.filter((item) => item?.creatorId === userUid);
+  const myRecommendBooks = recommendBook?.filter(
+    (item) => item?.creatorId === userData.uid
   );
-
-  const myReviews = reviews?.filter((item) => item?.creatorId === userDataUid);
 
   const onSubjectClick = (booktitle: string) => {
     const filteredArr = mySubjects.filter((item) => item.title === booktitle);
-    setGuide("");
-    if (filteredArr.length === 0) {
-      setGuide("작성한 발제문이 없어요.");
-      return;
-    }
     setOpenModal((prev) => !prev);
     setMyReviewsByBook([]);
     setMySubjectsByBook(filteredArr);
@@ -36,28 +37,17 @@ const useFilterMyRecords = (itemId: string, userDataUid: string) => {
 
   const onReviewClick = (booktitle: string) => {
     const filteredArr = myReviews.filter((item) => item.title === booktitle);
-    setGuide("");
-    if (filteredArr.length === 0) {
-      setGuide("작성한 모임후기가 없어요.");
-      return;
-    }
     setOpenModal((prev) => !prev);
     setMySubjectsByBook([]);
     setMyReviewsByBook(filteredArr);
   };
 
-  const onSubjectRemove = (targetId: string) => {
-    const newSubjectArr = mySubjectsByBook.filter(
-      (item) => item.id !== targetId
+  const onRecommendBookClick = (booktitle: string) => {
+    const filteredArr = myRecommendBooks.filter(
+      (item) => item.recommendBookThumbnail === booktitle
     );
-    setMySubjectsByBook(newSubjectArr);
-  };
-
-  const onReviewRemove = (targetId: string) => {
-    const newSubjectArr = myReviewsByBook.filter(
-      (item) => item.id !== targetId
-    );
-    setMyReviewsByBook(newSubjectArr);
+    setOpenRecommendModal((prev) => !prev);
+    setMyRecommendByBook(filteredArr);
   };
 
   return {
@@ -67,11 +57,13 @@ const useFilterMyRecords = (itemId: string, userDataUid: string) => {
     myReviewsByBook,
     openModal,
     setOpenModal,
-    guide,
     onSubjectClick,
     onReviewClick,
-    onSubjectRemove,
-    onReviewRemove,
+    myRecommendBooks,
+    myRecommendByBook,
+    openRecommendModal,
+    setOpenRecommendModal,
+    onRecommendBookClick,
   };
 };
 

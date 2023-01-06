@@ -1,14 +1,14 @@
-import { BookFieldType } from "components/login/UserDataInputForm";
-import { authService } from "fbase";
-import { getAuth, onAuthStateChanged, User } from "firebase/auth";
-import { atom } from "recoil";
-import { v4 } from "uuid";
+import { BookFieldType } from 'components/organisms/login/BookField';
+import { authService } from 'fbase';
+import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
+import { atom } from 'recoil';
+import { v4 } from 'uuid';
 
-export interface CurrUserInfo {
+export interface IUserData {
   uid: string;
-  email?: string;
-  displayName?: string;
-  photoURL?: string;
+  email: string;
+  displayName: string;
+  photoURL: string;
 }
 
 export interface IExtraUserData {
@@ -32,8 +32,8 @@ export const refreshUserState = atom({
   ],
 });
 
-export const currentUserState = atom<CurrUserInfo | null>({
-  key: `currentUser/${v4}`,
+export const currentUserState = atom<IUserData | null>({
+  key: `userData/${v4}`,
   default: null,
   effects: [
     ({ setSelf, onSet }) => {
@@ -41,10 +41,10 @@ export const currentUserState = atom<CurrUserInfo | null>({
         if (user) {
           const { uid, email, displayName, photoURL } = user;
           const authUser = {
-            uid,
-            email,
-            displayName: displayName ? displayName : "한 페이지 멤버",
-            photoURL,
+            uid: uid ? uid : '',
+            email: email ? email : '',
+            displayName: displayName ? displayName : '익명의 방문자',
+            photoURL: photoURL ? photoURL : '',
           };
 
           setSelf(authUser as User);

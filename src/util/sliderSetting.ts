@@ -2,7 +2,7 @@ export const settings = (length: number) => {
   return {
     arrows: false,
     dots: true,
-    infinite: length > 1,
+    infinite: length > 2,
     pauseOnHover: true,
     autoplay: true,
     autoplaySpeed: 4000,

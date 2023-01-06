@@ -1,20 +1,21 @@
-import { BookFieldType } from "components/login/UserDataInputForm";
-import { currentUserState, IExtraUserData } from "data/userAtom";
-import { authService, dbService, storageService } from "fbase";
-import { getAuth, updateProfile } from "firebase/auth";
-import { doc, updateDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
-import { USER_DATA } from "util/constants";
-import { getDocument } from "util/getFirebaseDoc";
+import { getDocument } from 'api/getFbDoc';
+import { BookFieldType } from 'components/organisms/login/BookField';
+import { currentUserState, IExtraUserData } from 'data/userAtom';
+import { authService, dbService, storageService } from 'fbase';
+import { getAuth, updateProfile } from 'firebase/auth';
+import { doc, updateDoc } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { USER_DATA } from 'util/index';
 
 const useHandleProfile = () => {
   const [userData, setUserData] = useRecoilState(currentUserState);
   const [extraUserData, setExtraUserData] = useState({} as IExtraUserData);
   const [editing, setEditing] = useState(false);
-  const [profileImgUrl, setProfileImgUrl] = useState("");
+  const [newUserImgUrl, setNewUserImgUrl] = useState('');
   const [newDisplayName, setNewDisplayName] = useState(userData.displayName);
+  const userDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
 
   useEffect(() => {
     if (userData.uid) {
@@ -24,7 +25,6 @@ const useHandleProfile = () => {
 
   const refreshUser = () => {
     const user = getAuth().currentUser;
-
     setUserData({
       uid: user.uid,
       email: user.email,
@@ -35,99 +35,100 @@ const useHandleProfile = () => {
 
   const updateProfileImg = async () => {
     let userImageUrl = userData.photoURL;
-    const UserDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
-
     const fileRef = ref(storageService, `${userData.uid}`);
-    const response = await uploadString(fileRef, profileImgUrl, "data_url");
+    const response = await uploadString(fileRef, newUserImgUrl, 'data_url');
     userImageUrl = await getDownloadURL(response.ref);
-
     await updateProfile(authService.currentUser, {
       photoURL: userImageUrl,
     });
-    await updateDoc(UserDataRef, {
+    await updateDoc(userDataRef, {
       photoUrl: userImageUrl,
     });
-
     refreshUser();
   };
 
   const updateDisplayName = async () => {
-    const UserDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
-
     await updateProfile(authService.currentUser, {
       displayName: newDisplayName,
     });
-    await updateDoc(UserDataRef, {
+    await updateDoc(userDataRef, {
       displayName: newDisplayName,
     });
-
     refreshUser();
+  };
+
+  const updateFavBookField = async () => {
+    await updateDoc(userDataRef, {
+      favoriteBookField: Array.from(extraUserData.favoriteBookField),
+    });
   };
 
   const onProfileSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const UserDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
     try {
-      if (profileImgUrl !== "") {
+      if (newUserImgUrl !== '') {
         updateProfileImg();
       }
       if (userData.displayName !== newDisplayName) {
         updateDisplayName();
       }
-      updateDoc(UserDataRef, {
-        favoriteBookField: Array.from(extraUserData.favoriteBookField),
-      });
-
+      updateFavBookField();
       setEditing(false);
     } catch (error) {
-      console.error("Error adding document:", error);
+      console.error('Error adding document:', error);
     }
   };
 
-  const onHandleClick = (
+  const onHandleFieldClick = (
     id: number,
     event: React.FormEvent<HTMLButtonElement>
   ) => {
     const { name } = event.currentTarget;
-    const selectedFieldValue = { id, name };
-    const checkSelectedItem = extraUserData.favoriteBookField.some(
+    const selectedField = { id, name };
+    const alreadySelected = extraUserData.favoriteBookField.some(
       (item: BookFieldType) => item.id === id
     );
-
-    if (!checkSelectedItem) {
-      const totalArray = [
-        ...extraUserData.favoriteBookField,
-        selectedFieldValue,
-      ];
-
+    if (!alreadySelected) {
+      const totalArray = [...extraUserData.favoriteBookField, selectedField];
       const removeDeduplicationArr = totalArray.filter(
         (arr, index, callback) =>
           index === callback.findIndex((t) => t.id === arr.id)
       );
-      setExtraUserData((prevArr) => ({
+      return setExtraUserData((prevArr) => ({
         ...prevArr,
         favoriteBookField: removeDeduplicationArr,
       }));
-    } else if (checkSelectedItem) {
-      setExtraUserData((prevArr) => ({
-        ...prevArr,
-        favoriteBookField: prevArr.favoriteBookField.filter(
-          (ele: BookFieldType) => ele.id !== id
-        ),
-      }));
     }
+    setExtraUserData((prevArr) => ({
+      ...prevArr,
+      favoriteBookField: prevArr.favoriteBookField.filter(
+        (ele: BookFieldType) => ele.id !== id
+      ),
+    }));
+  };
+
+  const onToggleEditClick = () => setEditing(true);
+
+  const onDisplayNameChange = (event: React.FormEvent<HTMLInputElement>) => {
+    setNewDisplayName(event.currentTarget.value);
+  };
+
+  const isSelected = (id: number) => {
+    return extraUserData?.favoriteBookField.some((item) => item.id === id);
   };
 
   return {
     editing,
-    setEditing,
-    onHandleClick,
+    onToggleEditClick,
+    onHandleFieldClick,
     onProfileSubmit,
-    profileImgUrl,
-    setProfileImgUrl,
+    newUserImgUrl,
+    setNewUserImgUrl,
     newDisplayName,
     setNewDisplayName,
     extraUserData,
+    onDisplayNameChange,
+    isSelected,
   };
 };
 

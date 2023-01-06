@@ -1,143 +1,96 @@
-import { Container } from "theme/commonStyle";
-import { useRecoilValue } from "recoil";
-import { currentUserState } from "data/userAtom";
-import { AccountCircle } from "@mui/icons-material";
-import { authService } from "fbase";
-import { IWrittenDocs } from "components/common/SubjectBox";
-import { bookMeetingsState } from "data/documentsAtom";
-import { useEffect } from "react";
-import { useRecoilState } from "recoil";
-import { getCollection } from "util/getFirebaseDoc";
-import { CLUB_INFO } from "util/constants";
-import Subtitle from "components/common/Subtitle";
-import MyRecommendBook from "components/mybookshelf/MyRecommendBook";
-import MyRecord from "components/mybookshelf/MyRecord";
-import device from "theme/mediaQueries";
-import styled from "styled-components";
+import { useRecoilValue } from 'recoil';
+import { currentUserState } from 'data/userAtom';
+import { AccountCircle } from '@mui/icons-material';
+import { authService } from 'fbase';
+import { clubDocsState, IBasicDoc } from 'data/documentsAtom';
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+import { CLUB_INFO } from 'util/index';
+import { getCollection } from 'api/getFbDoc';
+import { ImgBox, ProfileImg } from 'components/atoms/ProfileImage';
+import Subtitle from 'components/atoms/Subtitle';
+import MyRecommendBook from 'components/organisms/mybookshelf/MyRecommendBook';
+import MyRecord from 'components/organisms/mybookshelf/MyRecord';
+import device from 'theme/mediaQueries';
+import styled from 'styled-components';
 
 export interface IRecord {
   title: string;
-  subjects: IWrittenDocs[];
-  reviews: IWrittenDocs[];
+  subjects: IBasicDoc[];
+  reviews: IBasicDoc[];
 }
 
 const MyBookshelf = () => {
+  const [bookMeetings, setBookMeetings] = useRecoilState(clubDocsState);
   const userData = useRecoilValue(currentUserState);
-  const [bookMeetings, setBookMeetings] = useRecoilState(bookMeetingsState);
+  const anonymous = authService.currentUser?.isAnonymous;
 
   useEffect(() => {
     getCollection(CLUB_INFO, setBookMeetings);
   }, [setBookMeetings]);
 
-  const anonymous = authService.currentUser?.isAnonymous;
-
   return (
-    <NewContainer>
-      <UserInfo>
+    <main>
+      <ProfileBox>
         {userData?.photoURL ? (
-          <img src={userData.photoURL} alt="profile" />
+          <ProfileImg src={userData.photoURL} alt='profile' />
         ) : (
           <AccountCircle />
         )}
-        <span>{anonymous ? "익명의 방문자" : userData.displayName}</span>
-      </UserInfo>
-      <section>
-        <Subtitle title="나의 기록" />
+        <span>{anonymous ? '익명의 방문자' : userData?.displayName}</span>
+      </ProfileBox>
+      <Section>
+        <Subtitle title='나의 기록' />
         <span>내가 작성한 발제문과 모임 후기를 볼 수 있어요.</span>
-        <Wrapper>
+        <RecordList>
           {bookMeetings.map((bookMeeting) => (
             <MyRecord key={bookMeeting.id} bookMeeting={bookMeeting} />
           ))}
-        </Wrapper>
-      </section>
-      <section>
-        <Subtitle title="내가 추천한 책" />
+        </RecordList>
+      </Section>
+      <Section>
+        <Subtitle title='내가 추천한 책' />
         <span>내가 추천한 책을 볼 수 있어요.</span>
-        {bookMeetings.map((item) => (
-          <MyRecommendBook key={item.id} item={item} />
-        ))}
-      </section>
-    </NewContainer>
+        <RecordList>
+          {bookMeetings.map((bookMeeting) => (
+            <MyRecommendBook key={bookMeeting.id} bookMeeting={bookMeeting} />
+          ))}
+        </RecordList>
+      </Section>
+    </main>
   );
 };
 
-const NewContainer = styled(Container)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  section {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 50px;
-    > span {
-      font-size: 13px;
-      padding-left: 15px;
-      margin-bottom: 10px;
-    }
-  }
-  @media ${device.tablet} {
-    section {
-      > span {
-        font-size: 16px;
-      }
-    }
-  }
-`;
-
-const UserInfo = styled.div`
-  position: relative;
+const Section = styled.section`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  width: 240px;
-  margin-top: 10px;
-  > img {
-    object-fit: cover;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background-color: ${(props) => props.theme.container.green};
-  }
-  > svg {
-    width: 120px;
-    height: 120px;
-  }
+  margin: 30px 0 50px;
   > span {
-    font-size: 15px;
-    font-weight: 700;
-    padding-top: 10px;
-    text-align: center;
+    font-size: 13px;
+    margin-bottom: 10px;
   }
+
   @media ${device.tablet} {
-    width: 270px;
-    > img {
-      width: 160px;
-      height: 160px;
-    }
-    > svg {
-      width: 180px;
-      height: 180px;
-    }
     > span {
-      font-size: 17px;
-      padding-top: 20px;
-    }
-    > a {
-      > svg {
-        position: absolute;
-        right: 30px;
-      }
+      font-size: 16px;
     }
   }
 `;
-
-const Wrapper = styled.div`
+const ProfileBox = styled(ImgBox)`
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    margin-top: 15px;
+    font-weight: 700;
+  }
+`;
+const RecordList = styled.ul`
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   justify-content: space-between;
   gap: 10px;
 `;

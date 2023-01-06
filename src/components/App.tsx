@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
-import { getAuth } from "firebase/auth";
-import { ResetStyle } from "theme/resetStyle";
-import { theme } from "theme/theme";
-import { ThemeProvider } from "styled-components";
-import { currentUserState } from "data/userAtom";
-import { useRecoilState } from "recoil";
-import Router from "../Router";
-import Loading from "./common/Loading";
+import { useState, useEffect } from 'react';
+import { getAuth } from 'firebase/auth';
+import { ResetStyle } from 'theme/resetStyle';
+import { theme } from 'theme/theme';
+import { ThemeProvider } from 'styled-components';
+import { currentUserState } from 'data/userAtom';
+import { useRecoilState } from 'recoil';
+import Router from '../Router';
+import Loading from './atoms/Loading';
 
 function App() {
   const [init, setInit] = useState(false); // user가 null이 되지 않기 위해 초기화

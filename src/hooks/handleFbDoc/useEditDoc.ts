@@ -1,6 +1,6 @@
-import { dbService } from "fbase";
-import { doc, updateDoc } from "firebase/firestore";
-import { useState } from "react";
+import { dbService } from 'fbase';
+import { doc, updateDoc } from 'firebase/firestore';
+import { useState } from 'react';
 
 interface PropsType {
   docId: string;
@@ -22,7 +22,7 @@ const useEditDoc = ({
 
   const onEditedSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (editedText === "") {
+    if (editedText === '') {
       return guideShouldNotBlank();
     }
     setEditing(false);

@@ -1,90 +1,74 @@
-import { AddCircleOutline } from "@mui/icons-material";
-import { useEffect, useState } from "react";
-import { Container } from "theme/commonStyle";
-import { useRecoilState } from "recoil";
-import { votesState } from "data/documentsAtom";
-import { getCollection, IVote } from "util/getFirebaseDoc";
-import { today } from "util/constants";
-import VoteBox from "components/vote/VoteBox";
-import VoteCreateBox from "components/vote/VoteCreateBox";
-import Subtitle from "components/common/Subtitle";
-import ExpiredVote from "components/vote/ExpiredVote";
-import styled from "styled-components";
-import device from "theme/mediaQueries";
-import Overlay from "components/common/Overlay";
-import Loading from "components/common/Loading";
+import { AddCircleOutline } from '@mui/icons-material';
+import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { votesState } from 'data/documentsAtom';
+import { today } from 'util/index';
+import { getCollection } from 'api/getFbDoc';
+import VoteBox from 'components/organisms/vote/VoteBox';
+import VoteCreateBox from 'components/organisms/vote/VoteCreateBox';
+import Subtitle from 'components/atoms/Subtitle';
+import ExpiredVote from 'components/organisms/vote/ExpiredVote';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+import Overlay from 'components/atoms/Overlay';
+import Loading from 'components/atoms/Loading';
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [votes, setVotes] = useRecoilState(votesState);
+  const progressVotes = votes.filter((item) => item.deadline >= today);
+  const expiredVote = votes.filter((item) => item.deadline < today);
 
   useEffect(() => {
-    getCollection("Vote", setVotes);
+    getCollection('Vote', setVotes);
   }, [setVotes]);
 
   const onModalClick = () => {
     setModalOpen((prev) => !prev);
   };
 
-  const progressVotes = votes.filter((item: IVote) => item.deadline >= today());
-  const expiredVote = votes.filter((item) => item.deadline < today());
-
-  return (
-    <>
-      {votes.length === 0 ? (
-        <Loading />
-      ) : (
-        <Container>
-          <Header>
-            <Subtitle title="투표함" />
-            <VoteButton onClick={onModalClick}>
-              <AddCircleOutline />
-              투표 등록하기
-            </VoteButton>
-          </Header>
-          {modalOpen && (
-            <section>
-              <Overlay onModalClick={onModalClick} />
-              <VoteCreateBox setModalOpen={setModalOpen} />
-            </section>
-          )}
-          <VoteList>
-            {progressVotes?.length ? (
-              progressVotes.map((voteDetail) => (
-                <VoteBox key={voteDetail.id} voteDetail={voteDetail} />
-              ))
-            ) : (
-              <EmptyBox>아직 등록된 투표가 없습니다.</EmptyBox>
-            )}
-          </VoteList>
-          <Subtitle title="기한이 만료된 투표함" />
-          <VoteList>
-            {expiredVote?.length ? (
-              expiredVote.map((voteDetail) => (
-                <ExpiredVote key={voteDetail.id} voteDetail={voteDetail} />
-              ))
-            ) : (
-              <EmptyBox>아직 만료된 투표가 없습니다.</EmptyBox>
-            )}
-          </VoteList>
-        </Container>
+  return votes.length === 0 ? (
+    <Loading />
+  ) : (
+    <main>
+      <Subtitle title='투표함' />
+      <VoteButton onClick={onModalClick}>
+        <AddCircleOutline />
+        투표 등록하기
+      </VoteButton>
+      {modalOpen && (
+        <section>
+          <Overlay onModalClick={onModalClick} />
+          <VoteCreateBox setModalOpen={setModalOpen} />
+        </section>
       )}
-    </>
+      <VoteList>
+        {progressVotes?.length ? (
+          progressVotes.map((voteDetail) => (
+            <VoteBox key={voteDetail.id} voteDetail={voteDetail} />
+          ))
+        ) : (
+          <EmptyBox>아직 등록된 투표가 없습니다.</EmptyBox>
+        )}
+      </VoteList>
+      <Subtitle title='기한이 만료된 투표함' />
+      <VoteList>
+        {expiredVote?.length ? (
+          expiredVote.map((voteDetail) => (
+            <ExpiredVote key={voteDetail.id} voteDetail={voteDetail} />
+          ))
+        ) : (
+          <EmptyBox>아직 만료된 투표가 없습니다.</EmptyBox>
+        )}
+      </VoteList>
+    </main>
   );
 };
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
 
 const VoteButton = styled.button`
   display: flex;
   align-items: center;
   border: none;
-  padding: 5px;
-  border-radius: 10px;
   color: ${(props) => props.theme.text.accent};
   font-size: 16px;
   svg {
@@ -95,11 +79,10 @@ const VoteButton = styled.button`
     padding: 10px;
   }
 `;
-
 const VoteList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
   margin: 10px auto 40px;
   width: 100%;
   @media ${device.tablet} {
@@ -109,7 +92,6 @@ const VoteList = styled.div`
     margin-top: 20px;
   }
 `;
-
 const EmptyBox = styled.div`
   display: flex;
   justify-content: center;

@@ -1,31 +1,32 @@
-import { authService, dbService } from "fbase";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
-import { getCollection, IVote, IVoteItem } from "util/getFirebaseDoc";
+import { authService, dbService } from 'fbase';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { getCollection } from 'api/getFbDoc';
+import { IVote, IVoteItem } from 'data/voteItemAtom';
+import { useRecoilValue } from 'recoil';
+import { currentUserState } from 'data/userAtom';
 
-const useHandleVoting = (
-  setVoteDisabled: (voteDisabled: boolean) => void,
-  voteDetail: IVote,
-  userDataUid: string
-) => {
+const useHandleVoting = (voteDetail: IVote) => {
+  const [voteDisabled, setVoteDisabled] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [voteItems, setVoteItems] = useState(voteDetail?.vote.voteItem);
   const [personalVote, setPersonalVote] = useState([]);
+  const userData = useRecoilValue(currentUserState);
   const anonymous = authService.currentUser?.isAnonymous;
 
   const voteItemsRef = `Vote/${voteDetail.id}/Voted Items`;
-  const personalVoteRef = doc(dbService, voteItemsRef, `${userDataUid}`);
+  const personalVoteRef = doc(dbService, voteItemsRef, `${userData.uid}`);
   const personalVoteData = {
     createdAt: Date.now(),
-    creatorId: userDataUid,
+    creatorId: userData.uid,
     voteId: voteDetail?.id,
     voteTitle: voteDetail?.vote.title,
     voteDeadline: voteDetail.deadline,
     votedItem: selectedItems,
   };
-  const allVotesRef = doc(dbService, "Vote", `${voteDetail.id}`);
+  const allVotesRef = doc(dbService, 'Vote', `${voteDetail.id}`);
   const updateAllVotesData = {
-    "vote.voteItem": voteItems,
+    'vote.voteItem': voteItems,
   };
 
   useEffect(() => {
@@ -39,7 +40,7 @@ const useHandleVoting = (
       if (anonymous || selectedItems.length === 0) return;
       await setDoc(personalVoteRef, personalVoteData);
       await updateDoc(allVotesRef, updateAllVotesData);
-      window.alert("투표가 완료되었습니다!");
+      window.alert('투표가 완료되었습니다!');
       setVoteDisabled(true);
     } catch (error) {
       console.error(error);
@@ -78,8 +79,8 @@ const useHandleVoting = (
   }
 
   // 재투표하기 기능
-  const myVote = personalVote.filter((item) => item.id === userDataUid);
-  const othersVote = personalVote.filter((item) => item.id !== userDataUid);
+  const myVote = personalVote.filter((item) => item.id === userData.uid);
+  const othersVote = personalVote.filter((item) => item.id !== userData.uid);
 
   const onRevoteClick = () => {
     setPersonalVote(othersVote);
@@ -102,12 +103,27 @@ const useHandleVoting = (
     .map((item) => item.voteCount)
     .reduce((prev, curr) => prev + curr);
 
+  function mySelectingItem(item: IVoteItem) {
+    return selectedItems.find((ele) => ele.id === item.id);
+  }
+
+  function mySelectedItem(item: IVoteItem) {
+    return myVote[0].votedItem.find((ele: IVoteItem) => ele.id === item.id);
+  }
+
+  function existVoteCount(itemId: number) {
+    return voteItems[itemId - 1].voteCount;
+  }
+
   return {
+    voteDisabled,
     voteItems,
     totalVoteCount,
     myVote,
     onRevoteClick,
-    selectedItems,
+    mySelectingItem,
+    mySelectedItem,
+    existVoteCount,
     personalVote,
     onVotingSubmit,
     onVoteItemClick,

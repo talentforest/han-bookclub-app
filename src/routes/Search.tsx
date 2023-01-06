@@ -1,50 +1,38 @@
-import { useState } from "react";
-import { Container, Input } from "theme/commonStyle";
-import { bookSearchHandler } from "api/searchBookApi";
-import { useRecoilState } from "recoil";
-import { searchListState } from "data/bookAtom";
-import ResultBox from "components/search/ResultBox";
-import styled from "styled-components";
+import ResultBox from 'components/organisms/search/ResultBox';
+import styled from 'styled-components';
+import TextInput from 'components/atoms/inputs/TextInput';
+import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
+import useSearchBook from 'hooks/useSearchBook';
 
 const Search = () => {
-  const [searchList, setSearchList] = useRecoilState(searchListState);
-  const [bookQuery, setBookQuery] = useState("");
-
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    try {
-      if (bookQuery === "") return;
-      bookSearchHandler(bookQuery, setSearchList);
-      setBookQuery("");
-    } catch (error) {
-      console.error("Error adding document:", error);
-    }
-  };
-
-  const onBookQueryChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setBookQuery(event.currentTarget.value);
-  };
+  const {
+    onSubmit,
+    bookQuery,
+    onBookQueryChange,
+    searchList, //
+  } = useSearchBook();
 
   return (
-    <Container>
+    <main>
       <Form onSubmit={onSubmit}>
-        <Input
-          type="text"
-          placeholder="등록하실 책을 검색해주세요."
-          autoFocus
+        <TextInput
+          placeholder='등록하실 책을 검색해주세요.'
           value={bookQuery}
           onChange={onBookQueryChange}
         />
-        <Input type="submit" value="검색" />
+        <SubmitBtn children='검색' />
       </Form>
       <BookResults>
         <span>검색결과 {searchList.length}건</span>
         <p>최대 10건이 검색됩니다.</p>
-        {searchList.map((searchedBook) => (
-          <ResultBox searchedBook={searchedBook} key={searchedBook.isbn} />
+        {searchList.map((searchedBook, index) => (
+          <ResultBox
+            searchedBook={searchedBook}
+            key={`${searchedBook.isbn}${index}`}
+          />
         ))}
       </BookResults>
-    </Container>
+    </main>
   );
 };
 
@@ -66,17 +54,13 @@ const BookResults = styled.section`
 const Form = styled.form`
   display: flex;
   justify-content: space-between;
-  input:first-child {
+  input {
     width: 80%;
+    min-width: 200px;
     margin-right: 10px;
   }
-  input:last-child {
+  button {
     width: 20%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: ${(props) => props.theme.container.blue};
-    color: ${(props) => props.theme.text.white};
   }
 `;
 
