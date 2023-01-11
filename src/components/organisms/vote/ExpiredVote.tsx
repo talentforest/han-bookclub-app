@@ -43,7 +43,7 @@ const Vote = styled(Link)`
   min-height: 100px;
   border-radius: 10px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
-  padding: 15px;
+  padding: 15px 10px;
   background-color: ${(props) => props.theme.container.default};
 `;
 

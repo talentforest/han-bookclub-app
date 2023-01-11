@@ -79,20 +79,20 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
 
 export const Modal = styled.form`
   z-index: 2;
+  overflow: scroll;
   position: fixed;
-  top: 30px;
-  right: 0;
-  left: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  width: 90vw;
+  height: min-content;
   padding: 15px;
-  border: 1px solid red;
-  height: 80vh;
-  overflow: scroll;
-  margin: 0 auto;
-  width: 90%;
+  margin: auto;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
   border-radius: 10px;
   background-color: ${(props) => props.theme.container.lightBlue};
   > h3 {
@@ -107,10 +107,9 @@ export const Modal = styled.form`
     }
   }
   @media ${device.tablet} {
-    width: 70%;
-    margin: 0 auto;
-    padding: 20px;
+    width: 70vw;
     gap: 15px;
+    padding: 20px;
     > h3 {
       font-size: 18px;
       svg {
@@ -119,6 +118,9 @@ export const Modal = styled.form`
         height: 24px;
       }
     }
+  }
+  @media ${device.desktop} {
+    width: 50vw;
   }
 `;
 

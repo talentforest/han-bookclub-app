@@ -49,7 +49,7 @@ const Deadline = styled.div`
 const DatePick = styled(DatePicker)`
   width: 100%;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   font-size: 16px;
   border: 1px solid ${(props) => props.theme.text.lightGray};
   cursor: pointer;

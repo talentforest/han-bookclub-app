@@ -109,7 +109,7 @@ const Reasons = styled.details`
   border: 1px solid ${(props) => props.theme.container.yellow};
   padding: 10px;
   margin: 5px 0 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   font-size: 14px;
   > summary {
     color: ${(props) => props.theme.text.gray};

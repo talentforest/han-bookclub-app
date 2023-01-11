@@ -1,23 +1,24 @@
 import { useEffect, useState } from 'react';
 import { CheckCircle, Edit } from '@mui/icons-material';
-import { thisYear, getMonthNm, BOOK_FIELD, fieldOfClub } from 'util/index';
-import { usersState } from 'data/userAtom';
+import { getMonthNm, fieldOfClub } from 'util/index';
 import { useRecoilValue } from 'recoil';
-import { doc, updateDoc } from 'firebase/firestore';
-import { dbService } from 'fbase';
 import { bookFieldsState, thisMonthState } from 'data/documentsAtom';
 import Subtitle from '../../atoms/Subtitle';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import UsernameBox from '../UsernameBox';
+import { usersState } from 'data/userAtom';
+import { dbService } from 'fbase';
+import { doc, updateDoc } from 'firebase/firestore';
+import { BOOK_FIELD, thisYear } from 'util/index';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
 
 const FieldScheduleBox = () => {
   const bookFields = useRecoilValue(bookFieldsState);
-  const thisMonthDoc = useRecoilValue(thisMonthState);
   const userDocs = useRecoilValue(usersState);
-  const [isEditing, setIsEditing] = useState(new Array(12).fill(false));
+  const thisMonthDoc = useRecoilValue(thisMonthState);
   const [fieldHost, setFieldHost] = useState([]);
+  const [isEditing, setIsEditing] = useState(new Array(12).fill(false));
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
 
   const fbDoc = doc(dbService, BOOK_FIELD, `${thisYear}`);
@@ -25,10 +26,6 @@ const FieldScheduleBox = () => {
     ...userDocs,
     { displayName: '발제자 없음', id: 'no_host' },
   ];
-
-  useEffect(() => {
-    setFieldHost(bookFields.bookField);
-  }, [bookFields]);
 
   const onSubmit = async (
     event: React.FormEvent<HTMLFormElement>,
@@ -59,6 +56,10 @@ const FieldScheduleBox = () => {
     );
     setIsEditing(editedArr);
   };
+
+  useEffect(() => {
+    setFieldHost(bookFields.bookField);
+  }, [bookFields]);
 
   return (
     <section>
@@ -147,7 +148,7 @@ const Form = styled.form<{ $highlight?: boolean }>`
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 10px;
   border: 1px solid ${(props) => props.theme.text.lightGray};
   background-color: ${(props) =>

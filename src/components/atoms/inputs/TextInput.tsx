@@ -1,3 +1,4 @@
+import React, { ForwardedRef } from 'react';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -8,24 +9,27 @@ interface ITextInputProps {
   onChange: (event: React.FormEvent<HTMLInputElement>) => void;
 }
 
-const TextInput = ({ name, placeholder, value, onChange }: ITextInputProps) => {
-  return (
-    <Input
-      type='text'
-      name={name}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      required
-    />
-  );
-};
+const TextInput = React.forwardRef(
+  (props: ITextInputProps, ref: ForwardedRef<HTMLInputElement>) => {
+    return (
+      <Input
+        ref={ref}
+        type='text'
+        name={props.name}
+        placeholder={props.placeholder}
+        value={props.value}
+        onChange={props.onChange}
+        required
+      />
+    );
+  }
+);
 
 const Input = styled.input`
   width: 100%;
   border-radius: 10px;
   border: 1px solid ${(props) => props.theme.text.lightGray};
-  padding: 15px;
+  padding: 15px 10px;
   font-size: 16px;
   &:focus {
     outline: none;

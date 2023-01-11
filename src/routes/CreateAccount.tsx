@@ -158,7 +158,7 @@ const CheckboxInput = styled.input`
   height: 20px;
   margin: 0;
   padding: 0;
-  border-radius: 5px;
+  border-radius: 10px;
   border: 1px solid ${(props) => props.theme.text.lightGray};
 
   &::placeholder {

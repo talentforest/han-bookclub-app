@@ -66,7 +66,7 @@ export const EmptyBox = styled.div`
   background-color: ${(props) => props.theme.container.default};
   @media ${device.tablet} {
     font-size: 16px;
-    border-radius: 30px;
+    border-radius: 15px;
     padding: 8px 30px;
   }
 `;

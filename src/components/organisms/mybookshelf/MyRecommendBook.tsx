@@ -2,12 +2,13 @@ import { currentUserState } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 import { cutLetter, getLocalDate } from 'util/index';
 import { IBookClubMonthInfo } from 'data/documentsAtom';
-import { BookImg, BookTitle, Box, Modal, Record } from './MyRecord';
+import { BookImg, BookTitle, Box, Record } from './MyRecord';
 import { RegisterTime } from '../RecordBox';
 import { ChevronRight } from '@mui/icons-material';
 import Overlay from 'components/atoms/Overlay';
 import UsernameBox from '../UsernameBox';
 import useFilterMyRecords from 'hooks/useFilterMyRecords';
+import { Modal } from '../bookclubthismonth/SubjectCreateModal';
 
 interface PropsType {
   bookMeeting: IBookClubMonthInfo;

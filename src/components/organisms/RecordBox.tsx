@@ -45,7 +45,7 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
         <UsernameBox creatorId={doc.creatorId} />
         <RegisterTime>{getLocalDate(doc.createdAt)}</RegisterTime>
       </Header>
-      {category && (
+      {category === 'recommends' && (
         <RecommendBookInfo>
           <img src={doc.recommendBookThumbnail} alt='book thumbnail' />
           <div>
@@ -75,11 +75,7 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
       ) : (
         <>
           {collectionName.includes('subjects') ? (
-            <Pre
-              as='div'
-              className='view ql-editor'
-              dangerouslySetInnerHTML={{ __html: editedText }}
-            />
+            <Pre as='div' dangerouslySetInnerHTML={{ __html: editedText }} />
           ) : (
             <Pre>{editedText}</Pre>
           )}
@@ -183,6 +179,9 @@ const Header = styled.div`
   margin-bottom: 10px;
 `;
 export const HTMLContent = styled.div`
+  min-height: 30vh;
+  max-height: 60vh;
+  overflow: scroll;
   padding: 0;
   a {
     color: ${(props) => props.theme.text.lightBlue};

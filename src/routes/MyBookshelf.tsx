@@ -71,7 +71,6 @@ const Section = styled.section`
     font-size: 13px;
     margin-bottom: 10px;
   }
-
   @media ${device.tablet} {
     > span {
       font-size: 16px;
@@ -93,6 +92,12 @@ const RecordList = styled.ul`
   grid-template-columns: repeat(3, 1fr);
   justify-content: space-between;
   gap: 10px;
+  @media ${device.tablet} {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  @media ${device.desktop} {
+    grid-template-columns: repeat(6, 1fr);
+  }
 `;
 
 export default MyBookshelf;

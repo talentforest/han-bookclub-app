@@ -5,6 +5,7 @@ import {
   thisMonth,
   thisYear,
   thisYearMonthIso,
+  USER_DATA,
 } from 'util/index';
 import { getCollection, getDocument } from 'api/getFbDoc';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -23,6 +24,7 @@ import styled from 'styled-components';
 import ScheduleBox from 'components/organisms/ScheduleBox';
 import { onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 import { authService } from 'fbase';
+import { usersState } from 'data/userAtom';
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -31,6 +33,7 @@ interface PropsType {
 const Home = ({ isLoggedIn }: PropsType) => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
   const setBookFields = useSetRecoilState(bookFieldsState);
+  const setUserDocs = useSetRecoilState(usersState);
   const setVotes = useSetRecoilState(votesState);
   const checkThisMonthDoc = Object.keys(thisMonthDoc).length;
   const { book, meeting } = thisMonthDoc;
@@ -48,6 +51,7 @@ const Home = ({ isLoggedIn }: PropsType) => {
         console.log(error);
       }
     }
+    getCollection(USER_DATA, setUserDocs);
     getDocument(CLUB_INFO, `${thisYearMonthIso}`, setThisMonthDoc);
     getDocument(BOOK_FIELD, `${thisYear}`, setBookFields);
     getCollection('Vote', setVotes);

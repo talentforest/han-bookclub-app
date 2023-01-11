@@ -115,7 +115,7 @@ const Info = styled.p<{ $gray: boolean }>`
     props.$gray ? props.theme.text.default : props.theme.text.gray};
 `;
 const Input = styled.input`
-  width: inherit;
+  width: 100%;
   height: 40px;
   border: 1px solid ${(props) => props.theme.text.lightGray};
   padding: 2px 10px;

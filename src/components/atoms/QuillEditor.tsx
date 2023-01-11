@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
+import device from 'theme/mediaQueries';
 
 interface QuillEditorProps {
   placeholder?: string;
@@ -36,13 +37,17 @@ const QuillEditor = ({ placeholder, text, setText }: QuillEditorProps) => {
 
 const Editor = styled(ReactQuill)`
   background-color: white;
-  height: 100%;
-  overflow: scroll;
+  width: 100%;
   .ql-container {
-    margin-bottom: 0;
     width: 100%;
+    height: 45vh;
     word-break: break-all;
     font-size: 16px;
+  }
+  @media ${device.desktop} {
+    .ql-container {
+      height: 55vh;
+    }
   }
 `;
 

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import TextInput from 'components/atoms/inputs/TextInput';
 import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
 import useSearchBook from 'hooks/useSearchBook';
+import { useEffect, useRef } from 'react';
 
 const Search = () => {
   const {
@@ -11,11 +12,20 @@ const Search = () => {
     onBookQueryChange,
     searchList, //
   } = useSearchBook();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef && !searchList.length) {
+      inputRef.current.focus();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <main>
       <Form onSubmit={onSubmit}>
         <TextInput
+          ref={inputRef}
           placeholder='등록하실 책을 검색해주세요.'
           value={bookQuery}
           onChange={onBookQueryChange}

@@ -89,7 +89,7 @@ const EmptyBox = styled.div`
   text-align: center;
   margin-top: 20px;
   padding: 30px 0;
-  border-radius: 5px;
+  border-radius: 10px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
 `;

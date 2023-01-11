@@ -32,6 +32,7 @@ const EditDeleteBox = ({
 };
 
 const EditDelete = styled.div`
+  align-self: flex-end;
   display: flex;
   align-items: center;
   justify-content: flex-end;

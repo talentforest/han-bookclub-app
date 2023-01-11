@@ -72,7 +72,7 @@ const VoteInfo = styled.ul`
     min-height: 40px;
     font-size: 14px;
     border: 1px solid ${(props) => props.theme.container.blue};
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 4px 10px;
     margin: 5px 0;
     background-color: ${(props) => props.theme.container.lightBlue};

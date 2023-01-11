@@ -4,6 +4,7 @@ import { cutLetter, getLocalDate } from 'util/index';
 import { Book, Chat, LibraryBooks } from '@mui/icons-material';
 import { IBookClubMonthInfo } from 'data/documentsAtom';
 import { RegisterTime } from '../RecordBox';
+import { Modal } from '../bookclubthismonth/SubjectCreateModal';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import useFilterMyRecords from 'hooks/useFilterMyRecords';
@@ -60,7 +61,7 @@ const MyRecord = ({ bookMeeting }: PropsType) => {
                 setOpenModal((prev) => !prev);
               }}
             />
-            <Modal>
+            <MyRecordModal>
               {mySubjectsByBook?.map((subject) => (
                 <Box key={id}>
                   <UsernameBox creatorId={subject.creatorId} />
@@ -75,7 +76,7 @@ const MyRecord = ({ bookMeeting }: PropsType) => {
                   <RegisterTime>{getLocalDate(review.createdAt)}</RegisterTime>
                 </Box>
               ))}
-            </Modal>
+            </MyRecordModal>
           </>
         )}
       </>
@@ -89,6 +90,7 @@ export const Record = styled.li`
   align-items: center;
   justify-content: center;
   gap: 8px;
+  width: 100%;
   min-height: 80px;
   height: 120px;
   padding: 5px;
@@ -110,8 +112,7 @@ export const Record = styled.li`
     }
   }
   @media ${device.tablet} {
-    width: 49%;
-    height: 130px;
+    height: 150px;
     margin-bottom: 0;
   }
 `;
@@ -151,26 +152,13 @@ export const Category = styled.div`
     font-size: 16px;
   }
 `;
-export const Modal = styled.article`
-  overflow: scroll;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  top: 30px;
-  right: 0;
-  left: 0;
-  width: 90vw;
+export const MyRecordModal = styled(Modal)`
   max-height: 82vh;
-  margin: 0 auto;
-  z-index: 2;
-  border-radius: 10px;
-  @media ${device.tablet} {
-    width: 60vw;
-    top: 100px;
-  }
+  padding: 0;
+  background-color: transparent;
 `;
 export const Box = styled.div`
+  width: 100%;
   background-color: ${(props) => props.theme.container.default};
   display: flex;
   flex-direction: column;
