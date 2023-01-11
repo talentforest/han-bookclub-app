@@ -1,11 +1,18 @@
 import { useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { hostReviewState, thisMonthState } from 'data/documentsAtom';
+import {
+  bookFieldsState,
+  hostReviewState,
+  thisMonthState,
+} from 'data/documentsAtom';
 import {
   getFbRoute,
   CLUB_INFO,
   getMonthNm,
   thisYearMonthIso,
+  thisYear,
+  BOOK_FIELD,
+  thisMonth,
 } from 'util/index';
 import { getCollection, getDocument } from 'api/getFbDoc';
 import Loading from 'components/atoms/Loading';
@@ -15,24 +22,27 @@ import styled from 'styled-components';
 import Guide from 'components/atoms/Guide';
 import CategorySection from 'components/template/CategorySection';
 import HostReviewArea from 'components/template/HostReviewArea';
+import UsernameBox from 'components/organisms/UsernameBox';
 
 const BookClubOfThisMonth = () => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
+  const [bookFields, setBookFields] = useRecoilState(bookFieldsState);
   const setHostReview = useSetRecoilState(hostReviewState);
   const checkThisMonthDoc = Object.keys(thisMonthDoc).length;
   const { id, book } = thisMonthDoc;
 
   useEffect(() => {
+    getDocument(BOOK_FIELD, `${thisYear}`, setBookFields);
     getDocument(CLUB_INFO, `${thisYearMonthIso}`, setThisMonthDoc);
     getCollection(getFbRoute(thisYearMonthIso).HOST_REVIEW, setHostReview);
-  }, [setThisMonthDoc, setHostReview]);
+  }, [setThisMonthDoc, setHostReview, setBookFields]);
 
   return checkThisMonthDoc === 0 ? (
     <Loading />
   ) : (
     thisMonthDoc && (
       <main>
-        <Subtitle title={`${getMonthNm(id)}월의 책과 기록`} />
+        <Subtitle title={`${getMonthNm(id)}월의 책`} />
         <MonthInfo>
           <BookImgTitle thumbnail={book?.thumbnail} title={book?.title} />
           {book?.url && (
@@ -42,15 +52,32 @@ const BookClubOfThisMonth = () => {
           )}
         </MonthInfo>
         <Guide text='모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 작성이 불가능한 점 유의해주세요.' />
-        <Subtitle title='발제자의 모임 정리' />
+        <Subtitle title='발제자의 기록' />
+        {bookFields.bookField &&
+          bookFields?.bookField[thisMonth - 1].host !== 'no_host' && (
+            <HostInfo>
+              <span>이달의 발제자: </span>
+              <UsernameBox
+                creatorId={bookFields?.bookField[thisMonth - 1].host}
+              />
+            </HostInfo>
+          )}
         <HostReviewArea />
-        <Subtitle title='모임 기록' />
+        <Subtitle title='독서모임 기록' />
         <CategorySection />
       </main>
     )
   );
 };
 
+const HostInfo = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  span {
+    font-size: 14px;
+  }
+`;
 const MonthInfo = styled.div`
   display: flex;
   flex-direction: column;

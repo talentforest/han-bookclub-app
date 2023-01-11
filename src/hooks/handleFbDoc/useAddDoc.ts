@@ -1,4 +1,4 @@
-import { IBasicDoc } from 'data/documentsAtom';
+import { IDocument } from 'data/documentsAtom';
 import { authService, dbService } from 'fbase';
 import { addDoc, collection } from 'firebase/firestore';
 import useAlertAskJoin from '../useAlertAskJoin';
@@ -7,7 +7,7 @@ interface PropsType {
   text: string;
   setText: (text: string) => void;
   collectionName: string;
-  docData: IBasicDoc;
+  docData: IDocument;
 }
 
 const useAddDoc = ({ text, setText, collectionName, docData }: PropsType) => {

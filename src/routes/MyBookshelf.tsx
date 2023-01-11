@@ -2,7 +2,7 @@ import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { AccountCircle } from '@mui/icons-material';
 import { authService } from 'fbase';
-import { clubDocsState, IBasicDoc } from 'data/documentsAtom';
+import { clubDocsState, IDocument } from 'data/documentsAtom';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { CLUB_INFO } from 'util/index';
@@ -16,8 +16,8 @@ import styled from 'styled-components';
 
 export interface IRecord {
   title: string;
-  subjects: IBasicDoc[];
-  reviews: IBasicDoc[];
+  subjects: IDocument[];
+  reviews: IDocument[];
 }
 
 const MyBookshelf = () => {

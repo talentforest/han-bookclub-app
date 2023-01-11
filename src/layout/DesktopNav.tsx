@@ -13,10 +13,10 @@ const DesktopNav = () => {
         </Link>
         <List>
           <Item $active={pathname.includes('/history')}>
-            <Link to='/history'>지난 책모임</Link>
+            <Link to='/history'>지난 독서모임</Link>
           </Item>
           <Item $active={pathname.includes('/bookclub')}>
-            <Link to='/bookclub'>이달의 책모임</Link>
+            <Link to='/bookclub'>이달의 독서모임</Link>
           </Item>
           <Item $active={pathname.includes('/vote')}>
             <Link to='/vote'>투표하기</Link>

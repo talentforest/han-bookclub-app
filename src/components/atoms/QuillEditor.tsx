@@ -36,11 +36,12 @@ const QuillEditor = ({ placeholder, text, setText }: QuillEditorProps) => {
 
 const Editor = styled(ReactQuill)`
   background-color: white;
-  width: 100%;
+  height: 100%;
+  overflow: scroll;
   .ql-container {
+    margin-bottom: 0;
     width: 100%;
     word-break: break-all;
-    height: 55vh;
     font-size: 16px;
   }
 `;

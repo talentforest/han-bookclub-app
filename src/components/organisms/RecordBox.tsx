@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { getLocalDate } from 'util/index';
-import { IBasicDoc } from 'data/documentsAtom';
+import { IDocument } from 'data/documentsAtom';
+import { useRecoilValue } from 'recoil';
+import { categoryState } from 'data/categoryAtom';
 import UsernameBox from 'components/organisms/UsernameBox';
 import BookImgTitle from 'components/atoms/BookImgTitle';
 import useDeleteDoc from 'hooks/handleFbDoc/useDeleteDoc';
@@ -12,12 +14,13 @@ import QuillEditor from 'components/atoms/QuillEditor';
 import EditDeleteBox from './EditDeleteBox';
 
 interface IRecordProps {
-  doc: IBasicDoc;
+  doc: IDocument;
   collectionName: string;
   setShowDetail?: (detail: []) => void;
 }
 
 const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
+  const category = useRecoilValue(categoryState);
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(doc.text);
   const { onDeleteClick } = useDeleteDoc({ docId: doc.id, collectionName });
@@ -42,6 +45,16 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
         <UsernameBox creatorId={doc.creatorId} />
         <RegisterTime>{getLocalDate(doc.createdAt)}</RegisterTime>
       </Header>
+      {category && (
+        <RecommendBookInfo>
+          <img src={doc.recommendBookThumbnail} alt='book thumbnail' />
+          <div>
+            <h4>{doc.recommendBookTitle}</h4>
+            <span>{doc.recommendBookAuthor}</span>
+            <a href={doc.recommendBookUrl}>상세정보 보러가기</a>
+          </div>
+        </RecommendBookInfo>
+      )}
       {editing ? (
         <>
           {collectionName.includes('subjects') ? (
@@ -82,6 +95,38 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
   );
 };
 
+const RecommendBookInfo = styled.div`
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background-color: #fff;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  img {
+    width: auto;
+    height: 50px;
+    margin-right: 10px;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    font-size: 12px;
+    h4 {
+      font-size: 14px;
+    }
+    span {
+      color: ${(props) => props.theme.text.gray};
+    }
+    a {
+      color: ${(props) => props.theme.text.accent};
+    }
+  }
+`;
 const Form = styled.form`
   padding: 15px 0;
   font-size: 14px;
@@ -152,7 +197,7 @@ export const HTMLContent = styled.div`
 `;
 export const RegisterTime = styled.div`
   color: ${(props) => props.theme.text.gray};
-  font-size: 12px;
+  font-size: 14px;
   align-self: flex-end;
   @media ${device.tablet} {
     font-size: 16px;

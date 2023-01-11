@@ -22,13 +22,13 @@ const Navigation = () => {
           <Item $active={pathname.includes('/history')}>
             <Link to='/history'>
               <History />
-              <span>지난 기록</span>
+              <span>지난 모임</span>
             </Link>
           </Item>
           <Item $active={pathname.includes('/bookclub')}>
             <Link to='/bookclub'>
               <AutoStories />
-              <span>이달의 기록</span>
+              <span>이달의 모임</span>
             </Link>
           </Item>
           <Item $active={pathname.includes('/vote')}>

@@ -139,8 +139,8 @@ export const Category = styled.div`
   > button {
     height: 14px;
     > svg {
-      width: 14px;
-      height: 14px;
+      width: 16px;
+      height: 16px;
       fill: ${(props) => props.theme.text.gray};
       &:hover {
         fill: ${(props) => props.theme.container.yellow};

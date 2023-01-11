@@ -80,7 +80,7 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
 export const Modal = styled.form`
   z-index: 2;
   position: fixed;
-  top: 40px;
+  top: 30px;
   right: 0;
   left: 0;
   display: flex;
@@ -88,10 +88,12 @@ export const Modal = styled.form`
   align-items: center;
   gap: 10px;
   padding: 15px;
+  border: 1px solid red;
+  height: 80vh;
+  overflow: scroll;
   margin: 0 auto;
   width: 90%;
   border-radius: 10px;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   background-color: ${(props) => props.theme.container.lightBlue};
   > h3 {
     display: flex;

@@ -54,12 +54,15 @@ const BookResults = styled.section`
 const Form = styled.form`
   display: flex;
   justify-content: space-between;
+  height: 50px;
   input {
+    height: inherit;
     width: 80%;
     min-width: 200px;
     margin-right: 10px;
   }
   button {
+    height: inherit;
     width: 20%;
   }
 `;

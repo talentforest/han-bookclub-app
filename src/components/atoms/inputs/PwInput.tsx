@@ -36,9 +36,7 @@ const Input = styled.input`
   border: 1px solid ${(props) => props.theme.container.blue};
   border-radius: 10px;
   &:focus {
-    border-radius: 10px;
-    outline: 2px solid ${(props) => props.theme.container.yellow};
-    border: none;
+    outline: none;
   }
   @media ${device.tablet} {
     height: 60px;

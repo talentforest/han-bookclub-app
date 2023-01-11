@@ -16,7 +16,7 @@ const RegisterRecommendButton = ({ searchedBook }: PropsType) => {
   const onClick = () => {
     setRecommendedBook(searchedBook);
     const confirm = window.confirm(
-      '추천책 정보가 등록되었어요. 작성 페이지로 돌아갈게요!'
+      '추천하는 책 정보가 등록되었어요. 작성 페이지로 돌아갈게요!'
     );
     if (confirm) {
       setCategory('recommends');

@@ -43,7 +43,7 @@ const RecommendCreateBox = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (myRecommendBook?.title === '') {
-      window.alert('추천책 정보를 찾아서 넣어주세요.');
+      window.alert('추천하는 책 정보를 찾아서 넣어주세요.');
       return;
     }
     onAddDocSubmit(event);
@@ -52,12 +52,12 @@ const RecommendCreateBox = () => {
   return (
     <>
       <LinkBtn to='/search'>
-        추천책 정보 찾으러 가기
+        추천하는 책 찾으러 가기
         <Search />
       </LinkBtn>
       <Form onSubmit={handleSubmit}>
         <Textarea
-          placeholder='이달의 책과 관련해 추천하고 싶은 책을 작성해주세요. 위에서 추천책 정보를 찾으실 수 있습니다.'
+          placeholder='이달의 책과 관련해 추천하고 싶은 책을 작성해주세요. 위에서 추천하는 책 정보를 찾으실 수 있습니다.'
           onChange={onChange}
           value={text}
         />

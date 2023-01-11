@@ -24,7 +24,7 @@ const ResultBox = ({ searchedBook }: PropsType) => {
           </div>
         )}
         <BookDetail>
-          <h3>{cutLetter(title, 17)}</h3>
+          <h3>{cutLetter(title, 16)}</h3>
           <span>저자: {authors.join(', ')}</span>
           {translators.length !== 0 && <span>역자: {translators}</span>}
           <span>출판사: {publisher}</span>
@@ -40,7 +40,7 @@ const BookResultBox = styled(Link)`
   margin-bottom: 15px;
   display: flex;
   align-items: center;
-  padding: 8px 20px;
+  padding: 8px 12px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   border-radius: 8px;

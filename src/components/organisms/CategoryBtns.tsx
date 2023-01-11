@@ -1,5 +1,4 @@
 import { category } from 'data/categoryAtom';
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -9,22 +8,19 @@ interface ICategoryBtnsProps {
 }
 
 const CategoryBtns = ({ category, onCategoryClick }: ICategoryBtnsProps) => {
-  const { pathname } = useLocation();
-  const historyRoute = pathname.includes('history');
-
   return (
     <Categories>
       <Category
         $isActive={category === 'recommends'}
         onClick={() => onCategoryClick('recommends')}
       >
-        <span>{historyRoute ? '추천했던 책' : '책 추천'}</span>
+        <span>추천한 책</span>
       </Category>
       <Category
         $isActive={category === 'subjects'}
         onClick={() => onCategoryClick('subjects')}
       >
-        <span>{historyRoute ? '발제문 기록' : '발제문 '}</span>
+        <span>발제문</span>
       </Category>
       <Category
         $isActive={category === 'reviews'}

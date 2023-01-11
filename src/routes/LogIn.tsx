@@ -67,9 +67,9 @@ const Form = styled.form`
   gap: 10px;
 `;
 export const ErrorMessage = styled.span`
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
-  color: ${(props) => props.theme.text.white};
+  color: ${(props) => props.theme.text.accent};
   margin-bottom: 20px;
   @media ${device.tablet} {
     font-size: 16px;

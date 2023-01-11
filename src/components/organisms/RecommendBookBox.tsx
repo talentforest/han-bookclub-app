@@ -1,9 +1,9 @@
-import { IRecommendDoc } from 'data/documentsAtom';
+import { IDocument } from 'data/documentsAtom';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
 interface IRecommendBookBoxProps {
-  recommend: IRecommendDoc;
+  recommend: IDocument;
 }
 
 const RecommendBookBox = ({ recommend }: IRecommendBookBoxProps) => {

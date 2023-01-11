@@ -44,19 +44,14 @@ const BookClubHistoryDetail = () => {
         <BookImgTitle thumbnail={book.thumbnail} title={book.title} />
         <ScheduleBox schedule={meeting} />
       </Infos>
-      <HostRecord>
-        <Subtitle title='발제자의 모임 정리 기록' />
-        <HostReviewArea />
-      </HostRecord>
-      <Subtitle title='모임 기록' />
+      <Subtitle title='발제자의 기록' />
+      <HostReviewArea />
+      <Subtitle title='독서모임 기록' />
       <CategorySection />
     </main>
   );
 };
 
-const HostRecord = styled.section`
-  margin: 20px 0 60px;
-`;
 const Infos = styled.div`
   margin: 20px 0 40px;
 `;

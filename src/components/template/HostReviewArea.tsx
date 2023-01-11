@@ -22,7 +22,17 @@ const HostReviewArea = () => {
       ) : (
         <>
           {pathname.includes('bookclub') && <HostReviewCreateModal />}
-          <EmptyBox>아직 모임 후 정리된 기록이 없습니다.</EmptyBox>
+          <EmptyBox>
+            {pathname.includes('history') ? (
+              '발제자의 기록이 없습니다.'
+            ) : (
+              <>
+                아직 모임후 정리된
+                <br />
+                발제자의 기록이 없습니다.
+              </>
+            )}
+          </EmptyBox>
         </>
       )}
     </>

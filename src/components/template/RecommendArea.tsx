@@ -38,8 +38,8 @@ const RecommendArea = ({ monthId }: IRecommendationAreaProps) => {
         ) : (
           <EmptyBox>
             {pathname.includes('history')
-              ? '기록된 추천책이 없습니다.'
-              : '첫번째 추천책을 남겨보세요.'}
+              ? '추천된 책이 없습니다.'
+              : '첫번째로 추천하고 싶은 책을 남겨보세요.'}
           </EmptyBox>
         )}
       </RecordBox>
@@ -59,6 +59,7 @@ export const EmptyBox = styled.div`
   height: 100px;
   margin: 20px auto 70px;
   padding: 5px 20px;
+  text-align: center;
   border-radius: 10px;
   font-size: 14px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);

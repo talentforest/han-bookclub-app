@@ -16,26 +16,17 @@ export interface ISchedule {
   place: string;
 }
 
-export interface IBasicDoc {
+export interface IDocument {
   id?: string;
   text: string;
   creatorId: string;
   createdAt: number;
   title: string;
   thumbnail: string;
-}
-
-export interface IRecommendDoc {
-  id?: string;
-  text: string;
-  creatorId: string;
-  createdAt: number;
-  title: string;
-  thumbnail: string;
-  recommendBookTitle: string;
-  recommendBookThumbnail: string;
-  recommendBookUrl: string;
-  recommendBookAuthor: string[];
+  recommendBookTitle?: string;
+  recommendBookThumbnail?: string;
+  recommendBookUrl?: string;
+  recommendBookAuthor?: string[];
 }
 
 export interface IFieldHost {
@@ -94,22 +85,22 @@ export const votesState = atom<IVote[]>({
   default: [],
 });
 
-export const subjectsState = atom<IBasicDoc[]>({
+export const subjectsState = atom<IDocument[]>({
   key: `subjectDocs/${v4()}`,
   default: [],
 });
 
-export const reviewsState = atom<IBasicDoc[]>({
+export const reviewsState = atom<IDocument[]>({
   key: `reviewDocs/${v4()}`,
   default: [],
 });
 
-export const recommendsState = atom<IRecommendDoc[]>({
+export const recommendsState = atom<IDocument[]>({
   key: `recommendDocs/${v4()}`,
   default: [],
 });
 
-export const hostReviewState = atom<IBasicDoc[]>({
+export const hostReviewState = atom<IDocument[]>({
   key: `hostReview/${v4()}`,
   default: [],
 });

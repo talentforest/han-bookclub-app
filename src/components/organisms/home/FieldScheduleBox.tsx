@@ -175,13 +175,13 @@ const Select = styled.select`
   width: 100%;
   height: 30px;
   border-radius: 10px;
-  padding: 0 10px;
+  padding: 0 5px;
   background-color: #fff;
   font-size: 16px;
-  border: none;
+  border: 1px solid ${(props) => props.theme.text.lightGray};
   box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
   &:focus {
-    outline: 1px solid ${(props) => props.theme.container.yellow};
+    outline: none;
   }
 `;
 const Field = styled.p<{ $highlight: boolean }>`

@@ -55,7 +55,6 @@ const DatePick = styled(DatePicker)`
   cursor: pointer;
   &:focus {
     outline: none;
-    border: 1px solid ${(props) => props.theme.container.blue};
   }
   @media ${device.tablet} {
     font-size: 16px;

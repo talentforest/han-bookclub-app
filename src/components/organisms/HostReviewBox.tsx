@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { getFbRoute, cutLetter, getLocalDate } from 'util/index';
 import { ExpandCircleDown } from '@mui/icons-material';
 import { HTMLContent } from './RecordBox';
-import { IBasicDoc } from 'data/documentsAtom';
+import { IDocument } from 'data/documentsAtom';
 import useDeleteDoc from 'hooks/handleFbDoc/useDeleteDoc';
 import useEditDoc from 'hooks/handleFbDoc/useEditDoc';
 import UsernameBox from './UsernameBox';
@@ -16,7 +16,7 @@ import EditDeleteBox from './EditDeleteBox';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
 
 interface IHostReviewBoxProps {
-  review: IBasicDoc;
+  review: IDocument;
   yearMonthId: string;
 }
 
@@ -58,8 +58,8 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
           )}
           <Footer>
             <ShareBtn
-              title='새로운 모임 기록이 등록되었어요~🚀'
-              description='이번달 발제자의 모임 기록을 한번 보러 가볼까요?🤩'
+              title='새로운 발제자의 기록이 등록되었어요~🚀'
+              description='이번달 발제자의 기록을 한번 보러 가볼까요?🤩'
               path='bookclub'
             />
             <HandleBtn handleClick={handleModal}>
@@ -77,7 +77,7 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
             $editing={editing}
             onSubmit={onEditedSubmit}
           >
-            <h4>발제자의 모임 정리</h4>
+            <h4>발제자의 기록</h4>
             <Header>
               <UsernameBox creatorId={review.creatorId} />
               <TimeStamp>{getLocalDate(review.createdAt)}</TimeStamp>

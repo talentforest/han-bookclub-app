@@ -103,7 +103,6 @@ const Input = styled.input`
   border: 1px solid ${(props) => props.theme.text.lightGray};
   &:focus {
     outline: none;
-    border: 1px solid ${(props) => props.theme.container.yellow};
   }
   @media ${device.tablet} {
     font-size: 16px;

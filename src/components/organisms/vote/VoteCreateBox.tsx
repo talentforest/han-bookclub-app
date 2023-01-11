@@ -95,7 +95,6 @@ const TitleInput = styled.input`
   margin-bottom: 10px;
   &:focus {
     outline: none;
-    border-bottom: 2px solid ${(props) => props.theme.container.yellow};
   }
   @media ${device.tablet} {
     margin-bottom: 20px;
