@@ -1,4 +1,4 @@
-export * from 'util/constants';
+export * from 'util/variables';
 export * from 'util/fbConstants';
 export * from 'util/cutLetter';
 export * from 'util/dateUtils';
