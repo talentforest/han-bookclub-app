@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import { votesState } from 'data/documentsAtom';
-import { today, settings } from 'util/index';
+import { isoFormatDate, settings, krCurTime } from 'util/index';
 import { ChevronRight } from '@mui/icons-material';
 import styled from 'styled-components';
 import VoteBox from 'components/organisms/vote/VoteBox';
@@ -9,7 +9,9 @@ import LinkBtn from 'components/atoms/buttons/LinkBtn';
 
 const VoteSlider = () => {
   const votes = useRecoilValue(votesState);
-  const progressVotes = votes.filter((item) => item.deadline >= today);
+  const progressVotes = votes.filter(
+    (item) => item.deadline >= isoFormatDate(krCurTime)
+  );
 
   return progressVotes.length ? (
     <Slider {...settings(progressVotes.length)}>

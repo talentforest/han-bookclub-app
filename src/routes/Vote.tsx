@@ -2,7 +2,7 @@ import { AddCircleOutline } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { votesState } from 'data/documentsAtom';
-import { today } from 'util/index';
+import { krCurTime, isoFormatDate } from 'util/index';
 import { getCollection } from 'api/getFbDoc';
 import VoteBox from 'components/organisms/vote/VoteBox';
 import VoteCreateBox from 'components/organisms/vote/VoteCreateBox';
@@ -16,8 +16,12 @@ import Loading from 'components/atoms/Loading';
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [votes, setVotes] = useRecoilState(votesState);
-  const progressVotes = votes.filter((item) => item.deadline >= today);
-  const expiredVote = votes.filter((item) => item.deadline < today);
+  const progressVotes = votes.filter(
+    (item) => item.deadline >= isoFormatDate(krCurTime)
+  );
+  const expiredVote = votes.filter(
+    (item) => item.deadline < isoFormatDate(krCurTime)
+  );
 
   useEffect(() => {
     getCollection('Vote', setVotes);

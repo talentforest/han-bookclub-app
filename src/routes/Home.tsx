@@ -4,7 +4,7 @@ import {
   CLUB_INFO,
   thisMonth,
   thisYear,
-  thisYearMonth,
+  thisYearMonthIso,
 } from 'util/index';
 import { getCollection, getDocument } from 'api/getFbDoc';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -48,7 +48,7 @@ const Home = ({ isLoggedIn }: PropsType) => {
         console.log(error);
       }
     }
-    getDocument(CLUB_INFO, `${thisYearMonth}`, setThisMonthDoc);
+    getDocument(CLUB_INFO, `${thisYearMonthIso}`, setThisMonthDoc);
     getDocument(BOOK_FIELD, `${thisYear}`, setBookFields);
     getCollection('Vote', setVotes);
     // eslint-disable-next-line react-hooks/exhaustive-deps

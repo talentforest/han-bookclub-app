@@ -1,6 +1,6 @@
 import { CheckCircleOutline, Replay } from '@mui/icons-material';
 import { useLocation } from 'react-router-dom';
-import { today } from 'util/index';
+import { krCurTime, isoFormatDate } from 'util/index';
 import { IVote } from 'data/voteItemAtom';
 import UsernameBox from 'components/organisms/UsernameBox';
 import useHandleVoting from 'hooks/useHandleVoting';
@@ -32,62 +32,64 @@ const VoteDetail = () => {
     onVotingSubmit,
     onVoteItemClick,
   } = useHandleVoting(voteDetail);
-  const expiredVote = voteDetail.deadline < today;
+  const expiredVote = voteDetail.deadline < isoFormatDate(krCurTime);
 
   return (
     <main>
-      <Vote $expired={!!expiredVote}>
-        {!myVote.length ? (
-          <Form $expired={!!expiredVote} onSubmit={onVotingSubmit}>
-            <FormDetails voteDetail={voteDetail} />
-            <Votelist $disabled={!!voteDisabled}>
-              {voteDetail.vote.voteItem.map((item) => (
-                <VoteItem
-                  key={item.id}
-                  onClick={() =>
-                    onVoteItemClick(item.id, item.item, item.voteCount)
-                  }
-                  $selected={!!mySelectingItem(item)}
-                >
-                  <CheckCircleOutline />
-                  <ItemText $shrinkWidth={!!existVoteCount(item.id)}>
-                    {item.item}
-                  </ItemText>
-                  <Percentage
-                    voteItems={voteItems}
-                    item={item}
-                    totalVoteCount={totalVoteCount}
-                  />
-                </VoteItem>
-              ))}
-            </Votelist>
-            <SubmitBtn children='투표하기' disabled={!!voteDisabled} />
-          </Form>
-        ) : (
-          <Form $expired={!!expiredVote}>
-            <FormDetails voteDetail={voteDetail} />
-            <Votelist $disabled>
-              {voteDetail.vote.voteItem.map((item) => (
-                <VoteItem key={item.id} $selected={!!mySelectedItem(item)}>
-                  <CheckCircleOutline />
-                  <ItemText $shrinkWidth={!!existVoteCount(item.id)}>
-                    {item.item}
-                  </ItemText>
-                  <Percentage
-                    voteItems={voteItems}
-                    item={item}
-                    totalVoteCount={totalVoteCount}
-                  />
-                </VoteItem>
-              ))}
-            </Votelist>
-            <SubmitBtn children='투표하기' disabled />
-            <HandleBtn handleClick={onRevoteClick}>
-              다시 투표하기 <Replay />
-            </HandleBtn>
-          </Form>
-        )}
-      </Vote>
+      {!myVote.length ? (
+        <Form onSubmit={onVotingSubmit}>
+          <FormDetails voteDetail={voteDetail} />
+          <Votelist $disabled={voteDisabled || expiredVote}>
+            {voteDetail.vote.voteItem.map((item) => (
+              <VoteItem
+                key={item.id}
+                onClick={() =>
+                  onVoteItemClick(item.id, item.item, item.voteCount)
+                }
+                $selected={!!mySelectingItem(item)}
+              >
+                <CheckCircleOutline />
+                <ItemText $shrinkWidth={!!existVoteCount(item.id)}>
+                  {item.item}
+                </ItemText>
+                <Percentage
+                  voteItems={voteItems}
+                  item={item}
+                  totalVoteCount={totalVoteCount}
+                />
+              </VoteItem>
+            ))}
+          </Votelist>
+          <SubmitBtn
+            children='투표하기'
+            // disabled={voteDisabled || expiredVote}
+          />
+        </Form>
+      ) : (
+        <Form>
+          <FormDetails voteDetail={voteDetail} />
+          <Votelist $disabled>
+            {voteDetail.vote.voteItem.map((item) => (
+              <VoteItem key={item.id} $selected={!!mySelectedItem(item)}>
+                <CheckCircleOutline />
+                <ItemText $shrinkWidth={!!existVoteCount(item.id)}>
+                  {item.item}
+                </ItemText>
+                <Percentage
+                  voteItems={voteItems}
+                  item={item}
+                  totalVoteCount={totalVoteCount}
+                />
+              </VoteItem>
+            ))}
+          </Votelist>
+          <SubmitBtn children='투표하기' disabled={true} />
+          <HandleBtn handleClick={onRevoteClick} disabled={expiredVote}>
+            다시 투표하기 <Replay />
+          </HandleBtn>
+        </Form>
+      )}
+
       <InfoBox>
         <ShareButton
           title='✨새로운 투표가 등록되었어요!'
@@ -107,20 +109,10 @@ const VoteDetail = () => {
   );
 };
 
-const Vote = styled.div<{ $expired: boolean }>`
-  width: 100%;
+const Form = styled.form`
   margin-bottom: 20px;
-  pointer-events: ${(props) => (props.$expired ? 'none' : 'all')};
-`;
-const Form = styled.form<{ $expired: boolean }>`
-  > button {
+  button {
     margin-bottom: 5px;
-    background-color: ${(props) =>
-      props.$expired ? props.theme.text.lightGray : ''};
-    color: ${(props) => (props.$expired ? props.theme.text.gray : '')};
-    svg {
-      fill: ${(props) => (props.$expired ? props.theme.text.gray : '')};
-    }
   }
 `;
 const Votelist = styled.ul<{ $disabled: boolean }>`
@@ -138,11 +130,12 @@ const VoteItem = styled.li<{ $selected: boolean }>`
   position: relative;
   display: flex;
   align-items: center;
+  overflow: hidden;
   border: ${(props) =>
     props.$selected
       ? `2px solid ${props.theme.container.blue}`
       : `1px solid ${props.theme.text.lightGray}`};
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 10px;
   margin-top: 10px;
   background-color: ${(props) => props.theme.container.default};
@@ -168,7 +161,7 @@ const VoteItem = styled.li<{ $selected: boolean }>`
 `;
 const ItemText = styled.span<{ $shrinkWidth: boolean }>`
   z-index: 1;
-  width: ${(props) => (props.$shrinkWidth ? '77%' : '100%')};
+  width: ${(props) => (props.$shrinkWidth ? '75%' : '100%')};
   @media ${device.tablet} {
     font-size: 18px;
     width: ${(props) => (props.$shrinkWidth ? '85%' : '100%')};

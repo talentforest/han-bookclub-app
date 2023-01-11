@@ -1,16 +1,16 @@
 import { Delete, Help } from '@mui/icons-material';
-import { getDDay, today } from 'util/index';
+import { getDDay, krCurTime, isoFormatDate } from 'util/index';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { useNavigate } from 'react-router-dom';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { dbService } from 'fbase';
+import { IVote } from 'data/voteItemAtom';
 import UsernameBox from 'components/organisms/UsernameBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import Guide from 'components/atoms/Guide';
 import InfoTag from 'components/atoms/InfoTag';
-import { IVote } from 'data/voteItemAtom';
 
 interface PropsType {
   voteDetail: IVote;
@@ -21,23 +21,21 @@ const FormDetails = ({ voteDetail }: PropsType) => {
   const userData = useRecoilValue(currentUserState);
   const navigate = useNavigate();
   const docRef = doc(dbService, `Vote`, `${id}`);
+  const registerDate = new Date(deadline).toLocaleDateString().slice(0, -1);
 
   const onDeleteClick = async () => {
     const confirm = window.confirm('정말 투표를 삭제하시겠습니까?');
-    if (confirm) {
-      await deleteDoc(docRef);
-      navigate(-1);
-    } else {
-      return;
-    }
+    if (!confirm) return;
+    await deleteDoc(docRef);
+    navigate(-1);
   };
 
   return (
     <>
       <InfoTag
         tagName={
-          deadline < today
-            ? `등록일자: ${deadline.split('-').join('.')}`
+          deadline < isoFormatDate(krCurTime)
+            ? `등록일자: ${registerDate}`
             : `D-Day: ${getDDay(deadline)}`
         }
       />

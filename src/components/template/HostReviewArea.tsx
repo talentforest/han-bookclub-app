@@ -3,7 +3,7 @@ import HostReviewCreateModal from 'components/organisms/bookclubthismonth/HostRe
 import { hostReviewState } from 'data/documentsAtom';
 import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { thisYearMonth } from 'util/index';
+import { thisYearMonthIso } from 'util/index';
 import { EmptyBox } from './RecommendArea';
 
 const HostReviewArea = () => {
@@ -16,7 +16,7 @@ const HostReviewArea = () => {
           <HostReviewBox
             key={review.id}
             review={review}
-            yearMonthId={thisYearMonth}
+            yearMonthId={thisYearMonthIso}
           />
         ))
       ) : (

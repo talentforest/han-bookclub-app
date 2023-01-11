@@ -1,7 +1,12 @@
 import { useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { hostReviewState, thisMonthState } from 'data/documentsAtom';
-import { getFbRoute, CLUB_INFO, getMonthNm, thisYearMonth } from 'util/index';
+import {
+  getFbRoute,
+  CLUB_INFO,
+  getMonthNm,
+  thisYearMonthIso,
+} from 'util/index';
 import { getCollection, getDocument } from 'api/getFbDoc';
 import Loading from 'components/atoms/Loading';
 import Subtitle from 'components/atoms/Subtitle';
@@ -18,8 +23,8 @@ const BookClubOfThisMonth = () => {
   const { id, book } = thisMonthDoc;
 
   useEffect(() => {
-    getDocument(CLUB_INFO, `${thisYearMonth}`, setThisMonthDoc);
-    getCollection(getFbRoute(thisYearMonth).HOST_REVIEW, setHostReview);
+    getDocument(CLUB_INFO, `${thisYearMonthIso}`, setThisMonthDoc);
+    getCollection(getFbRoute(thisYearMonthIso).HOST_REVIEW, setHostReview);
   }, [setThisMonthDoc, setHostReview]);
 
   return checkThisMonthDoc === 0 ? (

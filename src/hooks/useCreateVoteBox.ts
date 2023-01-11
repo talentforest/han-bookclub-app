@@ -4,7 +4,7 @@ import { authService, dbService } from 'fbase';
 import { addDoc, collection } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { pickDay } from 'util/index';
+import { isoFormatDate } from 'util/index';
 import useAlertAskJoin from './useAlertAskJoin';
 
 interface ICreateVoteBox {
@@ -27,7 +27,7 @@ const useCreateVoteBox = ({ setModalOpen, endDate }: ICreateVoteBox) => {
   const voteBoxData = {
     createdAt: Date.now(),
     creatorId: userData.uid,
-    deadline: pickDay(endDate),
+    deadline: isoFormatDate(endDate),
     vote,
     voteId: votes.length + 1,
   };

@@ -5,7 +5,7 @@ import { dbService } from 'fbase';
 import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { CLUB_INFO, thisYearMonth } from 'util/index';
+import { CLUB_INFO, thisYearMonthIso } from 'util/index';
 
 interface PropsType {
   clubDocs: IBookClubMonthInfo[];
@@ -14,7 +14,7 @@ interface PropsType {
 
 const useHandleClubInfoDoc = ({ clubDocs, searchedBook }: PropsType) => {
   const [toggle, setToggle] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState(`${thisYearMonth}`);
+  const [selectedMonth, setSelectedMonth] = useState(`${thisYearMonthIso}`);
   const userData = useRecoilValue(currentUserState);
   const {
     thumbnail,

@@ -1,7 +1,7 @@
 import { IBookApi } from 'data/bookAtom';
 import { useRecoilValue } from 'recoil';
 import { clubDocsState } from 'data/documentsAtom';
-import { thisYearMonth } from 'util/index';
+import { thisYearMonthIso } from 'util/index';
 import { useEffect } from 'react';
 import useHandleClubInfoDoc from 'hooks/useHandleClubInfoDoc';
 import styled from 'styled-components';
@@ -32,7 +32,7 @@ const RegisterClubBookButton = ({ searchedBook }: PropsType) => {
     <SelectBox onSubmit={onSubmit}>
       <CalenderInput
         type='month'
-        defaultValue={thisYearMonth}
+        defaultValue={thisYearMonthIso}
         name='thisMonthBook'
         onChange={onMonthChange}
       />

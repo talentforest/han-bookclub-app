@@ -9,13 +9,13 @@ interface ISubmitBtnProps {
 
 const SubmitBtn = ({ children, disabled }: ISubmitBtnProps) => {
   return (
-    <Btn type='submit' $diabled={disabled}>
+    <Btn type='submit' $disabled={disabled}>
       {children}
     </Btn>
   );
 };
 
-export const Btn = styled.button<{ $diabled?: boolean }>`
+export const Btn = styled.button<{ $disabled?: boolean }>`
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -27,12 +27,12 @@ export const Btn = styled.button<{ $diabled?: boolean }>`
   border: none;
   border-radius: 10px;
   background-color: ${(props) =>
-    props.$diabled
+    props.$disabled
       ? props.theme.text.lightGray
       : props.theme.container.lightBlue};
   color: ${(props) =>
-    props.$diabled ? props.theme.text.gray : props.theme.text.lightBlue};
-  pointer-events: ${(props) => (props.$diabled ? 'none' : 'all')};
+    props.$disabled ? props.theme.text.gray : props.theme.text.lightBlue};
+  pointer-events: ${(props) => (props.$disabled ? 'none' : 'all')};
   svg {
     width: 18px;
     height: 18px;
