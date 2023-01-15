@@ -29,12 +29,14 @@ export interface IDocument {
   recommendBookAuthor?: string[];
 }
 
-export interface IFieldHost {
-  bookField: {
-    field: string;
-    month: number;
-    host: string;
-  }[];
+export interface IBookFieldHost {
+  field: string;
+  month: number;
+  host: string;
+}
+
+export interface IBookField {
+  bookField: IBookFieldHost[];
 }
 
 export const clubDocsState = atom<IBookClubMonthInfo[]>({
@@ -75,9 +77,9 @@ export const thisMonthState = atom<IBookClubMonthInfo>({
   ],
 });
 
-export const bookFieldsState = atom<IFieldHost>({
+export const bookFieldsState = atom<IBookField>({
   key: `bookFieldDocs/${v4()}`,
-  default: {} as IFieldHost,
+  default: {} as IBookField,
 });
 
 export const votesState = atom<IVote[]>({

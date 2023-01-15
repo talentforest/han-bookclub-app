@@ -1,76 +1,35 @@
-import { useEffect, useState } from 'react';
 import { CheckCircle, Edit } from '@mui/icons-material';
 import { getMonthNm, fieldOfClub } from 'util/index';
 import { useRecoilValue } from 'recoil';
-import { bookFieldsState, thisMonthState } from 'data/documentsAtom';
+import { thisMonthState } from 'data/documentsAtom';
 import Subtitle from '../../atoms/Subtitle';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import UsernameBox from '../UsernameBox';
-import { usersState } from 'data/userAtom';
-import { dbService } from 'fbase';
-import { doc, updateDoc } from 'firebase/firestore';
-import { BOOK_FIELD, thisYear } from 'util/index';
-import useAlertAskJoin from 'hooks/useAlertAskJoin';
+import useHandleFieldHost from 'hooks/useHandleFieldHost';
 
 const FieldScheduleBox = () => {
-  const bookFields = useRecoilValue(bookFieldsState);
-  const userDocs = useRecoilValue(usersState);
   const thisMonthDoc = useRecoilValue(thisMonthState);
-  const [fieldHost, setFieldHost] = useState([]);
-  const [isEditing, setIsEditing] = useState(new Array(12).fill(false));
-  const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
-
-  const fbDoc = doc(dbService, BOOK_FIELD, `${thisYear}`);
-  const addNoHost = [
-    ...userDocs,
-    { displayName: '발제자 없음', id: 'no_host' },
-  ];
-
-  const onSubmit = async (
-    event: React.FormEvent<HTMLFormElement>,
-    idx: number
-  ) => {
-    event.preventDefault();
-    await updateDoc(fbDoc, { bookField: fieldHost });
-    onEditClick(idx);
-  };
-
-  const onChange = (
-    event: React.FormEvent<HTMLSelectElement>,
-    index: number
-  ) => {
-    const { value, name } = event.currentTarget;
-    const newArray = fieldHost.map((item) => {
-      const data =
-        name === 'field' ? { ...item, field: value } : { ...item, host: value };
-      return item.month === index + 1 ? data : item;
-    });
-    setFieldHost(newArray);
-  };
-
-  const onEditClick = (idx: number) => {
-    if (anonymous) return alertAskJoinMember();
-    const editedArr = isEditing.map((editItem, index) =>
-      index === idx ? !editItem : editItem
-    );
-    setIsEditing(editedArr);
-  };
-
-  useEffect(() => {
-    setFieldHost(bookFields.bookField);
-  }, [bookFields]);
+  const { id } = thisMonthDoc;
+  const {
+    isEditing,
+    fieldHost,
+    allMembers,
+    onSubmit,
+    onChange,
+    onEditClick, //
+  } = useHandleFieldHost();
 
   return (
     <section>
-      <Subtitle title={`한페이지의 독서 분야 일정`} />
+      <Subtitle title='한페이지의 독서 분야 일정' />
       <FieldList>
         {fieldHost?.map((item, index) =>
           isEditing[index] ? (
             <Form
               key={item.month}
               onSubmit={(event) => onSubmit(event, index)}
-              $highlight={+item.month === +getMonthNm(thisMonthDoc?.id)}
+              $highlight={+item.month === getMonthNm(id)}
             >
               <Month>{`${item.month}월`}</Month>
               <Info>
@@ -79,15 +38,15 @@ const FieldScheduleBox = () => {
                   defaultValue={item.host || 'no_host'}
                   onChange={(event) => onChange(event, index)}
                 >
-                  {addNoHost.map((user) => (
-                    <option key={`${user.id}`} value={user.id}>
-                      {user.displayName}
+                  {allMembers.map((member) => (
+                    <option key={`${member.id}`} value={member.id}>
+                      {member.displayName}
                     </option>
                   ))}
                 </Select>
                 <Select
                   name='field'
-                  value={item.field}
+                  defaultValue={item.field || '이벤트'}
                   onChange={(event) => onChange(event, index)}
                 >
                   {fieldOfClub.map((item) => (
@@ -105,15 +64,17 @@ const FieldScheduleBox = () => {
             <Form
               as='div'
               key={item.month}
-              $highlight={+item.month === +getMonthNm(thisMonthDoc?.id)}
+              $highlight={item.month === getMonthNm(id)}
             >
               <Month>{`${item.month}월`}</Month>
               <Info>
-                {item.host && <UsernameBox creatorId={item.host} />}
-                <Field
-                  $highlight={+item.month === +getMonthNm(thisMonthDoc?.id)}
-                >
-                  {item.field ? item.field : '이달의 분야'}
+                {item.host !== 'no_host' ? (
+                  <UsernameBox creatorId={item.host} />
+                ) : (
+                  <></>
+                )}
+                <Field $highlight={item.month === getMonthNm(id)}>
+                  {item.field === '이벤트' ? '⭐️' : '📚'} {item.field}
                 </Field>
               </Info>
               <SubmitBtn type='button' onClick={() => onEditClick(index)}>
