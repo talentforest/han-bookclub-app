@@ -24,7 +24,7 @@ const BookClubHistory = () => {
   };
 
   return bookMeetings?.length === 0 ? (
-    <Loading />
+    <Loading full />
   ) : (
     <main>
       <Subtitle title='한페이지 히스토리' />

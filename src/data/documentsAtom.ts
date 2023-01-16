@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
 import { v4 } from 'uuid';
 import { IBookApi } from './bookAtom';
+import { IBookFieldHost } from './bookFieldHostAtom';
 import { IVote } from './voteItemAtom';
 
 export interface IBookClubMonthInfo {
@@ -27,12 +28,6 @@ export interface IDocument {
   recommendBookThumbnail?: string;
   recommendBookUrl?: string;
   recommendBookAuthor?: string[];
-}
-
-export interface IBookFieldHost {
-  field: string;
-  month: number;
-  host: string;
 }
 
 export interface IBookField {

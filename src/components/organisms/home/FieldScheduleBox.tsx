@@ -7,6 +7,7 @@ import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import UsernameBox from '../UsernameBox';
 import useHandleFieldHost from 'hooks/useHandleFieldHost';
+import Loading from 'components/atoms/Loading';
 
 const FieldScheduleBox = () => {
   const thisMonthDoc = useRecoilValue(thisMonthState);
@@ -23,67 +24,71 @@ const FieldScheduleBox = () => {
   return (
     <section>
       <Subtitle title='한페이지의 독서 분야 일정' />
-      <FieldList>
-        {fieldHost?.map((item, index) =>
-          isEditing[index] ? (
-            <Form
-              key={item.month}
-              onSubmit={(event) => onSubmit(event, index)}
-              $highlight={+item.month === getMonthNm(id)}
-            >
-              <Month>{`${item.month}월`}</Month>
-              <Info>
-                <Select
-                  name='host'
-                  defaultValue={item.host || 'no_host'}
-                  onChange={(event) => onChange(event, index)}
-                >
-                  {allMembers.map((member) => (
-                    <option key={`${member.id}`} value={member.id}>
-                      {member.displayName}
-                    </option>
-                  ))}
-                </Select>
-                <Select
-                  name='field'
-                  defaultValue={item.field || '이벤트'}
-                  onChange={(event) => onChange(event, index)}
-                >
-                  {fieldOfClub.map((item) => (
-                    <option key={item.id} value={item.name}>
-                      {item.name}
-                    </option>
-                  ))}
-                </Select>
-              </Info>
-              <SubmitBtn type='submit'>
-                <CheckCircle />
-              </SubmitBtn>
-            </Form>
-          ) : (
-            <Form
-              as='div'
-              key={item.month}
-              $highlight={item.month === getMonthNm(id)}
-            >
-              <Month>{`${item.month}월`}</Month>
-              <Info>
-                {item.host !== 'no_host' ? (
-                  <UsernameBox creatorId={item.host} />
-                ) : (
-                  <></>
-                )}
-                <Field $highlight={item.month === getMonthNm(id)}>
-                  {item.field === '이벤트' ? '⭐️' : '📚'} {item.field}
-                </Field>
-              </Info>
-              <SubmitBtn type='button' onClick={() => onEditClick(index)}>
-                <Edit />
-              </SubmitBtn>
-            </Form>
-          )
-        )}
-      </FieldList>
+      {fieldHost ? (
+        <FieldList>
+          {fieldHost?.map((item, index) =>
+            isEditing[index] ? (
+              <Form
+                key={item.month}
+                onSubmit={(event) => onSubmit(event, index)}
+                $highlight={+item.month === getMonthNm(id)}
+              >
+                <Month>{`${item.month}월`}</Month>
+                <Info>
+                  <Select
+                    name='host'
+                    defaultValue={item.host || 'no_host'}
+                    onChange={(event) => onChange(event, index)}
+                  >
+                    {allMembers.map((member) => (
+                      <option key={`${member.id}`} value={member.id}>
+                        {member.displayName}
+                      </option>
+                    ))}
+                  </Select>
+                  <Select
+                    name='field'
+                    defaultValue={item.field || '이벤트'}
+                    onChange={(event) => onChange(event, index)}
+                  >
+                    {fieldOfClub.map((item) => (
+                      <option key={item.id} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </Select>
+                </Info>
+                <SubmitBtn type='submit'>
+                  <CheckCircle />
+                </SubmitBtn>
+              </Form>
+            ) : (
+              <Form
+                as='div'
+                key={item.month}
+                $highlight={item.month === getMonthNm(id)}
+              >
+                <Month>{`${item.month}월`}</Month>
+                <Info>
+                  {item.host !== 'no_host' ? (
+                    <UsernameBox creatorId={item.host} />
+                  ) : (
+                    <></>
+                  )}
+                  <Field $highlight={item.month === getMonthNm(id)}>
+                    {item.field === '이벤트' ? '⭐️' : '📚'} {item.field}
+                  </Field>
+                </Info>
+                <SubmitBtn type='button' onClick={() => onEditClick(index)}>
+                  <Edit />
+                </SubmitBtn>
+              </Form>
+            )
+          )}
+        </FieldList>
+      ) : (
+        <Loading full={false} />
+      )}
     </section>
   );
 };

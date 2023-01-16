@@ -38,7 +38,7 @@ const ProfileInfo = () => {
   }, []);
 
   return checkObj === 0 ? (
-    <Loading />
+    <Loading full />
   ) : (
     <main>
       <ProfileImage

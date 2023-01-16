@@ -38,7 +38,7 @@ const BookClubOfThisMonth = () => {
   }, [setThisMonthDoc, setHostReview, setBookFields]);
 
   return checkThisMonthDoc === 0 ? (
-    <Loading />
+    <Loading full />
   ) : (
     thisMonthDoc && (
       <main>
