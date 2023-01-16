@@ -6,15 +6,21 @@ import PwInput from 'components/atoms/inputs/PwInput';
 import useLogIn from 'hooks/useLogIn';
 import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
 import LinkBtn from 'components/atoms/buttons/LinkBtn';
+import HandleBtn from 'components/atoms/buttons/HandleBtn';
 
-const LogIn = () => {
+interface ILoginProps {
+  isLoggedIn: boolean;
+}
+
+const LogIn = ({ isLoggedIn }: ILoginProps) => {
   const {
     email,
     password,
     error,
     onSubmit,
-    onChange, //
-  } = useLogIn();
+    onChange,
+    onAnonymousLoginClick, //
+  } = useLogIn(isLoggedIn);
 
   return (
     <Main>
@@ -37,6 +43,10 @@ const LogIn = () => {
         <SubmitBtn children='로그인' />
         <LinkBtn to='/create_account'>회원가입</LinkBtn>
       </Form>
+      <HandleBtn
+        children='익명으로 로그인'
+        handleClick={onAnonymousLoginClick}
+      />
       <Footer>
         <Link to='/find_pw'>비밀번호 찾기</Link>
       </Footer>
@@ -70,7 +80,8 @@ const Form = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
+  margin-bottom: 5px;
 `;
 export const ErrorMessage = styled.span`
   font-size: 14px;

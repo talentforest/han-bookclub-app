@@ -2,8 +2,9 @@ import { authService } from 'fbase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 
-const useLogIn = () => {
+const useLogIn = (isLoggedIn: boolean) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -33,12 +34,28 @@ const useLogIn = () => {
     }
   };
 
+  const onAnonymousLoginClick = () => {
+    if (!isLoggedIn) {
+      try {
+        signInAnonymously(authService);
+        onAuthStateChanged(authService, (user) => {
+          if (user) {
+            navigator('/');
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   return {
     email,
     password,
     error,
     onSubmit,
     onChange,
+    onAnonymousLoginClick,
   };
 };
 

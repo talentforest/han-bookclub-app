@@ -32,31 +32,42 @@ function Router({ isLoggedIn }: PropsType) {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <ScrollToTop />
-      {windowSize.width >= +deviceSizes.tablet ? (
+      {isLoggedIn && windowSize.width >= +deviceSizes.tablet ? (
         <DesktopNav />
       ) : (
         <MobileHeader />
       )}
-      <Routes>
-        <Route path='/login' element={<LogIn />} />
-        <Route path='/find_pw' element={<ResetPasswordEmail />} />
-        <Route path='/create_account' element={<CreateAccount />} />
 
-        <Route path='/' element={<Home isLoggedIn={isLoggedIn} />} />
-        <Route path='/bookclub' element={<BookClubOfThisMonth />} />
-        <Route path='/search' element={<Search />} />
-        <Route path='/search/:id' element={<SearchedBookInfo />} />
-        <Route path='/history' element={<BookClubHistory />} />
-        <Route path='/history/:id/*' element={<BookClubHistoryDetail />} />
-        <Route path='/vote' element={<Vote />} />
-        <Route path='/vote/:id' element={<VoteDetail />} />
-        <Route path='/mybookshelf' element={<MyBookshelf />} />
-        <Route path='/setting' element={<Setting />} />
-        <Route path='/setting/edit-profile' element={<ProfileInfo />} />
-        <Route path='/setting/edit-password' element={<ChangePassword />} />
-        <Route path='/setting/delete-account' element={<DeleteAccount />} />
+      <Routes>
+        {isLoggedIn ? (
+          <>
+            <Route path='/login' element={<LogIn isLoggedIn={isLoggedIn} />} />
+            <Route path='/find_pw' element={<ResetPasswordEmail />} />
+            <Route path='/create_account' element={<CreateAccount />} />
+
+            <Route path='/' element={<Home />} />
+            <Route path='/bookclub' element={<BookClubOfThisMonth />} />
+            <Route path='/search' element={<Search />} />
+            <Route path='/search/:id' element={<SearchedBookInfo />} />
+            <Route path='/history' element={<BookClubHistory />} />
+            <Route path='/history/:id/*' element={<BookClubHistoryDetail />} />
+            <Route path='/vote' element={<Vote />} />
+            <Route path='/vote/:id' element={<VoteDetail />} />
+            <Route path='/mybookshelf' element={<MyBookshelf />} />
+            <Route path='/setting' element={<Setting />} />
+            <Route path='/setting/edit-profile' element={<ProfileInfo />} />
+            <Route path='/setting/edit-password' element={<ChangePassword />} />
+            <Route path='/setting/delete-account' element={<DeleteAccount />} />
+          </>
+        ) : (
+          <>
+            <Route path='/' element={<LogIn isLoggedIn={isLoggedIn} />} />
+            <Route path='/find_pw' element={<ResetPasswordEmail />} />
+            <Route path='/*' element={<LogIn isLoggedIn={isLoggedIn} />} />
+          </>
+        )}
       </Routes>
-      {windowSize.width < +deviceSizes.tablet && <Navigation />}
+      {isLoggedIn && windowSize.width < +deviceSizes.tablet && <Navigation />}
     </BrowserRouter>
   );
 }

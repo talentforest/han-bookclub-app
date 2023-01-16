@@ -13,8 +13,6 @@ import {
   thisMonthState,
   votesState,
 } from 'data/documentsAtom';
-import { onAuthStateChanged, signInAnonymously } from 'firebase/auth';
-import { authService } from 'fbase';
 import Subtitle from 'components/atoms/Subtitle';
 import BookImgTitle from 'components/atoms/BookImgTitle';
 import Loading from 'components/atoms/Loading';
@@ -25,11 +23,7 @@ import styled from 'styled-components';
 import ScheduleBox from 'components/organisms/ScheduleBox';
 import device from 'theme/mediaQueries';
 
-interface PropsType {
-  isLoggedIn: boolean;
-}
-
-const Home = ({ isLoggedIn }: PropsType) => {
+const Home = () => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
   const setBookFields = useSetRecoilState(bookFieldsState);
   const setVotes = useSetRecoilState(votesState);
@@ -37,23 +31,11 @@ const Home = ({ isLoggedIn }: PropsType) => {
   const { book, meeting } = thisMonthDoc;
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      try {
-        signInAnonymously(authService);
-        onAuthStateChanged(authService, (user) => {
-          if (user) {
-            console.log('success');
-          }
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
     getDocument(CLUB_INFO, `${thisYearMonthIso}`, setThisMonthDoc);
     getDocument(BOOK_FIELD, `${thisYear}`, setBookFields);
     getCollection('Vote', setVotes);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoggedIn]);
+  }, []);
 
   return checkThisMonthDoc === 0 ? (
     <Loading full />
