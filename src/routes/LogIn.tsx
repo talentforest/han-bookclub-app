@@ -18,7 +18,8 @@ const LogIn = () => {
 
   return (
     <Main>
-      <Header>북클럽 한페이지</Header>
+      <Logo src='hanpage_iconlogo.png' alt='hanpage bookclub logo' />
+      <Header>한페이지 독서모임</Header>
       <Form onSubmit={onSubmit}>
         <EmailInput
           value={email}
@@ -47,11 +48,16 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100vh;
+`;
+const Logo = styled.img`
+  height: 100px;
+  width: 100px;
+  margin: 0 auto 30px;
 `;
 const Header = styled.header`
+  margin: 0 auto;
   margin-bottom: 20px;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   color: ${(props) => props.theme.text.lightBlue};
   padding-bottom: 5px;
