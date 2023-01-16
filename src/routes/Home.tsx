@@ -14,6 +14,9 @@ import {
   thisMonthState,
   votesState,
 } from 'data/documentsAtom';
+import { onAuthStateChanged, signInAnonymously } from 'firebase/auth';
+import { authService } from 'fbase';
+import { usersState } from 'data/userAtom';
 import Subtitle from 'components/atoms/Subtitle';
 import BookImgTitle from 'components/atoms/BookImgTitle';
 import Loading from 'components/atoms/Loading';
@@ -22,9 +25,6 @@ import FieldScheduleBox from 'components/organisms/home/FieldScheduleBox';
 import VoteSlider from 'components/organisms/home/VoteSlider';
 import styled from 'styled-components';
 import ScheduleBox from 'components/organisms/ScheduleBox';
-import { onAuthStateChanged, signInAnonymously } from 'firebase/auth';
-import { authService } from 'fbase';
-import { usersState } from 'data/userAtom';
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -72,10 +72,10 @@ const Home = ({ isLoggedIn }: PropsType) => {
         <Guide text='한페이지 멤버는 매월 셋째주 일요일에 만나요.' />
         <ScheduleBox schedule={meeting} />
       </Section>
-      <VoteSection>
+      <Section>
         <Subtitle title={'한페이지의 투표함'} />
         <VoteSlider />
-      </VoteSection>
+      </Section>
       <FieldScheduleBox />
     </main>
   );
@@ -83,20 +83,6 @@ const Home = ({ isLoggedIn }: PropsType) => {
 
 const Section = styled.section`
   margin-bottom: 60px;
-`;
-const VoteSection = styled(Section)`
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  .slick-list {
-    padding-bottom: 3px;
-  }
-  .slick-slider {
-    margin: 0 -10px;
-  }
-  .slick-slide {
-    padding: 0 10px;
-  }
 `;
 
 export default Home;
