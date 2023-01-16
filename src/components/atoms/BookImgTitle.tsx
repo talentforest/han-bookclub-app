@@ -32,6 +32,12 @@ const BookBox = styled.div<{ $smSize: boolean }>`
     width: ${(props) => (props.$smSize ? '24px' : 'auto')};
     height: ${(props) => (props.$smSize ? '30px' : '100px')};
   }
+  @media ${device.tablet} {
+    svg {
+      width: ${(props) => (props.$smSize ? '24px' : 'auto')};
+      height: ${(props) => (props.$smSize ? '30px' : '150px')};
+    }
+  }
 `;
 const Thumnail = styled.img<{ $smSize: boolean }>`
   display: flex;

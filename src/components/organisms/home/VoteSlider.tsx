@@ -1,12 +1,9 @@
 import { useRecoilValue } from 'recoil';
 import { votesState } from 'data/documentsAtom';
-import { isoFormatDate, settings, krCurTime } from 'util/index';
+import { isoFormatDate, krCurTime } from 'util/index';
 import { ChevronRight } from '@mui/icons-material';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import styled from 'styled-components';
 import VoteBox from 'components/organisms/vote/VoteBox';
-import Slider from 'react-slick';
 import LinkBtn from 'components/atoms/buttons/LinkBtn';
 import device from 'theme/mediaQueries';
 
@@ -19,45 +16,45 @@ const VoteSlider = () => {
   return (
     <>
       {progressVotes.length ? (
-        <SliderBox {...settings}>
-          {progressVotes?.map((voteDetail) => (
-            <VoteBox key={voteDetail.id} voteDetail={voteDetail} />
-          ))}
-        </SliderBox>
+        <VotesContainer>
+          <Votes>
+            {progressVotes?.map((voteDetail) => (
+              <VoteBox key={voteDetail.id} voteDetail={voteDetail} />
+            ))}
+          </Votes>
+        </VotesContainer>
       ) : (
-        <EmptySlider>
+        <EmptyContainer>
           <span>진행중인 투표가 없어요.</span>
           <LinkBtn to='/vote'>
             투표 등록하러 가기
             <ChevronRight />
           </LinkBtn>
-        </EmptySlider>
+        </EmptyContainer>
       )}
     </>
   );
 };
 
-const SliderBox = styled(Slider)`
-  .slick-list {
-    padding-bottom: 3px;
-  }
-  .slick-slider {
-    margin: 0 -5px;
-  }
-  .slick-slide {
-    padding: 0 5px;
-  }
-  .slick-dots {
-    margin-bottom: 2px;
+const VotesContainer = styled.div`
+  width: 100%;
+  overflow: scroll;
+`;
+const Votes = styled.div`
+  display: flex;
+  gap: 10px;
+  width: fit-content;
+  padding: 5px 2px;
+  > div {
+    width: 240px;
   }
   @media ${device.tablet} {
-    background-color: ${(props) => props.theme.container.default};
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid ${(props) => props.theme.text.lightGray};
+    > div {
+      width: 280px;
+    }
   }
 `;
-const EmptySlider = styled.div`
+const EmptyContainer = styled.div`
   width: 100%;
   height: 140px;
   display: flex;

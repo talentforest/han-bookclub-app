@@ -25,6 +25,7 @@ import FieldScheduleBox from 'components/organisms/home/FieldScheduleBox';
 import VoteSlider from 'components/organisms/home/VoteSlider';
 import styled from 'styled-components';
 import ScheduleBox from 'components/organisms/ScheduleBox';
+import device from 'theme/mediaQueries';
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -82,7 +83,10 @@ const Home = ({ isLoggedIn }: PropsType) => {
 };
 
 const Section = styled.section`
-  margin-bottom: 60px;
+  margin-bottom: 70px;
+  @media ${device.tablet} {
+    margin-bottom: 100px;
+  }
 `;
 
 export default Home;
