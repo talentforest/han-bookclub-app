@@ -1,7 +1,6 @@
-import { atom, selectorFamily } from 'recoil';
+import { atom } from 'recoil';
 import { v4 } from 'uuid';
 import { IBookApi } from './bookAtom';
-import { IBookFieldHost } from './bookFieldHostAtom';
 import { IVote } from './voteItemAtom';
 
 export interface IBookClubMonthInfo {
@@ -28,10 +27,6 @@ export interface IDocument {
   recommendBookThumbnail?: string;
   recommendBookUrl?: string;
   recommendBookAuthor?: string[];
-}
-
-export interface IBookField {
-  bookField: IBookFieldHost[];
 }
 
 export const clubDocsState = atom<IBookClubMonthInfo[]>({
@@ -72,23 +67,9 @@ export const thisMonthState = atom<IBookClubMonthInfo>({
   ],
 });
 
-export const bookFieldsState = atom<IBookField>({
-  key: `bookFieldDocs/${v4()}`,
-  default: {} as IBookField,
-});
-
 export const votesState = atom<IVote[]>({
-  key: 'voteDocs',
+  key: `voteDocs/${v4()}`,
   default: [],
-});
-
-export const currentVoteState = selectorFamily({
-  key: `currentVoteDocs`,
-  get:
-    (voteId) =>
-    ({ get }) => {
-      return get(votesState).find((item) => item.voteId === voteId);
-    },
 });
 
 export const subjectsState = atom<IDocument[]>({

@@ -1,6 +1,9 @@
 import { CheckCircle, Edit } from '@mui/icons-material';
-import { getMonthNm, fieldOfClub } from 'util/index';
-import { useRecoilValue } from 'recoil';
+import { getMonthNm, fieldOfClub, thisYear, BOOK_FIELD_HOST } from 'util/index';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { getDocument } from 'api/getFbDoc';
+import { useEffect } from 'react';
+import { fieldHostDocState } from 'data/bookFieldHostAtom';
 import { thisMonthState } from 'data/documentsAtom';
 import Subtitle from '../../atoms/Subtitle';
 import device from 'theme/mediaQueries';
@@ -10,8 +13,8 @@ import useHandleFieldHost from 'hooks/useHandleFieldHost';
 import Loading from 'components/atoms/Loading';
 
 const FieldScheduleBox = () => {
-  const thisMonthDoc = useRecoilValue(thisMonthState);
-  const { id } = thisMonthDoc;
+  const { id } = useRecoilValue(thisMonthState);
+  const setFieldHostDoc = useSetRecoilState(fieldHostDocState);
   const {
     isEditing,
     fieldHost,
@@ -20,6 +23,10 @@ const FieldScheduleBox = () => {
     onChange,
     onEditClick, //
   } = useHandleFieldHost();
+
+  useEffect(() => {
+    getDocument(BOOK_FIELD_HOST, `${thisYear}`, setFieldHostDoc);
+  }, [setFieldHostDoc]);
 
   return (
     <section>
@@ -71,7 +78,7 @@ const FieldScheduleBox = () => {
                 <Month>{`${item.month}월`}</Month>
                 <Info>
                   {item.host !== 'no_host' ? (
-                    <UsernameBox creatorId={item.host} />
+                    <UsernameBox creatorId={item.host || '발제자 없음'} />
                   ) : (
                     <></>
                   )}

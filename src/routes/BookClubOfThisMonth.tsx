@@ -1,17 +1,13 @@
 import { useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import {
-  bookFieldsState,
-  hostReviewState,
-  thisMonthState,
-} from 'data/documentsAtom';
+import { hostReviewState, thisMonthState } from 'data/documentsAtom';
 import {
   getFbRoute,
   CLUB_INFO,
   getMonthNm,
   thisYearMonthIso,
   thisYear,
-  BOOK_FIELD,
+  BOOK_FIELD_HOST,
   thisMonth,
 } from 'util/index';
 import { getCollection, getDocument } from 'api/getFbDoc';
@@ -23,16 +19,17 @@ import Guide from 'components/atoms/Guide';
 import CategorySection from 'components/template/CategorySection';
 import HostReviewArea from 'components/template/HostReviewArea';
 import UsernameBox from 'components/organisms/UsernameBox';
+import { fieldHostDocState } from 'data/bookFieldHostAtom';
 
 const BookClubOfThisMonth = () => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
   const { id, book } = thisMonthDoc;
-  const [bookFields, setBookFields] = useRecoilState(bookFieldsState);
+  const [bookFields, setBookFields] = useRecoilState(fieldHostDocState);
   const setHostReview = useSetRecoilState(hostReviewState);
   const checkThisMonthDoc = Object.keys(thisMonthDoc).length;
 
   useEffect(() => {
-    getDocument(BOOK_FIELD, `${thisYear}`, setBookFields);
+    getDocument(BOOK_FIELD_HOST, `${thisYear}`, setBookFields);
     getDocument(CLUB_INFO, `${thisYearMonthIso}`, setThisMonthDoc);
     getCollection(getFbRoute(thisYearMonthIso).HOST_REVIEW, setHostReview);
   }, [setThisMonthDoc, setHostReview, setBookFields]);
@@ -53,13 +50,11 @@ const BookClubOfThisMonth = () => {
         </MonthInfo>
         <Guide text='모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 작성이 불가능한 점 유의해주세요.' />
         <Subtitle title='발제자의 기록' />
-        {bookFields.bookField &&
-          bookFields?.bookField[thisMonth - 1].host !== 'no_host' && (
+        {bookFields.info &&
+          bookFields?.info[thisMonth - 1].host !== 'no_host' && (
             <HostInfo>
               <span>이달의 발제자: </span>
-              <UsernameBox
-                creatorId={bookFields?.bookField[thisMonth - 1].host}
-              />
+              <UsernameBox creatorId={bookFields?.info[thisMonth - 1].host} />
             </HostInfo>
           )}
         <HostReviewArea />

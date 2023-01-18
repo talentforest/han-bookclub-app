@@ -1,18 +1,8 @@
 import { useEffect } from 'react';
-import {
-  BOOK_FIELD,
-  CLUB_INFO,
-  thisMonth,
-  thisYear,
-  thisYearMonthIso,
-} from 'util/index';
+import { CLUB_INFO, thisMonth, thisYearMonthIso } from 'util/index';
 import { getCollection, getDocument } from 'api/getFbDoc';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import {
-  bookFieldsState,
-  thisMonthState,
-  votesState,
-} from 'data/documentsAtom';
+import { thisMonthState, votesState } from 'data/documentsAtom';
 import Subtitle from 'components/atoms/Subtitle';
 import BookImgTitle from 'components/atoms/BookImgTitle';
 import Loading from 'components/atoms/Loading';
@@ -25,14 +15,12 @@ import device from 'theme/mediaQueries';
 
 const Home = () => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
-  const setBookFields = useSetRecoilState(bookFieldsState);
   const setVotes = useSetRecoilState(votesState);
   const checkThisMonthDoc = Object.keys(thisMonthDoc).length;
   const { book, meeting } = thisMonthDoc;
 
   useEffect(() => {
     getDocument(CLUB_INFO, `${thisYearMonthIso}`, setThisMonthDoc);
-    getDocument(BOOK_FIELD, `${thisYear}`, setBookFields);
     getCollection('Vote', setVotes);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

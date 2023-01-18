@@ -1,27 +1,27 @@
 import { getCollection } from 'api/getFbDoc';
-import { bookFieldHostState } from 'data/bookFieldHostAtom';
-import { bookFieldsState } from 'data/documentsAtom';
+import { fieldHostState, fieldHostDocState } from 'data/bookFieldHostAtom';
 import { allUsersState } from 'data/userAtom';
 import { dbService } from 'fbase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { thisYear, USER_DATA } from 'util/index';
-import { BOOK_FIELD } from 'util/index';
+import { BOOK_FIELD_HOST } from 'util/index';
 import useAlertAskJoin from './useAlertAskJoin';
 
 const useHandleFieldHost = () => {
-  const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
-  const [fieldHost, setFieldHost] = useRecoilState(bookFieldHostState);
-  const [isEditing, setIsEditing] = useState(new Array(12).fill(false));
-  const bookFields = useRecoilValue(bookFieldsState);
+  const fieldHostDoc = useRecoilValue(fieldHostDocState);
+  const [fieldHost, setFieldHost] = useRecoilState(fieldHostState);
   const [userDocs, setUserDocs] = useRecoilState(allUsersState);
-  const fbDoc = doc(dbService, BOOK_FIELD, `${thisYear}`);
+  const [isEditing, setIsEditing] = useState(new Array(12).fill(false));
+
+  const fbDoc = doc(dbService, BOOK_FIELD_HOST, `${thisYear}`);
+  const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
 
   useEffect(() => {
     getCollection(USER_DATA, setUserDocs);
-    setFieldHost(bookFields.bookField);
-  }, [bookFields, setFieldHost, setUserDocs]);
+    setFieldHost(fieldHostDoc.info);
+  }, [setFieldHost, setUserDocs, fieldHostDoc]);
 
   const allMembers = [
     ...userDocs,
@@ -33,7 +33,7 @@ const useHandleFieldHost = () => {
     idx: number
   ) => {
     event.preventDefault();
-    await updateDoc(fbDoc, { bookField: fieldHost });
+    await updateDoc(fbDoc, { info: fieldHost });
     onEditClick(idx);
   };
 
