@@ -24,6 +24,7 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(doc.text);
   const { onDeleteClick } = useDeleteDoc({ docId: doc.id, collectionName });
+
   const { showingGuide, onEditedSubmit, onEditedChange } = useEditDoc({
     docId: doc.id,
     editedText,
@@ -179,7 +180,7 @@ const Header = styled.div`
   margin-bottom: 10px;
 `;
 export const HTMLContent = styled.div`
-  min-height: 30vh;
+  min-height: 20vh;
   max-height: 60vh;
   overflow: scroll;
   padding: 0;

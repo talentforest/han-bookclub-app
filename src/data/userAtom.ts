@@ -11,6 +11,18 @@ export interface IUserData {
   photoURL: string;
 }
 
+export interface IUserRecord {
+  docId: string;
+  monthId: string;
+}
+
+export interface IUserRecords {
+  hostReviews: IUserRecord[];
+  subjects: IUserRecord[];
+  reviews: IUserRecord[];
+  recommendedBooks: IUserRecord[];
+}
+
 export interface IExtraUserData {
   name: string;
   favoriteBookField: BookFieldType[];
@@ -18,6 +30,7 @@ export interface IExtraUserData {
   displayName: string;
   photoUrl: string;
   id?: string;
+  userRecords: IUserRecords;
 }
 
 const auth = getAuth();
@@ -30,6 +43,11 @@ export const refreshUserState = atom({
       setSelf(authService.currentUser);
     },
   ],
+});
+
+export const allUsersState = atom<IExtraUserData[]>({
+  key: `allUsers/${v4}`,
+  default: [],
 });
 
 export const currentUserState = atom<IUserData | null>({
@@ -60,7 +78,7 @@ export const currentUserState = atom<IUserData | null>({
   ],
 });
 
-export const usersState = atom<IExtraUserData[]>({
-  key: `users/${v4}`,
-  default: [],
+export const userExtraInfoState = atom<IExtraUserData>({
+  key: `userExtraInfo/${v4}`,
+  default: {} as IExtraUserData,
 });

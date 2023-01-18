@@ -32,7 +32,6 @@ const HostReviewCreateModal = () => {
   };
 
   const { onAddDocSubmit } = useAddDoc({
-    text,
     setText,
     collectionName,
     docData,

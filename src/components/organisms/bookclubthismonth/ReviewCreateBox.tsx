@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IBookApi } from 'data/bookAtom';
-import { useRecoilValue } from 'recoil';
-import { currentUserState } from 'data/userAtom';
-import { getFbRoute } from 'util/index';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { currentUserState, userExtraInfoState } from 'data/userAtom';
+import { getDocument } from 'api/getFbDoc';
+import { getFbRoute, USER_DATA } from 'util/index';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import styled from 'styled-components';
 import PostBtn from 'components/atoms/buttons/PostBtn';
-
 interface PropsType {
   bookInfo: IBookApi;
   docMonth: string;
@@ -14,8 +14,16 @@ interface PropsType {
 
 const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
   const [text, setText] = useState('');
+  const setUserExtraData = useSetRecoilState(userExtraInfoState);
   const collectionName = getFbRoute(docMonth).REVIEW;
   const userData = useRecoilValue(currentUserState);
+
+  useEffect(() => {
+    if (userData.uid) {
+      getDocument(USER_DATA, userData.uid, setUserExtraData);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData.uid]);
 
   const docData = {
     text,
@@ -26,7 +34,6 @@ const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
   };
 
   const { onAddDocSubmit, onChange } = useAddDoc({
-    text,
     setText,
     collectionName,
     docData,

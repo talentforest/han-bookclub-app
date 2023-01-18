@@ -34,7 +34,6 @@ const RecommendCreateBox = () => {
   };
 
   const { onAddDocSubmit, onChange } = useAddDoc({
-    text,
     setText,
     collectionName,
     docData,

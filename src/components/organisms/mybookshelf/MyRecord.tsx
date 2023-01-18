@@ -1,86 +1,82 @@
-import { useRecoilValue } from 'recoil';
-import { currentUserState } from 'data/userAtom';
-import { cutLetter, getLocalDate } from 'util/index';
-import { Book, Chat, LibraryBooks } from '@mui/icons-material';
-import { IBookClubMonthInfo } from 'data/documentsAtom';
-import { RegisterTime } from '../RecordBox';
+import { IUserRecord } from 'data/userAtom';
+import { cutLetter, getFbRoute, getLocalDate } from 'util/index';
+import { Book, Chat } from '@mui/icons-material';
+import { IDocument } from 'data/documentsAtom';
+import { useEffect, useState } from 'react';
+import { getDocument } from 'api/getFbDoc';
 import { Modal } from '../bookclubthismonth/SubjectCreateModal';
+import { HTMLContent } from '../RecordBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import useFilterMyRecords from 'hooks/useFilterMyRecords';
 import Overlay from 'components/atoms/Overlay';
 import UsernameBox from '../UsernameBox';
 
 interface PropsType {
-  bookMeeting: IBookClubMonthInfo;
+  recordId: IUserRecord;
+  review?: boolean;
 }
 
-const MyRecord = ({ bookMeeting }: PropsType) => {
-  const userData = useRecoilValue(currentUserState);
-  const { id, book } = bookMeeting;
-  const {
-    mySubjects,
-    myReviews,
-    mySubjectsByBook,
-    myReviewsByBook,
-    openModal,
-    setOpenModal,
-    onSubjectClick,
-    onReviewClick,
-  } = useFilterMyRecords(id, userData.uid);
+const MyRecord = ({ recordId, review }: PropsType) => {
+  const [record, setRecord] = useState({} as IDocument);
+  const { docId, monthId } = recordId;
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleModal = () => {
+    setOpenModal((prev) => !prev);
+  };
+
+  const getRecord = review
+    ? getFbRoute(monthId).REVIEW
+    : getFbRoute(monthId).SUBJECT;
+
+  useEffect(() => {
+    getDocument(getRecord, docId, setRecord);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [docId, monthId]);
 
   return (
-    (mySubjects.length || myReviews.length) !== 0 && (
-      <>
-        <Record>
-          {book.thumbnail ? (
-            <BookImg src={book.thumbnail} alt={`${book.title} thumbnail`} />
-          ) : (
-            <Book />
-          )}
-          <BookTitle>
-            {book.title ? cutLetter(book.title, 5) : '이벤트'}
-          </BookTitle>
-          <Category>
-            {!!myReviews.length && (
-              <button onClick={() => onReviewClick(book.title)}>
-                <Chat />
-              </button>
-            )}
-            {!!mySubjects.length && (
-              <button onClick={() => onSubjectClick(book.title)}>
-                <LibraryBooks />
-              </button>
-            )}
-          </Category>
-        </Record>
-        {openModal && (
-          <>
-            <Overlay
-              onModalClick={() => {
-                setOpenModal((prev) => !prev);
-              }}
-            />
-            <MyRecordModal>
-              {mySubjectsByBook?.map((subject) => (
-                <Box key={id}>
-                  <UsernameBox creatorId={subject.creatorId} />
-                  <div dangerouslySetInnerHTML={{ __html: subject.text }} />
-                  <RegisterTime>{getLocalDate(subject.createdAt)}</RegisterTime>
-                </Box>
-              ))}
-              {myReviewsByBook?.map((review) => (
-                <Box key={id}>
-                  <UsernameBox creatorId={review.creatorId} />
-                  <div dangerouslySetInnerHTML={{ __html: review.text }} />
-                  <RegisterTime>{getLocalDate(review.createdAt)}</RegisterTime>
-                </Box>
-              ))}
-            </MyRecordModal>
-          </>
+    <>
+      <Record>
+        {record.thumbnail ? (
+          <BookImg src={record.thumbnail} alt={`${record.title} thumbnail`} />
+        ) : (
+          <Book />
         )}
-      </>
-    )
+        <BookTitle>
+          {record.title ? cutLetter(record.title, 5) : '이벤트'}
+        </BookTitle>
+        <Btn onClick={handleModal}>
+          <Chat />
+        </Btn>
+      </Record>
+      {openModal && (
+        <>
+          <Overlay onModalClick={handleModal} />
+          <MyRecordModal>
+            <Box>
+              <UsernameBox creatorId={record.creatorId} />
+              <HTMLContent
+                dangerouslySetInnerHTML={{
+                  __html: cutLetter(record.text, 200),
+                }}
+              />
+              <BoxFooter>
+                <ClubBookInfo>
+                  {record.thumbnail && (
+                    <img
+                      src={record.thumbnail}
+                      alt={`${record.title} thumbnail`}
+                    />
+                  )}
+                  {record.title && <span>{record.title}</span>}
+                </ClubBookInfo>
+                <span>{getLocalDate(record.createdAt)}</span>
+              </BoxFooter>
+            </Box>
+          </MyRecordModal>
+        </>
+      )}
+    </>
   );
 };
 
@@ -130,22 +126,14 @@ export const BookTitle = styled.h1`
     font-size: 16px;
   }
 `;
-export const Category = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  width: 100%;
-  padding: 0;
-  > button {
-    height: 14px;
-    > svg {
-      width: 16px;
-      height: 16px;
-      fill: ${(props) => props.theme.text.gray};
-      &:hover {
-        fill: ${(props) => props.theme.container.yellow};
-      }
+export const Btn = styled.button`
+  height: 14px;
+  > svg {
+    width: 16px;
+    height: 16px;
+    fill: ${(props) => props.theme.text.gray};
+    &:hover {
+      fill: ${(props) => props.theme.container.yellow};
     }
   }
   @media ${device.tablet} {
@@ -157,7 +145,7 @@ export const MyRecordModal = styled(Modal)`
   padding: 0;
   background-color: transparent;
 `;
-export const Box = styled.div`
+export const Box = styled.article`
   width: 100%;
   background-color: ${(props) => props.theme.container.default};
   display: flex;
@@ -168,6 +156,25 @@ export const Box = styled.div`
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   @media ${device.tablet} {
     padding: 20px;
+  }
+`;
+export const BoxFooter = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+  font-size: 14px;
+`;
+export const ClubBookInfo = styled.div`
+  display: flex;
+  align-items: center;
+  img {
+    height: 18px;
+    width: auto;
+    margin-right: 5px;
+  }
+  span {
+    color: ${(props) => props.theme.text.gray};
   }
 `;
 

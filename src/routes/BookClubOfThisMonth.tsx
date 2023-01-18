@@ -26,10 +26,10 @@ import UsernameBox from 'components/organisms/UsernameBox';
 
 const BookClubOfThisMonth = () => {
   const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
+  const { id, book } = thisMonthDoc;
   const [bookFields, setBookFields] = useRecoilState(bookFieldsState);
   const setHostReview = useSetRecoilState(hostReviewState);
   const checkThisMonthDoc = Object.keys(thisMonthDoc).length;
-  const { id, book } = thisMonthDoc;
 
   useEffect(() => {
     getDocument(BOOK_FIELD, `${thisYear}`, setBookFields);

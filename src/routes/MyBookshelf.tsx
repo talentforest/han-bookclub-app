@@ -1,18 +1,19 @@
 import { useRecoilValue } from 'recoil';
-import { currentUserState } from 'data/userAtom';
+import { currentUserState, userExtraInfoState } from 'data/userAtom';
 import { AccountCircle } from '@mui/icons-material';
 import { authService } from 'fbase';
-import { clubDocsState, IDocument } from 'data/documentsAtom';
+import { IDocument } from 'data/documentsAtom';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { CLUB_INFO } from 'util/index';
-import { getCollection } from 'api/getFbDoc';
+import { USER_DATA } from 'util/index';
 import { ImgBox, ProfileImg } from 'components/atoms/ProfileImage';
+import { getDocument } from 'api/getFbDoc';
 import Subtitle from 'components/atoms/Subtitle';
 import MyRecommendBook from 'components/organisms/mybookshelf/MyRecommendBook';
 import MyRecord from 'components/organisms/mybookshelf/MyRecord';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
+import Loading from 'components/atoms/Loading';
 
 export interface IRecord {
   title: string;
@@ -21,15 +22,19 @@ export interface IRecord {
 }
 
 const MyBookshelf = () => {
-  const [bookMeetings, setBookMeetings] = useRecoilState(clubDocsState);
   const userData = useRecoilValue(currentUserState);
+  const [userExtraData, setUserExtraData] = useRecoilState(userExtraInfoState);
   const anonymous = authService.currentUser?.isAnonymous;
+  const existUserExtraData = Object.keys(userExtraData).length;
 
   useEffect(() => {
-    getCollection(CLUB_INFO, setBookMeetings);
-  }, [setBookMeetings]);
+    if (userData.uid && !existUserExtraData) {
+      getDocument(USER_DATA, userData.uid, setUserExtraData);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData.uid]);
 
-  return (
+  return userExtraData?.userRecords ? (
     <main>
       <ProfileBox>
         {userData?.photoURL ? (
@@ -40,27 +45,68 @@ const MyBookshelf = () => {
         <span>{anonymous ? '익명의 방문자' : userData?.displayName}</span>
       </ProfileBox>
       <Section>
-        <Subtitle title='나의 기록' />
-        <span>내가 작성한 발제문과 모임 후기를 볼 수 있어요.</span>
+        <Subtitle title='나의 발제문' />
+        <span>내가 작성한 발제문을 볼 수 있어요.</span>
         <RecordList>
-          {bookMeetings.map((bookMeeting) => (
-            <MyRecord key={bookMeeting.id} bookMeeting={bookMeeting} />
-          ))}
+          {userExtraData.userRecords.subjects.length ? (
+            userExtraData.userRecords?.subjects.map((subjectId) => (
+              <MyRecord key={subjectId.docId} recordId={subjectId} />
+            ))
+          ) : (
+            <EmptyBox>아직 작성한 발제문이 없어요.</EmptyBox>
+          )}
+        </RecordList>
+      </Section>
+      <Section>
+        <Subtitle title='나의 모임 후기' />
+        <span>내가 작성한 모임 후기를 볼 수 있어요.</span>
+        <RecordList>
+          {userExtraData.userRecords.reviews.length ? (
+            userExtraData.userRecords.reviews.map((reviewId) => (
+              <MyRecord key={reviewId.docId} recordId={reviewId} review />
+            ))
+          ) : (
+            <EmptyBox>아직 작성한 발제문이 없어요.</EmptyBox>
+          )}
         </RecordList>
       </Section>
       <Section>
         <Subtitle title='내가 추천한 책' />
         <span>내가 추천한 책을 볼 수 있어요.</span>
         <RecordList>
-          {bookMeetings.map((bookMeeting) => (
-            <MyRecommendBook key={bookMeeting.id} bookMeeting={bookMeeting} />
-          ))}
+          {userExtraData.userRecords.recommendedBooks.length ? (
+            userExtraData.userRecords.recommendedBooks?.map(
+              (recommendedBookId) => (
+                <MyRecommendBook
+                  key={recommendedBookId.docId}
+                  recommendedBookId={recommendedBookId}
+                />
+              )
+            )
+          ) : (
+            <EmptyBox>아직 작성한 발제문이 없어요.</EmptyBox>
+          )}
         </RecordList>
       </Section>
     </main>
+  ) : (
+    <Loading full />
   );
 };
 
+const EmptyBox = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  text-align: center;
+  color: ${(props) => props.theme.text.lightBlue};
+  background-color: ${(props) => props.theme.container.default};
+  width: 100%;
+  height: 120px;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+`;
 const Section = styled.section`
   width: 100%;
   display: flex;

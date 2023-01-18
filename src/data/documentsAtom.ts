@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import { atom, selectorFamily } from 'recoil';
 import { v4 } from 'uuid';
 import { IBookApi } from './bookAtom';
 import { IBookFieldHost } from './bookFieldHostAtom';
@@ -78,8 +78,17 @@ export const bookFieldsState = atom<IBookField>({
 });
 
 export const votesState = atom<IVote[]>({
-  key: `voteDocs/${v4()}`,
+  key: 'voteDocs',
   default: [],
+});
+
+export const currentVoteState = selectorFamily({
+  key: `currentVoteDocs`,
+  get:
+    (voteId) =>
+    ({ get }) => {
+      return get(votesState).find((item) => item.voteId === voteId);
+    },
 });
 
 export const subjectsState = atom<IDocument[]>({

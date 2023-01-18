@@ -34,7 +34,6 @@ const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
   };
 
   const { onAddDocSubmit } = useAddDoc({
-    text,
     setText,
     collectionName,
     docData,
