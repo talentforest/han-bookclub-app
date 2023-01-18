@@ -1,132 +1,97 @@
 import { authService, dbService } from 'fbase';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { getCollection } from 'api/getFbDoc';
-import { IVote, IVoteItem } from 'data/voteItemAtom';
+import { getCollection, getDocument } from 'api/getFbDoc';
+import { IVote } from 'data/voteItemAtom';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
+import { VOTE } from 'util/index';
 
-const useHandleVoting = (voteDetail: IVote) => {
-  const [voteDisabled, setVoteDisabled] = useState(false);
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [voteItems, setVoteItems] = useState(voteDetail?.vote.voteItem);
-  const [personalVote, setPersonalVote] = useState([]);
-  const userData = useRecoilValue(currentUserState);
+const useHandleVoting = (voteDocId: string) => {
+  const { uid } = useRecoilValue(currentUserState);
+  const [currentVote, setCurrentVote] = useState({} as IVote);
+  const [selectedVoteItems, setSelectedVoteItems] = useState([]);
+  const [votingMember, setVotingMember] = useState([]);
+
+  const memberVoteRef = `Vote/${voteDocId}/Voted Items`;
+  const personalVoteRef = doc(dbService, memberVoteRef, `${uid}`);
+  const currentVoteRef = doc(dbService, 'Vote', `${voteDocId}`);
   const anonymous = authService.currentUser?.isAnonymous;
 
-  const voteItemsRef = `Vote/${voteDetail.id}/Voted Items`;
-  const personalVoteRef = doc(dbService, voteItemsRef, `${userData.uid}`);
-  const personalVoteData = {
-    createdAt: Date.now(),
-    creatorId: userData.uid,
-    voteId: voteDetail?.id,
-    voteTitle: voteDetail?.vote.title,
-    voteDeadline: voteDetail.deadline,
-    votedItem: selectedItems,
-  };
-  const allVotesRef = doc(dbService, 'Vote', `${voteDetail.id}`);
-  const updateAllVotesData = {
-    'vote.voteItem': voteItems,
-  };
-
   useEffect(() => {
-    getCollection(voteItemsRef, setPersonalVote);
-  }, [setPersonalVote, voteItemsRef]);
+    getCollection(`Vote/${voteDocId}/Voted Items`, setVotingMember);
+    getDocument(VOTE, `${voteDocId}`, setCurrentVote);
+  }, [setVotingMember, voteDocId, setCurrentVote, memberVoteRef]);
 
-  // 투표하기 기능
   const onVotingSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      if (anonymous || selectedItems.length === 0) return;
-      await setDoc(personalVoteRef, personalVoteData);
-      await updateDoc(allVotesRef, updateAllVotesData);
+      if (anonymous) return alert('한페이지 멤버만 투표가 가능합니다.');
+      await setDoc(personalVoteRef, {
+        createdAt: Date.now(),
+        votedItem: selectedVoteItems,
+      });
+      await updateDoc(currentVoteRef, {
+        'vote.voteItem': currentVote.vote.voteItem,
+      });
       window.alert('투표가 완료되었습니다!');
-      setVoteDisabled(true);
     } catch (error) {
       console.error(error);
     }
   };
 
-  // 투표아이템 선택하기
-  const onVoteItemClick = (
-    itemId: number,
-    value: string,
-    voteCount: number
-  ) => {
-    selectVoteItem(itemId, value);
-    updateVoteCount(itemId, voteCount);
-  };
+  const selectedItem = (id: number) =>
+    selectedVoteItems.find((voteItem) => voteItem.id === id);
 
-  function selectVoteItem(id: number, value: string) {
-    setSelectedItems([...selectedItems, { id, item: value }]);
-    if (selectedItems.find((item) => item.id === id)) {
-      setSelectedItems(selectedItems.filter((vote) => vote.id !== id));
+  const onVoteItemClick = (id: number) => {
+    // 클릭 해제
+    if (selectedItem(id)) {
+      setSelectedVoteItems(
+        selectedVoteItems.filter((voteItem) => voteItem.id !== id)
+      );
+      handleVoteCount(id, 'minus');
+    } else {
+      setSelectedVoteItems([...selectedVoteItems, { id }]);
+      handleVoteCount(id, 'plus');
     }
-  }
-
-  function updateVoteCount(id: number, voteCount: number) {
-    setVoteItems(
-      voteItems.map((voteItem) =>
-        voteItem.id === id ? checkIfSelectItem(voteItem, voteCount) : voteItem
-      )
-    );
-  }
-
-  function checkIfSelectItem(voteItem: IVoteItem, voteCount: number) {
-    return selectedItems.find((selectItem) => selectItem.id === voteItem.id)
-      ? { ...voteItem, voteCount }
-      : { ...voteItem, voteCount: voteCount + 1 };
-  }
-
-  // 재투표하기 기능
-  const myVote = personalVote.filter((item) => item.id === userData.uid);
-  const othersVote = personalVote.filter((item) => item.id !== userData.uid);
-
-  const onRevoteClick = () => {
-    setPersonalVote(othersVote);
-    setVoteDisabled(false);
-    setSelectedItems([]);
-    voteDetail.vote.voteItem = allVotesExceptMine();
-    setVoteItems(allVotesExceptMine());
   };
 
-  function allVotesExceptMine() {
-    return voteItems.map((item) =>
-      myVote[0].votedItem.some((vote: IVoteItem) => vote.id === item.id)
-        ? { ...item, voteCount: item.voteCount - 1 }
-        : item
+  const handleVoteCount = (id: number, operator: string) => {
+    const voteItems = currentVote.vote.voteItem;
+    const newVoteCount = voteItems.map((voteItem) =>
+      voteItem.id === id
+        ? {
+            ...voteItem,
+            voteCount:
+              operator === 'plus'
+                ? voteItem.voteCount + 1
+                : voteItem.voteCount - 1,
+          }
+        : voteItem
     );
-  }
+    setCurrentVote({
+      ...currentVote,
+      vote: {
+        ...currentVote.vote,
+        voteItem: newVoteCount,
+      },
+    });
+  };
 
-  // 총 투표수
-  const totalVoteCount = voteItems
-    .map((item) => item.voteCount)
-    .reduce((prev, curr) => prev + curr);
-
-  function mySelectingItem(item: IVoteItem) {
-    return selectedItems.find((ele) => ele.id === item.id);
-  }
-
-  function mySelectedItem(item: IVoteItem) {
-    return myVote[0].votedItem.find((ele: IVoteItem) => ele.id === item.id);
-  }
-
-  function existVoteCount(itemId: number) {
-    return voteItems[itemId - 1].voteCount;
-  }
+  const mySubmittedVote = votingMember.filter((member) => member.id === uid);
+  const mySubmittedVoteItems = (id: number) =>
+    mySubmittedVote[0]?.votedItem?.find(
+      (voteItem: { id: number }) => voteItem.id === id
+    );
 
   return {
-    voteDisabled,
-    voteItems,
-    totalVoteCount,
-    myVote,
-    onRevoteClick,
-    mySelectingItem,
-    mySelectedItem,
-    existVoteCount,
-    personalVote,
+    currentVote,
+    votingMember,
+    selectedItem,
     onVotingSubmit,
     onVoteItemClick,
+    mySubmittedVote,
+    mySubmittedVoteItems,
   };
 };
 

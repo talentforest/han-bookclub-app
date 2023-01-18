@@ -7,7 +7,7 @@ import { getCollection } from 'api/getFbDoc';
 import VoteBox from 'components/organisms/vote/VoteBox';
 import VoteCreateBox from 'components/organisms/vote/VoteCreateBox';
 import Subtitle from 'components/atoms/Subtitle';
-import ExpiredVote from 'components/organisms/vote/ExpiredVote';
+import ExpiredVoteBox from 'components/organisms/vote/ExpiredVoteBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import Overlay from 'components/atoms/Overlay';
@@ -16,6 +16,7 @@ import Loading from 'components/atoms/Loading';
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [votes, setVotes] = useRecoilState(votesState);
+
   const progressVotes = votes.filter(
     (item) => item.deadline >= isoFormatDate(krCurTime)
   );
@@ -59,7 +60,7 @@ const Vote = () => {
       <VoteList>
         {expiredVote?.length ? (
           expiredVote.map((voteDetail) => (
-            <ExpiredVote key={voteDetail.id} voteDetail={voteDetail} />
+            <ExpiredVoteBox key={voteDetail.id} voteDetail={voteDetail} />
           ))
         ) : (
           <EmptyBox>아직 만료된 투표가 없습니다.</EmptyBox>

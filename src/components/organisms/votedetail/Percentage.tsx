@@ -1,24 +1,33 @@
 import { IVoteItem } from 'data/voteItemAtom';
+import { percentage } from 'util/index';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import { percentage } from 'util/index';
 
 interface PropsType {
   voteItems: IVoteItem[];
-  item: IVoteItem;
-  totalVoteCount: number;
+  voteItemId: number;
 }
 
-const Percentage = ({ voteItems, item, totalVoteCount }: PropsType) => {
-  const existVoteCount: number = voteItems[item.id - 1].voteCount;
+const Percentage = ({ voteItems, voteItemId }: PropsType) => {
+  // 총 투표수
+  const totalVoteCount = voteItems
+    ?.map((item) => item.voteCount)
+    .reduce((prev, curr) => prev + curr);
+
+  const existVoteCount = () => {
+    if (voteItems) {
+      return voteItems[voteItemId - 1].voteCount;
+    }
+  };
 
   return (
     <Container
       $gauge={
-        existVoteCount && `${percentage(existVoteCount, totalVoteCount)}%`
+        existVoteCount() && `${percentage(existVoteCount(), totalVoteCount)}%`
       }
     >
-      {existVoteCount !== 0 && `${percentage(existVoteCount, totalVoteCount)}%`}
+      {existVoteCount() !== 0 &&
+        `${percentage(existVoteCount(), totalVoteCount)}%`}
     </Container>
   );
 };

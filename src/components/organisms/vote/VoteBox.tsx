@@ -16,10 +16,12 @@ interface PropsType {
 
 const VoteBox = ({ voteDetail }: PropsType) => {
   const {
+    id,
     vote: { title, voteItem },
     deadline,
     voteId,
   } = voteDetail;
+
   return (
     <Vote>
       <Title>
@@ -36,7 +38,7 @@ const VoteBox = ({ voteDetail }: PropsType) => {
       </ItemList>
       <Bottom>
         <p>D-Day: {getDDay(deadline)}</p>
-        <Link to={`/vote/${voteId}`} state={{ voteDetail }}>
+        <Link to={`/vote/${voteId}`} state={{ voteDocId: id }}>
           투표하러 가기
           <ArrowForwardIosOutlined />
         </Link>

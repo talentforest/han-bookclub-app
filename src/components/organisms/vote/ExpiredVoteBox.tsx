@@ -9,15 +9,16 @@ interface PropsType {
   voteDetail: IVote;
 }
 
-const ExpiredVote = ({ voteDetail }: PropsType) => {
+const ExpiredVoteBox = ({ voteDetail }: PropsType) => {
   const {
+    id,
     voteId,
     vote: { title },
     deadline,
   } = voteDetail;
 
   return (
-    <Vote to={`/vote/${voteId}`} state={{ voteDetail }}>
+    <Vote to={`/vote/${voteId}`} state={{ voteDocId: id }}>
       <Info>
         <h4>
           <Help />
@@ -104,4 +105,4 @@ const ShowButton = styled.div`
   }
 `;
 
-export default ExpiredVote;
+export default ExpiredVoteBox;

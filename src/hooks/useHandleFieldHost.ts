@@ -21,8 +21,7 @@ const useHandleFieldHost = () => {
   useEffect(() => {
     getCollection(USER_DATA, setUserDocs);
     setFieldHost(bookFields.bookField);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookFields]);
+  }, [bookFields, setFieldHost, setUserDocs]);
 
   const allMembers = [
     ...userDocs,

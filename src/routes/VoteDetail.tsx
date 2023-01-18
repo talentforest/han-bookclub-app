@@ -1,7 +1,6 @@
-import { CheckCircleOutline, Replay } from '@mui/icons-material';
-import { useLocation } from 'react-router-dom';
+import { CheckCircleOutline } from '@mui/icons-material';
 import { krCurTime, isoFormatDate } from 'util/index';
-import { IVote } from 'data/voteItemAtom';
+import { useLocation } from 'react-router-dom';
 import UsernameBox from 'components/organisms/UsernameBox';
 import useHandleVoting from 'hooks/useHandleVoting';
 import device from 'theme/mediaQueries';
@@ -10,102 +9,88 @@ import FormDetails from 'components/organisms/votedetail/FormDetails';
 import Percentage from 'components/organisms/votedetail/Percentage';
 import ShareButton from 'components/atoms/buttons/ShareBtn';
 import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
-import HandleBtn from 'components/atoms/buttons/HandleBtn';
 import Subtitle from 'components/atoms/Subtitle';
 
-type LocationState = { state: { voteDetail: IVote } };
+type LocationState = { state: { voteDocId: string } };
 
 const VoteDetail = () => {
   const {
-    state: { voteDetail },
+    state: { voteDocId },
   } = useLocation() as LocationState;
   const {
-    voteDisabled,
-    voteItems,
-    totalVoteCount,
-    myVote,
-    personalVote,
-    onRevoteClick,
-    mySelectingItem,
-    mySelectedItem,
-    existVoteCount,
+    currentVote,
+    votingMember,
+    selectedItem,
     onVotingSubmit,
     onVoteItemClick,
-  } = useHandleVoting(voteDetail);
-  const expiredVote = voteDetail.deadline < isoFormatDate(krCurTime);
+    mySubmittedVote,
+    mySubmittedVoteItems,
+  } = useHandleVoting(voteDocId);
+  const expiredVote = currentVote?.deadline < isoFormatDate(krCurTime);
 
   return (
-    <main>
-      {!myVote.length ? (
+    currentVote?.vote?.voteItem && (
+      <main>
         <Form onSubmit={onVotingSubmit}>
-          <FormDetails voteDetail={voteDetail} />
-          <Votelist $disabled={voteDisabled || expiredVote}>
-            {voteDetail.vote.voteItem.map((item) => (
-              <VoteItem
-                key={item.id}
-                onClick={() =>
-                  onVoteItemClick(item.id, item.item, item.voteCount)
-                }
-                $selected={!!mySelectingItem(item)}
-              >
-                <CheckCircleOutline />
-                <ItemText $shrinkWidth={!!existVoteCount(item.id)}>
-                  {item.item}
-                </ItemText>
-                <Percentage
-                  voteItems={voteItems}
-                  item={item}
-                  totalVoteCount={totalVoteCount}
-                />
-              </VoteItem>
-            ))}
-          </Votelist>
-          <SubmitBtn
-            children='투표하기'
-            // disabled={voteDisabled || expiredVote}
+          <FormDetails voteDetail={currentVote} />
+          {expiredVote || mySubmittedVote.length ? (
+            <>
+              <Votelist $disabled>
+                {currentVote.vote.voteItem.map((voteItem) => (
+                  <VoteItem
+                    key={voteItem.id}
+                    $selected={!!mySubmittedVoteItems(voteItem.id)}
+                  >
+                    <CheckCircleOutline />
+                    <ItemText>{voteItem.item}</ItemText>
+                    <Percentage
+                      voteItems={currentVote.vote.voteItem}
+                      voteItemId={voteItem.id}
+                    />
+                  </VoteItem>
+                ))}
+              </Votelist>
+              <SubmitBtn children='투표 완료' disabled={true} />
+            </>
+          ) : (
+            <>
+              <Votelist>
+                {currentVote?.vote?.voteItem.map((voteItem) => (
+                  <VoteItem
+                    key={voteItem.id}
+                    onClick={() => onVoteItemClick(voteItem.id)}
+                    $selected={!!selectedItem(voteItem.id)}
+                  >
+                    <CheckCircleOutline />
+                    <ItemText>{voteItem.item}</ItemText>
+                    <Percentage
+                      voteItems={currentVote.vote.voteItem}
+                      voteItemId={voteItem.id}
+                    />
+                  </VoteItem>
+                ))}
+              </Votelist>
+              <SubmitBtn children='투표하기' />
+            </>
+          )}
+        </Form>
+        <InfoBox>
+          <ShareButton
+            title='✨새로운 투표가 등록되었어요!'
+            description='투표하러 가볼까요? 👀'
+            path='vote'
           />
-        </Form>
-      ) : (
-        <Form>
-          <FormDetails voteDetail={voteDetail} />
-          <Votelist $disabled>
-            {voteDetail.vote.voteItem.map((item) => (
-              <VoteItem key={item.id} $selected={!!mySelectedItem(item)}>
-                <CheckCircleOutline />
-                <ItemText $shrinkWidth={!!existVoteCount(item.id)}>
-                  {item.item}
-                </ItemText>
-                <Percentage
-                  voteItems={voteItems}
-                  item={item}
-                  totalVoteCount={totalVoteCount}
-                />
-              </VoteItem>
+          <Subtitle title={`투표인원: ${votingMember.length}명`} />
+          <VoteMember>
+            {votingMember.map((member) => (
+              <li key={member.id}>
+                <UsernameBox creatorId={member.id} key={member.id} />
+              </li>
             ))}
-          </Votelist>
-          <SubmitBtn children='투표하기' disabled={true} />
-          <HandleBtn handleClick={onRevoteClick} disabled={expiredVote}>
-            다시 투표하기 <Replay />
-          </HandleBtn>
-        </Form>
-      )}
-
-      <InfoBox>
-        <ShareButton
-          title='✨새로운 투표가 등록되었어요!'
-          description='투표하러 가볼까요? 👀'
-          path='vote'
-        />
-        <Subtitle title={`투표인원: ${personalVote.length}명`} />
-        <VoteMember>
-          {personalVote.map((member) => (
-            <li key={member.id}>
-              <UsernameBox creatorId={member.id} key={member.id} />
-            </li>
-          ))}
-        </VoteMember>
-      </InfoBox>
-    </main>
+          </VoteMember>
+        </InfoBox>
+      </main>
+    )
   );
 };
 
@@ -115,7 +100,7 @@ const Form = styled.form`
     margin-bottom: 5px;
   }
 `;
-const Votelist = styled.ul<{ $disabled: boolean }>`
+const Votelist = styled.ul<{ $disabled?: boolean }>`
   position: relative;
   margin-bottom: 10px;
   pointer-events: ${(props) => (props.$disabled ? 'none' : 'all')};
@@ -159,12 +144,12 @@ const VoteItem = styled.li<{ $selected: boolean }>`
     }
   }
 `;
-const ItemText = styled.span<{ $shrinkWidth: boolean }>`
+const ItemText = styled.span`
   z-index: 1;
-  width: ${(props) => (props.$shrinkWidth ? '75%' : '100%')};
+  width: 75%;
   @media ${device.tablet} {
     font-size: 18px;
-    width: ${(props) => (props.$shrinkWidth ? '85%' : '100%')};
+    width: 85%;
   }
 `;
 const InfoBox = styled.div`

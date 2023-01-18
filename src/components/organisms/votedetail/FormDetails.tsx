@@ -61,7 +61,7 @@ const FormDetails = ({ voteDetail }: PropsType) => {
           ))}
         </Reasons>
       )}
-      <Guide text='각 퍼센티지는 현재 득표율이며, 중복 투표도 가능해요!' />
+      <Guide text='중복 투표가 가능합니다.' />
     </>
   );
 };
@@ -89,7 +89,7 @@ const VoteInfo = styled.div`
     font-size: 14px;
     padding-right: 5px;
   }
-  svg {
+  > svg {
     cursor: pointer;
     position: absolute;
     right: 0;

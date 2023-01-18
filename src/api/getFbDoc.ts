@@ -5,7 +5,6 @@ import {
   onSnapshot,
   orderBy,
   query,
-  where,
 } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { USER_DATA } from '../util/index';
@@ -21,26 +20,6 @@ export function getDocument<T>(
       setState({ id: doc.id, ...doc.data() } as unknown as T);
     }
   );
-  unsubscribe(listener);
-}
-
-export function getUserDocs<T>(
-  collectionName: string,
-  uid: string,
-  setState: (doc: T) => void
-) {
-  const q = query(
-    collection(dbService, `${collectionName}`),
-    where('creatorId', '==', `${uid}`)
-  );
-  const listener = onSnapshot(q, (querySnapshot) => {
-    const userDocs: any = [];
-    querySnapshot.forEach((doc) => {
-      userDocs.push(doc.data());
-    });
-    setState(userDocs);
-  });
-
   unsubscribe(listener);
 }
 
