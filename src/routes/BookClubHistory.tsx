@@ -53,13 +53,12 @@ const BookClubHistory = () => {
 
 const HistoryList = styled.ul`
   margin-top: 10px;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 15px;
   width: 100%;
   @media ${device.tablet} {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
   }
 `;
