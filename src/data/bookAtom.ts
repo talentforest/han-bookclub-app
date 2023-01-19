@@ -13,13 +13,13 @@ export interface IBookApi {
   price: number;
   thumbnail: string;
 }
-export interface IRecommendBook {
+export interface IRecommendedBook {
   thumbnail: string;
   title: string;
   authors: string[];
   url: string;
 }
-export const recommendBookState = atom<IRecommendBook>({
+export const recommendBookState = atom<IRecommendedBook>({
   key: `recommendBook${v4()}`,
   default: {
     thumbnail: '',

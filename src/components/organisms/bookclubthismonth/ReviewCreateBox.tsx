@@ -15,7 +15,7 @@ interface PropsType {
 const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
   const [text, setText] = useState('');
   const setUserExtraData = useSetRecoilState(userExtraInfoState);
-  const collectionName = getFbRoute(docMonth).REVIEW;
+  const collectionName = getFbRoute(docMonth).REVIEWS;
   const userData = useRecoilValue(currentUserState);
 
   useEffect(() => {

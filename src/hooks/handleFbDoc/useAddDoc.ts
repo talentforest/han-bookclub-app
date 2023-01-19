@@ -54,17 +54,17 @@ const useAddDoc = ({ setText, collectionName, docData }: PropsType) => {
     const { reviews, subjects, recommendedBooks, hostReviews } =
       userExtraData.userRecords;
 
-    if (collectionName.includes('reviews')) {
+    if (collectionName.includes('Reviews')) {
       await updateDoc(userDataRef, {
         'userRecords.reviews': [...(reviews ?? []), newUserDocId],
       });
     }
-    if (collectionName.includes('subjects')) {
+    if (collectionName.includes('Subjects')) {
       await updateDoc(userDataRef, {
         'userRecords.subjects': [...(subjects ?? []), newUserDocId],
       });
     }
-    if (collectionName.includes('recommended')) {
+    if (collectionName.includes('RecommendedBooks')) {
       await updateDoc(userDataRef, {
         'userRecords.recommendedBooks': [
           ...(recommendedBooks ?? []),
@@ -72,7 +72,7 @@ const useAddDoc = ({ setText, collectionName, docData }: PropsType) => {
         ],
       });
     }
-    if (collectionName.includes('host')) {
+    if (collectionName.includes('HostReview')) {
       await updateDoc(userDataRef, {
         'userRecords.hostReviews': [...(hostReviews ?? []), newUserDocId],
       });

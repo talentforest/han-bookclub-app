@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { thisMonthState } from 'data/documentsAtom';
+import { clubInfoByMonthState } from 'data/documentsAtom';
 import { category, categoryState } from 'data/categoryAtom';
 import { useLocation } from 'react-router-dom';
 import CategoryBtns from 'components/organisms/CategoryBtns';
@@ -9,23 +9,23 @@ import ReviewArea from 'components/template/ReviewArea';
 
 const CategorySection = () => {
   const [category, setCategory] = useRecoilState(categoryState);
-  const thisMonthDoc = useRecoilValue(thisMonthState);
+  const thisMonthClubInfo = useRecoilValue(clubInfoByMonthState);
   const { pathname } = useLocation();
-  const { id } = thisMonthDoc;
+  const { id } = thisMonthClubInfo;
 
-  const onCategoryClick = (category: category) => {
-    setCategory(category);
-  };
+  const onCategoryClick = (category: category) => setCategory(category);
 
   const historyId = pathname.slice(-7);
-  const monthId = pathname.includes('history') ? historyId : id;
+  const thisYearMonthId = pathname.includes('history') ? historyId : id;
 
   return (
     <>
       <CategoryBtns category={category} onCategoryClick={onCategoryClick} />
-      {category === 'recommends' && <RecommendArea monthId={monthId} />}
-      {category === 'subjects' && <SubjectArea monthId={monthId} />}
-      {category === 'reviews' && <ReviewArea monthId={monthId} />}
+      {category === 'recommends' && (
+        <RecommendArea yearMonthId={thisYearMonthId} />
+      )}
+      {category === 'subjects' && <SubjectArea yearMonthId={thisYearMonthId} />}
+      {category === 'reviews' && <ReviewArea yearMonthId={thisYearMonthId} />}
     </>
   );
 };

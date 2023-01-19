@@ -1,7 +1,7 @@
 import { dbService } from 'fbase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { useRef, useState } from 'react';
-import { CLUB_INFO, thisYearMonthIso } from 'util/index';
+import { thisYear, thisYearMonthIso } from 'util/index';
 import useAlertAskJoin from './useAlertAskJoin';
 
 const useHandleSchedule = () => {
@@ -10,7 +10,11 @@ const useHandleSchedule = () => {
 
   const timeRef = useRef<HTMLInputElement>(null);
   const placeRef = useRef<HTMLInputElement>(null);
-  const document = doc(dbService, CLUB_INFO, `${thisYearMonthIso}`);
+  const document = doc(
+    dbService,
+    `BookClub-${thisYear}`,
+    `${thisYearMonthIso}`
+  );
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

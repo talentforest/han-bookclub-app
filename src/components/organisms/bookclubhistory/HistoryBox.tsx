@@ -5,14 +5,14 @@ import { IBookClubMonthInfo } from 'data/documentsAtom';
 import styled from 'styled-components';
 
 interface PropsType {
-  bookMeeting: IBookClubMonthInfo;
+  document: IBookClubMonthInfo;
 }
 
-const HistoryBox = ({ bookMeeting }: PropsType) => {
-  const { id, book } = bookMeeting;
+const HistoryBox = ({ document }: PropsType) => {
+  const { id, book } = document;
 
   return (
-    <BookBox to={`${id}`} state={{ bookMeeting }}>
+    <BookBox to={`${id}`} state={{ document }}>
       <Header>
         <h3>{`${getMonthNm(id)}월의 책`}</h3>
         <Btn type='button'>
@@ -22,7 +22,7 @@ const HistoryBox = ({ bookMeeting }: PropsType) => {
       {book.thumbnail ? (
         <>
           <Img src={book.thumbnail} alt={`${book.title}`} />
-          <Title>{cutLetter(book.title, 21)}</Title>
+          <Title>{cutLetter(book.title, 20)}</Title>
         </>
       ) : (
         <>
@@ -45,8 +45,9 @@ const BookBox = styled(Link)`
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   > svg {
-    width: 100%;
-    height: 40px;
+    margin: 0 auto;
+    height: 80px;
+    width: 50px;
     fill: gold;
   }
 `;
@@ -67,13 +68,14 @@ const Img = styled.img`
   height: 80px;
   box-shadow: 2px 1px 5px rgba(0, 0, 0, 0.5);
   background-color: ${(props) => props.theme.container.default};
-  margin: 15px auto;
+  margin: 15px auto 10px;
 `;
 const Title = styled.h4`
   font-weight: 700;
   text-align: center;
-  padding: 0 3px;
-  height: 45px;
+  padding: 0 2px;
+  height: 40px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;

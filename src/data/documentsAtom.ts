@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { v4 } from 'uuid';
-import { IBookApi } from './bookAtom';
+import { IBookApi, IRecommendedBook } from './bookAtom';
 import { IVote } from './voteItemAtom';
 
 export interface IBookClubMonthInfo {
@@ -23,18 +23,15 @@ export interface IDocument {
   createdAt: number;
   title: string;
   thumbnail: string;
-  recommendBookTitle?: string;
-  recommendBookThumbnail?: string;
-  recommendBookUrl?: string;
-  recommendBookAuthor?: string[];
+  recommendedBook?: IRecommendedBook;
 }
 
-export const clubDocsState = atom<IBookClubMonthInfo[]>({
-  key: `clubDocs/${v4()}`,
+export const thisYearClubInfoState = atom<IBookClubMonthInfo[]>({
+  key: `thisYearClubInfo/${v4()}`,
   default: [],
   effects: [
     ({ setSelf, onSet }) => {
-      const bookMeetingStoreKey = 'bookMeeting';
+      const bookMeetingStoreKey = 'thisYearClubInfo';
       const savedValue = localStorage.getItem(bookMeetingStoreKey);
       if (savedValue != null) {
         setSelf(JSON.parse(savedValue));
@@ -48,12 +45,31 @@ export const clubDocsState = atom<IBookClubMonthInfo[]>({
   ],
 });
 
-export const thisMonthState = atom<IBookClubMonthInfo>({
-  key: `thisMonthBookMeeting/${v4()}`,
+export const clubInfoByYearState = atom<IBookClubMonthInfo[]>({
+  key: `clubInfoByYear/${v4()}`,
+  default: [],
+  effects: [
+    ({ setSelf, onSet }) => {
+      const bookMeetingStoreKey = 'clubInfoByYear';
+      const savedValue = localStorage.getItem(bookMeetingStoreKey);
+      if (savedValue != null) {
+        setSelf(JSON.parse(savedValue));
+      }
+      onSet((newValue, _, isReset) => {
+        isReset
+          ? localStorage.removeItem(bookMeetingStoreKey)
+          : localStorage.setItem(bookMeetingStoreKey, JSON.stringify(newValue));
+      });
+    },
+  ],
+});
+
+export const clubInfoByMonthState = atom<IBookClubMonthInfo>({
+  key: `clubInfoByMonth/${v4()}`,
   default: {} as IBookClubMonthInfo,
   effects: [
     ({ setSelf, onSet }) => {
-      const storeKey = 'thisMonthBookMeeting';
+      const storeKey = 'clubInfoByMonth';
       const savedValue = localStorage.getItem(storeKey);
       if (savedValue != null) {
         setSelf(JSON.parse(savedValue));

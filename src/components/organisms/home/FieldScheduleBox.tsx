@@ -4,7 +4,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { getDocument } from 'api/getFbDoc';
 import { useEffect } from 'react';
 import { fieldHostDocState } from 'data/bookFieldHostAtom';
-import { thisMonthState } from 'data/documentsAtom';
+import { clubInfoByMonthState } from 'data/documentsAtom';
 import Subtitle from '../../atoms/Subtitle';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
@@ -13,7 +13,7 @@ import useHandleFieldHost from 'hooks/useHandleFieldHost';
 import Loading from 'components/atoms/Loading';
 
 const FieldScheduleBox = () => {
-  const { id } = useRecoilValue(thisMonthState);
+  const { id } = useRecoilValue(clubInfoByMonthState);
   const setFieldHostDoc = useSetRecoilState(fieldHostDocState);
   const {
     isEditing,

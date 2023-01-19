@@ -1,65 +1,58 @@
-import { useState, useEffect } from 'react';
-import { CLUB_INFO, thisYear } from 'util/index';
+import { useEffect } from 'react';
+import { clubYearArr } from 'util/index';
 import { getCollection } from 'api/getFbDoc';
-import { clubDocsState, IBookClubMonthInfo } from 'data/documentsAtom';
+import { clubInfoByYearState } from 'data/documentsAtom';
+import { selectedYearAtom } from 'data/selectedYearAtom';
 import { useRecoilState } from 'recoil';
-import useGroupedBookByYear from 'hooks/useGroupedBookByYear';
 import Subtitle from 'components/atoms/Subtitle';
 import HistoryBox from 'components/organisms/bookclubhistory/HistoryBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
-import Loading from 'components/atoms/Loading';
 
 const BookClubHistory = () => {
-  const [selectedYear, setSelectedYear] = useState(`${thisYear}`);
-  const [bookMeetings, setBookMeetings] = useRecoilState(clubDocsState);
-  const { GroupedBookByYear } = useGroupedBookByYear(bookMeetings);
+  const [selectedYear, setSelectedYear] = useRecoilState(selectedYearAtom);
+  const [clubInfoDocs, setClubInfoDocs] = useRecoilState(clubInfoByYearState);
 
   useEffect(() => {
-    getCollection(CLUB_INFO, setBookMeetings);
-  }, [setBookMeetings]);
+    getCollection(`BookClub-${selectedYear}`, setClubInfoDocs);
+  }, [setClubInfoDocs, selectedYear]);
 
   const onYearChange = (event: React.FormEvent<HTMLSelectElement>) => {
     setSelectedYear(event.currentTarget.value);
   };
 
-  return bookMeetings?.length === 0 ? (
-    <Loading full />
-  ) : (
+  return (
     <main>
       <Subtitle title='한페이지 히스토리' />
       <YearSelect onChange={onYearChange} value={selectedYear}>
-        {GroupedBookByYear?.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.id}년의 책
+        {clubYearArr?.map((item) => (
+          <option key={item} value={item}>
+            {item}년의 책
           </option>
         ))}
       </YearSelect>
-      {GroupedBookByYear.length !== 0 ? (
-        GroupedBookByYear?.map((item) => (
-          <HistoryList key={item.id}>
-            {item.id === selectedYear &&
-              item.bookMeeting.map((bookMeeting: IBookClubMonthInfo) => (
-                <HistoryBox key={bookMeeting.id} bookMeeting={bookMeeting} />
-              ))}
-          </HistoryList>
-        ))
-      ) : (
-        <EmptyBox>북클럽에 아직 등록된 책이 없습니다.</EmptyBox>
-      )}
+      <HistoryList>
+        {clubInfoDocs.length !== 0 ? (
+          clubInfoDocs?.map((document) => (
+            <HistoryBox key={document.id} document={document} />
+          ))
+        ) : (
+          <EmptyBox>독서모임에 아직 등록된 책이 없습니다.</EmptyBox>
+        )}
+      </HistoryList>
     </main>
   );
 };
 
 const HistoryList = styled.ul`
+  width: 100%;
   margin-top: 10px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
-  width: 100%;
   @media ${device.tablet} {
+    margin-top: 20px;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
   }
 `;
 const YearSelect = styled.select`

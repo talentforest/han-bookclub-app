@@ -24,9 +24,10 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(doc.text);
   const { onDeleteClick } = useDeleteDoc({ docId: doc.id, collectionName });
+  const { id, creatorId, createdAt, recommendedBook, title, thumbnail } = doc;
 
   const { showingGuide, onEditedSubmit, onEditedChange } = useEditDoc({
-    docId: doc.id,
+    docId: id,
     editedText,
     setEditedText,
     setEditing,
@@ -43,22 +44,22 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
   return (
     <Form as={editing ? 'form' : 'div'} onSubmit={onEditedSubmit}>
       <Header>
-        <UsernameBox creatorId={doc.creatorId} />
-        <RegisterTime>{getLocalDate(doc.createdAt)}</RegisterTime>
+        <UsernameBox creatorId={creatorId} />
+        <RegisterTime>{getLocalDate(createdAt)}</RegisterTime>
       </Header>
-      {category === 'recommends' && (
+      {category === 'recommends' && recommendedBook?.title && (
         <RecommendBookInfo>
-          <img src={doc.recommendBookThumbnail} alt='book thumbnail' />
+          <img src={recommendedBook?.thumbnail} alt='book thumbnail' />
           <div>
-            <h4>{doc.recommendBookTitle}</h4>
-            <span>{doc.recommendBookAuthor}</span>
-            <a href={doc.recommendBookUrl}>상세정보 보러가기</a>
+            <h4>{recommendedBook?.title}</h4>
+            <span>{recommendedBook?.authors}</span>
+            <a href={recommendedBook?.url}>상세정보 보러가기</a>
           </div>
         </RecommendBookInfo>
       )}
       {editing ? (
         <>
-          {collectionName.includes('subjects') ? (
+          {collectionName.includes('Subjects') ? (
             <QuillEditor
               placeholder='발제문을 수정해주세요.'
               text={editedText}
@@ -75,19 +76,19 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
         </>
       ) : (
         <>
-          {collectionName.includes('subjects') ? (
+          {collectionName.includes('Subjects') ? (
             <Pre as='div' dangerouslySetInnerHTML={{ __html: editedText }} />
           ) : (
             <Pre>{editedText}</Pre>
           )}
           <EditDeleteBox
-            creatorId={doc.creatorId}
+            creatorId={creatorId}
             setEditing={setEditing}
             onDeleteClick={handleDeleteClick}
           />
         </>
       )}
-      <BookImgTitle thumbnail={doc.thumbnail} title={doc.title} smSize />
+      <BookImgTitle thumbnail={thumbnail} title={title} smSize />
     </Form>
   );
 };

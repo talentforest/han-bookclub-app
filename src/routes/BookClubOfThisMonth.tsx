@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { hostReviewState, thisMonthState } from 'data/documentsAtom';
+import { hostReviewState, clubInfoByMonthState } from 'data/documentsAtom';
 import {
   getFbRoute,
-  CLUB_INFO,
   getMonthNm,
   thisYearMonthIso,
   thisYear,
@@ -22,22 +21,27 @@ import UsernameBox from 'components/organisms/UsernameBox';
 import { fieldHostDocState } from 'data/bookFieldHostAtom';
 
 const BookClubOfThisMonth = () => {
-  const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
-  const { id, book } = thisMonthDoc;
+  const [thisMonthClub, setThisMonthClub] =
+    useRecoilState(clubInfoByMonthState);
+  const { id, book } = thisMonthClub;
   const [bookFields, setBookFields] = useRecoilState(fieldHostDocState);
   const setHostReview = useSetRecoilState(hostReviewState);
-  const checkThisMonthDoc = Object.keys(thisMonthDoc).length;
+  const checkThisMonthDoc = Object.keys(thisMonthClub).length;
 
   useEffect(() => {
     getDocument(BOOK_FIELD_HOST, `${thisYear}`, setBookFields);
-    getDocument(CLUB_INFO, `${thisYearMonthIso}`, setThisMonthDoc);
+    getDocument(
+      `BookClub-${thisYear}`,
+      `${thisYearMonthIso}`,
+      setThisMonthClub
+    );
     getCollection(getFbRoute(thisYearMonthIso).HOST_REVIEW, setHostReview);
-  }, [setThisMonthDoc, setHostReview, setBookFields]);
+  }, [setThisMonthClub, setHostReview, setBookFields]);
 
   return checkThisMonthDoc === 0 ? (
     <Loading full />
   ) : (
-    thisMonthDoc && (
+    thisMonthClub && (
       <main>
         <Subtitle title={`${getMonthNm(id)}월의 책`} />
         <MonthInfo>

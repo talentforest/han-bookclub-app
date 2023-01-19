@@ -5,8 +5,8 @@ import {
   BookImg,
   BookTitle,
   Box,
-  BoxFooter,
-  ClubBookInfo,
+  ClubBook,
+  Header,
   MyRecordModal,
   Record,
 } from './MyRecord';
@@ -27,23 +27,26 @@ const MyRecommendBook = ({ recommendedBookId }: PropsType) => {
   const [data, setData] = useState({} as IDocument);
   const [openModal, setOpenModal] = useState(false);
 
+  const { recommendedBook, title, thumbnail, creatorId, createdAt, text } =
+    data;
+
   const handleModal = () => {
     setOpenModal((prev) => !prev);
   };
 
   useEffect(() => {
-    getDocument(getFbRoute(monthId).RECOMMEND, docId, setData);
+    getDocument(getFbRoute(monthId).RECOMMENDED_BOOKS, docId, setData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
       <Record>
-        <BookImg src={data.recommendBookThumbnail} alt='thumbnail' />
+        <BookImg src={recommendedBook?.thumbnail} alt='thumbnail' />
         <BookTitle>
-          {data.recommendBookTitle
-            ? cutLetter(data.recommendBookTitle, 6)
-            : data.title}
+          {recommendedBook?.title
+            ? cutLetter(recommendedBook?.title, 6)
+            : title}
         </BookTitle>
         <button onClick={handleModal}>
           보기
@@ -55,24 +58,24 @@ const MyRecommendBook = ({ recommendedBookId }: PropsType) => {
           <Overlay onModalClick={handleModal} />
           <MyRecordModal>
             <Box>
-              <UsernameBox creatorId={data.creatorId} />
+              <Header>
+                <UsernameBox creatorId={creatorId} />
+                <span>{getLocalDate(createdAt)}</span>
+              </Header>
               <RecommendedBookInfo>
                 <img
-                  src={data.recommendBookThumbnail}
-                  alt={`${data.recommendBookTitle} thumbnail`}
+                  src={recommendedBook?.thumbnail}
+                  alt={`${recommendedBook?.title} thumbnail`}
                 />
-                <span>{data.recommendBookTitle}</span>
+                <span>{recommendedBook?.title}</span>
               </RecommendedBookInfo>
-              <HTMLContent dangerouslySetInnerHTML={{ __html: data.text }} />
-              <BoxFooter>
-                <ClubBookInfo>
-                  {data.thumbnail && (
-                    <img src={data.thumbnail} alt={`${data.title} thumbnail`} />
-                  )}
-                  {data.title && <span>{data.title}</span>}
-                </ClubBookInfo>
-                <span>{getLocalDate(data.createdAt)}</span>
-              </BoxFooter>
+              <HTMLContent dangerouslySetInnerHTML={{ __html: text }} />
+              <ClubBook>
+                {thumbnail && (
+                  <img src={thumbnail} alt={`${title} thumbnail`} />
+                )}
+                {title && <span>{title}</span>}
+              </ClubBook>
             </Box>
           </MyRecordModal>
         </>

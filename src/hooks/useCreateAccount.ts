@@ -72,7 +72,7 @@ const useCreateAccount = (setShowNextStep?: (step: boolean) => void) => {
           }
         );
         window.alert(
-          '회원가입이 성공적으로 완료되었습니다. 한페이지 북클럽의 멤버가 되신 것을 환영해요!'
+          '회원가입이 성공적으로 완료되었습니다. 한페이지 독서모임의 멤버가 되신 것을 환영해요!'
         );
         navigate('/');
       } else {

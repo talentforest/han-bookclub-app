@@ -22,7 +22,7 @@ interface PropsType {
 const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
   const [text, setText] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
-  const collectionName = getFbRoute(docMonth).SUBJECT;
+  const collectionName = getFbRoute(docMonth).SUBJECTS;
   const userData = useRecoilValue(currentUserState);
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('write');
   const docData = {

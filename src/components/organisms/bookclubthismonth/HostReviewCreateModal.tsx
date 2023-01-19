@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { getFbRoute } from 'util/index';
 import { Modal } from './SubjectCreateModal';
-import { thisMonthState } from 'data/documentsAtom';
+import { clubInfoByMonthState } from 'data/documentsAtom';
 import Overlay from 'components/atoms/Overlay';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import QuillEditor from 'components/atoms/QuillEditor';
@@ -15,13 +15,13 @@ import useAlertAskJoin from 'hooks/useAlertAskJoin';
 const HostReviewCreateModal = () => {
   const [text, setText] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
-  const thisMonthDoc = useRecoilValue(thisMonthState);
+  const thisMonthClubInfo = useRecoilValue(clubInfoByMonthState);
   const userData = useRecoilValue(currentUserState);
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('write');
   const {
     id,
     book: { thumbnail, title },
-  } = thisMonthDoc;
+  } = thisMonthClubInfo;
   const collectionName = getFbRoute(id).HOST_REVIEW;
   const docData = {
     text,

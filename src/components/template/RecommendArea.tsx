@@ -1,8 +1,8 @@
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { getFbRoute, CLUB_INFO } from 'util/index';
+import { getFbRoute } from 'util/index';
 import { getCollection, getDocument } from 'api/getFbDoc';
 import { useEffect } from 'react';
-import { recommendsState, thisMonthState } from 'data/documentsAtom';
+import { clubInfoByMonthState, recommendsState } from 'data/documentsAtom';
 import { useLocation } from 'react-router-dom';
 import RecommendCreateBox from 'components/organisms/bookclubthismonth/RecommendCreateBox';
 import styled from 'styled-components';
@@ -10,18 +10,19 @@ import device from 'theme/mediaQueries';
 import Record from 'components/organisms/RecordBox';
 
 interface IRecommendationAreaProps {
-  monthId: string;
+  yearMonthId: string;
 }
 
-const RecommendArea = ({ monthId }: IRecommendationAreaProps) => {
-  const setThisMonthDoc = useSetRecoilState(thisMonthState);
+const RecommendArea = ({ yearMonthId }: IRecommendationAreaProps) => {
+  const setClubInfo = useSetRecoilState(clubInfoByMonthState);
   const [recommends, setRecommends] = useRecoilState(recommendsState);
   const { pathname } = useLocation();
+  const year = yearMonthId.slice(0, 4);
 
   useEffect(() => {
-    getDocument(CLUB_INFO, `${monthId}`, setThisMonthDoc);
-    getCollection(getFbRoute(monthId).RECOMMEND, setRecommends);
-  }, [setThisMonthDoc, setRecommends, monthId]);
+    getDocument(`BookClub-${year}`, `${yearMonthId}`, setClubInfo);
+    getCollection(getFbRoute(yearMonthId).RECOMMENDED_BOOKS, setRecommends);
+  }, [year, setClubInfo, setRecommends, yearMonthId]);
 
   return (
     <>
@@ -32,7 +33,7 @@ const RecommendArea = ({ monthId }: IRecommendationAreaProps) => {
             <Record
               key={recommend.id}
               doc={recommend}
-              collectionName={getFbRoute(monthId).RECOMMEND}
+              collectionName={getFbRoute(yearMonthId).RECOMMENDED_BOOKS}
             />
           ))
         ) : (

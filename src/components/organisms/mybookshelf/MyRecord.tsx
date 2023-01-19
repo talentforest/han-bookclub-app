@@ -5,7 +5,7 @@ import { IDocument } from 'data/documentsAtom';
 import { useEffect, useState } from 'react';
 import { getDocument } from 'api/getFbDoc';
 import { Modal } from '../bookclubthismonth/SubjectCreateModal';
-import { HTMLContent } from '../RecordBox';
+import { HTMLContent, RegisterTime } from '../RecordBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import Overlay from 'components/atoms/Overlay';
@@ -26,8 +26,8 @@ const MyRecord = ({ recordId, review }: PropsType) => {
   };
 
   const getRecord = review
-    ? getFbRoute(monthId).REVIEW
-    : getFbRoute(monthId).SUBJECT;
+    ? getFbRoute(monthId).REVIEWS
+    : getFbRoute(monthId).SUBJECTS;
 
   useEffect(() => {
     getDocument(getRecord, docId, setRecord);
@@ -54,24 +54,20 @@ const MyRecord = ({ recordId, review }: PropsType) => {
           <Overlay onModalClick={handleModal} />
           <MyRecordModal>
             <Box>
-              <UsernameBox creatorId={record.creatorId} />
-              <HTMLContent
-                dangerouslySetInnerHTML={{
-                  __html: cutLetter(record.text, 200),
-                }}
-              />
-              <BoxFooter>
-                <ClubBookInfo>
-                  {record.thumbnail && (
-                    <img
-                      src={record.thumbnail}
-                      alt={`${record.title} thumbnail`}
-                    />
-                  )}
-                  {record.title && <span>{record.title}</span>}
-                </ClubBookInfo>
-                <span>{getLocalDate(record.createdAt)}</span>
-              </BoxFooter>
+              <Header>
+                <UsernameBox creatorId={record.creatorId} />
+                <RegisterTime>{getLocalDate(record.createdAt)}</RegisterTime>
+              </Header>
+              <HTMLContent dangerouslySetInnerHTML={{ __html: record.text }} />
+              <ClubBook>
+                {record.thumbnail && (
+                  <img
+                    src={record.thumbnail}
+                    alt={`${record.title} thumbnail`}
+                  />
+                )}
+                {record.title && <span>{record.title}</span>}
+              </ClubBook>
             </Box>
           </MyRecordModal>
         </>
@@ -158,23 +154,25 @@ export const Box = styled.article`
     padding: 20px;
   }
 `;
-export const BoxFooter = styled.div`
+export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 5px;
   font-size: 14px;
 `;
-export const ClubBookInfo = styled.div`
+export const ClubBook = styled.div`
+  margin-top: 10px;
   display: flex;
   align-items: center;
   img {
-    height: 18px;
+    height: 22px;
     width: auto;
-    margin-right: 5px;
+    margin-right: 10px;
+    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.4);
   }
   span {
-    color: ${(props) => props.theme.text.gray};
+    font-size: 13px;
+    font-weight: 700;
   }
 `;
 

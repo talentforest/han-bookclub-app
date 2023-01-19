@@ -1,32 +1,33 @@
-import { getFbRoute, CLUB_INFO } from 'util/index';
+import { getFbRoute } from 'util/index';
 import { getCollection, getDocument } from 'api/getFbDoc';
 import { EmptyBox, RecordBox } from './RecommendArea';
 import { useRecoilState } from 'recoil';
-import { subjectsState, thisMonthState } from 'data/documentsAtom';
+import { subjectsState, clubInfoByMonthState } from 'data/documentsAtom';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import SubjectCreateModal from 'components/organisms/bookclubthismonth/SubjectCreateModal';
 import Record from 'components/organisms/RecordBox';
 
 interface ISubjectAreaProps {
-  monthId: string;
+  yearMonthId: string;
 }
 
-const SubjectArea = ({ monthId }: ISubjectAreaProps) => {
-  const [thisMonthDoc, setThisMonthDoc] = useRecoilState(thisMonthState);
+const SubjectArea = ({ yearMonthId }: ISubjectAreaProps) => {
+  const [clubInfo, setClubInfo] = useRecoilState(clubInfoByMonthState);
   const [subjects, setSubjects] = useRecoilState(subjectsState);
   const { pathname } = useLocation();
-  const { book } = thisMonthDoc;
+  const { book } = clubInfo;
+  const year = yearMonthId.slice(0, 4);
 
   useEffect(() => {
-    getDocument(CLUB_INFO, `${monthId}`, setThisMonthDoc);
-    getCollection(getFbRoute(monthId).SUBJECT, setSubjects);
-  }, [setThisMonthDoc, setSubjects, monthId]);
+    getDocument(`BookClub-${year}`, `${yearMonthId}`, setClubInfo);
+    getCollection(getFbRoute(yearMonthId).SUBJECTS, setSubjects);
+  }, [year, setClubInfo, setSubjects, yearMonthId]);
 
   return (
     <>
       {pathname.includes('bookclub') && (
-        <SubjectCreateModal bookInfo={book} docMonth={monthId} />
+        <SubjectCreateModal bookInfo={book} docMonth={yearMonthId} />
       )}
       <RecordBox>
         {subjects?.length !== 0 ? (
@@ -34,7 +35,7 @@ const SubjectArea = ({ monthId }: ISubjectAreaProps) => {
             <Record
               key={subject.id}
               doc={subject}
-              collectionName={getFbRoute(monthId).SUBJECT}
+              collectionName={getFbRoute(yearMonthId).SUBJECTS}
             />
           ))
         ) : (

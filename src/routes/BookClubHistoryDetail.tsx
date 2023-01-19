@@ -17,7 +17,7 @@ import ScheduleBox from 'components/organisms/ScheduleBox';
 import CategorySection from 'components/template/CategorySection';
 import HostReviewArea from 'components/template/HostReviewArea';
 
-type LocationState = { state: { bookMeeting: IBookClubMonthInfo } };
+type LocationState = { state: { document: IBookClubMonthInfo } };
 
 const BookClubHistoryDetail = () => {
   const setSubjects = useSetRecoilState(subjectsState);
@@ -26,14 +26,14 @@ const BookClubHistoryDetail = () => {
   const setHostReview = useSetRecoilState(hostReviewState);
 
   const {
-    state: { bookMeeting },
+    state: { document },
   } = useLocation() as LocationState;
-  const { id, book, meeting } = bookMeeting;
+  const { id, book, meeting } = document;
 
   useEffect(() => {
-    getCollection(getFbRoute(id).SUBJECT, setSubjects);
-    getCollection(getFbRoute(id).REVIEW, setReviews);
-    getCollection(getFbRoute(id).RECOMMEND, setRecommends);
+    getCollection(getFbRoute(id).SUBJECTS, setSubjects);
+    getCollection(getFbRoute(id).REVIEWS, setReviews);
+    getCollection(getFbRoute(id).RECOMMENDED_BOOKS, setRecommends);
     getCollection(getFbRoute(id).HOST_REVIEW, setHostReview);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);

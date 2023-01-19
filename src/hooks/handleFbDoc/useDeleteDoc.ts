@@ -35,19 +35,19 @@ const useDeleteDoc = ({ docId, collectionName }: PropsType) => {
     const { reviews, subjects, recommendedBooks, hostReviews } =
       userExtraData.userRecords;
 
-    if (collectionName.includes('reviews')) {
+    if (collectionName.includes('Reviews')) {
       const filteredArr = reviews.filter((item) => item.docId !== docRef.id);
       await updateDoc(userDataRef, {
         'userRecords.reviews': filteredArr,
       });
     }
-    if (collectionName.includes('subjects')) {
+    if (collectionName.includes('Subjects')) {
       const filteredArr = subjects.filter((item) => item.docId !== docRef.id);
       await updateDoc(userDataRef, {
         'userRecords.subjects': filteredArr,
       });
     }
-    if (collectionName.includes('recommended')) {
+    if (collectionName.includes('Recommended')) {
       const filteredArr = recommendedBooks.filter(
         (item) => item.docId !== docRef.id
       );
@@ -55,7 +55,7 @@ const useDeleteDoc = ({ docId, collectionName }: PropsType) => {
         'userRecords.recommendedBooks': filteredArr,
       });
     }
-    if (collectionName.includes('host')) {
+    if (collectionName.includes('HostReview')) {
       const filteredArr = hostReviews.filter(
         (item) => item.docId !== docRef.id
       );

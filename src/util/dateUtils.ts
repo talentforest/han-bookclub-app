@@ -38,3 +38,5 @@ export function getDDay(deadline: string) {
   const diffDay = Math.floor(diff / (1000 * 60 * 60 * 24));
   return `${diffDay + 1}일`;
 }
+
+export const clubYearArr = ['2021', '2022', '2023'];

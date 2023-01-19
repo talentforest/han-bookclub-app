@@ -5,7 +5,7 @@ import { Search } from '@mui/icons-material';
 import { currentUserState } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 import { getFbRoute, cutLetter } from 'util/index';
-import { thisMonthState } from 'data/documentsAtom';
+import { clubInfoByMonthState } from 'data/documentsAtom';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
@@ -13,24 +13,26 @@ import PostBtn from 'components/atoms/buttons/PostBtn';
 
 const RecommendCreateBox = () => {
   const [text, setText] = useState('');
-  const thisMonthDoc = useRecoilValue(thisMonthState);
+  const thisMonthClubInfo = useRecoilValue(clubInfoByMonthState);
   const {
     id,
     book: { title, thumbnail },
-  } = thisMonthDoc;
+  } = thisMonthClubInfo;
   const myRecommendBook = useRecoilValue(recommendBookState);
   const userData = useRecoilValue(currentUserState);
-  const collectionName = getFbRoute(id).RECOMMEND;
+  const collectionName = getFbRoute(id).RECOMMENDED_BOOKS;
   const docData = {
     text,
     createdAt: Date.now(),
     creatorId: userData.uid,
     title,
     thumbnail,
-    recommendBookTitle: myRecommendBook?.title,
-    recommendBookThumbnail: myRecommendBook?.thumbnail,
-    recommendBookUrl: myRecommendBook?.url,
-    recommendBookAuthor: myRecommendBook?.authors,
+    recommendedBook: {
+      title: myRecommendBook?.title,
+      thumbnail: myRecommendBook?.thumbnail,
+      url: myRecommendBook?.url,
+      authors: myRecommendBook?.authors,
+    },
   };
 
   const { onAddDocSubmit, onChange } = useAddDoc({

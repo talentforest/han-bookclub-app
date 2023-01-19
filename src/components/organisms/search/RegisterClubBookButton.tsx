@@ -1,32 +1,22 @@
 import { IBookApi } from 'data/bookAtom';
 import { useRecoilValue } from 'recoil';
-import { clubDocsState } from 'data/documentsAtom';
+import { clubInfoByYearState } from 'data/documentsAtom';
 import { thisYearMonthIso } from 'util/index';
-import { useEffect } from 'react';
 import useHandleClubInfoDoc from 'hooks/useHandleClubInfoDoc';
 import styled from 'styled-components';
-import PostBtn from 'components/atoms/buttons/PostBtn';
 
 interface PropsType {
   searchedBook: IBookApi;
 }
 
 const RegisterClubBookButton = ({ searchedBook }: PropsType) => {
-  const clubDocs = useRecoilValue(clubDocsState);
+  const clubDocs = useRecoilValue(clubInfoByYearState);
 
-  const { toggle, setToggle, onSubmit, onMonthChange } = useHandleClubInfoDoc({
-    clubDocs,
-    searchedBook,
-  });
-
-  const isClubBook = clubDocs.some((item) =>
-    item.book?.title.includes(searchedBook?.title)
-  );
-
-  useEffect(() => {
-    isClubBook ? setToggle(true) : setToggle(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const {
+    toggle,
+    onSubmit,
+    onMonthChange, //
+  } = useHandleClubInfoDoc({ clubDocs, searchedBook });
 
   return (
     <SelectBox onSubmit={onSubmit}>
@@ -37,9 +27,17 @@ const RegisterClubBookButton = ({ searchedBook }: PropsType) => {
         onChange={onMonthChange}
       />
       {toggle ? (
-        <Registered value='⭐️ 북클럽 책 선정 ⭐️' />
+        <Registered type='submit'>
+          독서모임 도서
+          <br />
+          선정 완료
+        </Registered>
       ) : (
-        <PostBtn value='북클럽 도서로 등록' />
+        <RegisterBtn type='submit'>
+          독서모임 도서로
+          <br />
+          선정하기
+        </RegisterBtn>
       )}
     </SelectBox>
   );
@@ -52,8 +50,10 @@ const SelectBox = styled.form`
   margin: 15px auto 10px;
 `;
 const CalenderInput = styled.input`
-  font-size: 16px;
-  border-radius: 8px;
+  font-size: 14px;
+  border-radius: 10px;
+  padding: 0 8px;
+  width: 120px;
   color: ${(props) => props.theme.text.accent};
   border: 1px solid ${(props) => props.theme.text.gray};
   background-color: ${(props) => props.theme.container.default};
@@ -61,9 +61,17 @@ const CalenderInput = styled.input`
     fill: gold;
   }
 `;
-const Registered = styled(PostBtn)`
+const RegisterBtn = styled.button`
+  width: 120px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: ${(props) => props.theme.text.lightGray};
+
+  font-weight: 700;
+`;
+const Registered = styled(RegisterBtn)`
   color: ${(props) => props.theme.text.accent};
-  background-color: ${(props) => props.theme.container.default};
+  background-color: ${(props) => props.theme.container.yellow};
 `;
 
 export default RegisterClubBookButton;

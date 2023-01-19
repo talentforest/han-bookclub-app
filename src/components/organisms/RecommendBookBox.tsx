@@ -7,21 +7,16 @@ interface IRecommendBookBoxProps {
 }
 
 const RecommendBookBox = ({ recommend }: IRecommendBookBoxProps) => {
-  const {
-    recommendBookTitle,
-    recommendBookAuthor,
-    recommendBookThumbnail,
-    recommendBookUrl,
-  } = recommend;
+  const { recommendedBook } = recommend;
 
   return (
     <RecommendBook>
-      <img src={recommendBookThumbnail} alt='recommend book' />
+      <img src={recommendedBook.thumbnail} alt='recommend book' />
       <div>
-        <h5>{recommendBookTitle}</h5>
-        <span>{recommendBookAuthor?.join(', ')}</span>
-        {recommendBookUrl && (
-          <a href={recommendBookUrl} target='_blank' rel='noreferrer'>
+        <h5>{recommendedBook.title}</h5>
+        <span>{recommendedBook.authors?.join(', ')}</span>
+        {recommendedBook.url && (
+          <a href={recommendedBook.url} target='_blank' rel='noreferrer'>
             상세정보 보러가기
           </a>
         )}
