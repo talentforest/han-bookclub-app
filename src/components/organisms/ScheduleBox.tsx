@@ -121,6 +121,11 @@ const Input = styled.input`
   padding: 2px 10px;
   border-radius: 40px;
   font-size: 16px;
+  &[type='datetime-local'] {
+    width: 100%;
+    background-color: ${(props) => props.theme.container.default};
+    min-width: inherit;
+  }
   @media ${device.tablet} {
     max-width: 30vw;
   }

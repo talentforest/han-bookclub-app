@@ -24,8 +24,10 @@ const LogIn = ({ isLoggedIn }: ILoginProps) => {
 
   return (
     <Main>
-      <Logo src='hanpage_iconlogo.png' alt='hanpage bookclub logo' />
-      <Header>한페이지 독서모임</Header>
+      <Header>
+        <Logo src='hanpage_logo.png' alt='hanpage bookclub logo' />
+        <h1>한페이지 독서모임</h1>
+      </Header>
       <Form onSubmit={onSubmit}>
         <EmailInput
           value={email}
@@ -55,24 +57,37 @@ const LogIn = ({ isLoggedIn }: ILoginProps) => {
 };
 
 const Main = styled.main`
+  height: 100vh;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  padding-bottom: 0;
+  @media ${device.tablet} {
+    > button {
+      width: 50%;
+      margin: 0 auto;
+    }
+  }
 `;
 const Logo = styled.img`
   height: 100px;
   width: 100px;
-  margin: 0 auto 30px;
+  margin-bottom: 20px;
 `;
 const Header = styled.header`
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 20px;
   font-size: 20px;
   font-weight: 700;
   color: ${(props) => props.theme.text.lightBlue};
   padding-bottom: 5px;
   @media ${device.tablet} {
-    font-size: 36px;
+    font-size: 30px;
   }
 `;
 const Form = styled.form`
@@ -82,6 +97,10 @@ const Form = styled.form`
   align-items: center;
   gap: 5px;
   margin-bottom: 5px;
+  width: 100%;
+  @media ${device.tablet} {
+    width: 50%;
+  }
 `;
 export const ErrorMessage = styled.span`
   font-size: 14px;
@@ -97,6 +116,7 @@ const Footer = styled.footer`
   margin-top: 20px;
   > a {
     font-size: 13px;
+    text-decoration: underline;
   }
   @media ${device.tablet} {
     > a {

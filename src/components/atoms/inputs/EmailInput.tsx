@@ -32,7 +32,7 @@ const Input = styled.input`
   }
   @media ${device.tablet} {
     height: 60px;
-    margin-bottom: 20px;
+
     font-size: 18px;
   }
 `;

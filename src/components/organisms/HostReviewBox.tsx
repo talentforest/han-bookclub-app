@@ -59,8 +59,8 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
         )}
         <Footer>
           <ShareBtn
-            title='새로운 발제자의 기록이 등록되었어요~🚀'
-            description='이번달 발제자의 기록을 한번 보러 가볼까요?🤩'
+            title='새로운 발제자 모임 정리 기록이 등록되었어요~🚀'
+            description='이번달 발제자 모임 정리 기록을 한번 보러 가볼까요?🤩'
             path='bookclub'
           />
           <HandleBtn handleClick={handleModal}>
@@ -77,7 +77,7 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
             $editing={editing}
             onSubmit={onEditedSubmit}
           >
-            <Subtitle title='발제자의 기록' />
+            <Subtitle title='발제자 모임 정리 기록' />
             <Header>
               <UsernameBox creatorId={review.creatorId} />
               <TimeStamp>{getLocalDate(review.createdAt)}</TimeStamp>
@@ -125,6 +125,7 @@ const Header = styled.div`
   margin-bottom: 5px;
   display: flex;
   justify-content: space-between;
+  width: 100%;
 `;
 const Footer = styled.div`
   display: flex;

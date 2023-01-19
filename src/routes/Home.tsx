@@ -11,7 +11,7 @@ import FieldScheduleBox from 'components/organisms/home/FieldScheduleBox';
 import VoteSlider from 'components/organisms/home/VoteSlider';
 import styled from 'styled-components';
 import ScheduleBox from 'components/organisms/ScheduleBox';
-import device from 'theme/mediaQueries';
+import BookLogoBox from 'components/organisms/home/BookLogo';
 
 const Home = () => {
   const [thisMonthClub, setThisMonthClub] =
@@ -31,7 +31,7 @@ const Home = () => {
   }, []);
 
   return checkThisMonthDoc === 0 ? (
-    <Loading full />
+    <Loading />
   ) : (
     <main>
       <Section>
@@ -45,19 +45,20 @@ const Home = () => {
         <ScheduleBox schedule={meeting} />
       </Section>
       <Section>
+        <Subtitle title={`${thisYear} 한페이지의 독서 분야와 발제자`} />
+        <BookLogoBox />
+        <FieldScheduleBox />
+      </Section>
+      <Section>
         <Subtitle title={'한페이지의 투표함'} />
         <VoteSlider />
       </Section>
-      <FieldScheduleBox />
     </main>
   );
 };
 
 const Section = styled.section`
   margin-bottom: 70px;
-  @media ${device.tablet} {
-    margin-bottom: 100px;
-  }
 `;
 
 export default Home;

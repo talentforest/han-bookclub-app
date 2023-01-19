@@ -33,7 +33,7 @@ const Vote = () => {
   };
 
   return votes.length === 0 ? (
-    <Loading full />
+    <Loading />
   ) : (
     <main>
       <Subtitle title='투표함' />

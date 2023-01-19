@@ -2,17 +2,21 @@ import { CircularProgress } from '@mui/material';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
-const Loading = ({ full }: { full: boolean }) => {
+interface ILoadingProps {
+  height?: string;
+}
+
+const Loading = ({ height }: ILoadingProps) => {
   return (
-    <Load $full={full}>
+    <Load $height={height}>
       <CircularProgress size={40} />
     </Load>
   );
 };
 
-const Load = styled.div<{ $full: boolean }>`
-  width: ${(props) => (props.$full ? '100vw' : '100%')};
-  height: ${(props) => (props.$full ? '70vh' : '40vh')};
+const Load = styled.div<{ $height: string }>`
+  width: ${(props) => (props.$height ? '100%' : '100vh')};
+  height: ${(props) => (props.$height ? props.$height : '70vh')};
   display: flex;
   justify-content: center;
   align-items: center;

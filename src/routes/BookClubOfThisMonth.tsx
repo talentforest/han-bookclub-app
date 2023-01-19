@@ -39,7 +39,7 @@ const BookClubOfThisMonth = () => {
   }, [setThisMonthClub, setHostReview, setBookFields]);
 
   return checkThisMonthDoc === 0 ? (
-    <Loading full />
+    <Loading />
   ) : (
     thisMonthClub && (
       <main>
@@ -52,8 +52,8 @@ const BookClubOfThisMonth = () => {
             </a>
           )}
         </MonthInfo>
-        <Guide text='모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 작성이 불가능한 점 유의해주세요.' />
-        <Subtitle title='발제자의 기록' />
+        <Guide text='모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 수정만 가능할 뿐 새로 작성이 불가능한 점 유의해주세요.' />
+        <Subtitle title='발제자 모임 정리 기록' />
         {bookFields.info &&
           bookFields?.info[thisMonth - 1].host !== 'no_host' && (
             <HostInfo>

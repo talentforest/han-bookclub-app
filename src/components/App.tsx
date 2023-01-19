@@ -27,7 +27,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <ResetStyle />
-      {init ? <Router isLoggedIn={Boolean(userData)} /> : <Loading full />}
+      {init ? <Router isLoggedIn={Boolean(userData)} /> : <Loading />}
     </ThemeProvider>
   );
 }

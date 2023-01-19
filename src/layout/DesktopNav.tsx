@@ -21,7 +21,7 @@ const DesktopNav = () => {
           <Item $active={pathname.includes('/vote')}>
             <Link to='/vote'>투표하기</Link>
           </Item>
-          <Item $active={pathname.includes('/profile')}>
+          <Item $active={pathname.includes('/mybookshelf')}>
             <Link to='/mybookshelf'>나의 책장</Link>
           </Item>
           <Item $active={pathname.includes('/setting')}>

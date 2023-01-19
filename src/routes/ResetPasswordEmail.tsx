@@ -6,6 +6,7 @@ import device from 'theme/mediaQueries';
 import EmailInput from 'components/atoms/inputs/EmailInput';
 import Subtitle from 'components/atoms/Subtitle';
 import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
+import MobileHeader from 'layout/MobileHeader';
 
 const ResetPasswordEmail = () => {
   const [email, setEmail] = useState('');
@@ -26,29 +27,32 @@ const ResetPasswordEmail = () => {
   };
 
   return (
-    <main>
-      <Subtitle title='비밀번호가 생각나지 않으세요?' />
-      <Detail>
-        가입할 때 사용하신 계정 이메일을 적어주세요. <br />
-        해당 이메일에 비밀번호 재설정 링크를 전송해 드릴게요.
-      </Detail>
-      <InputForm onSubmit={onSubmit}>
-        <EmailInput
-          value={email}
-          placeholder='계정 이메일을 적어주세요.'
-          onChange={onChange}
-        />
-        <SubmitBtn children='전송하기' />
-      </InputForm>
-      {submitSuccess ? (
-        <Message>
-          해당 이메일에 성공적으로 전송되었습니다.
-          <br /> 수신함에 메일이 보이지 않는다면 스팸을 확인해주세요.
-        </Message>
-      ) : (
-        <></>
-      )}
-    </main>
+    <>
+      <MobileHeader />
+      <main>
+        <Subtitle title='비밀번호가 생각나지 않으세요?' />
+        <Detail>
+          가입할 때 사용하신 계정 이메일을 적어주세요. <br />
+          해당 이메일에 비밀번호 재설정 링크를 전송해 드릴게요.
+        </Detail>
+        <InputForm onSubmit={onSubmit}>
+          <EmailInput
+            value={email}
+            placeholder='계정 이메일을 적어주세요.'
+            onChange={onChange}
+          />
+          <SubmitBtn children='전송하기' />
+        </InputForm>
+        {submitSuccess ? (
+          <Message>
+            해당 이메일에 성공적으로 전송되었습니다.
+            <br /> 수신함에 메일이 보이지 않는다면 스팸을 확인해주세요.
+          </Message>
+        ) : (
+          <></>
+        )}
+      </main>
+    </>
   );
 };
 
@@ -71,26 +75,18 @@ const InputForm = styled.form`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  > input:first-child {
+  > input {
     margin: 0 5px 0 0;
-    width: 78%;
+    width: 100%;
+    height: 50px;
   }
-  > input:last-child {
-    margin: 0;
-    width: fit-content;
-    font-size: 14px;
-    background-color: ${(props) => props.theme.container.blue};
-    color: #fff;
+  > button {
+    width: 140px;
+    height: 50px;
   }
   @media ${device.tablet} {
-    > input:first-child {
+    > input {
       margin: 0 15px 0 0;
-      width: 80%;
-    }
-    > input:last-child {
-      width: 20%;
-      font-size: 20px;
-      margin: 0;
     }
   }
 `;

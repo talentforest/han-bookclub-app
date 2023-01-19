@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ChevronRight, LocalActivity } from '@mui/icons-material';
+import { ArrowForwardIos, LocalActivity } from '@mui/icons-material';
 import { cutLetter, getMonthNm } from 'util/index';
 import { IBookClubMonthInfo } from 'data/documentsAtom';
 import styled from 'styled-components';
@@ -16,7 +16,7 @@ const HistoryBox = ({ document }: PropsType) => {
       <Header>
         <h3>{`${getMonthNm(id)}월의 책`}</h3>
         <Btn type='button'>
-          <ChevronRight />
+          <ArrowForwardIos />
         </Btn>
       </Header>
       {book.thumbnail ? (
@@ -64,7 +64,7 @@ const Header = styled.header`
   }
 `;
 const Img = styled.img`
-  width: fit-content;
+  width: auto;
   height: 80px;
   box-shadow: 2px 1px 5px rgba(0, 0, 0, 0.5);
   background-color: ${(props) => props.theme.container.default};
@@ -82,8 +82,8 @@ const Title = styled.h4`
 `;
 const Btn = styled.button`
   svg {
-    font-size: 30px;
-    padding-top: 5px;
+    font-size: 14px;
+
     fill: ${(props) => props.theme.text.lightBlue};
   }
 `;

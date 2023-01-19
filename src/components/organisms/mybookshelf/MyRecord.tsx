@@ -1,6 +1,6 @@
 import { IUserRecord } from 'data/userAtom';
 import { cutLetter, getFbRoute, getLocalDate } from 'util/index';
-import { Book, Chat } from '@mui/icons-material';
+import { ArrowForwardIos, Book } from '@mui/icons-material';
 import { IDocument } from 'data/documentsAtom';
 import { useEffect, useState } from 'react';
 import { getDocument } from 'api/getFbDoc';
@@ -13,50 +13,52 @@ import UsernameBox from '../UsernameBox';
 
 interface PropsType {
   recordId: IUserRecord;
-  review?: boolean;
+  recordSort?: string;
 }
 
-const MyRecord = ({ recordId, review }: PropsType) => {
-  const [record, setRecord] = useState({} as IDocument);
+const MyRecord = ({ recordId, recordSort }: PropsType) => {
   const { docId, monthId } = recordId;
+  const [record, setRecord] = useState({} as IDocument);
   const [openModal, setOpenModal] = useState(false);
 
-  const handleModal = () => {
-    setOpenModal((prev) => !prev);
+  const handleModal = () => setOpenModal((prev) => !prev);
+
+  const getRecordRoute = () => {
+    if (recordSort === 'subjects') return getFbRoute(monthId).SUBJECTS;
+    if (recordSort === 'reviews') return getFbRoute(monthId).REVIEWS;
+    if (recordSort === 'hostReview') return getFbRoute(monthId).HOST_REVIEW;
   };
 
-  const getRecord = review
-    ? getFbRoute(monthId).REVIEWS
-    : getFbRoute(monthId).SUBJECTS;
-
   useEffect(() => {
-    getDocument(getRecord, docId, setRecord);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getDocument(getRecordRoute(), docId, setRecord);
   }, [docId, monthId]);
 
   return (
     <>
-      <Record>
-        {record.thumbnail ? (
-          <BookImg src={record.thumbnail} alt={`${record.title} thumbnail`} />
-        ) : (
-          <Book />
-        )}
-        <BookTitle>
-          {record.title ? cutLetter(record.title, 5) : '이벤트'}
-        </BookTitle>
-        <Btn onClick={handleModal}>
-          <Chat />
-        </Btn>
-      </Record>
+      {!!Object.keys(record).length && (
+        <Record>
+          {record.thumbnail ? (
+            <BookImg src={record.thumbnail} alt={`${record.title} thumbnail`} />
+          ) : (
+            <Book />
+          )}
+          <BookTitle>
+            {record.title ? cutLetter(record.title, 7) : '이벤트'}
+          </BookTitle>
+          <Btn onClick={handleModal}>
+            보기
+            <ArrowForwardIos />
+          </Btn>
+        </Record>
+      )}
       {openModal && (
         <>
           <Overlay onModalClick={handleModal} />
           <MyRecordModal>
             <Box>
               <Header>
-                <UsernameBox creatorId={record.creatorId} />
-                <RegisterTime>{getLocalDate(record.createdAt)}</RegisterTime>
+                <UsernameBox creatorId={record?.creatorId} />
+                <RegisterTime>{getLocalDate(record?.createdAt)}</RegisterTime>
               </Header>
               <HTMLContent dangerouslySetInnerHTML={{ __html: record.text }} />
               <ClubBook>
@@ -84,27 +86,17 @@ export const Record = styled.li`
   gap: 8px;
   width: 100%;
   min-height: 80px;
-  height: 120px;
-  padding: 5px;
+  height: 140px;
+  padding: 10px 5px;
   border-radius: 10px;
-  background-color: ${(props) => props.theme.container.default};
-  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+  background-color: #fff;
+  border: 1px solid ${(props) => props.theme.text.lightGray};
   > svg {
     height: 55px;
     width: 40px;
   }
-  > button {
-    padding-left: 5px;
-    display: flex;
-    align-items: center;
-    svg {
-      width: 18px;
-      height: 18px;
-      padding-top: 2px;
-    }
-  }
   @media ${device.tablet} {
-    height: 150px;
+    height: 160px;
     margin-bottom: 0;
   }
 `;
@@ -123,14 +115,18 @@ export const BookTitle = styled.h1`
   }
 `;
 export const Btn = styled.button`
-  height: 14px;
-  > svg {
-    width: 16px;
-    height: 16px;
-    fill: ${(props) => props.theme.text.gray};
-    &:hover {
-      fill: ${(props) => props.theme.container.yellow};
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  width: fit-content;
+  svg {
+    height: 10px;
+    margin-top: 2px;
+    margin-left: 3px;
+  }
+  &:hover {
+    fill: ${(props) => props.theme.container.yellow};
   }
   @media ${device.tablet} {
     font-size: 16px;

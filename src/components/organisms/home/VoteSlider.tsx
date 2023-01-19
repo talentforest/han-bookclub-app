@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil';
 import { votesState } from 'data/documentsAtom';
 import { isoFormatDate, krCurTime } from 'util/index';
-import { ChevronRight } from '@mui/icons-material';
+import { ArrowForwardIos } from '@mui/icons-material';
 import styled from 'styled-components';
 import VoteBox from 'components/organisms/vote/VoteBox';
 import LinkBtn from 'components/atoms/buttons/LinkBtn';
@@ -28,7 +28,7 @@ const VoteSlider = () => {
           <span>진행중인 투표가 없어요.</span>
           <LinkBtn to='/vote'>
             투표 등록하러 가기
-            <ChevronRight />
+            <ArrowForwardIos />
           </LinkBtn>
         </EmptyContainer>
       )}
@@ -61,13 +61,17 @@ const EmptyContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  gap: 5px;
   padding: 25px;
   border-radius: 10px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   color: ${(props) => props.theme.text.gray};
   a {
-    width: fit-content;
+    width: 180px;
+    svg {
+      font-size: 16px;
+    }
   }
 `;
 

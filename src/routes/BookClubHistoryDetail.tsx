@@ -44,7 +44,7 @@ const BookClubHistoryDetail = () => {
         <BookImgTitle thumbnail={book.thumbnail} title={book.title} />
         <ScheduleBox schedule={meeting} />
       </Infos>
-      <Subtitle title='발제자의 기록' />
+      <Subtitle title='발제자 모임 정리 기록' />
       <HostReviewArea />
       <Subtitle title='독서모임 기록' />
       <CategorySection />

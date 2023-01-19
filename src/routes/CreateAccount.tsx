@@ -10,6 +10,7 @@ import Subtitle from 'components/atoms/Subtitle';
 import Guide from 'components/atoms/Guide';
 import EmailInput from 'components/atoms/inputs/EmailInput';
 import PwInput from 'components/atoms/inputs/PwInput';
+import MobileHeader from 'layout/MobileHeader';
 
 const CreateAccount = () => {
   const [showNextStep, setShowNextStep] = useState(false);
@@ -27,76 +28,79 @@ const CreateAccount = () => {
   } = useCreateAccount(setShowNextStep);
 
   return (
-    <main>
-      {!showNextStep ? (
-        <Form onSubmit={onFirstStepSubmit}>
-          <Subtitle title='사용하실 계정 정보를 입력해 주세요.' />
-          {email && (
-            <Guide text='유효한 이메일을 작성하셔야 비밀번호 찾기 등 다른 기능을 제대로 이용할 수 있어요. 이메일이 맞는지 다시 한번 확인해주세요.' />
-          )}
-          <EmailInput
-            placeholder='자주 사용하는 이메일 계정을 입력해주세요.'
-            value={email}
-            onChange={onFirstStepChange}
-          />
-          <PwInput
-            name='password'
-            placeholder='비밀번호는 8자 이상이어야 합니다.'
-            value={password}
-            onChange={onFirstStepChange}
-            autoComplete='false'
-          />
-          <PwInput
-            name='checkPassword'
-            placeholder='비밀번호를 다시 한번 입력해주세요.'
-            value={checkPassword}
-            onChange={onFirstStepChange}
-            autoComplete='false'
-          />
-          {showErrorMsg && <Msg>{showErrorMsg}</Msg>}
-          <SubmitBtn>계정 생성하기</SubmitBtn>
-        </Form>
-      ) : (
-        <Form onSubmit={onLastStepSubmit}>
-          <Info>이름</Info>
-          <TextInput
-            name='username'
-            value={username}
-            placeholder='이름을 입력해주세요.'
-            onChange={onLastStepChange}
-          />
-          <Info>성별</Info>
-          <Fieldset>
-            {gender.map((item) => (
-              <GenderBox key={item}>
-                <label htmlFor={item}>{item}</label>
-                <CheckboxInput
-                  id={item}
-                  type='radio'
-                  name='gender'
-                  value={item}
-                  onChange={onLastStepChange}
-                  required
+    <>
+      <MobileHeader />
+      <main>
+        {!showNextStep ? (
+          <Form onSubmit={onFirstStepSubmit}>
+            <Subtitle title='사용하실 계정 정보를 입력해 주세요.' />
+            {email && (
+              <Guide text='유효한 이메일을 작성하셔야 비밀번호 찾기 등 다른 기능을 제대로 이용할 수 있어요. 이메일이 맞는지 다시 한번 확인해주세요.' />
+            )}
+            <EmailInput
+              placeholder='자주 사용하는 이메일 계정을 입력해주세요.'
+              value={email}
+              onChange={onFirstStepChange}
+            />
+            <PwInput
+              name='password'
+              placeholder='비밀번호는 8자 이상이어야 합니다.'
+              value={password}
+              onChange={onFirstStepChange}
+              autoComplete='false'
+            />
+            <PwInput
+              name='checkPassword'
+              placeholder='비밀번호를 다시 한번 입력해주세요.'
+              value={checkPassword}
+              onChange={onFirstStepChange}
+              autoComplete='false'
+            />
+            {showErrorMsg && <Msg>{showErrorMsg}</Msg>}
+            <SubmitBtn>계정 생성하기</SubmitBtn>
+          </Form>
+        ) : (
+          <Form onSubmit={onLastStepSubmit}>
+            <Info>이름</Info>
+            <TextInput
+              name='username'
+              value={username}
+              placeholder='이름을 입력해주세요.'
+              onChange={onLastStepChange}
+            />
+            <Info>성별</Info>
+            <Fieldset>
+              {gender.map((item) => (
+                <GenderBox key={item}>
+                  <label htmlFor={item}>{item}</label>
+                  <CheckboxInput
+                    id={item}
+                    type='radio'
+                    name='gender'
+                    value={item}
+                    onChange={onLastStepChange}
+                    required
+                  />
+                </GenderBox>
+              ))}
+            </Fieldset>
+            <Info>관심 분야</Info>
+            <Fieldset>
+              {bookFields.map((item, index) => (
+                <BookField
+                  key={index}
+                  bookFieldName={item.name}
+                  bookFields={item}
+                  checkedBoxHandler={checkedBoxHandler}
                 />
-              </GenderBox>
-            ))}
-          </Fieldset>
-          <Info>관심 분야</Info>
-          <Fieldset>
-            {bookFields.map((item, index) => (
-              <BookField
-                key={index}
-                bookFieldName={item.name}
-                bookFields={item}
-                checkedBoxHandler={checkedBoxHandler}
-              />
-            ))}
-          </Fieldset>
-          {showErrorMsg && <Msg>{showErrorMsg}</Msg>}
-          <SubmitBtn children='등록하기' />
-        </Form>
-      )}
-    </main>
+              ))}
+            </Fieldset>
+            {showErrorMsg && <Msg>{showErrorMsg}</Msg>}
+            <SubmitBtn children='등록하기' />
+          </Form>
+        )}
+      </main>
+    </>
   );
 };
 

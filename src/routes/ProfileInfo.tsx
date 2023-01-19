@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { authService } from 'fbase';
-import { Check, ModeEditOutline } from '@mui/icons-material';
+import { CheckCircle, ModeEditOutline } from '@mui/icons-material';
 import { bookFields } from 'util/index';
 import { useEffect } from 'react';
 import styled from 'styled-components';
@@ -38,7 +38,7 @@ const ProfileInfo = () => {
   }, []);
 
   return checkObj === 0 ? (
-    <Loading full />
+    <Loading />
   ) : (
     <main>
       <ProfileImage
@@ -80,7 +80,7 @@ const ProfileInfo = () => {
         <Form onSubmit={onProfileSubmit}>
           <EditBtn type='submit'>
             수정완료
-            <Check />
+            <CheckCircle />
           </EditBtn>
           <List>
             <Item>
@@ -128,11 +128,14 @@ const EditBtn = styled.button`
   border: 1px solid ${(props) => props.theme.container.blue};
   margin: 20px auto 30px;
   border-radius: 20px;
-  padding: 3px 8px;
+  padding: 3px 10px;
   background-color: #fff;
+  font-size: 16px;
   svg {
-    width: 12px;
-    height: 12px;
+    margin-top: 2px;
+    width: 16px;
+    height: 16px;
+    fill: ${(props) => props.theme.text.accent};
   }
 `;
 const EmptySign = styled.span`

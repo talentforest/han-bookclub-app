@@ -5,28 +5,36 @@ import device from 'theme/mediaQueries';
 interface ICategoryBtnsProps {
   category: category;
   onCategoryClick: (category: category) => void;
+  myRecord?: boolean;
 }
 
-const CategoryBtns = ({ category, onCategoryClick }: ICategoryBtnsProps) => {
+const CategoryBtns = ({
+  category,
+  onCategoryClick,
+  myRecord,
+}: ICategoryBtnsProps) => {
   return (
     <Categories>
       <Category
+        $myRecord={myRecord}
         $isActive={category === 'recommends'}
         onClick={() => onCategoryClick('recommends')}
       >
-        <span>추천한 책</span>
+        <span>{myRecord ? '나의 추천책' : '추천한 책'}</span>
       </Category>
       <Category
+        $myRecord={myRecord}
         $isActive={category === 'subjects'}
         onClick={() => onCategoryClick('subjects')}
       >
-        <span>발제문</span>
+        <span>{myRecord ? '나의 발제문' : '발제문'}</span>
       </Category>
       <Category
+        $myRecord={myRecord}
         $isActive={category === 'reviews'}
         onClick={() => onCategoryClick('reviews')}
       >
-        <span>모임 후기</span>
+        <span>{myRecord ? '나의 모임 후기' : '모임 후기'}</span>
       </Category>
     </Categories>
   );
@@ -34,9 +42,9 @@ const CategoryBtns = ({ category, onCategoryClick }: ICategoryBtnsProps) => {
 const Categories = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
+  margin: 20px 0;
 `;
-const Category = styled.button<{ $isActive: boolean }>`
+const Category = styled.button<{ $isActive: boolean; $myRecord: boolean }>`
   cursor: pointer;
   width: 100%;
   font-size: 14px;
@@ -47,10 +55,13 @@ const Category = styled.button<{ $isActive: boolean }>`
   justify-content: center;
   > span {
     height: 24px;
-    color: ${(props) =>
-      props.$isActive ? props.theme.text.default : props.theme.text.lightGray};
+    color: ${(props) => (props.$isActive ? props.theme.text.default : '#aaa')};
     border-bottom: ${(props) =>
-      props.$isActive ? `8px solid ${props.theme.container.orange}` : 'none'};
+      props.$isActive && props.$myRecord
+        ? `10px solid ${props.theme.container.yellow}`
+        : props.$isActive
+        ? `10px solid ${props.theme.container.orange}`
+        : 'none'};
   }
   @media ${device.tablet} {
     height: 100%;

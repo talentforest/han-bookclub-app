@@ -5,6 +5,7 @@ import {
   BookImg,
   BookTitle,
   Box,
+  Btn,
   ClubBook,
   Header,
   MyRecordModal,
@@ -13,7 +14,7 @@ import {
 import { HTMLContent } from '../RecordBox';
 import { useEffect, useState } from 'react';
 import { getDocument } from 'api/getFbDoc';
-import { ChevronRight } from '@mui/icons-material';
+import { ArrowForwardIos } from '@mui/icons-material';
 import Overlay from 'components/atoms/Overlay';
 import UsernameBox from '../UsernameBox';
 import styled from 'styled-components';
@@ -27,8 +28,14 @@ const MyRecommendBook = ({ recommendedBookId }: PropsType) => {
   const [data, setData] = useState({} as IDocument);
   const [openModal, setOpenModal] = useState(false);
 
-  const { recommendedBook, title, thumbnail, creatorId, createdAt, text } =
-    data;
+  const {
+    recommendedBook,
+    title,
+    thumbnail,
+    creatorId,
+    createdAt,
+    text, //
+  } = data;
 
   const handleModal = () => {
     setOpenModal((prev) => !prev);
@@ -41,18 +48,20 @@ const MyRecommendBook = ({ recommendedBookId }: PropsType) => {
 
   return (
     <>
-      <Record>
-        <BookImg src={recommendedBook?.thumbnail} alt='thumbnail' />
-        <BookTitle>
-          {recommendedBook?.title
-            ? cutLetter(recommendedBook?.title, 6)
-            : title}
-        </BookTitle>
-        <button onClick={handleModal}>
-          보기
-          <ChevronRight />
-        </button>
-      </Record>
+      {!!Object.keys(data).length && (
+        <Record>
+          <BookImg src={recommendedBook?.thumbnail} alt='thumbnail' />
+          <BookTitle>
+            {recommendedBook?.title
+              ? cutLetter(recommendedBook?.title, 7)
+              : title}
+          </BookTitle>
+          <Btn onClick={handleModal}>
+            보기
+            <ArrowForwardIos />
+          </Btn>
+        </Record>
+      )}
       {openModal && (
         <>
           <Overlay onModalClick={handleModal} />
@@ -67,7 +76,11 @@ const MyRecommendBook = ({ recommendedBookId }: PropsType) => {
                   src={recommendedBook?.thumbnail}
                   alt={`${recommendedBook?.title} thumbnail`}
                 />
-                <span>{recommendedBook?.title}</span>
+                <Detail>
+                  <h5>{recommendedBook?.title}</h5>
+                  <span>{recommendedBook?.authors}</span>
+                  <a href={recommendedBook?.url}>상세정보 보러가기</a>
+                </Detail>
               </RecommendedBookInfo>
               <HTMLContent dangerouslySetInnerHTML={{ __html: text }} />
               <ClubBook>
@@ -93,9 +106,22 @@ const RecommendedBookInfo = styled.div`
   background-color: ${(props) => props.theme.text.lightGray};
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.4);
   img {
-    height: 40px;
+    height: 50px;
     width: auto;
     margin-right: 8px;
+    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.4);
+  }
+`;
+const Detail = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  h5 {
+    font-size: 14px;
+  }
+  a {
+    color: ${(props) => props.theme.text.accent};
   }
 `;
 

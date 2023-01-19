@@ -141,6 +141,7 @@ export const SettingIconHeader = styled(Header)`
 const BackButtonHeader = styled(Header)`
   justify-content: flex-start;
   align-items: center;
+  width: fit-content;
   svg {
     cursor: pointer;
     width: 18px;

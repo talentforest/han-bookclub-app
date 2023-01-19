@@ -57,8 +57,8 @@ export const EmptyBox = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100px;
-  margin: 20px auto 70px;
+  height: 180px;
+  margin: 0 auto 70px;
   padding: 5px 20px;
   text-align: center;
   border-radius: 10px;
@@ -69,6 +69,7 @@ export const EmptyBox = styled.div`
     font-size: 16px;
     border-radius: 15px;
     padding: 8px 30px;
+    height: 240px;
   }
 `;
 

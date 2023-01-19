@@ -5,7 +5,6 @@ import { getDocument } from 'api/getFbDoc';
 import { useEffect } from 'react';
 import { fieldHostDocState } from 'data/bookFieldHostAtom';
 import { clubInfoByMonthState } from 'data/documentsAtom';
-import Subtitle from '../../atoms/Subtitle';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import UsernameBox from '../UsernameBox';
@@ -29,8 +28,7 @@ const FieldScheduleBox = () => {
   }, [setFieldHostDoc]);
 
   return (
-    <section>
-      <Subtitle title='한페이지의 독서 분야 일정' />
+    <>
       {fieldHost ? (
         <FieldList>
           {fieldHost?.map((item, index) =>
@@ -94,9 +92,9 @@ const FieldScheduleBox = () => {
           )}
         </FieldList>
       ) : (
-        <Loading full={false} />
+        <Loading height='70vh' />
       )}
-    </section>
+    </>
   );
 };
 
@@ -116,7 +114,7 @@ const FieldList = styled.div`
 const Form = styled.form<{ $highlight?: boolean }>`
   position: relative;
   width: 100%;
-  min-height: 70px;
+  min-height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -142,16 +140,16 @@ const Info = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
   width: 100%;
 `;
 const Select = styled.select`
   width: 100%;
-  height: 30px;
+  height: 34px;
   border-radius: 10px;
-  padding: 0 5px;
+  text-align: center;
   background-color: #fff;
-  font-size: 16px;
+  font-size: 14px;
   border: 1px solid ${(props) => props.theme.text.lightGray};
   box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
   &:focus {
@@ -162,6 +160,7 @@ const Field = styled.p<{ $highlight: boolean }>`
   font-size: 15px;
   text-align: center;
   font-weight: 700;
+
   color: ${(props) =>
     props.$highlight ? props.theme.text.accent : props.theme.text.gray};
   @media ${device.tablet} {
@@ -171,6 +170,10 @@ const Field = styled.p<{ $highlight: boolean }>`
 const SubmitBtn = styled.button`
   border: none;
   padding: 0;
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   svg {
     width: 16px;
     height: 16px;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { recommendBookState } from 'data/bookAtom';
 import { Link } from 'react-router-dom';
-import { Search } from '@mui/icons-material';
+import { ArrowForward } from '@mui/icons-material';
 import { currentUserState } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 import { getFbRoute, cutLetter } from 'util/index';
@@ -54,7 +54,7 @@ const RecommendCreateBox = () => {
     <>
       <LinkBtn to='/search'>
         추천하는 책 찾으러 가기
-        <Search />
+        <ArrowForward />
       </LinkBtn>
       <Form onSubmit={handleSubmit}>
         <Textarea
