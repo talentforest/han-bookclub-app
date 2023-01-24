@@ -17,11 +17,11 @@ const ResultBox = ({ searchedBook }: PropsType) => {
     <>
       <BookResultBox to={`${bookTitle}`} state={{ searchedBook }}>
         {thumbnail ? (
-          <img src={thumbnail} alt={`${thumbnail} book`} />
+          <SearchImg src={thumbnail} alt={`${thumbnail} book`} />
         ) : (
-          <div>
+          <SearchEmptyImg as='div'>
             <Book />
-          </div>
+          </SearchEmptyImg>
         )}
         <BookDetail>
           <h3>{cutLetter(title, 16)}</h3>
@@ -55,16 +55,22 @@ const BookResultBox = styled(Link)`
   }
   > div:first-child {
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
-    background-color: ${(props) => props.theme.container.lightBlue};
-    height: 100px;
-    width: 70px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    svg {
-      width: 30px;
-      height: 30px;
-    }
+  }
+`;
+const SearchImg = styled.img`
+  width: auto;
+  height: 80px;
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+`;
+const SearchEmptyImg = styled(SearchImg)`
+  background-color: ${(props) => props.theme.container.lightBlue};
+  width: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    width: 30px;
+    height: 30px;
   }
 `;
 const BookDetail = styled.div`

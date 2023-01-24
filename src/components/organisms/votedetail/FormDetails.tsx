@@ -108,7 +108,7 @@ const Reasons = styled.details`
   background-color: ${(props) => props.theme.container.default};
   border: 1px solid ${(props) => props.theme.container.yellow};
   padding: 10px;
-  margin: 5px 0 10px;
+  margin: 10px 0 20px;
   border-radius: 10px;
   font-size: 14px;
   > summary {

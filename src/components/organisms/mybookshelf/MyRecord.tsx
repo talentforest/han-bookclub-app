@@ -36,7 +36,7 @@ const MyRecord = ({ recordId, recordSort }: PropsType) => {
   return (
     <>
       {!!Object.keys(record).length && (
-        <Record>
+        <Record onClick={handleModal}>
           {record.thumbnail ? (
             <BookImg src={record.thumbnail} alt={`${record.title} thumbnail`} />
           ) : (
@@ -45,7 +45,7 @@ const MyRecord = ({ recordId, recordSort }: PropsType) => {
           <BookTitle>
             {record.title ? cutLetter(record.title, 7) : '이벤트'}
           </BookTitle>
-          <Btn onClick={handleModal}>
+          <Btn>
             보기
             <ArrowForwardIos />
           </Btn>
@@ -79,11 +79,12 @@ const MyRecord = ({ recordId, recordSort }: PropsType) => {
 };
 
 export const Record = styled.li`
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
   min-height: 80px;
   height: 140px;
@@ -118,15 +119,19 @@ export const Btn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 2px;
   font-size: 12px;
-  width: fit-content;
+  margin-left: 2px;
   svg {
-    height: 10px;
-    margin-top: 2px;
-    margin-left: 3px;
+    margin-top: 1px;
+    height: 12px;
+    width: 12px;
   }
   &:hover {
-    fill: ${(props) => props.theme.container.yellow};
+    color: ${(props) => props.theme.container.blue};
+    svg {
+      fill: ${(props) => props.theme.container.blue};
+    }
   }
   @media ${device.tablet} {
     font-size: 16px;

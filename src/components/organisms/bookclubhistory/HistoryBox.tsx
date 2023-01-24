@@ -3,6 +3,7 @@ import { ArrowForwardIos, LocalActivity } from '@mui/icons-material';
 import { cutLetter, getMonthNm } from 'util/index';
 import { IBookClubMonthInfo } from 'data/documentsAtom';
 import styled from 'styled-components';
+import device from 'theme/mediaQueries';
 
 interface PropsType {
   document: IBookClubMonthInfo;
@@ -49,6 +50,9 @@ const BookBox = styled(Link)`
     height: 80px;
     width: 50px;
     fill: gold;
+  }
+  @media ${device.tablet} {
+    padding: 20px 10px;
   }
 `;
 const Header = styled.header`

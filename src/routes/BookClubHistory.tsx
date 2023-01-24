@@ -54,6 +54,10 @@ const HistoryList = styled.ul`
     margin-top: 20px;
     grid-template-columns: repeat(4, 1fr);
   }
+  @media ${device.desktop} {
+    margin-top: 20px;
+    grid-template-columns: repeat(5, 1fr);
+  }
 `;
 const YearSelect = styled.select`
   cursor: pointer;

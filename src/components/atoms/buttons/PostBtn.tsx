@@ -24,11 +24,13 @@ const Button = styled.button`
   padding: 10px 12px;
   border-radius: 5px;
   color: ${(props) => props.theme.text.white};
+  font-size: 14px;
   font-weight: 700;
   svg {
+    margin-top: 2px;
     margin-left: 5px;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     fill: ${(props) => props.theme.text.white};
   }
 `;

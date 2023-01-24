@@ -28,9 +28,7 @@ const Vote = () => {
     getCollection('Vote', setVotes);
   }, [setVotes]);
 
-  const onModalClick = () => {
-    setModalOpen((prev) => !prev);
-  };
+  const onModalClick = () => setModalOpen((prev) => !prev);
 
   return votes.length === 0 ? (
     <Loading />
@@ -102,11 +100,12 @@ const EmptyBox = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 120px;
   padding: 10px;
-  height: 100px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
+  margin-bottom: 30px;
 `;
 
 export default Vote;

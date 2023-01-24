@@ -1,6 +1,6 @@
-import { ArrowForwardIos, Help } from '@mui/icons-material';
+import { ArrowForwardIos, Help, Verified } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-import { cutLetter, getLocalDate } from 'util/index';
+import { cutLetter } from 'util/index';
 import { IVote } from 'data/voteItemAtom';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
@@ -13,23 +13,30 @@ const ExpiredVoteBox = ({ voteDetail }: PropsType) => {
   const {
     id,
     voteId,
-    vote: { title },
-    deadline,
+    vote: { title, voteItem },
   } = voteDetail;
+
+  const getVoteResultTitle = () => {
+    const voteCountArr = voteItem.map((item) => item.voteCount);
+    const maxVoteCount = Math.max(...voteCountArr);
+    const voteResult = voteItem.find((item) => item.voteCount === maxVoteCount);
+    return voteResult.item;
+  };
 
   return (
     <Vote to={`/vote/${voteId}`} state={{ voteDocId: id }}>
       <Info>
-        <h4>
+        <Title>
           <Help />
           {cutLetter(title, 30)}
-        </h4>
-        <span>{getLocalDate(deadline)}</span>
+        </Title>
+        <Result>
+          <Verified /> {getVoteResultTitle()}
+        </Result>
       </Info>
-      <ShowButton>
-        <span>보기</span>
+      <Btn>
         <ArrowForwardIos />
-      </ShowButton>
+      </Btn>
     </Vote>
   );
 };
@@ -47,60 +54,57 @@ const Vote = styled(Link)`
   padding: 15px 10px;
   background-color: ${(props) => props.theme.container.default};
 `;
-
 const Info = styled.div`
   width: 82%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  h4 {
-    font-weight: 700;
-    svg {
-      float: left;
-      width: 20px;
-      height: 20px;
-      margin-right: 5px;
-    }
-  }
-  > span {
-    display: block;
-    font-size: 14px;
-    margin-top: 10px;
-  }
-  @media ${device.tablet} {
-    h4 {
-      font-size: 16px;
-      svg {
-        width: 22px;
-        height: 22px;
-        margin-right: 10px;
-      }
-    }
-    span {
-      font-size: 16px;
-    }
-  }
-  > svg {
-    width: 18px;
-    height: 18px;
-  }
 `;
-
-const ShowButton = styled.div`
+const Title = styled.h4`
+  font-weight: 700;
   display: flex;
   align-items: center;
-  font-size: 14px;
-  width: 50px;
+  gap: 3px;
   svg {
-    margin: 2px 0 0 3px;
-    width: 16px;
-    height: 16px;
+    float: left;
+    width: 20px;
+    height: 20px;
+    fill: ${(props) => props.theme.text.lightBlue};
+  }
+  @media ${device.tablet} {
+    font-size: 16px;
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+`;
+const Result = styled.span`
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  svg {
+    float: left;
+    width: 20px;
+    height: 20px;
+    fill: gold;
+  }
+  @media ${device.tablet} {
+    font-size: 16px;
+  }
+`;
+const Btn = styled.div`
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: ${(props) => props.theme.text.accent};
   }
   @media ${device.tablet} {
     > svg {
-      width: 16px;
-      height: 16px;
+      width: 20px;
+      height: 25px;
     }
   }
 `;

@@ -85,13 +85,13 @@ const Item = styled.li`
   margin-bottom: 5px;
   padding: 3px 10px;
   min-height: 40px;
-  font-size: 14px;
+  font-size: 16px;
   border: 1px solid ${(props) => props.theme.container.blue};
   border-radius: 10px;
   background-color: ${(props) => props.theme.container.lightBlue};
   > svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     margin-right: 8px;
     fill: ${(props) => props.theme.container.blue};
   }

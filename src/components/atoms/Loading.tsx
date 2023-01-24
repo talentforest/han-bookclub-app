@@ -1,6 +1,5 @@
 import { CircularProgress } from '@mui/material';
 import styled from 'styled-components';
-import device from 'theme/mediaQueries';
 
 interface ILoadingProps {
   height?: string;
@@ -8,20 +7,18 @@ interface ILoadingProps {
 
 const Loading = ({ height }: ILoadingProps) => {
   return (
-    <Load $height={height}>
+    <LoadingBox $height={height}>
       <CircularProgress size={40} />
-    </Load>
+    </LoadingBox>
   );
 };
 
-const Load = styled.div<{ $height: string }>`
-  width: ${(props) => (props.$height ? '100%' : '100vh')};
+const LoadingBox = styled.div<{ $height: string }>`
+  width: 100%;
   height: ${(props) => (props.$height ? props.$height : '70vh')};
   display: flex;
   justify-content: center;
   align-items: center;
-  @media ${device.tablet} {
-  }
 `;
 
 export default Loading;
