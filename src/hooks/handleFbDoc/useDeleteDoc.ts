@@ -26,6 +26,8 @@ const useDeleteDoc = ({ docId, collectionName }: PropsType) => {
   }, [userData.uid]);
 
   const onDeleteClick = async () => {
+    const confirm = window.confirm('정말로 삭제하시겠습니까?');
+    if (!confirm) return;
     await deleteDoc(docRef);
     updateUserData();
   };

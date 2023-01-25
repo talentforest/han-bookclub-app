@@ -19,8 +19,10 @@ const ExpiredVoteBox = ({ voteDetail }: PropsType) => {
   const getVoteResultTitle = () => {
     const voteCountArr = voteItem.map((item) => item.voteCount);
     const maxVoteCount = Math.max(...voteCountArr);
-    const voteResult = voteItem.find((item) => item.voteCount === maxVoteCount);
-    return voteResult.item;
+    const voteResult = voteItem
+      .filter((item) => item.voteCount === maxVoteCount)
+      .map((item) => item.item);
+    return voteResult.join(', ');
   };
 
   return (

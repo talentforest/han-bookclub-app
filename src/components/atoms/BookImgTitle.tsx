@@ -16,7 +16,7 @@ const BookImgTitle = ({ thumbnail, title, smSize }: PropsType) => {
       ) : (
         <Book />
       )}
-      <Title $smSize={smSize}>{title ? title : '등록된 책이 없습니다.'}</Title>
+      <Title $smSize={smSize}>{title ? title : '등록된 책이 없어요.'}</Title>
     </BookBox>
   );
 };

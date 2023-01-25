@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 import RecommendCreateBox from 'components/organisms/bookclubthismonth/RecommendCreateBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import Record from 'components/organisms/RecordBox';
+import RecordBox from 'components/organisms/RecordBox';
 
 interface IRecommendationAreaProps {
   yearMonthId: string;
@@ -26,10 +26,10 @@ const RecommendArea = ({ yearMonthId }: IRecommendationAreaProps) => {
   return (
     <>
       {!historyPage && <RecommendCreateBox />}
-      <RecordBox>
+      <Record>
         {recommends.length !== 0 ? (
           recommends?.map((recommend) => (
-            <Record
+            <RecordBox
               key={recommend.id}
               doc={recommend}
               collectionName={getFbRoute(yearMonthId).RECOMMENDED_BOOKS}
@@ -42,12 +42,12 @@ const RecommendArea = ({ yearMonthId }: IRecommendationAreaProps) => {
               : '첫번째로 추천하고 싶은 책을 남겨보세요.'}
           </EmptyBox>
         )}
-      </RecordBox>
+      </Record>
     </>
   );
 };
 
-export const RecordBox = styled.div`
+export const Record = styled.div`
   display: flex;
   flex-direction: column;
 `;

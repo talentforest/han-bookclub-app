@@ -181,10 +181,21 @@ const Header = styled.div`
   margin-bottom: 10px;
 `;
 export const HTMLContent = styled.div`
-  min-height: 20vh;
+  min-height: 10vh;
   max-height: 60vh;
   overflow: scroll;
   padding: 0;
+  ul {
+    list-style: circle;
+    padding-left: 20px;
+  }
+  ol {
+    list-style: decimal;
+    padding-left: 20px;
+  }
+  li {
+    margin-bottom: 5px;
+  }
   a {
     color: ${(props) => props.theme.text.lightBlue};
     text-decoration: underline;
@@ -194,6 +205,14 @@ export const HTMLContent = styled.div`
     margin-bottom: 5px;
     margin-top: 5px;
     padding-left: 16px;
+  }
+  .ql-indent-1 {
+    margin-left: 30px;
+    padding: 0;
+  }
+  .ql-indent-2 {
+    margin-left: 50px;
+    padding: 0;
   }
 `;
 export const RegisterTime = styled.div`

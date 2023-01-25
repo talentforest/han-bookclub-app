@@ -46,17 +46,10 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
 
   return (
     <>
-      <HostReview>
-        {editing ? (
-          <QuillEditor
-            text={cutLetter(review.text, 210)}
-            setText={setEditedText}
-          />
-        ) : (
-          <HTMLContent
-            dangerouslySetInnerHTML={{ __html: cutLetter(editedText, 200) }}
-          />
-        )}
+      <CuttedHostReviewBox>
+        <HTMLContent
+          dangerouslySetInnerHTML={{ __html: cutLetter(editedText, 280) }}
+        />
         <Footer>
           <ShareBtn
             title='새로운 발제자 모임 정리 기록이 등록되었어요~🚀'
@@ -68,7 +61,7 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
             <ExpandCircleDown />
           </HandleBtn>
         </Footer>
-      </HostReview>
+      </CuttedHostReviewBox>
       {openModal && (
         <>
           <Overlay onModalClick={handleModal} />
@@ -82,7 +75,16 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
               <UsernameBox creatorId={review.creatorId} />
               <TimeStamp>{getLocalDate(review.createdAt)}</TimeStamp>
             </Header>
-            {!editing ? (
+            {editing ? (
+              <>
+                <QuillEditor
+                  placeholder='발제자 모임 정리를 수정해주세요.'
+                  text={editedText}
+                  setText={setEditedText}
+                />
+                <AtLeastOneLetterGuideEditBtn showingGuide={showingGuide} />
+              </>
+            ) : (
               <>
                 <HTMLContent dangerouslySetInnerHTML={{ __html: editedText }} />
                 <EditDeleteBox
@@ -90,11 +92,6 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
                   setEditing={setEditing}
                   onDeleteClick={onDeleteClick}
                 />
-              </>
-            ) : (
-              <>
-                <QuillEditor text={editedText} setText={setEditedText} />
-                <AtLeastOneLetterGuideEditBtn showingGuide={showingGuide} />
               </>
             )}
           </ReviewModal>
@@ -104,7 +101,7 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
   );
 };
 
-const HostReview = styled.div`
+const CuttedHostReviewBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;

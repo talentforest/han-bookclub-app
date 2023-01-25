@@ -215,6 +215,9 @@ const Detail = styled.div`
     margin-top: 5px;
     font-weight: 500;
   }
+  @media ${device.tablet} {
+    width: 40vw;
+  }
 `;
 const SubmitBtn = styled.button`
   border: none;

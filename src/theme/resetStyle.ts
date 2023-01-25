@@ -9,10 +9,10 @@ export const ResetStyle = createGlobalStyle`
         padding: 10px 20px 100px;
         position: relative;
         @media ${device.tablet} {
-        padding: 10px 80px 100px;
+        padding: 10px 100px 100px;
         }
         @media ${device.desktop} {
-          padding: 10px 160px 100px;
+          padding: 10px 180px 100px;
         }
       }
     }

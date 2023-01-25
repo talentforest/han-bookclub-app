@@ -9,7 +9,10 @@ const DesktopNav = () => {
     !pathname.includes('create_account') && (
       <Nav>
         <Link to='/'>
-          <Logo>한 페이지: Han Page</Logo>
+          <Logo>
+            <img src='hanpage_logo.png' alt='hanpage bookclub logo' />
+            <span>한페이지 독서모임</span>
+          </Logo>
         </Link>
         <List>
           <Item $active={pathname.includes('/history')}>
@@ -38,22 +41,30 @@ const Nav = styled.nav`
   justify-content: space-between;
   align-items: center;
   height: 100px;
-  padding: 20px 80px;
+  padding: 20px 100px;
   @media ${device.desktop} {
-    padding: 20px 160px;
+    padding: 20px 180px;
   }
 `;
 const Logo = styled.div`
-  font-size: 18px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
   font-weight: 700;
   color: ${(props) => props.theme.text.lightBlue};
+  img {
+    width: auto;
+    height: 20px;
+    margin-bottom: 2px;
+  }
 `;
 const List = styled.ul`
   display: flex;
   justify-content: flex-end;
-  gap: 0 20px;
+  gap: 0 15px;
+  font-size: 15px;
   @media ${device.desktop} {
-    gap: 0 25px;
+    gap: 0 20px;
   }
 `;
 const Item = styled.li<{ $active: boolean }>`

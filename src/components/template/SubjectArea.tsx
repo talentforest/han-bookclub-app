@@ -1,12 +1,12 @@
 import { getFbRoute } from 'util/index';
 import { getCollection } from 'api/getFbDoc';
-import { EmptyBox, RecordBox } from './RecommendArea';
+import { EmptyBox, Record } from './RecommendArea';
 import { useRecoilState } from 'recoil';
 import { subjectsState } from 'data/documentsAtom';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import SubjectCreateModal from 'components/organisms/bookclubthismonth/SubjectCreateModal';
-import Record from 'components/organisms/RecordBox';
+import RecordBox from 'components/organisms/RecordBox';
 
 interface ISubjectAreaProps {
   yearMonthId: string;
@@ -25,10 +25,10 @@ const SubjectArea = ({ yearMonthId }: ISubjectAreaProps) => {
   return (
     <>
       {thisMonthPage && <SubjectCreateModal docMonth={yearMonthId} />}
-      <RecordBox>
+      <Record>
         {subjects?.length !== 0 ? (
           subjects?.map((subject) => (
-            <Record
+            <RecordBox
               key={subject.id}
               doc={subject}
               collectionName={getFbRoute(yearMonthId).SUBJECTS}
@@ -41,7 +41,7 @@ const SubjectArea = ({ yearMonthId }: ISubjectAreaProps) => {
               : '첫번째 발제문을 남겨보세요.'}
           </EmptyBox>
         )}
-      </RecordBox>
+      </Record>
     </>
   );
 };
