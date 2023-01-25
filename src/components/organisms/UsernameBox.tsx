@@ -1,7 +1,9 @@
 import { AccountCircle } from '@mui/icons-material';
-import { memo, useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+import { allUsersState } from 'data/userAtom';
+import { getCollection } from 'api/getFbDoc';
 import { USER_DATA } from 'util/index';
-import { getDocument } from 'api/getFbDoc';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -10,26 +12,23 @@ interface PropsType {
 }
 
 const UsernameBox = ({ creatorId }: PropsType) => {
-  const [userDataDoc, setUserDataDoc] = useState({
-    displayName: '',
-    email: '',
-    favoriteBookField: [],
-    name: '',
-    photoUrl: '',
-  });
+  const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersState);
+  const userInfo = allUserDocs.find((user) => user.id === creatorId);
 
   useEffect(() => {
-    getDocument(USER_DATA, creatorId, setUserDataDoc);
-  }, [creatorId]);
+    if (allUserDocs.length === 0) {
+      getCollection(USER_DATA, setAllUserDocs);
+    }
+  }, [creatorId, allUserDocs]);
 
   return (
     <User>
-      {userDataDoc?.photoUrl ? (
-        <ProfileImgBox $bgPhoto={userDataDoc.photoUrl} />
+      {userInfo?.photoUrl ? (
+        <ProfileImgBox $bgPhoto={userInfo.photoUrl} />
       ) : (
         <AccountCircle />
       )}
-      {userDataDoc?.displayName && <span>{userDataDoc?.displayName}</span>}
+      {userInfo?.displayName && <span>{userInfo?.displayName}</span>}
     </User>
   );
 };
@@ -56,7 +55,6 @@ const User = styled.div`
     }
   }
 `;
-
 const ProfileImgBox = styled.div<{ $bgPhoto: string }>`
   width: 18px;
   height: 18px;
@@ -71,4 +69,4 @@ const ProfileImgBox = styled.div<{ $bgPhoto: string }>`
   }
 `;
 
-export default memo(UsernameBox);
+export default UsernameBox;

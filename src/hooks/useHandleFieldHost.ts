@@ -11,20 +11,24 @@ import useAlertAskJoin from './useAlertAskJoin';
 
 const useHandleFieldHost = () => {
   const fieldHostDoc = useRecoilValue(fieldHostDocState);
-  const [fieldHost, setFieldHost] = useRecoilState(fieldHostState);
-  const [userDocs, setUserDocs] = useRecoilState(allUsersState);
+  const [fieldHosts, setFieldHosts] = useRecoilState(fieldHostState);
+  const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersState);
   const [isEditing, setIsEditing] = useState(new Array(12).fill(false));
+  const [detailItems, setDetailItems] = useState(new Array(12).fill(false));
 
   const fbDoc = doc(dbService, BOOK_FIELD_HOST, `${thisYear}`);
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
 
   useEffect(() => {
-    getCollection(USER_DATA, setUserDocs);
-    setFieldHost(fieldHostDoc.info);
-  }, [setFieldHost, setUserDocs, fieldHostDoc]);
+    if (allUserDocs.length === 0) {
+      getCollection(USER_DATA, setAllUserDocs);
+    }
+    setFieldHosts(fieldHostDoc.info);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fieldHostDoc, fieldHosts]);
 
   const allMembers = [
-    ...userDocs,
+    ...allUserDocs,
     { id: 'no_host', displayName: '발제자 없음' },
   ];
 
@@ -33,7 +37,7 @@ const useHandleFieldHost = () => {
     idx: number
   ) => {
     event.preventDefault();
-    await updateDoc(fbDoc, { info: fieldHost });
+    await updateDoc(fbDoc, { info: fieldHosts });
     onEditClick(idx);
   };
 
@@ -42,12 +46,12 @@ const useHandleFieldHost = () => {
     index: number
   ) => {
     const { value, name } = event.currentTarget;
-    const newArray = fieldHost.map((item) => {
+    const newArray = fieldHosts.map((item) => {
       const data =
         name === 'field' ? { ...item, field: value } : { ...item, host: value };
       return item.month === index + 1 ? data : item;
     });
-    setFieldHost(newArray);
+    setFieldHosts(newArray);
   };
 
   const onEditClick = (idx: number) => {
@@ -58,13 +62,22 @@ const useHandleFieldHost = () => {
     setIsEditing(editedArr);
   };
 
+  const onDetailClick = (idx: number) => {
+    const clickedArr = detailItems.map((item, index) =>
+      index === idx ? !item : item
+    );
+    setDetailItems(clickedArr);
+  };
+
   return {
     isEditing,
-    fieldHost,
+    fieldHosts,
     allMembers,
     onSubmit,
     onChange,
     onEditClick,
+    detailItems,
+    onDetailClick,
   };
 };
 

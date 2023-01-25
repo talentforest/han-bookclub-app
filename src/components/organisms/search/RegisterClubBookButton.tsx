@@ -1,8 +1,6 @@
 import { IBookApi } from 'data/bookAtom';
-import { useRecoilValue } from 'recoil';
-import { clubInfoByYearState } from 'data/documentsAtom';
 import { thisYearMonthIso } from 'util/index';
-import useHandleClubInfoDoc from 'hooks/useHandleClubInfoDoc';
+import useSetBookClubDoc from 'hooks/useSetBookClubDoc';
 import styled from 'styled-components';
 
 interface PropsType {
@@ -10,13 +8,11 @@ interface PropsType {
 }
 
 const RegisterClubBookButton = ({ searchedBook }: PropsType) => {
-  const clubDocs = useRecoilValue(clubInfoByYearState);
-
   const {
     toggle,
     onSubmit,
     onMonthChange, //
-  } = useHandleClubInfoDoc({ clubDocs, searchedBook });
+  } = useSetBookClubDoc({ searchedBook });
 
   return (
     <SelectBox onSubmit={onSubmit}>

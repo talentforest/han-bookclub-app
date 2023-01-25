@@ -1,5 +1,5 @@
 import { IUserRecord } from 'data/userAtom';
-import { cutLetter, getFbRoute, getLocalDate } from 'util/index';
+import { cutLetter, getFbRoute, getLocalDate, existDocObj } from 'util/index';
 import { IDocument } from 'data/documentsAtom';
 import {
   BookImg,
@@ -25,9 +25,8 @@ interface PropsType {
 
 const MyRecommendBook = ({ recommendedBookId }: PropsType) => {
   const { docId, monthId } = recommendedBookId;
-  const [data, setData] = useState({} as IDocument);
+  const [myRecommendedBook, setMyRecommendedBook] = useState({} as IDocument);
   const [openModal, setOpenModal] = useState(false);
-
   const {
     recommendedBook,
     title,
@@ -35,20 +34,19 @@ const MyRecommendBook = ({ recommendedBookId }: PropsType) => {
     creatorId,
     createdAt,
     text, //
-  } = data;
-
-  const handleModal = () => {
-    setOpenModal((prev) => !prev);
-  };
+  } = myRecommendedBook;
+  const route = getFbRoute(monthId).RECOMMENDED_BOOKS;
 
   useEffect(() => {
-    getDocument(getFbRoute(monthId).RECOMMENDED_BOOKS, docId, setData);
+    getDocument(route, docId, setMyRecommendedBook);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleModal = () => setOpenModal((prev) => !prev);
+
   return (
     <>
-      {!!Object.keys(data).length && (
+      {existDocObj(myRecommendedBook) && (
         <Record>
           <BookImg src={recommendedBook?.thumbnail} alt='thumbnail' />
           <BookTitle>

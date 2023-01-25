@@ -5,7 +5,7 @@ import { ArrowForward } from '@mui/icons-material';
 import { currentUserState } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 import { getFbRoute, cutLetter } from 'util/index';
-import { clubInfoByMonthState } from 'data/documentsAtom';
+import { thisMonthClubState } from 'data/documentsAtom';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
@@ -13,11 +13,11 @@ import PostBtn from 'components/atoms/buttons/PostBtn';
 
 const RecommendCreateBox = () => {
   const [text, setText] = useState('');
-  const thisMonthClubInfo = useRecoilValue(clubInfoByMonthState);
+  const thisMonthClub = useRecoilValue(thisMonthClubState);
   const {
     id,
     book: { title, thumbnail },
-  } = thisMonthClubInfo;
+  } = thisMonthClub;
   const myRecommendBook = useRecoilValue(recommendBookState);
   const userData = useRecoilValue(currentUserState);
   const collectionName = getFbRoute(id).RECOMMENDED_BOOKS;

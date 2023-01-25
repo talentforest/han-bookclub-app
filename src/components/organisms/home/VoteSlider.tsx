@@ -1,4 +1,6 @@
-import { useRecoilValue } from 'recoil';
+import { useEffect } from 'react';
+import { getCollection } from 'api/getFbDoc';
+import { useRecoilState } from 'recoil';
 import { votesState } from 'data/documentsAtom';
 import { isoFormatDate, krCurTime } from 'util/index';
 import { ArrowForwardIos } from '@mui/icons-material';
@@ -8,10 +10,17 @@ import LinkBtn from 'components/atoms/buttons/LinkBtn';
 import device from 'theme/mediaQueries';
 
 const VoteSlider = () => {
-  const votes = useRecoilValue(votesState);
+  const [votes, setVotes] = useRecoilState(votesState);
   const progressVotes = votes.filter(
     (item) => item.deadline >= isoFormatDate(krCurTime)
   );
+
+  useEffect(() => {
+    if (votes.length === 0) {
+      getCollection('Vote', setVotes);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

@@ -1,37 +1,50 @@
-import { CheckCircle, Edit } from '@mui/icons-material';
-import { getMonthNm, fieldOfClub, thisYear, BOOK_FIELD_HOST } from 'util/index';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { CheckCircle, Edit, PostAdd } from '@mui/icons-material';
+import {
+  getMonthNm,
+  fieldOfClub,
+  thisYear,
+  BOOK_FIELD_HOST,
+  existDocObj,
+} from 'util/index';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { getDocument } from 'api/getFbDoc';
 import { useEffect } from 'react';
 import { fieldHostDocState } from 'data/bookFieldHostAtom';
-import { clubInfoByMonthState } from 'data/documentsAtom';
+import { thisMonthClubState } from 'data/documentsAtom';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import UsernameBox from '../UsernameBox';
 import useHandleFieldHost from 'hooks/useHandleFieldHost';
 import Loading from 'components/atoms/Loading';
+import Overlay from 'components/atoms/Overlay';
 
 const FieldScheduleBox = () => {
-  const { id } = useRecoilValue(clubInfoByMonthState);
-  const setFieldHostDoc = useSetRecoilState(fieldHostDocState);
+  const { id } = useRecoilValue(thisMonthClubState);
+  const [fieldHostDoc, setFieldHostDoc] = useRecoilState(fieldHostDocState);
+
   const {
     isEditing,
-    fieldHost,
+    fieldHosts,
     allMembers,
     onSubmit,
     onChange,
-    onEditClick, //
+    onEditClick,
+    detailItems,
+    onDetailClick,
   } = useHandleFieldHost();
 
   useEffect(() => {
-    getDocument(BOOK_FIELD_HOST, `${thisYear}`, setFieldHostDoc);
-  }, [setFieldHostDoc]);
+    if (!existDocObj(fieldHostDoc)) {
+      getDocument(BOOK_FIELD_HOST, `${thisYear}`, setFieldHostDoc);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fieldHostDoc]);
 
   return (
     <>
-      {fieldHost ? (
+      {fieldHosts ? (
         <FieldList>
-          {fieldHost?.map((item, index) =>
+          {fieldHosts?.map((item, index) =>
             isEditing[index] ? (
               <Form
                 key={item.month}
@@ -82,6 +95,18 @@ const FieldScheduleBox = () => {
                   )}
                   <Field $highlight={item.month === getMonthNm(id)}>
                     {item.field === '이벤트' ? '⭐️' : '📚'} {item.field}
+                    {detailItems[index] && (
+                      <>
+                        <Overlay onModalClick={() => onDetailClick(index)} />
+                        <Detail onClick={() => onDetailClick(index)}>
+                          <h4>{`${item.month}월`} 추가사항</h4>
+                          <p>{item.detail}</p>
+                        </Detail>
+                      </>
+                    )}
+                    {item.detail !== '' && (
+                      <PostAdd onClick={() => onDetailClick(index)} />
+                    )}
                   </Field>
                 </Info>
                 <SubmitBtn type='button' onClick={() => onEditClick(index)}>
@@ -156,15 +181,39 @@ const Select = styled.select`
     outline: none;
   }
 `;
-const Field = styled.p<{ $highlight: boolean }>`
+const Field = styled.div<{ $highlight: boolean }>`
   font-size: 15px;
-  text-align: center;
   font-weight: 700;
-
+  text-align: center;
+  display: flex;
+  align-items: center;
   color: ${(props) =>
     props.$highlight ? props.theme.text.accent : props.theme.text.gray};
+  > svg {
+    cursor: pointer;
+    fill: ${(props) => props.theme.text.lightBlue};
+    margin-left: 3px;
+  }
   @media ${device.tablet} {
     font-size: 16px;
+  }
+`;
+const Detail = styled.div`
+  position: fixed;
+  height: min-content;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 90vw;
+  z-index: 1;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #fff;
+  p {
+    margin-top: 5px;
+    font-weight: 500;
   }
 `;
 const SubmitBtn = styled.button`

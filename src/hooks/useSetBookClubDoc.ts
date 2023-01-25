@@ -1,22 +1,19 @@
 import { IBookApi } from 'data/bookAtom';
-import { IBookClubMonthInfo } from 'data/documentsAtom';
 import { currentUserState } from 'data/userAtom';
 import { dbService } from 'fbase';
-import { deleteDoc, doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { thisYear, thisYearMonthIso } from 'util/index';
+import { thisYearMonthIso, THIS_YEAR_BOOKCLUB } from 'util/index';
 
 interface PropsType {
-  clubDocs: IBookClubMonthInfo[];
   searchedBook: IBookApi;
 }
 
-const useHandleClubInfoDoc = ({ clubDocs, searchedBook }: PropsType) => {
+const useSetBookClubDoc = ({ searchedBook }: PropsType) => {
   const [toggle, setToggle] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(`${thisYearMonthIso}`);
   const userData = useRecoilValue(currentUserState);
-  const BookClubRoute = `BookClub-${thisYear}`;
   const {
     thumbnail,
     title,
@@ -46,24 +43,18 @@ const useHandleClubInfoDoc = ({ clubDocs, searchedBook }: PropsType) => {
     creatorId: userData.uid,
   };
 
-  const setClubInfoDoc = async () => {
-    const selectMonthRef = doc(dbService, BookClubRoute, `${selectedMonth}`);
-    await setDoc(selectMonthRef, bookClubInfo);
-  };
-
-  const deleteClubInfoDoc = async () => {
-    const isClubBook = clubDocs.find(
-      (item) => item.book.title === searchedBook.title
+  const setThisYearBookClubDoc = async () => {
+    const selectMonthRef = doc(
+      dbService,
+      THIS_YEAR_BOOKCLUB,
+      `${selectedMonth}`
     );
-    const clubInfoDocRef = doc(dbService, BookClubRoute, `${isClubBook?.id}`);
-    await deleteDoc(clubInfoDocRef);
+    await setDoc(selectMonthRef, bookClubInfo);
   };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (userData.uid !== process.env.REACT_APP_ADMIN_KEY)
-      return alert('독서모임 도서 선정은 관리자에게 문의해주세요.');
-    toggle ? deleteClubInfoDoc() : setClubInfoDoc();
+    setThisYearBookClubDoc();
     setToggle((prev) => !prev);
   };
 
@@ -80,4 +71,4 @@ const useHandleClubInfoDoc = ({ clubDocs, searchedBook }: PropsType) => {
   };
 };
 
-export default useHandleClubInfoDoc;
+export default useSetBookClubDoc;

@@ -2,13 +2,25 @@ import HostReviewBox from 'components/organisms/HostReviewBox';
 import HostReviewCreateModal from 'components/organisms/bookclubthismonth/HostReviewCreateModal';
 import { hostReviewState } from 'data/documentsAtom';
 import { useLocation } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { thisYearMonthIso } from 'util/index';
+import { useRecoilState } from 'recoil';
+import { getFbRoute, thisYearMonthIso } from 'util/index';
 import { EmptyBox } from './RecommendArea';
+import { useEffect } from 'react';
+import { getCollection } from 'api/getFbDoc';
 
-const HostReviewArea = () => {
+interface IHostReviewAreaProps {
+  id: string;
+}
+
+const HostReviewArea = ({ id }: IHostReviewAreaProps) => {
   const { pathname } = useLocation();
-  const hostReview = useRecoilValue(hostReviewState);
+  const [hostReview, setHostReview] = useRecoilState(hostReviewState);
+
+  useEffect(() => {
+    getCollection(getFbRoute(id).HOST_REVIEW, setHostReview);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       {hostReview?.length !== 0 ? (

@@ -1,5 +1,8 @@
+import { thisYear } from './dateUtils';
+
 export const USER_DATA = 'User Data';
 export const BOOK_FIELD_HOST = 'BookFieldAndHost';
+export const THIS_YEAR_BOOKCLUB = `BookClub-${thisYear}`;
 export const VOTE = 'Vote';
 
 export const getFbRoute = (id: string) => {

@@ -1,8 +1,14 @@
 import { useEffect } from 'react';
-import { thisMonth, thisYear, thisYearMonthIso } from 'util/index';
-import { getCollection, getDocument } from 'api/getFbDoc';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { clubInfoByMonthState, votesState } from 'data/documentsAtom';
+import {
+  thisMonth,
+  thisYear,
+  thisYearMonthIso,
+  THIS_YEAR_BOOKCLUB,
+  existDocObj,
+} from 'util/index';
+import { getDocument } from 'api/getFbDoc';
+import { useRecoilState } from 'recoil';
+import { thisMonthClubState } from 'data/documentsAtom';
 import Subtitle from 'components/atoms/Subtitle';
 import BookImgTitle from 'components/atoms/BookImgTitle';
 import Loading from 'components/atoms/Loading';
@@ -14,23 +20,17 @@ import ScheduleBox from 'components/organisms/ScheduleBox';
 import BookLogoBox from 'components/organisms/home/BookLogo';
 
 const Home = () => {
-  const [thisMonthClub, setThisMonthClub] =
-    useRecoilState(clubInfoByMonthState);
-  const setVotes = useSetRecoilState(votesState);
-  const checkThisMonthDoc = Object.keys(thisMonthClub).length;
+  const [thisMonthClub, setThisMonthClub] = useRecoilState(thisMonthClubState);
   const { book, meeting } = thisMonthClub;
 
   useEffect(() => {
-    getDocument(
-      `BookClub-${thisYear}`,
-      `${thisYearMonthIso}`,
-      setThisMonthClub
-    );
-    getCollection('Vote', setVotes);
+    if (!existDocObj(thisMonthClub)) {
+      getDocument(THIS_YEAR_BOOKCLUB, `${thisYearMonthIso}`, setThisMonthClub);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return checkThisMonthDoc === 0 ? (
+  return !existDocObj(thisMonthClub) ? (
     <Loading />
   ) : (
     <main>

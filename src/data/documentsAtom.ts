@@ -3,7 +3,7 @@ import { v4 } from 'uuid';
 import { IBookApi, IRecommendedBook } from './bookAtom';
 import { IVote } from './voteItemAtom';
 
-export interface IBookClubMonthInfo {
+export interface IBookClubInfo {
   id?: string;
   creatorId: string;
   createdAt: number;
@@ -26,7 +26,7 @@ export interface IDocument {
   recommendedBook?: IRecommendedBook;
 }
 
-export const thisYearClubInfoState = atom<IBookClubMonthInfo[]>({
+export const thisYearClubInfoState = atom<IBookClubInfo[]>({
   key: `thisYearClubInfo/${v4()}`,
   default: [],
   effects: [
@@ -45,7 +45,7 @@ export const thisYearClubInfoState = atom<IBookClubMonthInfo[]>({
   ],
 });
 
-export const clubInfoByYearState = atom<IBookClubMonthInfo[]>({
+export const clubInfoByYearState = atom<IBookClubInfo[]>({
   key: `clubInfoByYear/${v4()}`,
   default: [],
   effects: [
@@ -64,12 +64,12 @@ export const clubInfoByYearState = atom<IBookClubMonthInfo[]>({
   ],
 });
 
-export const clubInfoByMonthState = atom<IBookClubMonthInfo>({
-  key: `clubInfoByMonth/${v4()}`,
-  default: {} as IBookClubMonthInfo,
+export const thisMonthClubState = atom<IBookClubInfo>({
+  key: `thisMonthClub/${v4()}`,
+  default: {} as IBookClubInfo,
   effects: [
     ({ setSelf, onSet }) => {
-      const storeKey = 'clubInfoByMonth';
+      const storeKey = 'thisMonthClub';
       const savedValue = localStorage.getItem(storeKey);
       if (savedValue != null) {
         setSelf(JSON.parse(savedValue));

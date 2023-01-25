@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { clubInfoByMonthState } from 'data/documentsAtom';
+import { thisMonthClubState } from 'data/documentsAtom';
 import { category, categoryState } from 'data/categoryAtom';
 import { useLocation } from 'react-router-dom';
 import CategoryBtns from 'components/organisms/CategoryBtns';
@@ -9,14 +9,14 @@ import ReviewArea from 'components/template/ReviewArea';
 
 const CategorySection = () => {
   const [category, setCategory] = useRecoilState(categoryState);
-  const thisMonthClubInfo = useRecoilValue(clubInfoByMonthState);
+  const thisMonthClub = useRecoilValue(thisMonthClubState);
   const { pathname } = useLocation();
-  const { id } = thisMonthClubInfo;
+  const { id } = thisMonthClub;
 
   const onCategoryClick = (category: category) => setCategory(category);
 
-  const historyId = pathname.slice(-7);
-  const thisYearMonthId = pathname.includes('history') ? historyId : id;
+  const historyPageId = pathname.slice(-7);
+  const thisYearMonthId = pathname.includes('history') ? historyPageId : id;
 
   return (
     <>

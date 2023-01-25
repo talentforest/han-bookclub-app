@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Close } from '@mui/icons-material';
-import { IBookApi } from 'data/bookAtom';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
+import { thisMonthClubState } from 'data/documentsAtom';
 import { getFbRoute } from 'util/index';
 import Overlay from 'components/atoms/Overlay';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
@@ -15,22 +15,26 @@ import PostBtn from 'components/atoms/buttons/PostBtn';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
 
 interface PropsType {
-  bookInfo: IBookApi;
   docMonth: string;
 }
 
-const SubjectCreateModal = ({ bookInfo, docMonth }: PropsType) => {
+const SubjectCreateModal = ({ docMonth }: PropsType) => {
+  const thisMonthClub = useRecoilValue(thisMonthClubState);
   const [text, setText] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const collectionName = getFbRoute(docMonth).SUBJECTS;
   const userData = useRecoilValue(currentUserState);
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('write');
+  const {
+    book: { title, thumbnail },
+  } = thisMonthClub;
+
   const docData = {
-    text,
     createdAt: Date.now(),
     creatorId: userData?.uid,
-    title: bookInfo?.title,
-    thumbnail: bookInfo?.thumbnail,
+    text,
+    title,
+    thumbnail,
   };
 
   const { onAddDocSubmit } = useAddDoc({

@@ -2,7 +2,7 @@ import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { authService } from 'fbase';
 import { CheckCircle, ModeEditOutline } from '@mui/icons-material';
-import { bookFields } from 'util/index';
+import { bookFields, existDocObj } from 'util/index';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import useHandleProfile from 'hooks/useHandleProfile';
@@ -28,7 +28,6 @@ const ProfileInfo = () => {
     onDisplayNameChange,
     isSelected,
   } = useHandleProfile();
-  const checkObj = Object.keys(extraUserData).length;
 
   useEffect(() => {
     if (!newDisplayName) {
@@ -37,7 +36,7 @@ const ProfileInfo = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return checkObj === 0 ? (
+  return existDocObj(extraUserData) ? (
     <Loading />
   ) : (
     <main>

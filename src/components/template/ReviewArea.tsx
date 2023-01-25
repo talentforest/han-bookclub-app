@@ -1,9 +1,9 @@
 import { getFbRoute } from 'util/index';
-import { getCollection, getDocument } from 'api/getFbDoc';
+import { getCollection } from 'api/getFbDoc';
 import { EmptyBox, RecordBox } from './RecommendArea';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { reviewsState, clubInfoByMonthState } from 'data/documentsAtom';
+import { reviewsState } from 'data/documentsAtom';
 import { useLocation } from 'react-router-dom';
 import ReviewCreateBox from 'components/organisms/bookclubthismonth/ReviewCreateBox';
 import Record from 'components/organisms/RecordBox';
@@ -13,22 +13,18 @@ interface IReviewAreaProps {
 }
 
 const ReviewArea = ({ yearMonthId }: IReviewAreaProps) => {
-  const [clubInfo, setClubInfo] = useRecoilState(clubInfoByMonthState);
   const [reviews, setReviews] = useRecoilState(reviewsState);
   const { pathname } = useLocation();
-  const { id, book } = clubInfo;
-  const year = yearMonthId.slice(0, 4);
+  const thisMonthPage = pathname.includes('bookclub');
 
   useEffect(() => {
-    getDocument(`BookClub-${year}`, `${yearMonthId}`, setClubInfo);
     getCollection(getFbRoute(yearMonthId).REVIEWS, setReviews);
-  }, [year, setClubInfo, setReviews, yearMonthId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
-      {pathname.includes('bookclub') && (
-        <ReviewCreateBox bookInfo={book} docMonth={id} />
-      )}
+      {thisMonthPage && <ReviewCreateBox docMonth={yearMonthId} />}
       <RecordBox>
         {reviews?.length !== 0 ? (
           reviews?.map((review) => (

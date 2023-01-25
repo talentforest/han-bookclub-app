@@ -1,36 +1,31 @@
-import { useEffect, useState } from 'react';
-import { IBookApi } from 'data/bookAtom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { currentUserState, userExtraInfoState } from 'data/userAtom';
-import { getDocument } from 'api/getFbDoc';
-import { getFbRoute, USER_DATA } from 'util/index';
+import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { currentUserState } from 'data/userAtom';
+import { getFbRoute } from 'util/index';
+import { thisMonthClubState } from 'data/documentsAtom';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import styled from 'styled-components';
 import PostBtn from 'components/atoms/buttons/PostBtn';
 interface PropsType {
-  bookInfo: IBookApi;
   docMonth: string;
 }
 
-const ReviewCreateBox = ({ bookInfo, docMonth }: PropsType) => {
+const ReviewCreateBox = ({ docMonth }: PropsType) => {
   const [text, setText] = useState('');
-  const setUserExtraData = useSetRecoilState(userExtraInfoState);
-  const collectionName = getFbRoute(docMonth).REVIEWS;
+  const clubInfo = useRecoilValue(thisMonthClubState);
   const userData = useRecoilValue(currentUserState);
+  const collectionName = getFbRoute(docMonth).REVIEWS;
 
-  useEffect(() => {
-    if (userData.uid) {
-      getDocument(USER_DATA, userData.uid, setUserExtraData);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData.uid]);
+  const {
+    book: { title, thumbnail },
+  } = clubInfo;
 
   const docData = {
-    text,
     createdAt: Date.now(),
     creatorId: userData.uid,
-    title: bookInfo.title,
-    thumbnail: bookInfo.thumbnail,
+    text,
+    title,
+    thumbnail,
   };
 
   const { onAddDocSubmit, onChange } = useAddDoc({

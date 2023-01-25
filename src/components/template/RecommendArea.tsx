@@ -1,8 +1,8 @@
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { getFbRoute } from 'util/index';
-import { getCollection, getDocument } from 'api/getFbDoc';
+import { getCollection } from 'api/getFbDoc';
 import { useEffect } from 'react';
-import { clubInfoByMonthState, recommendsState } from 'data/documentsAtom';
+import { recommendsState } from 'data/documentsAtom';
 import { useLocation } from 'react-router-dom';
 import RecommendCreateBox from 'components/organisms/bookclubthismonth/RecommendCreateBox';
 import styled from 'styled-components';
@@ -14,19 +14,18 @@ interface IRecommendationAreaProps {
 }
 
 const RecommendArea = ({ yearMonthId }: IRecommendationAreaProps) => {
-  const setClubInfo = useSetRecoilState(clubInfoByMonthState);
   const [recommends, setRecommends] = useRecoilState(recommendsState);
   const { pathname } = useLocation();
-  const year = yearMonthId.slice(0, 4);
+  const historyPage = pathname.includes('history');
 
   useEffect(() => {
-    getDocument(`BookClub-${year}`, `${yearMonthId}`, setClubInfo);
     getCollection(getFbRoute(yearMonthId).RECOMMENDED_BOOKS, setRecommends);
-  }, [year, setClubInfo, setRecommends, yearMonthId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
-      {pathname.includes('bookclub') && <RecommendCreateBox />}
+      {!historyPage && <RecommendCreateBox />}
       <RecordBox>
         {recommends.length !== 0 ? (
           recommends?.map((recommend) => (
@@ -38,7 +37,7 @@ const RecommendArea = ({ yearMonthId }: IRecommendationAreaProps) => {
           ))
         ) : (
           <EmptyBox>
-            {pathname.includes('history')
+            {historyPage
               ? '추천된 책이 없습니다.'
               : '첫번째로 추천하고 싶은 책을 남겨보세요.'}
           </EmptyBox>

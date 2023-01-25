@@ -1,15 +1,17 @@
 import { useEffect } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { hostReviewState, clubInfoByMonthState } from 'data/documentsAtom';
+import { useRecoilState } from 'recoil';
+import { thisMonthClubState } from 'data/documentsAtom';
 import {
-  getFbRoute,
   getMonthNm,
   thisYearMonthIso,
   thisYear,
   BOOK_FIELD_HOST,
   thisMonth,
+  THIS_YEAR_BOOKCLUB,
+  existDocObj,
 } from 'util/index';
-import { getCollection, getDocument } from 'api/getFbDoc';
+import { getDocument } from 'api/getFbDoc';
+import { fieldHostDocState } from 'data/bookFieldHostAtom';
 import Loading from 'components/atoms/Loading';
 import Subtitle from 'components/atoms/Subtitle';
 import BookImgTitle from 'components/atoms/BookImgTitle';
@@ -18,27 +20,23 @@ import Guide from 'components/atoms/Guide';
 import CategorySection from 'components/template/CategorySection';
 import HostReviewArea from 'components/template/HostReviewArea';
 import UsernameBox from 'components/organisms/UsernameBox';
-import { fieldHostDocState } from 'data/bookFieldHostAtom';
 
 const BookClubOfThisMonth = () => {
-  const [thisMonthClub, setThisMonthClub] =
-    useRecoilState(clubInfoByMonthState);
+  const [thisMonthClub, setThisMonthClub] = useRecoilState(thisMonthClubState);
+  const [fieldsHostDoc, setFieldsHostDoc] = useRecoilState(fieldHostDocState);
   const { id, book } = thisMonthClub;
-  const [bookFields, setBookFields] = useRecoilState(fieldHostDocState);
-  const setHostReview = useSetRecoilState(hostReviewState);
-  const checkThisMonthDoc = Object.keys(thisMonthClub).length;
 
   useEffect(() => {
-    getDocument(BOOK_FIELD_HOST, `${thisYear}`, setBookFields);
-    getDocument(
-      `BookClub-${thisYear}`,
-      `${thisYearMonthIso}`,
-      setThisMonthClub
-    );
-    getCollection(getFbRoute(thisYearMonthIso).HOST_REVIEW, setHostReview);
-  }, [setThisMonthClub, setHostReview, setBookFields]);
+    if (!existDocObj(fieldsHostDoc)) {
+      getDocument(BOOK_FIELD_HOST, `${thisYear}`, setFieldsHostDoc);
+    }
+    if (!existDocObj(thisMonthClub)) {
+      getDocument(THIS_YEAR_BOOKCLUB, `${thisYearMonthIso}`, setThisMonthClub);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setThisMonthClub, fieldsHostDoc]);
 
-  return checkThisMonthDoc === 0 ? (
+  return !existDocObj(thisMonthClub) ? (
     <Loading />
   ) : (
     thisMonthClub && (
@@ -54,14 +52,16 @@ const BookClubOfThisMonth = () => {
         </MonthInfo>
         <Guide text='모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 수정만 가능할 뿐 새로 작성이 불가능한 점 유의해주세요.' />
         <Subtitle title='발제자 모임 정리 기록' />
-        {bookFields.info &&
-          bookFields?.info[thisMonth - 1].host !== 'no_host' && (
+        {fieldsHostDoc.info &&
+          fieldsHostDoc?.info[thisMonth - 1].host !== 'no_host' && (
             <HostInfo>
               <span>이달의 발제자: </span>
-              <UsernameBox creatorId={bookFields?.info[thisMonth - 1].host} />
+              <UsernameBox
+                creatorId={fieldsHostDoc?.info[thisMonth - 1].host}
+              />
             </HostInfo>
           )}
-        <HostReviewArea />
+        <HostReviewArea id={id} />
         <Subtitle title='독서모임 기록' />
         <CategorySection />
       </main>

@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { ArrowForwardIos, LocalActivity } from '@mui/icons-material';
 import { cutLetter, getMonthNm } from 'util/index';
-import { IBookClubMonthInfo } from 'data/documentsAtom';
+import { IBookClubInfo } from 'data/documentsAtom';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
 interface PropsType {
-  document: IBookClubMonthInfo;
+  document: IBookClubInfo;
 }
 
 const HistoryBox = ({ document }: PropsType) => {

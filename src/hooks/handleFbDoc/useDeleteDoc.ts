@@ -4,7 +4,7 @@ import { dbService } from 'fbase';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { USER_DATA } from 'util/index';
+import { USER_DATA, existDocObj } from 'util/index';
 
 interface PropsType {
   docId: string;
@@ -17,10 +17,9 @@ const useDeleteDoc = ({ docId, collectionName }: PropsType) => {
 
   const docRef = doc(dbService, collectionName, `${docId}`);
   const userDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
-  const existUserExtraData = Object.keys(userExtraData).length;
 
   useEffect(() => {
-    if (userData.uid && !existUserExtraData) {
+    if (userData.uid && !existDocObj(userExtraData)) {
       getDocument(USER_DATA, userData.uid, setUserExtraData);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

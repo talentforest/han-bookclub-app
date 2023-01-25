@@ -1,5 +1,5 @@
 import { IUserRecord } from 'data/userAtom';
-import { cutLetter, getFbRoute, getLocalDate } from 'util/index';
+import { cutLetter, getFbRoute, getLocalDate, existDocObj } from 'util/index';
 import { ArrowForwardIos, Book } from '@mui/icons-material';
 import { IDocument } from 'data/documentsAtom';
 import { useEffect, useState } from 'react';
@@ -21,8 +21,6 @@ const MyRecord = ({ recordId, recordSort }: PropsType) => {
   const [record, setRecord] = useState({} as IDocument);
   const [openModal, setOpenModal] = useState(false);
 
-  const handleModal = () => setOpenModal((prev) => !prev);
-
   const getRecordRoute = () => {
     if (recordSort === 'subjects') return getFbRoute(monthId).SUBJECTS;
     if (recordSort === 'reviews') return getFbRoute(monthId).REVIEWS;
@@ -31,11 +29,14 @@ const MyRecord = ({ recordId, recordSort }: PropsType) => {
 
   useEffect(() => {
     getDocument(getRecordRoute(), docId, setRecord);
-  }, [docId, monthId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleModal = () => setOpenModal((prev) => !prev);
 
   return (
     <>
-      {!!Object.keys(record).length && (
+      {existDocObj(record) && (
         <Record onClick={handleModal}>
           {record.thumbnail ? (
             <BookImg src={record.thumbnail} alt={`${record.title} thumbnail`} />

@@ -1,8 +1,8 @@
 import { getFbRoute } from 'util/index';
-import { getCollection, getDocument } from 'api/getFbDoc';
+import { getCollection } from 'api/getFbDoc';
 import { EmptyBox, RecordBox } from './RecommendArea';
 import { useRecoilState } from 'recoil';
-import { subjectsState, clubInfoByMonthState } from 'data/documentsAtom';
+import { subjectsState } from 'data/documentsAtom';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import SubjectCreateModal from 'components/organisms/bookclubthismonth/SubjectCreateModal';
@@ -13,22 +13,18 @@ interface ISubjectAreaProps {
 }
 
 const SubjectArea = ({ yearMonthId }: ISubjectAreaProps) => {
-  const [clubInfo, setClubInfo] = useRecoilState(clubInfoByMonthState);
   const [subjects, setSubjects] = useRecoilState(subjectsState);
   const { pathname } = useLocation();
-  const { book } = clubInfo;
-  const year = yearMonthId.slice(0, 4);
+  const thisMonthPage = pathname.includes('bookclub');
 
   useEffect(() => {
-    getDocument(`BookClub-${year}`, `${yearMonthId}`, setClubInfo);
     getCollection(getFbRoute(yearMonthId).SUBJECTS, setSubjects);
-  }, [year, setClubInfo, setSubjects, yearMonthId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
-      {pathname.includes('bookclub') && (
-        <SubjectCreateModal bookInfo={book} docMonth={yearMonthId} />
-      )}
+      {thisMonthPage && <SubjectCreateModal docMonth={yearMonthId} />}
       <RecordBox>
         {subjects?.length !== 0 ? (
           subjects?.map((subject) => (

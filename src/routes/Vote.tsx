@@ -16,7 +16,6 @@ import Loading from 'components/atoms/Loading';
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [votes, setVotes] = useRecoilState(votesState);
-
   const progressVotes = votes.filter(
     (item) => item.deadline >= isoFormatDate(krCurTime)
   );
@@ -25,8 +24,11 @@ const Vote = () => {
   );
 
   useEffect(() => {
-    getCollection('Vote', setVotes);
-  }, [setVotes]);
+    if (votes.length === 0) {
+      getCollection('Vote', setVotes);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onModalClick = () => setModalOpen((prev) => !prev);
 

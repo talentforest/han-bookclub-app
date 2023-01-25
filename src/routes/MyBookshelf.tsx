@@ -5,7 +5,7 @@ import { authService } from 'fbase';
 import { IDocument } from 'data/documentsAtom';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { USER_DATA } from 'util/index';
+import { USER_DATA, existDocObj } from 'util/index';
 import { ImgBox, ProfileImg } from 'components/atoms/ProfileImage';
 import { getDocument } from 'api/getFbDoc';
 import { category } from 'data/categoryAtom';
@@ -34,12 +34,12 @@ const MyBookshelf = () => {
   const myReviews = userExtraData.userRecords?.reviews;
   const myRecommendedBooks = userExtraData.userRecords?.recommendedBooks;
   const myHostReviews = userExtraData.userRecords?.hostReviews;
-  const existRecordData = Object.keys(userExtraData?.userRecords || {}).length;
 
   useEffect(() => {
-    if (userData.uid) {
+    if (userData.uid && !existDocObj(userExtraData)) {
       getDocument(USER_DATA, userData.uid, setUserExtraData);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setUserExtraData, userData.uid]);
 
   const onCategoryClick = (category: category) => setCategory(category);
@@ -58,7 +58,7 @@ const MyBookshelf = () => {
         <Subtitle title='나의 발제자 모임 정리 기록' />
         {anonymous && <EmptyBox>익명의 방문자입니다!</EmptyBox>}
         {!anonymous &&
-          (!!existRecordData ? (
+          (existDocObj(userExtraData?.userRecords || {}) ? (
             <RecordList>
               {myHostReviews.length ? (
                 myHostReviews.map((subjectId) => (
@@ -86,7 +86,7 @@ const MyBookshelf = () => {
         />
         {anonymous && <EmptyBox>익명의 방문자입니다!</EmptyBox>}
         {!anonymous &&
-          (!!existRecordData ? (
+          (existDocObj(userExtraData?.userRecords || {}) ? (
             <RecordList>
               {category === 'recommends' &&
                 (myRecommendedBooks.length ? (

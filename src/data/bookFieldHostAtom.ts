@@ -7,6 +7,7 @@ export interface IBookFieldHostDoc {
 }
 
 export interface IBookFieldHostInfo {
+  detail: string;
   field: string;
   month: number;
   host: string;
