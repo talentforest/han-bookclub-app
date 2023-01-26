@@ -1,5 +1,6 @@
-import { Delete, Edit } from '@mui/icons-material';
+import { Delete, Edit, MoreVert } from '@mui/icons-material';
 import { currentUserState } from 'data/userAtom';
+import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
@@ -16,31 +17,42 @@ const EditDeleteBox = ({
   onDeleteClick,
 }: IEditDeleteBoxProps) => {
   const userData = useRecoilValue(currentUserState);
-
-  const toggleEditing = () => {
-    setEditing((prev: boolean) => !prev);
-  };
+  const [openBtns, setOpenBtns] = useState(false);
+  const toggleEditing = () => setEditing((prev: boolean) => !prev);
+  const onMoreClick = () => setOpenBtns((prev) => !prev);
 
   return (
     userData.uid === creatorId && (
-      <EditDelete>
-        <Edit role='button' onClick={toggleEditing} />
-        <Delete role='button' onClick={onDeleteClick} />
-      </EditDelete>
+      <>
+        <MoreVert onClick={onMoreClick} />
+        {openBtns && (
+          <EditDelete>
+            <Edit role='button' onClick={toggleEditing} />
+            <Delete role='button' onClick={onDeleteClick} />
+          </EditDelete>
+        )}
+      </>
     )
   );
 };
 
 const EditDelete = styled.div`
-  align-self: flex-end;
+  position: absolute;
+  bottom: -35px;
+  right: 0;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 12px;
   svg {
-    width: 18px;
-    height: 18px;
-    margin-left: 12px;
     cursor: pointer;
+    border-radius: 50%;
+    padding: 4px;
+    width: 30px;
+    height: 30px;
+    background-color: ${(props) => props.theme.container.yellow};
+    fill: ${(props) => props.theme.text.lightBlue};
+    box-shadow: ${(props) => props.theme.boxShadow};
   }
   @media ${device.tablet} {
     svg {

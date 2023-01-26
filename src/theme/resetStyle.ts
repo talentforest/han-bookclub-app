@@ -6,13 +6,15 @@ export const ResetStyle = createGlobalStyle`
     background-color: ${(props) => props.theme.bgColor};
     > div {
       > main {
-        padding: 10px 20px 100px;
         position: relative;
+        padding: 10px 20px 100px;
         @media ${device.tablet} {
-        padding: 10px 100px 100px;
+        padding: 10px 80px 100px;
         }
         @media ${device.desktop} {
-          padding: 10px 180px 100px;
+          padding: 0;
+          width: 70%;
+          margin: 0 auto;
         }
       }
     }

@@ -12,6 +12,7 @@ import AtLeastOneLetterGuideEditBtn from 'components/atoms/buttons/AtLeastOneLet
 import device from 'theme/mediaQueries';
 import QuillEditor from 'components/atoms/QuillEditor';
 import EditDeleteBox from './EditDeleteBox';
+import { FavoriteBorder } from '@mui/icons-material';
 
 interface IRecordProps {
   doc: IDocument;
@@ -21,6 +22,7 @@ interface IRecordProps {
 
 const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
   const category = useRecoilValue(categoryState);
+
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(doc.text);
   const { onDeleteClick } = useDeleteDoc({ docId: doc.id, collectionName });
@@ -46,6 +48,11 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
       <Header>
         <UsernameBox creatorId={creatorId} />
         <RegisterTime>{getLocalDate(createdAt)}</RegisterTime>
+        <EditDeleteBox
+          creatorId={creatorId}
+          setEditing={setEditing}
+          onDeleteClick={handleDeleteClick}
+        />
       </Header>
       {category === 'recommends' && recommendedBook?.title && (
         <RecommendBookInfo>
@@ -81,14 +88,12 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
           ) : (
             <Pre>{editedText}</Pre>
           )}
-          <EditDeleteBox
-            creatorId={creatorId}
-            setEditing={setEditing}
-            onDeleteClick={handleDeleteClick}
-          />
         </>
       )}
-      <BookImgTitle thumbnail={thumbnail} title={title} smSize />
+      <Footer>
+        <BookImgTitle thumbnail={thumbnail} title={title} smSize />
+        <FavoriteBorder />
+      </Footer>
     </Form>
   );
 };
@@ -174,15 +179,37 @@ const TextArea = styled.textarea`
     min-height: 100px;
   }
 `;
-const Header = styled.div`
+const Header = styled.header`
   position: relative;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 10px;
+  gap: 5px;
+  > svg {
+    padding-top: 2px;
+    width: 20px;
+  }
+`;
+export const RegisterTime = styled.div`
+  color: ${(props) => props.theme.text.gray};
+  font-size: 14px;
+  text-align: end;
+  flex-grow: 2;
+  @media ${device.tablet} {
+    font-size: 16px;
+  }
+`;
+const Footer = styled.footer`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
 `;
 export const HTMLContent = styled.div`
   min-height: 10vh;
-  max-height: 60vh;
+  max-height: 68vh;
   overflow: scroll;
   padding: 0;
   ul {
@@ -214,13 +241,9 @@ export const HTMLContent = styled.div`
     margin-left: 50px;
     padding: 0;
   }
-`;
-export const RegisterTime = styled.div`
-  color: ${(props) => props.theme.text.gray};
-  font-size: 14px;
-  align-self: flex-end;
-  @media ${device.tablet} {
-    font-size: 16px;
+  .ql-indent-3 {
+    margin-left: 70px;
+    padding: 0;
   }
 `;
 

@@ -44,7 +44,7 @@ const MyRecord = ({ recordId, recordSort }: PropsType) => {
             <Book />
           )}
           <BookTitle>
-            {record.title ? cutLetter(record.title, 7) : '이벤트'}
+            {record.title ? cutLetter(record.title, 15) : '이벤트'}
           </BookTitle>
           <Btn>
             보기
@@ -84,10 +84,8 @@ export const Record = styled.li`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  justify-content: space-between;
   width: 100%;
-  min-height: 80px;
   height: 140px;
   padding: 10px 5px;
   border-radius: 10px;
@@ -98,11 +96,12 @@ export const Record = styled.li`
     width: 40px;
   }
   @media ${device.tablet} {
-    height: 160px;
-    margin-bottom: 0;
+    padding: 10px;
+    height: 170px;
   }
 `;
 export const BookImg = styled.img`
+  margin-bottom: 5px;
   height: 50px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
   @media ${device.tablet} {
@@ -112,8 +111,9 @@ export const BookImg = styled.img`
 export const BookTitle = styled.h1`
   font-weight: 700;
   font-size: 12px;
+  text-align: center;
   @media ${device.tablet} {
-    font-size: 16px;
+    font-size: 14px;
   }
 `;
 export const Btn = styled.button`
@@ -135,7 +135,7 @@ export const Btn = styled.button`
     }
   }
   @media ${device.tablet} {
-    font-size: 16px;
+    font-size: 14px;
   }
 `;
 export const MyRecordModal = styled(Modal)`

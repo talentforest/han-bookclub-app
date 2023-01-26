@@ -51,7 +51,7 @@ const HostReviewCreateModal = () => {
     <>
       <AddDocButton
         onModalClick={onModalClick}
-        title='발제자 모임 정리 기록 작성하기'
+        title='발제자의 정리 기록 작성하기'
         description='이달의 발제자만 작성 가능해요.'
       />
       {modalOpen && (

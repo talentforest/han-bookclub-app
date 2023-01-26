@@ -2,13 +2,11 @@ import { useRecoilValue } from 'recoil';
 import { currentUserState, userExtraInfoState } from 'data/userAtom';
 import { AccountCircle } from '@mui/icons-material';
 import { authService } from 'fbase';
-import { IDocument } from 'data/documentsAtom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { USER_DATA, existDocObj } from 'util/index';
 import { ImgBox, ProfileImg } from 'components/atoms/ProfileImage';
 import { getDocument } from 'api/getFbDoc';
-import { category } from 'data/categoryAtom';
 import MyRecommendBook from 'components/organisms/mybookshelf/MyRecommendBook';
 import MyRecord from 'components/organisms/mybookshelf/MyRecord';
 import device from 'theme/mediaQueries';
@@ -17,17 +15,12 @@ import Loading from 'components/atoms/Loading';
 import CategoryBtns from 'components/organisms/CategoryBtns';
 import Subtitle from 'components/atoms/Subtitle';
 import Guide from 'components/atoms/Guide';
-
-export interface IRecord {
-  title: string;
-  subjects: IDocument[];
-  reviews: IDocument[];
-}
+import useCategory from 'hooks/useCategory';
 
 const MyBookshelf = () => {
-  const [category, setCategory] = useState('subjects' as category);
   const [userExtraData, setUserExtraData] = useRecoilState(userExtraInfoState);
-  const userData = useRecoilValue(currentUserState);
+  const { category, onCategoryClick } = useCategory();
+  const currentUser = useRecoilValue(currentUserState);
   const anonymous = authService.currentUser?.isAnonymous;
 
   const mySubjects = userExtraData.userRecords?.subjects;
@@ -36,26 +29,32 @@ const MyBookshelf = () => {
   const myHostReviews = userExtraData.userRecords?.hostReviews;
 
   useEffect(() => {
-    if (userData.uid && !existDocObj(userExtraData)) {
-      getDocument(USER_DATA, userData.uid, setUserExtraData);
+    if (currentUser.uid && !existDocObj(userExtraData)) {
+      getDocument(USER_DATA, currentUser.uid, setUserExtraData);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setUserExtraData, userData.uid]);
-
-  const onCategoryClick = (category: category) => setCategory(category);
+  }, [setUserExtraData, currentUser.uid]);
 
   return (
     <main>
       <ProfileBox>
-        {userData?.photoURL ? (
-          <ProfileImg src={userData.photoURL} alt='profile' />
+        {currentUser?.photoURL ? (
+          <ProfileImg src={currentUser.photoURL} alt='profile' />
         ) : (
           <AccountCircle />
         )}
-        <span>{anonymous ? '익명의 방문자' : userData?.displayName}</span>
+        <span>{anonymous ? '익명의 방문자' : currentUser?.displayName}</span>
       </ProfileBox>
       <Section>
-        <Subtitle title='나의 발제자 모임 정리 기록' />
+        <Subtitle title='내가 좋아하는 독서 분야' />
+        <FavFieldList>
+          {userExtraData?.favoriteBookField?.map((field) => (
+            <li key={field.id}>{field.name}</li>
+          ))}
+        </FavFieldList>
+      </Section>
+      <Section>
+        <Subtitle title='나의 발제자의 정리 기록' />
         {anonymous && <EmptyBox>익명의 방문자입니다!</EmptyBox>}
         {!anonymous &&
           (existDocObj(userExtraData?.userRecords || {}) ? (
@@ -69,7 +68,7 @@ const MyBookshelf = () => {
                   />
                 ))
               ) : (
-                <EmptyBox>아직 작성한 발제자 모임 정리 기록이 없어요</EmptyBox>
+                <EmptyBox>아직 작성한 발제자의 정리 기록이 없어요</EmptyBox>
               )}
             </RecordList>
           ) : (
@@ -132,7 +131,7 @@ const MyBookshelf = () => {
   );
 };
 
-const EmptyBox = styled.div`
+export const EmptyBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -147,16 +146,17 @@ const EmptyBox = styled.div`
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
   @media ${device.tablet} {
     height: 160px;
+    font-size: 14px;
   }
 `;
-const Section = styled.section`
+export const Section = styled.section`
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 30px 0 50px;
 `;
-const ProfileBox = styled(ImgBox)`
+export const ProfileBox = styled(ImgBox)`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
@@ -165,18 +165,32 @@ const ProfileBox = styled(ImgBox)`
     font-weight: 700;
   }
 `;
-const RecordList = styled.ul`
+export const RecordList = styled.ul`
   width: 100%;
   min-height: 15vh;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-content: space-between;
-  gap: 10px;
+  gap: 5px;
   @media ${device.tablet} {
+    gap: 10px;
     grid-template-columns: repeat(5, 1fr);
   }
   @media ${device.desktop} {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
+  }
+`;
+export const FavFieldList = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 5px;
+  li {
+    box-shadow: ${(props) => props.theme.boxShadow};
+    color: ${(props) => props.theme.text.accent};
+    background-color: ${(props) => props.theme.container.lightBlue};
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 14px;
   }
 `;
 

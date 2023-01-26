@@ -206,7 +206,7 @@ const Detail = styled.div`
   left: 0;
   right: 0;
   margin: auto;
-  width: 90vw;
+  width: 80vw;
   z-index: 1;
   padding: 10px;
   border-radius: 10px;

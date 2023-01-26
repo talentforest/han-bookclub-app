@@ -1,11 +1,12 @@
 import { AccountCircle } from '@mui/icons-material';
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import { allUsersState } from 'data/userAtom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { allUsersState, currentUserState } from 'data/userAtom';
 import { getCollection } from 'api/getFbDoc';
 import { USER_DATA } from 'util/index';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
+import { Link } from 'react-router-dom';
 
 interface PropsType {
   creatorId: string;
@@ -14,15 +15,22 @@ interface PropsType {
 const UsernameBox = ({ creatorId }: PropsType) => {
   const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersState);
   const userInfo = allUserDocs.find((user) => user.id === creatorId);
+  const currentUser = useRecoilValue(currentUserState);
 
   useEffect(() => {
     if (allUserDocs.length === 0) {
       getCollection(USER_DATA, setAllUserDocs);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [creatorId, allUserDocs]);
 
+  const bookShelfLink =
+    creatorId === currentUser.uid
+      ? '/mybookshelf'
+      : `/bookshelf/${userInfo?.displayName}`;
+
   return (
-    <User>
+    <User to={bookShelfLink} state={{ user: userInfo }}>
       {userInfo?.photoUrl ? (
         <ProfileImgBox $bgPhoto={userInfo.photoUrl} />
       ) : (
@@ -33,7 +41,8 @@ const UsernameBox = ({ creatorId }: PropsType) => {
   );
 };
 
-const User = styled.div`
+const User = styled(Link)`
+  cursor: pointer;
   display: flex;
   align-items: center;
   > span {

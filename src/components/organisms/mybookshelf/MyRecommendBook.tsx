@@ -51,7 +51,7 @@ const MyRecommendBook = ({ recommendedBookId }: PropsType) => {
           <BookImg src={recommendedBook?.thumbnail} alt='thumbnail' />
           <BookTitle>
             {recommendedBook?.title
-              ? cutLetter(recommendedBook?.title, 7)
+              ? cutLetter(recommendedBook?.title, 12)
               : title}
           </BookTitle>
           <Btn onClick={handleModal}>

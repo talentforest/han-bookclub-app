@@ -45,12 +45,12 @@ const Thumnail = styled.img<{ $smSize: boolean }>`
   align-items: center;
   width: auto;
   max-width: ${(props) => (props.$smSize ? '22px' : '110px')};
-  height: ${(props) => (props.$smSize ? '26px' : '140px')};
+  height: ${(props) => (props.$smSize ? '22px' : '140px')};
   box-shadow: 2px 1px 5px rgba(0, 0, 0, 0.5);
   background-color: ${(props) => props.theme.container.default};
   @media ${device.tablet} {
     max-width: ${(props) => (props.$smSize ? '30px' : '140px')};
-    height: ${(props) => (props.$smSize ? '34px' : '200px')};
+    height: ${(props) => (props.$smSize ? '25px' : '200px')};
   }
 `;
 const Title = styled.h3<{ $smSize: boolean }>`

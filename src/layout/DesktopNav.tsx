@@ -9,8 +9,8 @@ const DesktopNav = () => {
     !pathname.includes('create_account') && (
       <Nav>
         <Link to='/'>
-          <Logo>
-            <img src='hanpage_logo.png' alt='hanpage bookclub logo' />
+          <Logo $active={pathname === '/'}>
+            <img src={'hanpage_logo.png'} alt='logo' />
             <span>한페이지 독서모임</span>
           </Logo>
         </Link>
@@ -41,21 +41,26 @@ const Nav = styled.nav`
   justify-content: space-between;
   align-items: center;
   height: 100px;
-  padding: 20px 100px;
+  padding: 20px 80px;
   @media ${device.desktop} {
-    padding: 20px 180px;
+    padding: 0;
+    width: 70%;
+    margin: 0 auto;
   }
 `;
-const Logo = styled.div`
+const Logo = styled.div<{ $active: boolean }>`
   display: flex;
   align-items: center;
   font-size: 16px;
   font-weight: 700;
-  color: ${(props) => props.theme.text.lightBlue};
   img {
     width: auto;
     height: 20px;
     margin-bottom: 2px;
+  }
+  span {
+    color: ${(props) =>
+      props.$active ? props.theme.text.lightBlue : props.theme.text.default};
   }
 `;
 const List = styled.ul`

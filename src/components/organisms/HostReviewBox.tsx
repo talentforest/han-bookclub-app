@@ -15,7 +15,6 @@ import HandleBtn from '../atoms/buttons/HandleBtn';
 import AtLeastOneLetterGuideEditBtn from 'components/atoms/buttons/AtLeastOneLetterGuideEditBtn';
 import EditDeleteBox from './EditDeleteBox';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
-import Subtitle from 'components/atoms/Subtitle';
 
 interface IHostReviewBoxProps {
   review: IDocument;
@@ -52,8 +51,8 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
         />
         <Footer>
           <ShareBtn
-            title='새로운 발제자 모임 정리 기록이 등록되었어요~🚀'
-            description='이번달 발제자 모임 정리 기록을 한번 보러 가볼까요?🤩'
+            title='새로운 발제자의 정리 기록이 등록되었어요~🚀'
+            description='이번달 발제자의 정리 기록을 한번 보러 가볼까요?🤩'
             path='bookclub'
           />
           <HandleBtn handleClick={handleModal}>
@@ -70,7 +69,6 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
             $editing={editing}
             onSubmit={onEditedSubmit}
           >
-            <Subtitle title='발제자 모임 정리 기록' />
             <Header>
               <UsernameBox creatorId={review.creatorId} />
               <TimeStamp>{getLocalDate(review.createdAt)}</TimeStamp>
@@ -78,7 +76,7 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
             {editing ? (
               <>
                 <QuillEditor
-                  placeholder='발제자 모임 정리를 수정해주세요.'
+                  placeholder='발제자의 정리 기록을 수정해주세요.'
                   text={editedText}
                   setText={setEditedText}
                 />
@@ -132,6 +130,7 @@ const Footer = styled.div`
     width: fit-content;
   }
 `;
+
 const ReviewModal = styled(Modal)<{ $editing: boolean }>`
   align-items: flex-start;
   background-color: ${(props) =>

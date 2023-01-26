@@ -50,6 +50,11 @@ const RecommendArea = ({ yearMonthId }: IRecommendationAreaProps) => {
 export const Record = styled.div`
   display: flex;
   flex-direction: column;
+  @media ${device.desktop} {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
 `;
 export const EmptyBox = styled.div`
   display: flex;

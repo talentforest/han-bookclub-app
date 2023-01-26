@@ -18,9 +18,7 @@ const MobileHeader = () => {
   const historyDetailMatch = useMatch('/history/:id');
   const bookClubMatch = useMatch('/bookclub/*');
 
-  const onClick = () => {
-    navigate(-1);
-  };
+  const onClick = () => navigate(-1);
 
   const onUserImgClick = () => {
     anonymous ? navigate('/login') : navigate('/mybookshelf');
