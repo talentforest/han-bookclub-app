@@ -90,7 +90,7 @@ const RecommendCreateBox = () => {
 };
 
 const Form = styled.form`
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: ${(props) => props.theme.boxShadow};
   background-color: ${(props) => props.theme.container.default};
   padding: 10px;
   border-radius: 10px;
@@ -106,7 +106,7 @@ const LinkBtn = styled(Link)`
   width: 100%;
   padding: 8px 14px;
   background-color: #fff;
-  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: ${(props) => props.theme.boxShadow};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -150,7 +150,7 @@ const BookInfo = styled.div<{ smSize: boolean }>`
   > img {
     width: auto;
     height: ${(props) => (props.smSize ? '40px' : '70px')};
-    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: ${(props) => props.theme.boxShadow};
   }
   > div {
     font-size: 12px;

@@ -105,7 +105,7 @@ const EmptyBox = styled.div`
   height: 120px;
   padding: 10px;
   background-color: ${(props) => props.theme.container.default};
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: ${(props) => props.theme.boxShadow};
   border-radius: 10px;
   margin-bottom: 30px;
 `;

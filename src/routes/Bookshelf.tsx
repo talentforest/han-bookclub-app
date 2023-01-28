@@ -54,7 +54,7 @@ const Bookshelf = () => {
           </FavFieldList>
         </Section>
         <Section>
-          <Subtitle title={`${user.displayName}님의 발제자의 정리 기록`} />
+          <Subtitle title={`${user.displayName}님의 발제자 정리 기록`} />
           <RecordList>
             {hostReviews?.length ? (
               hostReviews.map((hostReview) => (

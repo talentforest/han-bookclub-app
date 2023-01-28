@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { authService } from 'fbase';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import EmailInput from 'components/atoms/inputs/EmailInput';
@@ -13,6 +14,7 @@ interface ILoginProps {
 }
 
 const LogIn = ({ isLoggedIn }: ILoginProps) => {
+  const anonymous = authService.currentUser?.isAnonymous;
   const {
     email,
     password,
@@ -23,7 +25,7 @@ const LogIn = ({ isLoggedIn }: ILoginProps) => {
   } = useLogIn(isLoggedIn);
 
   return (
-    <Main>
+    <Main $anonymous={anonymous}>
       <Header>
         <Logo src='hanpage_logo.png' alt='hanpage bookclub logo' />
         <h1>한페이지 독서모임</h1>
@@ -45,10 +47,12 @@ const LogIn = ({ isLoggedIn }: ILoginProps) => {
         <SubmitBtn children='로그인' />
         <LinkBtn to='/create_account'>회원가입</LinkBtn>
       </Form>
-      <HandleBtn
-        children='익명으로 로그인'
-        handleClick={onAnonymousLoginClick}
-      />
+      {!anonymous && (
+        <HandleBtn
+          children='익명으로 로그인'
+          handleClick={onAnonymousLoginClick}
+        />
+      )}
       <Footer>
         <Link to='/find_pw'>비밀번호 찾기</Link>
       </Footer>
@@ -56,14 +60,15 @@ const LogIn = ({ isLoggedIn }: ILoginProps) => {
   );
 };
 
-const Main = styled.main`
-  height: 100vh;
+const Main = styled.main<{ $anonymous: boolean }>`
+  height: ${(props) => (props.$anonymous ? '90vh' : '100vh')};
   overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding-bottom: 0;
+  position: relative;
   @media ${device.tablet} {
     > button {
       width: 50%;

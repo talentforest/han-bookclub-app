@@ -65,7 +65,7 @@ const YearSelect = styled.select`
   padding: 0 10px;
   border-radius: 10px;
   font-size: 16px;
-  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: ${(props) => props.theme.boxShadow};
   border: 1px solid ${(props) => props.theme.text.lightGray};
   background-color: ${(props) => props.theme.container.default};
   &:focus {
@@ -87,7 +87,7 @@ const EmptyBox = styled.div`
   padding: 30px 0;
   border-radius: 10px;
   background-color: ${(props) => props.theme.container.default};
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: ${(props) => props.theme.boxShadow};
 `;
 
 export default BookClubHistory;

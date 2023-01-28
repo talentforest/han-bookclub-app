@@ -48,7 +48,7 @@ const ReviewCreateBox = ({ docMonth }: PropsType) => {
 
 const Form = styled.form`
   background-color: ${(props) => props.theme.container.default};
-  box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.2);
+  box-shadow: ${(props) => props.theme.boxShadow};
   padding: 10px 15px;
   border-radius: 10px;
   margin-bottom: 20px;

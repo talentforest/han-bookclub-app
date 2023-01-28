@@ -52,7 +52,7 @@ const Vote = styled(Link)`
   width: 100%;
   min-height: 100px;
   border-radius: 10px;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: ${(props) => props.theme.boxShadow};
   padding: 15px 10px;
   background-color: ${(props) => props.theme.container.default};
 `;

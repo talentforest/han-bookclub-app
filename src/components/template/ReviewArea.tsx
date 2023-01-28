@@ -25,7 +25,7 @@ const ReviewArea = ({ yearMonthId }: IReviewAreaProps) => {
   return (
     <>
       {thisMonthPage && <ReviewCreateBox docMonth={yearMonthId} />}
-      <Record>
+      <Record $grid>
         {reviews?.length !== 0 ? (
           reviews?.map((review) => (
             <RecordBox

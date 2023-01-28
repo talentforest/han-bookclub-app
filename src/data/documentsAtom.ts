@@ -24,6 +24,8 @@ export interface IDocument {
   title: string;
   thumbnail: string;
   recommendedBook?: IRecommendedBook;
+  likes?: number;
+  likeUsers?: string[];
 }
 
 export const thisYearClubInfoState = atom<IBookClubInfo[]>({

@@ -24,7 +24,6 @@ const FieldScheduleBox = () => {
 
   const {
     isEditing,
-    fieldHosts,
     allMembers,
     onSubmit,
     onChange,
@@ -42,9 +41,9 @@ const FieldScheduleBox = () => {
 
   return (
     <>
-      {fieldHosts ? (
+      {fieldHostDoc.info ? (
         <FieldList>
-          {fieldHosts?.map((item, index) =>
+          {fieldHostDoc.info?.map((item, index) =>
             isEditing[index] ? (
               <Form
                 key={item.month}
@@ -129,7 +128,7 @@ const FieldList = styled.div`
   gap: 10px;
   border-radius: 10px;
   background-color: ${(props) => props.theme.container.default};
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: ${(props) => props.theme.boxShadow};
   padding: 10px;
   @media ${device.tablet} {
     display: grid;
@@ -176,7 +175,7 @@ const Select = styled.select`
   background-color: #fff;
   font-size: 14px;
   border: 1px solid ${(props) => props.theme.text.lightGray};
-  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: ${(props) => props.theme.boxShadow};
   &:focus {
     outline: none;
   }
@@ -216,7 +215,12 @@ const Detail = styled.div`
     font-weight: 500;
   }
   @media ${device.tablet} {
+    width: 50vw;
+    padding: 25px;
+  }
+  @media ${device.desktop} {
     width: 40vw;
+    padding: 25px;
   }
 `;
 const SubmitBtn = styled.button`

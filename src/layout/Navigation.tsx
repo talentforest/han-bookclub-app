@@ -9,6 +9,7 @@ const Navigation = () => {
   const { pathname } = useLocation();
 
   return (
+    pathname !== '/login' &&
     !pathname.includes('setting') &&
     !pathname.includes('userInfo') && (
       <Nav>

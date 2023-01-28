@@ -116,7 +116,7 @@ export const ImgBox = styled.div`
   }
 `;
 export const ProfileImg = styled.img`
-  box-shadow: 1px 4px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: ${(props) => props.theme.boxShadow};
   object-fit: cover;
   width: 140px;
   height: 140px;

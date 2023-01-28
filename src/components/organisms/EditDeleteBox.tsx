@@ -1,4 +1,4 @@
-import { Delete, Edit, MoreVert } from '@mui/icons-material';
+import { Delete, Edit, MoreHoriz, MoreVert } from '@mui/icons-material';
 import { currentUserState } from 'data/userAtom';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -22,28 +22,35 @@ const EditDeleteBox = ({
   const onMoreClick = () => setOpenBtns((prev) => !prev);
 
   return (
-    userData.uid === creatorId && (
+    userData.uid === creatorId &&
+    (!openBtns ? (
+      <More onClick={onMoreClick} />
+    ) : (
       <>
-        <MoreVert onClick={onMoreClick} />
-        {openBtns && (
-          <EditDelete>
-            <Edit role='button' onClick={toggleEditing} />
-            <Delete role='button' onClick={onDeleteClick} />
-          </EditDelete>
-        )}
+        <More as={MoreHoriz} onClick={onMoreClick} />
+        <EditDelete>
+          <Edit role='button' onClick={toggleEditing} />
+          <Delete role='button' onClick={onDeleteClick} />
+        </EditDelete>
       </>
-    )
+    ))
   );
 };
 
+const More = styled(MoreVert)`
+  cursor: pointer;
+  width: 22px;
+`;
+
 const EditDelete = styled.div`
   position: absolute;
-  bottom: -35px;
+  bottom: -40px;
   right: 0;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 12px;
+  padding: 5px;
   svg {
     cursor: pointer;
     border-radius: 50%;
@@ -55,9 +62,10 @@ const EditDelete = styled.div`
     box-shadow: ${(props) => props.theme.boxShadow};
   }
   @media ${device.tablet} {
+    bottom: -40px;
     svg {
-      width: 20px;
-      height: 20px;
+      width: 30px;
+      height: 30px;
     }
   }
 `;

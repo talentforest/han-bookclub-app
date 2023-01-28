@@ -43,12 +43,21 @@ const QuillEditor = ({ placeholder, text, setText }: QuillEditorProps) => {
 
 const Editor = styled(ReactQuill)`
   background-color: white;
+  border-radius: 10px;
   width: 100%;
+  border: none;
+  .ql-toolbar {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
   .ql-container {
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
     width: 100%;
-    height: 45vh;
+    height: 50vh;
     word-break: break-all;
     font-size: 16px;
+    padding-bottom: 20px;
   }
   .ql-editor ul,
   .ql-editor ol {

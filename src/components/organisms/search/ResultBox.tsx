@@ -42,7 +42,7 @@ const BookResultBox = styled(Link)`
   align-items: center;
   padding: 8px 12px;
   background-color: ${(props) => props.theme.container.default};
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: ${(props) => props.theme.boxShadow};
   border-radius: 8px;
   cursor: pointer;
   &:hover {
@@ -51,16 +51,16 @@ const BookResultBox = styled(Link)`
   img {
     width: auto;
     height: 80px;
-    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: ${(props) => props.theme.boxShadow};
   }
   > div:first-child {
-    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: ${(props) => props.theme.boxShadow};
   }
 `;
 const SearchImg = styled.img`
   width: auto;
   height: 80px;
-  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: ${(props) => props.theme.boxShadow};
 `;
 const SearchEmptyImg = styled(SearchImg)`
   background-color: ${(props) => props.theme.container.lightBlue};

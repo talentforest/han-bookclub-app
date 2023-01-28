@@ -29,11 +29,10 @@ const MyBookshelf = () => {
   const myHostReviews = userExtraData.userRecords?.hostReviews;
 
   useEffect(() => {
-    if (currentUser.uid && !existDocObj(userExtraData)) {
+    if (currentUser.uid) {
       getDocument(USER_DATA, currentUser.uid, setUserExtraData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setUserExtraData, currentUser.uid]);
+  }, [currentUser.uid, setUserExtraData]);
 
   return (
     <main>
@@ -47,14 +46,21 @@ const MyBookshelf = () => {
       </ProfileBox>
       <Section>
         <Subtitle title='내가 좋아하는 독서 분야' />
-        <FavFieldList>
-          {userExtraData?.favoriteBookField?.map((field) => (
-            <li key={field.id}>{field.name}</li>
-          ))}
-        </FavFieldList>
+        {anonymous && <EmptyBox>익명의 방문자입니다!</EmptyBox>}
+        {!anonymous && (
+          <FavFieldList>
+            {userExtraData?.favoriteBookField ? (
+              userExtraData?.favoriteBookField?.map((field) => (
+                <li key={field.id}>{field.name}</li>
+              ))
+            ) : (
+              <Loading height='10vh' />
+            )}
+          </FavFieldList>
+        )}
       </Section>
       <Section>
-        <Subtitle title='나의 발제자의 정리 기록' />
+        <Subtitle title='나의 발제자 정리 기록' />
         {anonymous && <EmptyBox>익명의 방문자입니다!</EmptyBox>}
         {!anonymous &&
           (existDocObj(userExtraData?.userRecords || {}) ? (
@@ -143,7 +149,7 @@ export const EmptyBox = styled.div`
   height: 140px;
   padding: 12px;
   border-radius: 10px;
-  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: ${(props) => props.theme.boxShadow};
   @media ${device.tablet} {
     height: 160px;
     font-size: 14px;
@@ -183,7 +189,7 @@ export const RecordList = styled.ul`
 export const FavFieldList = styled.ul`
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 5px;
+  gap: 10px 8px;
   li {
     box-shadow: ${(props) => props.theme.boxShadow};
     color: ${(props) => props.theme.text.accent};

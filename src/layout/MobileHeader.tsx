@@ -18,7 +18,7 @@ const MobileHeader = () => {
   const historyDetailMatch = useMatch('/history/:id');
   const bookClubMatch = useMatch('/bookclub/*');
 
-  const onClick = () => navigate(-1);
+  const onBackClick = () => navigate(-1);
 
   const onUserImgClick = () => {
     anonymous ? navigate('/login') : navigate('/mybookshelf');
@@ -43,6 +43,8 @@ const MobileHeader = () => {
     if (voteDetailMatch) return '투표함';
     if (historyDetailMatch) return '지난 한페이지';
     switch (pathname) {
+      case '/login':
+        return '뒤로가기';
       case '/find_pw':
         return '비밀번호 찾기';
       case '/setting':
@@ -79,7 +81,7 @@ const MobileHeader = () => {
         </Header>
       )}
       {detailPageTitle() && (
-        <BackButtonHeader onClick={onClick}>
+        <BackButtonHeader onClick={onBackClick}>
           <ArrowBackIosNewIcon />
           {detailPageTitle()}
         </BackButtonHeader>

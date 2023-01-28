@@ -30,13 +30,13 @@ const RecommendBook = styled.div`
   align-items: center;
   margin-bottom: 10px;
   background-color: ${(props) => props.theme.container.default};
-  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: ${(props) => props.theme.boxShadow};
   padding: 10px;
   border-radius: 5px;
   > img {
     width: auto;
     height: 50px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: ${(props) => props.theme.boxShadow};
     margin-right: 15px;
   }
   > div {

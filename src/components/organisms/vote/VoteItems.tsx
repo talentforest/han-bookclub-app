@@ -99,7 +99,7 @@ const Input = styled.input`
   font-size: 16px;
   padding: 5px;
   border-radius: 10px;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: ${(props) => props.theme.boxShadow};
   border: 1px solid ${(props) => props.theme.text.lightGray};
   &:focus {
     outline: none;
@@ -116,7 +116,7 @@ const Textarea = styled.textarea`
   border-radius: 10px;
   border: none;
   border: 1px solid ${(props) => props.theme.text.lightGray};
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: ${(props) => props.theme.boxShadow};
   resize: none;
   &::placeholder {
     line-height: 22px;

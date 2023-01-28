@@ -20,5 +20,5 @@ export const theme: DefaultTheme = {
     purple: '#B6C2FF',
     yellow: '#ffeb88',
   },
-  boxShadow: '1px 2px 5px rgba(0,0,0,0.2)',
+  boxShadow: '1px 2px 6px rgba(0, 0, 0, 0.2)',
 };

@@ -61,7 +61,7 @@ const BookClubOfThisMonth = () => {
               />
             </HostInfo>
           )}
-        <HostReviewArea id={id} />
+        <HostReviewArea yearMonthId={id} />
         <Subtitle title='독서모임 기록' />
         <CategorySection />
       </main>

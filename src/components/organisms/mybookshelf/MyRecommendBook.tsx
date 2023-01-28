@@ -6,18 +6,18 @@ import {
   BookTitle,
   Box,
   Btn,
-  ClubBook,
   Header,
   MyRecordModal,
   Record,
 } from './MyRecord';
-import { HTMLContent } from '../RecordBox';
+import { Footer, Likes, ScrollContent } from '../RecordBox';
 import { useEffect, useState } from 'react';
 import { getDocument } from 'api/getFbDoc';
-import { ArrowForwardIos } from '@mui/icons-material';
+import { ArrowForwardIos, Favorite } from '@mui/icons-material';
 import Overlay from 'components/atoms/Overlay';
 import UsernameBox from '../UsernameBox';
 import styled from 'styled-components';
+import BookImgTitle from 'components/atoms/BookImgTitle';
 
 interface PropsType {
   recommendedBookId: IUserRecord;
@@ -33,7 +33,9 @@ const MyRecommendBook = ({ recommendedBookId }: PropsType) => {
     thumbnail,
     creatorId,
     createdAt,
-    text, //
+    text,
+    likes,
+    likeUsers,
   } = myRecommendedBook;
   const route = getFbRoute(monthId).RECOMMENDED_BOOKS;
 
@@ -47,14 +49,14 @@ const MyRecommendBook = ({ recommendedBookId }: PropsType) => {
   return (
     <>
       {existDocObj(myRecommendedBook) && (
-        <Record>
+        <Record onClick={handleModal}>
           <BookImg src={recommendedBook?.thumbnail} alt='thumbnail' />
           <BookTitle>
             {recommendedBook?.title
               ? cutLetter(recommendedBook?.title, 12)
               : title}
           </BookTitle>
-          <Btn onClick={handleModal}>
+          <Btn>
             보기
             <ArrowForwardIos />
           </Btn>
@@ -80,13 +82,18 @@ const MyRecommendBook = ({ recommendedBookId }: PropsType) => {
                   <a href={recommendedBook?.url}>상세정보 보러가기</a>
                 </Detail>
               </RecommendedBookInfo>
-              <HTMLContent dangerouslySetInnerHTML={{ __html: text }} />
-              <ClubBook>
-                {thumbnail && (
-                  <img src={thumbnail} alt={`${title} thumbnail`} />
-                )}
-                {title && <span>{title}</span>}
-              </ClubBook>
+              <ScrollContent dangerouslySetInnerHTML={{ __html: text }} />
+              <Footer>
+                <BookImgTitle thumbnail={thumbnail} title={title} smSize />
+                <Likes $nonClick>
+                  {!!likes && (
+                    <>
+                      <span>{likeUsers?.length || 0}명이 좋아합니다</span>
+                      <Favorite />
+                    </>
+                  )}
+                </Likes>
+              </Footer>
             </Box>
           </MyRecordModal>
         </>
@@ -101,13 +108,13 @@ const RecommendedBookInfo = styled.div`
   align-items: center;
   font-size: 14px;
   border-radius: 10px;
-  background-color: ${(props) => props.theme.text.lightGray};
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.4);
+  background-color: #f4f4f4;
+  box-shadow: ${(props) => props.theme.boxShadow};
   img {
     height: 50px;
     width: auto;
     margin-right: 8px;
-    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.4);
+    box-shadow: ${(props) => props.theme.boxShadow};
   }
 `;
 const Detail = styled.div`

@@ -89,7 +89,7 @@ const Form = styled.form`
   gap: 15px;
   width: 100%;
   background-color: ${(props) => props.theme.container.default};
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: ${(props) => props.theme.boxShadow};
   border-radius: 10px;
   margin-top: 20px;
   padding: 20px 15px;

@@ -74,7 +74,7 @@ const EmptyContainer = styled.div`
   padding: 25px;
   border-radius: 10px;
   background-color: ${(props) => props.theme.container.default};
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: ${(props) => props.theme.boxShadow};
   color: ${(props) => props.theme.text.gray};
   a {
     width: 180px;

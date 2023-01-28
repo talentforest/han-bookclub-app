@@ -56,7 +56,7 @@ const Vote = styled.div`
   border-radius: 10px;
   padding: 15px 20px;
   background-color: ${(props) => props.theme.container.default};
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: ${(props) => props.theme.boxShadow};
   @media ${device.tablet} {
     min-height: 240px;
   }

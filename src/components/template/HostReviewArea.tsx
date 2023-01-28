@@ -3,32 +3,32 @@ import HostReviewCreateModal from 'components/organisms/bookclubthismonth/HostRe
 import { hostReviewState } from 'data/documentsAtom';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { getFbRoute, thisYearMonthIso } from 'util/index';
+import { getFbRoute } from 'util/index';
 import { EmptyBox } from './RecommendArea';
 import { useEffect } from 'react';
 import { getCollection } from 'api/getFbDoc';
 
 interface IHostReviewAreaProps {
-  id: string;
+  yearMonthId: string;
 }
 
-const HostReviewArea = ({ id }: IHostReviewAreaProps) => {
+const HostReviewArea = ({ yearMonthId }: IHostReviewAreaProps) => {
   const { pathname } = useLocation();
   const [hostReview, setHostReview] = useRecoilState(hostReviewState);
 
   useEffect(() => {
-    getCollection(getFbRoute(id).HOST_REVIEW, setHostReview);
+    getCollection(getFbRoute(yearMonthId).HOST_REVIEW, setHostReview);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
       {hostReview?.length !== 0 ? (
-        hostReview?.map((review) => (
+        hostReview?.map((hostReview) => (
           <HostReviewBox
-            key={review.id}
-            review={review}
-            yearMonthId={thisYearMonthIso}
+            key={hostReview.id}
+            hostReview={hostReview}
+            yearMonthId={yearMonthId}
           />
         ))
       ) : (

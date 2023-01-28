@@ -10,18 +10,18 @@ interface PropsType {
 
 const BookImgTitle = ({ thumbnail, title, smSize }: PropsType) => {
   return (
-    <BookBox $smSize={smSize}>
+    <Box $smSize={smSize}>
       {thumbnail ? (
         <Thumnail src={thumbnail} $smSize={smSize} alt={`${title} thumbnail`} />
       ) : (
         <Book />
       )}
       <Title $smSize={smSize}>{title ? title : '등록된 책이 없어요.'}</Title>
-    </BookBox>
+    </Box>
   );
 };
 
-const BookBox = styled.div<{ $smSize: boolean }>`
+const Box = styled.div<{ $smSize: boolean }>`
   display: flex;
   gap: ${(props) => (props.$smSize ? '0' : '20px')};
   flex-direction: ${(props) => (props.$smSize ? 'row' : 'column')};
@@ -46,7 +46,7 @@ const Thumnail = styled.img<{ $smSize: boolean }>`
   width: auto;
   max-width: ${(props) => (props.$smSize ? '22px' : '110px')};
   height: ${(props) => (props.$smSize ? '22px' : '140px')};
-  box-shadow: 2px 1px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: ${(props) => props.theme.boxShadow};
   background-color: ${(props) => props.theme.container.default};
   @media ${device.tablet} {
     max-width: ${(props) => (props.$smSize ? '30px' : '140px')};
@@ -54,10 +54,15 @@ const Thumnail = styled.img<{ $smSize: boolean }>`
   }
 `;
 const Title = styled.h3<{ $smSize: boolean }>`
-  text-align: center;
+  text-align: ${(props) => (props.$smSize ? 'start' : 'center')};
   font-size: ${(props) => (props.$smSize ? '12px' : '16px')};
-  margin-left: ${(props) => (props.$smSize ? '8px' : '0')};
+  margin-left: ${(props) => (props.$smSize ? '4px' : '0')};
   font-weight: 700;
+  display: ${(props) => (props.$smSize ? 'none' : 'block')};
+  @media ${device.tablet} {
+    display: block;
+    margin-left: ${(props) => (props.$smSize ? '8px' : '0')};
+  }
 `;
 
 export default BookImgTitle;

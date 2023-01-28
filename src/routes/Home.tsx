@@ -28,7 +28,7 @@ const Home = () => {
       getDocument(THIS_YEAR_BOOKCLUB, `${thisYearMonthIso}`, setThisMonthClub);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [thisMonthClub]);
 
   return !existDocObj(thisMonthClub) ? (
     <Loading />

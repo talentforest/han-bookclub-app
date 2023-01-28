@@ -91,7 +91,7 @@ const TitleInput = styled.input`
   padding: 10px 5px;
   border-radius: 10px;
   border: 1px solid ${(props) => props.theme.text.lightGray};
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: ${(props) => props.theme.boxShadow};
   margin-bottom: 10px;
   &:focus {
     outline: none;

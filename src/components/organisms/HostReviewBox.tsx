@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getFbRoute, cutLetter, getLocalDate } from 'util/index';
-import { ExpandCircleDown } from '@mui/icons-material';
-import { HTMLContent } from './RecordBox';
+import {
+  ExpandCircleDown,
+  Favorite,
+  FavoriteBorder,
+} from '@mui/icons-material';
+import { Footer, Likes, ScrollContent } from './RecordBox';
 import { IDocument } from 'data/documentsAtom';
 import { Modal } from './bookclubthismonth/SubjectCreateModal';
 import useDeleteDoc from 'hooks/handleFbDoc/useDeleteDoc';
@@ -15,27 +19,54 @@ import HandleBtn from '../atoms/buttons/HandleBtn';
 import AtLeastOneLetterGuideEditBtn from 'components/atoms/buttons/AtLeastOneLetterGuideEditBtn';
 import EditDeleteBox from './EditDeleteBox';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
+import useHandleLike from 'hooks/useHandleLike';
+import { useRecoilValue } from 'recoil';
+import { currentUserState } from 'data/userAtom';
+import BookImgTitle from 'components/atoms/BookImgTitle';
 
 interface IHostReviewBoxProps {
-  review: IDocument;
+  hostReview: IDocument;
   yearMonthId: string;
 }
 
-const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
+const HostReviewBox = ({ hostReview, yearMonthId }: IHostReviewBoxProps) => {
   const [openModal, setOpenModal] = useState(false);
   const [editing, setEditing] = useState(false);
-  const [editedText, setEditedText] = useState(review.text);
-  const { alertAskJoinMember, anonymous } = useAlertAskJoin('see');
+  const [editedText, setEditedText] = useState(hostReview.text);
+  const currentUser = useRecoilValue(currentUserState);
 
+  const { alertAskJoinMember, anonymous } = useAlertAskJoin('see');
   const collectionName = getFbRoute(yearMonthId).HOST_REVIEW;
-  const { onDeleteClick } = useDeleteDoc({ docId: review.id, collectionName });
+  const { like, setLike, onLikeClick } = useHandleLike({
+    likes: hostReview?.likes || 0,
+    likeUsers: hostReview?.likeUsers || [],
+    docId: hostReview.id,
+    collectionName,
+  });
+
+  const { onDeleteClick } = useDeleteDoc({
+    docId: hostReview.id,
+    collectionName,
+  });
+
   const { showingGuide, onEditedSubmit } = useEditDoc({
-    docId: review.id,
+    docId: hostReview.id,
     editedText,
     setEditedText,
     setEditing,
     collectionName,
   });
+
+  const currentUserLike = hostReview?.likeUsers?.some(
+    (uid) => uid === currentUser.uid
+  );
+
+  useEffect(() => {
+    if (currentUserLike) {
+      setLike(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleModal = () => {
     if (anonymous) return alertAskJoinMember();
@@ -46,10 +77,10 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
   return (
     <>
       <CuttedHostReviewBox>
-        <HTMLContent
+        <ScrollContent
           dangerouslySetInnerHTML={{ __html: cutLetter(editedText, 280) }}
         />
-        <Footer>
+        <BtnFooter>
           <ShareBtn
             title='새로운 발제자의 정리 기록이 등록되었어요~🚀'
             description='이번달 발제자의 정리 기록을 한번 보러 가볼까요?🤩'
@@ -59,7 +90,7 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
             <span>모임 정리 더보기</span>
             <ExpandCircleDown />
           </HandleBtn>
-        </Footer>
+        </BtnFooter>
       </CuttedHostReviewBox>
       {openModal && (
         <>
@@ -70,8 +101,13 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
             onSubmit={onEditedSubmit}
           >
             <Header>
-              <UsernameBox creatorId={review.creatorId} />
-              <TimeStamp>{getLocalDate(review.createdAt)}</TimeStamp>
+              <UsernameBox creatorId={hostReview.creatorId} />
+              <TimeStamp>{getLocalDate(hostReview.createdAt)}</TimeStamp>
+              <EditDeleteBox
+                creatorId={hostReview.creatorId}
+                setEditing={setEditing}
+                onDeleteClick={onDeleteClick}
+              />
             </Header>
             {editing ? (
               <>
@@ -84,12 +120,28 @@ const HostReviewBox = ({ review, yearMonthId }: IHostReviewBoxProps) => {
               </>
             ) : (
               <>
-                <HTMLContent dangerouslySetInnerHTML={{ __html: editedText }} />
-                <EditDeleteBox
-                  creatorId={review.creatorId}
-                  setEditing={setEditing}
-                  onDeleteClick={onDeleteClick}
+                <ScrollContent
+                  dangerouslySetInnerHTML={{ __html: editedText }}
                 />
+                <Footer>
+                  <BookImgTitle
+                    thumbnail={hostReview.thumbnail}
+                    title={hostReview.title}
+                    smSize
+                  />
+                  <Likes>
+                    {like ? (
+                      <>
+                        <span>
+                          {hostReview?.likeUsers?.length || 0}명이 좋아합니다
+                        </span>
+                        <Favorite onClick={onLikeClick} />
+                      </>
+                    ) : (
+                      <FavoriteBorder onClick={onLikeClick} />
+                    )}
+                  </Likes>
+                </Footer>
               </>
             )}
           </ReviewModal>
@@ -120,9 +172,11 @@ const Header = styled.div`
   margin-bottom: 5px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
+  position: relative;
 `;
-const Footer = styled.div`
+const BtnFooter = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -130,17 +184,19 @@ const Footer = styled.div`
     width: fit-content;
   }
 `;
-
 const ReviewModal = styled(Modal)<{ $editing: boolean }>`
   align-items: flex-start;
   background-color: ${(props) =>
     props.$editing
       ? props.theme.text.lightGray
       : props.theme.container.default};
+  padding: 10px 15px;
 `;
 const TimeStamp = styled.span`
   font-size: 14px;
-  align-self: end;
+  flex: 1;
+  margin-right: 3px;
+  text-align: end;
 `;
 
 export default HostReviewBox;

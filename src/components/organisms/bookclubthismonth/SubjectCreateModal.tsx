@@ -87,10 +87,10 @@ export const Modal = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
   width: 90vw;
   height: min-content;
-  padding: 15px;
+  padding: 10px 15px;
   margin: auto;
   top: 0;
   right: 0;

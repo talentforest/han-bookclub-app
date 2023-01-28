@@ -1,15 +1,16 @@
 import { IUserRecord } from 'data/userAtom';
 import { cutLetter, getFbRoute, getLocalDate, existDocObj } from 'util/index';
-import { ArrowForwardIos, Book } from '@mui/icons-material';
+import { ArrowForwardIos, Book, Favorite } from '@mui/icons-material';
 import { IDocument } from 'data/documentsAtom';
 import { useEffect, useState } from 'react';
 import { getDocument } from 'api/getFbDoc';
 import { Modal } from '../bookclubthismonth/SubjectCreateModal';
-import { HTMLContent, RegisterTime } from '../RecordBox';
+import { ScrollContent, RegisterTime, Footer, Likes } from '../RecordBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import Overlay from 'components/atoms/Overlay';
 import UsernameBox from '../UsernameBox';
+import BookImgTitle from 'components/atoms/BookImgTitle';
 
 interface PropsType {
   recordId: IUserRecord;
@@ -61,16 +62,26 @@ const MyRecord = ({ recordId, recordSort }: PropsType) => {
                 <UsernameBox creatorId={record?.creatorId} />
                 <RegisterTime>{getLocalDate(record?.createdAt)}</RegisterTime>
               </Header>
-              <HTMLContent dangerouslySetInnerHTML={{ __html: record.text }} />
-              <ClubBook>
-                {record.thumbnail && (
-                  <img
-                    src={record.thumbnail}
-                    alt={`${record.title} thumbnail`}
-                  />
-                )}
-                {record.title && <span>{record.title}</span>}
-              </ClubBook>
+              <ScrollContent
+                dangerouslySetInnerHTML={{ __html: record.text }}
+              />
+              <Footer>
+                <BookImgTitle
+                  thumbnail={record?.thumbnail}
+                  title={record?.title}
+                  smSize
+                />
+                <Likes $nonClick>
+                  {!!record?.likes && (
+                    <>
+                      <span>
+                        {record?.likeUsers?.length || 0}명이 좋아합니다
+                      </span>
+                      <Favorite />
+                    </>
+                  )}
+                </Likes>
+              </Footer>
             </Box>
           </MyRecordModal>
         </>
@@ -91,6 +102,7 @@ export const Record = styled.li`
   border-radius: 10px;
   background-color: #fff;
   border: 1px solid ${(props) => props.theme.text.lightGray};
+  box-shadow: ${(props) => props.theme.boxShadow};
   > svg {
     height: 55px;
     width: 40px;
@@ -103,7 +115,7 @@ export const Record = styled.li`
 export const BookImg = styled.img`
   margin-bottom: 5px;
   height: 50px;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: ${(props) => props.theme.boxShadow};
   @media ${device.tablet} {
     height: 70px;
   }
@@ -149,11 +161,12 @@ export const Box = styled.article`
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  gap: 10px;
-  padding: 20px 15px;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  gap: 8px;
+  padding: 12px 15px;
+  box-shadow: ${(props) => props.theme.boxShadow};
   @media ${device.tablet} {
     padding: 20px;
+    gap: 15px;
   }
 `;
 export const Header = styled.div`
@@ -170,7 +183,7 @@ export const ClubBook = styled.div`
     height: 22px;
     width: auto;
     margin-right: 10px;
-    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.4);
+    box-shadow: ${(props) => props.theme.boxShadow};
   }
   span {
     font-size: 13px;

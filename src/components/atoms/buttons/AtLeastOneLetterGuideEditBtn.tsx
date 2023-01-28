@@ -19,31 +19,37 @@ const AtLeastOneLetterGuideEditBtn = ({ showingGuide }: IGuideProps) => {
 };
 
 export const DoneBtn = styled.input<{ $eventdone?: boolean }>`
+  margin: 5px 0;
   align-self: flex-end;
   border: none;
-  background-color: transparent;
+  border-radius: 10px;
+  background-color: ${(props) => props.theme.container.lightBlue};
+  padding: 5px 10px;
   font-size: 14px;
+  box-shadow: ${(props) => props.theme.boxShadow};
   color: ${(props) => props.theme.text.lightBlue};
   cursor: pointer;
   pointer-events: ${(props) => (props.$eventdone ? 'none' : 'fill')};
   @media ${device.tablet} {
-    font-size: 18px;
+    margin: 10px 0;
+    font-size: 16px;
   }
 `;
 const GuideTextBox = styled.span`
   position: absolute;
-  right: 0px;
-  top: 30px;
-  font-size: 10px;
+  right: 5px;
+  bottom: 100px;
+  font-size: 12px;
   color: ${(props) => props.theme.text.accent};
   background-color: ${(props) => props.theme.container.yellow};
-  padding: 2px 4px;
+  padding: 8px 10px;
   border-radius: 6px;
+  z-index: 3;
   > div {
     width: 8px;
     height: 8px;
     position: absolute;
-    top: -4px;
+    bottom: -4px;
     right: 20px;
     transform: rotate(45deg);
     background-color: ${(props) => props.theme.container.yellow};

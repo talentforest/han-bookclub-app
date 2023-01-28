@@ -26,7 +26,7 @@ const RecommendArea = ({ yearMonthId }: IRecommendationAreaProps) => {
   return (
     <>
       {!historyPage && <RecommendCreateBox />}
-      <Record>
+      <Record $grid>
         {recommends.length !== 0 ? (
           recommends?.map((recommend) => (
             <RecordBox
@@ -47,12 +47,12 @@ const RecommendArea = ({ yearMonthId }: IRecommendationAreaProps) => {
   );
 };
 
-export const Record = styled.div`
+export const Record = styled.div<{ $grid?: boolean }>`
   display: flex;
   flex-direction: column;
   @media ${device.desktop} {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: ${(props) => (props.$grid ? 'grid' : 'block')};
+    grid-template-columns: ${(props) => (props.$grid ? 'repeat(2, 1fr)' : '')};
     gap: 20px;
   }
 `;
@@ -67,7 +67,7 @@ export const EmptyBox = styled.div`
   text-align: center;
   border-radius: 10px;
   font-size: 14px;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: ${(props) => props.theme.boxShadow};
   background-color: ${(props) => props.theme.container.default};
   @media ${device.tablet} {
     font-size: 16px;

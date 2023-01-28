@@ -14,7 +14,7 @@ export const ResetStyle = createGlobalStyle`
         @media ${device.desktop} {
           padding: 0;
           width: 70%;
-          margin: 0 auto;
+          margin: 0 auto 100px;
         }
       }
     }

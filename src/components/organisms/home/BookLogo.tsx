@@ -85,7 +85,7 @@ const Hexagon = styled.img`
   background-color: #fff;
   object-fit: cover;
   object-position: top;
-  box-shadow: 4px 0px 3px rgba(0, 0, 0, 0.8);
+  box-shadow: ${(props) => props.theme.boxShadow};
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   svg {
     width: 12px;

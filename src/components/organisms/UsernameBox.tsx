@@ -21,8 +21,7 @@ const UsernameBox = ({ creatorId }: PropsType) => {
     if (allUserDocs.length === 0) {
       getCollection(USER_DATA, setAllUserDocs);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [creatorId, allUserDocs]);
+  }, [creatorId, allUserDocs, setAllUserDocs]);
 
   const bookShelfLink =
     creatorId === currentUser.uid

@@ -22,6 +22,7 @@ import MobileHeader from 'layout/MobileHeader';
 import ScrollToTop from 'components/atoms/ScrollToTop';
 import MyBookshelf from './routes/MyBookshelf';
 import Bookshelf from 'routes/Bookshelf';
+import { authService } from 'fbase';
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -29,6 +30,7 @@ interface PropsType {
 
 function Router({ isLoggedIn }: PropsType) {
   const { windowSize } = useWindowSize();
+  const anonymous = authService.currentUser?.isAnonymous;
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
@@ -56,6 +58,12 @@ function Router({ isLoggedIn }: PropsType) {
             <Route path='/setting/edit-profile' element={<ProfileInfo />} />
             <Route path='/setting/edit-password' element={<ChangePassword />} />
             <Route path='/setting/delete-account' element={<DeleteAccount />} />
+            {anonymous && (
+              <Route
+                path='/login'
+                element={<LogIn isLoggedIn={isLoggedIn} />}
+              />
+            )}
           </>
         ) : (
           <>

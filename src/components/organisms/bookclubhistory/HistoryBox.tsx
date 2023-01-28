@@ -43,7 +43,7 @@ const BookBox = styled(Link)`
   padding: 15px 10px;
   border-radius: 10px;
   background-color: ${(props) => props.theme.container.default};
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: ${(props) => props.theme.boxShadow};
   cursor: pointer;
   > svg {
     margin: 0 auto;
@@ -70,7 +70,7 @@ const Header = styled.header`
 const Img = styled.img`
   width: auto;
   height: 80px;
-  box-shadow: 2px 1px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: ${(props) => props.theme.boxShadow};
   background-color: ${(props) => props.theme.container.default};
   margin: 15px auto 10px;
 `;

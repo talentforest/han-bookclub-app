@@ -53,7 +53,7 @@ const BookDetail = styled.div`
   margin: 0 auto;
   padding: 15px;
   border-radius: 10px;
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: ${(props) => props.theme.boxShadow};
   background-color: ${(props) => props.theme.container.default};
   > h3 {
     font-weight: 700;
