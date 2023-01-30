@@ -1,12 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { getLocalDate } from 'util/index';
 import { IDocument } from 'data/documentsAtom';
 import { useRecoilValue } from 'recoil';
 import { categoryState } from 'data/categoryAtom';
-import { Favorite, FavoriteBorder } from '@mui/icons-material';
-import { currentUserState } from 'data/userAtom';
 import UsernameBox from 'components/organisms/UsernameBox';
-import BookImgTitle from 'components/atoms/BookImgTitle';
 import useDeleteDoc from 'hooks/handleFbDoc/useDeleteDoc';
 import useEditDoc from 'hooks/handleFbDoc/useEditDoc';
 import styled from 'styled-components';
@@ -14,7 +11,7 @@ import AtLeastOneLetterGuideEditBtn from 'components/atoms/buttons/AtLeastOneLet
 import device from 'theme/mediaQueries';
 import QuillEditor from 'components/atoms/QuillEditor';
 import EditDeleteBox from './EditDeleteBox';
-import useHandleLike from 'hooks/useHandleLike';
+import RecordFooter from 'components/atoms/RecordFooter';
 
 interface IRecordProps {
   doc: IDocument;
@@ -24,17 +21,11 @@ interface IRecordProps {
 
 const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
   const category = useRecoilValue(categoryState);
-  const currentUser = useRecoilValue(currentUserState);
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(doc.text);
+  const { id, creatorId, createdAt, recommendedBook } = doc;
+
   const { onDeleteClick } = useDeleteDoc({ docId: doc.id, collectionName });
-  const { id, creatorId, createdAt, recommendedBook, title, thumbnail } = doc;
-  const { like, setLike, onLikeClick } = useHandleLike({
-    likes: doc?.likes || 0,
-    likeUsers: doc?.likeUsers || [],
-    docId: doc.id,
-    collectionName,
-  });
   const { showingGuide, onEditedSubmit, onEditedChange } = useEditDoc({
     docId: id,
     editedText,
@@ -42,17 +33,6 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
     setEditing,
     collectionName,
   });
-
-  const currentUserLike = doc?.likeUsers?.some(
-    (uid) => uid === currentUser.uid
-  );
-
-  useEffect(() => {
-    if (currentUserLike) {
-      setLike(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleDeleteClick = async () => {
     onDeleteClick();
@@ -102,19 +82,7 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
       ) : (
         <>
           <Content as='pre' dangerouslySetInnerHTML={{ __html: editedText }} />
-          <Footer>
-            <BookImgTitle thumbnail={thumbnail} title={title} smSize />
-            <Likes>
-              {like ? (
-                <>
-                  <span>{doc?.likeUsers?.length || 0}명이 좋아합니다</span>
-                  <Favorite onClick={onLikeClick} />
-                </>
-              ) : (
-                <FavoriteBorder onClick={onLikeClick} />
-              )}
-            </Likes>
-          </Footer>
+          <RecordFooter record={doc} collectionName={collectionName} />
         </>
       )}
     </Form>
@@ -216,31 +184,7 @@ export const RegisterTime = styled.div`
     font-size: 16px;
   }
 `;
-export const Footer = styled.footer`
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-export const Likes = styled.div<{ $nonClick?: boolean }>`
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  text-align: end;
-  justify-content: flex-end;
-  > span {
-    text-align: end;
-    color: ${(props) => props.theme.text.lightBlue};
-    font-size: 12px;
-  }
-  > svg {
-    cursor: ${(props) => (props.$nonClick ? 'none' : 'pointer')};
-    width: ${(props) => (props.$nonClick ? '16px' : '22px')};
-    fill: ${(props) => (props.$nonClick ? '#ff7f7f' : '#ff3131')};
-    filter: drop-shadow(1px 2px 2px rgba(255, 0, 0, 0.3));
-  }
-`;
+
 export const ScrollContent = styled.div`
   min-height: 15vh;
   max-height: 50vh;

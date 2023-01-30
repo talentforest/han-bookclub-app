@@ -1,11 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { getFbRoute, cutLetter, getLocalDate } from 'util/index';
-import {
-  ExpandCircleDown,
-  Favorite,
-  FavoriteBorder,
-} from '@mui/icons-material';
-import { Footer, Likes, ScrollContent } from './RecordBox';
+import { ExpandCircleDown } from '@mui/icons-material';
+import { ScrollContent } from './RecordBox';
 import { IDocument } from 'data/documentsAtom';
 import { Modal } from './bookclubthismonth/SubjectCreateModal';
 import useDeleteDoc from 'hooks/handleFbDoc/useDeleteDoc';
@@ -19,10 +15,7 @@ import HandleBtn from '../atoms/buttons/HandleBtn';
 import AtLeastOneLetterGuideEditBtn from 'components/atoms/buttons/AtLeastOneLetterGuideEditBtn';
 import EditDeleteBox from './EditDeleteBox';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
-import useHandleLike from 'hooks/useHandleLike';
-import { useRecoilValue } from 'recoil';
-import { currentUserState } from 'data/userAtom';
-import BookImgTitle from 'components/atoms/BookImgTitle';
+import RecordFooter from 'components/atoms/RecordFooter';
 
 interface IHostReviewBoxProps {
   hostReview: IDocument;
@@ -33,22 +26,12 @@ const HostReviewBox = ({ hostReview, yearMonthId }: IHostReviewBoxProps) => {
   const [openModal, setOpenModal] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(hostReview.text);
-  const currentUser = useRecoilValue(currentUserState);
-
-  const { alertAskJoinMember, anonymous } = useAlertAskJoin('see');
   const collectionName = getFbRoute(yearMonthId).HOST_REVIEW;
-  const { like, setLike, onLikeClick } = useHandleLike({
-    likes: hostReview?.likes || 0,
-    likeUsers: hostReview?.likeUsers || [],
-    docId: hostReview.id,
-    collectionName,
-  });
-
+  const { alertAskJoinMember, anonymous } = useAlertAskJoin('see');
   const { onDeleteClick } = useDeleteDoc({
     docId: hostReview.id,
     collectionName,
   });
-
   const { showingGuide, onEditedSubmit } = useEditDoc({
     docId: hostReview.id,
     editedText,
@@ -56,17 +39,6 @@ const HostReviewBox = ({ hostReview, yearMonthId }: IHostReviewBoxProps) => {
     setEditing,
     collectionName,
   });
-
-  const currentUserLike = hostReview?.likeUsers?.some(
-    (uid) => uid === currentUser.uid
-  );
-
-  useEffect(() => {
-    if (currentUserLike) {
-      setLike(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleModal = () => {
     if (anonymous) return alertAskJoinMember();
@@ -123,25 +95,10 @@ const HostReviewBox = ({ hostReview, yearMonthId }: IHostReviewBoxProps) => {
                 <ScrollContent
                   dangerouslySetInnerHTML={{ __html: editedText }}
                 />
-                <Footer>
-                  <BookImgTitle
-                    thumbnail={hostReview.thumbnail}
-                    title={hostReview.title}
-                    smSize
-                  />
-                  <Likes>
-                    {like ? (
-                      <>
-                        <span>
-                          {hostReview?.likeUsers?.length || 0}명이 좋아합니다
-                        </span>
-                        <Favorite onClick={onLikeClick} />
-                      </>
-                    ) : (
-                      <FavoriteBorder onClick={onLikeClick} />
-                    )}
-                  </Likes>
-                </Footer>
+                <RecordFooter
+                  record={hostReview}
+                  collectionName={collectionName}
+                />
               </>
             )}
           </ReviewModal>

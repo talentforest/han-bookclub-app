@@ -18,11 +18,14 @@ const useHandleLike = ({
   collectionName,
 }: IHandleLikeProps) => {
   const [like, setLike] = useState(false);
+  const [showLikeUsers, setShowLikeUsers] = useState(false);
   const currentUser = useRecoilValue(currentUserState);
-  const docRef = doc(dbService, collectionName, `${docId}`);
 
   const onLikeClick = async () => {
+    if (!collectionName) return;
+    const docRef = doc(dbService, collectionName, `${docId}`);
     if (like) {
+      setShowLikeUsers(false);
       await updateDoc(docRef, {
         likes: likes - 1,
         likeUsers: likeUsers.filter((uid) => uid !== currentUser.uid),
@@ -36,10 +39,14 @@ const useHandleLike = ({
     setLike((prev) => !prev);
   };
 
+  const toggleShowLikeUsers = () => setShowLikeUsers((prev) => !prev);
+
   return {
     like,
     setLike,
     onLikeClick,
+    showLikeUsers,
+    toggleShowLikeUsers,
   };
 };
 

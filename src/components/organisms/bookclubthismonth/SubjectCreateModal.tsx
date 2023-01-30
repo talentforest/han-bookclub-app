@@ -82,7 +82,6 @@ const SubjectCreateModal = ({ docMonth }: PropsType) => {
 
 export const Modal = styled.form`
   z-index: 2;
-  overflow: scroll;
   position: fixed;
   display: flex;
   flex-direction: column;

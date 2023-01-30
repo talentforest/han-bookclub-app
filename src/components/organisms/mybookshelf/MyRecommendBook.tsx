@@ -10,14 +10,14 @@ import {
   MyRecordModal,
   Record,
 } from './MyRecord';
-import { Footer, Likes, ScrollContent } from '../RecordBox';
+import { ScrollContent } from '../RecordBox';
 import { useEffect, useState } from 'react';
 import { getDocument } from 'api/getFbDoc';
-import { ArrowForwardIos, Favorite } from '@mui/icons-material';
+import { ArrowForwardIos } from '@mui/icons-material';
 import Overlay from 'components/atoms/Overlay';
 import UsernameBox from '../UsernameBox';
 import styled from 'styled-components';
-import BookImgTitle from 'components/atoms/BookImgTitle';
+import RecordFooter from 'components/atoms/RecordFooter';
 
 interface PropsType {
   recommendedBookId: IUserRecord;
@@ -30,12 +30,9 @@ const MyRecommendBook = ({ recommendedBookId }: PropsType) => {
   const {
     recommendedBook,
     title,
-    thumbnail,
     creatorId,
     createdAt,
-    text,
-    likes,
-    likeUsers,
+    text, //
   } = myRecommendedBook;
   const route = getFbRoute(monthId).RECOMMENDED_BOOKS;
 
@@ -83,17 +80,7 @@ const MyRecommendBook = ({ recommendedBookId }: PropsType) => {
                 </Detail>
               </RecommendedBookInfo>
               <ScrollContent dangerouslySetInnerHTML={{ __html: text }} />
-              <Footer>
-                <BookImgTitle thumbnail={thumbnail} title={title} smSize />
-                <Likes $nonClick>
-                  {!!likes && (
-                    <>
-                      <span>{likeUsers?.length || 0}명이 좋아합니다</span>
-                      <Favorite />
-                    </>
-                  )}
-                </Likes>
-              </Footer>
+              <RecordFooter record={myRecommendedBook} />
             </Box>
           </MyRecordModal>
         </>

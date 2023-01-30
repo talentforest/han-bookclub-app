@@ -1,16 +1,16 @@
 import { IUserRecord } from 'data/userAtom';
 import { cutLetter, getFbRoute, getLocalDate, existDocObj } from 'util/index';
-import { ArrowForwardIos, Book, Favorite } from '@mui/icons-material';
+import { ArrowForwardIos, Book } from '@mui/icons-material';
 import { IDocument } from 'data/documentsAtom';
 import { useEffect, useState } from 'react';
 import { getDocument } from 'api/getFbDoc';
 import { Modal } from '../bookclubthismonth/SubjectCreateModal';
-import { ScrollContent, RegisterTime, Footer, Likes } from '../RecordBox';
+import { ScrollContent, RegisterTime } from '../RecordBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import Overlay from 'components/atoms/Overlay';
 import UsernameBox from '../UsernameBox';
-import BookImgTitle from 'components/atoms/BookImgTitle';
+import RecordFooter from 'components/atoms/RecordFooter';
 
 interface PropsType {
   recordId: IUserRecord;
@@ -65,23 +65,7 @@ const MyRecord = ({ recordId, recordSort }: PropsType) => {
               <ScrollContent
                 dangerouslySetInnerHTML={{ __html: record.text }}
               />
-              <Footer>
-                <BookImgTitle
-                  thumbnail={record?.thumbnail}
-                  title={record?.title}
-                  smSize
-                />
-                <Likes $nonClick>
-                  {!!record?.likes && (
-                    <>
-                      <span>
-                        {record?.likeUsers?.length || 0}명이 좋아합니다
-                      </span>
-                      <Favorite />
-                    </>
-                  )}
-                </Likes>
-              </Footer>
+              <RecordFooter record={record} />
             </Box>
           </MyRecordModal>
         </>
