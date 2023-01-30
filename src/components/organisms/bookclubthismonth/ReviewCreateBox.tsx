@@ -6,12 +6,14 @@ import { thisMonthClubState } from 'data/documentsAtom';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import styled from 'styled-components';
 import PostBtn from 'components/atoms/buttons/PostBtn';
+import BookRatingBox from '../BookRatingBox';
 interface PropsType {
   docMonth: string;
 }
 
 const ReviewCreateBox = ({ docMonth }: PropsType) => {
   const [text, setText] = useState('');
+  const [rating, setRating] = useState<number | null>(0);
   const clubInfo = useRecoilValue(thisMonthClubState);
   const userData = useRecoilValue(currentUserState);
   const collectionName = getFbRoute(docMonth).REVIEWS;
@@ -26,6 +28,7 @@ const ReviewCreateBox = ({ docMonth }: PropsType) => {
     text,
     title,
     thumbnail,
+    rating: rating || 0,
   };
 
   const { onAddDocSubmit, onChange } = useAddDoc({
@@ -36,6 +39,12 @@ const ReviewCreateBox = ({ docMonth }: PropsType) => {
 
   return (
     <Form onSubmit={onAddDocSubmit}>
+      <BookRatingBox
+        thumbnail={thumbnail}
+        title={title}
+        rating={rating}
+        setRating={setRating}
+      />
       <TextArea
         placeholder='모임에서 가장 인상적이었던 이야기나 모임 후기를 작성해주세요(한 문장도 좋아요!).'
         value={text}
@@ -55,7 +64,6 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
 `;
-
 const TextArea = styled.textarea`
   font-size: 16px;
   width: 100%;

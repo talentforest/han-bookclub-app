@@ -8,17 +8,26 @@ interface PropsType {
   setEditedText: (newText: string) => void;
   setEditing: (toggle: boolean) => void;
   collectionName: string;
+  editingRate?: number;
 }
 
 const useEditDoc = ({
   docId,
-  editedText,
   setEditedText,
+  editedText,
+  editingRate,
   setEditing,
   collectionName,
 }: PropsType) => {
   const [showingGuide, setShowingGuide] = useState(false);
   const docRef = doc(dbService, collectionName, `${docId}`);
+
+  const updatedData = () => {
+    if (collectionName.includes('Reviews')) {
+      return { text: editedText, rating: editingRate };
+    }
+    return { text: editedText };
+  };
 
   const onEditedSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -26,7 +35,7 @@ const useEditDoc = ({
       return guideShouldNotBlank();
     }
     setEditing(false);
-    await updateDoc(docRef, { text: editedText });
+    await updateDoc(docRef, updatedData());
   };
 
   function guideShouldNotBlank() {

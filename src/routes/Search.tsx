@@ -4,6 +4,7 @@ import TextInput from 'components/atoms/inputs/TextInput';
 import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
 import useSearchBook from 'hooks/useSearchBook';
 import { useEffect, useRef } from 'react';
+import device from 'theme/mediaQueries';
 
 const Search = () => {
   const {
@@ -65,15 +66,19 @@ const Form = styled.form`
   display: flex;
   justify-content: space-between;
   height: 50px;
+  gap: 5px;
   input {
     height: inherit;
-    width: 80%;
-    min-width: 200px;
-    margin-right: 10px;
+    min-width: 150px;
+    width: 100%;
   }
   button {
-    height: inherit;
-    width: 20%;
+    width: 90px;
+  }
+  @media ${device.tablet} {
+    button {
+      width: 150px;
+    }
   }
 `;
 

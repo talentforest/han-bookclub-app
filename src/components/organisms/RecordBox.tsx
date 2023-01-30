@@ -12,6 +12,7 @@ import device from 'theme/mediaQueries';
 import QuillEditor from 'components/atoms/QuillEditor';
 import EditDeleteBox from './EditDeleteBox';
 import RecordFooter from 'components/atoms/RecordFooter';
+import BookRatingBox from './BookRatingBox';
 
 interface IRecordProps {
   doc: IDocument;
@@ -22,14 +23,24 @@ interface IRecordProps {
 const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
   const category = useRecoilValue(categoryState);
   const [editing, setEditing] = useState(false);
+  const [editingRate, setEditingRate] = useState(doc.rating);
   const [editedText, setEditedText] = useState(doc.text);
-  const { id, creatorId, createdAt, recommendedBook } = doc;
+  const {
+    id,
+    creatorId,
+    createdAt,
+    recommendedBook,
+    rating,
+    thumbnail,
+    title,
+  } = doc;
 
   const { onDeleteClick } = useDeleteDoc({ docId: doc.id, collectionName });
   const { showingGuide, onEditedSubmit, onEditedChange } = useEditDoc({
     docId: id,
-    editedText,
     setEditedText,
+    editedText,
+    editingRate,
     setEditing,
     collectionName,
   });
@@ -64,6 +75,14 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
       )}
       {editing ? (
         <>
+          {category === 'reviews' && (
+            <BookRatingBox
+              thumbnail={thumbnail}
+              title={title}
+              rating={editingRate}
+              setRating={setEditingRate}
+            />
+          )}
           {collectionName.includes('Subjects') ? (
             <QuillEditor
               placeholder='발제문을 수정해주세요.'
@@ -81,6 +100,14 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
         </>
       ) : (
         <>
+          {!!rating && (
+            <BookRatingBox
+              thumbnail={thumbnail}
+              title={title}
+              rating={doc.rating}
+              readOnly
+            />
+          )}
           <Content as='pre' dangerouslySetInnerHTML={{ __html: editedText }} />
           <RecordFooter record={doc} collectionName={collectionName} />
         </>
