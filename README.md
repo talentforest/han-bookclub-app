@@ -218,12 +218,16 @@
   const Home = () => {
     const [thisMonthClub, setThisMonthClub] = useRecoilState(thisMonthClubState);
     // recoil의 상태에 이번달 클럽 데이터 저장한다.
+    const { book, meeting, id } = thisMonthClub;
+    const shouldUpdateBookClub = id !== thisYearMonthIso;
+    // 북클럽 데이터의 아이디는 연도와 월(ex.2022-02), 현재 아이디가 이번 연도와 월과 맞지 않는 경우
 
     useEffect(() => {
-      if (!existDoc(thisMonthClub)) { // recoil에 이번달 클럽 데이터가 없는 경우에만 서버에서 데이터 가져온다.
+      if (shouldUpdateBookClub) {
         getDocument(THIS_YEAR_BOOKCLUB, `${thisYearMonthIso}`, setThisMonthClub);
       }
-    }, [thisMonthClub]); // 이번달 클럽 데이터 값이 바뀌면 useEffect가 재실행되지만 recoil에 이미 이전 데이터가 있고, 그 데이터가 업데이트된 상태를 사용하므로 서버에서 불러오지 않는다.
+      // 이와 같은 경우에는 서버에서 새로운 데이터를 불러오며, 로컬스토리지에 이번달 클럽정보를 저장해 다음에 접속했을 때는 로컬스토리지에 저장된 클럽 정보를 사용한다.
+    }, []);
 
     return (
       {/* ... */}
