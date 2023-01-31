@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { recommendBookState } from 'data/bookAtom';
 import { Link } from 'react-router-dom';
-import { ArrowForward } from '@mui/icons-material';
+import { Search } from '@mui/icons-material';
 import { currentUserState } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 import { getFbRoute, cutLetter } from 'util/index';
@@ -51,41 +51,34 @@ const RecommendCreateBox = () => {
   };
 
   return (
-    <>
-      <LinkBtn to='/search'>
-        추천하는 책 찾으러 가기
-        <ArrowForward />
-      </LinkBtn>
-      <Form onSubmit={handleSubmit}>
-        <Textarea
-          placeholder='이달의 책과 관련해 추천하고 싶은 책을 작성해주세요. 위에서 추천하는 책 정보를 찾으실 수 있습니다.'
-          onChange={onChange}
-          value={text}
-        />
+    <Form onSubmit={handleSubmit}>
+      <Textarea
+        placeholder='이달의 책과 관련해 추천하고 싶은 책을 작성해주세요. 위에서 추천하는 책 정보를 찾으실 수 있습니다.'
+        onChange={onChange}
+        value={text}
+      />
+      <Footer>
         {myRecommendBook?.thumbnail ? (
-          <Footer>
-            <BookInfo smSize>
-              <img src={myRecommendBook.thumbnail} alt='recommend book' />
-              <div>
-                <h5>{cutLetter(myRecommendBook.title, 12)}</h5>
-                {myRecommendBook.url && (
-                  <a
-                    href={myRecommendBook.url}
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    상세정보 보러가기
-                  </a>
-                )}
-              </div>
-            </BookInfo>
-            <PostBtn value='추천하기' />
-          </Footer>
+          <BookInfo smSize>
+            <img src={myRecommendBook.thumbnail} alt='recommend book' />
+            <div>
+              <h5>{cutLetter(myRecommendBook.title, 12)}</h5>
+              {myRecommendBook.url && (
+                <a href={myRecommendBook.url} target='_blank' rel='noreferrer'>
+                  상세정보 보러가기
+                </a>
+              )}
+            </div>
+          </BookInfo>
         ) : (
-          <PostBtn value='추천하기' />
+          <LinkBtn to='/search'>
+            <span>추천하는 책 찾기</span>
+            <Search />
+          </LinkBtn>
         )}
-      </Form>
-    </>
+        <PostBtn value='추천하기' />
+      </Footer>
+    </Form>
   );
 };
 
@@ -100,24 +93,6 @@ const Form = styled.form`
   margin-bottom: 20px;
   @media ${device.tablet} {
     padding: 15px 20px;
-  }
-`;
-const LinkBtn = styled(Link)`
-  width: 100%;
-  padding: 8px 14px;
-  background-color: #fff;
-  box-shadow: ${(props) => props.theme.boxShadow};
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 5px;
-  font-size: 16px;
-  margin-bottom: 10px;
-  color: ${(props) => props.theme.text.gray};
-  svg {
-    width: 24px;
-    height: 24px;
-    fill: ${(props) => props.theme.text.gray};
   }
 `;
 const Textarea = styled.textarea`
@@ -141,7 +116,31 @@ const Footer = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  gap: 5px;
+  height: 40px;
+`;
+const LinkBtn = styled(Link)`
+  width: fit-content;
+  height: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px;
+  border-radius: 30px;
+  color: ${(props) => props.theme.text.gray};
+  background-color: #fff;
+  box-shadow: ${(props) => props.theme.boxShadow};
+  span {
+    margin-right: 5px;
+    font-size: 14px;
+  }
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: ${(props) => props.theme.text.gray};
+  }
+  @media ${device.tablet} {
+    width: 300px;
+  }
 `;
 const BookInfo = styled.div<{ smSize: boolean }>`
   display: flex;

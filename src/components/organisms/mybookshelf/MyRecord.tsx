@@ -11,6 +11,7 @@ import device from 'theme/mediaQueries';
 import Overlay from 'components/atoms/Overlay';
 import UsernameBox from '../UsernameBox';
 import RecordFooter from 'components/atoms/RecordFooter';
+import BookRatingBox from '../BookRatingBox';
 
 interface PropsType {
   recordId: IUserRecord;
@@ -62,6 +63,14 @@ const MyRecord = ({ recordId, recordSort }: PropsType) => {
                 <UsernameBox creatorId={record?.creatorId} />
                 <RegisterTime>{getLocalDate(record?.createdAt)}</RegisterTime>
               </Header>
+              {!!record.rating && (
+                <BookRatingBox
+                  thumbnail={record.thumbnail}
+                  title={record.title}
+                  rating={record.rating}
+                  readOnly
+                />
+              )}
               <ScrollContent
                 dangerouslySetInnerHTML={{ __html: record.text }}
               />

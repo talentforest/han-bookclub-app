@@ -49,8 +49,8 @@ const BookClubOfThisMonth = () => {
               Daum책 상세정보 보러가기
             </a>
           )}
+          <Guide text='모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 수정만 가능할 뿐 새로 작성이 불가능한 점 유의해주세요.' />
         </MonthInfo>
-        <Guide text='모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 수정만 가능할 뿐 새로 작성이 불가능한 점 유의해주세요.' />
         <Subtitle title='발제자의 정리 기록' />
         {fieldsHostDoc.info &&
           fieldsHostDoc?.info[thisMonth - 1].host !== 'no_host' && (
@@ -80,8 +80,10 @@ const HostInfo = styled.div`
 const MonthInfo = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 20px 0 40px;
+  margin: 20px 0;
   > a {
+    width: fit-content;
+    margin: 10px auto 20px;
     border: 1px solid ${(props) => props.theme.text.lightGray};
     padding: 3px 10px;
     border-radius: 20px;

@@ -1,6 +1,7 @@
 import { Book } from '@mui/icons-material';
 import BasicRating from 'components/atoms/BasicRating';
 import styled from 'styled-components';
+import device from 'theme/mediaQueries';
 
 interface IBookRatingProps {
   thumbnail: string;
@@ -37,6 +38,7 @@ const Rating = styled.div<{ $readOnly: boolean }>`
   align-items: center;
   margin-bottom: 5px;
   > img {
+    box-shadow: ${(props) => props.theme.boxShadow};
     width: auto;
     height: ${(props) => (props.$readOnly ? '20px' : '30px')};
   }
@@ -44,11 +46,21 @@ const Rating = styled.div<{ $readOnly: boolean }>`
     width: ${(props) => (props.$readOnly ? '18px' : '40px')};
     height: ${(props) => (props.$readOnly ? '18px' : '30px')};
   }
+  @media ${device.tablet} {
+    > img {
+      height: ${(props) => (props.$readOnly ? '30px' : '40px')};
+    }
+    > svg {
+      width: ${(props) => (props.$readOnly ? '30px' : '50px')};
+      height: ${(props) => (props.$readOnly ? '30px' : '40px')};
+    }
+  }
 `;
 const Info = styled.div<{ $readOnly: boolean }>`
   display: flex;
   flex-direction: column;
   font-size: 12px;
+  margin-left: 8px;
   > span {
     color: ${(props) => props.theme.text.accent};
     padding-left: 3px;
@@ -57,6 +69,12 @@ const Info = styled.div<{ $readOnly: boolean }>`
     width: ${(props) => (props.$readOnly ? '18px' : '24px')};
     height: ${(props) => (props.$readOnly ? '18px' : '24px')};
     fill: gold;
+  }
+  @media ${device.tablet} {
+    svg {
+      width: ${(props) => (props.$readOnly ? '24px' : '28px')};
+      height: ${(props) => (props.$readOnly ? '24px' : '28px')};
+    }
   }
 `;
 

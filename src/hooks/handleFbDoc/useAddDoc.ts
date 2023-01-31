@@ -1,4 +1,5 @@
 import { getDocument } from 'api/getFbDoc';
+import { recommendBookState } from 'data/bookAtom';
 import { IDocument } from 'data/documentsAtom';
 import {
   currentUserState,
@@ -8,7 +9,7 @@ import {
 import { authService, dbService } from 'fbase';
 import { collection, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { thisYearMonthIso, USER_DATA, existDocObj } from 'util/index';
 import useAlertAskJoin from '../useAlertAskJoin';
 
@@ -16,11 +17,18 @@ interface PropsType {
   setText: (text: string) => void;
   collectionName: string;
   docData: IDocument;
+  setRating?: (rating: number) => void;
 }
 
-const useAddDoc = ({ setText, collectionName, docData }: PropsType) => {
+const useAddDoc = ({
+  setText,
+  collectionName,
+  docData,
+  setRating,
+}: PropsType) => {
   const { alertAskJoinMember } = useAlertAskJoin('write');
   const [userExtraData, setUserExtraData] = useRecoilState(userExtraInfoState);
+  const setMyRecommendBook = useSetRecoilState(recommendBookState);
   const docRef = doc(collection(dbService, collectionName));
   const userData = useRecoilValue(currentUserState);
   const userDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
@@ -42,6 +50,12 @@ const useAddDoc = ({ setText, collectionName, docData }: PropsType) => {
         docId: docRef.id,
       };
       updateUserData(newUserDocId);
+      if (docData.rating) {
+        setRating(0);
+      }
+      if (docData.recommendedBook.title) {
+        setMyRecommendBook({ thumbnail: '', title: '', authors: [], url: '' });
+      }
     } catch (error) {
       console.error('Error adding document:', error);
     }

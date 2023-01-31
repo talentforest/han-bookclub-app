@@ -33,6 +33,7 @@ const ReviewCreateBox = ({ docMonth }: PropsType) => {
 
   const { onAddDocSubmit, onChange } = useAddDoc({
     setText,
+    setRating,
     collectionName,
     docData,
   });
