@@ -68,7 +68,7 @@ const ScheduleBox = ({ schedule }: PropsType) => {
               description={`이번 모임은 🏢${place}에서 🕰${getLocalDateTime(
                 time
               )}에 만나요!`}
-              path='bookclub'
+              path='/'
             />
             <EditBtn onClick={onEditClick}>
               <Edit />
