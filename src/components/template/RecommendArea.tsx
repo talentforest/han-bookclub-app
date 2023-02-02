@@ -32,7 +32,7 @@ const RecommendArea = ({ yearMonthId }: IRecommendationAreaProps) => {
             <RecordBox
               key={recommend.id}
               doc={recommend}
-              collectionName={getFbRoute(yearMonthId).RECOMMENDED_BOOKS}
+              collName={getFbRoute(yearMonthId).RECOMMENDED_BOOKS}
             />
           ))
         ) : (

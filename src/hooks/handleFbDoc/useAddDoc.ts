@@ -15,21 +15,16 @@ import useAlertAskJoin from '../useAlertAskJoin';
 
 interface PropsType {
   setText: (text: string) => void;
-  collectionName: string;
+  collName: string;
   docData: IDocument;
   setRating?: (rating: number) => void;
 }
 
-const useAddDoc = ({
-  setText,
-  collectionName,
-  docData,
-  setRating,
-}: PropsType) => {
+const useAddDoc = ({ setText, collName, docData, setRating }: PropsType) => {
   const { alertAskJoinMember } = useAlertAskJoin('write');
   const [userExtraData, setUserExtraData] = useRecoilState(userExtraInfoState);
   const setMyRecommendBook = useSetRecoilState(recommendBookState);
-  const docRef = doc(collection(dbService, collectionName));
+  const docRef = doc(collection(dbService, collName));
   const userData = useRecoilValue(currentUserState);
   const userDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
 
@@ -53,7 +48,7 @@ const useAddDoc = ({
       if (docData.rating) {
         setRating(0);
       }
-      if (docData.recommendedBook.title) {
+      if (docData?.recommendedBook?.title) {
         setMyRecommendBook({ thumbnail: '', title: '', authors: [], url: '' });
       }
     } catch (error) {
@@ -66,17 +61,17 @@ const useAddDoc = ({
     const { reviews, subjects, recommendedBooks, hostReviews } =
       userExtraData.userRecords;
 
-    if (collectionName.includes('Reviews')) {
+    if (collName.includes('Reviews')) {
       await updateDoc(userDataRef, {
         'userRecords.reviews': [...(reviews ?? []), newUserDocId],
       });
     }
-    if (collectionName.includes('Subjects')) {
+    if (collName.includes('Subjects')) {
       await updateDoc(userDataRef, {
         'userRecords.subjects': [...(subjects ?? []), newUserDocId],
       });
     }
-    if (collectionName.includes('RecommendedBooks')) {
+    if (collName.includes('RecommendedBooks')) {
       await updateDoc(userDataRef, {
         'userRecords.recommendedBooks': [
           ...(recommendedBooks ?? []),
@@ -84,7 +79,7 @@ const useAddDoc = ({
         ],
       });
     }
-    if (collectionName.includes('HostReview')) {
+    if (collName.includes('HostReview')) {
       await updateDoc(userDataRef, {
         'userRecords.hostReviews': [...(hostReviews ?? []), newUserDocId],
       });

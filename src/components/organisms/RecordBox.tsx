@@ -16,11 +16,11 @@ import BookRatingBox from './BookRatingBox';
 
 interface IRecordProps {
   doc: IDocument;
-  collectionName: string;
+  collName: string;
   setShowDetail?: (detail: []) => void;
 }
 
-const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
+const RecordBox = ({ doc, collName, setShowDetail }: IRecordProps) => {
   const category = useRecoilValue(categoryState);
   const [editing, setEditing] = useState(false);
   const [editingRate, setEditingRate] = useState(doc.rating);
@@ -35,14 +35,14 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
     title,
   } = doc;
 
-  const { onDeleteClick } = useDeleteDoc({ docId: doc.id, collectionName });
+  const { onDeleteClick } = useDeleteDoc({ docId: doc.id, collName });
   const { showingGuide, onEditedSubmit, onEditedChange } = useEditDoc({
     docId: id,
     setEditedText,
     editedText,
     editingRate,
     setEditing,
-    collectionName,
+    collName,
   });
 
   const handleDeleteClick = async () => {
@@ -83,7 +83,7 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
               setRating={setEditingRate}
             />
           )}
-          {collectionName.includes('Subjects') ? (
+          {collName.includes('Subjects') ? (
             <QuillEditor
               placeholder='발제문을 수정해주세요.'
               text={editedText}
@@ -109,7 +109,7 @@ const RecordBox = ({ doc, collectionName, setShowDetail }: IRecordProps) => {
             />
           )}
           <Content as='pre' dangerouslySetInnerHTML={{ __html: editedText }} />
-          <RecordFooter record={doc} collectionName={collectionName} />
+          <RecordFooter record={doc} collName={collName} />
         </>
       )}
     </Form>

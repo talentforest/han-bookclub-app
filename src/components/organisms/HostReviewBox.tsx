@@ -26,18 +26,16 @@ const HostReviewBox = ({ hostReview, yearMonthId }: IHostReviewBoxProps) => {
   const [openModal, setOpenModal] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(hostReview.text);
-  const collectionName = getFbRoute(yearMonthId).HOST_REVIEW;
+  const collName = getFbRoute(yearMonthId).HOST_REVIEW;
+  const { id, creatorId, createdAt } = hostReview;
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('see');
-  const { onDeleteClick } = useDeleteDoc({
-    docId: hostReview.id,
-    collectionName,
-  });
+  const { onDeleteClick } = useDeleteDoc({ docId: id, collName });
   const { showingGuide, onEditedSubmit } = useEditDoc({
-    docId: hostReview.id,
+    docId: id,
     editedText,
     setEditedText,
     setEditing,
-    collectionName,
+    collName,
   });
 
   const handleModal = () => {
@@ -73,10 +71,10 @@ const HostReviewBox = ({ hostReview, yearMonthId }: IHostReviewBoxProps) => {
             onSubmit={onEditedSubmit}
           >
             <Header>
-              <UsernameBox creatorId={hostReview.creatorId} />
-              <TimeStamp>{getLocalDate(hostReview.createdAt)}</TimeStamp>
+              <UsernameBox creatorId={creatorId} />
+              <TimeStamp>{getLocalDate(createdAt)}</TimeStamp>
               <EditDeleteBox
-                creatorId={hostReview.creatorId}
+                creatorId={creatorId}
                 setEditing={setEditing}
                 onDeleteClick={onDeleteClick}
               />
@@ -95,10 +93,7 @@ const HostReviewBox = ({ hostReview, yearMonthId }: IHostReviewBoxProps) => {
                 <ScrollContent
                   dangerouslySetInnerHTML={{ __html: editedText }}
                 />
-                <RecordFooter
-                  record={hostReview}
-                  collectionName={collectionName}
-                />
+                <RecordFooter record={hostReview} collName={collName} />
               </>
             )}
           </ReviewModal>
@@ -117,7 +112,7 @@ const CuttedHostReviewBox = styled.div`
   border-radius: 10px;
   box-shadow: ${(props) => props.theme.boxShadow};
   background-color: ${(props) => props.theme.container.default};
-  margin-bottom: 50px;
+  margin: 10px 0 50px;
   pre {
     margin-bottom: 10px;
     a {

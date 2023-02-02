@@ -20,7 +20,7 @@ const RecommendCreateBox = () => {
   } = thisMonthClub;
   const myRecommendBook = useRecoilValue(recommendBookState);
   const userData = useRecoilValue(currentUserState);
-  const collectionName = getFbRoute(id).RECOMMENDED_BOOKS;
+  const collName = getFbRoute(id).RECOMMENDED_BOOKS;
   const docData = {
     text,
     createdAt: Date.now(),
@@ -37,7 +37,7 @@ const RecommendCreateBox = () => {
 
   const { onAddDocSubmit, onChange } = useAddDoc({
     setText,
-    collectionName,
+    collName,
     docData,
   });
 

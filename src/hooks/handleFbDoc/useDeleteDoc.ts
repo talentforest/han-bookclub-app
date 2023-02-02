@@ -8,14 +8,14 @@ import { USER_DATA, existDocObj } from 'util/index';
 
 interface PropsType {
   docId: string;
-  collectionName: string;
+  collName: string;
 }
 
-const useDeleteDoc = ({ docId, collectionName }: PropsType) => {
+const useDeleteDoc = ({ docId, collName }: PropsType) => {
   const [userExtraData, setUserExtraData] = useRecoilState(userExtraInfoState);
   const userData = useRecoilValue(currentUserState);
 
-  const docRef = doc(dbService, collectionName, `${docId}`);
+  const docRef = doc(dbService, collName, `${docId}`);
   const userDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
 
   useEffect(() => {
@@ -36,19 +36,19 @@ const useDeleteDoc = ({ docId, collectionName }: PropsType) => {
     const { reviews, subjects, recommendedBooks, hostReviews } =
       userExtraData.userRecords;
 
-    if (collectionName.includes('Reviews')) {
+    if (collName.includes('Reviews')) {
       const filteredArr = reviews.filter((item) => item.docId !== docRef.id);
       await updateDoc(userDataRef, {
         'userRecords.reviews': filteredArr,
       });
     }
-    if (collectionName.includes('Subjects')) {
+    if (collName.includes('Subjects')) {
       const filteredArr = subjects.filter((item) => item.docId !== docRef.id);
       await updateDoc(userDataRef, {
         'userRecords.subjects': filteredArr,
       });
     }
-    if (collectionName.includes('Recommended')) {
+    if (collName.includes('Recommended')) {
       const filteredArr = recommendedBooks.filter(
         (item) => item.docId !== docRef.id
       );
@@ -56,7 +56,7 @@ const useDeleteDoc = ({ docId, collectionName }: PropsType) => {
         'userRecords.recommendedBooks': filteredArr,
       });
     }
-    if (collectionName.includes('HostReview')) {
+    if (collName.includes('HostReview')) {
       const filteredArr = hostReviews.filter(
         (item) => item.docId !== docRef.id
       );

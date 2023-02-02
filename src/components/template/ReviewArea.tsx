@@ -31,7 +31,7 @@ const ReviewArea = ({ yearMonthId }: IReviewAreaProps) => {
             <RecordBox
               key={review.id}
               doc={review}
-              collectionName={getFbRoute(yearMonthId).REVIEWS}
+              collName={getFbRoute(yearMonthId).REVIEWS}
             />
           ))
         ) : (

@@ -22,7 +22,7 @@ const SubjectCreateModal = ({ docMonth }: PropsType) => {
   const thisMonthClub = useRecoilValue(thisMonthClubState);
   const [text, setText] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
-  const collectionName = getFbRoute(docMonth).SUBJECTS;
+  const collName = getFbRoute(docMonth).SUBJECTS;
   const userData = useRecoilValue(currentUserState);
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('write');
   const {
@@ -37,11 +37,7 @@ const SubjectCreateModal = ({ docMonth }: PropsType) => {
     thumbnail,
   };
 
-  const { onAddDocSubmit } = useAddDoc({
-    setText,
-    collectionName,
-    docData,
-  });
+  const { onAddDocSubmit } = useAddDoc({ setText, collName, docData });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     onAddDocSubmit(event);

@@ -22,7 +22,7 @@ const HostReviewCreateModal = () => {
     id,
     book: { thumbnail, title },
   } = thisMonthClub;
-  const collectionName = getFbRoute(id).HOST_REVIEW;
+  const collName = getFbRoute(id).HOST_REVIEW;
   const docData = {
     text,
     createdAt: Date.now(),
@@ -33,7 +33,7 @@ const HostReviewCreateModal = () => {
 
   const { onAddDocSubmit } = useAddDoc({
     setText,
-    collectionName,
+    collName,
     docData,
   });
 

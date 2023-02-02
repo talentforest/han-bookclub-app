@@ -7,7 +7,7 @@ interface PropsType {
   editedText: string;
   setEditedText: (newText: string) => void;
   setEditing: (toggle: boolean) => void;
-  collectionName: string;
+  collName: string;
   editingRate?: number;
 }
 
@@ -17,13 +17,13 @@ const useEditDoc = ({
   editedText,
   editingRate,
   setEditing,
-  collectionName,
+  collName,
 }: PropsType) => {
   const [showingGuide, setShowingGuide] = useState(false);
-  const docRef = doc(dbService, collectionName, `${docId}`);
+  const docRef = doc(dbService, collName, `${docId}`);
 
   const updatedData = () => {
-    if (collectionName.includes('Reviews')) {
+    if (collName.includes('Reviews')) {
       return { text: editedText, rating: editingRate };
     }
     return { text: editedText };

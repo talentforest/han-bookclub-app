@@ -8,25 +8,26 @@ import {
 import UsernameBox from 'components/organisms/UsernameBox';
 import { IDocument } from 'data/documentsAtom';
 import { currentUserState } from 'data/userAtom';
-import useHandleLike from 'hooks/useHandleLike';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import BookImgTitle from './BookImgTitle';
+import useHandleLike from 'hooks/useHandleLike';
+import device from 'theme/mediaQueries';
 
 interface IRecordFooterProps {
   record: IDocument;
-  collectionName?: string;
+  collName?: string;
 }
 
-const RecordFooter = ({ record, collectionName }: IRecordFooterProps) => {
+const RecordFooter = ({ record, collName }: IRecordFooterProps) => {
   const currentUser = useRecoilValue(currentUserState);
   const { like, setLike, onLikeClick, showLikeUsers, toggleShowLikeUsers } =
     useHandleLike({
       likes: record?.likes || 0,
       likeUsers: record?.likeUsers || [],
       docId: record.id,
-      collectionName,
+      collName,
     });
 
   const currentUserLike = record?.likeUsers?.some(
@@ -43,7 +44,7 @@ const RecordFooter = ({ record, collectionName }: IRecordFooterProps) => {
   return (
     <Footer>
       <BookImgTitle thumbnail={record.thumbnail} title={record.title} smSize />
-      {collectionName ? (
+      {collName ? (
         <Likes>
           <LikeUserBox type='button' onClick={toggleShowLikeUsers}>
             {showLikeUsers ? <ExpandMore /> : <ExpandLess />}
@@ -79,12 +80,24 @@ const RecordFooter = ({ record, collectionName }: IRecordFooterProps) => {
     </Footer>
   );
 };
+
+const Footer = styled.footer`
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  @media ${device.tablet} {
+    margin-top: 15px;
+  }
+`;
 const LikeUserList = styled.ul`
   box-shadow: ${(props) => props.theme.boxShadow};
   position: absolute;
   bottom: 30px;
   right: 20px;
-  min-width: 50%;
+  width: fit-content;
   min-height: 100px;
   background-color: ${(props) => props.theme.container.lightBlue};
   z-index: 10;
@@ -92,17 +105,18 @@ const LikeUserList = styled.ul`
   padding: 5px 10px 10px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   h4 {
     font-size: 13px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 5px;
+
     color: ${(props) => props.theme.text.lightBlue};
     svg {
       fill: ${(props) => props.theme.text.lightBlue};
       width: 16px;
+      margin-left: 15px;
     }
   }
 `;
@@ -119,13 +133,6 @@ const LikeUserBox = styled.button`
     margin-top: 2px;
     margin-right: 1px;
   }
-`;
-const Footer = styled.footer`
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 `;
 const Likes = styled.div<{ $nonClick?: boolean }>`
   display: flex;

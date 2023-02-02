@@ -31,7 +31,7 @@ const SubjectArea = ({ yearMonthId }: ISubjectAreaProps) => {
             <RecordBox
               key={subject.id}
               doc={subject}
-              collectionName={getFbRoute(yearMonthId).SUBJECTS}
+              collName={getFbRoute(yearMonthId).SUBJECTS}
             />
           ))
         ) : (

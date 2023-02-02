@@ -16,7 +16,7 @@ const ReviewCreateBox = ({ docMonth }: PropsType) => {
   const [rating, setRating] = useState<number | null>(0);
   const clubInfo = useRecoilValue(thisMonthClubState);
   const userData = useRecoilValue(currentUserState);
-  const collectionName = getFbRoute(docMonth).REVIEWS;
+  const collName = getFbRoute(docMonth).REVIEWS;
 
   const {
     book: { title, thumbnail },
@@ -34,7 +34,7 @@ const ReviewCreateBox = ({ docMonth }: PropsType) => {
   const { onAddDocSubmit, onChange } = useAddDoc({
     setText,
     setRating,
-    collectionName,
+    collName,
     docData,
   });
 

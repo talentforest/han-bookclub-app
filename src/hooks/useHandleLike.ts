@@ -8,22 +8,22 @@ interface IHandleLikeProps {
   likes: number;
   likeUsers: string[];
   docId: string;
-  collectionName: string;
+  collName: string;
 }
 
 const useHandleLike = ({
   likes,
   likeUsers,
   docId,
-  collectionName,
+  collName,
 }: IHandleLikeProps) => {
   const [like, setLike] = useState(false);
   const [showLikeUsers, setShowLikeUsers] = useState(false);
   const currentUser = useRecoilValue(currentUserState);
 
   const onLikeClick = async () => {
-    if (!collectionName) return;
-    const docRef = doc(dbService, collectionName, `${docId}`);
+    if (!collName) return;
+    const docRef = doc(dbService, collName, `${docId}`);
     if (like) {
       setShowLikeUsers(false);
       await updateDoc(docRef, {
