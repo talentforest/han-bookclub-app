@@ -11,7 +11,10 @@ const clubBookImgs = [
     src: 'https://image.aladin.co.kr/product/30519/97/cover500/k022830494_1.jpg',
     alt: '2월의 책 복지의 문법',
   },
-  { src: '', alt: '3월의 책' },
+  {
+    src: 'https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F5966496%3Ftimestamp%3D20230217213918',
+    alt: '3월의 책 마음의 법칙',
+  },
   { src: '', alt: '4월의 책' },
   { src: '', alt: '5월의 책' },
   { src: '', alt: '6월의 책' },

@@ -31,7 +31,10 @@ const UsernameBox = ({ creatorId }: PropsType) => {
   return (
     <User to={bookShelfLink} state={{ user: userInfo }}>
       {userInfo?.photoUrl ? (
-        <ProfileImgBox $bgPhoto={userInfo.photoUrl} />
+        <ProfileImgBox
+          onContextMenu={(e) => e.preventDefault()}
+          $bgPhoto={userInfo.photoUrl}
+        />
       ) : (
         <AccountCircle />
       )}

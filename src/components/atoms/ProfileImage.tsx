@@ -47,6 +47,7 @@ const ProfileImage = ({
           onClick={() => {
             fileInput.current.click();
           }}
+          onContextMenu={(e) => e.preventDefault()}
         />
       )}
       {editing && (
@@ -104,6 +105,7 @@ export const ImgBox = styled.div`
   justify-content: center;
   width: fit-content;
   margin: 0 auto 10px;
+
   > svg {
     height: 140px;
     width: 140px;
@@ -121,7 +123,6 @@ export const ProfileImg = styled.img`
   width: 140px;
   height: 140px;
   border-radius: 50%;
-  cursor: pointer;
   @media ${device.tablet} {
     width: 200px;
     height: 200px;

@@ -38,7 +38,11 @@ const MyBookshelf = () => {
     <main>
       <ProfileBox>
         {currentUser?.photoURL ? (
-          <ProfileImg src={currentUser.photoURL} alt='profile' />
+          <ProfileImg
+            onContextMenu={(e) => e.preventDefault()}
+            src={currentUser.photoURL}
+            alt='profile'
+          />
         ) : (
           <AccountCircle />
         )}
