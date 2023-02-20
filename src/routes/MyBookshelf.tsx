@@ -11,7 +11,7 @@ import MyRecommendBook from 'components/organisms/mybookshelf/MyRecommendBook';
 import MyRecord from 'components/organisms/mybookshelf/MyRecord';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
-import Loading from 'components/atoms/Loading';
+import Loading from 'components/atoms/loadings/Loading';
 import CategoryBtns from 'components/organisms/CategoryBtns';
 import Subtitle from 'components/atoms/Subtitle';
 import Guide from 'components/atoms/Guide';

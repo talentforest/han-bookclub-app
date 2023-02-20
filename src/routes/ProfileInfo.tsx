@@ -6,7 +6,7 @@ import { bookFields, existDocObj } from 'util/index';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import useHandleProfile from 'hooks/useHandleProfile';
-import Loading from 'components/atoms/Loading';
+import Loading from 'components/atoms/loadings/Loading';
 import ProfileImage from 'components/atoms/ProfileImage';
 import device from 'theme/mediaQueries';
 import Guide from 'components/atoms/Guide';

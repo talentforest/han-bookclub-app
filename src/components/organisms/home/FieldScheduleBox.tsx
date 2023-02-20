@@ -15,7 +15,7 @@ import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import UsernameBox from '../UsernameBox';
 import useHandleFieldHost from 'hooks/useHandleFieldHost';
-import Loading from 'components/atoms/Loading';
+import Loading from 'components/atoms/loadings/Loading';
 import Overlay from 'components/atoms/Overlay';
 
 const FieldScheduleBox = () => {

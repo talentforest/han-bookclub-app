@@ -11,7 +11,7 @@ import ExpiredVoteBox from 'components/organisms/vote/ExpiredVoteBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import Overlay from 'components/atoms/Overlay';
-import Loading from 'components/atoms/Loading';
+import Loading from 'components/atoms/loadings/Loading';
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);

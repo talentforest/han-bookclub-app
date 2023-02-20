@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { getDocument } from 'api/getFbDoc';
 import { Modal } from '../bookclubthismonth/SubjectCreateModal';
 import { ScrollContent, RegisterTime } from '../RecordBox';
+import { skeletonAnimation } from 'theme/skeleton';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import Overlay from 'components/atoms/Overlay';
@@ -30,7 +31,9 @@ const MyRecord = ({ recordId, recordSort }: PropsType) => {
   };
 
   useEffect(() => {
-    getDocument(getRecordRoute(), docId, setRecord);
+    if (docId) {
+      getDocument(getRecordRoute(), docId, setRecord);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -38,52 +41,67 @@ const MyRecord = ({ recordId, recordSort }: PropsType) => {
 
   return (
     <>
-      {existDocObj(record) && (
-        <Record onClick={handleModal}>
-          {record.thumbnail ? (
-            <BookImg src={record.thumbnail} alt={`${record.title} thumbnail`} />
-          ) : (
-            <Book />
-          )}
-          <BookTitle>
-            {record.title ? cutLetter(record.title, 15) : '이벤트'}
-          </BookTitle>
-          <Btn>
-            보기
-            <ArrowForwardIos />
-          </Btn>
-        </Record>
-      )}
-      {openModal && (
+      {existDocObj(record) ? (
         <>
-          <Overlay onModalClick={handleModal} />
-          <MyRecordModal>
-            <Box>
-              <Header>
-                <UsernameBox creatorId={record?.creatorId} />
-                <RegisterTime>{getLocalDate(record?.createdAt)}</RegisterTime>
-              </Header>
-              {!!record.rating && (
-                <BookRatingBox
-                  thumbnail={record.thumbnail}
-                  title={record.title}
-                  rating={record.rating}
-                  readOnly
-                />
-              )}
-              <ScrollContent
-                dangerouslySetInnerHTML={{ __html: record.text }}
+          <Record onClick={handleModal}>
+            {record.thumbnail ? (
+              <BookImg
+                src={record.thumbnail}
+                alt={`${record.title} thumbnail`}
               />
-              <RecordFooter record={record} />
-            </Box>
-          </MyRecordModal>
+            ) : (
+              <Book />
+            )}
+            <BookTitle>
+              {record.title ? cutLetter(record.title, 15) : '이벤트'}
+            </BookTitle>
+            <Btn>
+              보기
+              <ArrowForwardIos />
+            </Btn>
+          </Record>
+          {openModal && (
+            <>
+              <Overlay onModalClick={handleModal} />
+              <MyRecordModal>
+                <Box>
+                  <Header>
+                    <UsernameBox creatorId={record?.creatorId} />
+                    <RegisterTime>
+                      {getLocalDate(record?.createdAt)}
+                    </RegisterTime>
+                  </Header>
+                  {!!record.rating && (
+                    <BookRatingBox
+                      thumbnail={record.thumbnail}
+                      title={record.title}
+                      rating={record.rating}
+                      readOnly
+                    />
+                  )}
+                  <ScrollContent
+                    dangerouslySetInnerHTML={{ __html: record.text }}
+                  />
+                  <RecordFooter record={record} />
+                </Box>
+              </MyRecordModal>
+            </>
+          )}
         </>
+      ) : (
+        [1, 2, 3].map((item) => (
+          <Record key={item} $skeleton>
+            <svg></svg>
+            <span></span>
+            <span></span>
+          </Record>
+        ))
       )}
     </>
   );
 };
 
-export const Record = styled.li`
+export const Record = styled.li<{ $skeleton?: boolean }>`
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -97,9 +115,18 @@ export const Record = styled.li`
   border: 1px solid ${(props) => props.theme.text.lightGray};
   box-shadow: ${(props) => props.theme.boxShadow};
   > svg {
+    border-radius: 5px;
     height: 55px;
-    width: 40px;
+    width: 60px;
+    animation: ${(props) => (props.$skeleton ? skeletonAnimation : '')};
   }
+  > span {
+    height: 20px;
+    border-radius: 5px;
+    width: 80%;
+    animation: ${(props) => (props.$skeleton ? skeletonAnimation : '')};
+  }
+
   @media ${device.tablet} {
     padding: 10px;
     height: 170px;
@@ -113,7 +140,7 @@ export const BookImg = styled.img`
     height: 70px;
   }
 `;
-export const BookTitle = styled.h1`
+export const BookTitle = styled.h4`
   font-weight: 700;
   font-size: 12px;
   text-align: center;

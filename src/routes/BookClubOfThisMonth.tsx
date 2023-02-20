@@ -12,7 +12,7 @@ import {
 } from 'util/index';
 import { getDocument } from 'api/getFbDoc';
 import { fieldHostDocState } from 'data/bookFieldHostAtom';
-import Loading from 'components/atoms/Loading';
+import Loading from 'components/atoms/loadings/Loading';
 import Subtitle from 'components/atoms/Subtitle';
 import BookImgTitle from 'components/atoms/BookImgTitle';
 import styled from 'styled-components';

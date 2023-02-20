@@ -11,7 +11,7 @@ import { useRecoilState } from 'recoil';
 import { thisMonthClubState } from 'data/documentsAtom';
 import Subtitle from 'components/atoms/Subtitle';
 import BookImgTitle from 'components/atoms/BookImgTitle';
-import Loading from 'components/atoms/Loading';
+import Loading from 'components/atoms/loadings/Loading';
 import Guide from 'components/atoms/Guide';
 import FieldScheduleBox from 'components/organisms/home/FieldScheduleBox';
 import VoteSlider from 'components/organisms/home/VoteSlider';
@@ -40,7 +40,7 @@ const Home = () => {
         <Guide text='이달의 책은 매월 1일에 업데이트 됩니다.' />
         <BookImgTitle thumbnail={book?.thumbnail} title={book?.title} />
       </Section>
-      
+
       <Section>
         <Subtitle title={`${thisMonth}월의 모임 일정`} />
         <Guide text='한페이지 멤버는 매월 셋째주 일요일에 만나요.' />

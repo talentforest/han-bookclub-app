@@ -4,7 +4,7 @@ import { IExtraUserData } from 'data/userAtom';
 import { useLocation } from 'react-router-dom';
 import { Header } from 'layout/MobileHeader';
 import { deviceSizes } from 'theme/mediaQueries';
-import Loading from 'components/atoms/Loading';
+import Loading from 'components/atoms/loadings/Loading';
 import Subtitle from 'components/atoms/Subtitle';
 import CategoryBtns from 'components/organisms/CategoryBtns';
 import MyRecord from 'components/organisms/mybookshelf/MyRecord';
@@ -27,9 +27,6 @@ const Bookshelf = () => {
   const {
     state: { user },
   } = useLocation() as LocationState;
-  const {
-    userRecords: { subjects, reviews, hostReviews, recommendedBooks },
-  } = user;
 
   return user ? (
     <>
@@ -60,8 +57,8 @@ const Bookshelf = () => {
         <Section>
           <Subtitle title={`${user.displayName}님의 발제자 정리 기록`} />
           <RecordList>
-            {hostReviews?.length ? (
-              hostReviews.map((hostReview) => (
+            {user?.userRecords?.hostReviews?.length ? (
+              user?.userRecords?.hostReviews.map((hostReview) => (
                 <MyRecord
                   key={hostReview.docId}
                   recordId={hostReview}
@@ -82,8 +79,8 @@ const Bookshelf = () => {
           />
           <RecordList>
             {category === 'recommends' &&
-              (recommendedBooks?.length ? (
-                recommendedBooks?.map((recommendedBook) => (
+              (user?.userRecords?.recommendedBooks?.length ? (
+                user?.userRecords?.recommendedBooks?.map((recommendedBook) => (
                   <MyRecommendBook
                     key={recommendedBook.docId}
                     recommendedBookId={recommendedBook}
@@ -93,8 +90,8 @@ const Bookshelf = () => {
                 <EmptyBox>아직 추천했던 책이 없어요.</EmptyBox>
               ))}
             {category === 'subjects' &&
-              (subjects?.length ? (
-                subjects?.map((subject) => (
+              (user?.userRecords?.subjects?.length ? (
+                user?.userRecords?.subjects?.map((subject) => (
                   <MyRecord
                     key={subject.docId}
                     recordId={subject}
@@ -105,8 +102,8 @@ const Bookshelf = () => {
                 <EmptyBox>아직 작성한 발제문이 없어요.</EmptyBox>
               ))}
             {category === 'reviews' &&
-              (reviews?.length ? (
-                reviews?.map((review) => (
+              (user?.userRecords?.reviews?.length ? (
+                user?.userRecords?.reviews?.map((review) => (
                   <MyRecord
                     key={review.docId}
                     recordId={review}
