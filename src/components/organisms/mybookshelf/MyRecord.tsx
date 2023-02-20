@@ -89,13 +89,11 @@ const MyRecord = ({ recordId, recordSort }: PropsType) => {
           )}
         </>
       ) : (
-        [1, 2, 3].map((item) => (
-          <Record key={item} $skeleton>
-            <svg></svg>
-            <span></span>
-            <span></span>
-          </Record>
-        ))
+        <Record $skeleton>
+          <svg></svg>
+          <span></span>
+          <span></span>
+        </Record>
       )}
     </>
   );
@@ -114,6 +112,9 @@ export const Record = styled.li<{ $skeleton?: boolean }>`
   background-color: #fff;
   border: 1px solid ${(props) => props.theme.text.lightGray};
   box-shadow: ${(props) => props.theme.boxShadow};
+  &:hover {
+    background-color: ${(props) => props.theme.container.lightBlue};
+  }
   > svg {
     border-radius: 5px;
     height: 55px;

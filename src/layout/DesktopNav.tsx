@@ -37,11 +37,14 @@ const DesktopNav = () => {
 };
 
 const Nav = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100px;
-  padding: 20px 80px;
+  display: none;
+  @media ${device.tablet} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    padding: 20px 80px;
+  }
   @media ${device.desktop} {
     padding: 0;
     width: 70%;

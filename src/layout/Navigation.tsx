@@ -4,6 +4,7 @@ import HowToVoteIcon from '@mui/icons-material/HowToVote';
 import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import styled from 'styled-components';
+import device from 'theme/mediaQueries';
 
 const Navigation = () => {
   const { pathname } = useLocation();
@@ -57,6 +58,9 @@ const Nav = styled.nav`
   width: 100%;
   padding: 5px 0;
   background-color: ${(props) => props.theme.bgColor};
+  @media ${device.tablet} {
+    display: none;
+  }
 `;
 const List = styled.ul`
   display: flex;

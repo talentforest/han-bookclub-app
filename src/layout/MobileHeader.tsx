@@ -108,6 +108,9 @@ export const Header = styled.header`
   align-items: center;
   font-size: 16px;
   font-weight: 700;
+  @media ${device.tablet} {
+    display: none;
+  }
 `;
 export const SettingIconHeader = styled(Header)`
   button,

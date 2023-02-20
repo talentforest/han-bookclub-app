@@ -23,10 +23,8 @@ const MyBookshelf = () => {
   const currentUser = useRecoilValue(currentUserState);
   const anonymous = authService.currentUser?.isAnonymous;
 
-  const mySubjects = userExtraData.userRecords?.subjects;
-  const myReviews = userExtraData.userRecords?.reviews;
-  const myRecommendedBooks = userExtraData.userRecords?.recommendedBooks;
-  const myHostReviews = userExtraData.userRecords?.hostReviews;
+  const { subjects, reviews, hostReviews, recommendedBooks } =
+    userExtraData.userRecords || {};
 
   useEffect(() => {
     if (currentUser.uid) {
@@ -58,7 +56,7 @@ const MyBookshelf = () => {
                 <li key={field.id}>{field.name}</li>
               ))
             ) : (
-              <Loading height='10vh' />
+              <Loading height='8vh' />
             )}
           </FavFieldList>
         )}
@@ -66,24 +64,21 @@ const MyBookshelf = () => {
       <Section>
         <Subtitle title='나의 발제자 정리 기록' />
         {anonymous && <EmptyBox>익명의 방문자입니다!</EmptyBox>}
-        {!anonymous &&
-          (existDocObj(userExtraData?.userRecords || {}) ? (
-            <RecordList>
-              {myHostReviews.length ? (
-                myHostReviews.map((subjectId) => (
-                  <MyRecord
-                    key={subjectId.docId}
-                    recordId={subjectId}
-                    recordSort='hostReview'
-                  />
-                ))
-              ) : (
-                <EmptyBox>아직 작성한 발제자의 정리 기록이 없어요</EmptyBox>
-              )}
-            </RecordList>
-          ) : (
-            <Loading height='30vh' />
-          ))}
+        {!anonymous && (
+          <RecordList>
+            {hostReviews?.length !== 0 ? (
+              hostReviews?.map((subjectId) => (
+                <MyRecord
+                  key={subjectId.docId}
+                  recordId={subjectId}
+                  recordSort='hostReview'
+                />
+              ))
+            ) : (
+              <EmptyBox>아직 작성한 발제자의 정리 기록이 없어요</EmptyBox>
+            )}
+          </RecordList>
+        )}
       </Section>
       <Section>
         <Subtitle title='나의 독서모임 기록' />
@@ -98,8 +93,8 @@ const MyBookshelf = () => {
           (existDocObj(userExtraData?.userRecords || {}) ? (
             <RecordList>
               {category === 'recommends' &&
-                (myRecommendedBooks.length ? (
-                  myRecommendedBooks?.map((recommendedBookId) => (
+                (recommendedBooks.length ? (
+                  recommendedBooks?.map((recommendedBookId) => (
                     <MyRecommendBook
                       key={recommendedBookId.docId}
                       recommendedBookId={recommendedBookId}
@@ -109,8 +104,8 @@ const MyBookshelf = () => {
                   <EmptyBox>아직 추천했던 책이 없어요.</EmptyBox>
                 ))}
               {category === 'subjects' &&
-                (mySubjects.length ? (
-                  mySubjects.map((subjectId) => (
+                (subjects.length ? (
+                  subjects.map((subjectId) => (
                     <MyRecord
                       key={subjectId.docId}
                       recordId={subjectId}
@@ -121,8 +116,8 @@ const MyBookshelf = () => {
                   <EmptyBox>아직 작성한 발제문이 없어요.</EmptyBox>
                 ))}
               {category === 'reviews' &&
-                (myReviews.length ? (
-                  myReviews.map((reviewId) => (
+                (reviews.length ? (
+                  reviews.map((reviewId) => (
                     <MyRecord
                       key={reviewId.docId}
                       recordId={reviewId}

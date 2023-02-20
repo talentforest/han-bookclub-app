@@ -1,5 +1,5 @@
+import { authService } from 'fbase';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { deviceSizes } from 'theme/mediaQueries';
 import Home from './routes/Home';
 import LogIn from './routes/LogIn';
 import BookClubOfThisMonth from './routes/BookClubOfThisMonth';
@@ -9,7 +9,6 @@ import Navigation from 'layout/Navigation';
 import CreateAccount from './routes/CreateAccount';
 import ProfileInfo from './routes/ProfileInfo';
 import DesktopNav from 'layout/DesktopNav';
-import useWindowSize from 'hooks/useWindowSize';
 import Search from 'routes/Search';
 import SearchedBookInfo from 'routes/SearchedBookInfo';
 import BookClubHistory from 'routes/BookClubHistory';
@@ -22,25 +21,23 @@ import MobileHeader from 'layout/MobileHeader';
 import ScrollToTop from 'components/atoms/ScrollToTop';
 import MyBookshelf from './routes/MyBookshelf';
 import Bookshelf from 'routes/Bookshelf';
-import { authService } from 'fbase';
 
 interface PropsType {
   isLoggedIn: boolean;
 }
 
 function Router({ isLoggedIn }: PropsType) {
-  const { windowSize } = useWindowSize();
   const anonymous = authService.currentUser?.isAnonymous;
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <ScrollToTop />
-      {isLoggedIn &&
-        (windowSize.width >= +deviceSizes.tablet ? (
+      {isLoggedIn && (
+        <>
           <DesktopNav />
-        ) : (
           <MobileHeader />
-        ))}
+        </>
+      )}
       <Routes>
         {isLoggedIn ? (
           <>
@@ -74,7 +71,7 @@ function Router({ isLoggedIn }: PropsType) {
           </>
         )}
       </Routes>
-      {isLoggedIn && windowSize.width < +deviceSizes.tablet && <Navigation />}
+      {isLoggedIn && <Navigation />}
     </BrowserRouter>
   );
 }

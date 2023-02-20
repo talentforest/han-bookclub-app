@@ -21,11 +21,10 @@ import BookLogoBox from 'components/organisms/home/BookLogo';
 
 const Home = () => {
   const [thisMonthClub, setThisMonthClub] = useRecoilState(thisMonthClubState);
-  const { book, meeting, id } = thisMonthClub;
-  const shouldUpdateBookClub = id !== thisYearMonthIso;
+  const { book, meeting } = thisMonthClub;
 
   useEffect(() => {
-    if (shouldUpdateBookClub) {
+    if (thisYearMonthIso) {
       getDocument(THIS_YEAR_BOOKCLUB, `${thisYearMonthIso}`, setThisMonthClub);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

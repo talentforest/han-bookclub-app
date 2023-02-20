@@ -3,14 +3,12 @@ import { ProfileImg } from 'components/atoms/ProfileImage';
 import { IExtraUserData } from 'data/userAtom';
 import { useLocation } from 'react-router-dom';
 import { Header } from 'layout/MobileHeader';
-import { deviceSizes } from 'theme/mediaQueries';
 import Loading from 'components/atoms/loadings/Loading';
 import Subtitle from 'components/atoms/Subtitle';
 import CategoryBtns from 'components/organisms/CategoryBtns';
 import MyRecord from 'components/organisms/mybookshelf/MyRecord';
 import MyRecommendBook from 'components/organisms/mybookshelf/MyRecommendBook';
 import useCategory from 'hooks/useCategory';
-import useWindowSize from 'hooks/useWindowSize';
 import {
   EmptyBox,
   FavFieldList,
@@ -22,17 +20,17 @@ import {
 type LocationState = { state: { user: IExtraUserData } };
 
 const Bookshelf = () => {
-  const { windowSize } = useWindowSize();
   const { category, onCategoryClick } = useCategory();
   const {
     state: { user },
   } = useLocation() as LocationState;
 
+  const { subjects, reviews, hostReviews, recommendedBooks } =
+    user.userRecords || {};
+
   return user ? (
     <>
-      {windowSize.width < +deviceSizes.tablet && (
-        <Header>{user.displayName}님의 책장</Header>
-      )}
+      <Header>{user.displayName}님의 책장</Header>
       <main>
         <ProfileBox>
           {user?.photoUrl ? (
@@ -57,8 +55,8 @@ const Bookshelf = () => {
         <Section>
           <Subtitle title={`${user.displayName}님의 발제자 정리 기록`} />
           <RecordList>
-            {user?.userRecords?.hostReviews?.length ? (
-              user?.userRecords?.hostReviews.map((hostReview) => (
+            {hostReviews?.length ? (
+              hostReviews.map((hostReview) => (
                 <MyRecord
                   key={hostReview.docId}
                   recordId={hostReview}
@@ -79,8 +77,8 @@ const Bookshelf = () => {
           />
           <RecordList>
             {category === 'recommends' &&
-              (user?.userRecords?.recommendedBooks?.length ? (
-                user?.userRecords?.recommendedBooks?.map((recommendedBook) => (
+              (recommendedBooks?.length ? (
+                recommendedBooks?.map((recommendedBook) => (
                   <MyRecommendBook
                     key={recommendedBook.docId}
                     recommendedBookId={recommendedBook}
@@ -90,8 +88,8 @@ const Bookshelf = () => {
                 <EmptyBox>아직 추천했던 책이 없어요.</EmptyBox>
               ))}
             {category === 'subjects' &&
-              (user?.userRecords?.subjects?.length ? (
-                user?.userRecords?.subjects?.map((subject) => (
+              (subjects?.length ? (
+                subjects?.map((subject) => (
                   <MyRecord
                     key={subject.docId}
                     recordId={subject}
@@ -102,8 +100,8 @@ const Bookshelf = () => {
                 <EmptyBox>아직 작성한 발제문이 없어요.</EmptyBox>
               ))}
             {category === 'reviews' &&
-              (user?.userRecords?.reviews?.length ? (
-                user?.userRecords?.reviews?.map((review) => (
+              (reviews?.length ? (
+                reviews?.map((review) => (
                   <MyRecord
                     key={review.docId}
                     recordId={review}
