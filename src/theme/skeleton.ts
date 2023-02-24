@@ -9,7 +9,6 @@ const skeleton = keyframes`
 }
 `;
 
-export const skeletonAnimation = css(
-  ['', ' 1s linear infinite alternate'] as any as TemplateStringsArray,
-  skeleton
-);
+export const skeletonAnimation = css`
+  animation: ${skeleton} 1s linear infinite alternate;
+`;

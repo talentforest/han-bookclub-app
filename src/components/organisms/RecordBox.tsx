@@ -220,6 +220,7 @@ export const ScrollContent = styled.div`
   width: 100%;
   p {
     word-break: break-all;
+    margin-bottom: 5px;
   }
   ul {
     list-style: circle;
@@ -237,10 +238,9 @@ export const ScrollContent = styled.div`
     text-decoration: underline;
   }
   blockquote {
-    border-left: 4px solid #ccc;
-    margin-bottom: 5px;
-    margin-top: 5px;
-    padding-left: 16px;
+    border-left: 5px solid #aaa;
+    padding-left: 8px;
+    margin: 8px 0;
   }
   .ql-indent-1 {
     margin-left: 30px;
@@ -256,6 +256,22 @@ export const ScrollContent = styled.div`
   }
   .ql-indent-4 {
     margin-left: 90px;
+    padding: 0;
+  }
+  .ql-indent-5 {
+    margin-left: 110px;
+    padding: 0;
+  }
+  .ql-indent-6 {
+    margin-left: 130px;
+    padding: 0;
+  }
+  .ql-indent-7 {
+    margin-left: 150px;
+    padding: 0;
+  }
+  .ql-indent-8 {
+    margin-left: 170px;
     padding: 0;
   }
 `;

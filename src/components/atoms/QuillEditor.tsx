@@ -42,6 +42,7 @@ const QuillEditor = ({ placeholder, text, setText }: QuillEditorProps) => {
 };
 
 const Editor = styled(ReactQuill)`
+  border: 1px solid red;
   background-color: white;
   border-radius: 10px;
   width: 100%;
@@ -58,6 +59,12 @@ const Editor = styled(ReactQuill)`
     word-break: break-all;
     font-size: 16px;
     padding-bottom: 20px;
+  }
+  .ql-editor p {
+    margin-bottom: 5px;
+  }
+  .ql-editor blockquote {
+    margin: 8px 0;
   }
   .ql-editor ul,
   .ql-editor ol {
@@ -97,6 +104,30 @@ const Editor = styled(ReactQuill)`
   }
   .ql-indent-2 {
     margin-left: 50px;
+    padding: 0;
+  }
+  .ql-indent-3 {
+    margin-left: 70px;
+    padding: 0;
+  }
+  .ql-indent-4 {
+    margin-left: 90px;
+    padding: 0;
+  }
+  .ql-indent-5 {
+    margin-left: 110px;
+    padding: 0;
+  }
+  .ql-indent-6 {
+    margin-left: 130px;
+    padding: 0;
+  }
+  .ql-indent-7 {
+    margin-left: 150px;
+    padding: 0;
+  }
+  .ql-indent-8 {
+    margin-left: 170px;
     padding: 0;
   }
   @media ${device.desktop} {

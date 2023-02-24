@@ -119,13 +119,13 @@ export const Record = styled.li<{ $skeleton?: boolean }>`
     border-radius: 5px;
     height: 55px;
     width: 60px;
-    animation: ${(props) => (props.$skeleton ? skeletonAnimation : '')};
+    ${(props) => (props.$skeleton ? skeletonAnimation : '')};
   }
   > span {
     height: 20px;
     border-radius: 5px;
     width: 80%;
-    animation: ${(props) => (props.$skeleton ? skeletonAnimation : '')};
+    ${(props) => (props.$skeleton ? skeletonAnimation : '')};
   }
 
   @media ${device.tablet} {

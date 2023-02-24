@@ -32,6 +32,8 @@ const MyBookshelf = () => {
     }
   }, [currentUser.uid, setUserExtraData]);
 
+  console.log(reviews);
+
   return (
     <main>
       <ProfileBox>
@@ -56,7 +58,7 @@ const MyBookshelf = () => {
                 <li key={field.id}>{field.name}</li>
               ))
             ) : (
-              <Loading height='8vh' />
+              <Loading height='12vh' />
             )}
           </FavFieldList>
         )}
@@ -129,7 +131,7 @@ const MyBookshelf = () => {
                 ))}
             </RecordList>
           ) : (
-            <Loading height='30vh' />
+            <Loading height='35vh' />
           ))}
       </Section>
     </main>
@@ -165,6 +167,7 @@ export const ProfileBox = styled(ImgBox)`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  height: 180px;
   span {
     margin-top: 15px;
     font-weight: 700;
@@ -189,7 +192,9 @@ export const FavFieldList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 10px 8px;
+  min-height: 12vh;
   li {
+    height: fit-content;
     box-shadow: ${(props) => props.theme.boxShadow};
     color: ${(props) => props.theme.text.accent};
     background-color: ${(props) => props.theme.container.lightBlue};

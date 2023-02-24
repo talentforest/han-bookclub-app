@@ -105,7 +105,6 @@ export const ImgBox = styled.div`
   justify-content: center;
   width: fit-content;
   margin: 0 auto 10px;
-
   > svg {
     height: 140px;
     width: 140px;

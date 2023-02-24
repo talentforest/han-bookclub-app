@@ -73,7 +73,7 @@ const HostInfo = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
-  span {
+  span:first-child {
     font-size: 14px;
   }
 `;
