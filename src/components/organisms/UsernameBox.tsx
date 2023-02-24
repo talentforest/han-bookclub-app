@@ -1,12 +1,12 @@
 import { AccountCircle } from '@mui/icons-material';
-import { useEffect } from 'react';
+import { MouseEvent, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { allUsersState, currentUserState } from 'data/userAtom';
 import { getCollection } from 'api/getFbDoc';
 import { USER_DATA } from 'util/index';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import { Link } from 'react-router-dom';
 
 interface PropsType {
   creatorId: string;
@@ -28,13 +28,16 @@ const UsernameBox = ({ creatorId }: PropsType) => {
       ? '/mybookshelf'
       : `/bookshelf/${userInfo?.displayName}`;
 
+  const onContextMenu = (e: MouseEvent<HTMLImageElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  };
+
   return (
     <User to={bookShelfLink} state={{ user: userInfo }}>
       {userInfo?.photoUrl ? (
-        <ProfileImgBox
-          onContextMenu={(e) => e.preventDefault()}
-          $bgPhoto={userInfo.photoUrl}
-        />
+        <UserImage onContextMenu={onContextMenu} src={userInfo.photoUrl} />
       ) : (
         <AccountCircle />
       )}
@@ -66,13 +69,12 @@ const User = styled(Link)`
     }
   }
 `;
-const ProfileImgBox = styled.div<{ $bgPhoto: string }>`
+
+const UserImage = styled.img`
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background-image: url(${(props) => props.$bgPhoto});
-  background-size: cover;
-  background-position: center;
+  -webkit-touch-callout: none;
   @media ${device.tablet} {
     width: 24px;
     height: 24px;

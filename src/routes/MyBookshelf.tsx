@@ -2,7 +2,7 @@ import { useRecoilValue } from 'recoil';
 import { currentUserState, userExtraInfoState } from 'data/userAtom';
 import { AccountCircle } from '@mui/icons-material';
 import { authService } from 'fbase';
-import { useEffect } from 'react';
+import { MouseEvent, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { USER_DATA, existDocObj } from 'util/index';
 import { ImgBox, ProfileImg } from 'components/atoms/ProfileImage';
@@ -32,14 +32,18 @@ const MyBookshelf = () => {
     }
   }, [currentUser.uid, setUserExtraData]);
 
-  console.log(reviews);
+  const onContextMenu = (e: MouseEvent<HTMLImageElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  };
 
   return (
     <main>
       <ProfileBox>
         {currentUser?.photoURL ? (
           <ProfileImg
-            onContextMenu={(e) => e.preventDefault()}
+            onContextMenu={onContextMenu}
             src={currentUser.photoURL}
             alt='profile'
           />

@@ -16,6 +16,7 @@ import {
   RecordList,
   Section,
 } from './MyBookshelf';
+import { MouseEvent } from 'react';
 
 type LocationState = { state: { user: IExtraUserData } };
 
@@ -28,6 +29,12 @@ const Bookshelf = () => {
   const { subjects, reviews, hostReviews, recommendedBooks } =
     user.userRecords || {};
 
+  const onContextMenu = (e: MouseEvent<HTMLImageElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  };
+
   return user ? (
     <>
       <Header>{user.displayName}님의 책장</Header>
@@ -35,7 +42,7 @@ const Bookshelf = () => {
         <ProfileBox>
           {user?.photoUrl ? (
             <ProfileImg
-              onContextMenu={(e) => e.preventDefault()}
+              onContextMenu={onContextMenu}
               src={user.photoUrl}
               alt='profile'
             />

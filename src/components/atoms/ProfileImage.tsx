@@ -122,6 +122,7 @@ export const ProfileImg = styled.img`
   width: 140px;
   height: 140px;
   border-radius: 50%;
+  -webkit-touch-callout: none;
   @media ${device.tablet} {
     width: 200px;
     height: 200px;
