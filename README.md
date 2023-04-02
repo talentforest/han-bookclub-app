@@ -49,8 +49,6 @@
 | 1.2.2 | 22.10.11 |
 | 1.3.2 | 22.11.03 |
 
-[진행과정](https://jellieplanet.notion.site/c7cdb25ca7804e75953655c7e95c1acc)
-
 <br/>
 
 ## 목차
