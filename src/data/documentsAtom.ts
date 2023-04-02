@@ -55,7 +55,7 @@ export const clubInfoByYearState = atom<IBookClubInfo[]>({
     ({ setSelf, onSet }) => {
       const bookMeetingStoreKey = 'clubInfoByYear';
       const savedValue = localStorage.getItem(bookMeetingStoreKey);
-      if (savedValue != null) {
+      if (savedValue !== null) {
         setSelf(JSON.parse(savedValue));
       }
       onSet((newValue, _, isReset) => {

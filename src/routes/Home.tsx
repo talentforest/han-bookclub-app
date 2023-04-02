@@ -39,7 +39,6 @@ const Home = () => {
         <Guide text='이달의 책은 매월 1일에 업데이트 됩니다.' />
         <BookImgTitle thumbnail={book?.thumbnail} title={book?.title} />
       </Section>
-
       <Section>
         <Subtitle title={`${thisMonth}월의 모임 일정`} />
         <Guide text='한페이지 멤버는 매월 셋째주 일요일에 만나요.' />
@@ -59,7 +58,7 @@ const Home = () => {
 };
 
 const Section = styled.section`
-  margin-bottom: 70px;
+  margin-bottom: 50px;
 `;
 
 export default Home;

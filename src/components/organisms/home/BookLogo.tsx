@@ -1,37 +1,37 @@
 import { QuestionMark } from '@mui/icons-material';
+import { getCollection } from 'api/getFbDoc';
+import { clubInfoByYearState } from 'data/documentsAtom';
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+import { thisYear } from 'util/index';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
-const clubBookImgs = [
-  {
-    src: 'Event.png',
-    alt: 'Event',
-  },
-  {
-    src: 'https://image.aladin.co.kr/product/30519/97/cover500/k022830494_1.jpg',
-    alt: '2월의 책 복지의 문법',
-  },
-  {
-    src: 'https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F5966496%3Ftimestamp%3D20230217213918',
-    alt: '3월의 책 마음의 법칙',
-  },
-  { src: '', alt: '4월의 책' },
-  { src: '', alt: '5월의 책' },
-  { src: '', alt: '6월의 책' },
-  { src: '', alt: '7월의 책' },
-  { src: '', alt: '8월의 책' },
-  { src: '', alt: '9월의 책' },
-  { src: '', alt: '10월의 책' },
-  { src: '', alt: '11월의 책' },
-  { src: '', alt: '12월의 책' },
-];
-
 const BookLogoBox = () => {
+  const [clubInfoDocs, setClubInfoDocs] = useRecoilState(clubInfoByYearState);
+
+  useEffect(() => {
+    getCollection(`BookClub-${thisYear}`, setClubInfoDocs);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const clubBookImgs = clubInfoDocs.map((monthDoc) => {
+    const src = monthDoc.book.thumbnail ? monthDoc.book.thumbnail : 'Event.png';
+    return { src, alt: `${monthDoc.id.slice(-1)}월의 책` };
+  });
+
+  const yearClubBookImgs = [
+    ...Array.from({ length: 12 - clubBookImgs.length }, (_, index) => {
+      return { src: '', alt: `${index + 1 + clubBookImgs.length}월의 책` };
+    }),
+    ...clubBookImgs,
+  ];
+
   return (
     <Box>
       <Col>
-        {clubBookImgs.slice(0, 5).map((bookImg) =>
-          bookImg.src !== '' ? (
+        {yearClubBookImgs.slice(7, 12).map((bookImg) =>
+          bookImg?.src !== '' ? (
             <Hexagon key={bookImg.alt} src={bookImg.src} alt={bookImg.alt} />
           ) : (
             <Hexagon as='div' key={bookImg.alt}>
@@ -41,7 +41,7 @@ const BookLogoBox = () => {
         )}
       </Col>
       <Col $flex>
-        {clubBookImgs.slice(5, 7).map((bookImg) =>
+        {yearClubBookImgs.slice(5, 7).map((bookImg) =>
           bookImg.src !== '' ? (
             <Hexagon key={bookImg.alt} src={bookImg.src} alt={bookImg.alt} />
           ) : (
@@ -52,7 +52,7 @@ const BookLogoBox = () => {
         )}
       </Col>
       <Col>
-        {clubBookImgs.slice(7, 12).map((bookImg) =>
+        {yearClubBookImgs.slice(0, 5).map((bookImg) =>
           bookImg.src !== '' ? (
             <Hexagon key={bookImg.alt} src={bookImg.src} alt={bookImg.alt} />
           ) : (
