@@ -1,15 +1,10 @@
-import { AccountCircle, Settings } from '@mui/icons-material';
+import { Settings } from '@mui/icons-material';
 import { Link, useLocation, useMatch, useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { currentUserState } from 'data/userAtom';
-import { authService } from 'fbase';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
 const MobileHeader = () => {
-  const currentUser = useRecoilValue(currentUserState);
-  const anonymous = authService.currentUser?.isAnonymous;
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -19,10 +14,6 @@ const MobileHeader = () => {
   const bookClubMatch = useMatch('/bookclub/*');
 
   const onBackClick = () => navigate(-1);
-
-  const onUserImgClick = () => {
-    anonymous ? navigate('/login') : navigate('/mybookshelf');
-  };
 
   function mainPageTitle() {
     if (bookClubMatch) return '이달의 한페이지';
@@ -66,20 +57,7 @@ const MobileHeader = () => {
 
   return (
     <>
-      {mainPageTitle() && (
-        <Header>
-          {mainPageTitle()}
-          {currentUser?.photoURL?.length ? (
-            <UserImg
-              onClick={onUserImgClick}
-              src={currentUser?.photoURL}
-              alt='profileimg'
-            />
-          ) : (
-            anonymous && <AccountCircle onClick={onUserImgClick} />
-          )}
-        </Header>
-      )}
+      {mainPageTitle() && <Header>{mainPageTitle()}</Header>}
       {detailPageTitle() && (
         <BackButtonHeader onClick={onBackClick}>
           <ArrowBackIosNewIcon />
@@ -157,11 +135,6 @@ const BackButtonHeader = styled(Header)`
     margin: 40px 60px;
     font-size: 20px;
   }
-`;
-const UserImg = styled.img`
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
 `;
 
 export default MobileHeader;
