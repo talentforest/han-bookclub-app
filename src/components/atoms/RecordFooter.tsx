@@ -13,7 +13,6 @@ import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import BookImgTitle from './BookImgTitle';
 import useHandleLike from 'hooks/useHandleLike';
-import device from 'theme/mediaQueries';
 
 interface IRecordFooterProps {
   record: IDocument;
