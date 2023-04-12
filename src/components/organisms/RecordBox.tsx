@@ -214,10 +214,10 @@ export const RegisterTime = styled.div`
 
 export const ScrollContent = styled.div`
   min-height: 15vh;
-  max-height: 50vh;
+  max-height: 60vh;
+  width: 100%;
   overflow: scroll;
   padding: 0;
-  width: 100%;
   p {
     word-break: break-all;
     margin-bottom: 5px;

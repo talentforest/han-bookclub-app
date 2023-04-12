@@ -3,6 +3,9 @@ import device from './mediaQueries';
 
 export const ResetStyle = createGlobalStyle`
   body {
+    &::-webkit-scrollbar {
+    display: none;
+    }
     background-color: ${(props) => props.theme.bgColor};
     > div {
       > main {
@@ -24,9 +27,7 @@ export const ResetStyle = createGlobalStyle`
     font-family: "Noto Sans KR", sans-serif;
     color: ${(props) => props.theme.text.default};
     box-sizing: border-box;
-    &::-webkit-scrollbar {
-    display: none;
-    }
+    
   }
   textarea, 
   button {

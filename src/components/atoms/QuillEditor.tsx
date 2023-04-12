@@ -42,7 +42,6 @@ const QuillEditor = ({ placeholder, text, setText }: QuillEditorProps) => {
 };
 
 const Editor = styled(ReactQuill)`
-  border: 1px solid red;
   background-color: white;
   border-radius: 10px;
   width: 100%;

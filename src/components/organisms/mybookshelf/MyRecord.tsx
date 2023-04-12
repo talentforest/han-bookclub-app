@@ -173,6 +173,7 @@ export const Btn = styled.button`
 `;
 export const MyRecordModal = styled(Modal)`
   max-height: 82vh;
+  border: 1px solid red;
   padding: 0;
   background-color: transparent;
 `;

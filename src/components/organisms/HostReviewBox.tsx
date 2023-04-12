@@ -26,6 +26,7 @@ const HostReviewBox = ({ hostReview, yearMonthId }: IHostReviewBoxProps) => {
   const [openModal, setOpenModal] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(hostReview.text);
+
   const collName = getFbRoute(yearMonthId).HOST_REVIEW;
   const { id, creatorId, createdAt } = hostReview;
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('see');
@@ -121,7 +122,6 @@ const CuttedHostReviewBox = styled.div`
   }
 `;
 const Header = styled.div`
-  margin-bottom: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -142,7 +142,12 @@ const ReviewModal = styled(Modal)<{ $editing: boolean }>`
     props.$editing
       ? props.theme.text.lightGray
       : props.theme.container.default};
-  padding: 10px 15px;
+  padding: 15px;
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
 `;
 const TimeStamp = styled.span`
   font-size: 14px;

@@ -87,10 +87,6 @@ const Footer = styled.footer`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
-  @media ${device.tablet} {
-    margin-top: 15px;
-  }
 `;
 const LikeUserList = styled.ul`
   box-shadow: ${(props) => props.theme.boxShadow};
