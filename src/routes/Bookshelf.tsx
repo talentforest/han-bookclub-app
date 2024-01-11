@@ -1,4 +1,3 @@
-import { AccountCircle } from '@mui/icons-material';
 import { ProfileImg } from 'components/atoms/ProfileImage';
 import { IExtraUserData } from 'data/userAtom';
 import { useLocation } from 'react-router-dom';
@@ -17,6 +16,7 @@ import {
   Section,
 } from './MyBookshelf';
 import { MouseEvent } from 'react';
+import { FiUser } from 'react-icons/fi';
 
 type LocationState = { state: { user: IExtraUserData } };
 
@@ -47,7 +47,7 @@ const Bookshelf = () => {
               alt='profile'
             />
           ) : (
-            <AccountCircle />
+            <FiUser />
           )}
           <span>{user?.displayName}</span>
         </ProfileBox>

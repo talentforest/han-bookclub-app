@@ -1,4 +1,3 @@
-import { Book } from '@mui/icons-material';
 import { IBookApi } from 'data/bookAtom';
 import { getLocalDate, cutLetter } from 'util/index';
 import { Link } from 'react-router-dom';
@@ -19,9 +18,7 @@ const ResultBox = ({ searchedBook }: PropsType) => {
         {thumbnail ? (
           <SearchImg src={thumbnail} alt={`${thumbnail} book`} />
         ) : (
-          <SearchEmptyImg as='div'>
-            <Book />
-          </SearchEmptyImg>
+          <SearchEmptyImg as='div'></SearchEmptyImg>
         )}
         <BookDetail>
           <h3>{cutLetter(title, 16)}</h3>

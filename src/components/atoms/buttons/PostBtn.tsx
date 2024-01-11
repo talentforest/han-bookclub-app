@@ -1,4 +1,3 @@
-import { TaskAlt } from '@mui/icons-material';
 import styled from 'styled-components';
 
 interface IPostButtonProps {
@@ -6,11 +5,7 @@ interface IPostButtonProps {
 }
 
 const PostBtn = ({ value }: IPostButtonProps) => {
-  return (
-    <Button type='submit'>
-      {value} <TaskAlt />
-    </Button>
-  );
+  return <Button type='submit'>{value}</Button>;
 };
 
 const Button = styled.button`

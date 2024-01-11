@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { ArrowForwardIos, LocalActivity } from '@mui/icons-material';
 import { cutLetter, getMonthNm } from 'util/index';
 import { IBookClubInfo } from 'data/documentsAtom';
 import styled from 'styled-components';
@@ -16,9 +15,7 @@ const HistoryBox = ({ document }: PropsType) => {
     <BookBox to={`${id}`} state={{ document }}>
       <Header>
         <h3>{`${getMonthNm(id)}월의 책`}</h3>
-        <Btn type='button'>
-          <ArrowForwardIos />
-        </Btn>
+        <Btn type='button'></Btn>
       </Header>
       {book.thumbnail ? (
         <>
@@ -27,7 +24,6 @@ const HistoryBox = ({ document }: PropsType) => {
         </>
       ) : (
         <>
-          <LocalActivity />
           <Title>이벤트</Title>
         </>
       )}

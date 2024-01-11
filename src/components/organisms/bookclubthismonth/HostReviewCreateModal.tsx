@@ -1,4 +1,3 @@
-import { Close } from '@mui/icons-material';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
@@ -58,9 +57,7 @@ const HostReviewCreateModal = () => {
         <>
           <Overlay onModalClick={onModalClick} />
           <Modal onSubmit={handleSubmit}>
-            <h3>
-              발제자의 모임 정리 기록 <Close onClick={onModalClick} />
-            </h3>
+            <h3>발제자의 모임 정리 기록</h3>
             <QuillEditor
               placeholder='발제자는 모임 후 모임에서 나눈 이야기를 자유롭게 작성해주세요.'
               text={text}

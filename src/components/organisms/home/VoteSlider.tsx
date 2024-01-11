@@ -3,7 +3,6 @@ import { getCollection } from 'api/getFbDoc';
 import { useRecoilState } from 'recoil';
 import { votesState } from 'data/documentsAtom';
 import { isoFormatDate, krCurTime } from 'util/index';
-import { ArrowForwardIos } from '@mui/icons-material';
 import styled from 'styled-components';
 import VoteBox from 'components/organisms/vote/VoteBox';
 import LinkBtn from 'components/atoms/buttons/LinkBtn';
@@ -35,10 +34,7 @@ const VoteSlider = () => {
       ) : (
         <EmptyContainer>
           <span>진행중인 투표가 없어요.</span>
-          <LinkBtn to='/vote'>
-            투표 등록하러 가기
-            <ArrowForwardIos />
-          </LinkBtn>
+          <LinkBtn to='/vote'>투표 등록하러 가기</LinkBtn>
         </EmptyContainer>
       )}
     </>

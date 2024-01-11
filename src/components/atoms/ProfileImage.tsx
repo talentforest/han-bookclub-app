@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
-import { AccountCircle, CameraAlt } from '@mui/icons-material';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -39,7 +38,7 @@ const ProfileImage = ({
   return (
     <ImgBox>
       {!userData.photoURL ? (
-        <AccountCircle />
+        <></>
       ) : (
         <ProfileImg
           src={beforeOnChange ? userData.photoURL : newUserImgUrl}
@@ -58,7 +57,7 @@ const ProfileImage = ({
               fileInput.current.click();
             }}
           >
-            <CameraAlt />
+            <></>
           </ChangeImgBtn>
           <input
             type='file'

@@ -1,8 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
-import { AutoStories, History } from '@mui/icons-material';
-import HowToVoteIcon from '@mui/icons-material/HowToVote';
-import HomeIcon from '@mui/icons-material/Home';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { FiHome, FiArchive, FiCoffee, FiUser } from 'react-icons/fi';
+import { MdOutlineHowToVote } from 'react-icons/md';
+
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -17,31 +16,31 @@ const Navigation = () => {
         <List>
           <Item $active={pathname === '/'}>
             <Link to='/'>
-              <HomeIcon />
+              <FiHome />
               <span>홈</span>
             </Link>
           </Item>
           <Item $active={pathname.includes('/history')}>
             <Link to='/history'>
-              <History />
+              <FiArchive />
               <span>지난 모임</span>
             </Link>
           </Item>
           <Item $active={pathname.includes('/bookclub')}>
             <Link to='/bookclub'>
-              <AutoStories />
+              <FiCoffee />
               <span>이달의 모임</span>
             </Link>
           </Item>
           <Item $active={pathname.includes('/vote')}>
             <Link to='/vote'>
-              <HowToVoteIcon />
+              <MdOutlineHowToVote />
               <span>투표하기</span>
             </Link>
           </Item>
           <Item $active={pathname.includes('/mybookshelf')}>
             <Link to='/mybookshelf'>
-              <AccountCircleIcon />
+              <FiUser />
               <span>나의 책장</span>
             </Link>
           </Item>

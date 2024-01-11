@@ -1,4 +1,3 @@
-import { AddCircleOutline } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { votesState } from 'data/documentsAtom';
@@ -37,10 +36,7 @@ const Vote = () => {
   ) : (
     <main>
       <Subtitle title='투표함' />
-      <VoteButton onClick={onModalClick}>
-        <AddCircleOutline />
-        투표 등록하기
-      </VoteButton>
+      <VoteButton onClick={onModalClick}>투표 등록하기</VoteButton>
       {modalOpen && (
         <section>
           <Overlay onModalClick={onModalClick} />

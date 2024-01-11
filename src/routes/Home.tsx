@@ -18,6 +18,8 @@ import VoteSlider from 'components/organisms/home/VoteSlider';
 import styled from 'styled-components';
 import ScheduleBox from 'components/organisms/ScheduleBox';
 import BookLogoBox from 'components/organisms/home/BookLogo';
+import Box from 'components/atoms/box/Box';
+import Tag from 'components/atoms/Tag';
 
 const Home = () => {
   const [thisMonthClub, setThisMonthClub] = useRecoilState(thisMonthClubState);
@@ -35,9 +37,11 @@ const Home = () => {
   ) : (
     <main>
       <Section>
-        <Subtitle title={`${thisMonth}월의 책`} />
+        <Box>
+          <Tag name={`${thisMonth}월의 모임책`} />
+          <BookImgTitle thumbnail={book?.thumbnail} title={book?.title} />
+        </Box>
         <Guide text='이달의 책은 매월 1일에 업데이트 됩니다.' />
-        <BookImgTitle thumbnail={book?.thumbnail} title={book?.title} />
       </Section>
       <Section>
         <Subtitle title={`${thisMonth}월의 모임 일정`} />
@@ -58,7 +62,7 @@ const Home = () => {
 };
 
 const Section = styled.section`
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 `;
 
 export default Home;

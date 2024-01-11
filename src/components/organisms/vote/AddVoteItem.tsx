@@ -1,4 +1,3 @@
-import { Add, Info } from '@mui/icons-material';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -18,15 +17,9 @@ interface IVoteProps {
 const AddVoteItem = ({ vote, onItemPlusClick }: IVoteProps) => {
   return (
     <>
-      <AddItem onClick={onItemPlusClick}>
-        <Add />
-        투표 항목 추가
-      </AddItem>
+      <AddItem onClick={onItemPlusClick}>투표 항목 추가</AddItem>
       {vote.voteItem?.length > 5 && (
-        <PlusItem>
-          <Info />
-          투표항목은 6개를 넘을 수 없습니다.
-        </PlusItem>
+        <PlusItem>투표항목은 6개를 넘을 수 없습니다.</PlusItem>
       )}
     </>
   );

@@ -1,6 +1,5 @@
 import { IUserRecord } from 'data/userAtom';
 import { cutLetter, getFbRoute, getLocalDate, existDocObj } from 'util/index';
-import { ArrowForwardIos, Book } from '@mui/icons-material';
 import { IDocument } from 'data/documentsAtom';
 import { useEffect, useState } from 'react';
 import { getDocument } from 'api/getFbDoc';
@@ -50,14 +49,14 @@ const MyRecord = ({ recordId, recordSort }: PropsType) => {
                 alt={`${record.title} thumbnail`}
               />
             ) : (
-              <Book />
+              <></>
             )}
             <BookTitle>
               {record.title ? cutLetter(record.title, 15) : '이벤트'}
             </BookTitle>
             <Btn>
               보기
-              <ArrowForwardIos />
+              <></>
             </Btn>
           </Record>
           {openModal && (

@@ -13,7 +13,6 @@ import {
 import { ScrollContent } from '../RecordBox';
 import { useEffect, useState } from 'react';
 import { getDocument } from 'api/getFbDoc';
-import { ArrowForwardIos } from '@mui/icons-material';
 import Overlay from 'components/atoms/Overlay';
 import UsernameBox from '../UsernameBox';
 import styled from 'styled-components';
@@ -53,10 +52,7 @@ const MyRecommendBook = ({ recommendedBookId }: PropsType) => {
               ? cutLetter(recommendedBook?.title, 12)
               : title}
           </BookTitle>
-          <Btn>
-            보기
-            <ArrowForwardIos />
-          </Btn>
+          <Btn>보기</Btn>
         </Record>
       )}
       {openModal && (

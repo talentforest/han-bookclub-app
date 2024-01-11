@@ -1,4 +1,3 @@
-import { Add } from '@mui/icons-material';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -16,7 +15,6 @@ const AddDocButton = ({
   return (
     <>
       <Button onClick={onModalClick}>
-        <Add />
         <span>{title}</span>
       </Button>
       <Desc>{description}</Desc>

@@ -1,4 +1,3 @@
-import { Delete, Edit, MoreHoriz, MoreVert } from '@mui/icons-material';
 import { currentUserState } from 'data/userAtom';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -27,17 +26,13 @@ const EditDeleteBox = ({
       <More onClick={onMoreClick} />
     ) : (
       <>
-        <More as={MoreHoriz} onClick={onMoreClick} />
-        <EditDelete>
-          <Edit role='button' onClick={toggleEditing} />
-          <Delete role='button' onClick={onDeleteClick} />
-        </EditDelete>
+        <EditDelete></EditDelete>
       </>
     ))
   );
 };
 
-const More = styled(MoreVert)`
+const More = styled.div`
   cursor: pointer;
   width: 22px;
 `;

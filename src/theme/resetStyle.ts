@@ -2,6 +2,12 @@ import { createGlobalStyle } from 'styled-components';
 import device from './mediaQueries';
 
 export const ResetStyle = createGlobalStyle`
+  @font-face {
+    font-family: "Locus_Sangsang.ttf";
+    font-weight: normal;
+    src: url("../fonts/locus_sangsang.ttf") format("truetype");
+  }
+
   body {
     &::-webkit-scrollbar {
     display: none;
@@ -24,7 +30,7 @@ export const ResetStyle = createGlobalStyle`
     
   }
   * {
-    font-family: "Noto Sans KR", sans-serif;
+    font-family: "Locus_Sangsang";
     color: ${(props) => props.theme.text.default};
     box-sizing: border-box;
     

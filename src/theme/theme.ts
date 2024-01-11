@@ -1,7 +1,7 @@
 import { DefaultTheme } from 'styled-components';
 
 export const theme: DefaultTheme = {
-  bgColor: '#F8F8F8',
+  bgColor: '#fdfdfd',
   text: {
     default: '#333',
     accent: '#0043EF',
@@ -20,5 +20,5 @@ export const theme: DefaultTheme = {
     purple: '#B6C2FF',
     yellow: '#ffeb88',
   },
-  boxShadow: '1px 2px 6px rgba(0, 0, 0, 0.2)',
+  boxShadow: '1px 2px 6px rgba(100, 100, 100, 0.2)',
 };

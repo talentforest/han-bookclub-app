@@ -1,7 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { authService } from 'fbase';
-import { CheckCircle, ModeEditOutline } from '@mui/icons-material';
 import { bookFields, existDocObj } from 'util/index';
 import { useEffect } from 'react';
 import styled from 'styled-components';
@@ -50,7 +49,6 @@ const ProfileInfo = () => {
           {!anonymous && (
             <EditBtn type='button' onClick={onToggleEditClick}>
               프로필 수정하기
-              <ModeEditOutline />
             </EditBtn>
           )}
           <Guide text='이메일은 변경할 수 없습니다.' />
@@ -77,10 +75,7 @@ const ProfileInfo = () => {
         </>
       ) : (
         <Form onSubmit={onProfileSubmit}>
-          <EditBtn type='submit'>
-            수정완료
-            <CheckCircle />
-          </EditBtn>
+          <EditBtn type='submit'>수정완료</EditBtn>
           <List>
             <Item>
               <Title>이메일</Title>

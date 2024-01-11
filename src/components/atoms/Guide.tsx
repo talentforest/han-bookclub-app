@@ -1,4 +1,3 @@
-import { Info } from '@mui/icons-material';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -9,7 +8,6 @@ interface PropsType {
 const Guide = ({ text }: PropsType) => {
   return (
     <Box>
-      <Info />
       <p>{text}</p>
     </Box>
   );

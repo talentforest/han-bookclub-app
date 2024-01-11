@@ -1,15 +1,8 @@
-import {
-  Close,
-  ExpandLess,
-  ExpandMore,
-  Favorite,
-  FavoriteBorder,
-} from '@mui/icons-material';
-import UsernameBox from 'components/organisms/UsernameBox';
 import { IDocument } from 'data/documentsAtom';
 import { currentUserState } from 'data/userAtom';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
+import UsernameBox from 'components/organisms/UsernameBox';
 import styled from 'styled-components';
 import BookImgTitle from './BookImgTitle';
 import useHandleLike from 'hooks/useHandleLike';
@@ -46,31 +39,28 @@ const RecordFooter = ({ record, collName }: IRecordFooterProps) => {
       {collName ? (
         <Likes>
           <LikeUserBox type='button' onClick={toggleShowLikeUsers}>
-            {showLikeUsers ? <ExpandMore /> : <ExpandLess />}
+            {/* {showLikeUsers ? <ExpandMore /> : <ExpandLess />} */}
             {record?.likeUsers?.length || 0}명이 좋아합니다
           </LikeUserBox>
-          {like ? (
+          {/* {like ? (
             <Favorite onClick={onLikeClick} />
           ) : (
             <FavoriteBorder onClick={onLikeClick} />
-          )}
+          )} */}
         </Likes>
       ) : (
         !!record?.likeUsers?.length && (
           <Likes $nonClick>
             <LikeUserBox type='button' onClick={toggleShowLikeUsers}>
-              {showLikeUsers ? <ExpandMore /> : <ExpandLess />}
+              {/* {showLikeUsers ? <ExpandMore /> : <ExpandLess />} */}
               {record?.likeUsers?.length || 0}명이 좋아합니다
             </LikeUserBox>
-            <Favorite />
           </Likes>
         )
       )}
       {showLikeUsers && (
         <LikeUserList onClick={toggleShowLikeUsers}>
-          <h4>
-            좋아한 사람 <Close />
-          </h4>
+          <h4>좋아한 사람</h4>
           {record?.likeUsers?.map((user) => (
             <UsernameBox key={user} creatorId={user} />
           ))}

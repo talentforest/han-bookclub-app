@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { recommendBookState } from 'data/bookAtom';
 import { Link } from 'react-router-dom';
-import { Search } from '@mui/icons-material';
 import { currentUserState } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 import { getFbRoute, cutLetter } from 'util/index';
@@ -73,7 +72,6 @@ const RecommendCreateBox = () => {
         ) : (
           <LinkBtn to='/search'>
             <span>추천하는 책 찾기</span>
-            <Search />
           </LinkBtn>
         )}
         <PostBtn value='추천하기' />

@@ -1,4 +1,3 @@
-import { CheckCircleOutline, Close } from '@mui/icons-material';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -26,7 +25,6 @@ const VoteItems = ({ vote, onTitleChange, onItemDeleteClick }: IVoteProps) => {
     <List>
       {vote.voteItem?.map((item) => (
         <VoteItem key={item.id}>
-          <CheckCircleOutline />
           <InputBox>
             <Input
               type='text'
@@ -42,9 +40,7 @@ const VoteItems = ({ vote, onTitleChange, onItemDeleteClick }: IVoteProps) => {
               name={`selectReason${item.id}`}
               onChange={(event) => onTitleChange(event, item.id)}
             />
-            {item.id > 2 && (
-              <Close onClick={() => onItemDeleteClick(item.id)} />
-            )}
+            {item.id > 2 && <></>}
           </InputBox>
         </VoteItem>
       ))}

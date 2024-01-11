@@ -1,4 +1,3 @@
-import { Delete, Help } from '@mui/icons-material';
 import { getDDay, krCurTime, isoFormatDate } from 'util/index';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
@@ -39,14 +38,12 @@ const FormDetails = ({ voteDetail }: PropsType) => {
             : `D-Day: ${getDDay(deadline)}`
         }
       />
-      <Title>
-        <Help />
-        {vote.title}
-      </Title>
+      <Title>{vote.title}</Title>
       <VoteInfo>
         <span>투표 등록: </span>
         <UsernameBox creatorId={creatorId} />
-        {creatorId === userData.uid && <Delete onClick={onDeleteClick} />}
+        {/* {creatorId === userData.uid }  */}
+        {/* <Delete onClick={onDeleteClick} /> */}
       </VoteInfo>
       {vote.voteItem[0].selectReason && (
         <Reasons>

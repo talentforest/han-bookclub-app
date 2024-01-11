@@ -1,6 +1,6 @@
-import { Book } from '@mui/icons-material';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
+import { FiBook } from 'react-icons/fi';
 
 interface PropsType {
   thumbnail: string;
@@ -14,7 +14,7 @@ const BookImgTitle = ({ thumbnail, title, smSize }: PropsType) => {
       {thumbnail ? (
         <Thumnail src={thumbnail} $smSize={smSize} alt={`${title} thumbnail`} />
       ) : (
-        <Book />
+        <FiBook />
       )}
       <Title $smSize={smSize}>{title ? title : '등록된 책이 없어요.'}</Title>
     </Box>
@@ -30,7 +30,7 @@ const Box = styled.div<{ $smSize: boolean }>`
   align-items: center;
   svg {
     width: ${(props) => (props.$smSize ? '24px' : 'auto')};
-    height: ${(props) => (props.$smSize ? '30px' : '100px')};
+    height: ${(props) => (props.$smSize ? '30px' : '50px')};
   }
   @media ${device.tablet} {
     svg {

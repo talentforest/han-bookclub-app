@@ -1,4 +1,3 @@
-import { QuestionMark } from '@mui/icons-material';
 import { getCollection } from 'api/getFbDoc';
 import { clubInfoByYearState } from 'data/documentsAtom';
 import { useEffect } from 'react';
@@ -30,37 +29,37 @@ const BookLogoBox = () => {
   return (
     <Box>
       <Col>
-        {yearClubBookImgs.slice(7, 12).map((bookImg) =>
-          bookImg?.src !== '' ? (
-            <Hexagon key={bookImg.alt} src={bookImg.src} alt={bookImg.alt} />
-          ) : (
-            <Hexagon as='div' key={bookImg.alt}>
-              <QuestionMark />
-            </Hexagon>
-          )
-        )}
+        {yearClubBookImgs
+          .slice(7, 12)
+          .map((bookImg) =>
+            bookImg?.src !== '' ? (
+              <Hexagon key={bookImg.alt} src={bookImg.src} alt={bookImg.alt} />
+            ) : (
+              <Hexagon as='div' key={bookImg.alt}></Hexagon>
+            )
+          )}
       </Col>
       <Col $flex>
-        {yearClubBookImgs.slice(5, 7).map((bookImg) =>
-          bookImg.src !== '' ? (
-            <Hexagon key={bookImg.alt} src={bookImg.src} alt={bookImg.alt} />
-          ) : (
-            <Hexagon as='div' key={bookImg.alt}>
-              <QuestionMark />
-            </Hexagon>
-          )
-        )}
+        {yearClubBookImgs
+          .slice(5, 7)
+          .map((bookImg) =>
+            bookImg.src !== '' ? (
+              <Hexagon key={bookImg.alt} src={bookImg.src} alt={bookImg.alt} />
+            ) : (
+              <Hexagon as='div' key={bookImg.alt}></Hexagon>
+            )
+          )}
       </Col>
       <Col>
-        {yearClubBookImgs.slice(0, 5).map((bookImg) =>
-          bookImg.src !== '' ? (
-            <Hexagon key={bookImg.alt} src={bookImg.src} alt={bookImg.alt} />
-          ) : (
-            <Hexagon as='div' key={bookImg.alt}>
-              <QuestionMark />
-            </Hexagon>
-          )
-        )}
+        {yearClubBookImgs
+          .slice(0, 5)
+          .map((bookImg) =>
+            bookImg.src !== '' ? (
+              <Hexagon key={bookImg.alt} src={bookImg.src} alt={bookImg.alt} />
+            ) : (
+              <Hexagon as='div' key={bookImg.alt}></Hexagon>
+            )
+          )}
       </Col>
     </Box>
   );

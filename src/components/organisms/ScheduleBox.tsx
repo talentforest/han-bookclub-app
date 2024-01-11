@@ -1,6 +1,5 @@
 import { getLocalDateTime } from 'util/index';
 import { ISchedule } from 'data/documentsAtom';
-import { Check, Edit } from '@mui/icons-material';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
@@ -41,9 +40,7 @@ const ScheduleBox = ({ schedule }: PropsType) => {
             defaultValue={place}
           />
         </Item>
-        <SubmitBtn type='submit'>
-          <Check />
-        </SubmitBtn>
+        <SubmitBtn type='submit'></SubmitBtn>
       </Form>
     ) : (
       <Form as='div'>
@@ -70,9 +67,7 @@ const ScheduleBox = ({ schedule }: PropsType) => {
               )}에 만나요!`}
               path='/'
             />
-            <EditBtn onClick={onEditClick}>
-              <Edit />
-            </EditBtn>
+            <EditBtn onClick={onEditClick}></EditBtn>
           </BtnBox>
         )}
       </Form>

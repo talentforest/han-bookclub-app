@@ -1,4 +1,3 @@
-import { CheckCircle, Edit, PostAdd } from '@mui/icons-material';
 import {
   getMonthNm,
   fieldOfClub,
@@ -75,9 +74,7 @@ const FieldScheduleBox = () => {
                     ))}
                   </Select>
                 </Info>
-                <SubmitBtn type='submit'>
-                  <CheckCircle />
-                </SubmitBtn>
+                <SubmitBtn type='submit'></SubmitBtn>
               </Form>
             ) : (
               <Form
@@ -104,13 +101,15 @@ const FieldScheduleBox = () => {
                       </>
                     )}
                     {item.detail !== '' && (
-                      <PostAdd onClick={() => onDetailClick(index)} />
+                      <></>
+                      // <PostAdd onClick={() => onDetailClick(index)} />
                     )}
                   </Field>
                 </Info>
-                <SubmitBtn type='button' onClick={() => onEditClick(index)}>
-                  <Edit />
-                </SubmitBtn>
+                <SubmitBtn
+                  type='button'
+                  onClick={() => onEditClick(index)}
+                ></SubmitBtn>
               </Form>
             )
           )}

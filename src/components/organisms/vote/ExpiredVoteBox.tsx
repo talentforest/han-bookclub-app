@@ -1,4 +1,3 @@
-import { ArrowForwardIos, Help, Verified } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { cutLetter } from 'util/index';
 import { IVote } from 'data/voteItemAtom';
@@ -28,17 +27,10 @@ const ExpiredVoteBox = ({ voteDetail }: PropsType) => {
   return (
     <Vote to={`/vote/${voteId}`} state={{ voteDocId: id }}>
       <Info>
-        <Title>
-          <Help />
-          {cutLetter(title, 30)}
-        </Title>
-        <Result>
-          <Verified /> {getVoteResultTitle()}
-        </Result>
+        <Title>{cutLetter(title, 30)}</Title>
+        <Result>{getVoteResultTitle()}</Result>
       </Info>
-      <Btn>
-        <ArrowForwardIos />
-      </Btn>
+      <Btn></Btn>
     </Vote>
   );
 };

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Close } from '@mui/icons-material';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { thisMonthClubState } from 'data/documentsAtom';
@@ -60,9 +59,7 @@ const SubjectCreateModal = ({ docMonth }: PropsType) => {
         <>
           <Overlay onModalClick={onModalClick} />
           <Modal onSubmit={handleSubmit}>
-            <h3>
-              발제문 작성하기 <Close onClick={onModalClick} />
-            </h3>
+            <h3>발제문 작성하기</h3>
             <QuillEditor
               placeholder='모임에서 나누고 싶은 주제를 자유롭게 작성해주세요.'
               text={text}

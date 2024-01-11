@@ -1,6 +1,4 @@
-import { Settings } from '@mui/icons-material';
 import { Link, useLocation, useMatch, useNavigate } from 'react-router-dom';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -60,16 +58,13 @@ const MobileHeader = () => {
       {mainPageTitle() && <Header>{mainPageTitle()}</Header>}
       {detailPageTitle() && (
         <BackButtonHeader onClick={onBackClick}>
-          <ArrowBackIosNewIcon />
           {detailPageTitle()}
         </BackButtonHeader>
       )}
       {pathname === '/mybookshelf' && (
         <SettingIconHeader>
           나의 책장
-          <Link to='/setting'>
-            <Settings />
-          </Link>
+          <Link to='/setting'></Link>
         </SettingIconHeader>
       )}
     </>

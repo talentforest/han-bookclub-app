@@ -1,6 +1,5 @@
 import { useRecoilValue } from 'recoil';
 import { currentUserState, userExtraInfoState } from 'data/userAtom';
-import { AccountCircle } from '@mui/icons-material';
 import { authService } from 'fbase';
 import { MouseEvent, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
@@ -48,7 +47,7 @@ const MyBookshelf = () => {
             alt='profile'
           />
         ) : (
-          <AccountCircle />
+          <></>
         )}
         <span>{anonymous ? '익명의 방문자' : currentUser?.displayName}</span>
       </ProfileBox>

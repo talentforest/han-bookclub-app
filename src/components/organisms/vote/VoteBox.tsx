@@ -1,9 +1,3 @@
-import {
-  ArrowForwardIosOutlined,
-  CheckCircleOutline,
-  Help,
-  MoreHoriz,
-} from '@mui/icons-material';
 import { getDDay, cutLetter } from 'util/index';
 import { Link } from 'react-router-dom';
 import { IVote } from 'data/voteItemAtom';
@@ -24,13 +18,10 @@ const VoteBox = ({ voteDetail }: PropsType) => {
 
   return (
     <Vote>
-      <Title>
-        <Help /> {cutLetter(title, 30)}
-      </Title>
+      <Title>{cutLetter(title, 30)}</Title>
       <ItemList>
         {voteItem?.slice(0, 2).map((item) => (
           <Item key={item.id}>
-            <CheckCircleOutline />
             <span>{cutLetter(item.item, 15)}</span>
           </Item>
         ))}
@@ -40,7 +31,6 @@ const VoteBox = ({ voteDetail }: PropsType) => {
         <p>D-Day: {getDDay(deadline)}</p>
         <Link to={`/vote/${voteId}`} state={{ voteDocId: id }}>
           투표하러 가기
-          <ArrowForwardIosOutlined />
         </Link>
       </Bottom>
     </Vote>
@@ -100,7 +90,7 @@ const Item = styled.li`
     min-height: 45px;
   }
 `;
-const More = styled(MoreHoriz)`
+const More = styled.div`
   align-self: center;
 `;
 const Bottom = styled.div`

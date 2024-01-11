@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { getFbRoute, cutLetter, getLocalDate } from 'util/index';
-import { ExpandCircleDown } from '@mui/icons-material';
 import { ScrollContent } from './RecordBox';
 import { IDocument } from 'data/documentsAtom';
 import { Modal } from './bookclubthismonth/SubjectCreateModal';
@@ -59,7 +58,6 @@ const HostReviewBox = ({ hostReview, yearMonthId }: IHostReviewBoxProps) => {
           />
           <HandleBtn handleClick={handleModal}>
             <span>모임 정리 더보기</span>
-            <ExpandCircleDown />
           </HandleBtn>
         </BtnFooter>
       </CuttedHostReviewBox>

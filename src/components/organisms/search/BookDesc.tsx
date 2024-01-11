@@ -1,4 +1,3 @@
-import { ExpandCircleDown } from '@mui/icons-material';
 import { IBookApi } from 'data/bookAtom';
 import { getLocalDate } from 'util/index';
 import styled from 'styled-components';
@@ -13,28 +12,13 @@ const BookDesc = ({ detailInfo }: PropsType) => {
     <BookDetail>
       <h3>{detailInfo?.title}</h3>
       <ul>
-        <li>
-          <ExpandCircleDown />
-          저자: {detailInfo?.authors?.join(', ')}
-        </li>
+        <li>저자: {detailInfo?.authors?.join(', ')}</li>
         {detailInfo?.translators?.length !== 0 ? (
-          <li>
-            <ExpandCircleDown />
-            역자: {detailInfo?.translators?.join(', ')}
-          </li>
+          <li>역자: {detailInfo?.translators?.join(', ')}</li>
         ) : null}
-        <li>
-          <ExpandCircleDown />
-          출간일: {getLocalDate(detailInfo?.datetime)}
-        </li>
-        <li>
-          <ExpandCircleDown />
-          출판사: {detailInfo?.publisher}
-        </li>
-        <li>
-          <ExpandCircleDown />
-          정가: {detailInfo?.price.toLocaleString()}원
-        </li>
+        <li>출간일: {getLocalDate(detailInfo?.datetime)}</li>
+        <li>출판사: {detailInfo?.publisher}</li>
+        <li>정가: {detailInfo?.price.toLocaleString()}원</li>
       </ul>
       <p>줄거리 {detailInfo?.contents}...</p>
       {detailInfo?.url && (

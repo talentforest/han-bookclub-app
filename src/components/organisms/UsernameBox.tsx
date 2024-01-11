@@ -1,4 +1,3 @@
-import { AccountCircle } from '@mui/icons-material';
 import { MouseEvent, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { allUsersState, currentUserState } from 'data/userAtom';
@@ -39,7 +38,7 @@ const UsernameBox = ({ creatorId }: PropsType) => {
       {userInfo?.photoUrl ? (
         <UserImage onContextMenu={onContextMenu} src={userInfo.photoUrl} />
       ) : (
-        <AccountCircle />
+        <></>
       )}
       {userInfo?.displayName && <span>{userInfo?.displayName}</span>}
     </User>

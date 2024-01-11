@@ -1,4 +1,3 @@
-import { AccessTime, FmdGood } from '@mui/icons-material';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -10,8 +9,6 @@ const InfoTag = ({ tagName }: IInfoTagProps) => {
   return (
     <Tag>
       <span>{tagName}</span>
-      {tagName === '모임 시간' && <AccessTime />}
-      {tagName === '모임 장소' && <FmdGood />}
     </Tag>
   );
 };

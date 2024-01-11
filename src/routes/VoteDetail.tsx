@@ -1,4 +1,3 @@
-import { CheckCircleOutline } from '@mui/icons-material';
 import { krCurTime, isoFormatDate } from 'util/index';
 import { useLocation } from 'react-router-dom';
 import UsernameBox from 'components/organisms/UsernameBox';
@@ -41,7 +40,6 @@ const VoteDetail = () => {
                     key={voteItem.id}
                     $selected={!!mySubmittedVoteItems(voteItem.id)}
                   >
-                    <CheckCircleOutline />
                     <ItemText>{voteItem.item}</ItemText>
                     <Percentage
                       voteItems={currentVote.vote.voteItem}
@@ -61,7 +59,6 @@ const VoteDetail = () => {
                     onClick={() => onVoteItemClick(voteItem.id)}
                     $selected={!!selectedItem(voteItem.id)}
                   >
-                    <CheckCircleOutline />
                     <ItemText>{voteItem.item}</ItemText>
                     <Percentage
                       voteItems={currentVote.vote.voteItem}
