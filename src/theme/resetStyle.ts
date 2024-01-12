@@ -3,7 +3,7 @@ import device from './mediaQueries';
 
 export const ResetStyle = createGlobalStyle`
   @font-face {
-    font-family: "Locus_Sangsang.ttf";
+    font-family: "Locus_Sangsang";
     font-weight: normal;
     src: url("../fonts/locus_sangsang.ttf") format("truetype");
   }
@@ -18,7 +18,7 @@ export const ResetStyle = createGlobalStyle`
         position: relative;
         padding: 10px 20px 100px;
         @media ${device.tablet} {
-        padding: 10px 80px 100px;
+          padding: 10px 80px 100px;
         }
         @media ${device.desktop} {
           padding: 0;
@@ -35,6 +35,7 @@ export const ResetStyle = createGlobalStyle`
     box-sizing: border-box;
     
   }
+  
   textarea, 
   button {
     padding: 0;
@@ -145,7 +146,6 @@ export const ResetStyle = createGlobalStyle`
     padding: 0;
     border: 0;
     font-size: 100%;
-    font: inherit;
     vertical-align: baseline;
   }
 

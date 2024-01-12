@@ -3,7 +3,6 @@ import { IBookClubInfo } from 'data/documentsAtom';
 import BookImgTitle from 'components/atoms/BookImgTitle';
 import Subtitle from 'components/atoms/Subtitle';
 import styled from 'styled-components';
-import ScheduleBox from 'components/organisms/ScheduleBox';
 import CategorySection from 'components/template/CategorySection';
 import HostReviewArea from 'components/template/HostReviewArea';
 
@@ -23,7 +22,6 @@ const BookClubHistoryDetail = () => {
     <main>
       <Infos>
         <BookImgTitle thumbnail={thumbnail} title={title} />
-        <ScheduleBox schedule={meeting} />
       </Infos>
       <Subtitle title='발제자의 정리 기록' />
       <HostReviewArea yearMonthId={id} />

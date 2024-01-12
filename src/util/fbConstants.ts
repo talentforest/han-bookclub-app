@@ -1,9 +1,11 @@
 import { thisYear } from './dateUtils';
 
 export const USER_DATA = 'User Data';
+export const TAG_LIST = 'TagList';
 export const BOOK_FIELD_HOST = 'BookFieldAndHost';
 export const THIS_YEAR_BOOKCLUB = `BookClub-${thisYear}`;
 export const VOTE = 'Vote';
+export const MEETING_PLACE = 'MeetingPlace';
 
 export const getFbRoute = (id: string) => {
   const year = id.slice(0, 4);

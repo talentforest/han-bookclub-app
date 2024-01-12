@@ -1,13 +1,14 @@
 import { DefaultTheme } from 'styled-components';
 
 export const theme: DefaultTheme = {
-  bgColor: '#fdfdfd',
+  bgColor: '#f8f8f8',
   text: {
     default: '#333',
     accent: '#0043EF',
     lightBlue: '#5162FF',
     lightGray: '#E5E5E5',
     gray: '#555',
+    mediumGray: '#aaa',
     white: '#fff',
   },
   container: {
@@ -20,5 +21,5 @@ export const theme: DefaultTheme = {
     purple: '#B6C2FF',
     yellow: '#ffeb88',
   },
-  boxShadow: '1px 2px 6px rgba(100, 100, 100, 0.2)',
+  boxShadow: '2px 2px 2px 2px #eaeaea;',
 };

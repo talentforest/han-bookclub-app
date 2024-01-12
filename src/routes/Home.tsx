@@ -1,56 +1,73 @@
 import { useEffect } from 'react';
 import {
-  thisMonth,
   thisYear,
   thisYearMonthIso,
   THIS_YEAR_BOOKCLUB,
   existDocObj,
+  BOOK_FIELD_HOST,
+  thisMonth,
 } from 'util/index';
 import { getDocument } from 'api/getFbDoc';
 import { useRecoilState } from 'recoil';
 import { thisMonthClubState } from 'data/documentsAtom';
+import { fieldHostDocState } from 'data/bookFieldHostAtom';
+
 import Subtitle from 'components/atoms/Subtitle';
-import BookImgTitle from 'components/atoms/BookImgTitle';
 import Loading from 'components/atoms/loadings/Loading';
 import Guide from 'components/atoms/Guide';
 import FieldScheduleBox from 'components/organisms/home/FieldScheduleBox';
 import VoteSlider from 'components/organisms/home/VoteSlider';
 import styled from 'styled-components';
-import ScheduleBox from 'components/organisms/ScheduleBox';
-import BookLogoBox from 'components/organisms/home/BookLogo';
-import Box from 'components/atoms/box/Box';
-import Tag from 'components/atoms/Tag';
+import ClubBookBox from 'components/atoms/box/ClubBookBox';
+import HeaderBox from 'components/atoms/box/HeaderBox';
+import ChallengeBookBox from 'components/atoms/box/ChallengeBookBox';
 
 const Home = () => {
+  const [thisYearHosts, setThisYearHosts] = useRecoilState(fieldHostDocState);
   const [thisMonthClub, setThisMonthClub] = useRecoilState(thisMonthClubState);
+
   const { book, meeting } = thisMonthClub;
 
   useEffect(() => {
+    if (!existDocObj(thisYearHosts)) {
+      getDocument(BOOK_FIELD_HOST, `${thisYear}`, setThisYearHosts);
+    }
     if (thisYearMonthIso) {
       getDocument(THIS_YEAR_BOOKCLUB, `${thisYearMonthIso}`, setThisMonthClub);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const thisMonthHost = thisYearHosts.info?.find(
+    ({ month }) => month === thisMonth
+  );
+
   return !existDocObj(thisMonthClub) ? (
     <Loading />
   ) : (
     <main>
       <Section>
-        <Box>
-          <Tag name={`${thisMonth}월의 모임책`} />
-          <BookImgTitle thumbnail={book?.thumbnail} title={book?.title} />
-        </Box>
-        <Guide text='이달의 책은 매월 1일에 업데이트 됩니다.' />
+        <Guide text='매월 1일에 업데이트 됩니다.' />
+
+        <ClubBookBox book={book} />
+
+        <BoxesContainer>
+          <HeaderBox
+            header='이달의 발제자'
+            creatorId={thisMonthHost?.host || '정해진 발제자가 없어요.'}
+          />
+          <HeaderBox header='모임 시간' meeting={meeting} />
+          <HeaderBox header='모임 장소' meeting={meeting} />
+        </BoxesContainer>
       </Section>
+
       <Section>
-        <Subtitle title={`${thisMonth}월의 모임 일정`} />
-        <Guide text='한페이지 멤버는 매월 셋째주 일요일에 만나요.' />
-        <ScheduleBox schedule={meeting} />
+        <Subtitle title={`${thisYear}년 개인별 챌린지`} />
+        <ChallengeBookBox book={book} />
       </Section>
+
       <Section>
-        <Subtitle title={`${thisYear} 한페이지의 독서 분야와 발제자`} />
-        <BookLogoBox />
+        <Subtitle title={`${thisYear} 한페이지의 독서분야와 발제자`} />
         <FieldScheduleBox />
       </Section>
       <Section>
@@ -63,6 +80,12 @@ const Home = () => {
 
 const Section = styled.section`
   margin-bottom: 40px;
+`;
+
+const BoxesContainer = styled.div`
+  display: flex;
+  margin-top: 12px;
+  gap: 12px;
 `;
 
 export default Home;

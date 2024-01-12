@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { allUsersState, currentUserState } from 'data/userAtom';
 import { getCollection } from 'api/getFbDoc';
@@ -9,9 +9,10 @@ import device from 'theme/mediaQueries';
 
 interface PropsType {
   creatorId: string;
+  fontSize?: number;
 }
 
-const UsernameBox = ({ creatorId }: PropsType) => {
+const UsernameBox = ({ creatorId, fontSize = 16 }: PropsType) => {
   const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersState);
   const userInfo = allUserDocs.find((user) => user.id === creatorId);
   const currentUser = useRecoilValue(currentUserState);
@@ -27,57 +28,31 @@ const UsernameBox = ({ creatorId }: PropsType) => {
       ? '/mybookshelf'
       : `/bookshelf/${userInfo?.displayName}`;
 
-  const onContextMenu = (e: MouseEvent<HTMLImageElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    return false;
-  };
-
   return (
-    <User to={bookShelfLink} state={{ user: userInfo }}>
-      {userInfo?.photoUrl ? (
-        <UserImage onContextMenu={onContextMenu} src={userInfo.photoUrl} />
-      ) : (
-        <></>
-      )}
+    <Username
+      $fontSize={fontSize}
+      to={bookShelfLink}
+      state={{ user: userInfo }}
+    >
       {userInfo?.displayName && <span>{userInfo?.displayName}</span>}
-    </User>
+    </Username>
   );
 };
 
-const User = styled(Link)`
+const Username = styled(Link)<{ $fontSize: number }>`
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   > span {
-    font-size: 14px;
-    margin-left: 2px;
-  }
-  > svg {
-    width: 20px;
-    height: 20px;
+    font-size: ${(props) =>
+      props.$fontSize ? `${props.$fontSize}px` : '20px'};
   }
   @media ${device.tablet} {
     > span {
-      font-size: 16px;
-      margin-left: 5px;
+      font-size: ${(props) =>
+        props.$fontSize ? `${props.$fontSize + 2}px` : '22px'};
     }
-    > svg {
-      width: 24px;
-      height: 24px;
-    }
-  }
-`;
-
-const UserImage = styled.img`
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  -webkit-touch-callout: none;
-  @media ${device.tablet} {
-    width: 24px;
-    height: 24px;
-    margin-right: 5px;
   }
 `;
 

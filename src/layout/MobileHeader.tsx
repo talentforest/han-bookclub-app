@@ -55,12 +55,22 @@ const MobileHeader = () => {
 
   return (
     <>
-      {mainPageTitle() && <Header>{mainPageTitle()}</Header>}
+      {mainPageTitle() && (
+        <Header>
+          <img
+            src={`${process.env.PUBLIC_URL}/hanpage_logo.png`}
+            alt='독서모임 한페이지 로고'
+          />
+          {mainPageTitle()}
+        </Header>
+      )}
+
       {detailPageTitle() && (
         <BackButtonHeader onClick={onBackClick}>
           {detailPageTitle()}
         </BackButtonHeader>
       )}
+
       {pathname === '/mybookshelf' && (
         <SettingIconHeader>
           나의 책장
@@ -72,15 +82,19 @@ const MobileHeader = () => {
 };
 
 export const Header = styled.header`
-  height: 55px;
-  padding: 15px 20px;
+  padding: 15px 20px 5px;
   position: relative;
   color: ${(props) => props.theme.text.gray};
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 18px;
+  gap: 3px;
+  img {
+    width: 22px;
+    height: 22px;
+    margin-bottom: 3px;
+  }
+
   @media ${device.tablet} {
     display: none;
   }
@@ -95,7 +109,7 @@ export const SettingIconHeader = styled(Header)`
     color: ${(props) => props.theme.text.lightBlue};
     border: none;
     background-color: transparent;
-    font-weight: 700;
+
     cursor: pointer;
     margin: 0;
     svg {

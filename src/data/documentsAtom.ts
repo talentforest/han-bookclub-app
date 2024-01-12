@@ -12,7 +12,7 @@ export interface IBookClubInfo {
 }
 
 export interface ISchedule {
-  time: string;
+  time: number;
   place: string;
 }
 

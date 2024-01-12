@@ -1,6 +1,6 @@
-import "styled-components";
+import 'styled-components';
 
-declare module "styled-components" {
+declare module 'styled-components' {
   export interface DefaultTheme {
     bgColor: string;
     text: {
@@ -9,6 +9,7 @@ declare module "styled-components" {
       lightBlue: string;
       lightGray: string;
       gray: string;
+      mediumGray: string;
       white: string;
     };
     container: {

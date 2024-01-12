@@ -14,10 +14,11 @@ const Guide = ({ text }: PropsType) => {
 };
 
 const Box = styled.div`
-  margin-bottom: 10px;
+  margin-top: 3px;
+  margin-bottom: 8px;
   p {
     font-size: 14px;
-    color: ${(props) => props.theme.text.gray};
+    color: ${(props) => props.theme.text.mediumGray};
   }
   svg {
     float: left;

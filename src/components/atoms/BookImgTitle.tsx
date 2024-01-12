@@ -53,6 +53,7 @@ const Thumnail = styled.img<{ $smSize: boolean }>`
     height: ${(props) => (props.$smSize ? '25px' : '200px')};
   }
 `;
+
 const Title = styled.h3<{ $smSize: boolean }>`
   text-align: ${(props) => (props.$smSize ? 'start' : 'center')};
   font-size: ${(props) => (props.$smSize ? '12px' : '16px')};

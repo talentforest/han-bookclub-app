@@ -1,29 +1,44 @@
-import { thisMonthClubState } from 'data/documentsAtom';
+import { ISchedule, thisMonthClubState } from 'data/documentsAtom';
 import { dbService } from 'fbase';
 import { doc, updateDoc } from 'firebase/firestore';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { thisYearMonthIso, THIS_YEAR_BOOKCLUB } from 'util/index';
 import useAlertAskJoin from './useAlertAskJoin';
 
-const useHandleSchedule = () => {
+const useHandleSchedule = (meeting: ISchedule) => {
   const [thisMonthClub, setThisMonthClub] = useRecoilState(thisMonthClubState);
+  const [time, setTime] = useState(
+    meeting?.time === 0 ? null : new Date(meeting?.time)
+  );
+  const [place, setPlace] = useState(meeting?.place);
   const [isEditing, setIsEditing] = useState(false);
+
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
 
-  const timeRef = useRef<HTMLInputElement>(null);
-  const placeRef = useRef<HTMLInputElement>(null);
   const document = doc(dbService, THIS_YEAR_BOOKCLUB, `${thisYearMonthIso}`);
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onTimeSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const time = timeRef.current.value;
-    const place = placeRef.current.value;
-    if (!time || !place) return;
-    await updateDoc(document, {
-      meeting: { place, time },
-    });
-    setThisMonthClub({ ...thisMonthClub, meeting: { place, time } });
+    if (!time) return alert('모임 시간을 작성해주세요.');
+
+    const editInfo = {
+      meeting: { ...meeting, time: time.getTime() },
+    };
+    await updateDoc(document, editInfo);
+    setThisMonthClub({ ...thisMonthClub, ...editInfo });
+    setIsEditing(false);
+  };
+
+  const onPlaceSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!place) return alert('모임 시간과 모임 장소 모두 작성해주세요.');
+
+    const editInfo = {
+      meeting: { ...meeting, place },
+    };
+    await updateDoc(document, editInfo);
+    setThisMonthClub({ ...thisMonthClub, ...editInfo });
     setIsEditing(false);
   };
 
@@ -32,12 +47,18 @@ const useHandleSchedule = () => {
     setIsEditing((prev) => !prev);
   };
 
+  const onTagClick = (place: string) => setPlace(place);
+
   return {
     isEditing,
-    onSubmit,
+    onTimeSubmit,
+    onPlaceSubmit,
     onEditClick,
-    timeRef,
-    placeRef,
+    time,
+    place,
+    setTime,
+    setPlace,
+    onTagClick,
   };
 };
 

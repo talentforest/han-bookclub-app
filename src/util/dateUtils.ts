@@ -18,6 +18,16 @@ export const isoFormatDate = (date: Date) => {
 // YYYY-MM
 export const thisYearMonthIso = isoFormatDate(krCurTime).slice(0, -3);
 
+export const getLocaleDateTime = (time: Date) => {
+  return new Date(time).toLocaleDateString('ko', {
+    minute: 'numeric',
+    hour: 'numeric',
+    day: 'numeric',
+    month: 'short',
+    weekday: 'short',
+  });
+};
+
 export const getLocalDateTime = (dateTime: string) => {
   const date = new Date(dateTime);
   return date.toLocaleString().slice(0, -3);

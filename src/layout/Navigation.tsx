@@ -7,7 +7,7 @@ import device from 'theme/mediaQueries';
 
 const Navigation = () => {
   const { pathname } = useLocation();
-
+  console.log(pathname.includes('vote'));
   return (
     pathname !== '/login' &&
     !pathname.includes('setting') &&
@@ -16,7 +16,7 @@ const Navigation = () => {
         <List>
           <Item $active={pathname === '/'}>
             <Link to='/'>
-              <FiHome />
+              <FiHome style={{ color: 'red' }} />
               <span>홈</span>
             </Link>
           </Item>
@@ -32,7 +32,7 @@ const Navigation = () => {
               <span>이달의 모임</span>
             </Link>
           </Item>
-          <Item $active={pathname.includes('/vote')}>
+          <Item className='vote' $active={pathname.includes('vote')}>
             <Link to='/vote'>
               <MdOutlineHowToVote />
               <span>투표하기</span>
@@ -61,10 +61,12 @@ const Nav = styled.nav`
     display: none;
   }
 `;
+
 const List = styled.ul`
   display: flex;
   justify-content: space-evenly;
 `;
+
 const Item = styled.li<{ $active: boolean }>`
   width: 20%;
   font-size: 10px;
@@ -72,16 +74,23 @@ const Item = styled.li<{ $active: boolean }>`
   flex-direction: column;
   align-items: center;
   cursor: pointer;
+  &.vote {
+    > a {
+      > svg {
+        fill: ${(props) => (props.$active ? '#333' : '#aaa')};
+      }
+    }
+  }
   > a {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     svg {
-      width: 20px;
-      height: 20px;
-      margin-bottom: 5px;
-      fill: ${(props) => (props.$active ? '#333' : '#aaa')};
+      width: 18px;
+      height: 18px;
+      margin-bottom: 6px;
+      stroke: ${(props) => (props.$active ? '#333' : '#aaa')};
     }
     span {
       color: ${(props) =>
