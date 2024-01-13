@@ -7,17 +7,17 @@ interface Object {
 
 export interface IBookFieldHostDoc extends Object {
   id: string;
-  info: IBookFieldHostInfo[];
+  info: IBookFieldHost[];
 }
 
-export interface IBookFieldHostInfo {
+export interface IBookFieldHost {
   detail: string;
   field: string;
   month: number;
-  host: string;
+  hosts: string[];
 }
 
-export const fieldHostState = atom<IBookFieldHostInfo[]>({
+export const fieldHostState = atom<IBookFieldHost[]>({
   key: `fieldHost/${v4}`,
   default: [],
 });

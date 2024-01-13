@@ -7,7 +7,7 @@ import device from 'theme/mediaQueries';
 
 const Navigation = () => {
   const { pathname } = useLocation();
-  console.log(pathname.includes('vote'));
+
   return (
     pathname !== '/login' &&
     !pathname.includes('setting') &&

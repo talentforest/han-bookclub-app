@@ -1,7 +1,12 @@
 import { IBookApi, recommendBookState } from 'data/bookAtom';
 import { categoryState } from 'data/categoryAtom';
+import { doc, updateDoc } from 'firebase/firestore';
+import { dbService } from 'fbase';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
+import { CHALLENGE, thisYear } from 'util/index';
+import { useEffect, useState } from 'react';
+import { getDocument } from 'api/getFbDoc';
 import styled from 'styled-components';
 
 interface PropsType {
@@ -12,7 +17,7 @@ const RegisterRecommendButton = ({ searchedBook }: PropsType) => {
   const navigator = useNavigate();
   const setRecommendedBook = useSetRecoilState(recommendBookState);
   const setCategory = useSetRecoilState(categoryState);
-
+  const [challengeDoc, setChallengeDoc] = useState({ id: '', challenge: [] });
   const onClick = () => {
     setRecommendedBook(searchedBook);
     const confirm = window.confirm(
@@ -25,9 +30,26 @@ const RegisterRecommendButton = ({ searchedBook }: PropsType) => {
       return;
     }
   };
+
+  useEffect(() => {
+    getDocument(CHALLENGE, `${thisYear}`, setChallengeDoc);
+  }, []);
+
+  const document = doc(dbService, CHALLENGE, `${thisYear}`);
+
+  const onChallengeClick = async () => {
+    const newChallengeBook = { user: '', book: searchedBook };
+    await updateDoc(document, {
+      challenge: [...challengeDoc.challenge, newChallengeBook],
+    });
+  };
+
   return (
     <Container>
       <RegisterButton onClick={onClick}>나의 추천책으로 등록</RegisterButton>
+      <RegisterButton onClick={onChallengeClick}>
+        나의 챌린지 책으로 등록
+      </RegisterButton>
     </Container>
   );
 };

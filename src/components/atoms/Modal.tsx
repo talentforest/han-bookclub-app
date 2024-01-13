@@ -16,13 +16,12 @@ export default function Modal({ onModalToggleClick, title, children }: Props) {
         <h3>{title}</h3>
         {children}
       </BoxModal>
-      ;
     </>
   );
 }
 
 const BoxModal = styled.section`
-  z-index: 1;
+  z-index: 10;
   width: 308px;
   height: min-content;
   position: fixed;

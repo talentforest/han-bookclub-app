@@ -22,11 +22,10 @@ const ThumnailImg = styled.img`
   align-items: center;
   width: auto;
   max-width: 100px;
-  height: 120px;
+  height: 100%;
   box-shadow: ${(props) => props.theme.boxShadow};
   background-color: ${(props) => props.theme.container.default};
   @media ${device.tablet} {
     max-width: 140px;
-    height: 200px;
   }
 `;

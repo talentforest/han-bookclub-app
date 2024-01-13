@@ -6,6 +6,7 @@ export const BOOK_FIELD_HOST = 'BookFieldAndHost';
 export const THIS_YEAR_BOOKCLUB = `BookClub-${thisYear}`;
 export const VOTE = 'Vote';
 export const MEETING_PLACE = 'MeetingPlace';
+export const CHALLENGE = 'Challenge';
 
 export const getFbRoute = (id: string) => {
   const year = id.slice(0, 4);

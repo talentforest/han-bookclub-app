@@ -44,6 +44,7 @@ const Username = styled(Link)<{ $fontSize: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
+
   > span {
     font-size: ${(props) =>
       props.$fontSize ? `${props.$fontSize}px` : '20px'};
