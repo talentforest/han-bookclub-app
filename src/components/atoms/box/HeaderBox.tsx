@@ -72,6 +72,7 @@ export default function HeaderBox({ header, creatorId, meeting }: Props) {
               label='모임 시간'
               value={time}
               setValue={setTime}
+              onEditClick={onEditClick}
             />
             <SubmitBtn type='submit' value='설정하기' />
           </form>
@@ -88,6 +89,7 @@ export default function HeaderBox({ header, creatorId, meeting }: Props) {
               placeInputRef={placeInputRef}
               onFocus={onFocus}
               onBlur={onBlur}
+              onEditClick={onEditClick}
             />
             <TagListBox $height={showTagList ? 100 : 0}>
               <span>추천장소</span>
@@ -144,11 +146,13 @@ const InfoBox = styled.div`
   height: 100%;
   align-items: center;
   justify-content: center;
-  padding: 10px 8px 16px;
+  padding: 10px 0 16px;
+
   display: flex;
   flex-direction: column;
   gap: 6px;
   p {
+    width: 90px;
     font-size: 16px;
     word-spacing: -1px;
     text-align: center;
