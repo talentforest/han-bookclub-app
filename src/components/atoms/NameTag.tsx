@@ -15,6 +15,11 @@ export default function NameTag({ name }: Props) {
 
 const TagItem = styled.li`
   border-radius: 5px;
-  padding: 5px 8px;
+  padding: 0 8px;
   background-color: #eee;
+  list-style: none;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

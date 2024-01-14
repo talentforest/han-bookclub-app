@@ -6,33 +6,16 @@ interface PropsType {
 }
 
 const Guide = ({ text }: PropsType) => {
-  return (
-    <Box>
-      <p>{text}</p>
-    </Box>
-  );
+  return <GuidePar>{text}</GuidePar>;
 };
 
-const Box = styled.div`
-  margin-top: 3px;
-  margin-bottom: 8px;
-  p {
-    font-size: 14px;
-    color: ${(props) => props.theme.text.mediumGray};
-  }
-  svg {
-    float: left;
-    width: 16px;
-    height: 16px;
-    margin: 3px 5px 0 0;
-    fill: ${(props) => props.theme.text.lightBlue};
-  }
+const GuidePar = styled.p`
+  margin: 3px 0 8px 0;
+  font-size: 14px;
+  color: ${(props) => props.theme.text.mediumGray};
+
   @media ${device.tablet} {
     font-size: 16px;
-    svg {
-      width: 18px;
-      height: 18px;
-    }
   }
 `;
 

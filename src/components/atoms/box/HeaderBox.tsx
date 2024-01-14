@@ -1,25 +1,32 @@
 import useHandleSchedule from 'hooks/useHandleSchedule';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import UsernameBox from 'components/organisms/UsernameBox';
 import Modal from '../Modal';
 import BoxLabeledInput from '../inputs/BoxLabeledInput';
 import SquareTag from '../SquareTag';
+import NameTag from '../NameTag';
 import { FiEdit3 } from 'react-icons/fi';
 import { useEffect, useRef, useState } from 'react';
 import { ISchedule } from 'data/documentsAtom';
 import { getDocument } from 'api/getFbDoc';
-import { MEETING_PLACE, TAG_LIST, getLocaleDateTime } from 'util/index';
+import {
+  MEETING_PLACE,
+  TAG_LIST,
+  getLocaleDateTime,
+  thisMonth,
+} from 'util/index';
+import { useRecoilValue } from 'recoil';
+import { fieldHostDocState } from 'data/bookFieldHostAtom';
 
 interface Props {
   header: '이달의 발제자' | '모임 시간' | '모임 장소';
-  creatorId?: string;
   meeting?: ISchedule;
 }
 
-export default function HeaderBox({ header, creatorId, meeting }: Props) {
+export default function HeaderBox({ header, meeting }: Props) {
   const [showTagList, setShowTagList] = useState(false);
   const [placeDoc, setPlaceDoc] = useState({ id: '', place: [] });
+  const bookFieldHostDoc = useRecoilValue(fieldHostDocState);
 
   const placeInputRef = useRef<HTMLInputElement>(null);
 
@@ -42,12 +49,17 @@ export default function HeaderBox({ header, creatorId, meeting }: Props) {
   const onFocus = () => setShowTagList(true);
   const onBlur = () => setShowTagList(false);
 
+  const thisMonthHosts = bookFieldHostDoc.info?.find(
+    ({ month }) => month === thisMonth
+  ).hosts;
+
   return (
     <Box>
       <h2>{header}</h2>
 
       <InfoBox>
-        {header === '이달의 발제자' && <UsernameBox creatorId={creatorId} />}
+        {header === '이달의 발제자' &&
+          thisMonthHosts.map((host) => <NameTag key={host} name={host} />)}
 
         {header === '모임 시간' && (
           <p className={meeting.time === 0 ? 'no_info' : ''}>
@@ -144,10 +156,10 @@ const InfoBox = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+  min-height: 80px;
   align-items: center;
   justify-content: center;
-  padding: 10px 0 16px;
-
+  padding: 8px 4px 15px;
   display: flex;
   flex-direction: column;
   gap: 6px;

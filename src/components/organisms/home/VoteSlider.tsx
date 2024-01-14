@@ -61,19 +61,23 @@ const Votes = styled.div`
 `;
 const EmptyContainer = styled.div`
   width: 100%;
-  height: 140px;
+  height: 130px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  gap: 5px;
-  padding: 25px;
+  padding: 15px;
   border-radius: 10px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: ${(props) => props.theme.boxShadow};
-  color: ${(props) => props.theme.text.gray};
+  span {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    color: #aaa;
+  }
   a {
-    width: 180px;
+    box-shadow: ${(props) => props.theme.boxShadow};
+    font-size: 15px;
     svg {
       font-size: 16px;
     }

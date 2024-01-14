@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import RecommendedBookBox from './box/RecommendedBookBox';
 import { useRecoilValue } from 'recoil';
 import { allUsersState } from 'data/userAtom';
+import RecommendedBookBox from '../../atoms/box/RecommendedBookBox';
+import styled from 'styled-components';
 
 interface MonthData {
   monthId: string;
