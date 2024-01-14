@@ -22,8 +22,8 @@ export default function ChallengeBookBox({ challenge }: Props) {
         <UsernameBox creatorId={user} fontSize={15} />
         <h1>{book.title}</h1>
         <div>
-          <span>{book.authors.join('・')} 지음 ・ </span>
-          <span>{book.publisher} 출판</span>
+          <span>{book.authors.join('・')} ・ </span>
+          <span>{book.publisher}</span>
         </div>
       </div>
     </Box>

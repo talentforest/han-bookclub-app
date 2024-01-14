@@ -22,8 +22,8 @@ export default function ClubBookBox({ book }: Props) {
             <h1>{book.title}</h1>
 
             <div>
-              <h3>{book.authors} 지음・</h3>
-              <h3>{book.publisher} 출판</h3>
+              <span>{book.authors} ・ </span>
+              <span> {book.publisher}</span>
             </div>
 
             <div>
@@ -75,11 +75,11 @@ const BookTextInfo = styled.div`
   }
 
   > div {
-    margin-top: 4px;
+    margin-top: 2px;
     display: flex;
     align-items: center;
 
-    > h3 {
+    > span {
       font-size: 15px;
       color: #888;
       line-height: 24px;

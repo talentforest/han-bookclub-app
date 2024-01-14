@@ -23,6 +23,8 @@ const RecommendArea = ({ yearMonthId }: IRecommendationAreaProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  console.log(yearMonthId);
+
   return (
     <>
       {!historyPage && <RecommendCreateBox />}

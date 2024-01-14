@@ -47,9 +47,6 @@ const RegisterRecommendButton = ({ searchedBook }: PropsType) => {
   return (
     <Container>
       <RegisterButton onClick={onClick}>나의 추천책으로 등록</RegisterButton>
-      <RegisterButton onClick={onChallengeClick}>
-        나의 챌린지 책으로 등록
-      </RegisterButton>
     </Container>
   );
 };

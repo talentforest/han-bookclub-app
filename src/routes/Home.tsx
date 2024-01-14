@@ -6,6 +6,7 @@ import {
   existDocObj,
   BOOK_FIELD_HOST,
   thisMonth,
+  CHALLENGE,
 } from 'util/index';
 import { getDocument } from 'api/getFbDoc';
 import { useRecoilState } from 'recoil';
@@ -21,6 +22,7 @@ import styled from 'styled-components';
 import ClubBookBox from 'components/atoms/box/ClubBookBox';
 import HeaderBox from 'components/atoms/box/HeaderBox';
 import ChallengeBookBox from 'components/atoms/box/ChallengeBookBox';
+import RecommendedBooksScrollBox from 'components/atoms/RecommendedBooksScrollBox';
 
 const Home = () => {
   const [thisYearHosts, setThisYearHosts] = useRecoilState(fieldHostDocState);
@@ -36,10 +38,11 @@ const Home = () => {
     if (!existDocObj(thisYearHosts)) {
       getDocument(BOOK_FIELD_HOST, `${thisYear}`, setThisYearHosts);
     }
-    getDocument('Challenge', `${thisYear}`, setChallengeBook);
+
     if (thisYearMonthIso) {
       getDocument(THIS_YEAR_BOOKCLUB, `${thisYearMonthIso}`, setThisMonthClub);
     }
+    getDocument(CHALLENGE, `${thisYear}`, setChallengeBook);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -77,8 +80,13 @@ const Home = () => {
       </Section>
 
       <Section>
-        <Subtitle title={`${thisYear} 한페이지의 독서분야와 발제자`} />
+        <Subtitle title={`한페이지 멤버들의 추천책`} />
 
+        <RecommendedBooksScrollBox />
+      </Section>
+
+      <Section>
+        <Subtitle title={`${thisYear} 한페이지의 독서분야와 발제자`} />
         <BookFieldHostBox />
       </Section>
 

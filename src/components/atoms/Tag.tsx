@@ -9,7 +9,7 @@ export default function Tag({ name }: Props) {
 }
 
 const InfoTag = styled.h1`
-  padding: 9px 14px 7px;
+  padding: 8px 14px 6px;
   box-shadow: ${(props) => props.theme.boxShadow};
   border-radius: 30px;
   color: #333;
