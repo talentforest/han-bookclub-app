@@ -2,17 +2,27 @@ import styled from 'styled-components';
 
 interface Props {
   name: string;
+  roundedFull?: boolean;
+  bgColor?: string;
 }
 
-export default function Tag({ name }: Props) {
-  return <InfoTag>{name}</InfoTag>;
+export default function Tag({
+  name,
+  roundedFull = true,
+  bgColor = '#d1e9ff',
+}: Props) {
+  return (
+    <InfoTag $rounded={roundedFull} $color={bgColor}>
+      {name}
+    </InfoTag>
+  );
 }
 
-const InfoTag = styled.h1`
-  padding: 8px 14px 6px;
+const InfoTag = styled.h1<{ $rounded: boolean; $color: string }>`
+  padding: 7px 14px 5px;
   box-shadow: ${(props) => props.theme.boxShadow};
-  border-radius: 30px;
+  border-radius: ${(props) => (props.$rounded ? '30px' : '8px')};
   color: #333;
-  background-color: #d1e9ff;
-  font-size: 15px;
+  background-color: ${(props) => props.$color};
+  font-size: 14px;
 `;

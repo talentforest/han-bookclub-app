@@ -59,7 +59,7 @@ export default function HeaderBox({ header, meeting }: Props) {
 
       <InfoBox>
         {header === '이달의 발제자' &&
-          thisMonthHosts.map((host) => <NameTag key={host} name={host} />)}
+          thisMonthHosts?.map((host) => <NameTag key={host} name={host} />)}
 
         {header === '모임 시간' && (
           <p className={meeting.time === 0 ? 'no_info' : ''}>

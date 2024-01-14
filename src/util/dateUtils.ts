@@ -49,4 +49,4 @@ export function getDDay(deadline: string) {
   return `${diffDay + 1}일`;
 }
 
-export const clubYearArr = ['2021', '2022', '2023'];
+export const clubYearArr = ['2024', '2023', '2022', '2021'];

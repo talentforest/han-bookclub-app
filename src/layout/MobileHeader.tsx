@@ -57,10 +57,12 @@ const MobileHeader = () => {
     <>
       {mainPageTitle() && (
         <Header>
-          <img
-            src={`${process.env.PUBLIC_URL}/hanpage_logo.png`}
-            alt='독서모임 한페이지 로고'
-          />
+          {mainPageTitle() === '독서모임 한페이지' && (
+            <img
+              src={`${process.env.PUBLIC_URL}/hanpage_logo.png`}
+              alt='독서모임 한페이지 로고'
+            />
+          )}
           {mainPageTitle()}
         </Header>
       )}
@@ -83,6 +85,7 @@ const MobileHeader = () => {
 
 export const Header = styled.header`
   padding: 15px 20px 5px;
+  height: 50px;
   position: relative;
   color: ${(props) => props.theme.text.gray};
   display: flex;
