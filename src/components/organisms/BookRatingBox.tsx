@@ -1,4 +1,3 @@
-import BasicRating from 'components/atoms/BasicRating';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -22,11 +21,6 @@ const BookRatingBox = ({
       {thumbnail ? <img src={thumbnail} alt={`${title}`} /> : <></>}
       <Info $readOnly={readOnly}>
         {!readOnly && <span>이달의 책에 대한 별점 남기기</span>}
-        <BasicRating
-          rating={rating}
-          setRating={setRating}
-          readOnly={readOnly}
-        />
       </Info>
     </Rating>
   );

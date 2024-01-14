@@ -1,4 +1,3 @@
-import { CircularProgress } from '@mui/material';
 import styled from 'styled-components';
 
 interface ILoadingProps {
@@ -6,11 +5,7 @@ interface ILoadingProps {
 }
 
 const Loading = ({ height }: ILoadingProps) => {
-  return (
-    <LoadingBox $height={height}>
-      <CircularProgress size={40} />
-    </LoadingBox>
-  );
+  return <LoadingBox $height={height}>로딩중...</LoadingBox>;
 };
 
 const LoadingBox = styled.div<{ $height: string }>`
