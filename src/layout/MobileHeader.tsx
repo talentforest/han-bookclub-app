@@ -1,3 +1,4 @@
+import { FiChevronLeft } from 'react-icons/fi';
 import { Link, useLocation, useMatch, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
@@ -9,7 +10,11 @@ const MobileHeader = () => {
   const searchDetailMatch = useMatch('/search/:id');
   const voteDetailMatch = useMatch('/vote/:id');
   const historyDetailMatch = useMatch('/history/:id');
-  const bookClubMatch = useMatch('/bookclub/*');
+  const historyHostReviewMatch = useMatch('/history/:id/host-review');
+  const historySubjectsMatch = useMatch('/history/:id/subjects');
+  const bookClubMatch = useMatch('/bookclub');
+  const bookClubSubjectsMatch = useMatch('/bookclub/subjects');
+  const bookClubHostReviewMatch = useMatch('/bookclub/host-review');
 
   const onBackClick = () => navigate(-1);
 
@@ -30,7 +35,24 @@ const MobileHeader = () => {
   function detailPageTitle() {
     if (searchDetailMatch) return '도서 정보';
     if (voteDetailMatch) return '투표함';
-    if (historyDetailMatch) return '지난 한페이지';
+    if (historyDetailMatch) {
+      const year = historyDetailMatch.params.id.slice(0, 4);
+      const month = historyDetailMatch.params.id.slice(-2);
+      return `${year}년 ${month}월의 한페이지 모임`;
+    }
+    if (historyHostReviewMatch) {
+      const year = historyHostReviewMatch.params.id.slice(0, 4);
+      const month = historyHostReviewMatch.params.id.slice(-2);
+      return `${year}년 ${month}월 모임의 정리 기록`;
+    }
+    if (historySubjectsMatch) {
+      const year = historySubjectsMatch.params.id.slice(0, 4);
+      const month = historySubjectsMatch.params.id.slice(-2);
+      return `${year}년 ${month}월 모임의 발제문`;
+    }
+    if (bookClubSubjectsMatch) return '이달의 한페이지 발제문';
+    if (bookClubHostReviewMatch) return '이달의 한페이지 정리 기록';
+
     switch (pathname) {
       case '/login':
         return '뒤로가기';
@@ -41,13 +63,13 @@ const MobileHeader = () => {
       case '/setting/edit-profile':
         return '프로필 정보';
       case '/setting/edit-password':
-        return '비밀번호 변경하기';
+        return '비밀번호 변경';
       case '/create_account':
-        return '계정 생성하기';
+        return '계정 생성';
       case '/setting/delete-account':
         return '탈퇴';
       case '/search':
-        return '책 검색하기';
+        return '도서 검색';
       default:
         break;
     }
@@ -69,6 +91,7 @@ const MobileHeader = () => {
 
       {detailPageTitle() && (
         <BackButtonHeader onClick={onBackClick}>
+          <FiChevronLeft fontSize={22} style={{ margin: '0 4px 2px 0' }} />
           {detailPageTitle()}
         </BackButtonHeader>
       )}
@@ -84,8 +107,8 @@ const MobileHeader = () => {
 };
 
 export const Header = styled.header`
-  padding: 15px 20px 5px;
-  height: 50px;
+  padding: 20px 20px 5px;
+  height: 40px;
   position: relative;
   color: ${(props) => props.theme.text.gray};
   display: flex;
@@ -135,13 +158,7 @@ const BackButtonHeader = styled(Header)`
   justify-content: flex-start;
   align-items: center;
   width: fit-content;
-  svg {
-    cursor: pointer;
-    width: 18px;
-    height: 18px;
-    padding-bottom: 2px;
-    margin-right: 5px;
-  }
+
   @media ${device.tablet} {
     /* 계정 생성하기를 위한 css */
     margin: 40px 60px;

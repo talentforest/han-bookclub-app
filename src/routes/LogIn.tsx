@@ -1,13 +1,12 @@
 import { Link } from 'react-router-dom';
 import { authService } from 'fbase';
 import device from 'theme/mediaQueries';
-import styled from 'styled-components';
 import EmailInput from 'components/atoms/inputs/EmailInput';
 import PwInput from 'components/atoms/inputs/PwInput';
 import useLogIn from 'hooks/useLogIn';
 import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
-import LinkBtn from 'components/atoms/buttons/LinkBtn';
 import HandleBtn from 'components/atoms/buttons/HandleBtn';
+import styled from 'styled-components';
 
 interface ILoginProps {
   isLoggedIn: boolean;
@@ -45,7 +44,7 @@ const LogIn = ({ isLoggedIn }: ILoginProps) => {
         />
         <ErrorMessage>{error}</ErrorMessage>
         <SubmitBtn children='로그인' />
-        <LinkBtn to='/create_account'>회원가입</LinkBtn>
+        <Link to='/create_account'>회원가입</Link>
       </Form>
       {!anonymous && (
         <HandleBtn
@@ -76,6 +75,7 @@ const Main = styled.main<{ $anonymous: boolean }>`
     }
   }
 `;
+
 const Logo = styled.img`
   height: 100px;
   width: 100px;
@@ -95,6 +95,7 @@ const Header = styled.header`
     font-size: 30px;
   }
 `;
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -107,6 +108,7 @@ const Form = styled.form`
     width: 50%;
   }
 `;
+
 export const ErrorMessage = styled.span`
   font-size: 14px;
   font-weight: 700;
@@ -116,6 +118,7 @@ export const ErrorMessage = styled.span`
     font-size: 16px;
   }
 `;
+
 const Footer = styled.footer`
   text-align: center;
   margin-top: 20px;

@@ -60,7 +60,7 @@ export const ResetStyle = createGlobalStyle`
     color: ${(props) => props.theme.text.gray}
   }
   ol,
-  ul {
+  ul, li {
     list-style: none;
   }
   html,
@@ -182,5 +182,8 @@ export const ResetStyle = createGlobalStyle`
     white-space: pre-wrap;
     word-wrap: break-word;
     line-height: 1.6;
+  }
+  h1, h2, h3, h4, h5, h6, span, p, textarea {
+    line-height: 1.6
   }
 `;

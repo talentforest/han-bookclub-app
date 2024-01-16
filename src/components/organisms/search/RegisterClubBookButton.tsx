@@ -1,5 +1,5 @@
 import { IBookApi } from 'data/bookAtom';
-import { thisYearMonthIso } from 'util/index';
+import { thisYearMonthId } from 'util/index';
 import useSetBookClubDoc from 'hooks/useSetBookClubDoc';
 import styled from 'styled-components';
 
@@ -18,19 +18,19 @@ const RegisterClubBookButton = ({ searchedBook }: PropsType) => {
     <SelectBox onSubmit={onSubmit}>
       <CalenderInput
         type='month'
-        defaultValue={thisYearMonthIso}
+        defaultValue={thisYearMonthId}
         name='thisMonthBook'
         onChange={onMonthChange}
       />
       {toggle ? (
         <Registered type='submit'>
-          독서모임 도서
+          독서모임 책
           <br />
           선정 완료
         </Registered>
       ) : (
         <RegisterBtn type='submit'>
-          독서모임 도서로
+          독서모임 책으로
           <br />
           선정하기
         </RegisterBtn>

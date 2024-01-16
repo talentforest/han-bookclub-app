@@ -3,15 +3,11 @@ import { cutLetter, getFbRoute, getLocalDate, existDocObj } from 'util/index';
 import { IDocument } from 'data/documentsAtom';
 import { useEffect, useState } from 'react';
 import { getDocument } from 'api/getFbDoc';
-import { Modal } from '../bookclubthismonth/SubjectCreateModal';
-import { ScrollContent, RegisterTime } from '../RecordBox';
 import { skeletonAnimation } from 'theme/skeleton';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import Overlay from 'components/atoms/Overlay';
 import UsernameBox from '../UsernameBox';
-import RecordFooter from 'components/atoms/RecordFooter';
-import BookRatingBox from '../BookRatingBox';
+import RatingBox from '../RatingBox';
 
 interface PropsType {
   recordId: IUserRecord;
@@ -60,31 +56,24 @@ const MyRecord = ({ recordId, recordSort }: PropsType) => {
             </Btn>
           </Record>
           {openModal && (
-            <>
-              <Overlay onModalClick={handleModal} />
-              <MyRecordModal>
-                <Box>
-                  <Header>
-                    <UsernameBox creatorId={record?.creatorId} />
-                    <RegisterTime>
-                      {getLocalDate(record?.createdAt)}
-                    </RegisterTime>
-                  </Header>
-                  {!!record.rating && (
-                    <BookRatingBox
-                      thumbnail={record.thumbnail}
-                      title={record.title}
-                      rating={record.rating}
-                      readOnly
-                    />
-                  )}
-                  <ScrollContent
-                    dangerouslySetInnerHTML={{ __html: record.text }}
+            <MyRecordModal>
+              <Box>
+                <Header>
+                  <UsernameBox creatorId={record?.creatorId} />
+                  <div>{getLocalDate(record?.createdAt)}</div>
+                </Header>
+                {!!record.rating && (
+                  <RatingBox
+                    thumbnail={record.thumbnail}
+                    title={record.title}
+                    rating={record.rating}
+                    readOnly
                   />
-                  <RecordFooter record={record} />
-                </Box>
-              </MyRecordModal>
-            </>
+                )}
+                <div dangerouslySetInnerHTML={{ __html: record.text }} />
+                {/* <RecordFooter record={record} /> */}
+              </Box>
+            </MyRecordModal>
           )}
         </>
       ) : (
@@ -170,7 +159,7 @@ export const Btn = styled.button`
     font-size: 14px;
   }
 `;
-export const MyRecordModal = styled(Modal)`
+export const MyRecordModal = styled.div`
   max-height: 82vh;
   border: 1px solid red;
   padding: 0;

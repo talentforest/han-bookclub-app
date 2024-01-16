@@ -3,7 +3,7 @@ import { dbService } from 'fbase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { thisYearMonthIso, THIS_YEAR_BOOKCLUB } from 'util/index';
+import { thisYearMonthId, THIS_YEAR_BOOKCLUB } from 'util/index';
 import useAlertAskJoin from './useAlertAskJoin';
 
 const useHandleSchedule = (meeting: ISchedule) => {
@@ -16,7 +16,7 @@ const useHandleSchedule = (meeting: ISchedule) => {
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
 
-  const document = doc(dbService, THIS_YEAR_BOOKCLUB, `${thisYearMonthIso}`);
+  const document = doc(dbService, THIS_YEAR_BOOKCLUB, thisYearMonthId);
 
   const onTimeSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

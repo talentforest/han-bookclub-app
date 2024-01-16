@@ -10,15 +10,13 @@ import MyRecommendBook from 'components/organisms/mybookshelf/MyRecommendBook';
 import MyRecord from 'components/organisms/mybookshelf/MyRecord';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
-import Loading from 'components/atoms/loadings/Loading';
-import CategoryBtns from 'components/organisms/CategoryBtns';
+import Loading from 'components/atoms/Loading';
 import Subtitle from 'components/atoms/Subtitle';
 import Guide from 'components/atoms/Guide';
-import useCategory from 'hooks/useCategory';
 
 const MyBookshelf = () => {
   const [userExtraData, setUserExtraData] = useRecoilState(userExtraInfoState);
-  const { category, onCategoryClick } = useCategory();
+
   const currentUser = useRecoilValue(currentUserState);
   const anonymous = authService.currentUser?.isAnonymous;
 
@@ -88,50 +86,42 @@ const MyBookshelf = () => {
       <Section>
         <Subtitle title='나의 독서모임 기록' />
         <Guide text='2022년 6월 이후의 기록이 제공됩니다.' />
-        <CategoryBtns
-          category={category}
-          onCategoryClick={onCategoryClick}
-          myRecord
-        />
         {anonymous && <EmptyBox>익명의 방문자입니다!</EmptyBox>}
         {!anonymous &&
           (existDocObj(userExtraData?.userRecords || {}) ? (
             <RecordList>
-              {category === 'recommends' &&
-                (recommendedBooks.length ? (
-                  recommendedBooks?.map((recommendedBookId) => (
-                    <MyRecommendBook
-                      key={recommendedBookId.docId}
-                      recommendedBookId={recommendedBookId}
-                    />
-                  ))
-                ) : (
-                  <EmptyBox>아직 추천했던 책이 없어요.</EmptyBox>
-                ))}
-              {category === 'subjects' &&
-                (subjects.length ? (
-                  subjects.map((subjectId) => (
-                    <MyRecord
-                      key={subjectId.docId}
-                      recordId={subjectId}
-                      recordSort='subjects'
-                    />
-                  ))
-                ) : (
-                  <EmptyBox>아직 작성한 발제문이 없어요.</EmptyBox>
-                ))}
-              {category === 'reviews' &&
-                (reviews.length ? (
-                  reviews.map((reviewId) => (
-                    <MyRecord
-                      key={reviewId.docId}
-                      recordId={reviewId}
-                      recordSort='reviews'
-                    />
-                  ))
-                ) : (
-                  <EmptyBox>아직 작성한 모임 후기가 없어요.</EmptyBox>
-                ))}
+              {recommendedBooks.length ? (
+                recommendedBooks?.map((recommendedBookId) => (
+                  <MyRecommendBook
+                    key={recommendedBookId.docId}
+                    recommendedBookId={recommendedBookId}
+                  />
+                ))
+              ) : (
+                <EmptyBox>아직 추천했던 책이 없어요.</EmptyBox>
+              )}
+              {subjects.length ? (
+                subjects.map((subjectId) => (
+                  <MyRecord
+                    key={subjectId.docId}
+                    recordId={subjectId}
+                    recordSort='subjects'
+                  />
+                ))
+              ) : (
+                <EmptyBox>아직 작성한 발제문이 없어요.</EmptyBox>
+              )}
+              {reviews.length ? (
+                reviews.map((reviewId) => (
+                  <MyRecord
+                    key={reviewId.docId}
+                    recordId={reviewId}
+                    recordSort='reviews'
+                  />
+                ))
+              ) : (
+                <EmptyBox>아직 작성한 모임 후기가 없어요.</EmptyBox>
+              )}
             </RecordList>
           ) : (
             <Loading height='35vh' />

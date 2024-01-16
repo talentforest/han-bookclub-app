@@ -59,9 +59,9 @@
 >
 > - #### 로그인과 회원가입
 >
-> - #### 이달의 도서에 대한 글 작성, 수정, 삭제 기능
+> - #### 이달의 모임책에 대한 글 작성, 수정, 삭제 기능
 >
-> - #### 카카오 도서 검색 API를 통한 도서 검색 기능
+> - #### 카카오 책 검색 API를 통한 책 검색 기능
 >
 > - #### 카카오톡으로 공유 기능
 >
@@ -107,7 +107,7 @@
 - 회원가입 절차를 통한 회원들의 정보 등록
   - 각 멤버의 이름과 성별, 좋아하는 책분야 정보를 Firebase에 database에 저장합니다.
 
-### 이달의 도서에 대한 글 작성, 수정, 삭제 기능
+### 이달의 책에 대한 글 작성, 수정, 삭제 기능
 
 - <strong>추천한 책 | 발제문 | 모임 후기</strong> 이렇게 세가지 작성 카테고리로 구분되어 있습니다.
 
@@ -116,9 +116,9 @@
   <img src="https://user-images.githubusercontent.com/91457443/214678075-a9c5b318-80b7-4bf1-8cca-341514016e8f.png" width="25%">
 </div>
 
-### 카카오 도서 검색 API를 통한 도서 검색 기능
+### 카카오 책 검색 API를 통한 책 검색 기능
 
-- 추천한 책 카테고리에서 추천하고 싶은 책은 카카오 도서 검색 api로 정보를 찾아 해당 정보를 등록할 수 있습니다.
+- 추천한 책 카테고리에서 추천하고 싶은 책은 카카오 책 검색 api로 정보를 찾아 해당 정보를 등록할 수 있습니다.
 
 <div>
   <img src="https://user-images.githubusercontent.com/91457443/214673665-0b047c4c-96e6-447e-84c9-910ca8c88c78.png" width="25%">
@@ -174,7 +174,7 @@
 ├── node_modules
 ├── public
 ├── src
-│   ├── api  # 서버와 통신하는 API, (ex.카카오톡 도서 검색, Firebase 문서 데이터 검색)
+│   ├── api  # 서버와 통신하는 API, (ex.카카오톡 책 검색, Firebase 문서 데이터 검색)
 │   ├── component
 │   │   ├── atom  # 전역에서 재사용되는 가장 작은 컴포넌트
 │   │   ├── organisms  # 여러개의 atom들을 조합한 컴포넌트
@@ -217,12 +217,12 @@
     const [thisMonthClub, setThisMonthClub] = useRecoilState(thisMonthClubState);
     // recoil의 상태에 이번달 클럽 데이터 저장한다.
     const { book, meeting, id } = thisMonthClub;
-    const shouldUpdateBookClub = id !== thisYearMonthIso;
+    const shouldUpdateBookClub = id !== thisYearMonthId;
     // 북클럽 데이터의 아이디는 연도와 월(ex.2022-02), 현재 아이디가 이번 연도와 월과 맞지 않는 경우
 
     useEffect(() => {
       if (shouldUpdateBookClub) {
-        getDocument(THIS_YEAR_BOOKCLUB, `${thisYearMonthIso}`, setThisMonthClub);
+        getDocument(THIS_YEAR_BOOKCLUB, thisYearMonthId, setThisMonthClub);
       }
       // 이와 같은 경우에는 서버에서 새로운 데이터를 불러오며, 로컬스토리지에 이번달 클럽정보를 저장해 다음에 접속했을 때는 로컬스토리지에 저장된 클럽 정보를 사용한다.
     }, []);

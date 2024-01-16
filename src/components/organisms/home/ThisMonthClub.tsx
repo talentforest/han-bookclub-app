@@ -1,7 +1,7 @@
 import { getDocument } from 'api/getFbDoc';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { THIS_YEAR_BOOKCLUB, thisYearMonthIso } from 'util/index';
+import { THIS_YEAR_BOOKCLUB, thisYearMonthId } from 'util/index';
 import { thisMonthClubState } from 'data/documentsAtom';
 import ClubBookBox from 'components/atoms/box/ClubBookBox';
 import HeaderBox from 'components/atoms/box/HeaderBox';
@@ -13,8 +13,8 @@ export default function ThisMonthClub() {
   const { book, meeting } = thisMonthClub;
 
   useEffect(() => {
-    if (thisYearMonthIso) {
-      getDocument(THIS_YEAR_BOOKCLUB, `${thisYearMonthIso}`, setThisMonthClub);
+    if (thisYearMonthId) {
+      getDocument(THIS_YEAR_BOOKCLUB, thisYearMonthId, setThisMonthClub);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -35,5 +35,5 @@ export default function ThisMonthClub() {
 const BoxesContainer = styled.div`
   display: flex;
   margin-top: 12px;
-  gap: 12px;
+  gap: 10px;
 `;

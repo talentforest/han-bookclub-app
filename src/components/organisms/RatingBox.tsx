@@ -1,5 +1,8 @@
+import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
+
+import '@smastrom/react-rating/style.css';
 
 interface IBookRatingProps {
   thumbnail: string;
@@ -9,7 +12,7 @@ interface IBookRatingProps {
   readOnly?: boolean;
 }
 
-const BookRatingBox = ({
+const RatingBox = ({
   thumbnail,
   title,
   rating,
@@ -17,38 +20,30 @@ const BookRatingBox = ({
   readOnly,
 }: IBookRatingProps) => {
   return (
-    <Rating $readOnly={readOnly}>
-      {thumbnail ? <img src={thumbnail} alt={`${title}`} /> : <></>}
+    <Box $readOnly={readOnly}>
+      {thumbnail && <BookThumbnailImg title={title} thumbnail={thumbnail} />}
+
       <Info $readOnly={readOnly}>
         {!readOnly && <span>이달의 책에 대한 별점 남기기</span>}
       </Info>
-    </Rating>
+    </Box>
   );
 };
 
-const Rating = styled.div<{ $readOnly: boolean }>`
+const Box = styled.div<{ $readOnly: boolean }>`
   display: flex;
-  align-items: center;
-  margin-bottom: 5px;
+  height: 38px;
+  justify-content: start;
+  align-items: start;
+  flex: 1;
+  /* border: 1px solid red; */
   > img {
-    box-shadow: ${(props) => props.theme.boxShadow};
-    width: auto;
-    height: ${(props) => (props.$readOnly ? '20px' : '30px')};
-  }
-  > svg {
-    width: ${(props) => (props.$readOnly ? '18px' : '40px')};
-    height: ${(props) => (props.$readOnly ? '18px' : '30px')};
+    border-radius: 2px;
   }
   @media ${device.tablet} {
-    > img {
-      height: ${(props) => (props.$readOnly ? '30px' : '40px')};
-    }
-    > svg {
-      width: ${(props) => (props.$readOnly ? '30px' : '50px')};
-      height: ${(props) => (props.$readOnly ? '30px' : '40px')};
-    }
   }
 `;
+
 const Info = styled.div<{ $readOnly: boolean }>`
   display: flex;
   flex-direction: column;
@@ -57,6 +52,7 @@ const Info = styled.div<{ $readOnly: boolean }>`
   > span {
     color: ${(props) => props.theme.text.accent};
     padding-left: 3px;
+    font-size: 14px;
   }
   svg {
     width: ${(props) => (props.$readOnly ? '18px' : '24px')};
@@ -71,4 +67,4 @@ const Info = styled.div<{ $readOnly: boolean }>`
   }
 `;
 
-export default BookRatingBox;
+export default RatingBox;

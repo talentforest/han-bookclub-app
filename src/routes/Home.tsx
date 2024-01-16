@@ -39,8 +39,8 @@ const Home = () => {
   );
 };
 
-const Section = styled.section`
-  margin-bottom: 60px;
+export const Section = styled.section`
+  margin-bottom: 50px;
 `;
 
 export default Home;

@@ -3,7 +3,6 @@ import { authService, dbService } from 'fbase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import useAlertAskJoin from './useAlertAskJoin';
 
 interface IHandleLikeProps {
   likes: number;
@@ -24,23 +23,23 @@ const useHandleLike = ({
   const anonymous = authService.currentUser?.isAnonymous;
 
   const onLikeClick = async () => {
-    if (!collName) return;
-    if (anonymous)
-      return window.alert('익명의 방문자는 좋아요를 누를 수 없습니다.');
+    if (!collName || anonymous) return;
+
     const docRef = doc(dbService, collName, `${docId}`);
+
     if (like) {
       setShowLikeUsers(false);
       await updateDoc(docRef, {
         likes: likes - 1,
         likeUsers: likeUsers.filter((uid) => uid !== currentUser.uid),
       });
-    }
-    if (!like) {
+    } else {
       await updateDoc(docRef, {
         likes: likes + 1,
         likeUsers: [...likeUsers, currentUser.uid],
       });
     }
+
     setLike((prev) => !prev);
   };
 

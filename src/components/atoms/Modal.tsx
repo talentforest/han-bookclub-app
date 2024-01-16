@@ -1,18 +1,24 @@
 import styled from 'styled-components';
-import Overlay from './Overlay';
 import { ReactNode } from 'react';
 
 interface Props {
-  onModalToggleClick: () => void;
+  onToggleClick: () => void;
+  width?: string;
   title: string;
   children: ReactNode;
 }
 
-export default function Modal({ onModalToggleClick, title, children }: Props) {
+export default function Modal({
+  onToggleClick,
+  title,
+  width = '90%',
+  children,
+}: Props) {
   return (
     <>
-      <Overlay onModalClick={onModalToggleClick} />
-      <BoxModal>
+      <OverlayBox onClick={onToggleClick} />
+
+      <BoxModal $width={width}>
         <h3>{title}</h3>
         {children}
       </BoxModal>
@@ -20,14 +26,14 @@ export default function Modal({ onModalToggleClick, title, children }: Props) {
   );
 }
 
-const BoxModal = styled.section`
-  z-index: 10;
-  width: 308px;
+const BoxModal = styled.section<{ $width: string }>`
+  z-index: 100;
+  width: ${(props) => props.$width};
   height: min-content;
   position: fixed;
   display: flex;
   flex-direction: column;
-  padding: 15px;
+  padding: 12px;
   margin: auto;
   top: 0;
   right: 0;
@@ -38,6 +44,21 @@ const BoxModal = styled.section`
 
   > h3 {
     font-size: 18px;
-    margin-bottom: 10px;
+    margin-left: 4px;
+    margin-bottom: 4px;
   }
+`;
+
+const OverlayBox = styled.div`
+  cursor: pointer;
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
 `;

@@ -10,13 +10,10 @@ import {
   MyRecordModal,
   Record,
 } from './MyRecord';
-import { ScrollContent } from '../RecordBox';
 import { useEffect, useState } from 'react';
 import { getDocument } from 'api/getFbDoc';
-import Overlay from 'components/atoms/Overlay';
 import UsernameBox from '../UsernameBox';
 import styled from 'styled-components';
-import RecordFooter from 'components/atoms/RecordFooter';
 
 interface PropsType {
   recommendedBookId: IUserRecord;
@@ -56,30 +53,27 @@ const MyRecommendBook = ({ recommendedBookId }: PropsType) => {
         </Record>
       )}
       {openModal && (
-        <>
-          <Overlay onModalClick={handleModal} />
-          <MyRecordModal>
-            <Box>
-              <Header>
-                <UsernameBox creatorId={creatorId} />
-                <span>{getLocalDate(createdAt)}</span>
-              </Header>
-              <RecommendedBookInfo>
-                <img
-                  src={recommendedBook?.thumbnail}
-                  alt={`${recommendedBook?.title} thumbnail`}
-                />
-                <Detail>
-                  <h5>{recommendedBook?.title}</h5>
-                  <span>{recommendedBook?.authors}</span>
-                  <a href={recommendedBook?.url}>상세정보 보러가기</a>
-                </Detail>
-              </RecommendedBookInfo>
-              <ScrollContent dangerouslySetInnerHTML={{ __html: text }} />
-              <RecordFooter record={myRecommendedBook} />
-            </Box>
-          </MyRecordModal>
-        </>
+        <MyRecordModal>
+          <Box>
+            <Header>
+              <UsernameBox creatorId={creatorId} />
+              <span>{getLocalDate(createdAt)}</span>
+            </Header>
+            <RecommendedBookInfo>
+              <img
+                src={recommendedBook?.thumbnail}
+                alt={`${recommendedBook?.title} thumbnail`}
+              />
+              <Detail>
+                <h5>{recommendedBook?.title}</h5>
+                <span>{recommendedBook?.authors}</span>
+                <a href={recommendedBook?.url}>상세정보 보러가기</a>
+              </Detail>
+            </RecommendedBookInfo>
+            <div dangerouslySetInnerHTML={{ __html: text }} />
+            {/* <RecordFooter record={myRecommendedBook} /> */}
+          </Box>
+        </MyRecordModal>
       )}
     </>
   );

@@ -17,6 +17,7 @@ import {
 } from 'util/index';
 import { useRecoilValue } from 'recoil';
 import { fieldHostDocState } from 'data/bookFieldHostAtom';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
   header: '이달의 발제자' | '모임 시간' | '모임 장소';
@@ -27,6 +28,8 @@ export default function HeaderBox({ header, meeting }: Props) {
   const [showTagList, setShowTagList] = useState(false);
   const [placeDoc, setPlaceDoc] = useState({ id: '', place: [] });
   const bookFieldHostDoc = useRecoilValue(fieldHostDocState);
+
+  const { pathname } = useLocation();
 
   const placeInputRef = useRef<HTMLInputElement>(null);
 
@@ -74,17 +77,18 @@ export default function HeaderBox({ header, meeting }: Props) {
           </p>
         )}
 
-        {header !== '이달의 발제자' && <FiEdit3Btn onClick={onEditClick} />}
+        {header !== '이달의 발제자' && pathname !== '/' && (
+          <FiEdit3Btn onClick={onEditClick} />
+        )}
       </InfoBox>
 
       {isEditing && header === '모임 시간' && (
-        <Modal title='모임 시간' onModalToggleClick={onEditClick}>
+        <Modal title='모임 시간' width='300px' onToggleClick={onEditClick}>
           <form onSubmit={onTimeSubmit}>
             <BoxLabeledInput
               label='모임 시간'
               value={time}
               setValue={setTime}
-              onEditClick={onEditClick}
             />
             <SubmitBtn type='submit' value='설정하기' />
           </form>
@@ -92,7 +96,7 @@ export default function HeaderBox({ header, meeting }: Props) {
       )}
 
       {isEditing && header === '모임 장소' && (
-        <Modal title='모임 장소' onModalToggleClick={onEditClick}>
+        <Modal title='모임 장소' width='300px' onToggleClick={onEditClick}>
           <form onSubmit={onPlaceSubmit}>
             <BoxLabeledInput
               label='모임 장소'
@@ -101,7 +105,6 @@ export default function HeaderBox({ header, meeting }: Props) {
               placeInputRef={placeInputRef}
               onFocus={onFocus}
               onBlur={onBlur}
-              onEditClick={onEditClick}
             />
             <TagListBox $height={showTagList ? 100 : 0}>
               <span>추천장소</span>
@@ -127,7 +130,6 @@ export default function HeaderBox({ header, meeting }: Props) {
 const Box = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: ${(props) => props.theme.boxShadow};
   border-radius: 10px;
@@ -164,7 +166,6 @@ const InfoBox = styled.div`
   flex-direction: column;
   gap: 6px;
   p {
-    width: 90px;
     font-size: 16px;
     word-spacing: -1px;
     text-align: center;

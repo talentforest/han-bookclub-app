@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
-import { clubYearArr } from 'util/index';
+import { clubYearArr, thisYearMonthId } from 'util/index';
 import { getCollection } from 'api/getFbDoc';
 import { clubInfoByYearState } from 'data/documentsAtom';
 import { selectedYearAtom } from 'data/selectedYearAtom';
 import { useRecoilState } from 'recoil';
-import HistoryBox from 'components/organisms/bookclubhistory/HistoryBox';
+import { Link } from 'react-router-dom';
+import { HiMiniArrowUpRight } from 'react-icons/hi2';
+import HistoryClubBookBox from 'components/atoms/box/HistoryClubBookBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import Tag from 'components/atoms/Tag';
@@ -16,6 +18,10 @@ const BookClubHistory = () => {
   useEffect(() => {
     getCollection(`BookClub-${selectedYear}`, setClubInfoDocs);
   }, [setClubInfoDocs, selectedYear]);
+
+  const clubHistory = clubInfoDocs?.filter(
+    (doc) => doc?.id !== thisYearMonthId
+  );
 
   return (
     <main>
@@ -30,9 +36,22 @@ const BookClubHistory = () => {
       </YearTagList>
 
       <HistoryList>
-        {clubInfoDocs.length !== 0 ? (
-          clubInfoDocs?.map((document) => (
-            <HistoryBox key={document.id} document={document} />
+        {!!clubHistory?.length ? (
+          clubHistory?.map((document) => (
+            <li key={document.id}>
+              <Link to={document.id} state={{ document }}>
+                {document && <HistoryClubBookBox document={document} />}
+
+                <HiMiniArrowUpRight
+                  fill='#aaa'
+                  style={{
+                    position: 'absolute',
+                    bottom: '10px',
+                    right: '10px',
+                  }}
+                />
+              </Link>
+            </li>
           ))
         ) : (
           <EmptyBox>독서모임에 아직 등록된 책이 없습니다.</EmptyBox>
@@ -64,6 +83,10 @@ const HistoryList = styled.ul`
   flex-direction: column;
   gap: 10px;
 
+  li {
+    position: relative;
+  }
+
   @media ${device.tablet} {
     display: grid;
     margin-top: 20px;
@@ -78,11 +101,12 @@ const HistoryList = styled.ul`
 
 const EmptyBox = styled.div`
   width: 100%;
-  font-size: 14px;
-  font-weight: 700;
-  text-align: center;
-  margin-top: 20px;
-  padding: 30px 0;
+  height: 135px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: #aaa;
   border-radius: 10px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: ${(props) => props.theme.boxShadow};

@@ -8,14 +8,14 @@ interface Props {
 export default function NameTag({ name }: Props) {
   return (
     <TagItem>
-      <UsernameBox fontSize={14} creatorId={name} />
+      <UsernameBox fontSize={13} creatorId={name} />
     </TagItem>
   );
 }
 
 const TagItem = styled.li`
   border-radius: 5px;
-  padding: 0 8px;
+  padding: 0 6px;
   background-color: #eee;
   list-style: none;
   height: 25px;

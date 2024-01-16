@@ -13,7 +13,7 @@ export default function ClubBookBox({ book }: Props) {
   return (
     <Box>
       <div>
-        <Tag name={`${thisMonth}월의 모임책`} />
+        <Tag name={`${thisMonth}월의 모임`} />
 
         {book.title === '' ? (
           <NoInfoText>아직 등록된 책이 없어요.</NoInfoText>
@@ -27,7 +27,7 @@ export default function ClubBookBox({ book }: Props) {
             </div>
 
             <div>
-              <FiLink fontSize={11} />
+              <FiLink fontSize={10} stroke='#888' />
               <a href={book.url} target='_blank' rel='noreferrer'>
                 상세정보 보러가기
               </a>
@@ -67,7 +67,7 @@ const Box = styled.div`
 
 const BookTextInfo = styled.div`
   width: 100%;
-  margin-top: 16px;
+  margin-top: 10px;
   padding-left: 4px;
 
   > h1 {
@@ -75,21 +75,19 @@ const BookTextInfo = styled.div`
   }
 
   > div {
-    margin-top: 2px;
     display: flex;
     align-items: center;
 
     > span {
       font-size: 15px;
-      color: #888;
+      color: #666;
       line-height: 24px;
-      margin-bottom: 4px;
     }
 
     > a {
       margin: 3px 0 0 3px;
       color: #aaa;
-      font-size: 14px;
+      font-size: 13px;
     }
   }
 `;

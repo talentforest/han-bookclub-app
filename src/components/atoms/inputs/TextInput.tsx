@@ -4,9 +4,9 @@ import device from 'theme/mediaQueries';
 
 interface ITextInputProps {
   name?: string;
-  placeholder: string;
-  value: string;
+  value?: string;
   onChange: (event: React.FormEvent<HTMLInputElement>) => void;
+  placeholder: string;
 }
 
 const TextInput = React.forwardRef(
@@ -33,6 +33,9 @@ const Input = styled.input`
   font-size: 16px;
   &:focus {
     outline: none;
+  }
+  &::placeholder {
+    color: #aaa;
   }
   @media ${device.tablet} {
     height: 60px;

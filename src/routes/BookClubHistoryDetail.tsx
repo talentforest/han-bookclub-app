@@ -1,10 +1,11 @@
 import { useLocation } from 'react-router-dom';
 import { IBookClubInfo } from 'data/documentsAtom';
-import BookImgTitle from 'components/atoms/BookImgTitle';
 import Subtitle from 'components/atoms/Subtitle';
 import styled from 'styled-components';
-import CategorySection from 'components/template/CategorySection';
-import HostReviewArea from 'components/template/HostReviewArea';
+import HistoryClubBookBox from 'components/atoms/box/HistoryClubBookBox';
+import TabBox from 'components/atoms/TabBox';
+import RecommendedBookList from 'components/template/RecommendedBookList';
+import ClubReviewList from 'components/template/ClubReviewList';
 
 type LocationState = { state: { document: IBookClubInfo } };
 
@@ -12,27 +13,33 @@ const BookClubHistoryDetail = () => {
   const {
     state: { document },
   } = useLocation() as LocationState;
-  const {
-    id,
-    book: { thumbnail, title },
-    meeting,
-  } = document;
+
+  const { id } = document;
 
   return (
     <main>
-      <Infos>
-        <BookImgTitle thumbnail={thumbnail} title={title} />
-      </Infos>
-      <Subtitle title='발제자의 정리 기록' />
-      <HostReviewArea yearMonthId={id} />
-      <Subtitle title='독서모임 기록' />
-      <CategorySection />
+      <HistoryClubBookBox document={document} />
+
+      <Section>
+        <Subtitle title='발제문과 발제자의 정리 기록' />
+        <TabBox yearMonthId={id} />
+      </Section>
+
+      <Section>
+        <Subtitle title='멤버들의 추천책' />
+        <RecommendedBookList yearMonthId={id} />
+      </Section>
+
+      <Section>
+        <Subtitle title='모임 후기' />
+        <ClubReviewList yearMonthId={id} />
+      </Section>
     </main>
   );
 };
 
-const Infos = styled.div`
-  margin: 20px 0 40px;
+const Section = styled.section`
+  margin-top: 40px;
 `;
 
 export default BookClubHistoryDetail;

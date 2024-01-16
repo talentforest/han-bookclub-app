@@ -21,6 +21,7 @@ import MobileHeader from 'layout/MobileHeader';
 import ScrollToTop from 'components/atoms/ScrollToTop';
 import MyBookshelf from './routes/MyBookshelf';
 import Bookshelf from 'routes/Bookshelf';
+import Post from 'routes/Post';
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -43,10 +44,14 @@ function Router({ isLoggedIn }: PropsType) {
           <>
             <Route path='/' element={<Home />} />
             <Route path='/bookclub' element={<BookClubOfThisMonth />} />
+            <Route path='/bookclub/subjects' element={<Post />} />
+            <Route path='/bookclub/host-review' element={<Post />} />
             <Route path='/search' element={<Search />} />
             <Route path='/search/:id' element={<SearchedBookInfo />} />
             <Route path='/history' element={<BookClubHistory />} />
-            <Route path='/history/:id/*' element={<BookClubHistoryDetail />} />
+            <Route path='/history/:id' element={<BookClubHistoryDetail />} />
+            <Route path='/history/:id/host-review' element={<Post />} />
+            <Route path='/history/:id/subjects' element={<Post />} />
             <Route path='/vote' element={<Vote />} />
             <Route path='/vote/:id' element={<VoteDetail />} />
             <Route path='/mybookshelf' element={<MyBookshelf />} />

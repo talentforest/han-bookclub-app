@@ -3,9 +3,9 @@ import { getCollection } from 'api/getFbDoc';
 import { useRecoilState } from 'recoil';
 import { votesState } from 'data/documentsAtom';
 import { isoFormatDate, krCurTime } from 'util/index';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import VoteBox from 'components/organisms/vote/VoteBox';
-import LinkBtn from 'components/atoms/buttons/LinkBtn';
 import device from 'theme/mediaQueries';
 
 const VoteSlider = () => {
@@ -34,7 +34,7 @@ const VoteSlider = () => {
       ) : (
         <EmptyContainer>
           <span>진행중인 투표가 없어요.</span>
-          <LinkBtn to='/vote'>투표 등록하러 가기</LinkBtn>
+          <Link to='/vote'>투표 등록하러 가기</Link>
         </EmptyContainer>
       )}
     </>
@@ -76,6 +76,11 @@ const EmptyContainer = styled.div`
     color: #aaa;
   }
   a {
+    width: 100%;
+    text-align: center;
+    padding: 12px 15px 10px;
+    border-radius: 10px;
+    background-color: ${(props) => props.theme.container.yellow};
     box-shadow: ${(props) => props.theme.boxShadow};
     font-size: 15px;
     svg {

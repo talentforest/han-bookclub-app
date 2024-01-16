@@ -44,27 +44,11 @@ const RegisterRecommendButton = ({ searchedBook }: PropsType) => {
     });
   };
 
-  return (
-    <Container>
-      <RegisterButton onClick={onClick}>나의 추천책으로 등록</RegisterButton>
-    </Container>
-  );
+  return <RegisterButton onClick={onClick}>선택</RegisterButton>;
 };
 
-const Container = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`;
 const RegisterButton = styled.button`
-  font-size: 14px;
-  border: none;
-  border-radius: 10px;
-  padding: 3px 10px;
-  margin: 10px auto 15px;
-  width: fit-content;
-  height: 40px;
-  font-weight: 700;
+  font-size: 13px;
   color: ${(props) => props.theme.text.accent};
   background-color: ${(props) => props.theme.container.lightBlue};
   cursor: pointer;

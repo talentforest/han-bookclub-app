@@ -16,7 +16,7 @@ export const isoFormatDate = (date: Date) => {
 };
 
 // YYYY-MM
-export const thisYearMonthIso = isoFormatDate(krCurTime).slice(0, -3);
+export const thisYearMonthId = isoFormatDate(krCurTime).slice(0, -3);
 
 export const getLocaleDateTime = (time: Date) => {
   return new Date(time).toLocaleDateString('ko', {

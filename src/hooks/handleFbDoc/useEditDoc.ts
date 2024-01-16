@@ -1,57 +1,50 @@
+import { IDocument } from 'data/documentsAtom';
 import { dbService } from 'fbase';
 import { doc, updateDoc } from 'firebase/firestore';
+import useAlertAskJoin from 'hooks/useAlertAskJoin';
 import { useState } from 'react';
 
 interface PropsType {
-  docId: string;
-  editedText: string;
-  setEditedText: (newText: string) => void;
-  setEditing: (toggle: boolean) => void;
+  post: IDocument;
   collName: string;
-  editingRate?: number;
 }
 
-const useEditDoc = ({
-  docId,
-  setEditedText,
-  editedText,
-  editingRate,
-  setEditing,
-  collName,
-}: PropsType) => {
-  const [showingGuide, setShowingGuide] = useState(false);
-  const docRef = doc(dbService, collName, `${docId}`);
+const useEditDoc = ({ post, collName }: PropsType) => {
+  const [editedText, setEditedText] = useState(post.text);
+
+  const docRef = doc(dbService, collName, post.id);
+
+  const { alertAskJoinMember, anonymous } = useAlertAskJoin('see');
 
   const updatedData = () => {
     if (collName.includes('Reviews')) {
-      return { text: editedText, rating: editingRate };
+      return { text: editedText, rating: 0 };
     }
     return { text: editedText };
   };
 
-  const onEditedSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onEditedSubmit = async (
+    event: React.FormEvent<HTMLFormElement>,
+    onToggleClick: () => void
+  ) => {
     event.preventDefault();
-    if (editedText === '') {
-      return guideShouldNotBlank();
-    }
-    setEditing(false);
-    await updateDoc(docRef, updatedData());
-  };
 
-  function guideShouldNotBlank() {
-    setTimeout(() => {
-      setShowingGuide((toggle) => !toggle);
-    }, 1000);
-    setShowingGuide((toggle) => !toggle);
-    setEditing(true);
-  }
+    if (anonymous) return alertAskJoinMember();
+
+    if (editedText === '<p><br></p>') return alert('한글자 이상 작성해주세요.');
+
+    await updateDoc(docRef, updatedData());
+
+    onToggleClick();
+  };
 
   const onEditedChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
     setEditedText(event.currentTarget.value);
   };
 
   return {
-    showingGuide,
+    editedText,
+    setEditedText,
     onEditedSubmit,
     onEditedChange,
   };

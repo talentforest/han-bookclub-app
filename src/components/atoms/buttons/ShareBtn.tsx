@@ -1,6 +1,7 @@
 import { currentUserState } from 'data/userAtom';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
+import { FiShare2 } from 'react-icons/fi';
 import styled from 'styled-components';
 
 interface IShareButtonProps {
@@ -47,26 +48,17 @@ const ShareBtn = ({
 
   return (
     <Btn id='kakaotalk-sharing-btn'>
-      <img
-        src='https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png'
-        alt='카카오링크 보내기 버튼'
-      />
+      <FiShare2 fontSize={15} stroke='#888' />
     </Btn>
   );
 };
 
 const Btn = styled.button`
-  border: none;
-  background-color: transparent;
-  width: 30px;
-  height: 30px;
-  padding: 0;
-  margin: 0;
-  > img {
-    width: 30px;
-    height: 30px;
-    border-radius: 30px;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: fit-content;
+  line-height: 1;
 `;
 
 export default ShareBtn;

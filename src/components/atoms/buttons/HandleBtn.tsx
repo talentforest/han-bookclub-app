@@ -17,8 +17,12 @@ const HandleBtn = ({ children, handleClick, disabled }: ISubmitBtnProps) => {
 };
 
 const BtnBox = styled(Btn)<{ $disabled?: boolean }>`
-  color: ${(props) => props.theme.text.accent};
+  font-size: 15px;
   gap: 5px;
+  height: 38px;
+  padding: 0 20px;
+  box-shadow: ${(props) => props.theme.boxShadow};
+  color: ${(props) => props.theme.text.accent};
   background-color: ${(props) =>
     props.$disabled
       ? props.theme.text.lightGray

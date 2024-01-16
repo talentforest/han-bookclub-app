@@ -1,0 +1,191 @@
+import { useEffect, useState } from 'react';
+import { cutLetter } from 'util/index';
+import { useSetRecoilState } from 'recoil';
+import { IBookApi, recommendBookState } from 'data/bookAtom';
+import { FiCheckCircle, FiSearch } from 'react-icons/fi';
+import Modal from 'components/atoms/Modal';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+import useSearchBook from 'hooks/useSearchBook';
+import TextInput from 'components/atoms/inputs/TextInput';
+import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
+import CreateRecommendBookBox from 'components/atoms/box/CreateRecommendBookBox';
+
+interface Props {
+  collName: string;
+  onToggleClick: () => void;
+}
+
+export default function RecommendPostModal({ onToggleClick }: Props) {
+  const [currStep, setCurrStep] = useState(1);
+
+  const setMyRecommendBook = useSetRecoilState(recommendBookState);
+
+  const {
+    searchInputRef,
+    onBookQueryChange,
+    searchList,
+    closeSearchList, //
+  } = useSearchBook();
+
+  useEffect(() => {
+    if (searchInputRef && !searchList.length) {
+      searchInputRef.current.focus();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const onSearchedBookBoxClick = (book: IBookApi) => {
+    setCurrStep(2);
+    setMyRecommendBook(book);
+  };
+
+  const onModalToggleClick = () => {
+    onToggleClick();
+    closeSearchList();
+  };
+
+  const resulbBoxheight = 81 * (searchList.length > 3 ? 3 : searchList.length);
+
+  return (
+    <Modal title='추천책 작성하기' onToggleClick={onModalToggleClick}>
+      {currStep === 1 && (
+        <StepBox>
+          <SearchBox>
+            <FiSearch
+              fontSize={18}
+              stroke='#aaa'
+              style={{ position: 'absolute', top: '10px', left: '12px' }}
+            />
+            <TextInput
+              ref={searchInputRef}
+              placeholder='추천책을 검색해주세요.'
+              onChange={onBookQueryChange}
+            />
+          </SearchBox>
+
+          <BookResults $height={resulbBoxheight}>
+            {searchList.slice(0, 3).map((book, index) => (
+              <BookBox key={`${book.title}-${index}`}>
+                <BookThumbnailImg
+                  title={book.title}
+                  thumbnail={book.thumbnail}
+                />
+                <div>
+                  <h3>{cutLetter(book.title, 18)}</h3>
+
+                  {!!book.authors.length && (
+                    <span>
+                      {book.authors[0]}
+                      {book.authors.length !== 1 &&
+                        `(외 ${book.authors.length - 1}명)`}
+                    </span>
+                  )}
+                  {book.publisher && <span>{book.publisher}</span>}
+                </div>
+
+                <button
+                  type='button'
+                  onClick={() => onSearchedBookBoxClick(book)}
+                >
+                  <FiCheckCircle fontSize={12} stroke='#8bb0ff' />
+                  <span>선택</span>
+                </button>
+              </BookBox>
+            ))}
+          </BookResults>
+        </StepBox>
+      )}
+
+      {currStep === 2 && (
+        <CreateRecommendBookBox onModalClose={onModalToggleClick} />
+      )}
+    </Modal>
+  );
+}
+
+const StepBox = styled.div`
+  position: relative;
+  margin-top: 5px;
+`;
+
+const BookResults = styled.section<{ $height: number }>`
+  display: flex;
+  flex-direction: column;
+  border-top: ${(props) => (props.$height !== 0 ? '1px solid #ddd' : 'none')};
+  background-color: #fff;
+  min-height: 200px;
+  height: ${(props) => `${props.$height}px`};
+  transition: height 0.5s ease;
+  overflow: hidden;
+`;
+
+const BookBox = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  padding: 10px 5px;
+  gap: 10px;
+  border-bottom: 1px solid #ddd;
+  > div:first-child {
+    max-width: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    h3 {
+      font-size: 14px;
+    }
+    span {
+      font-size: 12px;
+      color: #888;
+    }
+  }
+  > button {
+    position: absolute;
+    right: 4px;
+    bottom: 5px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding-left: 5px;
+    span {
+      padding-top: 4px;
+      color: ${(props) => props.theme.text.lightBlue};
+    }
+  }
+`;
+
+const SearchBox = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  margin-bottom: 10px;
+  input {
+    height: inherit;
+    min-width: 150px;
+    width: 100%;
+    padding-left: 35px;
+    border-radius: 30px;
+  }
+  button {
+    width: 70px;
+  }
+  @media ${device.tablet} {
+    button {
+      width: 150px;
+    }
+  }
+`;

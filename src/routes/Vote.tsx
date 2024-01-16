@@ -9,8 +9,7 @@ import Subtitle from 'components/atoms/Subtitle';
 import ExpiredVoteBox from 'components/organisms/vote/ExpiredVoteBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import Overlay from 'components/atoms/Overlay';
-import Loading from 'components/atoms/loadings/Loading';
+import Loading from 'components/atoms/Loading';
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -39,7 +38,6 @@ const Vote = () => {
       <VoteButton onClick={onModalClick}>투표 등록하기</VoteButton>
       {modalOpen && (
         <section>
-          <Overlay onModalClick={onModalClick} />
           <VoteCreateBox setModalOpen={setModalOpen} />
         </section>
       )}

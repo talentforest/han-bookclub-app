@@ -1,32 +1,38 @@
 import { searchBookHandler } from 'api/searchBook';
 import { searchListState } from 'data/bookAtom';
-import { useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRecoilState } from 'recoil';
 
 const useSearchBook = () => {
   const [searchList, setSearchList] = useRecoilState(searchListState);
-  const [bookQuery, setBookQuery] = useState('');
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    try {
-      if (bookQuery === '') return;
-      searchBookHandler(bookQuery, setSearchList);
-      setBookQuery('');
-    } catch (error) {
-      console.error('Error adding document:', error);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const value = searchInputRef?.current?.value;
+
+  useEffect(() => {
+    if (value === '') {
+      return setSearchList([]);
+    }
+  }, []);
+
+  const onBookQueryChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const { value } = event.currentTarget;
+
+    if (value !== '') {
+      searchBookHandler(value, setSearchList);
+    } else {
+      setSearchList([]);
     }
   };
 
-  const onBookQueryChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setBookQuery(event.currentTarget.value);
-  };
+  const closeSearchList = () => setSearchList([]);
 
   return {
-    onSubmit,
-    bookQuery,
+    searchInputRef,
     onBookQueryChange,
     searchList,
+    closeSearchList,
   };
 };
 

@@ -13,17 +13,23 @@ interface Props {
 }
 
 export default function ChallengeBookBox({ challenge }: Props) {
-  const { user, book } = challenge;
+  const {
+    user,
+    book: { title, thumbnail, authors, publisher },
+  } = challenge;
 
   return (
     <Box>
-      <BookThumbnail title={book.title} thumbnail={book.thumbnail} />
+      <BookThumbnail title={title} thumbnail={thumbnail} />
       <div>
         <UsernameBox creatorId={user} fontSize={15} />
-        <h1>{book.title}</h1>
+        <h1>{title}</h1>
         <div>
-          <span>{book.authors.join('・')} ・ </span>
-          <span>{book.publisher}</span>
+          <span>
+            {authors[0]}
+            {authors.length !== 1 && `(외 ${authors.length - 1}명)`}
+          </span>
+          <span> ・ {publisher}</span>
         </div>
       </div>
     </Box>

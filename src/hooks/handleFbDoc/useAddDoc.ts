@@ -10,7 +10,7 @@ import { authService, dbService } from 'fbase';
 import { collection, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { thisYearMonthIso, USER_DATA, existDocObj } from 'util/index';
+import { thisYearMonthId, USER_DATA, existDocObj } from 'util/index';
 import useAlertAskJoin from '../useAlertAskJoin';
 
 interface PropsType {
@@ -21,12 +21,14 @@ interface PropsType {
 }
 
 const useAddDoc = ({ setText, collName, docData, setRating }: PropsType) => {
-  const { alertAskJoinMember } = useAlertAskJoin('write');
   const [userExtraData, setUserExtraData] = useRecoilState(userExtraInfoState);
   const setMyRecommendBook = useSetRecoilState(recommendBookState);
-  const docRef = doc(collection(dbService, collName));
   const userData = useRecoilValue(currentUserState);
+
+  const docRef = doc(collection(dbService, collName));
   const userDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
+
+  const { alertAskJoinMember } = useAlertAskJoin('write');
 
   useEffect(() => {
     if (userData.uid && !existDocObj(userExtraData)) {
@@ -37,14 +39,18 @@ const useAddDoc = ({ setText, collName, docData, setRating }: PropsType) => {
 
   const onAddDocSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     try {
       if (docData.text.length === 0) return;
+
       await setDoc(docRef, docData);
       const newUserDocId = {
-        monthId: thisYearMonthIso,
+        monthId: thisYearMonthId,
         docId: docRef.id,
       };
+
       updateUserData(newUserDocId);
+
       if (docData.rating) {
         setRating(0);
       }
@@ -75,7 +81,7 @@ const useAddDoc = ({ setText, collName, docData, setRating }: PropsType) => {
       await updateDoc(userDataRef, {
         'userRecords.recommendedBooks': [
           ...(recommendedBooks ?? []),
-          { monthId: thisYearMonthIso, docId: docRef.id },
+          { monthId: thisYearMonthId, docId: docRef.id },
         ],
       });
     }

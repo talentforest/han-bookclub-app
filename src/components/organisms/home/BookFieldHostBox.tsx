@@ -6,7 +6,7 @@ import { fieldHostDocState } from 'data/bookFieldHostAtom';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import useHandleFieldHost from 'hooks/useHandleFieldHost';
-import Loading from 'components/atoms/loadings/Loading';
+import Loading from 'components/atoms/Loading';
 import TableItem from 'components/atoms/table/TableItem';
 import EditBookFieldHostForm from 'components/atoms/EditBookFieldHostForm';
 import Modal from 'components/atoms/Modal';
@@ -44,7 +44,7 @@ const BookFieldHostBox = () => {
               <BookFieldHostListItem key={bookFieldhost.month}>
                 {!!isEditing[index] && (
                   <Modal
-                    onModalToggleClick={() => onEditClick(index)}
+                    onToggleClick={() => onEditClick(index)}
                     title={`${bookFieldhost.month}월의 독서분야와 발제자`}
                   >
                     <EditBookFieldHostForm

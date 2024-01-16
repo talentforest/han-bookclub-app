@@ -9,11 +9,10 @@ import { FiCalendar } from 'react-icons/fi';
 interface Props<T> {
   label: string;
   value: T;
-  setValue: React.Dispatch<React.SetStateAction<T>>;
+  setValue?: React.Dispatch<React.SetStateAction<T>>;
   placeInputRef?: MutableRefObject<HTMLInputElement>;
   onFocus?: () => void;
   onBlur?: () => void;
-  onEditClick: (edit: boolean) => void;
 }
 
 export default function BoxLabeledInput<T>({
@@ -23,14 +22,13 @@ export default function BoxLabeledInput<T>({
   placeInputRef,
   onFocus,
   onBlur,
-  onEditClick,
 }: Props<T>) {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value as T);
   };
 
   return (
-    <InputBox>
+    <LabeledBox>
       <div className='label'>{label}</div>
 
       {label === '모임 시간' ? (
@@ -74,16 +72,17 @@ export default function BoxLabeledInput<T>({
           style={{ position: 'absolute', right: 10, paddingBottom: 2 }}
         />
       )}
-    </InputBox>
+    </LabeledBox>
   );
 }
 
-const InputBox = styled.div`
+export const LabeledBox = styled.div`
   position: relative;
   display: flex;
   align-items: center;
   height: 40px;
   margin-bottom: 8px;
+
   > div.label {
     border: 1px solid ${(props) => props.theme.text.lightGray};
     width: 75px;
@@ -98,6 +97,7 @@ const InputBox = styled.div`
     padding: 10px 8px 8px 10px;
     font-size: 15px;
   }
+
   > input {
     border: 1px solid ${(props) => props.theme.text.lightGray};
     height: 100%;

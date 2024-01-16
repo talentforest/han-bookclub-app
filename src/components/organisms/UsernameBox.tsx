@@ -12,7 +12,7 @@ interface PropsType {
   fontSize?: number;
 }
 
-const UsernameBox = ({ creatorId, fontSize = 16 }: PropsType) => {
+const UsernameBox = ({ creatorId, fontSize = 15 }: PropsType) => {
   const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersState);
   const userInfo = allUserDocs.find((user) => user.id === creatorId);
   const currentUser = useRecoilValue(currentUserState);
@@ -46,6 +46,7 @@ const Username = styled(Link)<{ $fontSize: number }>`
   justify-content: center;
 
   > span {
+    color: #888;
     font-size: ${(props) =>
       props.$fontSize ? `${props.$fontSize}px` : '20px'};
   }

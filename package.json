@@ -4,7 +4,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@emotion/styled": "^11.8.1",
+    "@smastrom/react-rating": "^1.4.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
@@ -25,6 +27,7 @@
     "react-select": "^5.8.0",
     "recoil": "^0.7.2",
     "styled-components": "^5.3.5",
+    "swiper": "^11.0.5",
     "typescript": "^4.6.3",
     "uuid": "^8.3.2",
     "web-vitals": "^2.1.4"

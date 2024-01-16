@@ -4,7 +4,7 @@ import { dbService } from 'fbase';
 import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { thisYearMonthIso, THIS_YEAR_BOOKCLUB } from 'util/index';
+import { thisYearMonthId, THIS_YEAR_BOOKCLUB } from 'util/index';
 
 interface PropsType {
   searchedBook: IBookApi;
@@ -12,7 +12,7 @@ interface PropsType {
 
 const useSetBookClubDoc = ({ searchedBook }: PropsType) => {
   const [toggle, setToggle] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState(`${thisYearMonthIso}`);
+  const [selectedMonth, setSelectedMonth] = useState(`${thisYearMonthId}`);
   const userData = useRecoilValue(currentUserState);
   const {
     thumbnail,
