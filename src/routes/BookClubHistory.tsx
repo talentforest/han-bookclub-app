@@ -10,6 +10,7 @@ import HistoryClubBookBox from 'components/atoms/box/HistoryClubBookBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import Tag from 'components/atoms/Tag';
+import Header from 'layout/mobile/Header';
 
 const BookClubHistory = () => {
   const [selectedYear, setSelectedYear] = useRecoilState(selectedYearAtom);
@@ -24,40 +25,43 @@ const BookClubHistory = () => {
   );
 
   return (
-    <main>
-      <YearTagList>
-        {clubYearArr.map((year) => (
-          <TagItem key={year} $active={year === selectedYear}>
-            <button onClick={() => setSelectedYear(year)} type='button'>
-              <Tag name={`${year}년`} roundedFull={false} />
-            </button>
-          </TagItem>
-        ))}
-      </YearTagList>
+    <>
+      <Header title='지난 한페이지 모임' />
+      <main>
+        <YearTagList>
+          {clubYearArr.map((year) => (
+            <TagItem key={year} $active={year === selectedYear}>
+              <button onClick={() => setSelectedYear(year)} type='button'>
+                <Tag name={`${year}년`} roundedFull={false} />
+              </button>
+            </TagItem>
+          ))}
+        </YearTagList>
 
-      <HistoryList>
-        {!!clubHistory?.length ? (
-          clubHistory?.map((document) => (
-            <li key={document.id}>
-              <Link to={document.id} state={{ document }}>
-                {document && <HistoryClubBookBox document={document} />}
+        <HistoryList>
+          {!!clubHistory?.length ? (
+            clubHistory?.map((document) => (
+              <li key={document.id}>
+                <Link to={document.id} state={{ document }}>
+                  {document && <HistoryClubBookBox document={document} />}
 
-                <HiMiniArrowUpRight
-                  fill='#aaa'
-                  style={{
-                    position: 'absolute',
-                    bottom: '10px',
-                    right: '10px',
-                  }}
-                />
-              </Link>
-            </li>
-          ))
-        ) : (
-          <EmptyBox>독서모임에 아직 등록된 책이 없습니다.</EmptyBox>
-        )}
-      </HistoryList>
-    </main>
+                  <HiMiniArrowUpRight
+                    fill='#aaa'
+                    style={{
+                      position: 'absolute',
+                      bottom: '10px',
+                      right: '10px',
+                    }}
+                  />
+                </Link>
+              </li>
+            ))
+          ) : (
+            <EmptyBox>독서모임에 아직 등록된 책이 없습니다.</EmptyBox>
+          )}
+        </HistoryList>
+      </main>
+    </>
   );
 };
 

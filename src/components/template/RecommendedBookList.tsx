@@ -25,7 +25,6 @@ const RecommendedBookList = ({ yearMonthId = thisYearMonthId }: Props) => {
       getFbRoute(yearMonthId).RECOMMENDED_BOOKS,
       setRecommendedBooks
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

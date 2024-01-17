@@ -16,7 +16,7 @@ interface Props {
   onToggleClick: () => void;
 }
 
-export default function RecommendPostModal({ onToggleClick }: Props) {
+export default function RecommendPostAddModal({ onToggleClick }: Props) {
   const [currStep, setCurrStep] = useState(1);
 
   const setMyRecommendBook = useSetRecoilState(recommendBookState);
@@ -32,7 +32,6 @@ export default function RecommendPostModal({ onToggleClick }: Props) {
     if (searchInputRef && !searchList.length) {
       searchInputRef.current.focus();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSearchedBookBoxClick = (book: IBookApi) => {

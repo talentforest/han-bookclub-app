@@ -34,7 +34,6 @@ const useAddDoc = ({ setText, collName, docData, setRating }: PropsType) => {
     if (userData.uid && !existDocObj(userExtraData)) {
       getDocument(USER_DATA, userData.uid, setUserExtraData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData.uid]);
 
   const onAddDocSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

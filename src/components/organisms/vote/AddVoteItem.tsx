@@ -1,3 +1,4 @@
+import { FiInfo, FiPlus } from 'react-icons/fi';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -17,31 +18,42 @@ interface IVoteProps {
 const AddVoteItem = ({ vote, onItemPlusClick }: IVoteProps) => {
   return (
     <>
-      <AddItem onClick={onItemPlusClick}>투표 항목 추가</AddItem>
       {vote.voteItem?.length > 5 && (
-        <PlusItem>투표항목은 6개를 넘을 수 없습니다.</PlusItem>
+        <GuideBox>
+          <FiInfo stroke='#e3463b' fontSize={13} />
+          <span> 투표항목은 6개를 넘을 수 없습니다.</span>
+        </GuideBox>
       )}
+
+      <AddVoteItemBtn onClick={onItemPlusClick}>
+        <FiPlus fontSize={18} stroke='#3d64ff' />
+        <span>투표 항목 추가</span>
+      </AddVoteItemBtn>
     </>
   );
 };
 
-const AddItem = styled.div`
+const AddVoteItemBtn = styled.button`
   cursor: pointer;
   width: fit-content;
   display: flex;
+  justify-content: center;
   align-items: center;
   font-size: 14px;
-  margin-top: 20px;
-  color: ${(props) => props.theme.text.accent};
-  border: 1px solid ${(props) => props.theme.container.blue};
-  padding: 5px 10px;
+  margin: 10px 0;
+  padding: 8px 12px 4px;
   border-radius: 20px;
-  background-color: ${(props) => props.theme.container.default};
-  svg {
-    width: 18px;
-    height: 18px;
-    fill: ${(props) => props.theme.text.accent};
+  box-shadow: ${(props) => props.theme.boxShadow};
+  background-color: ${(props) => props.theme.container.yellow};
+  gap: 3px;
+  span {
+    color: ${(props) => props.theme.text.accent};
+    padding-right: 2px;
   }
+  svg {
+    padding-bottom: 3px;
+  }
+
   @media ${device.tablet} {
     font-size: 16px;
     svg {
@@ -52,15 +64,18 @@ const AddItem = styled.div`
   }
 `;
 
-const PlusItem = styled.div`
-  font-size: 14px;
-  margin: 5px 0;
-  svg {
-    float: left;
-    margin: 2px 3px 0 0;
-    width: 16px;
-    height: 16px;
+const GuideBox = styled.div`
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  > span {
+    padding-top: 2px;
+    line-height: 0;
+    font-size: 13px;
+    color: ${(props) => props.theme.text.red};
   }
+
   @media ${device.tablet} {
     display: block;
     margin-bottom: 6px;

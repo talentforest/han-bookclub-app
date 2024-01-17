@@ -5,11 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { dbService } from 'fbase';
 import { IVote } from 'data/voteItemAtom';
-import UsernameBox from 'components/organisms/UsernameBox';
+import { FiTrash2 } from 'react-icons/fi';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import Guide from 'components/atoms/Guide';
-import InfoTag from 'components/atoms/InfoTag';
+import Tag from 'components/atoms/Tag';
+import NameTag from 'components/atoms/NameTag';
+import ShareButton from 'components/atoms/buttons/ShareBtn';
 
 interface PropsType {
   voteDetail: IVote;
@@ -18,6 +20,7 @@ interface PropsType {
 const FormDetails = ({ voteDetail }: PropsType) => {
   const { deadline, vote, creatorId, id } = voteDetail;
   const userData = useRecoilValue(currentUserState);
+
   const navigate = useNavigate();
   const docRef = doc(dbService, `Vote`, `${id}`);
   const registerDate = new Date(deadline).toLocaleDateString().slice(0, -1);
@@ -31,84 +34,90 @@ const FormDetails = ({ voteDetail }: PropsType) => {
 
   return (
     <>
-      <InfoTag
-        tagName={
+      <Tag
+        name={
           deadline < isoFormatDate(krCurTime)
-            ? `등록일자: ${registerDate}`
-            : `D-Day: ${getDDay(deadline)}`
+            ? `등록일자 : ${registerDate}`
+            : `디데이 : ${getDDay(deadline)}`
         }
       />
-      <Title>{vote.title}</Title>
+
       <VoteInfo>
         <span>투표 등록: </span>
-        <UsernameBox creatorId={creatorId} />
-        {/* {creatorId === userData.uid }  */}
-        {/* <Delete onClick={onDeleteClick} /> */}
+        <NameTag name={creatorId} />
+
+        <div>
+          {creatorId === userData.uid && (
+            <FiTrash2 stroke='#888' onClick={onDeleteClick} />
+          )}
+          <ShareButton
+            title='✨새로운 투표가 등록되었어요!'
+            description='투표하러 가볼까요? 👀'
+            path='vote'
+          />
+        </div>
       </VoteInfo>
+
+      <Title>{vote.title}</Title>
+
       {vote.voteItem[0].selectReason && (
-        <Reasons>
+        <ReasonDetails>
           <summary>선정 이유 읽어보기</summary>
           {vote.voteItem.map((item) => (
-            <Reason key={item.id}>
+            <ReasonDetailBox key={item.id}>
               <span>
                 투표 항목 {item.id} : {item.item}
               </span>
               {item.selectReason && <p>{item.selectReason}</p>}
-            </Reason>
+            </ReasonDetailBox>
           ))}
-        </Reasons>
+        </ReasonDetails>
       )}
+
       <Guide text='중복 투표가 가능합니다.' />
     </>
   );
 };
 
-const Title = styled.h3`
-  white-space: pre-line;
-  word-break: break-all;
-  font-size: 18px;
-  font-weight: 700;
-  padding: 10px 0;
-  svg {
-    float: left;
-    width: 20px;
-    height: 20px;
-    margin: 4px 5px 0 0;
-  }
-`;
 const VoteInfo = styled.div`
   position: relative;
   display: flex;
-  margin-bottom: 10px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
   > span {
     display: flex;
     align-items: center;
     font-size: 14px;
     padding-right: 5px;
   }
-  > svg {
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transition: transform 0.3ms ease;
-    &:hover {
-      fill: ${(props) => props.theme.container.blue};
-      transform: scale(1.1);
-    }
+  div {
+    flex: 1;
+    display: flex;
+    padding-top: 3px;
+    justify-content: flex-end;
+    gap: 10px;
   }
   @media ${device.tablet} {
   }
 `;
-const Reasons = styled.details`
+
+const Title = styled.h3`
+  white-space: pre-line;
+  word-break: break-all;
+  font-size: 18px;
+  padding-top: 10px;
+`;
+
+const ReasonDetails = styled.details`
   pointer-events: all;
   background-color: ${(props) => props.theme.container.default};
-  border: 1px solid ${(props) => props.theme.container.yellow};
+  box-shadow: ${(props) => props.theme.boxShadow};
   padding: 10px;
-  margin: 10px 0 20px;
+  margin: 5px 0 20px;
   border-radius: 10px;
-  font-size: 14px;
   > summary {
+    font-size: 14px;
     color: ${(props) => props.theme.text.gray};
     cursor: pointer;
   }
@@ -117,24 +126,26 @@ const Reasons = styled.details`
     margin: 5px 0 40px;
   }
 `;
-const Reason = styled.div`
+
+const ReasonDetailBox = styled.div`
   white-space: pre-line;
   word-break: break-all;
-
-  margin-top: 10px;
+  margin-top: 18px;
   background-color: ${(props) => props.theme.container.default};
-  font-weight: 700;
   span {
+    font-size: 13px;
+    line-height: 1;
     display: inline-block;
-    padding-left: 10px;
-    border-left: 6px solid ${(props) => props.theme.container.lightBlue};
+    padding: 2px 0 0 8px;
+    width: 100%;
+    border-left: 4px solid ${(props) => props.theme.container.lightBlue};
     color: ${(props) => props.theme.text.lightBlue};
   }
   p {
+    font-size: 14px;
     white-space: pre-line;
     word-break: break-all;
-    padding-top: 10px;
-    line-height: 1.6;
+    padding: 8px 0 2px;
     color: ${(props) => props.theme.text.gray};
   }
 `;

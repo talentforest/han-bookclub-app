@@ -6,7 +6,7 @@ import device from 'theme/mediaQueries';
 import EmailInput from 'components/atoms/inputs/EmailInput';
 import Subtitle from 'components/atoms/Subtitle';
 import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
-import MobileHeader from 'layout/MobileHeader';
+import Header from 'layout/mobile/Header';
 
 const ResetPasswordEmail = () => {
   const [email, setEmail] = useState('');
@@ -28,7 +28,7 @@ const ResetPasswordEmail = () => {
 
   return (
     <>
-      <MobileHeader />
+      <Header title='비밀번호 변경' backBtn />
       <main>
         <Subtitle title='비밀번호가 생각나지 않으세요?' />
         <Detail>

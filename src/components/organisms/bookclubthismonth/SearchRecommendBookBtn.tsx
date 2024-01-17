@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
-import RecommendPostModal from '../modal/RecommendPostModal';
+import RecommendPostAddModal from '../modal/RecommendPostAddModal';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 
@@ -18,7 +18,7 @@ const SearchRecommendBookBtn = () => {
       </Btn>
 
       {openRecommendPostModal && (
-        <RecommendPostModal
+        <RecommendPostAddModal
           collName={''}
           onToggleClick={toggleRecommendPostModal}
         />

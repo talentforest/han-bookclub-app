@@ -22,7 +22,7 @@ const ThumnailImg = styled.img`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: auto;
+  aspect-ratio: 0.68/1;
   max-width: 100px;
   height: 100%;
   box-shadow: ${(props) => props.theme.boxShadow};
@@ -41,6 +41,4 @@ const NoThumbnailBox = styled.div`
   box-shadow: ${(props) => props.theme.boxShadow};
   background-color: #f1f1f1;
   border-radius: 8px;
-  svg {
-  }
 `;

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import PostHeader from './PostHeader';
 import PostFooter from './PostFooter';
 import BookThumbnailImg from '../BookThumbnailImg';
+import PostContent from './PostContent';
 
 interface Props {
   recommendedBookDoc: IDocument;
@@ -28,7 +29,7 @@ export default function PostRecommendedBook({
         postType='책 추천'
       />
 
-      <PostContent>
+      <PostContentBox>
         <BookThumbnailImg title={title} thumbnail={thumbnail} />
         <RecommendBookBox>
           <div>
@@ -40,9 +41,9 @@ export default function PostRecommendedBook({
             <span>{authors.join(', ')}</span>
           </div>
 
-          <p dangerouslySetInnerHTML={{ __html: text }} />
+          <PostContent text={text} />
         </RecommendBookBox>
-      </PostContent>
+      </PostContentBox>
 
       <PostFooter
         collName={collName}
@@ -64,7 +65,7 @@ const PostBox = styled.article`
   box-shadow: ${(props) => props.theme.boxShadow};
 `;
 
-const PostContent = styled.div`
+const PostContentBox = styled.div`
   gap: 10px;
   min-height: 130px;
   img {

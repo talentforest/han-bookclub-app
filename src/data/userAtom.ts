@@ -28,7 +28,7 @@ export interface IExtraUserData {
   favoriteBookField: BookFieldType[];
   email: string;
   displayName: string;
-  photoUrl: string;
+  photoURL: string;
   id?: string;
   userRecords: IUserRecords;
 }
@@ -58,6 +58,7 @@ export const currentUserState = atom<IUserData | null>({
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
           const { uid, email, displayName, photoURL } = user;
+
           const authUser = {
             uid: uid ? uid : '',
             email: email ? email : '',

@@ -5,6 +5,7 @@ import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
 import useSearchBook from 'hooks/useSearchBook';
 import { useEffect, useRef } from 'react';
 import device from 'theme/mediaQueries';
+import Header from 'layout/mobile/Header';
 
 const Search = () => {
   const {
@@ -17,32 +18,34 @@ const Search = () => {
     if (inputRef && !searchList.length) {
       inputRef.current.focus();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <main>
-      <Form>
-        <TextInput
-          ref={inputRef}
-          placeholder='등록하실 책을 검색해주세요.'
-          onChange={onBookQueryChange}
-        />
-        <SubmitBtn children='검색' />
-      </Form>
-
-      <BookResults>
-        <span>검색결과 {searchList.length}건</span>
-        <p>최대 10건이 검색됩니다.</p>
-
-        {searchList.map((searchedBook, index) => (
-          <ResultBookBox
-            searchedBook={searchedBook}
-            key={`${searchedBook.isbn}${index}`}
+    <>
+      <Header title='도서 검색' />
+      <main>
+        <Form>
+          <TextInput
+            ref={inputRef}
+            placeholder='등록하실 책을 검색해주세요.'
+            onChange={onBookQueryChange}
           />
-        ))}
-      </BookResults>
-    </main>
+          <SubmitBtn children='검색' />
+        </Form>
+
+        <BookResults>
+          <span>검색결과 {searchList.length}건</span>
+          <p>최대 10건이 검색됩니다.</p>
+
+          {searchList.map((searchedBook, index) => (
+            <ResultBookBox
+              searchedBook={searchedBook}
+              key={`${searchedBook.isbn}${index}`}
+            />
+          ))}
+        </BookResults>
+      </main>
+    </>
   );
 };
 

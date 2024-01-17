@@ -3,7 +3,7 @@ import { currentUserState } from 'data/userAtom';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { FiChevronDown, FiChevronUp, FiHeart } from 'react-icons/fi';
-import UsernameBox from 'components/organisms/UsernameBox';
+import UserNameBox from 'components/organisms/UserNameBox';
 import useHandleLike from 'hooks/useHandleLike';
 import styled from 'styled-components';
 
@@ -31,7 +31,6 @@ const LikesBox = ({ record, collName }: IRecordFooterProps) => {
     if (currentUserLike) {
       setLike(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -45,10 +44,10 @@ const LikesBox = ({ record, collName }: IRecordFooterProps) => {
         {record?.likeUsers?.length || 0}명이 좋아합니다
       </ShowUserBtn>
 
-      <LikeBtn type='button' onClick={onLikeClick}>
+      <LikeBtn type='button' disabled={!collName} onClick={onLikeClick}>
         <FiHeart
-          stroke='red'
-          fill={!like ? 'transparent' : 'red'}
+          stroke={!collName ? '#aaa' : 'red'}
+          fill={!collName ? '#aaa' : !like ? 'transparent' : 'red'}
           fontSize={13}
         />
       </LikeBtn>
@@ -57,7 +56,7 @@ const LikesBox = ({ record, collName }: IRecordFooterProps) => {
         <LikeUserList onClick={toggleShowLikeUsers}>
           <h4>좋아한 사람</h4>
           {record?.likeUsers?.map((user) => (
-            <UsernameBox key={user} creatorId={user} />
+            <UserNameBox key={user} creatorId={user} />
           ))}
         </LikeUserList>
       )}

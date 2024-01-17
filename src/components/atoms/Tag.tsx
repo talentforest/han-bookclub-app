@@ -20,6 +20,8 @@ export default function Tag({
 
 const InfoTag = styled.h1<{ $rounded: boolean; $color: string }>`
   padding: 7px 14px 5px;
+  height: fit-content;
+  width: fit-content;
   box-shadow: ${(props) => props.theme.boxShadow};
   border-radius: ${(props) => (props.$rounded ? '30px' : '8px')};
   color: #333;

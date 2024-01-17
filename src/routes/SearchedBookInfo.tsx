@@ -6,6 +6,7 @@ import BookDesc from 'components/organisms/search/BookDesc';
 import RegisterClubBookButton from 'components/organisms/search/RegisterClubBookButton';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import styled from 'styled-components';
+import Header from 'layout/mobile/Header';
 
 type LocationState = { state: { searchedBook: IBookApi } };
 
@@ -19,19 +20,22 @@ const SearchedBookInfo = () => {
   const { title, thumbnail } = searchedBook;
 
   return (
-    <Main>
-      <div className='thumbnailBox'>
-        <BookThumbnailImg title={title} thumbnail={thumbnail} />
-      </div>
+    <>
+      <Header title='도서 정보' backBtn />
+      <Main>
+        <div className='thumbnailBox'>
+          <BookThumbnailImg title={title} thumbnail={thumbnail} />
+        </div>
 
-      <h3>《 {title} 》</h3>
+        <h3>《 {title} 》</h3>
 
-      {userData.uid === process.env.REACT_APP_ADMIN_KEY && (
-        <RegisterClubBookButton searchedBook={searchedBook} />
-      )}
+        {userData.uid === process.env.REACT_APP_ADMIN_KEY && (
+          <RegisterClubBookButton searchedBook={searchedBook} />
+        )}
 
-      {searchedBook && <BookDesc detailInfo={searchedBook} />}
-    </Main>
+        {searchedBook && <BookDesc detailInfo={searchedBook} />}
+      </Main>
+    </>
   );
 };
 

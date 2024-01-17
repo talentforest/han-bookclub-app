@@ -1,7 +1,8 @@
 import { ko } from 'date-fns/esm/locale';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import DatePicker from 'react-datepicker';
 import Subtitle from 'components/atoms/Subtitle';
 
 interface IDateProps {
@@ -28,6 +29,7 @@ const VoteDeadLine = ({ endDate, setEndDate }: IDateProps) => {
 };
 
 const Deadline = styled.div`
+  margin: 30px 0;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -53,6 +55,14 @@ const DatePick = styled(DatePicker)`
   font-size: 16px;
   border: 1px solid ${(props) => props.theme.text.lightGray};
   cursor: pointer;
+
+  .react-datepicker__navigation-icon::before {
+    border-color: #4872f9;
+    border-width: 2px 2px 0 0;
+    height: 7px;
+    width: 7px;
+  }
+
   &:focus {
     outline: none;
   }

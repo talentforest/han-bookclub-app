@@ -1,26 +1,29 @@
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import { useState } from 'react';
 import { IDocument } from 'data/documentsAtom';
+import { useLocation } from 'react-router-dom';
 import useDeleteDoc from 'hooks/handleFbDoc/useDeleteDoc';
-import EditPostModal from './modal/EditPostModal';
+import PostEditModal from './modal/PostEditModal';
 import ShareBtn from 'components/atoms/buttons/ShareBtn';
 import styled from 'styled-components';
 
 interface Props {
   collName: string;
   post: IDocument;
-  shareBtn?: boolean;
 }
 
 const PostEditDeleteBox = ({ collName, post }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
+
+  const { pathname } = useLocation();
 
   const { onDeleteClick } = useDeleteDoc({ docId: post.id, collName });
 
   const onToggleClick = () => setIsEditing((prev) => !prev);
 
   const isShareBtn =
-    collName.includes('Subjects') || collName.includes('HostReview');
+    (collName.includes('Subjects') || collName.includes('HostReview')) &&
+    !pathname.includes('mybookshelf');
 
   return (
     <>
@@ -42,7 +45,7 @@ const PostEditDeleteBox = ({ collName, post }: Props) => {
       </BtnBox>
 
       {isEditing && (
-        <EditPostModal
+        <PostEditModal
           post={post}
           collName={collName}
           onToggleClick={onToggleClick}
@@ -58,7 +61,7 @@ const BtnBox = styled.div`
   button {
     line-height: 0;
     padding: 2px;
-    margin-left: 5px;
+    margin-left: 8px;
   }
 `;
 

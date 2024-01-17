@@ -11,7 +11,6 @@ const BookLogoBox = () => {
 
   useEffect(() => {
     getCollection(`BookClub-${thisYear}`, setClubInfoDocs);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const clubBookImgs = clubInfoDocs.map((monthDoc) => {

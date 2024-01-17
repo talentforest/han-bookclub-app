@@ -18,7 +18,6 @@ const ClubReviewList = ({ yearMonthId = thisYearMonthId }: Props) => {
 
   useEffect(() => {
     getCollection(getFbRoute(yearMonthId).REVIEWS, setReviews);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

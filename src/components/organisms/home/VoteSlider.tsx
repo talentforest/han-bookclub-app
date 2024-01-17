@@ -18,7 +18,6 @@ const VoteSlider = () => {
     if (votes.length === 0) {
       getCollection('Vote', setVotes);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

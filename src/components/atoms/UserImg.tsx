@@ -10,11 +10,7 @@ interface ProfileType {
   setNewUserImgUrl: (newUserImgUrl: string) => void;
 }
 
-const ProfileImage = ({
-  editing,
-  newUserImgUrl,
-  setNewUserImgUrl,
-}: ProfileType) => {
+const UserImg = ({ editing, newUserImgUrl, setNewUserImgUrl }: ProfileType) => {
   const fileInput = useRef(null);
   const userData = useRecoilValue(currentUserState);
   const [beforeOnChange, setBeforeOnChange] = useState(true);
@@ -40,7 +36,7 @@ const ProfileImage = ({
       {!userData.photoURL ? (
         <></>
       ) : (
-        <ProfileImg
+        <CircleImg
           src={beforeOnChange ? userData.photoURL : newUserImgUrl}
           alt='profileimg'
           onClick={() => {
@@ -59,6 +55,7 @@ const ProfileImage = ({
           >
             <></>
           </ChangeImgBtn>
+
           <input
             type='file'
             style={{ display: 'none' }}
@@ -72,6 +69,7 @@ const ProfileImage = ({
     </ImgBox>
   );
 };
+
 const ChangeImgBtn = styled.button`
   cursor: pointer;
   position: absolute;
@@ -98,12 +96,13 @@ const ChangeImgBtn = styled.button`
     }
   }
 `;
+
 export const ImgBox = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
   width: fit-content;
-  margin: 0 auto 10px;
+  margin: 15px auto;
   > svg {
     height: 140px;
     width: 140px;
@@ -115,17 +114,19 @@ export const ImgBox = styled.div`
     }
   }
 `;
-export const ProfileImg = styled.img`
+
+export const CircleImg = styled.img`
   box-shadow: ${(props) => props.theme.boxShadow};
   object-fit: cover;
   width: 140px;
   height: 140px;
   border-radius: 50%;
   -webkit-touch-callout: none;
+
   @media ${device.tablet} {
     width: 200px;
     height: 200px;
   }
 `;
 
-export default ProfileImage;
+export default UserImg;

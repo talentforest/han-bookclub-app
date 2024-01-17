@@ -27,7 +27,6 @@ const BookFieldHostBox = () => {
     if (!existDocObj(bookFieldHostDoc)) {
       getDocument(BOOK_FIELD_HOST, `${thisYear}`, setBookFieldHostDoc);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookFieldHostDoc]);
 
   return (

@@ -16,7 +16,6 @@ export default function ThisMonthClub() {
     if (thisYearMonthId) {
       getDocument(THIS_YEAR_BOOKCLUB, thisYearMonthId, setThisMonthClub);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

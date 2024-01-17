@@ -9,10 +9,12 @@ export const ResetStyle = createGlobalStyle`
   }
 
   body {
-    &::-webkit-scrollbar {
-    display: none;
-    }
     background-color: ${(props) => props.theme.bgColor};
+    ::-webkit-scrollbar {
+      display: none;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
     > div {
       > main {
         position: relative;
@@ -185,5 +187,16 @@ export const ResetStyle = createGlobalStyle`
   }
   h1, h2, h3, h4, h5, h6, span, p, textarea {
     line-height: 1.6
+  }
+  a {
+    line-height: 0;
+  }
+  input {
+    &:focus {
+      outline: none;
+    }
+    &::placeholder {
+    color: #aaa;
+  }
   }
 `;

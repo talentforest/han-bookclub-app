@@ -55,7 +55,6 @@ const BookResultBox = styled(Link)<{ $modal: boolean }>`
     background-color: ${(props) => props.theme.container.lightBlue};
   }
   > button {
-    border: 1px solid red;
     place-self: end;
   }
 `;

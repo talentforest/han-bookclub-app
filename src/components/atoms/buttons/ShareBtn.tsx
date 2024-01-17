@@ -27,7 +27,6 @@ const ShareBtn = ({
 
   useEffect(() => {
     shareKakao();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 
   const shareKakao = () => {

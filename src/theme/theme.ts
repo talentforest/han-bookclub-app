@@ -8,8 +8,9 @@ export const theme: DefaultTheme = {
     lightBlue: '#5162FF',
     lightGray: '#E5E5E5',
     gray: '#555',
-    mediumGray: '#aaa',
+    mediumGray: '#888',
     white: '#fff',
+    red: '#e3463b',
   },
   container: {
     default: '#FEFEFE',
@@ -21,5 +22,5 @@ export const theme: DefaultTheme = {
     purple: '#B6C2FF',
     yellow: '#ffeb88',
   },
-  boxShadow: '2px 2px 2px 2px #eaeaea;',
+  boxShadow: '3px 1px 4px  rgba(100,100,100,0.2)',
 };

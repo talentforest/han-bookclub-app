@@ -12,6 +12,4 @@ export default function SquareBtn({ name }: Props) {
   );
 }
 
-const Btn = styled.button`
-  border: 1px solid red;
-`;
+const Btn = styled.button``;

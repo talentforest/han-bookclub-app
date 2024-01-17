@@ -11,7 +11,7 @@ interface Props {
   onToggleClick: () => void;
 }
 
-export default function EditPostModal({
+export default function PostEditModal({
   post,
   collName,
   onToggleClick,

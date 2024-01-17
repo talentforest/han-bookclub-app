@@ -11,6 +11,7 @@ declare module 'styled-components' {
       gray: string;
       mediumGray: string;
       white: string;
+      red: string;
     };
     container: {
       default: string;

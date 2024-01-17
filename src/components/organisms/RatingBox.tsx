@@ -36,7 +36,6 @@ const Box = styled.div<{ $readOnly: boolean }>`
   justify-content: start;
   align-items: start;
   flex: 1;
-  /* border: 1px solid red; */
   > img {
     border-radius: 2px;
   }

@@ -12,10 +12,12 @@ interface PropsType {
   fontSize?: number;
 }
 
-const UsernameBox = ({ creatorId, fontSize = 15 }: PropsType) => {
-  const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersState);
-  const userInfo = allUserDocs.find((user) => user.id === creatorId);
+const UserNameBox = ({ creatorId, fontSize = 15 }: PropsType) => {
   const currentUser = useRecoilValue(currentUserState);
+
+  const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersState);
+
+  const user = allUserDocs.find((user) => user.id === creatorId);
 
   useEffect(() => {
     if (allUserDocs.length === 0) {
@@ -23,19 +25,20 @@ const UsernameBox = ({ creatorId, fontSize = 15 }: PropsType) => {
     }
   }, [creatorId, allUserDocs, setAllUserDocs]);
 
-  const bookShelfLink =
-    creatorId === currentUser.uid
-      ? '/mybookshelf'
-      : `/bookshelf/${userInfo?.displayName}`;
+  const isCurrentUser = currentUser.uid === user?.id;
+
+  const to = `/bookshelf${isCurrentUser ? '' : `/${user?.displayName}`}`;
 
   return (
-    <Username
-      $fontSize={fontSize}
-      to={bookShelfLink}
-      state={{ user: userInfo }}
-    >
-      {userInfo?.displayName && <span>{userInfo?.displayName}</span>}
-    </Username>
+    <>
+      {user ? (
+        <Username $fontSize={fontSize} to={to} state={{ userId: user.id }}>
+          {user?.displayName && <span>{user.displayName}</span>}
+        </Username>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 
@@ -46,7 +49,7 @@ const Username = styled(Link)<{ $fontSize: number }>`
   justify-content: center;
 
   > span {
-    color: #888;
+    color: #666;
     font-size: ${(props) =>
       props.$fontSize ? `${props.$fontSize}px` : '20px'};
   }
@@ -58,4 +61,4 @@ const Username = styled(Link)<{ $fontSize: number }>`
   }
 `;
 
-export default UsernameBox;
+export default UserNameBox;

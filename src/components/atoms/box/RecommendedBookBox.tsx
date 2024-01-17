@@ -4,7 +4,7 @@ import { HiMiniArrowUpRight } from 'react-icons/hi2';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import BookThumbnailImg from '../BookThumbnailImg';
-import UsernameBox from 'components/organisms/UsernameBox';
+import UserNameBox from 'components/organisms/UserNameBox';
 
 interface Props {
   docIds: { docId: string; monthId: string };
@@ -57,7 +57,6 @@ export default function RecommendedBookBox({ docIds }: Props) {
       docId,
       setBook
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const {
@@ -76,7 +75,7 @@ export default function RecommendedBookBox({ docIds }: Props) {
         </div>
       </Link>
       <div className='username'>
-        <UsernameBox creatorId={creatorId} />
+        <UserNameBox creatorId={creatorId} />
       </div>
     </RecommendedBookItem>
   );

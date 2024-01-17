@@ -42,7 +42,7 @@ const useHandleProfile = () => {
       photoURL: userImageUrl,
     });
     await updateDoc(userDataRef, {
-      photoUrl: userImageUrl,
+      photoURL: userImageUrl,
     });
     refreshUser();
   };

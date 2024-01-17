@@ -15,15 +15,10 @@ const QuillEditor = ({ placeholder, text, setText }: QuillEditorProps) => {
     () => ({
       toolbar: {
         container: [
-          [{ size: ['small', false, 'large', 'huge'] }],
-          ['italic', 'underline', 'strike', 'blockquote'],
-          [
-            { list: 'ordered' },
-            { list: 'bullet' },
-            { indent: '-1' },
-            { indent: '+1' },
-            { align: [] },
-          ],
+          [{ size: ['small', false, 'large'] }],
+          [{ color: [] }],
+          ['italic', 'underline', 'blockquote'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
           ['link'],
         ],
       },
@@ -71,44 +66,30 @@ const Editor = styled(ReactQuill)`
   }
   .ql-editor {
     padding: 8px 10px;
-    .ql-indent-1:not(.ql-direction-rtl),
-    .ql-indent-2:not(.ql-direction-rtl),
-    .ql-indent-3:not(.ql-direction-rtl),
-    .ql-indent-4:not(.ql-direction-rtl),
-    .ql-indent-5:not(.ql-direction-rtl),
-    .ql-indent-6:not(.ql-direction-rtl),
-    .ql-indent-7:not(.ql-direction-rtl),
-    .ql-indent-8:not(.ql-direction-rtl) {
-      padding-left: 0;
-      /* border: 1px solid rebeccapurple; */
-    }
+
     p,
     blockquote,
     li {
       margin-bottom: 8px;
     }
+
     blockquote {
-      padding-top: 3px;
+      padding-left: 8px;
+      padding-top: 2px;
       color: #666;
-      &.ql-indent-1:not(.ql-direction-rtl),
-      &.ql-indent-2:not(.ql-direction-rtl),
-      &.ql-indent-3:not(.ql-direction-rtl),
-      &.ql-indent-4:not(.ql-direction-rtl),
-      &.ql-indent-5:not(.ql-direction-rtl),
-      &.ql-indent-6:not(.ql-direction-rtl),
-      &.ql-indent-7:not(.ql-direction-rtl),
-      &.ql-indent-8:not(.ql-direction-rtl) {
-        padding-left: 10px;
-      }
     }
+
+    span {
+      font-size: 16px;
+    }
+
     ol,
     ul {
       padding-left: 20px;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       li {
         &:before {
           display: none;
-          border: 1px solid red;
         }
         &:not(.ql-direction-rtl) {
           padding-left: 0;
@@ -130,38 +111,11 @@ const Editor = styled(ReactQuill)`
         list-style-type: decimal;
       }
     }
-  }
-  .ql-indent-1 {
-    margin-left: 20px;
-    padding: 0;
-  }
-  .ql-indent-2 {
-    margin-left: 40px;
-    padding: 0;
-  }
-  .ql-indent-3 {
-    margin-left: 60px;
-    padding: 0;
-  }
-  .ql-indent-4 {
-    margin-left: 80px;
-    padding: 0;
-  }
-  .ql-indent-5 {
-    margin-left: 100px;
-    padding: 0;
-  }
-  .ql-indent-6 {
-    margin-left: 120px;
-    padding: 0;
-  }
-  .ql-indent-7 {
-    margin-left: 140px;
-    padding: 0;
-  }
-  .ql-indent-8 {
-    margin-left: 160px;
-    padding: 0;
+    a {
+      font-size: 15px;
+      color: ${(props) => props.theme.text.lightBlue};
+      text-decoration: underline;
+    }
   }
 
   @media ${device.desktop} {

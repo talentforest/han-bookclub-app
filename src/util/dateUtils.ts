@@ -18,6 +18,13 @@ export const isoFormatDate = (date: Date) => {
 // YYYY-MM
 export const thisYearMonthId = isoFormatDate(krCurTime).slice(0, -3);
 
+// YYYY년 MM월
+export const formattedYearMonth = (id: string) => {
+  const year = id.slice(0, 4);
+  const month = id.slice(-2);
+  return `${year}년 ${month}월`;
+};
+
 export const getLocaleDateTime = (time: Date) => {
   return new Date(time).toLocaleDateString('ko', {
     minute: 'numeric',

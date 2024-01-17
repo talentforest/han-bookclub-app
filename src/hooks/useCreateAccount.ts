@@ -68,7 +68,7 @@ const useCreateAccount = (setShowNextStep?: (step: boolean) => void) => {
             gender: userGender,
             name: username,
             displayName: '한 페이지 멤버',
-            photoUrl: '',
+            photoURL: '',
           }
         );
         window.alert(

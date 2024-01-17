@@ -10,7 +10,7 @@ import Subtitle from 'components/atoms/Subtitle';
 import Guide from 'components/atoms/Guide';
 import EmailInput from 'components/atoms/inputs/EmailInput';
 import PwInput from 'components/atoms/inputs/PwInput';
-import MobileHeader from 'layout/MobileHeader';
+import Header from 'layout/mobile/Header';
 
 const CreateAccount = () => {
   const [showNextStep, setShowNextStep] = useState(false);
@@ -29,7 +29,7 @@ const CreateAccount = () => {
 
   return (
     <>
-      <MobileHeader />
+      <Header title='계정 생성' backBtn />
       <main>
         {!showNextStep ? (
           <Form onSubmit={onFirstStepSubmit}>

@@ -23,7 +23,6 @@ export default function TabBox({ yearMonthId }: Props) {
   useEffect(() => {
     getCollection(getFbRoute(yearMonthId).HOST_REVIEW, setHostReview);
     getCollection(getFbRoute(yearMonthId).SUBJECTS, setSubjects);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subjects.length]);
 
   return (
@@ -48,7 +47,7 @@ export default function TabBox({ yearMonthId }: Props) {
 
               <Link
                 to='subjects'
-                state={{ id: yearMonthId, postType: 'subjects' }}
+                state={{ id: yearMonthId, postType: '발제문' }}
               >
                 <span>더보기</span>
                 <FiChevronRight fontSize={16} stroke='#aaa' />
@@ -58,7 +57,7 @@ export default function TabBox({ yearMonthId }: Props) {
             <BtnBox>
               <Link
                 to='subjects'
-                state={{ id: yearMonthId, postType: 'subjects' }}
+                state={{ id: yearMonthId, postType: '발제문' }}
               >
                 <FiPlus />
                 <span>{`${tab} 추가하러 가기`}</span>
@@ -74,7 +73,7 @@ export default function TabBox({ yearMonthId }: Props) {
 
               <Link
                 to='host-review'
-                state={{ id: yearMonthId, postType: 'host-review' }}
+                state={{ id: yearMonthId, postType: '정리 기록' }}
               >
                 <span>더보기</span>
                 <FiChevronRight fontSize={16} stroke='#aaa' />
@@ -84,7 +83,7 @@ export default function TabBox({ yearMonthId }: Props) {
             <BtnBox>
               <Link
                 to='host-review'
-                state={{ id: yearMonthId, postType: 'host-review' }}
+                state={{ id: yearMonthId, postType: '정리 기록' }}
               >
                 <FiPlus />
                 <span>{`${tab} 추가하러 가기`}</span>

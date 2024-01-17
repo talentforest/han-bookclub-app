@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import device from 'theme/mediaQueries';
-import NameTag from '../NameTag';
 import { FiEdit3 } from 'react-icons/fi';
 import { IBookFieldHost } from 'data/bookFieldHostAtom';
 import { FaCaretRight } from 'react-icons/fa6';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+import NameTag from '../NameTag';
 
 interface Props {
   bookFieldhost: IBookFieldHost;
@@ -59,6 +59,9 @@ const FieldHost = styled.div`
   flex-direction: column;
   gap: 6px;
   flex: 1;
+  .no_info {
+    font-size: 13px;
+  }
 `;
 
 const HostList = styled.ul`

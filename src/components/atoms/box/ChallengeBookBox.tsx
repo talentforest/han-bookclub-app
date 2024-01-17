@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import BookThumbnail from '../BookThumbnailImg';
-import UsernameBox from 'components/organisms/UsernameBox';
 import { IBookApi } from 'data/bookAtom';
+import BookThumbnail from '../BookThumbnailImg';
+import UserNameBox from 'components/organisms/UserNameBox';
+import styled from 'styled-components';
 
 interface Challenge {
   user: string;
@@ -22,7 +22,7 @@ export default function ChallengeBookBox({ challenge }: Props) {
     <Box>
       <BookThumbnail title={title} thumbnail={thumbnail} />
       <div>
-        <UsernameBox creatorId={user} fontSize={15} />
+        <UserNameBox creatorId={user} fontSize={15} />
         <h1>{title}</h1>
         <div>
           <span>

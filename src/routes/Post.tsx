@@ -6,13 +6,29 @@ import {
 } from 'data/documentsAtom';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { getFbRoute, thisYear } from 'util/index';
+import {
+  formattedYearMonth,
+  getFbRoute,
+  thisYear,
+  thisYearMonthId,
+} from 'util/index';
 import { getCollection } from 'api/getFbDoc';
 import HistoryClubBookBox from 'components/atoms/box/HistoryClubBookBox';
 import Record from 'components/atoms/post/Record';
-import AddPostModal from 'components/organisms/modal/AddPostModal';
+import PostAddModal from 'components/organisms/modal/PostAddModal';
 import styled from 'styled-components';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
+import Header from 'layout/mobile/Header';
+
+type PostType = '발제문' | '정리 기록';
+
+interface LocationState {
+  pathname: string;
+  state: {
+    id: string;
+    postType: PostType;
+  };
+}
 
 export default function Post() {
   const [clubInfoDocs, setClubInfoDocs] = useRecoilState(clubInfoByYearState);
@@ -23,13 +39,12 @@ export default function Post() {
   const {
     state: { id, postType },
     pathname,
-  } = useLocation();
+  } = useLocation() as LocationState;
 
   useEffect(() => {
     getCollection(`BookClub-${thisYear}`, setClubInfoDocs);
     getCollection(getFbRoute(id).HOST_REVIEW, setHostReview);
     getCollection(getFbRoute(id).SUBJECTS, setSubjects);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const document = clubInfoDocs?.find((doc) => doc.id === id);
@@ -41,45 +56,54 @@ export default function Post() {
     setOpenAddPostModal((prev) => !prev);
   };
 
+  const headerYearMonth =
+    id === thisYearMonthId ? '이달' : formattedYearMonth(id);
+
   return (
-    <Main>
-      {document && <HistoryClubBookBox document={document} />}
+    <>
+      <Header title={`${headerYearMonth}의 한페이지 ${postType}`} backBtn />
 
-      {pathname.includes('bookclub') && (
-        <AddPostBtn onClick={toggleAddPostModal} type='button'>
-          {postType === 'subjects' ? '발제문 추가하기' : '정리 기록 추가하기'}
-        </AddPostBtn>
-      )}
+      <Main>
+        {document && <HistoryClubBookBox document={document} />}
 
-      {postType === 'subjects' &&
-        subjects.map((subject, index) => (
-          <Fragment key={subject.id}>
-            <Record
-              type='발제문'
-              post={subject}
-              collName={getFbRoute(id)?.SUBJECTS}
-            />
-            {subjects.length - 1 !== index && <div className='dividingLine' />}
-          </Fragment>
-        ))}
+        {pathname.includes('bookclub') && (
+          <AddPostBtn onClick={toggleAddPostModal} type='button'>
+            {postType === '발제문' ? '발제문 추가하기' : '정리 기록 추가하기'}
+          </AddPostBtn>
+        )}
 
-      {postType === 'host-review' && hostReview[0] && (
-        <Record
-          type='정리 기록'
-          post={hostReview[0]}
-          collName={getFbRoute(id)?.HOST_REVIEW}
-        />
-      )}
+        {postType === '발제문' &&
+          subjects.map((subject, index) => (
+            <Fragment key={subject.id}>
+              <Record
+                type='발제문'
+                post={subject}
+                collName={getFbRoute(id)?.SUBJECTS}
+              />
+              {subjects.length - 1 !== index && (
+                <div className='dividingLine' />
+              )}
+            </Fragment>
+          ))}
 
-      {openAddPostModal && (
-        <AddPostModal
-          title={
-            postType === 'subjects' ? '발제문 작성하기' : '정리 기록 작성하기'
-          }
-          toggleModal={toggleAddPostModal}
-        />
-      )}
-    </Main>
+        {postType === '정리 기록' && hostReview[0] && (
+          <Record
+            type='정리 기록'
+            post={hostReview[0]}
+            collName={getFbRoute(id)?.HOST_REVIEW}
+          />
+        )}
+
+        {openAddPostModal && (
+          <PostAddModal
+            title={
+              postType === '발제문' ? '발제문 작성하기' : '정리 기록 작성하기'
+            }
+            toggleModal={toggleAddPostModal}
+          />
+        )}
+      </Main>
+    </>
   );
 }
 

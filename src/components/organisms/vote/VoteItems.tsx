@@ -1,3 +1,4 @@
+import { LabeledBox } from 'components/atoms/inputs/BoxLabeledInput';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -18,15 +19,24 @@ interface IVoteProps {
     id?: number
   ) => void;
   onItemDeleteClick: (id: number) => void;
+  openTextArea: boolean;
 }
 
-const VoteItems = ({ vote, onTitleChange, onItemDeleteClick }: IVoteProps) => {
+const VoteItems = ({
+  vote,
+  onTitleChange,
+  onItemDeleteClick,
+  openTextArea,
+}: IVoteProps) => {
   return (
-    <List>
+    <ul>
       {vote.voteItem?.map((item) => (
         <VoteItem key={item.id}>
-          <InputBox>
+          <LabeledVoteItem>
+            <div className='label'>{item.id}번</div>
+
             <Input
+              className='info'
               type='text'
               placeholder='투표항목을 적어주세요.'
               name={`vote_item${item.id}`}
@@ -34,88 +44,60 @@ const VoteItems = ({ vote, onTitleChange, onItemDeleteClick }: IVoteProps) => {
               onChange={(event) => onTitleChange(event, item.id)}
               required
             />
+          </LabeledVoteItem>
+
+          {openTextArea && (
             <Textarea
-              placeholder='투표항목으로 선정한 이유를 작성해주세요.'
+              placeholder='선정 이유에 대한 작성은 선택사항입니다.'
               value={item.selectReason}
               name={`selectReason${item.id}`}
               onChange={(event) => onTitleChange(event, item.id)}
             />
-            {item.id > 2 && <></>}
-          </InputBox>
+          )}
         </VoteItem>
       ))}
-    </List>
+    </ul>
   );
 };
 
-const List = styled.ul`
-  @media ${device.tablet} {
-    span {
-      font-size: 16px;
-    }
-  }
-`;
 const VoteItem = styled.li`
-  position: relative;
-  display: flex;
-  gap: 3px;
-  margin-bottom: 15px;
-  > svg {
-    margin-top: 5px;
-    width: 22px;
-    height: 22px;
-    fill: ${(props) => props.theme.text.accent};
-  }
   @media ${device.tablet} {
     display: flex;
     flex-direction: column;
-    svg {
-      width: 18px;
-      height: 18px;
-    }
   }
 `;
-const InputBox = styled.div`
+
+const LabeledVoteItem = styled(LabeledBox)`
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  svg {
-    position: absolute;
-    bottom: 1px;
-    left: -1px;
-    width: 22px;
-    height: 22px;
-    fill: ${(props) => props.theme.text.gray};
+  margin-bottom: 5px;
+  div.label {
+    width: 50px;
+    border: 1px solid ${(props) => props.theme.text.lightGray};
+  }
+  > input {
+    width: 100%;
   }
 `;
+
 const Input = styled.input`
-  width: 100%;
-  font-size: 16px;
-  padding: 5px;
-  border-radius: 10px;
-  box-shadow: ${(props) => props.theme.boxShadow};
-  border: 1px solid ${(props) => props.theme.text.lightGray};
-  &:focus {
-    outline: none;
-  }
   @media ${device.tablet} {
     font-size: 16px;
   }
 `;
+
 const Textarea = styled.textarea`
-  font-size: 16px;
+  font-size: 15px;
   width: 100%;
-  margin-top: 5px;
-  padding: 10px 5px;
+  height: 120px;
+  margin-bottom: 15px;
+  padding: 8px;
   border-radius: 10px;
   border: none;
   border: 1px solid ${(props) => props.theme.text.lightGray};
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: 2px 2px 2px 2px rgba(200, 200, 200, 0.2);
   resize: none;
   &::placeholder {
-    line-height: 22px;
+    color: #aaa;
   }
   &:focus {
     outline: none;

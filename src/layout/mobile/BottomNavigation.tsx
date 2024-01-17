@@ -1,15 +1,22 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useMatch } from 'react-router-dom';
 import { FiHome, FiArchive, FiCoffee, FiUser } from 'react-icons/fi';
 import { MdOutlineHowToVote } from 'react-icons/md';
+import { useRecoilValue } from 'recoil';
+import { currentUserState } from 'data/userAtom';
 
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
-const Navigation = () => {
+const BottomNavigation = () => {
+  const currentUser = useRecoilValue(currentUserState);
+
   const { pathname } = useLocation();
+
+  const bookShelfMatch = useMatch('bookshelf/:id');
 
   return (
     pathname !== '/login' &&
+    !bookShelfMatch &&
     !pathname.includes('setting') &&
     !pathname.includes('userInfo') && (
       <Nav>
@@ -38,8 +45,8 @@ const Navigation = () => {
               <span>투표하기</span>
             </Link>
           </Item>
-          <Item $active={pathname.includes('/mybookshelf')}>
-            <Link to='/mybookshelf'>
+          <Item $active={pathname === '/bookshelf'}>
+            <Link to={`/bookshelf`} state={{ userId: currentUser.uid }}>
               <FiUser />
               <span>나의 책장</span>
             </Link>
@@ -100,4 +107,4 @@ const Item = styled.li<{ $active: boolean }>`
   }
 `;
 
-export default Navigation;
+export default BottomNavigation;

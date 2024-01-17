@@ -13,7 +13,7 @@ interface Props {
   title: '정리 기록 작성하기' | '발제문 작성하기';
 }
 
-const AddPostModal = ({ toggleModal, title }: Props) => {
+const PostAddModal = ({ toggleModal, title }: Props) => {
   const [text, setText] = useState('');
 
   const thisMonthClub = useRecoilValue(thisMonthClubState);
@@ -65,4 +65,4 @@ const AddPostModal = ({ toggleModal, title }: Props) => {
   );
 };
 
-export default AddPostModal;
+export default PostAddModal;

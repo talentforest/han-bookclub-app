@@ -10,12 +10,12 @@ const Guide = ({ text }: PropsType) => {
 };
 
 const GuidePar = styled.p`
-  margin: 3px 0 8px 0;
-  font-size: 14px;
+  font-size: 13px;
   color: ${(props) => props.theme.text.mediumGray};
+  line-height: 1.5;
 
   @media ${device.tablet} {
-    font-size: 16px;
+    font-size: 15px;
   }
 `;
 

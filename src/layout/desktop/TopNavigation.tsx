@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
-const DesktopNav = () => {
+const TopNavigation = () => {
   const { pathname } = useLocation();
 
   return (
@@ -24,8 +24,8 @@ const DesktopNav = () => {
           <Item $active={pathname.includes('/vote')}>
             <Link to='/vote'>투표하기</Link>
           </Item>
-          <Item $active={pathname.includes('/mybookshelf')}>
-            <Link to='/mybookshelf'>나의 책장</Link>
+          <Item $active={pathname.includes('/bookshelf')}>
+            <Link to='/bookshelf'>나의 책장</Link>
           </Item>
           <Item $active={pathname.includes('/setting')}>
             <Link to='/setting'>설정</Link>
@@ -86,4 +86,4 @@ const Item = styled.li<{ $active: boolean }>`
   }
 `;
 
-export default DesktopNav;
+export default TopNavigation;

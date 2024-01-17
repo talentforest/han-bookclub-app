@@ -1,6 +1,9 @@
 import { getDDay, cutLetter } from 'util/index';
 import { Link } from 'react-router-dom';
 import { IVote } from 'data/voteItemAtom';
+import { LabeledBox } from 'components/atoms/inputs/BoxLabeledInput';
+import { FiChevronRight, FiMoreHorizontal } from 'react-icons/fi';
+import { MdOutlineHowToVote } from 'react-icons/md';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 
@@ -18,19 +21,26 @@ const VoteBox = ({ voteDetail }: PropsType) => {
 
   return (
     <Vote>
-      <Title>{cutLetter(title, 30)}</Title>
+      <Title>
+        <MdOutlineHowToVote fill='#316cff' fontSize={20} />
+        {cutLetter(title, 40)}
+      </Title>
+
       <ItemList>
         {voteItem?.slice(0, 2).map((item) => (
-          <Item key={item.id}>
-            <span>{cutLetter(item.item, 15)}</span>
-          </Item>
+          <LabelVoteBox key={item.id}>
+            <div className='label'>{`${item.id}번`}</div>
+            <div className='info'>{cutLetter(item.item, 16)}</div>
+          </LabelVoteBox>
         ))}
-        {voteItem.length > 2 && <More />}
+        {voteItem.length > 2 && <FiMoreHorizontal />}
       </ItemList>
+
       <Bottom>
-        <p>D-Day: {getDDay(deadline)}</p>
+        <p>디데이: {getDDay(deadline)}</p>
         <Link to={`/vote/${voteId}`} state={{ voteDocId: id }}>
-          투표하러 가기
+          <span>투표하러 가기</span>
+          <FiChevronRight fontSize={16} />
         </Link>
       </Bottom>
     </Vote>
@@ -41,75 +51,78 @@ const Vote = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 230px;
+  height: 210px;
   width: 100%;
   border-radius: 10px;
-  padding: 15px 20px;
+  padding: 12px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: ${(props) => props.theme.boxShadow};
   @media ${device.tablet} {
     min-height: 240px;
   }
 `;
+
 const Title = styled.h4`
   font-size: 16px;
-  font-weight: 700;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   svg {
     float: left;
-    margin: 2px 5px 0 0;
-    width: 20px;
-    height: 20px;
+    margin-right: 4px;
+    padding-top: 3px;
   }
 `;
+
 const ItemList = styled.ul`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: start;
   height: 100%;
   margin-bottom: 10px;
 `;
-const Item = styled.li`
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-  padding: 3px 10px;
-  min-height: 40px;
-  font-size: 16px;
-  border: 1px solid ${(props) => props.theme.container.blue};
-  border-radius: 10px;
-  background-color: ${(props) => props.theme.container.lightBlue};
-  > svg {
-    width: 18px;
-    height: 18px;
-    margin-right: 8px;
-    fill: ${(props) => props.theme.container.blue};
+
+const LabelVoteBox = styled(LabeledBox)`
+  height: 35px;
+  width: 100%;
+  div.label {
+    width: 50px;
+    font-size: 15px;
+    border: 1px solid ${(props) => props.theme.text.lightGray};
+    background-color: ${(props) => props.theme.container.yellow};
+    color: ${(props) => props.theme.text.lightBlue};
   }
-  @media ${device.tablet} {
-    font-size: 16px;
-    min-height: 45px;
+  div.info {
+    border-left: none;
+    border: 1px solid ${(props) => props.theme.text.lightGray};
+    height: 100%;
+    width: 100%;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    padding-top: 3px;
+    font-size: 15px;
   }
 `;
-const More = styled.div`
-  align-self: center;
-`;
+
 const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   font-size: 14px;
-  margin-top: 10px;
   > p {
-    color: ${(props) => props.theme.text.accent};
+    color: ${(props) => props.theme.text.mediumGray};
   }
   > a {
     display: flex;
     align-items: center;
-    color: ${(props) => props.theme.text.accent};
     svg {
-      width: 14px;
-      height: 14px;
-      fill: ${(props) => props.theme.text.accent};
+      line-height: 0;
+      stroke: ${(props) => props.theme.text.mediumGray};
+    }
+    span {
+      color: ${(props) => props.theme.text.mediumGray};
     }
   }
   @media ${device.tablet} {

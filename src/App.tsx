@@ -21,7 +21,6 @@ function App() {
       photoURL: user?.photoURL,
     });
     setInit(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

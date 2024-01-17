@@ -8,11 +8,11 @@ import { isoFormatDate } from 'util/index';
 import useAlertAskJoin from './useAlertAskJoin';
 
 interface ICreateVoteBox {
-  setModalOpen: (modalOpen: boolean) => void;
   endDate: Date;
+  onModalClick: () => void;
 }
 
-const useCreateVoteBox = ({ setModalOpen, endDate }: ICreateVoteBox) => {
+const useCreateVoteBox = ({ endDate, onModalClick }: ICreateVoteBox) => {
   const userData = useRecoilValue(currentUserState);
   const votes = useRecoilValue(votesState);
   const { alertAskJoinMember } = useAlertAskJoin('register');
@@ -46,7 +46,7 @@ const useCreateVoteBox = ({ setModalOpen, endDate }: ICreateVoteBox) => {
         addDocVote();
         window.alert('투표가 성공적으로 등록되었습니다!');
       }
-      setModalOpen(false);
+      onModalClick();
     } catch (error) {
       console.error('Error adding document:', error);
     }

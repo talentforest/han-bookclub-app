@@ -3,6 +3,7 @@ import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
 import Subtitle from 'components/atoms/Subtitle';
 import PwInput from 'components/atoms/inputs/PwInput';
 import useDeleteAccount from 'hooks/useDeleteAccount';
+import Header from 'layout/mobile/Header';
 
 const DeleteAccount = () => {
   const {
@@ -13,23 +14,26 @@ const DeleteAccount = () => {
   } = useDeleteAccount();
 
   return (
-    <main>
-      <Subtitle
-        title=' 탈퇴할 시 회원님의 데이터는 즉시 모두 삭제되며, 데이터는 복구
+    <>
+      <Header title='탈퇴' backBtn />
+      <main>
+        <Subtitle
+          title=' 탈퇴할 시 회원님의 데이터는 즉시 모두 삭제되며, 데이터는 복구
         불가능합니다.'
-      />
-      <Form onSubmit={onDeleteSubmit}>
-        {showMessage && <Msg>비밀번호가 맞지 않습니다.</Msg>}
-        <PwInput
-          name='password'
-          placeholder='현재 비밀번호를 입력해주세요.'
-          value={password}
-          onChange={onChange}
-          autoComplete='false'
         />
-        <SubmitBtn children='탈퇴하기' />
-      </Form>
-    </main>
+        <Form onSubmit={onDeleteSubmit}>
+          {showMessage && <Msg>비밀번호가 맞지 않습니다.</Msg>}
+          <PwInput
+            name='password'
+            placeholder='현재 비밀번호를 입력해주세요.'
+            value={password}
+            onChange={onChange}
+            autoComplete='false'
+          />
+          <SubmitBtn children='탈퇴하기' />
+        </Form>
+      </main>
+    </>
   );
 };
 

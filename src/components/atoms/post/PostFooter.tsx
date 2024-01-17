@@ -1,14 +1,13 @@
 import { getLocalDate } from 'util/index';
 import { IDocument } from 'data/documentsAtom';
-import ShareBtn from '../buttons/ShareBtn';
 import styled from 'styled-components';
 import LikesBox from '../LikesBox';
 
 interface Props {
   post?: IDocument;
   createdAt: number;
-  footerType: 'likes' | 'share';
-  collName: string;
+  footerType?: 'likes';
+  collName?: string;
 }
 
 export default function PostFooter({
@@ -31,7 +30,7 @@ const Footer = styled.footer`
   justify-content: space-between;
   align-items: flex-end;
   > span {
-    font-size: 12px;
+    font-size: 14px;
     color: #aaa;
   }
 `;
