@@ -3,10 +3,10 @@ import { authService } from 'fbase';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import EmailInput from 'components/atoms/inputs/EmailInput';
 import Subtitle from 'components/atoms/Subtitle';
-import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
-import Header from 'layout/mobile/Header';
+import Header from 'layout/desktop/Header';
+import SquareBtn from 'components/atoms/buttons/SquareBtn';
+import Input from 'components/atoms/inputs/Input';
 
 const ResetPasswordEmail = () => {
   const [email, setEmail] = useState('');
@@ -28,24 +28,26 @@ const ResetPasswordEmail = () => {
 
   return (
     <>
-      <Header title='비밀번호 변경' backBtn />
+      <Header title='비밀번호 찾기' />
+
       <main>
         <Subtitle title='비밀번호가 생각나지 않으세요?' />
-        <Detail>
-          가입할 때 사용하신 계정 이메일을 적어주세요. <br />
-          해당 이메일에 비밀번호 재설정 링크를 전송해 드릴게요.
-        </Detail>
+        <Detail>가입할 때 사용하신 계정 이메일을 적어주세요.</Detail>
+
         <InputForm onSubmit={onSubmit}>
-          <EmailInput
+          <Input
+            name='email'
+            type='email'
             value={email}
             placeholder='계정 이메일을 적어주세요.'
             onChange={onChange}
           />
-          <SubmitBtn children='전송하기' />
+          <SquareBtn type='submit' name='전송하기' />
         </InputForm>
+
         {submitSuccess ? (
           <Message>
-            해당 이메일에 성공적으로 전송되었습니다.
+            해당 이메일에 비밀번호 재설정 링크가 전송되었어요.
             <br /> 수신함에 메일이 보이지 않는다면 스팸을 확인해주세요.
           </Message>
         ) : (
@@ -57,37 +59,35 @@ const ResetPasswordEmail = () => {
 };
 
 const Detail = styled.p`
-  font-size: 12px;
-  margin-bottom: 15px;
-  line-height: 1.5;
-  color: ${(props) => props.theme.text.lightBlue};
+  margin-bottom: 10px;
+  padding-left: 4px;
+  color: ${(props) => props.theme.text.gray};
+  font-size: 13px;
   @media ${device.tablet} {
-    font-size: 18px;
+    font-size: 14px;
   }
 `;
+
 const Message = styled(Detail)`
-  color: #666;
-  font-size: 10px;
+  color: #888;
+  font-size: 14px;
   margin: 10px 0;
-  text-align: end;
+  text-align: start;
 `;
+
 const InputForm = styled.form`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
   > input {
-    margin: 0 5px 0 0;
     width: 100%;
-    height: 50px;
   }
   > button {
-    width: 140px;
-    height: 50px;
+    width: 100px;
   }
   @media ${device.tablet} {
-    > input {
-      margin: 0 15px 0 0;
-    }
+    width: 70%;
   }
 `;
 export default ResetPasswordEmail;

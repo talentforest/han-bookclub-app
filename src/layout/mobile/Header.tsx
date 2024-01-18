@@ -8,8 +8,7 @@ type PageHeaderTitle =
   | '지난 한페이지 모임'
   | '이달의 한페이지 모임'
   | '한페이지의 투표함'
-  | `${string}의 책장`
-  | '로그인';
+  | `${string}의 책장`;
 
 type DetailPageHeaderTitle =
   | '도서 정보'
@@ -21,9 +20,7 @@ type DetailPageHeaderTitle =
   | '도서 검색'
   | '설정'
   | '프로필 정보'
-  | '비밀번호 찾기'
   | '비밀번호 변경'
-  | '계정 생성'
   | '탈퇴';
 
 interface Props {
@@ -69,18 +66,15 @@ const MobileHeader = styled.header`
   display: flex;
   align-items: center;
   gap: 3px;
-
   img {
     width: 22px;
     height: 22px;
   }
-
   h1 {
     color: ${(props) => props.theme.text.gray};
     font-size: 18px;
     flex: 1;
   }
-
   @media ${device.tablet} {
     display: none;
   }

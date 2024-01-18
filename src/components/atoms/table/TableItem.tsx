@@ -76,10 +76,13 @@ const SubmitBtn = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2;
+
   svg {
     width: 14px;
     height: 14px;
     stroke: #aaa;
+  }
+  @media ${device.tablet} {
+    padding: 4px 0 10px 10px;
   }
 `;

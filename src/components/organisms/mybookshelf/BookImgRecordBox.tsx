@@ -1,4 +1,4 @@
-import { IUserRecord, currentUserState } from 'data/userAtom';
+import { IUserRecord, allUsersState, currentUserState } from 'data/userAtom';
 import { getFbRoute, existDocObj } from 'util/index';
 import { IDocument } from 'data/documentsAtom';
 import { useEffect, useState } from 'react';
@@ -11,7 +11,6 @@ import Modal from 'components/atoms/Modal';
 import PostFooter from 'components/atoms/post/PostFooter';
 import PostEditDeleteBox from '../PostEditDeleteBox';
 import PostContent from 'components/atoms/post/PostContent';
-// import RatingBox from '../RatingBox';
 
 interface PropsType {
   recordId: IUserRecord;
@@ -19,7 +18,9 @@ interface PropsType {
 }
 
 const BookImgRecordBox = ({ recordId, recordSort }: PropsType) => {
-  const userData = useRecoilValue(currentUserState);
+  const currentUser = useRecoilValue(currentUserState);
+
+  const allUsers = useRecoilValue(allUsersState);
 
   const { docId, monthId } = recordId;
   const [record, setRecord] = useState({} as IDocument);
@@ -41,6 +42,10 @@ const BookImgRecordBox = ({ recordId, recordSort }: PropsType) => {
 
   const { thumbnail, title, createdAt, creatorId, text } = record;
 
+  const isCurrentUser = currentUser.uid === creatorId;
+  const findUser = allUsers?.find((user) => user.id === creatorId);
+  const userName = isCurrentUser ? '나' : findUser?.displayName;
+
   return (
     <>
       {existDocObj(record) ? (
@@ -57,7 +62,7 @@ const BookImgRecordBox = ({ recordId, recordSort }: PropsType) => {
 
       {openModal && (
         <Modal
-          title={`나의 ${
+          title={`${userName}의 ${
             recordSort === 'hostReview'
               ? '모임 정리 기록'
               : recordSort === 'reviews'
@@ -68,14 +73,14 @@ const BookImgRecordBox = ({ recordId, recordSort }: PropsType) => {
           }`}
           onToggleClick={handleModal}
         >
-          <BtnsBox>
-            {userData.uid === creatorId && (
-              <PostEditDeleteBox post={record} collName={getRecordRoute()} />
-            )}
-          </BtnsBox>
-
           <PostBox>
             <PostContent text={text} />
+
+            <BtnsBox>
+              {currentUser.uid === creatorId && (
+                <PostEditDeleteBox post={record} collName={getRecordRoute()} />
+              )}
+            </BtnsBox>
 
             <PostFooter
               createdAt={createdAt}
@@ -106,18 +111,13 @@ export const RecordItem = styled.li<{ $skeleton?: boolean }>`
 
 const PostBox = styled.div`
   max-height: 80vh;
-  overflow: scroll;
-  scroll-behavior: auto;
-  &::-webkit-scrollbar {
-    display: none;
-  }
   margin: 5px 0 0;
 `;
 
 const BtnsBox = styled.div`
-  position: absolute;
-  top: 16px;
-  right: 13px;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
 `;
 
 export default BookImgRecordBox;

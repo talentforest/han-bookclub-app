@@ -6,10 +6,10 @@ import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import FormDetails from 'components/organisms/votedetail/FormDetails';
 import Percentage from 'components/organisms/votedetail/Percentage';
-import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
 import Subtitle from 'components/atoms/Subtitle';
 import Header from 'layout/mobile/Header';
 import NameTag from 'components/atoms/NameTag';
+import SquareBtn from 'components/atoms/buttons/SquareBtn';
 
 type LocationState = { state: { voteDocId: string } };
 
@@ -55,7 +55,7 @@ const VoteDetail = () => {
                   ))}
                 </Votelist>
 
-                <SubmitBtn children='투표 완료' disabled={true} />
+                <SquareBtn name='투표 완료' disabled />
               </>
             ) : (
               <>
@@ -75,7 +75,7 @@ const VoteDetail = () => {
                     </VoteItem>
                   ))}
                 </Votelist>
-                <SubmitBtn children='투표하기' />
+                <SquareBtn type='submit' name='투표하기' />
               </>
             )}
           </Form>
@@ -127,7 +127,7 @@ const VoteItem = styled.li<{ $selected: boolean }>`
   margin-bottom: 5px;
   background-color: ${(props) => props.theme.container.default};
   svg {
-    z-index: 10;
+    z-index: 2;
   }
   @media ${device.tablet} {
     padding: 10px 15px;

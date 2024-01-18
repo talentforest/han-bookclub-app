@@ -38,7 +38,7 @@ const BookFieldHostBox = () => {
             <span className='field'>독서분야와 발제자</span>
           </FieldHeader>
 
-          <ul>
+          <FieldList>
             {bookFieldHostDoc.info?.map((bookFieldhost, index) => (
               <BookFieldHostListItem key={bookFieldhost.month}>
                 {!!isEditing[index] && (
@@ -63,7 +63,7 @@ const BookFieldHostBox = () => {
                 />
               </BookFieldHostListItem>
             ))}
-          </ul>
+          </FieldList>
         </FieldHostBox>
       ) : (
         <Loading height='70vh' />
@@ -78,10 +78,6 @@ const FieldHostBox = styled.div`
   border-radius: 10px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: ${(props) => props.theme.boxShadow};
-
-  > ul {
-    padding: 3px 0;
-  }
 
   .tablebox {
     position: relative;
@@ -104,11 +100,6 @@ const FieldHostBox = styled.div`
     display: flex;
     justify-content: start;
   }
-
-  @media ${device.tablet} {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
 `;
 
 const FieldHeader = styled.div`
@@ -116,11 +107,27 @@ const FieldHeader = styled.div`
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   height: 42px;
-  padding: 15px 20px;
-
+  padding: 10px 20px;
+  display: flex;
   > span {
     font-size: 15px;
     color: #888;
+  }
+  @media ${device.tablet} {
+    height: 50px;
+    padding: 15px 20px;
+    > span {
+      font-size: 16px;
+    }
+  }
+`;
+
+const FieldList = styled.ul`
+  padding: 3px 0;
+  @media ${device.tablet} {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
 `;
 
@@ -130,6 +137,9 @@ const BookFieldHostListItem = styled.li`
   align-items: center;
   justify-content: center;
   padding: 0 20px;
+  @media ${device.tablet} {
+    /* border: 1px solid red; */
+  }
 `;
 
 export default BookFieldHostBox;

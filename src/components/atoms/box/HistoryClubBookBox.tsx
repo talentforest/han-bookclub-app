@@ -24,13 +24,13 @@ const HistoryClubBookBox = ({ document }: PropsType) => {
       <BookThumbnailImg thumbnail={thumbnail} title={title} />
 
       <DetailInfoBox>
-        {pathname === 'history' && (
-          <Tag name={`${getMonthNm(id)}월의 책`} bgColor='#ffe0e0' />
+        {pathname === '/history' && (
+          <Tag name={`${getMonthNm(id)}월의 책`} color='yellow' />
         )}
 
         <h3>{title ? cutLetter(title, 30) : '이벤트'}</h3>
 
-        {pathname !== 'history' && !!authors?.length && publisher && (
+        {pathname !== '/history' && !!authors?.length && publisher && (
           <div className='authors_publisher'>
             <span>
               {authors.join(', ')}
@@ -56,7 +56,7 @@ const BookBox = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  padding: 15px 10px;
+  padding: 12px;
   border-radius: 10px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: ${(props) => props.theme.boxShadow};
@@ -64,10 +64,12 @@ const BookBox = styled.div`
 
   .authors_publisher {
     display: flex;
+    flex-wrap: wrap;
     gap: 3px;
     align-items: start;
     flex: 1;
     span {
+      line-height: 1.1;
       color: #666;
     }
   }
@@ -92,7 +94,7 @@ const DetailInfoBox = styled.div`
   height: 100%;
   flex: 1;
   h3 {
-    line-height: 1.4;
+    line-height: 1.3;
     padding-left: 4px;
     margin: 4px 0;
     font-size: 16px;

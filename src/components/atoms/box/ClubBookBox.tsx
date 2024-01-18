@@ -4,6 +4,7 @@ import { IBookApi } from 'data/bookAtom';
 import Tag from '../Tag';
 import styled from 'styled-components';
 import BookThumbnailImg from '../BookThumbnailImg';
+import device from 'theme/mediaQueries';
 
 interface Props {
   book: IBookApi;
@@ -57,11 +58,14 @@ const Box = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 140px;
-
+  grid-column: 1 / span 3;
   > div {
     display: flex;
     flex-direction: column;
     align-items: start;
+  }
+  @media ${device.desktop} {
+    grid-column: 1 / span 3;
   }
 `;
 

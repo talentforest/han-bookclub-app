@@ -35,9 +35,7 @@ const BookField = ({
         type='checkbox'
         name='bookField'
         checked={isChecked}
-        onChange={(event) => {
-          checkHandler(event);
-        }}
+        onChange={(event) => checkHandler(event)}
       />
     </div>
   );

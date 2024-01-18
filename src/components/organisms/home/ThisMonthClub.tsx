@@ -6,6 +6,7 @@ import { thisMonthClubState } from 'data/documentsAtom';
 import ClubBookBox from 'components/atoms/box/ClubBookBox';
 import HeaderBox from 'components/atoms/box/HeaderBox';
 import styled from 'styled-components';
+import device from 'theme/mediaQueries';
 
 export default function ThisMonthClub() {
   const [thisMonthClub, setThisMonthClub] = useRecoilState(thisMonthClubState);
@@ -19,20 +20,22 @@ export default function ThisMonthClub() {
   }, []);
 
   return (
-    <>
-      <ClubBookBox book={book} />
+    <BoxesContainer>
+      {book && <ClubBookBox book={book} />}
 
-      <BoxesContainer>
-        <HeaderBox header='이달의 발제자' />
-        <HeaderBox header='모임 시간' meeting={meeting} />
-        <HeaderBox header='모임 장소' meeting={meeting} />
-      </BoxesContainer>
-    </>
+      {meeting && <HeaderBox header='모임 시간' meeting={meeting} />}
+      {meeting && <HeaderBox header='모임 장소' meeting={meeting} />}
+      <HeaderBox header='이달의 발제자' />
+    </BoxesContainer>
   );
 }
 
 const BoxesContainer = styled.div`
-  display: flex;
-  margin-top: 12px;
+  margin: 12px 0;
   gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  @media ${device.desktop} {
+    grid-template-columns: repeat(6, 1fr);
+  }
 `;

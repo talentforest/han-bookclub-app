@@ -1,4 +1,5 @@
 import { authService } from 'fbase';
+import { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type Text = 'see' | 'edit' | 'register' | 'write';
@@ -31,7 +32,14 @@ const useAlertAskJoin = (text: Text) => {
     }
   }
 
-  return { alertAskJoinMember, anonymous };
+  const blockLinkAndAlertJoinMember = (event: FormEvent) => {
+    if (anonymous) {
+      event.preventDefault();
+      alertAskJoinMember();
+    }
+  };
+
+  return { alertAskJoinMember, blockLinkAndAlertJoinMember, anonymous };
 };
 
 export default useAlertAskJoin;

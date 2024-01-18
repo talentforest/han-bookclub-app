@@ -63,10 +63,13 @@ function Router({ isLoggedIn }: PropsType) {
             <Route path='/setting/delete-account' element={<DeleteAccount />} />
 
             {anonymous && (
-              <Route
-                path='/login'
-                element={<LogIn isLoggedIn={isLoggedIn} />}
-              />
+              <>
+                <Route
+                  path='/login'
+                  element={<LogIn isLoggedIn={isLoggedIn} />}
+                />
+                <Route path='/create_account' element={<CreateAccount />} />
+              </>
             )}
           </>
         ) : (

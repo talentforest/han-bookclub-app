@@ -6,7 +6,8 @@ import { thisMonthClubState } from 'data/documentsAtom';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import styled from 'styled-components';
 import PostBtn from 'components/atoms/buttons/PostBtn';
-// import RatingBox from '../../organisms/RatingBox';
+import RatingBox from 'components/organisms/RatingBox';
+import device from 'theme/mediaQueries';
 
 interface PropsType {
   docMonth: string;
@@ -42,7 +43,7 @@ const CreateClubReviewBox = ({ docMonth }: PropsType) => {
   return (
     <Form onSubmit={onAddDocSubmit}>
       <TextArea
-        placeholder='모임에서 가장 인상적이었던 이야기나 모임 후기를 작성해주세요(한 문장도 좋아요!).'
+        placeholder='모임 후 기억하고 싶은 이야기나 감상을 작성해주세요(한 문장도 좋아요!).'
         value={text}
         onChange={onChange}
       />
@@ -63,7 +64,7 @@ const CreateClubReviewBox = ({ docMonth }: PropsType) => {
 const Form = styled.form`
   background-color: ${(props) => props.theme.container.lightBlue};
   box-shadow: ${(props) => props.theme.boxShadow};
-  padding: 15px 15px 10px;
+  padding: 12px;
   border-radius: 10px;
   margin-bottom: 20px;
   display: flex;
@@ -84,13 +85,13 @@ const TextArea = styled.textarea`
   background-color: ${(props) => props.theme.container.default};
   border-radius: 10px;
   padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 
-  &::placeholder {
-    line-height: 22px;
+  @media ${device.tablet} {
+    height: 150px;
   }
-  &:focus {
-    outline: none;
+  @media ${device.desktop} {
+    height: 150px;
   }
 `;
 

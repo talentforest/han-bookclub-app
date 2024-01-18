@@ -67,13 +67,15 @@ const BookClubHistory = () => {
 
 const YearTagList = styled.ul`
   display: flex;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 20px;
 `;
 
 const TagItem = styled.li<{ $active: boolean }>`
   border-radius: 8px;
   h1 {
+    padding: 8px 10px;
+    font-size: 14px;
     background-color: ${(props) =>
       props.$active ? props.theme.container.blue : '#eee'};
     color: ${(props) => (props.$active ? props.theme.text.white : '#aaa')};
@@ -86,20 +88,15 @@ const HistoryList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 10px;
-
   li {
     position: relative;
   }
-
   @media ${device.tablet} {
     display: grid;
-    margin-top: 20px;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
   @media ${device.desktop} {
-    display: grid;
-    margin-top: 20px;
-    grid-template-columns: repeat(5, 1fr);
+    /* grid-template-columns: repeat(3, 1fr); */
   }
 `;
 
@@ -114,6 +111,10 @@ const EmptyBox = styled.div`
   border-radius: 10px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: ${(props) => props.theme.boxShadow};
+  @media ${device.tablet} {
+  }
+  @media ${device.desktop} {
+  }
 `;
 
 export default BookClubHistory;

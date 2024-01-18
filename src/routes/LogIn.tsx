@@ -1,13 +1,10 @@
 import { Link } from 'react-router-dom';
 import { authService } from 'fbase';
 import device from 'theme/mediaQueries';
-import EmailInput from 'components/atoms/inputs/EmailInput';
-import PwInput from 'components/atoms/inputs/PwInput';
 import useLogIn from 'hooks/useLogIn';
-import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
-import HandleBtn from 'components/atoms/buttons/HandleBtn';
+import SquareBtn, { Btn } from 'components/atoms/buttons/SquareBtn';
 import styled from 'styled-components';
-import Header from 'layout/mobile/Header';
+import Input from 'components/atoms/inputs/Input';
 
 interface ILoginProps {
   isLoggedIn: boolean;
@@ -26,34 +23,53 @@ const LogIn = ({ isLoggedIn }: ILoginProps) => {
 
   return (
     <>
-      <Header title='독서모임 한페이지' />
       <Main $anonymous={anonymous}>
+        <LogoBox>
+          <img
+            src={`${process.env.PUBLIC_URL}/hanpage_logo.png`}
+            alt='독서모임 한페이지 로고'
+          />
+          <h1>독서모임 한페이지</h1>
+        </LogoBox>
+
         <Form onSubmit={onSubmit}>
-          <EmailInput
+          <Input
+            name='email'
+            type='email'
             value={email}
             placeholder='이메일 계정을 입력해주세요.'
             onChange={onChange}
           />
-          <PwInput
+          <Input
             name='password'
+            type='password'
             placeholder='비밀번호를 입력해주세요.'
             value={password}
             onChange={onChange}
-            autoComplete='false'
           />
-          <ErrorMessage>{error}</ErrorMessage>
-          <SubmitBtn children='로그인' />
-          <Link to='/create_account'>회원가입</Link>
+          <ErrorMsg>{error}</ErrorMsg>
+
+          <BtnBox>
+            <SquareBtn type='submit' name='로그인' />
+            <Btn
+              $color='purple'
+              as={Link}
+              to='/create_account'
+              $disabled={false}
+            >
+              <span>회원가입</span>
+            </Btn>
+            {!anonymous && (
+              <SquareBtn
+                type='button'
+                name='익명으로 로그인'
+                handleClick={onAnonymousLoginClick}
+              />
+            )}
+          </BtnBox>
         </Form>
-        {!anonymous && (
-          <HandleBtn
-            children='익명으로 로그인'
-            handleClick={onAnonymousLoginClick}
-          />
-        )}
-        <Footer>
-          <Link to='/find_pw'>비밀번호 찾기</Link>
-        </Footer>
+
+        <FindPasswordLink to='/find_pw'>비밀번호 찾기</FindPasswordLink>
       </Main>
     </>
   );
@@ -76,6 +92,22 @@ const Main = styled.main<{ $anonymous: boolean }>`
   }
 `;
 
+const LogoBox = styled.div`
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  img {
+    width: 100px;
+  }
+  h1 {
+    font-size: 18px;
+    color: ${(props) => props.theme.text.lightBlue};
+  }
+`;
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -89,28 +121,32 @@ const Form = styled.form`
   }
 `;
 
-export const ErrorMessage = styled.span`
+export const ErrorMsg = styled.span`
   font-size: 14px;
-  font-weight: 700;
-  color: ${(props) => props.theme.text.accent};
+  width: 100%;
+  padding-left: 5px;
+  color: ${(props) => props.theme.text.red};
   margin-bottom: 20px;
   @media ${device.tablet} {
     font-size: 16px;
   }
 `;
 
-const Footer = styled.footer`
+const FindPasswordLink = styled(Link)`
   text-align: center;
   margin-top: 20px;
-  > a {
-    font-size: 13px;
-    text-decoration: underline;
-  }
+  font-size: 13px;
+  text-decoration: underline;
   @media ${device.tablet} {
-    > a {
-      font-size: 16px;
-    }
+    font-size: 14px;
   }
+`;
+
+const BtnBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
 `;
 
 export default LogIn;

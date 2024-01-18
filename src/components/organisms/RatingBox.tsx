@@ -2,8 +2,6 @@ import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
-import '@smastrom/react-rating/style.css';
-
 interface IBookRatingProps {
   thumbnail: string;
   title: string;
@@ -24,7 +22,7 @@ const RatingBox = ({
       {thumbnail && <BookThumbnailImg title={title} thumbnail={thumbnail} />}
 
       <Info $readOnly={readOnly}>
-        {!readOnly && <span>이달의 책에 대한 별점 남기기</span>}
+        {!readOnly && <span>이달의 책에 대한 별점</span>}
       </Info>
     </Box>
   );

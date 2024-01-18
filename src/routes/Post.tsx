@@ -6,12 +6,7 @@ import {
 } from 'data/documentsAtom';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import {
-  formattedYearMonth,
-  getFbRoute,
-  thisYear,
-  thisYearMonthId,
-} from 'util/index';
+import { formattedYearMonth, getFbRoute, thisYearMonthId } from 'util/index';
 import { getCollection } from 'api/getFbDoc';
 import HistoryClubBookBox from 'components/atoms/box/HistoryClubBookBox';
 import Record from 'components/atoms/post/Record';
@@ -19,6 +14,7 @@ import PostAddModal from 'components/organisms/modal/PostAddModal';
 import styled from 'styled-components';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
 import Header from 'layout/mobile/Header';
+import DottedDividingLine from 'components/atoms/DottedDividingLine';
 
 type PostType = '발제문' | '정리 기록';
 
@@ -41,8 +37,10 @@ export default function Post() {
     pathname,
   } = useLocation() as LocationState;
 
+  const year = id.slice(0, 4);
+
   useEffect(() => {
-    getCollection(`BookClub-${thisYear}`, setClubInfoDocs);
+    getCollection(`BookClub-${year}`, setClubInfoDocs);
     getCollection(getFbRoute(id).HOST_REVIEW, setHostReview);
     getCollection(getFbRoute(id).SUBJECTS, setSubjects);
   }, []);
@@ -80,9 +78,7 @@ export default function Post() {
                 post={subject}
                 collName={getFbRoute(id)?.SUBJECTS}
               />
-              {subjects.length - 1 !== index && (
-                <div className='dividingLine' />
-              )}
+              {subjects.length - 1 !== index && <DottedDividingLine />}
             </Fragment>
           ))}
 
@@ -121,7 +117,4 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  .dividingLine {
-    border-bottom: 2px dotted #ccc;
-  }
 `;

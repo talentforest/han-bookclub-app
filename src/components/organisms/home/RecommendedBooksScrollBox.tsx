@@ -2,6 +2,7 @@ import { useRecoilValue } from 'recoil';
 import { allUsersState } from 'data/userAtom';
 import RecommendedBookBox from '../../atoms/box/RecommendedBookBox';
 import styled from 'styled-components';
+import device from 'theme/mediaQueries';
 
 interface MonthData {
   monthId: string;
@@ -23,7 +24,7 @@ export default function RecommendedBooksScrollBox() {
 
   return (
     <ScrollContainerBox>
-      <RecommendedBookList>
+      <RecommendedBookList $length={recommendedBookIds.length}>
         {recommendedBookIds.map((docIds) => (
           <RecommendedBookBox key={docIds.docId} docIds={docIds} />
         ))}
@@ -42,10 +43,13 @@ const ScrollContainerBox = styled.div`
   }
 `;
 
-const RecommendedBookList = styled.ul`
+const RecommendedBookList = styled.ul<{ $length: number }>`
   position: relative;
   display: flex;
-  gap: 18px;
-  width: 1015px;
+  gap: 12px;
+  width: ${(props) => `${props.$length * 130}px`};
   padding-top: 30px;
+  @media ${device.tablet} {
+    gap: 15px;
+  }
 `;

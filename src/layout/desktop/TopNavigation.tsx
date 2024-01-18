@@ -1,16 +1,27 @@
+import { currentUserState } from 'data/userAtom';
+import useAlertAskJoin from 'hooks/useAlertAskJoin';
 import { Link, useLocation } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
 const TopNavigation = () => {
+  const currentUser = useRecoilValue(currentUserState);
+
   const { pathname } = useLocation();
 
+  const { blockLinkAndAlertJoinMember } = useAlertAskJoin('see');
+
   return (
-    !pathname.includes('create_account') && (
+    !pathname.includes('create_account') &&
+    pathname !== '/login' && (
       <Nav>
         <Link to='/'>
           <Logo $active={pathname === '/'}>
-            <img src={'hanpage_logo.png'} alt='logo' />
+            <img
+              src={`${process.env.PUBLIC_URL}/hanpage_logo.png`}
+              alt='한페이지 독서모임 로고'
+            />
             <span>한페이지 독서모임</span>
           </Logo>
         </Link>
@@ -25,7 +36,13 @@ const TopNavigation = () => {
             <Link to='/vote'>투표하기</Link>
           </Item>
           <Item $active={pathname.includes('/bookshelf')}>
-            <Link to='/bookshelf'>나의 책장</Link>
+            <Link
+              to='/bookshelf'
+              onClick={blockLinkAndAlertJoinMember}
+              state={{ userId: currentUser?.uid }}
+            >
+              나의 책장
+            </Link>
           </Item>
           <Item $active={pathname.includes('/setting')}>
             <Link to='/setting'>설정</Link>

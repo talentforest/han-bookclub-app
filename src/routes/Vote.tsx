@@ -40,12 +40,13 @@ const Vote = () => {
         <Loading />
       ) : (
         <main>
-          <AddVoteBtn onClick={onModalClick}>
-            <FiPlusCircle fontSize={20} stroke='#2054ff' />
-            <span>투표 등록하기</span>
-          </AddVoteBtn>
+          <AddVoteBtnBox>
+            <Subtitle title='진행중인 투표함' />
+            <button type='button' onClick={onModalClick}>
+              <FiPlusCircle fontSize={20} stroke='#2054ff' />
+            </button>
+          </AddVoteBtnBox>
 
-          <Subtitle title='진행중인 투표함' />
           <VoteList>
             {progressVotes?.length ? (
               progressVotes.map((voteDetail) => (
@@ -75,20 +76,19 @@ const Vote = () => {
   );
 };
 
-const AddVoteBtn = styled.button`
-  position: absolute;
-  top: -28px;
-  right: 20px;
+const AddVoteBtnBox = styled.div`
   display: flex;
   align-items: center;
-  border: none;
+  gap: 3px;
   color: ${(props) => props.theme.text.accent};
   font-size: 16px;
-  span {
-    display: none;
+  button {
+    padding-bottom: 3px;
   }
   @media ${device.tablet} {
-    padding: 10px;
+    gap: 5px;
+  }
+  @media ${device.tablet} {
   }
 `;
 const VoteList = styled.div`

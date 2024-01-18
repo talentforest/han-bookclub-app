@@ -147,10 +147,6 @@ const Box = styled.div`
   }
 
   @media ${device.tablet} {
-    flex-direction: row;
-    justify-content: space-evenly;
-    gap: 15px;
-    padding: 30px 0px;
   }
 `;
 

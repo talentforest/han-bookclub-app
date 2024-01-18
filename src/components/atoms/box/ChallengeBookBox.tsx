@@ -1,4 +1,5 @@
 import { IBookApi } from 'data/bookAtom';
+import { cutLetter } from 'util/index';
 import BookThumbnail from '../BookThumbnailImg';
 import UserNameBox from 'components/organisms/UserNameBox';
 import styled from 'styled-components';
@@ -19,29 +20,31 @@ export default function ChallengeBookBox({ challenge }: Props) {
   } = challenge;
 
   return (
-    <Box>
+    <Item>
       <BookThumbnail title={title} thumbnail={thumbnail} />
       <div>
         <UserNameBox creatorId={user} fontSize={15} />
-        <h1>{title}</h1>
+
+        <h1>{cutLetter(title, 30)}</h1>
+
         <div>
           <span>
             {authors[0]}
             {authors.length !== 1 && `(외 ${authors.length - 1}명)`}
           </span>
-          <span> ・ {publisher}</span>
+          {publisher && <span> ・ {publisher}</span>}
         </div>
       </div>
-    </Box>
+    </Item>
   );
 }
 
-const Box = styled.div`
+const Item = styled.li`
   position: relative;
   border-radius: 10px;
   background-color: #fff;
-  padding: 12px;
-  height: 95px;
+  padding: 8px 12px;
+  height: 110px;
   margin-top: 30px;
   box-shadow: ${(props) => props.theme.boxShadow};
   display: flex;
@@ -49,20 +52,28 @@ const Box = styled.div`
 
   > img {
     position: absolute;
-    top: -15px;
-    height: 100px;
+    top: -12px;
+    height: 110px;
   }
 
   > div {
     display: flex;
     flex-direction: column;
     align-items: start;
-    margin-left: 88px;
+    justify-content: space-between;
+    margin-left: 86px;
+    width: 100%;
+    height: 100%;
+
     h1 {
-      font-size: 17px;
-      margin-top: 12px;
-      margin-bottom: 6px;
+      padding-bottom: 5px;
+      display: flex;
+      align-items: flex-end;
+      flex: 1;
+      font-size: 16px;
+      line-height: 1.3;
     }
+
     > div {
       > span {
         font-size: 15px;

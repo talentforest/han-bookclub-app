@@ -32,7 +32,7 @@ export default function PostEditModal({
           text={editedText}
           setText={setEditedText}
         />
-        <SubmitBtn type='submit' value='설정하기' />
+        <SubmitBtn type='submit' value='수정하기' />
       </form>
     </Modal>
   );

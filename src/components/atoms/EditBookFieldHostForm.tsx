@@ -8,6 +8,7 @@ import { ChangeSelectValue, SelectValue } from 'hooks/useHandleFieldHost';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import Select from 'react-select';
+import SquareBtn from './buttons/SquareBtn';
 
 interface Props {
   index: number;
@@ -61,6 +62,7 @@ export default function EditBookFieldHostForm({
       <div>
         <label htmlFor='독서분야'>독서분야</label>
         <SelectBox
+          menuPosition='fixed'
           options={fieldOptions}
           isSearchable={false}
           defaultValue={currentField || fieldOptions[12]}
@@ -70,6 +72,7 @@ export default function EditBookFieldHostForm({
       <div>
         <label htmlFor='발제자'>발제자</label>
         <SelectBox
+          menuPosition='fixed'
           name='host'
           placeholder='발제자를 선택해주세요'
           defaultValue={!!currentHost.length ? [...currentHost] : []}
@@ -81,10 +84,9 @@ export default function EditBookFieldHostForm({
         />
       </div>
 
-      <SubmitBtn type='submit'>
+      <SquareBtn type='submit' name='변경하기'>
         <FiCheckCircle />
-        <span>변경하기</span>
-      </SubmitBtn>
+      </SquareBtn>
     </Form>
   );
 }
@@ -111,26 +113,4 @@ const Form = styled.form`
 const SelectBox = styled(Select)`
   margin-top: 5px;
   width: 100%;
-`;
-
-const SubmitBtn = styled.button`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-
-  padding: 8px 0;
-  border-radius: 8px;
-  background-color: ${(props) => props.theme.container.blue};
-  svg {
-    width: 14px;
-    height: 14px;
-    stroke: #fff;
-  }
-  span {
-    font-size: 15px;
-    color: #fff;
-    padding-top: 3px;
-  }
 `;

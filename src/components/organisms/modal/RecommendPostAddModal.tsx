@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { cutLetter } from 'util/index';
 import { useSetRecoilState } from 'recoil';
 import { IBookApi, recommendBookState } from 'data/bookAtom';
@@ -10,6 +10,7 @@ import useSearchBook from 'hooks/useSearchBook';
 import TextInput from 'components/atoms/inputs/TextInput';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import CreateRecommendBookBox from 'components/atoms/box/CreateRecommendBookBox';
+import DottedDividingLine from 'components/atoms/DottedDividingLine';
 
 interface Props {
   collName: string;
@@ -54,7 +55,7 @@ export default function RecommendPostAddModal({ onToggleClick }: Props) {
             <FiSearch
               fontSize={18}
               stroke='#aaa'
-              style={{ position: 'absolute', top: '10px', left: '12px' }}
+              style={{ position: 'absolute', top: '11px', left: '12px' }}
             />
             <TextInput
               ref={searchInputRef}
@@ -65,32 +66,35 @@ export default function RecommendPostAddModal({ onToggleClick }: Props) {
 
           <BookResults $height={resulbBoxheight}>
             {searchList.slice(0, 3).map((book, index) => (
-              <BookBox key={`${book.title}-${index}`}>
-                <BookThumbnailImg
-                  title={book.title}
-                  thumbnail={book.thumbnail}
-                />
-                <div>
-                  <h3>{cutLetter(book.title, 18)}</h3>
+              <Fragment key={`${book.title}-${index}`}>
+                <BookBox>
+                  <BookThumbnailImg
+                    title={book.title}
+                    thumbnail={book.thumbnail}
+                  />
+                  <div>
+                    <h3>{cutLetter(book.title, 18)}</h3>
 
-                  {!!book.authors.length && (
-                    <span>
-                      {book.authors[0]}
-                      {book.authors.length !== 1 &&
-                        `(외 ${book.authors.length - 1}명)`}
-                    </span>
-                  )}
-                  {book.publisher && <span>{book.publisher}</span>}
-                </div>
+                    {!!book.authors.length && (
+                      <span>
+                        {book.authors[0]}
+                        {book.authors.length !== 1 &&
+                          `(외 ${book.authors.length - 1}명)`}
+                      </span>
+                    )}
+                    {book.publisher && <span>{book.publisher}</span>}
+                  </div>
 
-                <button
-                  type='button'
-                  onClick={() => onSearchedBookBoxClick(book)}
-                >
-                  <FiCheckCircle fontSize={12} stroke='#8bb0ff' />
-                  <span>선택</span>
-                </button>
-              </BookBox>
+                  <button
+                    type='button'
+                    onClick={() => onSearchedBookBoxClick(book)}
+                  >
+                    <FiCheckCircle fontSize={12} stroke='#8bb0ff' />
+                    <span>선택</span>
+                  </button>
+                </BookBox>
+                {index !== searchList.length && <DottedDividingLine />}
+              </Fragment>
             ))}
           </BookResults>
         </StepBox>
@@ -108,10 +112,42 @@ const StepBox = styled.div`
   margin-top: 5px;
 `;
 
+const SearchBox = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  margin-bottom: 10px;
+  input {
+    height: inherit;
+    min-width: 150px;
+    width: 100%;
+    padding-top: 18px;
+    padding-left: 35px;
+    border-radius: 30px;
+  }
+  button {
+    width: 70px;
+  }
+  @media ${device.tablet} {
+    height: 62px;
+    input {
+      height: 40px;
+      min-width: 150px;
+      width: 100%;
+      padding-left: 35px;
+      border-radius: 30px;
+    }
+    button {
+      width: 150px;
+    }
+  }
+`;
+
 const BookResults = styled.section<{ $height: number }>`
   display: flex;
   flex-direction: column;
-  border-top: ${(props) => (props.$height !== 0 ? '1px solid #ddd' : 'none')};
   background-color: #fff;
   min-height: 200px;
   height: ${(props) => `${props.$height}px`};
@@ -127,7 +163,7 @@ const BookBox = styled.div`
   height: 80px;
   padding: 10px 5px;
   gap: 10px;
-  border-bottom: 1px solid #ddd;
+
   > div:first-child {
     max-width: 42px;
     display: flex;
@@ -161,30 +197,6 @@ const BookBox = styled.div`
     span {
       padding-top: 4px;
       color: ${(props) => props.theme.text.lightBlue};
-    }
-  }
-`;
-
-const SearchBox = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 40px;
-  margin-bottom: 10px;
-  input {
-    height: inherit;
-    min-width: 150px;
-    width: 100%;
-    padding-left: 35px;
-    border-radius: 30px;
-  }
-  button {
-    width: 70px;
-  }
-  @media ${device.tablet} {
-    button {
-      width: 150px;
     }
   }
 `;

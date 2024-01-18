@@ -15,7 +15,7 @@ const Sub = styled.h3`
   width: fit-content;
   margin-bottom: 5px;
   padding-left: 4px;
-  color: #666;
+  color: #333;
   @media ${device.tablet} {
     font-size: 18px;
   }

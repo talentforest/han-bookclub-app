@@ -1,4 +1,5 @@
 import { LabeledBox } from 'components/atoms/inputs/BoxLabeledInput';
+import Input from 'components/atoms/inputs/Input';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -36,10 +37,9 @@ const VoteItems = ({
             <div className='label'>{item.id}번</div>
 
             <Input
-              className='info'
+              name={`vote_item${item.id}`}
               type='text'
               placeholder='투표항목을 적어주세요.'
-              name={`vote_item${item.id}`}
               value={item.item}
               onChange={(event) => onTitleChange(event, item.id)}
               required
@@ -76,12 +76,6 @@ const LabeledVoteItem = styled(LabeledBox)`
   }
   > input {
     width: 100%;
-  }
-`;
-
-const Input = styled.input`
-  @media ${device.tablet} {
-    font-size: 16px;
   }
 `;
 

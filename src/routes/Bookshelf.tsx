@@ -14,6 +14,7 @@ import Subtitle from 'components/atoms/Subtitle';
 import Tag from 'components/atoms/Tag';
 import Header from 'layout/mobile/Header';
 import Guide from 'components/atoms/Guide';
+import { FiUser } from 'react-icons/fi';
 
 const Bookshelf = () => {
   const currentUser = useRecoilValue(currentUserState);
@@ -59,15 +60,19 @@ const Bookshelf = () => {
       <main>
         <Section>
           <UserBox>
-            {photoURL && (
-              <ImgBox>
+            <ImgBox>
+              {photoURL ? (
                 <CircleImg
                   onContextMenu={onContextMenu}
                   src={photoURL}
                   alt={`${displayName}의 프로필 이미지`}
                 />
-              </ImgBox>
-            )}
+              ) : (
+                <CircleImg as='div' className='no-image'>
+                  <FiUser fontSize={30} stroke='#aaa' />
+                </CircleImg>
+              )}
+            </ImgBox>
             <span>{displayName}</span>
           </UserBox>
         </Section>
@@ -78,7 +83,7 @@ const Bookshelf = () => {
           <FavBookFieldList>
             {userFavBookField.length !== 0 ? (
               userFavBookField.map((field) => (
-                <Tag key={field.id} name={field.name} />
+                <Tag key={field.id} name={field.name} color='purple' />
               ))
             ) : (
               <Loading height='12vh' />
@@ -164,17 +169,16 @@ export const FavBookFieldList = styled.ul`
 export const RecordList = styled.ul`
   min-height: 15vh;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   justify-content: space-between;
-  gap: 18px 15px;
-  /* border: 1px solid red; */
-
+  gap: 12px 10px;
+  margin-top: 10px;
   @media ${device.tablet} {
     gap: 20px 15px;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
   @media ${device.desktop} {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(7, 1fr);
   }
 `;
 
@@ -191,12 +195,15 @@ export const EmptyBox = styled.div`
   padding: 12px;
   border-radius: 10px;
   box-shadow: ${(props) => props.theme.boxShadow};
-  grid-column: 1 / span 3;
+  grid-column: 1 / span 4;
 
   @media ${device.tablet} {
     height: 160px;
     font-size: 14px;
-    grid-column: 1 / span 5;
+    grid-column: 1 / span 6;
+  }
+  @media ${device.desktop} {
+    grid-column: 1 / span 7;
   }
 `;
 

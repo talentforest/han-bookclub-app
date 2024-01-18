@@ -1,11 +1,11 @@
-import ResultBookBox from 'components/organisms/search/ResultBookBox';
-import styled from 'styled-components';
-import TextInput from 'components/atoms/inputs/TextInput';
-import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
-import useSearchBook from 'hooks/useSearchBook';
 import { useEffect, useRef } from 'react';
+import ResultBookBox from 'components/organisms/search/ResultBookBox';
+import TextInput from 'components/atoms/inputs/TextInput';
+import useSearchBook from 'hooks/useSearchBook';
 import device from 'theme/mediaQueries';
 import Header from 'layout/mobile/Header';
+import styled from 'styled-components';
+import SquareBtn from 'components/atoms/buttons/SquareBtn';
 
 const Search = () => {
   const {
@@ -30,7 +30,7 @@ const Search = () => {
             placeholder='등록하실 책을 검색해주세요.'
             onChange={onBookQueryChange}
           />
-          <SubmitBtn children='검색' />
+          <SquareBtn name='검색' />
         </Form>
 
         <BookResults>

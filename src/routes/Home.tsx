@@ -8,6 +8,7 @@ import RecommendedBooksScrollBox from 'components/organisms/home/RecommendedBook
 import ChallengeBookContainer from 'components/organisms/home/ChallengeBookContainer';
 import ThisMonthClub from 'components/organisms/home/ThisMonthClub';
 import Header from 'layout/mobile/Header';
+import device from 'theme/mediaQueries';
 
 const Home = () => {
   return (
@@ -45,6 +46,12 @@ const Home = () => {
 
 export const Section = styled.section`
   margin-bottom: 50px;
+  @media ${device.tablet} {
+    margin-bottom: 65px;
+  }
+  @media ${device.desktop} {
+    margin-bottom: 80px;
+  }
 `;
 
 export default Home;

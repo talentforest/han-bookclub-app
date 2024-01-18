@@ -18,6 +18,7 @@ const useCreateAccount = (setShowNextStep?: (step: boolean) => void) => {
 
   const onFirstStepSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     try {
       if (password.length < 8)
         return setShowErrorMsg('비밀번호가 8자리 이하입니다.');

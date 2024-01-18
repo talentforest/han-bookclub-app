@@ -35,7 +35,7 @@ const ExpiredVoteBox = ({ voteDetail }: PropsType) => {
 
       <LabelResultBox>
         <div className='label'>
-          <FiCheckCircle fontSize={14} stroke='#1875ff' />
+          <span>선정</span>
         </div>
         <div className='info'>
           <span>{cutLetter(getVoteResultTitle(), 18)}</span>
@@ -74,10 +74,12 @@ const LabelResultBox = styled(LabeledBox)`
   div.label {
     padding: 0 5px;
     gap: 4px;
-    width: 40px;
+    width: 60px;
     border: 1px solid ${(props) => props.theme.container.lightBlue};
     background-color: ${(props) => props.theme.container.lightBlue};
-    color: ${(props) => props.theme.text.lightBlue};
+    span {
+      color: ${(props) => props.theme.text.lightBlue};
+    }
   }
   div.info {
     border: 1px solid ${(props) => props.theme.text.lightGray};

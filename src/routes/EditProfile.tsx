@@ -11,6 +11,7 @@ import TextInput from 'components/atoms/inputs/TextInput';
 import Header from 'layout/mobile/Header';
 import UserImg from 'components/atoms/UserImg';
 import device from 'theme/mediaQueries';
+import { FiCheck, FiEdit2 } from 'react-icons/fi';
 
 const EditProfile = () => {
   const userData = useRecoilValue(currentUserState);
@@ -50,9 +51,11 @@ const EditProfile = () => {
           <>
             {!anonymous && (
               <EditBtn type='button' onClick={onToggleEditClick}>
-                프로필 수정하기
+                <FiEdit2 fontSize={15} stroke='#6397ff' />
+                <span>프로필 수정하기</span>
               </EditBtn>
             )}
+
             <Guide text='이메일은 변경할 수 없습니다.' />
             <List>
               <Item>
@@ -79,7 +82,10 @@ const EditProfile = () => {
           </>
         ) : (
           <Form onSubmit={onProfileSubmit}>
-            <EditBtn type='submit'>수정완료</EditBtn>
+            <EditBtn type='submit'>
+              <FiCheck fontSize={15} stroke='#6397ff' />
+              <span>수정완료</span>
+            </EditBtn>
             <List>
               <Item>
                 <Title>이메일</Title>
@@ -126,17 +132,14 @@ const EditBtn = styled.button`
   display: flex;
   gap: 4px;
   align-items: center;
-  border: 1px solid ${(props) => props.theme.container.blue};
+  border: 1px solid ${(props) => props.theme.text.lightGray};
   margin: 20px auto 30px;
   border-radius: 20px;
   padding: 3px 10px;
   background-color: #fff;
-  font-size: 16px;
-  svg {
-    margin-top: 2px;
-    width: 16px;
-    height: 16px;
-    fill: ${(props) => props.theme.text.accent};
+  span {
+    color: #888;
+    font-size: 16px;
   }
 `;
 
@@ -164,7 +167,7 @@ const List = styled.ul`
   align-items: center;
   gap: 20px;
   @media ${device.tablet} {
-    width: 80%;
+    width: 100%;
   }
 `;
 
@@ -172,10 +175,11 @@ const Item = styled.li`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
   gap: 10px;
   input {
     width: 75%;
+    height: 40px;
     padding: 8px;
     text-align: end;
   }
@@ -187,6 +191,7 @@ const Title = styled.h4`
   width: 55px;
   @media ${device.tablet} {
     font-size: 16px;
+    width: 94px;
   }
 `;
 
@@ -204,17 +209,18 @@ const FieldList = styled.div`
 
 const FieldBtn = styled.button<{ $isActive?: boolean }>`
   cursor: pointer;
-  padding: 3px 8px;
+  padding: 6px 10px 3px;
   font-size: 16px;
   border-radius: 30px;
-  border: 1px solid ${(props) => props.theme.text.lightBlue};
+  border: 1px solid ${(props) => props.theme.text.lightGray};
   background-color: ${(props) =>
     props.$isActive
       ? props.theme.container.yellow
       : props.theme.container.default};
   color: ${(props) =>
-    props.$isActive ? props.theme.text.lightBlue : props.theme.text.default};
+    props.$isActive ? props.theme.text.lightBlue : props.theme.text.mediumGray};
 `;
+
 const FavBookFieldList = styled(FieldList)`
   background-color: transparent;
   border: none;
@@ -223,7 +229,8 @@ const FavBookFieldList = styled(FieldList)`
 
 const FavFieldItem = styled(FieldBtn)`
   cursor: none;
-  background-color: ${(props) => props.theme.container.lightBlue};
+  padding: 6px 10px 4px;
+  /* background-color: ${(props) => props.theme.container.lightBlue}; */
 `;
 
 export default EditProfile;

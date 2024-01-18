@@ -28,7 +28,7 @@ const RecommendedBookList = ({ yearMonthId = thisYearMonthId }: Props) => {
   }, []);
 
   return (
-    <RecordBox $grid>
+    <RecommendedBookListBox>
       {recommendedBooks.length !== 0 ? (
         recommendedBooks?.map((recommendedBook) => (
           <PostRecommendedBook
@@ -44,18 +44,22 @@ const RecommendedBookList = ({ yearMonthId = thisYearMonthId }: Props) => {
             : '첫번째로 추천하고 싶은 책을 남겨보세요.'}
         </EmptyBox>
       )}
-    </RecordBox>
+    </RecommendedBookListBox>
   );
 };
 
-export const RecordBox = styled.div<{ $grid?: boolean }>`
-  display: flex;
-  flex-direction: column;
+export const RecommendedBookListBox = styled.div<{ $grid?: boolean }>`
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
+  @media ${device.tablet} {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
   @media ${device.desktop} {
-    display: ${(props) => (props.$grid ? 'grid' : 'block')};
-    grid-template-columns: ${(props) => (props.$grid ? 'repeat(2, 1fr)' : '')};
-    gap: 20px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
   }
 `;
 
@@ -72,11 +76,16 @@ export const EmptyBox = styled.div`
   color: #aaa;
   box-shadow: ${(props) => props.theme.boxShadow};
   background-color: ${(props) => props.theme.container.default};
+  grid-column: 1 / span 3;
   @media ${device.tablet} {
     font-size: 16px;
     border-radius: 15px;
     padding: 8px 30px;
     height: 240px;
+    grid-column: 1 / span 4;
+  }
+  @media ${device.desktop} {
+    grid-column: 1 / span 5;
   }
 `;
 

@@ -46,9 +46,9 @@ const Header = styled.header`
     display: flex;
     align-items: center;
     gap: 5px;
-  }
-  span {
-    font-size: 14px;
-    color: #888;
+    > span {
+      font-size: 14px;
+      color: #666;
+    }
   }
 `;

@@ -8,6 +8,7 @@ import { hostReviewState, subjectsState } from 'data/documentsAtom';
 import Record from './post/Record';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
+import useAlertAskJoin from 'hooks/useAlertAskJoin';
 
 type TabName = '발제문' | '정리 기록';
 
@@ -19,6 +20,8 @@ export default function TabBox({ yearMonthId }: Props) {
   const [tab, setTab] = useState<TabName>('발제문');
   const [hostReview, setHostReview] = useRecoilState(hostReviewState);
   const [subjects, setSubjects] = useRecoilState(subjectsState);
+
+  const { alertAskJoinMember } = useAlertAskJoin('see');
 
   useEffect(() => {
     getCollection(getFbRoute(yearMonthId).HOST_REVIEW, setHostReview);
@@ -43,9 +46,11 @@ export default function TabBox({ yearMonthId }: Props) {
         {tab === '발제문' &&
           (subjects[0] ? (
             <>
-              <Record type='발제문' post={subjects[0]} lineClamp={10} />
+              <Record type='발제문' post={subjects[0]} lineClamp={5} />
 
               <Link
+                onClick={alertAskJoinMember}
+                className='see-more'
                 to='subjects'
                 state={{ id: yearMonthId, postType: '발제문' }}
               >
@@ -72,6 +77,8 @@ export default function TabBox({ yearMonthId }: Props) {
               <Record type='정리 기록' post={hostReview[0]} lineClamp={10} />
 
               <Link
+                onClick={alertAskJoinMember}
+                className='see-more'
                 to='host-review'
                 state={{ id: yearMonthId, postType: '정리 기록' }}
               >
@@ -109,7 +116,6 @@ const TabItem = styled.li<{ $active: boolean }>`
   padding: 10px 12px 8px;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
-
   button {
     font-size: 15px;
   }
@@ -126,19 +132,27 @@ const TabContentBox = styled.div`
   border-top-left-radius: 0;
   box-shadow: ${(props) => props.theme.boxShadow};
   background-color: ${(props) => props.theme.container.default};
-
   pre {
     margin-bottom: 10px;
   }
-  a {
-    padding-top: 5px;
+  .see-more {
+    height: 25px;
     display: flex;
     justify-content: end;
-    height: 35px;
     align-items: center;
     span {
+      padding-top: 3px;
       color: #aaa;
       font-size: 14px;
+    }
+  }
+  @media ${device.tablet} {
+    min-height: 240px;
+    .see-more {
+      span {
+        padding-top: 4px;
+        font-size: 16px;
+      }
     }
   }
 `;
@@ -150,7 +164,6 @@ const BtnBox = styled.div`
   align-items: center;
   justify-content: center;
   gap: 10px;
-
   a {
     display: flex;
     align-items: center;
@@ -174,8 +187,6 @@ const BtnBox = styled.div`
       font-size: 18px;
       svg {
         fill: ${(props) => props.theme.text.accent};
-        width: 25px;
-        height: 25px;
         margin-right: 5px;
       }
     }

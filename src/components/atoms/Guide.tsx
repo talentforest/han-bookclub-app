@@ -13,6 +13,7 @@ const GuidePar = styled.p`
   font-size: 13px;
   color: ${(props) => props.theme.text.mediumGray};
   line-height: 1.5;
+  padding-left: 4px;
 
   @media ${device.tablet} {
     font-size: 15px;

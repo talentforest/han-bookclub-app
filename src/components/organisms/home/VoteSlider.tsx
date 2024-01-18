@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import VoteBox from 'components/organisms/vote/VoteBox';
 import device from 'theme/mediaQueries';
+import { FiChevronRight } from 'react-icons/fi';
 
 const VoteSlider = () => {
   const [votes, setVotes] = useRecoilState(votesState);
@@ -24,7 +25,7 @@ const VoteSlider = () => {
     <>
       {progressVotes.length ? (
         <VotesContainer>
-          <Votes>
+          <Votes $votesNum={progressVotes?.length}>
             {progressVotes?.map((voteDetail) => (
               <VoteBox key={voteDetail.id} voteDetail={voteDetail} />
             ))}
@@ -33,7 +34,10 @@ const VoteSlider = () => {
       ) : (
         <EmptyContainer>
           <span>진행중인 투표가 없어요.</span>
-          <Link to='/vote'>투표 등록하러 가기</Link>
+          <Link to='/vote'>
+            <span>투표 등록하러 가기</span>
+            <FiChevronRight />
+          </Link>
         </EmptyContainer>
       )}
     </>
@@ -42,22 +46,29 @@ const VoteSlider = () => {
 
 const VotesContainer = styled.div`
   width: 100%;
+  padding: 4px;
   overflow: scroll;
+  scroll-behavior: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
-const Votes = styled.div`
+
+const Votes = styled.div<{ $votesNum: number }>`
   display: flex;
   gap: 10px;
-  width: fit-content;
-  padding: 5px 2px;
+  width: ${(props) => `${props.$votesNum * 260}px`};
   > div {
     width: 240px;
   }
   @media ${device.tablet} {
+    width: ${(props) => `${props.$votesNum * 300}px`};
     > div {
       width: 280px;
     }
   }
 `;
+
 const EmptyContainer = styled.div`
   width: 100%;
   height: 130px;
@@ -68,21 +79,41 @@ const EmptyContainer = styled.div`
   border-radius: 10px;
   background-color: ${(props) => props.theme.container.default};
   box-shadow: ${(props) => props.theme.boxShadow};
-  span {
+  > span {
     flex: 1;
     display: flex;
     align-items: center;
     color: #aaa;
+    font-size: 14px;
   }
   a {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    text-align: center;
     padding: 12px 15px 10px;
     border-radius: 10px;
     background-color: ${(props) => props.theme.container.yellow};
     box-shadow: ${(props) => props.theme.boxShadow};
-    font-size: 15px;
+    span {
+      padding-top: 3px;
+      font-size: 15px;
+    }
     svg {
+      font-size: 18px;
+    }
+  }
+  @media ${device.tablet} {
+    height: 200px;
+    a {
+      width: 180px;
+      font-size: 16px;
+    }
+  }
+  @media ${device.desktop} {
+    a {
+      width: 200px;
       font-size: 16px;
     }
   }

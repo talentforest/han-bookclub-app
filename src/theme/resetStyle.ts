@@ -3,9 +3,10 @@ import device from './mediaQueries';
 
 export const ResetStyle = createGlobalStyle`
   @font-face {
-    font-family: "Locus_Sangsang";
-    font-weight: normal;
-    src: url("../fonts/locus_sangsang.ttf") format("truetype");
+     font-family: 'Locus_Sangsang';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/locus_sangsang.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
   }
 
   body {
@@ -191,12 +192,13 @@ export const ResetStyle = createGlobalStyle`
   a {
     line-height: 0;
   }
-  input {
+  input, textarea {
     &:focus {
       outline: none;
     }
     &::placeholder {
     color: #aaa;
   }
+  
   }
 `;

@@ -1,9 +1,9 @@
 import { authService } from 'fbase';
 import styled from 'styled-components';
-import PwInput from 'components/atoms/inputs/PwInput';
-import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
 import useChangePw from 'hooks/useChangePw';
 import Header from 'layout/mobile/Header';
+import SquareBtn from 'components/atoms/buttons/SquareBtn';
+import Input from 'components/atoms/inputs/Input';
 
 const ChangePassword = () => {
   const user = authService?.currentUser;
@@ -28,28 +28,31 @@ const ChangePassword = () => {
             autoComplete='username'
             defaultValue={user?.email}
           />
-          <PwInput
+          <Input
             name='password'
+            type='password'
             value={originPassword}
             placeholder='기존 비밀번호를 작성해주세요.'
             onChange={onOriginChange}
             autoComplete='current-password'
           />
-          <PwInput
+          <Input
             name='password'
+            type='password'
             value={newPassword}
             placeholder='새로운 비밀번호를 작성해주세요.'
             onChange={onNewChange}
             autoComplete='new-password'
           />
-          <PwInput
+          <Input
             name='password'
+            type='password'
             value={checkNewPassword}
             placeholder='새로운 비밀번호를 다시 한번 작성해주세요.'
             onChange={onCheckNewChange}
             autoComplete='new-password'
           />
-          <SubmitBtn children='변경하기' />
+          <SquareBtn type='submit' name='변경하기' />
         </InputForm>
       </main>
     </>

@@ -1,10 +1,11 @@
 import { getDocument } from 'api/getFbDoc';
 import { useEffect, useState } from 'react';
 import { HiMiniArrowUpRight } from 'react-icons/hi2';
-import { Link } from 'react-router-dom';
+import { cutLetter } from 'util/index';
 import styled from 'styled-components';
 import BookThumbnailImg from '../BookThumbnailImg';
 import UserNameBox from 'components/organisms/UserNameBox';
+import device from 'theme/mediaQueries';
 
 interface Props {
   docIds: { docId: string; monthId: string };
@@ -60,20 +61,20 @@ export default function RecommendedBookBox({ docIds }: Props) {
   }, []);
 
   const {
-    id,
-    recommendedBook: { title, thumbnail },
+    recommendedBook: { title, thumbnail, url },
     creatorId,
   } = book;
 
   return (
-    <RecommendedBookItem key={id}>
-      <Link to='/history'>
+    <RecommendedBookItem>
+      <a href={url} target='_blank' rel='noreferrer'>
         <BookThumbnailImg title={title} thumbnail={thumbnail} />
         <div className='title'>
-          <h4>{title.slice(0, 8)}</h4>
+          <h4>{cutLetter(title, 7)}</h4>
           <HiMiniArrowUpRight fill='#aaa' fontSize={13} />
         </div>
-      </Link>
+      </a>
+
       <div className='username'>
         <UserNameBox creatorId={creatorId} />
       </div>
@@ -81,7 +82,7 @@ export default function RecommendedBookBox({ docIds }: Props) {
   );
 }
 
-const RecommendedBookItem = styled.li`
+export const RecommendedBookItem = styled.li`
   display: flex;
   flex-direction: column;
   justify-content: end;
@@ -115,5 +116,17 @@ const RecommendedBookItem = styled.li`
     height: 20px;
     display: flex;
     align-items: end;
+  }
+  @media ${device.tablet} {
+    width: 115px;
+    height: 145px;
+    gap: 4px;
+    img {
+      height: 110px;
+    }
+    h4 {
+      font-size: 14px;
+      color: #888;
+    }
   }
 `;

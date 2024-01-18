@@ -26,15 +26,20 @@ export default function Record({
       <PostContent lineClamp={lineClamp} text={text} />
 
       {lineClamp === 'none' && (
-        <PostFooter collName={collName} createdAt={createdAt} />
+        <PostFooter
+          footerType='likes'
+          post={post}
+          collName={collName}
+          createdAt={createdAt}
+        />
       )}
     </Article>
   );
 }
 
 const Article = styled.article`
-  min-height: 100px;
+  min-height: 80px;
   display: flex;
-  gap: 10px;
   flex-direction: column;
+  gap: 10px;
 `;

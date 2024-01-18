@@ -6,11 +6,14 @@ import { currentUserState } from 'data/userAtom';
 
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
+import useAlertAskJoin from 'hooks/useAlertAskJoin';
 
 const BottomNavigation = () => {
   const currentUser = useRecoilValue(currentUserState);
 
   const { pathname } = useLocation();
+
+  const { blockLinkAndAlertJoinMember } = useAlertAskJoin('see');
 
   const bookShelfMatch = useMatch('bookshelf/:id');
 
@@ -46,7 +49,11 @@ const BottomNavigation = () => {
             </Link>
           </Item>
           <Item $active={pathname === '/bookshelf'}>
-            <Link to={`/bookshelf`} state={{ userId: currentUser.uid }}>
+            <Link
+              onClick={blockLinkAndAlertJoinMember}
+              to={`/bookshelf`}
+              state={{ userId: currentUser.uid }}
+            >
               <FiUser />
               <span>나의 책장</span>
             </Link>
@@ -59,11 +66,11 @@ const BottomNavigation = () => {
 
 const Nav = styled.nav`
   position: fixed;
-  z-index: 99;
+  z-index: 1;
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 5px 0;
+  padding: 10px 0 5px;
   background-color: ${(props) => props.theme.bgColor};
   @media ${device.tablet} {
     display: none;

@@ -46,6 +46,10 @@ const Btn = styled.button`
     margin-bottom: 2px;
   }
   @media ${device.tablet} {
+    width: 50%;
+  }
+  @media ${device.desktop} {
+    width: 40%;
   }
 `;
 

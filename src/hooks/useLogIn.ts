@@ -17,7 +17,9 @@ const useLogIn = (isLoggedIn: boolean) => {
       navigator('/');
     } catch (error) {
       if ((error as Error).message.includes('user-not-found'))
-        return setError('해당 유저의 정보를 찾을 수 없습니다.');
+        return setError(
+          '유저 정보를 찾을 수 없습니다. 이메일을 다시 한번 확인해주세요.'
+        );
       if ((error as Error).message.includes('password'))
         return setError('비밀번호가 일치하지 않습니다.');
     }

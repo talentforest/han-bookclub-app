@@ -7,8 +7,8 @@ import styled from 'styled-components';
 import VoteDeadLine from '../vote/VoteDeadLine';
 import VoteItems from '../vote/VoteItems';
 import AddVoteItem from '../vote/AddVoteItem';
-import SubmitBtn from 'components/atoms/buttons/SubmitBtn';
 import Modal from 'components/atoms/Modal';
+import SquareBtn from 'components/atoms/buttons/SquareBtn';
 
 interface PropsType {
   onModalClick: () => void;
@@ -74,7 +74,7 @@ const VoteCreateModal = ({ onModalClick }: PropsType) => {
 
         <VoteDeadLine endDate={endDate} setEndDate={setEndDate} />
 
-        <SubmitBtn children='투표 등록하기' />
+        <SquareBtn type='submit' name='투표 등록하기' />
       </Form>
     </Modal>
   );
@@ -85,12 +85,7 @@ const Form = styled.form`
   flex-direction: column;
   justify-content: space-between;
   min-height: 30vh;
-  max-height: 80vh;
-  overflow: scroll;
-  padding: 2px;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+
   label {
     color: ${(props) => props.theme.text.lightBlue};
     font-size: 14px;

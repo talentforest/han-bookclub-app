@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import device from 'theme/mediaQueries';
 
 interface Props {
   text: string;
@@ -19,11 +20,10 @@ const ContentBox = styled.div<{ $lineClamp: number | 'none' }>`
   line-clamp: ${(props) => props.$lineClamp};
   -webkit-box-orient: vertical;
   overflow: hidden;
-  margin-bottom: 10px;
-  min-height: ${(props) => (props.$lineClamp === 'none' ? '150px' : '20px')};
+  margin-bottom: 5px;
+  min-height: ${(props) => (props.$lineClamp === 'none' ? '100px' : '20px')};
   flex: ${(props) => (props.$lineClamp === 'none' ? 0 : 1)};
   line-height: 1.6;
-
   p,
   blockquote,
   li {
@@ -37,7 +37,6 @@ const ContentBox = styled.div<{ $lineClamp: number | 'none' }>`
     color: #666;
     border-left: 4px solid #aaa;
   }
-
   ol,
   ul {
     padding-left: 20px;
@@ -70,5 +69,8 @@ const ContentBox = styled.div<{ $lineClamp: number | 'none' }>`
     font-size: 15px;
     color: ${(props) => props.theme.text.lightBlue};
     text-decoration: underline;
+  }
+  @media ${device.tablet} {
+    min-height: ${(props) => (props.$lineClamp === 'none' ? '110px' : '50px')};
   }
 `;

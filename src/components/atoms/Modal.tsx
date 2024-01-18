@@ -1,5 +1,7 @@
-import styled from 'styled-components';
 import { ReactNode } from 'react';
+import { FiX } from 'react-icons/fi';
+import device from 'theme/mediaQueries';
+import styled from 'styled-components';
 
 interface Props {
   onToggleClick: () => void;
@@ -19,17 +21,23 @@ export default function Modal({
       <OverlayBox onClick={onToggleClick} />
 
       <BoxModal $width={width}>
-        <h3>{title}</h3>
-        {children}
+        <ModalHeaderBox>
+          <h3>{title}</h3>
+          <button type='button' onClick={onToggleClick}>
+            <FiX size={20} />
+          </button>
+        </ModalHeaderBox>
+        <ContentBox>{children}</ContentBox>
       </BoxModal>
     </>
   );
 }
 
 const BoxModal = styled.section<{ $width: string }>`
-  z-index: 100;
+  z-index: 20;
   width: ${(props) => props.$width};
   height: min-content;
+  max-height: 90vh;
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -42,10 +50,31 @@ const BoxModal = styled.section<{ $width: string }>`
   border-radius: 10px;
   background-color: #fff;
 
+  @media ${device.tablet} {
+    max-width: 60vw;
+  }
+`;
+
+const ModalHeaderBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 4px;
+  margin-bottom: 5px;
+  > button {
+    padding: 0 5px;
+  }
   > h3 {
     font-size: 18px;
-    margin-left: 4px;
-    margin-bottom: 4px;
+    padding-top: 4px;
+  }
+`;
+
+const ContentBox = styled.div`
+  overflow: scroll;
+  scroll-behavior: auto;
+  &::-webkit-scrollbar {
+    display: none;
   }
 `;
 
@@ -55,7 +84,7 @@ const OverlayBox = styled.div`
   overflow: hidden;
   width: 100%;
   height: 100%;
-  z-index: 100;
+  z-index: 10;
   top: 0;
   left: 0;
   right: 0;

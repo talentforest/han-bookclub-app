@@ -2,46 +2,48 @@ import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
 interface IPwInputProps {
+  type?: 'password' | 'email' | 'text';
   name: string;
   placeholder: string;
   value: string;
   onChange: (event: React.FormEvent<HTMLInputElement>) => void;
-  autoComplete: string;
+  autoComplete?: 'new-password' | 'username' | 'current-password' | 'email';
+  required?: boolean;
 }
 
-const PwInput = ({
+const Input = ({
+  type = 'text',
   name,
   placeholder,
   value,
   onChange,
   autoComplete,
+  required,
 }: IPwInputProps) => {
   return (
-    <Input
-      type='password'
+    <InputBox
+      type={type}
       name={name}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
       autoComplete={autoComplete}
-      required
+      required={required}
     />
   );
 };
 
-const Input = styled.input`
+export const InputBox = styled.input`
   width: 100%;
-  padding: 12px 10px;
-  font-size: 16px;
-  border: 1px solid ${(props) => props.theme.container.blue};
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid #eee;
+  box-shadow: ${(props) => props.theme.boxShadow};
   border-radius: 10px;
-  &:focus {
-    outline: none;
-  }
+  font-size: 16px;
   @media ${device.tablet} {
-    height: 60px;
-    font-size: 18px;
+    height: 45px;
   }
 `;
 
-export default PwInput;
+export default Input;

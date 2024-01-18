@@ -35,9 +35,10 @@ const FormDetails = ({ voteDetail }: PropsType) => {
   return (
     <>
       <Tag
+        color='purple'
         name={
           deadline < isoFormatDate(krCurTime)
-            ? `등록일자 : ${registerDate}`
+            ? `등록일 : ${registerDate}`
             : `디데이 : ${getDDay(deadline)}`
         }
       />

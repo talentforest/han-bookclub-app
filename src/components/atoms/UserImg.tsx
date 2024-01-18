@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
+import { FiImage, FiUser } from 'react-icons/fi';
 
 interface ProfileType {
   editing: boolean;
@@ -34,14 +35,14 @@ const UserImg = ({ editing, newUserImgUrl, setNewUserImgUrl }: ProfileType) => {
   return (
     <ImgBox>
       {!userData.photoURL ? (
-        <></>
+        <CircleImg as='div'>
+          <FiUser fontSize={30} stroke='#aaa' />
+        </CircleImg>
       ) : (
         <CircleImg
           src={beforeOnChange ? userData.photoURL : newUserImgUrl}
           alt='profileimg'
-          onClick={() => {
-            fileInput.current.click();
-          }}
+          onClick={() => fileInput.current?.click()}
           onContextMenu={(e) => e.preventDefault()}
         />
       )}
@@ -49,11 +50,9 @@ const UserImg = ({ editing, newUserImgUrl, setNewUserImgUrl }: ProfileType) => {
         <>
           <ChangeImgBtn
             type='button'
-            onClick={() => {
-              fileInput.current.click();
-            }}
+            onClick={() => fileInput.current?.click()}
           >
-            <></>
+            <FiImage fontSize={13} />
           </ChangeImgBtn>
 
           <input
@@ -91,8 +90,8 @@ const ChangeImgBtn = styled.button`
     width: 40px;
     height: 40px;
     svg {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
     }
   }
 `;
@@ -107,6 +106,9 @@ export const ImgBox = styled.div`
     height: 140px;
     width: 140px;
   }
+  .no-image {
+    background-color: #eee;
+  }
   @media ${device.tablet} {
     > svg {
       height: 200px;
@@ -116,13 +118,16 @@ export const ImgBox = styled.div`
 `;
 
 export const CircleImg = styled.img`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: ${(props) => props.theme.boxShadow};
   object-fit: cover;
   width: 140px;
   height: 140px;
   border-radius: 50%;
   -webkit-touch-callout: none;
-
+  background-color: #eee;
   @media ${device.tablet} {
     width: 200px;
     height: 200px;
