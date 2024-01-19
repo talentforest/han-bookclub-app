@@ -11,7 +11,7 @@ const Loading = ({ height }: ILoadingProps) => {
 const LoadingBox = styled.div<{ $height: string }>`
   column-span: all;
   width: 100%;
-  height: ${(props) => (props.$height ? props.$height : '70vh')};
+  height: ${({ $height }) => ($height ? $height : '70vh')};
   display: flex;
   justify-content: center;
   align-items: center;

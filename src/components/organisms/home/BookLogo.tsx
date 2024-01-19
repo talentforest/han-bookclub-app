@@ -75,7 +75,7 @@ const Box = styled.div`
   }
 `;
 const Col = styled.div<{ $flex?: boolean }>`
-  display: ${(props) => (props.$flex ? 'flex' : 'block')};
+  display: ${({ $flex }) => ($flex ? 'flex' : 'block')};
 `;
 const Hexagon = styled.img`
   display: flex;
@@ -86,7 +86,7 @@ const Hexagon = styled.img`
   background-color: #fff;
   object-fit: cover;
   object-position: top;
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   svg {
     width: 12px;

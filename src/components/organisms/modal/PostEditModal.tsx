@@ -45,6 +45,6 @@ const SubmitBtn = styled.input`
   border-radius: 10px;
   padding: 12px 10px 10px;
   font-size: 16px;
-  background-color: ${(props) => props.theme.container.blue};
+  background-color: ${({ theme }) => theme.container.blue2};
   color: #fff;
 `;

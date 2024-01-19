@@ -47,7 +47,7 @@ const RecommendedBookList = styled.ul<{ $length: number }>`
   position: relative;
   display: flex;
   gap: 12px;
-  width: ${(props) => `${props.$length * 130}px`};
+  width: ${({ $length }) => `${$length * 130}px`};
   padding-top: 30px;
   @media ${device.tablet} {
     gap: 15px;

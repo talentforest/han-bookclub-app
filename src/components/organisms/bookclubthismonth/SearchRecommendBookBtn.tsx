@@ -36,9 +36,9 @@ const Btn = styled.button`
   align-items: center;
   padding: 8px 15px;
   border-radius: 30px;
-  color: ${(props) => props.theme.text.gray};
+  color: ${({ theme }) => theme.text.gray4};
   background-color: #fff;
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   span {
     font-size: 15px;
   }

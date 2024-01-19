@@ -45,21 +45,19 @@ export const Btn = styled.button<{ $disabled: boolean; $color?: BtnColor }>`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  box-shadow: ${(props) => props.theme.boxShadow};
-  background-color: ${(props) =>
-    props.$disabled
-      ? props.theme.text.lightGray
-      : props.$color === 'orange'
-      ? props.theme.container.orange
-      : props.$color === 'purple'
-      ? props.theme.container.purple
-      : props.theme.container.lightBlue};
+  box-shadow: ${({ theme }) => theme.boxShadow};
+  background-color: ${({ $disabled, $color, theme }) =>
+    $disabled
+      ? theme.text.gray1
+      : $color === 'orange'
+      ? theme.container.orange
+      : $color === 'purple'
+      ? theme.container.purple1
+      : theme.container.blue1};
   span {
     font-size: 15px;
-    color: ${(props) =>
-      props.$disabled
-        ? props.theme.text.mediumGray
-        : props.theme.text.lightBlue};
+    color: ${({ $disabled, theme }) =>
+      $disabled ? theme.text.gray2 : theme.text.blue1};
   }
   @media ${device.tablet} {
     /* height: 40px; */

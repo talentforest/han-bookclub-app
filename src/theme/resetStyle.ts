@@ -10,7 +10,7 @@ export const ResetStyle = createGlobalStyle`
   }
 
   body {
-    background-color: ${(props) => props.theme.bgColor};
+    background-color: ${({ theme }) => theme.bgColor};
     ::-webkit-scrollbar {
       display: none;
       scrollbar-width: none;
@@ -34,7 +34,7 @@ export const ResetStyle = createGlobalStyle`
   }
   * {
     font-family: "Locus_Sangsang";
-    color: ${(props) => props.theme.text.default};
+    color: ${({ theme }) => theme.text.default};
     box-sizing: border-box;
     
   }
@@ -60,7 +60,7 @@ export const ResetStyle = createGlobalStyle`
   }
   a {
     text-decoration: none;
-    color: ${(props) => props.theme.text.gray}
+    color: ${({ theme }) => theme.text.blue2}
   }
   ol,
   ul, li {

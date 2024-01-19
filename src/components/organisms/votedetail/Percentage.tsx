@@ -38,14 +38,14 @@ const Container = styled.div<{ $gauge: string }>`
   align-items: center;
   justify-content: flex-end;
   padding-right: 10px;
-  color: ${(props) => props.theme.text.accent};
+  color: ${({ theme }) => theme.text.blue3};
   font-size: 13px;
   top: 0;
   right: 0;
-  width: ${(props) => (props.$gauge ? props.$gauge : '10px')};
+  width: ${({ $gauge }) => ($gauge ? $gauge : '10px')};
   height: 100%;
   border-radius: 3px;
-  background-color: ${(props) => props.theme.container.lightBlue};
+  background-color: ${({ theme }) => theme.container.blue1};
   @media ${device.tablet} {
     font-size: 16px;
   }

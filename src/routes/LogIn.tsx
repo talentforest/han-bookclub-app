@@ -76,7 +76,7 @@ const LogIn = ({ isLoggedIn }: ILoginProps) => {
 };
 
 const Main = styled.main<{ $anonymous: boolean }>`
-  height: ${(props) => (props.$anonymous ? '90vh' : '100vh')};
+  height: ${({ $anonymous }) => ($anonymous ? '90vh' : '100vh')};
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -104,7 +104,7 @@ const LogoBox = styled.div`
   }
   h1 {
     font-size: 18px;
-    color: ${(props) => props.theme.text.lightBlue};
+    color: ${({ theme }) => theme.text.blue1};
   }
 `;
 
@@ -125,7 +125,7 @@ export const ErrorMsg = styled.span`
   font-size: 14px;
   width: 100%;
   padding-left: 5px;
-  color: ${(props) => props.theme.text.red};
+  color: ${({ theme }) => theme.text.red};
   margin-bottom: 20px;
   @media ${device.tablet} {
     font-size: 16px;

@@ -42,7 +42,7 @@ export default function TabBox({ yearMonthId }: Props) {
         ))}
       </TabList>
 
-      <TabContentBox>
+      <TabContentBox $active={tab === '발제문'}>
         {tab === '발제문' &&
           (subjects[0] ? (
             <>
@@ -110,18 +110,20 @@ const TabList = styled.ul`
 `;
 
 const TabItem = styled.li<{ $active: boolean }>`
-  background-color: ${(props) =>
-    props.$active ? props.theme.container.purple : '#fff'};
+  background-color: ${({ $active, theme }) =>
+    $active ? theme.container.blue1 : '#fff'};
   box-shadow: 2px -2px 4px rgba(156, 155, 155, 0.3);
   padding: 10px 12px 8px;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
   button {
     font-size: 15px;
+    color: ${({ $active, theme }) =>
+      $active ? theme.text.purple : theme.text.gray2};
   }
 `;
 
-const TabContentBox = styled.div`
+const TabContentBox = styled.div<{ $active: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -130,8 +132,9 @@ const TabContentBox = styled.div`
   padding: 15px 15px 8px;
   border-radius: 10px;
   border-top-left-radius: 0;
-  box-shadow: ${(props) => props.theme.boxShadow};
-  background-color: ${(props) => props.theme.container.default};
+  box-shadow: ${({ theme }) => theme.boxShadow};
+  background-color: ${({ $active, theme }) =>
+    $active ? theme.container.blue1 : '#fff'};
   pre {
     margin-bottom: 10px;
   }
@@ -169,13 +172,13 @@ const BtnBox = styled.div`
     align-items: center;
     justify-content: center;
     background-color: transparent;
-    color: ${(props) => props.theme.text.accent};
+    color: ${({ theme }) => theme.text.blue3};
     span {
       font-size: 16px;
-      color: ${(props) => props.theme.text.accent};
+      color: ${({ theme }) => theme.text.blue3};
     }
     svg {
-      stroke: ${(props) => props.theme.text.accent};
+      stroke: ${({ theme }) => theme.text.blue3};
       width: 18px;
       height: 18px;
       margin-right: 4px;
@@ -186,7 +189,7 @@ const BtnBox = styled.div`
     a {
       font-size: 18px;
       svg {
-        fill: ${(props) => props.theme.text.accent};
+        fill: ${({ theme }) => theme.text.blue3};
         margin-right: 5px;
       }
     }
@@ -197,5 +200,5 @@ const Desc = styled.p`
   text-align: center;
 
   font-size: 13px;
-  color: ${(props) => props.theme.text.mediumGray};
+  color: ${({ theme }) => theme.text.gray2};
 `;

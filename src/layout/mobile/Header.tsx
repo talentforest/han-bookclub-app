@@ -71,7 +71,7 @@ const MobileHeader = styled.header`
     height: 22px;
   }
   h1 {
-    color: ${(props) => props.theme.text.gray};
+    color: ${({ theme }) => theme.text.gray4};
     font-size: 18px;
     flex: 1;
   }

@@ -25,8 +25,8 @@ const ThumnailImg = styled.img`
   aspect-ratio: 0.68/1;
   max-width: 100px;
   height: 100%;
-  box-shadow: ${(props) => props.theme.boxShadow};
-  background-color: ${(props) => props.theme.container.default};
+  box-shadow: ${({ theme }) => theme.boxShadow};
+  background-color: ${({ theme }) => theme.container.default};
   @media ${device.tablet} {
     max-width: 140px;
   }
@@ -38,7 +38,7 @@ const NoThumbnailBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   background-color: #f1f1f1;
   border-radius: 8px;
 `;

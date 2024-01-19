@@ -76,8 +76,8 @@ const FieldHostBox = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  background-color: ${(props) => props.theme.container.default};
-  box-shadow: ${(props) => props.theme.boxShadow};
+  background-color: ${({ theme }) => theme.container.default};
+  box-shadow: ${({ theme }) => theme.boxShadow};
 
   .tablebox {
     position: relative;

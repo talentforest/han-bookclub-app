@@ -112,14 +112,14 @@ const Title = styled.h3`
 
 const ReasonDetails = styled.details`
   pointer-events: all;
-  background-color: ${(props) => props.theme.container.default};
-  box-shadow: ${(props) => props.theme.boxShadow};
+  background-color: ${({ theme }) => theme.container.default};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   padding: 10px;
   margin: 5px 0 20px;
   border-radius: 10px;
   > summary {
     font-size: 14px;
-    color: ${(props) => props.theme.text.gray};
+    color: ${({ theme }) => theme.text.gray4};
     cursor: pointer;
   }
   @media ${device.tablet} {
@@ -132,22 +132,22 @@ const ReasonDetailBox = styled.div`
   white-space: pre-line;
   word-break: break-all;
   margin-top: 18px;
-  background-color: ${(props) => props.theme.container.default};
+  background-color: ${({ theme }) => theme.container.default};
   span {
     font-size: 13px;
     line-height: 1;
     display: inline-block;
     padding: 2px 0 0 8px;
     width: 100%;
-    border-left: 4px solid ${(props) => props.theme.container.lightBlue};
-    color: ${(props) => props.theme.text.lightBlue};
+    border-left: 4px solid ${({ theme }) => theme.container.blue1};
+    color: ${({ theme }) => theme.text.blue1};
   }
   p {
     font-size: 14px;
     white-space: pre-line;
     word-break: break-all;
     padding: 8px 0 2px;
-    color: ${(props) => props.theme.text.gray};
+    color: ${({ theme }) => theme.text.gray4};
   }
 `;
 

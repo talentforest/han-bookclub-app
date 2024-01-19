@@ -30,7 +30,7 @@ const HeaderBox = styled.header`
   align-items: center;
   gap: 3px;
   h1 {
-    color: ${(props) => props.theme.text.gray};
+    color: ${({ theme }) => theme.text.gray4};
   }
   padding: 0 20px;
   @media ${device.tablet} {

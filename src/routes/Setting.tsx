@@ -55,7 +55,7 @@ const Setting = () => {
 const SettingTitle = styled.h4`
   display: block;
   font-size: 12px;
-  color: ${(props) => props.theme.text.lightBlue};
+  color: ${({ theme }) => theme.text.blue1};
   padding-bottom: 8px;
   @media ${device.tablet} {
     font-size: 14px;
@@ -67,7 +67,7 @@ const List = styled.ul`
 `;
 
 const Item = styled.li`
-  border-bottom: 1px solid ${(props) => props.theme.text.lightGray};
+  border-bottom: 1px solid ${({ theme }) => theme.text.gray1};
   padding: 12px 0;
   > button {
     font-size: 14px;

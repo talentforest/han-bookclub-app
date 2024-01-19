@@ -21,5 +21,5 @@ const TagItem = styled.li`
   border-radius: 8px;
   font-size: 15px;
   color: #aaa;
-  background-color: ${(props) => props.theme.container.yellow};
+  background-color: ${({ theme }) => theme.container.yellow1};
 `;

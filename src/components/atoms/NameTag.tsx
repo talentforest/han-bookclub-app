@@ -17,7 +17,7 @@ export default function NameTag({ name, color = '#fff7c8' }: Props) {
 const TagItem = styled.li<{ $color: string }>`
   border-radius: 5px;
   padding: 3px 6px 0;
-  background-color: ${(props) => props.$color};
+  background-color: ${({ $color }) => $color};
   list-style: none;
   height: 25px;
   display: flex;

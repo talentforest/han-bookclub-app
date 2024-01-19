@@ -39,20 +39,18 @@ const ResultBookBox = ({ searchedBook, modal }: PropsType) => {
 
 const BookResultBox = styled(Link)<{ $modal: boolean }>`
   width: 100%;
-  height: ${(props) => (props.$modal ? '60px' : '85px')};
-  margin-bottom: ${(props) => (props.$modal ? '0' : '10px')};
+  height: ${({ $modal }) => ($modal ? '60px' : '85px')};
+  margin-bottom: ${({ $modal }) => ($modal ? '0' : '10px')};
   display: flex;
   align-items: center;
-  padding: ${(props) => (props.$modal ? '3px 4px' : '8px 12px')};
-  background-color: ${(props) =>
-    props.$modal
-      ? props.theme.container.lightBlue
-      : props.theme.container.default};
-  box-shadow: ${(props) => props.theme.boxShadow};
+  padding: ${({ $modal }) => ($modal ? '3px 4px' : '8px 12px')};
+  background-color: ${({ $modal, theme }) =>
+    $modal ? theme.container.blue1 : theme.container.default};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: 8px;
   cursor: pointer;
   &:hover {
-    background-color: ${(props) => props.theme.container.lightBlue};
+    background-color: ${({ theme }) => theme.container.blue1};
   }
   > button {
     place-self: end;
@@ -66,10 +64,10 @@ const BookDetail = styled.div<{ $modal: boolean }>`
   margin-left: 12px;
 
   > h3 {
-    font-size: ${(props) => (props.$modal ? '14px' : '15px')};
+    font-size: ${({ $modal }) => ($modal ? '14px' : '15px')};
   }
   span {
-    font-size: ${(props) => (props.$modal ? '12px' : '13px')};
+    font-size: ${({ $modal }) => ($modal ? '12px' : '13px')};
     color: #888;
     line-height: 1.4;
   }

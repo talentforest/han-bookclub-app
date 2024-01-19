@@ -11,7 +11,7 @@ const Guide = ({ text }: PropsType) => {
 
 const GuidePar = styled.p`
   font-size: 13px;
-  color: ${(props) => props.theme.text.mediumGray};
+  color: ${({ theme }) => theme.text.gray2};
   line-height: 1.5;
   padding-left: 4px;
 

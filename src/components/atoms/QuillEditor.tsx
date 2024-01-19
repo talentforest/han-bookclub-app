@@ -113,7 +113,7 @@ const Editor = styled(ReactQuill)`
     }
     a {
       font-size: 15px;
-      color: ${(props) => props.theme.text.lightBlue};
+      color: ${({ theme }) => theme.text.blue1};
       text-decoration: underline;
     }
   }

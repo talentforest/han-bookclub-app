@@ -74,8 +74,8 @@ export const EmptyBox = styled.div`
   border-radius: 10px;
   font-size: 14px;
   color: #aaa;
-  box-shadow: ${(props) => props.theme.boxShadow};
-  background-color: ${(props) => props.theme.container.default};
+  box-shadow: ${({ theme }) => theme.boxShadow};
+  background-color: ${({ theme }) => theme.container.default};
   grid-column: 1 / span 3;
   @media ${device.tablet} {
     font-size: 16px;

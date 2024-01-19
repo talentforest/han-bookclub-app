@@ -47,19 +47,19 @@ const Info = styled.div<{ $readOnly: boolean }>`
   font-size: 12px;
   margin-left: 8px;
   > span {
-    color: ${(props) => props.theme.text.accent};
+    color: ${({ theme }) => theme.text.blue3};
     padding-left: 3px;
     font-size: 14px;
   }
   svg {
-    width: ${(props) => (props.$readOnly ? '18px' : '24px')};
-    height: ${(props) => (props.$readOnly ? '18px' : '24px')};
+    width: ${({ $readOnly }) => ($readOnly ? '18px' : '24px')};
+    height: ${({ $readOnly }) => ($readOnly ? '18px' : '24px')};
     fill: gold;
   }
   @media ${device.tablet} {
     svg {
-      width: ${(props) => (props.$readOnly ? '24px' : '28px')};
-      height: ${(props) => (props.$readOnly ? '24px' : '28px')};
+      width: ${({ $readOnly }) => ($readOnly ? '24px' : '28px')};
+      height: ${({ $readOnly }) => ($readOnly ? '24px' : '28px')};
     }
   }
 `;

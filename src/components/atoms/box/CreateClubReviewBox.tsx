@@ -6,7 +6,7 @@ import { thisMonthClubState } from 'data/documentsAtom';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import styled from 'styled-components';
 import PostBtn from 'components/atoms/buttons/PostBtn';
-import RatingBox from 'components/organisms/RatingBox';
+// import RatingBox from 'components/organisms/RatingBox';
 import device from 'theme/mediaQueries';
 
 interface PropsType {
@@ -62,8 +62,8 @@ const CreateClubReviewBox = ({ docMonth }: PropsType) => {
 };
 
 const Form = styled.form`
-  background-color: ${(props) => props.theme.container.lightBlue};
-  box-shadow: ${(props) => props.theme.boxShadow};
+  background-color: ${({ theme }) => theme.container.blue1};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   padding: 12px;
   border-radius: 10px;
   margin-bottom: 20px;
@@ -82,7 +82,7 @@ const TextArea = styled.textarea`
   height: 100px;
   border: none;
   resize: none;
-  background-color: ${(props) => props.theme.container.default};
+  background-color: ${({ theme }) => theme.container.default};
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 8px;

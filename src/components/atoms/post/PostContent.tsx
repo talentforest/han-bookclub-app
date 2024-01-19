@@ -17,12 +17,12 @@ export default function PostContent({ text, lineClamp }: Props) {
 
 const ContentBox = styled.div<{ $lineClamp: number | 'none' }>`
   display: -webkit-box;
-  line-clamp: ${(props) => props.$lineClamp};
+  line-clamp: ${({ $lineClamp }) => $lineClamp};
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin-bottom: 5px;
-  min-height: ${(props) => (props.$lineClamp === 'none' ? '100px' : '20px')};
-  flex: ${(props) => (props.$lineClamp === 'none' ? 0 : 1)};
+  min-height: ${({ $lineClamp }) => ($lineClamp === 'none' ? '100px' : '20px')};
+  flex: ${({ $lineClamp }) => ($lineClamp === 'none' ? 0 : 1)};
   line-height: 1.6;
   p,
   blockquote,
@@ -67,10 +67,11 @@ const ContentBox = styled.div<{ $lineClamp: number | 'none' }>`
   }
   a {
     font-size: 15px;
-    color: ${(props) => props.theme.text.lightBlue};
+    color: ${({ theme }) => theme.text.blue1};
     text-decoration: underline;
   }
   @media ${device.tablet} {
-    min-height: ${(props) => (props.$lineClamp === 'none' ? '110px' : '50px')};
+    min-height: ${({ $lineClamp }) =>
+      $lineClamp === 'none' ? '110px' : '50px'};
   }
 `;

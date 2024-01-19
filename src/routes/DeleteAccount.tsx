@@ -53,7 +53,7 @@ export const LabelInputBtnBox = styled.div`
   label {
     padding-left: 5px;
     font-size: 14px;
-    color: ${(props) => props.theme.container.blue};
+    color: ${({ theme }) => theme.container.blue2};
   }
   > div {
     padding-top: 5px;
@@ -77,7 +77,7 @@ export const LabelInputBtnBox = styled.div`
 
 const Msg = styled.span`
   font-size: 13px;
-  color: ${(props) => props.theme.text.lightBlue};
+  color: ${({ theme }) => theme.text.blue1};
   margin-bottom: 3px;
   display: block;
 `;

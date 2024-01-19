@@ -107,8 +107,8 @@ const AddPostBtn = styled.button`
   width: 100%;
   padding: 14px 0;
   border-radius: 10px;
-  background-color: ${(props) => props.theme.container.blue};
-  box-shadow: ${(props) => props.theme.boxShadow};
+  background-color: ${({ theme }) => theme.container.blue1};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   color: #fff;
   font-size: 16px;
 `;

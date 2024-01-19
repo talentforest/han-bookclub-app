@@ -72,7 +72,7 @@ const LabeledVoteItem = styled(LabeledBox)`
   margin-bottom: 5px;
   div.label {
     width: 50px;
-    border: 1px solid ${(props) => props.theme.text.lightGray};
+    border: 1px solid ${({ theme }) => theme.text.gray1};
   }
   > input {
     width: 100%;
@@ -87,7 +87,7 @@ const Textarea = styled.textarea`
   padding: 8px;
   border-radius: 10px;
   border: none;
-  border: 1px solid ${(props) => props.theme.text.lightGray};
+  border: 1px solid ${({ theme }) => theme.text.gray1};
   box-shadow: 2px 2px 2px 2px rgba(200, 200, 200, 0.2);
   resize: none;
   &::placeholder {

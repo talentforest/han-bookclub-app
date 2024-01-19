@@ -188,13 +188,13 @@ export const EmptyBox = styled.div`
   align-items: center;
   font-size: 12px;
   text-align: center;
-  color: ${(props) => props.theme.text.lightBlue};
-  background-color: ${(props) => props.theme.container.default};
+  color: ${({ theme }) => theme.text.blue1};
+  background-color: ${({ theme }) => theme.container.default};
   width: 100%;
   height: 140px;
   padding: 12px;
   border-radius: 10px;
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   grid-column: 1 / span 4;
 
   @media ${device.tablet} {

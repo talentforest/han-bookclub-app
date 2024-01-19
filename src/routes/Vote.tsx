@@ -80,7 +80,7 @@ const AddVoteBtnBox = styled.div`
   display: flex;
   align-items: center;
   gap: 3px;
-  color: ${(props) => props.theme.text.accent};
+  color: ${({ theme }) => theme.text.blue3};
   font-size: 16px;
   button {
     padding-bottom: 3px;
@@ -111,8 +111,8 @@ const EmptyBox = styled.div`
   width: 100%;
   height: 180px;
   padding: 10px;
-  background-color: ${(props) => props.theme.container.default};
-  box-shadow: ${(props) => props.theme.boxShadow};
+  background-color: ${({ theme }) => theme.container.default};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: 10px;
   margin-bottom: 30px;
   color: #aaa;

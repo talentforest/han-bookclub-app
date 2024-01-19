@@ -4,7 +4,6 @@ import { IVote } from 'data/voteItemAtom';
 import { LabeledBox } from 'components/atoms/inputs/BoxLabeledInput';
 import { MdOutlineHowToVote } from 'react-icons/md';
 import styled from 'styled-components';
-import { FiCheckCircle } from 'react-icons/fi';
 
 interface PropsType {
   voteDetail: IVote;
@@ -54,9 +53,9 @@ const Vote = styled(Link)`
   width: 100%;
   min-height: 100px;
   border-radius: 10px;
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   padding: 10px;
-  background-color: ${(props) => props.theme.container.default};
+  background-color: ${({ theme }) => theme.container.default};
 `;
 
 const Title = styled.h4`
@@ -75,14 +74,14 @@ const LabelResultBox = styled(LabeledBox)`
     padding: 0 5px;
     gap: 4px;
     width: 60px;
-    border: 1px solid ${(props) => props.theme.container.lightBlue};
-    background-color: ${(props) => props.theme.container.lightBlue};
+    border: 1px solid ${({ theme }) => theme.container.blue1};
+    background-color: ${({ theme }) => theme.container.blue1};
     span {
-      color: ${(props) => props.theme.text.lightBlue};
+      color: ${({ theme }) => theme.text.blue1};
     }
   }
   div.info {
-    border: 1px solid ${(props) => props.theme.text.lightGray};
+    border: 1px solid ${({ theme }) => theme.text.gray1};
     height: 100%;
     display: flex;
     align-items: center;

@@ -150,7 +150,7 @@ const BookResults = styled.section<{ $height: number }>`
   flex-direction: column;
   background-color: #fff;
   min-height: 200px;
-  height: ${(props) => `${props.$height}px`};
+  height: ${({ $height }) => `${$height}px`};
   transition: height 0.5s ease;
   overflow: hidden;
 `;
@@ -196,7 +196,7 @@ const BookBox = styled.div`
     padding-left: 5px;
     span {
       padding-top: 4px;
-      color: ${(props) => props.theme.text.lightBlue};
+      color: ${({ theme }) => theme.text.blue1};
     }
   }
 `;

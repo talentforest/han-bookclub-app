@@ -119,7 +119,7 @@ const Form = styled.form`
   > label {
     font-size: 13px;
     margin: 20px 5px 5px;
-    color: ${(props) => props.theme.text.lightBlue};
+    color: ${({ theme }) => theme.text.blue1};
     &:first-child {
       margin-top: 0;
     }
@@ -137,9 +137,9 @@ const Fieldset = styled.fieldset`
   padding: 10px;
   gap: 15px 20px;
   border-radius: 10px;
-  border: 1px solid ${(props) => props.theme.text.lightGray};
-  background-color: ${(props) => props.theme.text.white};
-  box-shadow: ${(props) => props.theme.boxShadow};
+  border: 1px solid ${({ theme }) => theme.text.gray1};
+  background-color: #fff;
+  box-shadow: ${({ theme }) => theme.boxShadow};
   &.bookfield {
     margin-bottom: 30px;
   }
@@ -172,7 +172,7 @@ const Msg = styled.p`
   font-weight: 700;
   width: 100%;
   text-align: center;
-  color: ${(props) => props.theme.text.accent};
+  color: ${({ theme }) => theme.text.blue3};
   @media ${device.tablet} {
     font-size: 16px;
   }

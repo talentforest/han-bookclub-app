@@ -46,7 +46,7 @@ const Item = styled.li`
   padding: 8px 12px;
   height: 110px;
   margin-top: 30px;
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   display: flex;
   align-items: center;
 

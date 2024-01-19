@@ -88,13 +88,13 @@ const LikeBtn = styled.button`
 `;
 
 const LikeUserList = styled.ul`
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   position: absolute;
   bottom: 30px;
   right: 5px;
   width: fit-content;
   min-height: 100px;
-  background-color: ${(props) => props.theme.container.lightBlue};
+  background-color: ${({ theme }) => theme.container.blue1};
   z-index: 10;
   border-radius: 8px;
   padding: 5px 10px 10px;
@@ -106,7 +106,7 @@ const LikeUserList = styled.ul`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: ${(props) => props.theme.text.lightBlue};
+    color: ${({ theme }) => theme.text.blue1};
   }
 `;
 

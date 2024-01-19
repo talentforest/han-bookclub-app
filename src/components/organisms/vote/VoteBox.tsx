@@ -55,8 +55,8 @@ const Vote = styled.div`
   width: 100%;
   border-radius: 10px;
   padding: 12px;
-  background-color: ${(props) => props.theme.container.default};
-  box-shadow: ${(props) => props.theme.boxShadow};
+  background-color: ${({ theme }) => theme.container.default};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   @media ${device.tablet} {
     min-height: 240px;
   }
@@ -87,13 +87,13 @@ const LabelVoteBox = styled(LabeledBox)`
   div.label {
     width: 50px;
     font-size: 15px;
-    border: 1px solid ${(props) => props.theme.text.lightGray};
-    background-color: ${(props) => props.theme.container.yellow};
-    color: ${(props) => props.theme.text.lightBlue};
+    border: 1px solid ${({ theme }) => theme.text.gray1};
+    background-color: ${({ theme }) => theme.container.yellow2};
+    color: ${({ theme }) => theme.text.blue1};
   }
   div.info {
     border-left: none;
-    border: 1px solid ${(props) => props.theme.text.lightGray};
+    border: 1px solid ${({ theme }) => theme.text.gray1};
     height: 100%;
     width: 100%;
     border-top-right-radius: 10px;
@@ -112,17 +112,17 @@ const Bottom = styled.div`
   align-items: center;
   font-size: 14px;
   > p {
-    color: ${(props) => props.theme.text.mediumGray};
+    color: ${({ theme }) => theme.text.gray2};
   }
   > a {
     display: flex;
     align-items: center;
     svg {
       line-height: 0;
-      stroke: ${(props) => props.theme.text.mediumGray};
+      stroke: ${({ theme }) => theme.text.gray2};
     }
     span {
-      color: ${(props) => props.theme.text.mediumGray};
+      color: ${({ theme }) => theme.text.gray2};
     }
   }
   @media ${device.tablet} {

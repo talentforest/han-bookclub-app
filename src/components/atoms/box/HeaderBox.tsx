@@ -130,8 +130,8 @@ export default function HeaderBox({ header, meeting }: Props) {
 const Box = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: ${(props) => props.theme.container.default};
-  box-shadow: ${(props) => props.theme.boxShadow};
+  background-color: ${({ theme }) => theme.container.default};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: 10px;
   flex: 1;
 
@@ -187,7 +187,7 @@ const FiEdit3Btn = styled(FiEdit3)`
 `;
 
 const TagListBox = styled.div<{ $height: number }>`
-  height: ${(props) => `${props.$height}px`};
+  height: ${($height) => `${$height}px`};
   transition: height 0.5s ease;
   overflow: hidden;
   margin-top: 12px;
@@ -211,6 +211,6 @@ const SubmitBtn = styled.input`
   border-radius: 10px;
   padding: 12px 10px 10px;
   font-size: 16px;
-  background-color: ${(props) => props.theme.container.blue};
+  background-color: ${({ theme }) => theme.container.blue1};
   color: #fff;
 `;

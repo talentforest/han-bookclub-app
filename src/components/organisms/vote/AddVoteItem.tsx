@@ -43,11 +43,11 @@ const AddVoteItemBtn = styled.button`
   margin: 10px 0;
   padding: 8px 12px 4px;
   border-radius: 20px;
-  box-shadow: ${(props) => props.theme.boxShadow};
-  background-color: ${(props) => props.theme.container.yellow};
+  box-shadow: ${({ theme }) => theme.boxShadow};
+  background-color: ${({ theme }) => theme.container.yellow1};
   gap: 3px;
   span {
-    color: ${(props) => props.theme.text.accent};
+    color: ${({ theme }) => theme.text.blue3};
     padding-right: 2px;
   }
   svg {
@@ -59,7 +59,7 @@ const AddVoteItemBtn = styled.button`
     svg {
       width: 20px;
       height: 20px;
-      fill: ${(props) => props.theme.text.accent};
+      fill: ${({ theme }) => theme.text.blue3};
     }
   }
 `;
@@ -73,7 +73,7 @@ const GuideBox = styled.div`
     padding-top: 2px;
     line-height: 0;
     font-size: 13px;
-    color: ${(props) => props.theme.text.red};
+    color: ${({ theme }) => theme.text.red};
   }
 
   @media ${device.tablet} {

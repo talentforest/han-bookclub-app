@@ -34,7 +34,7 @@ const Deadline = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  background-color: ${(props) => props.theme.container.default};
+  background-color: ${({ theme }) => theme.container.default};
   span {
     display: block;
     font-size: 16px;
@@ -53,7 +53,7 @@ const DatePick = styled(DatePicker)`
   padding: 10px;
   border-radius: 10px;
   font-size: 16px;
-  border: 1px solid ${(props) => props.theme.text.lightGray};
+  border: 1px solid ${({ theme }) => theme.text.gray1};
   cursor: pointer;
 
   .react-datepicker__navigation-icon::before {

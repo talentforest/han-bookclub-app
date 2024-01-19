@@ -26,7 +26,7 @@ const BookClubHistoryDetail = () => {
         <HistoryClubBookBox document={document} />
 
         <Section>
-          <Subtitle title='발제문과 발제자의 정리 기록' />
+          <Subtitle title='발제문과 모임 정리 기록' />
           <TabBox yearMonthId={id} />
         </Section>
 

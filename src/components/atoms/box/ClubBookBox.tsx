@@ -53,7 +53,7 @@ const Box = styled.div`
   padding: 12px 15px;
   border-radius: 10px;
   background-color: #fff;
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   display: flex;
   align-items: center;
   justify-content: space-between;

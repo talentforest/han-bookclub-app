@@ -84,7 +84,7 @@ export const LabeledBox = styled.div`
   margin-bottom: 8px;
 
   > div.label {
-    border: 1px solid ${(props) => props.theme.text.lightGray};
+    border: 1px solid ${({ theme }) => theme.text.gray1};
     width: 75px;
     height: 100%;
     background-color: #eaeaea;
@@ -99,7 +99,7 @@ export const LabeledBox = styled.div`
   }
 
   > input {
-    border: 1px solid ${(props) => props.theme.text.lightGray};
+    border: 1px solid ${({ theme }) => theme.text.gray1};
     height: 100%;
     width: 200px;
     padding: 10px 8px 8px 6px;
@@ -114,12 +114,12 @@ export const LabeledBox = styled.div`
 `;
 
 const InputContainerBox = styled.div`
-  border: 1px solid ${(props) => props.theme.text.lightGray};
+  border: 1px solid ${({ theme }) => theme.text.gray1};
   height: 100%;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   .react-datepicker {
-    border: 1px solid ${(props) => props.theme.text.mediumGray};
+    border: 1px solid ${({ theme }) => theme.text.gray2};
     font-size: 14px;
     display: flex;
     width: 327px;
@@ -133,7 +133,7 @@ const InputContainerBox = styled.div`
   }
 
   .react-datepicker___button {
-    border: 1px solid ${(props) => props.theme.text.mediumGray};
+    border: 1px solid ${({ theme }) => theme.text.gray2};
     position: absolute;
     bottom: -35px;
     height: 35px;

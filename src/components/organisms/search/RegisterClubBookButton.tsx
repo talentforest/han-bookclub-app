@@ -50,9 +50,9 @@ const CalenderInput = styled.input`
   border-radius: 10px;
   padding: 0 8px;
   width: 120px;
-  color: ${(props) => props.theme.text.accent};
-  border: 1px solid ${(props) => props.theme.text.gray};
-  background-color: ${(props) => props.theme.container.default};
+  color: ${({ theme }) => theme.text.blue3};
+  border: 1px solid ${({ theme }) => theme.text.gray1};
+  background-color: ${({ theme }) => theme.container.default};
   svg {
     fill: gold;
   }
@@ -61,13 +61,13 @@ const RegisterBtn = styled.button`
   width: 120px;
   height: 50px;
   border-radius: 10px;
-  background-color: ${(props) => props.theme.text.lightGray};
+  background-color: ${({ theme }) => theme.text.gray1};
 
   font-weight: 700;
 `;
 const Registered = styled(RegisterBtn)`
-  color: ${(props) => props.theme.text.accent};
-  background-color: ${(props) => props.theme.container.yellow};
+  color: ${({ theme }) => theme.text.blue3};
+  background-color: ${({ theme }) => theme.container.yellow1};
 `;
 
 export default RegisterClubBookButton;

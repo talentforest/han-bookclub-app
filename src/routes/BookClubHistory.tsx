@@ -76,9 +76,9 @@ const TagItem = styled.li<{ $active: boolean }>`
   h1 {
     padding: 8px 10px;
     font-size: 14px;
-    background-color: ${(props) =>
-      props.$active ? props.theme.container.blue : '#eee'};
-    color: ${(props) => (props.$active ? props.theme.text.white : '#aaa')};
+    background-color: ${({ $active, theme }) =>
+      $active ? theme.container.blue3 : '#eee'};
+    color: ${({ $active, theme }) => ($active ? '#fff' : theme.text.gray2)};
   }
 `;
 
@@ -109,8 +109,8 @@ const EmptyBox = styled.div`
   font-size: 15px;
   color: #aaa;
   border-radius: 10px;
-  background-color: ${(props) => props.theme.container.default};
-  box-shadow: ${(props) => props.theme.boxShadow};
+  background-color: ${({ theme }) => theme.container.default};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   @media ${device.tablet} {
   }
   @media ${device.desktop} {

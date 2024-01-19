@@ -38,7 +38,7 @@ export const InputBox = styled.input`
   height: 40px;
   padding: 0 10px;
   border: 1px solid #eee;
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: 10px;
   font-size: 16px;
   @media ${device.tablet} {

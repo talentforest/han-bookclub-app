@@ -71,7 +71,7 @@ const Nav = styled.nav`
   left: 0;
   width: 100%;
   padding: 10px 0 5px;
-  background-color: ${(props) => props.theme.bgColor};
+  background-color: ${({ theme }) => theme.bgColor};
   @media ${device.tablet} {
     display: none;
   }
@@ -92,7 +92,7 @@ const Item = styled.li<{ $active: boolean }>`
   &.vote {
     > a {
       > svg {
-        fill: ${(props) => (props.$active ? '#333' : '#aaa')};
+        fill: ${({ $active }) => ($active ? '#333' : '#aaa')};
       }
     }
   }
@@ -105,11 +105,11 @@ const Item = styled.li<{ $active: boolean }>`
       width: 18px;
       height: 18px;
       margin-bottom: 6px;
-      stroke: ${(props) => (props.$active ? '#333' : '#aaa')};
+      stroke: ${({ $active }) => ($active ? '#333' : '#aaa')};
     }
     span {
-      color: ${(props) =>
-        props.$active ? props.theme.text.default : props.theme.text.gray};
+      color: ${({ $active, theme }) =>
+        $active ? theme.text.default : theme.text.gray4};
     }
   }
 `;

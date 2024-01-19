@@ -153,7 +153,7 @@ const RecommendBookBox = styled.div`
     a {
       display: flex;
       align-items: center;
-      color: ${(props) => props.theme.text.accent};
+      color: ${({ theme }) => theme.text.blue3};
       gap: 3px;
       span {
         font-size: 16px;

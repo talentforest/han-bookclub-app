@@ -56,7 +56,7 @@ const BookDetail = styled.div`
     align-self: flex-end;
     font-size: 15px;
     text-decoration: underline;
-    color: ${(props) => props.theme.text.accent};
+    color: ${({ theme }) => theme.text.blue3};
   }
   @media ${device.tablet} {
     min-height: 40vh;
@@ -81,7 +81,7 @@ const InfoBox = styled(LabeledBox)`
     font-size: 15px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    border: 1px solid ${(props) => props.theme.text.lightGray};
+    border: 1px solid ${({ theme }) => theme.text.gray1};
   }
 `;
 

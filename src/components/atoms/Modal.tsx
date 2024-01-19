@@ -35,7 +35,7 @@ export default function Modal({
 
 const BoxModal = styled.section<{ $width: string }>`
   z-index: 20;
-  width: ${(props) => props.$width};
+  width: ${({ $width }) => $width};
   height: min-content;
   max-height: 90vh;
   position: fixed;

@@ -61,7 +61,7 @@ const ResetPasswordEmail = () => {
 const Detail = styled.p`
   margin-bottom: 10px;
   padding-left: 4px;
-  color: ${(props) => props.theme.text.gray};
+  color: ${({ theme }) => theme.text.gray4};
   font-size: 13px;
   @media ${device.tablet} {
     font-size: 14px;

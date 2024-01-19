@@ -87,7 +87,7 @@ const Form = styled.form`
   min-height: 30vh;
 
   label {
-    color: ${(props) => props.theme.text.lightBlue};
+    color: ${({ theme }) => theme.text.blue1};
     font-size: 14px;
     margin: 5px 0 5px 3px;
   }
@@ -115,7 +115,7 @@ const VoteTitleInput = styled.input`
   height: 40px;
   padding: 10px 8px;
   border-radius: 10px;
-  border: 1px solid ${(props) => props.theme.text.lightGray};
+  border: 1px solid ${({ theme }) => theme.text.gray1};
   box-shadow: 2px 2px 2px 2px rgba(200, 200, 200, 0.2);
   margin-bottom: 5px;
   @media ${device.tablet} {
@@ -137,8 +137,8 @@ const AddTextAreaBtn = styled.button<{ $active: boolean }>`
   span {
     padding-top: 2px;
     font-size: 13px;
-    color: ${(props) =>
-      props.$active ? props.theme.container.blue : props.theme.text.mediumGray};
+    color: ${({ $active, theme }) =>
+      $active ? theme.container.blue2 : theme.text.gray2};
   }
 `;
 

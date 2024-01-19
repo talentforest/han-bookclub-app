@@ -57,25 +57,24 @@ const EditProfile = () => {
             )}
 
             <Guide text='이메일은 변경할 수 없습니다.' />
+
             <List>
               <Item>
                 <Title>이메일</Title>
-                <span>{anonymous ? '익명의 방문자' : userData.email}</span>
+                <span>{userData.email}</span>
               </Item>
+
               <Item>
                 <Title>닉네임</Title>
-                <span>
-                  {anonymous ? '익명의 방문자' : userData.displayName}
-                </span>
+                <span>{userData.displayName}</span>
               </Item>
+
               <Item>
                 <Title>좋아하는 분야</Title>
                 <FavBookFieldList>
-                  {anonymous
-                    ? '익명의 방문자'
-                    : extraUserData?.favoriteBookField?.map((item) => (
-                        <FavFieldItem key={item.id}>{item.name}</FavFieldItem>
-                      ))}
+                  {extraUserData?.favoriteBookField?.map((item) => (
+                    <FavFieldItem key={item.id}>{item.name}</FavFieldItem>
+                  ))}
                 </FavBookFieldList>
               </Item>
             </List>
@@ -86,11 +85,13 @@ const EditProfile = () => {
               <FiCheck fontSize={15} stroke='#6397ff' />
               <span>수정완료</span>
             </EditBtn>
+
             <List>
               <Item>
                 <Title>이메일</Title>
                 <span>{userData.email}</span>
               </Item>
+
               <Item>
                 <Title>닉네임</Title>
                 <TextInput
@@ -99,6 +100,7 @@ const EditProfile = () => {
                   value={newDisplayName || ''}
                 />
               </Item>
+
               <Item>
                 <Title>좋아하는 분야</Title>
                 <FieldList>
@@ -107,7 +109,7 @@ const EditProfile = () => {
                       key={item.id}
                       type='button'
                       name={item.name}
-                      $isActive={isSelected(item.id)}
+                      $active={isSelected(item.id)}
                       onClick={(event) => onHandleFieldClick(item.id, event)}
                     >
                       {item.name}
@@ -132,7 +134,7 @@ const EditBtn = styled.button`
   display: flex;
   gap: 4px;
   align-items: center;
-  border: 1px solid ${(props) => props.theme.text.lightGray};
+  border: 1px solid ${({ theme }) => theme.text.gray1};
   margin: 20px auto 30px;
   border-radius: 20px;
   padding: 3px 10px;
@@ -147,7 +149,7 @@ const EmptySign = styled.span`
   display: block;
   width: 100%;
   text-align: end;
-  color: ${(props) => props.theme.text.accent};
+  color: ${({ theme }) => theme.text.blue3};
   font-size: 13px;
   @media ${device.tablet} {
     font-size: 16px;
@@ -201,24 +203,22 @@ const FieldList = styled.div`
   justify-content: flex-end;
   flex-wrap: wrap;
   background-color: #fff;
-  border: 1px solid ${(props) => props.theme.text.lightGray};
+  border: 1px solid ${({ theme }) => theme.text.gray1};
   border-radius: 10px;
   padding: 10px 5px;
   gap: 10px 8px;
 `;
 
-const FieldBtn = styled.button<{ $isActive?: boolean }>`
+const FieldBtn = styled.button<{ $active?: boolean }>`
   cursor: pointer;
   padding: 6px 10px 3px;
   font-size: 16px;
   border-radius: 30px;
-  border: 1px solid ${(props) => props.theme.text.lightGray};
-  background-color: ${(props) =>
-    props.$isActive
-      ? props.theme.container.yellow
-      : props.theme.container.default};
-  color: ${(props) =>
-    props.$isActive ? props.theme.text.lightBlue : props.theme.text.mediumGray};
+  border: 1px solid ${({ theme }) => theme.text.gray1};
+  background-color: ${({ $active, theme }) =>
+    $active ? theme.container.yellow1 : theme.container.default};
+  color: ${({ $active, theme }) =>
+    $active ? theme.text.blue1 : theme.text.gray2};
 `;
 
 const FavBookFieldList = styled(FieldList)`
@@ -230,7 +230,6 @@ const FavBookFieldList = styled(FieldList)`
 const FavFieldItem = styled(FieldBtn)`
   cursor: none;
   padding: 6px 10px 4px;
-  /* background-color: ${(props) => props.theme.container.lightBlue}; */
 `;
 
 export default EditProfile;

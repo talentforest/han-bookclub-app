@@ -60,7 +60,7 @@ const BookResults = styled.section`
     display: block;
     padding-bottom: 10px;
     font-size: 14px;
-    color: ${(props) => props.theme.text.lightBlue};
+    color: ${({ theme }) => theme.text.blue1};
   }
 `;
 

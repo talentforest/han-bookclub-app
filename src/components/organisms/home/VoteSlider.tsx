@@ -57,12 +57,12 @@ const VotesContainer = styled.div`
 const Votes = styled.div<{ $votesNum: number }>`
   display: flex;
   gap: 10px;
-  width: ${(props) => `${props.$votesNum * 260}px`};
+  width: ${({ $votesNum }) => `${$votesNum * 260}px`};
   > div {
     width: 240px;
   }
   @media ${device.tablet} {
-    width: ${(props) => `${props.$votesNum * 300}px`};
+    width: ${({ $votesNum }) => `${$votesNum * 300}px`};
     > div {
       width: 280px;
     }
@@ -77,8 +77,8 @@ const EmptyContainer = styled.div`
   align-items: center;
   padding: 15px;
   border-radius: 10px;
-  background-color: ${(props) => props.theme.container.default};
-  box-shadow: ${(props) => props.theme.boxShadow};
+  background-color: ${({ theme }) => theme.container.default};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   > span {
     flex: 1;
     display: flex;
@@ -94,8 +94,8 @@ const EmptyContainer = styled.div`
     width: 100%;
     padding: 12px 15px 10px;
     border-radius: 10px;
-    background-color: ${(props) => props.theme.container.yellow};
-    box-shadow: ${(props) => props.theme.boxShadow};
+    background-color: ${({ theme }) => theme.container.yellow1};
+    box-shadow: ${({ theme }) => theme.boxShadow};
     span {
       padding-top: 3px;
       font-size: 15px;

@@ -57,13 +57,12 @@ const Username = styled(Link)<{ $fontSize: number }>`
   > span {
     line-height: 1;
     color: #666;
-    font-size: ${(props) =>
-      props.$fontSize ? `${props.$fontSize}px` : '20px'};
+    font-size: ${({ $fontSize }) => ($fontSize ? `${$fontSize}px` : '20px')};
   }
   @media ${device.tablet} {
     > span {
-      font-size: ${(props) =>
-        props.$fontSize ? `${props.$fontSize + 2}px` : '22px'};
+      font-size: ${({ $fontSize }) =>
+        $fontSize ? `${$fontSize + 2}px` : '22px'};
     }
   }
 `;

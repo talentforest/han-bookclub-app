@@ -15,10 +15,10 @@ const Button = styled.button`
   width: fit-content;
   height: 100%;
   border: none;
-  background-color: ${(props) => props.theme.container.blue};
+  background-color: ${({ theme }) => theme.container.blue2};
   padding: 12px 14px;
   border-radius: 5px;
-  color: ${(props) => props.theme.text.white};
+  color: #fff;
   font-size: 14px;
 `;
 

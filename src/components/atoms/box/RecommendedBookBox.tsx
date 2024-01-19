@@ -93,7 +93,7 @@ export const RecommendedBookItem = styled.li`
   background-color: #fff;
   padding: 5px 3px;
   border-radius: 10px;
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   img {
     position: absolute;
     height: 100px;

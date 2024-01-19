@@ -81,7 +81,7 @@ const ChangeImgBtn = styled.button`
   height: 30px;
   border-radius: 50%;
   border: none;
-  background-color: ${(props) => props.theme.container.orange};
+  background-color: ${({ theme }) => theme.container.orange};
   svg {
     width: 16px;
     height: 16px;
@@ -121,7 +121,7 @@ export const CircleImg = styled.img`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: ${(props) => props.theme.boxShadow};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   object-fit: cover;
   width: 140px;
   height: 140px;

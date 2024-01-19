@@ -79,8 +79,8 @@ const Logo = styled.div<{ $active: boolean }>`
     margin-bottom: 2px;
   }
   span {
-    color: ${(props) =>
-      props.$active ? props.theme.text.lightBlue : props.theme.text.default};
+    color: ${({ $active, theme }) =>
+      $active ? theme.text.blue1 : theme.text.default};
   }
 `;
 const List = styled.ul`
@@ -98,8 +98,8 @@ const Item = styled.li<{ $active: boolean }>`
   align-items: center;
   cursor: pointer;
   a {
-    color: ${(props) =>
-      props.$active ? props.theme.text.lightBlue : props.theme.text.default};
+    color: ${({ $active, theme }) =>
+      $active ? theme.text.blue1 : theme.text.default};
   }
 `;
 

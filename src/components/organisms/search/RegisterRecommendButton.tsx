@@ -49,8 +49,8 @@ const RegisterRecommendButton = ({ searchedBook }: PropsType) => {
 
 const RegisterButton = styled.button`
   font-size: 13px;
-  color: ${(props) => props.theme.text.accent};
-  background-color: ${(props) => props.theme.container.lightBlue};
+  color: ${({ theme }) => theme.text.blue3};
+  background-color: ${({ theme }) => theme.container.blue1};
   cursor: pointer;
   &.isActive {
     pointer-events: none;

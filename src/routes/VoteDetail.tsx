@@ -104,7 +104,7 @@ const Form = styled.form`
 const Votelist = styled.ul<{ $disabled?: boolean }>`
   position: relative;
   margin: 4px 0 10px;
-  pointer-events: ${(props) => (props.$disabled ? 'none' : 'all')};
+  pointer-events: ${({ $disabled }) => ($disabled ? 'none' : 'all')};
   @media ${device.tablet} {
     margin-bottom: 30px;
   }
@@ -118,14 +118,14 @@ const VoteItem = styled.li<{ $selected: boolean }>`
   display: flex;
   align-items: center;
   overflow: hidden;
-  border: ${(props) =>
-    props.$selected
-      ? `2px solid ${props.theme.container.blue}`
-      : `1px solid ${props.theme.text.lightGray}`};
+  border: ${({ $selected, theme }) =>
+    $selected
+      ? `2px solid ${theme.container.blue1}`
+      : `1px solid ${theme.text.gray1}`};
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 5px;
-  background-color: ${(props) => props.theme.container.default};
+  background-color: ${({ theme }) => theme.container.default};
   svg {
     z-index: 2;
   }
