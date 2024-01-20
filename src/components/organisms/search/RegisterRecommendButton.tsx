@@ -48,7 +48,7 @@ const RegisterRecommendButton = ({ searchedBook }: PropsType) => {
 };
 
 const RegisterButton = styled.button`
-  font-size: 13px;
+  font-size: 14px;
   color: ${({ theme }) => theme.text.blue3};
   background-color: ${({ theme }) => theme.container.blue1};
   cursor: pointer;

@@ -35,6 +35,7 @@ const Input = ({
 
 export const InputBox = styled.input`
   width: 100%;
+  min-height: 40px;
   height: 40px;
   padding: 0 10px;
   border: 1px solid #eee;

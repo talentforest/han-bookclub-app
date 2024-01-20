@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import LogOutBtn from 'components/atoms/buttons/LogOutBtn';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import Header from 'layout/mobile/Header';
+import MobileHeader from 'layout/mobile/MobileHeader';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
 
 const Setting = () => {
@@ -20,7 +20,7 @@ const Setting = () => {
 
   return (
     <>
-      <Header title='설정' backBtn />
+      <MobileHeader title='설정' backBtn />
       <main>
         <SettingTitle>사용자 설정</SettingTitle>
         <List>
@@ -54,9 +54,9 @@ const Setting = () => {
 
 const SettingTitle = styled.h4`
   display: block;
-  font-size: 12px;
-  color: ${({ theme }) => theme.text.blue1};
-  padding-bottom: 8px;
+  font-size: 14px;
+  color: ${({ theme }) => theme.text.blue2};
+  padding-bottom: 3px;
   @media ${device.tablet} {
     font-size: 14px;
   }
@@ -70,12 +70,12 @@ const Item = styled.li`
   border-bottom: 1px solid ${({ theme }) => theme.text.gray1};
   padding: 12px 0;
   > button {
-    font-size: 14px;
+    font-size: 15px;
     padding: 0;
     cursor: pointer;
   }
   > a {
-    font-size: 14px;
+    font-size: 15px;
   }
   @media ${device.tablet} {
     padding: 15px 0;

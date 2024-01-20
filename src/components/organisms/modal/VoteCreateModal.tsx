@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import { FiCheckCircle } from 'react-icons/fi';
 import useCreateVoteBox from 'hooks/useCreateVoteBox';
-import { FiCheckCircle, FiInfo } from 'react-icons/fi';
 import 'react-datepicker/dist/react-datepicker.css';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
@@ -9,6 +9,8 @@ import VoteItems from '../vote/VoteItems';
 import AddVoteItem from '../vote/AddVoteItem';
 import Modal from 'components/atoms/Modal';
 import SquareBtn from 'components/atoms/buttons/SquareBtn';
+import GuideBox from 'components/atoms/GuideBox';
+import Input from 'components/atoms/inputs/Input';
 
 interface PropsType {
   onModalClick: () => void;
@@ -30,7 +32,8 @@ const VoteCreateModal = ({ onModalClick }: PropsType) => {
     <Modal title='투표 생성' onToggleClick={onModalClick}>
       <Form onSubmit={onRegisterSubmit}>
         <label>투표 제목</label>
-        <VoteTitleInput
+
+        <Input
           type='text'
           placeholder='투표의 제목을 적어주세요.'
           value={vote.title}
@@ -39,13 +42,11 @@ const VoteCreateModal = ({ onModalClick }: PropsType) => {
           required
         />
 
-        <GuideBox>
-          <FiInfo fontSize={14} stroke='#198d66' />
-          <p>
-            모임책 선정과 관련된 투표라면, 왜 이 책을 선정했는지를 각 항목에
-            작성해주세요!
-          </p>
-        </GuideBox>
+        <GuideBox
+          text='모임책 선정과 관련된 투표라면, 왜 이 책을 선정했는지를 각 항목에
+            작성해주세요!'
+          color='green'
+        />
 
         <LabelBox>
           <label>투표 항목</label>
@@ -84,47 +85,22 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 30vh;
-
+  overflow: scroll;
+  scroll-behavior: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   label {
-    color: ${({ theme }) => theme.text.blue1};
+    color: ${({ theme }) => theme.text.blue2};
     font-size: 14px;
     margin: 5px 0 5px 3px;
   }
-
   @media ${device.tablet} {
-  }
-`;
-
-const GuideBox = styled.div`
-  margin: 5px 0 10px;
-  svg {
-    float: left;
-    margin-right: 4px;
-    padding-top: 2px;
-  }
-  p {
-    font-size: 13px;
-    color: #198d66;
-  }
-`;
-
-const VoteTitleInput = styled.input`
-  font-size: 16px;
-  width: 100%;
-  height: 40px;
-  padding: 10px 8px;
-  border-radius: 10px;
-  border: 1px solid ${({ theme }) => theme.text.gray1};
-  box-shadow: 2px 2px 2px 2px rgba(200, 200, 200, 0.2);
-  margin-bottom: 5px;
-  @media ${device.tablet} {
-    margin-bottom: 20px;
   }
 `;
 
 const LabelBox = styled.div`
-  margin-top: 10px;
+  margin-top: 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -136,9 +112,9 @@ const AddTextAreaBtn = styled.button<{ $active: boolean }>`
   gap: 4px;
   span {
     padding-top: 2px;
-    font-size: 13px;
+    font-size: 14px;
     color: ${({ $active, theme }) =>
-      $active ? theme.container.blue2 : theme.text.gray2};
+      $active ? theme.text.gray4 : theme.text.gray2};
   }
 `;
 

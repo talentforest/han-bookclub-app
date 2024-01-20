@@ -60,7 +60,7 @@ const FieldHost = styled.div`
   gap: 6px;
   flex: 1;
   .no_info {
-    font-size: 13px;
+    font-size: 14px;
   }
 `;
 

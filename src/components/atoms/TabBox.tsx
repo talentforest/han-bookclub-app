@@ -42,9 +42,9 @@ export default function TabBox({ yearMonthId }: Props) {
         ))}
       </TabList>
 
-      <TabContentBox $active={tab === '발제문'}>
-        {tab === '발제문' &&
-          (subjects[0] ? (
+      {tab === '발제문' && (
+        <TabContentBox $active={tab === '발제문'}>
+          {subjects[0] ? (
             <>
               <Record type='발제문' post={subjects[0]} lineClamp={5} />
 
@@ -69,10 +69,13 @@ export default function TabBox({ yearMonthId }: Props) {
               </Link>
               <Desc>모두 작성할 수 있어요</Desc>
             </BtnBox>
-          ))}
+          )}
+        </TabContentBox>
+      )}
 
-        {tab === '정리 기록' &&
-          (hostReview[0] ? (
+      {tab === '정리 기록' && (
+        <TabContentBox $active={tab === '정리 기록'}>
+          {hostReview[0] ? (
             <>
               <Record type='정리 기록' post={hostReview[0]} lineClamp={10} />
 
@@ -97,8 +100,9 @@ export default function TabBox({ yearMonthId }: Props) {
               </Link>
               <Desc>이달의 발제자만 작성할 수 있어요</Desc>
             </BtnBox>
-          ))}
-      </TabContentBox>
+          )}
+        </TabContentBox>
+      )}
     </div>
   );
 }
@@ -138,6 +142,7 @@ const TabContentBox = styled.div<{ $active: boolean }>`
   pre {
     margin-bottom: 10px;
   }
+
   .see-more {
     height: 25px;
     display: flex;
@@ -199,6 +204,6 @@ const BtnBox = styled.div`
 const Desc = styled.p`
   text-align: center;
 
-  font-size: 13px;
+  font-size: 14px;
   color: ${({ theme }) => theme.text.gray2};
 `;

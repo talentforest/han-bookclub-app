@@ -10,7 +10,7 @@ import HistoryClubBookBox from 'components/atoms/box/HistoryClubBookBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import Tag from 'components/atoms/Tag';
-import Header from 'layout/mobile/Header';
+import MobileHeader from 'layout/mobile/MobileHeader';
 
 const BookClubHistory = () => {
   const [selectedYear, setSelectedYear] = useRecoilState(selectedYearAtom);
@@ -26,7 +26,7 @@ const BookClubHistory = () => {
 
   return (
     <>
-      <Header title='지난 한페이지 모임' />
+      <MobileHeader title='지난 한페이지 모임' />
       <main>
         <YearTagList>
           {clubYearArr.map((year) => (
@@ -95,25 +95,21 @@ const HistoryList = styled.ul`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
-  @media ${device.desktop} {
-    /* grid-template-columns: repeat(3, 1fr); */
-  }
 `;
 
-const EmptyBox = styled.div`
+export const EmptyBox = styled.div`
   width: 100%;
-  height: 135px;
+  height: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
-  color: #aaa;
+  font-size: 14px;
+  color: ${({ theme }) => theme.text.gray2};
   border-radius: 10px;
   background-color: ${({ theme }) => theme.container.default};
   box-shadow: ${({ theme }) => theme.boxShadow};
   @media ${device.tablet} {
-  }
-  @media ${device.desktop} {
+    height: 180px;
   }
 `;
 

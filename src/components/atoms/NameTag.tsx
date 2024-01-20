@@ -9,7 +9,7 @@ interface Props {
 export default function NameTag({ name, color = '#fff7c8' }: Props) {
   return (
     <TagItem $color={color}>
-      <UserNameBox fontSize={13} creatorId={name} />
+      <UserNameBox fontSize={14} creatorId={name} />
     </TagItem>
   );
 }

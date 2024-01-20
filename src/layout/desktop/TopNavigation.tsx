@@ -20,9 +20,9 @@ const TopNavigation = () => {
           <Logo $active={pathname === '/'}>
             <img
               src={`${process.env.PUBLIC_URL}/hanpage_logo.png`}
-              alt='한페이지 독서모임 로고'
+              alt='독서모임 한페이지 로고'
             />
-            <span>한페이지 독서모임</span>
+            <span>독서모임 한페이지</span>
           </Logo>
         </Link>
         <List>
@@ -68,11 +68,11 @@ const Nav = styled.nav`
     margin: 0 auto;
   }
 `;
+
 const Logo = styled.div<{ $active: boolean }>`
   display: flex;
   align-items: center;
   font-size: 16px;
-  font-weight: 700;
   img {
     width: auto;
     height: 20px;
@@ -80,9 +80,10 @@ const Logo = styled.div<{ $active: boolean }>`
   }
   span {
     color: ${({ $active, theme }) =>
-      $active ? theme.text.blue1 : theme.text.default};
+      $active ? theme.text.blue2 : theme.text.default};
   }
 `;
+
 const List = styled.ul`
   display: flex;
   justify-content: flex-end;
@@ -92,6 +93,7 @@ const List = styled.ul`
     gap: 0 20px;
   }
 `;
+
 const Item = styled.li<{ $active: boolean }>`
   display: flex;
   flex-direction: column;
@@ -99,7 +101,7 @@ const Item = styled.li<{ $active: boolean }>`
   cursor: pointer;
   a {
     color: ${({ $active, theme }) =>
-      $active ? theme.text.blue1 : theme.text.default};
+      $active ? theme.text.blue2 : theme.text.default};
   }
 `;
 

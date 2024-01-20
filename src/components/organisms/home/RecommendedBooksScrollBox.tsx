@@ -34,7 +34,6 @@ export default function RecommendedBooksScrollBox() {
 }
 
 const ScrollContainerBox = styled.div`
-  margin-top: 15px;
   padding-bottom: 5px;
   overflow: scroll;
   scroll-behavior: auto;
@@ -46,9 +45,9 @@ const ScrollContainerBox = styled.div`
 const RecommendedBookList = styled.ul<{ $length: number }>`
   position: relative;
   display: flex;
-  gap: 12px;
+  gap: 10px;
   width: ${({ $length }) => `${$length * 130}px`};
-  padding-top: 30px;
+  padding: 25px 5px 0 2px;
   @media ${device.tablet} {
     gap: 15px;
   }

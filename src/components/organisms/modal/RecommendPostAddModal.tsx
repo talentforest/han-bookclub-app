@@ -178,10 +178,10 @@ const BookBox = styled.div`
     justify-content: space-between;
     height: 100%;
     h3 {
-      font-size: 14px;
+      font-size: 15px;
     }
     span {
-      font-size: 12px;
+      font-size: 14px;
       color: #888;
     }
   }

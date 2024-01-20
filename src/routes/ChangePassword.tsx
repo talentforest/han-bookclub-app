@@ -1,7 +1,7 @@
 import { authService } from 'fbase';
 import styled from 'styled-components';
 import useChangePw from 'hooks/useChangePw';
-import Header from 'layout/mobile/Header';
+import MobileHeader from 'layout/mobile/MobileHeader';
 import SquareBtn from 'components/atoms/buttons/SquareBtn';
 import Input from 'components/atoms/inputs/Input';
 
@@ -19,7 +19,7 @@ const ChangePassword = () => {
 
   return (
     <>
-      <Header title='비밀번호 변경' backBtn />
+      <MobileHeader title='비밀번호 변경' backBtn />
       <main>
         <InputForm onSubmit={onSubmit}>
           <input

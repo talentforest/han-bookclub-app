@@ -37,7 +37,7 @@ const ExpiredVoteBox = ({ voteDetail }: PropsType) => {
           <span>선정</span>
         </div>
         <div className='info'>
-          <span>{cutLetter(getVoteResultTitle(), 18)}</span>
+          <span>{cutLetter(getVoteResultTitle(), 16)}</span>
         </div>
       </LabelResultBox>
     </Vote>
@@ -55,13 +55,13 @@ const Vote = styled(Link)`
   border-radius: 10px;
   box-shadow: ${({ theme }) => theme.boxShadow};
   padding: 10px;
-  background-color: ${({ theme }) => theme.container.default};
+  background-color: ${({ theme }) => theme.container.gray};
 `;
 
 const Title = styled.h4`
   font-size: 16px;
   margin-bottom: 5px;
-  color: #666;
+  color: ${({ theme }) => theme.text.default};
   svg {
     float: left;
     margin-right: 4px;
@@ -70,18 +70,20 @@ const Title = styled.h4`
 `;
 
 const LabelResultBox = styled(LabeledBox)`
+  margin-bottom: 0;
   div.label {
     padding: 0 5px;
     gap: 4px;
     width: 60px;
     border: 1px solid ${({ theme }) => theme.container.blue1};
-    background-color: ${({ theme }) => theme.container.blue1};
+    background-color: ${({ theme }) => theme.text.gray2};
     span {
-      color: ${({ theme }) => theme.text.blue1};
+      color: white;
     }
   }
   div.info {
     border: 1px solid ${({ theme }) => theme.text.gray1};
+    background-color: ${({ theme }) => theme.container.default};
     height: 100%;
     display: flex;
     align-items: center;
@@ -91,7 +93,7 @@ const LabelResultBox = styled(LabeledBox)`
     border-bottom-right-radius: 10px;
     border-left: none;
     span {
-      font-size: 14px;
+      font-size: 15px;
     }
   }
 `;

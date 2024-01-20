@@ -53,12 +53,14 @@ const LikesBox = ({ record, collName }: IRecordFooterProps) => {
       </LikeBtn>
 
       {showLikeUsers && (
-        <LikeUserList onClick={toggleShowLikeUsers}>
+        <LikeUsersBox>
           <h4>좋아한 사람</h4>
-          {record?.likeUsers?.map((user) => (
-            <UserNameBox key={user} creatorId={user} />
-          ))}
-        </LikeUserList>
+          <ul onClick={toggleShowLikeUsers}>
+            {record?.likeUsers?.map((user) => (
+              <UserNameBox key={user} creatorId={user} />
+            ))}
+          </ul>
+        </LikeUsersBox>
       )}
     </Box>
   );
@@ -74,7 +76,7 @@ const Box = styled.div`
 
 const ShowUserBtn = styled.button`
   color: #888;
-  font-size: 12px;
+  font-size: 13px;
   display: flex;
   align-items: center;
   line-height: 0;
@@ -87,26 +89,34 @@ const LikeBtn = styled.button`
   padding: 2px;
 `;
 
-const LikeUserList = styled.ul`
-  box-shadow: ${({ theme }) => theme.boxShadow};
+const LikeUsersBox = styled.div`
   position: absolute;
   bottom: 30px;
   right: 5px;
   width: fit-content;
+  display: flex;
+  flex-direction: column;
   min-height: 100px;
+  box-shadow: ${({ theme }) => theme.boxShadow};
   background-color: ${({ theme }) => theme.container.blue1};
   z-index: 10;
   border-radius: 8px;
   padding: 5px 10px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
   h4 {
-    font-size: 13px;
+    font-size: 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: ${({ theme }) => theme.text.blue1};
+    color: ${({ theme }) => theme.text.purple};
+    border-bottom: 2px dotted ${({ theme }) => theme.container.purple2};
+  }
+  ul {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 10px;
   }
 `;
 

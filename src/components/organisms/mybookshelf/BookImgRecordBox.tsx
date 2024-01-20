@@ -112,6 +112,11 @@ export const RecordItem = styled.li<{ $skeleton?: boolean }>`
 const PostBox = styled.div`
   max-height: 80vh;
   margin: 5px 0 0;
+  overflow: scroll;
+  scroll-behavior: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const BtnsBox = styled.div`

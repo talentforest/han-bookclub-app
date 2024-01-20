@@ -6,7 +6,7 @@ import HistoryClubBookBox from 'components/atoms/box/HistoryClubBookBox';
 import TabBox from 'components/atoms/TabBox';
 import RecommendedBookList from 'components/template/RecommendedBookList';
 import ClubReviewList from 'components/template/ClubReviewList';
-import Header from 'layout/mobile/Header';
+import MobileHeader from 'layout/mobile/MobileHeader';
 import { formattedYearMonth } from 'util/index';
 
 type LocationState = { state: { document: IBookClubInfo } };
@@ -20,7 +20,10 @@ const BookClubHistoryDetail = () => {
 
   return (
     <>
-      <Header title={`${formattedYearMonth(id)}의 한페이지 모임`} backBtn />
+      <MobileHeader
+        title={`${formattedYearMonth(id)}의 한페이지 모임`}
+        backBtn
+      />
 
       <main>
         <HistoryClubBookBox document={document} />
@@ -31,7 +34,7 @@ const BookClubHistoryDetail = () => {
         </Section>
 
         <Section>
-          <Subtitle title='멤버들의 추천책' />
+          <Subtitle title='멤버들이 소개한 책' />
           <RecommendedBookList yearMonthId={id} />
         </Section>
 

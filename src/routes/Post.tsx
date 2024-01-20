@@ -13,7 +13,7 @@ import Record from 'components/atoms/post/Record';
 import PostAddModal from 'components/organisms/modal/PostAddModal';
 import styled from 'styled-components';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
-import Header from 'layout/mobile/Header';
+import MobileHeader from 'layout/mobile/MobileHeader';
 import DottedDividingLine from 'components/atoms/DottedDividingLine';
 
 type PostType = '발제문' | '정리 기록';
@@ -59,14 +59,17 @@ export default function Post() {
 
   return (
     <>
-      <Header title={`${headerYearMonth}의 한페이지 ${postType}`} backBtn />
+      <MobileHeader
+        title={`${headerYearMonth}의 한페이지 ${postType}`}
+        backBtn
+      />
 
       <Main>
         {document && <HistoryClubBookBox document={document} />}
 
         {pathname.includes('bookclub') && (
           <AddPostBtn onClick={toggleAddPostModal} type='button'>
-            {postType === '발제문' ? '발제문 추가하기' : '정리 기록 추가하기'}
+            {postType === '발제문' ? '발제문' : '정리 기록'} 추가하기
           </AddPostBtn>
         )}
 
@@ -107,7 +110,7 @@ const AddPostBtn = styled.button`
   width: 100%;
   padding: 14px 0;
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.container.blue1};
+  background-color: ${({ theme }) => theme.container.blue3};
   box-shadow: ${({ theme }) => theme.boxShadow};
   color: #fff;
   font-size: 16px;

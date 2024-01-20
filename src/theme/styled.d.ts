@@ -23,6 +23,7 @@ declare module 'styled-components' {
 
     container: {
       default: string;
+      gray: string;
 
       blue1: string;
       blue2: string;

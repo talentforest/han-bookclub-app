@@ -60,7 +60,6 @@ export const ResetStyle = createGlobalStyle`
   }
   a {
     text-decoration: none;
-    color: ${({ theme }) => theme.text.blue2}
   }
   ol,
   ul, li {

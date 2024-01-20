@@ -38,7 +38,6 @@ const Deadline = styled.div`
   span {
     display: block;
     font-size: 16px;
-    font-weight: 700;
     margin-bottom: 8px;
   }
   @media ${device.tablet} {

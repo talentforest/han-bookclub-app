@@ -1,6 +1,5 @@
 import { getFbRoute, thisYearMonthId } from 'util/index';
 import { getCollection } from 'api/getFbDoc';
-import { EmptyBox } from './RecommendedBookList';
 import { Fragment, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { reviewsState } from 'data/documentsAtom';
@@ -8,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import Record from 'components/atoms/post/Record';
 import DottedDividingLine from 'components/atoms/DottedDividingLine';
 import styled from 'styled-components';
+import { EmptyBox } from 'routes/BookClubHistory';
 
 interface Props {
   yearMonthId?: string;
@@ -36,11 +36,11 @@ const ClubReviewList = ({ yearMonthId = thisYearMonthId }: Props) => {
           </Fragment>
         ))
       ) : (
-        <EmptyBox>
+        <EmptyReviewList>
           {pathname.includes('history')
             ? '기록된 모임후기가 없습니다.'
             : '첫번째 모임후기를 남겨보세요.'}
-        </EmptyBox>
+        </EmptyReviewList>
       )}
     </RecordBox>
   );
@@ -51,5 +51,7 @@ const RecordBox = styled.div`
   flex-direction: column;
   gap: 15px;
 `;
+
+const EmptyReviewList = styled(EmptyBox)``;
 
 export default ClubReviewList;

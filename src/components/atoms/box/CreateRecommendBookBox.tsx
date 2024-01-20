@@ -129,10 +129,10 @@ const BookInfo = styled.div`
     flex-direction: column;
     justify-content: space-between;
     h3 {
-      font-size: 12px;
+      font-size: 14px;
     }
     span {
-      font-size: 11px;
+      font-size: 14px;
       color: #888;
       line-height: 16px;
     }

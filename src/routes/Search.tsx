@@ -3,7 +3,7 @@ import ResultBookBox from 'components/organisms/search/ResultBookBox';
 import TextInput from 'components/atoms/inputs/TextInput';
 import useSearchBook from 'hooks/useSearchBook';
 import device from 'theme/mediaQueries';
-import Header from 'layout/mobile/Header';
+import MobileHeader from 'layout/mobile/MobileHeader';
 import styled from 'styled-components';
 import SquareBtn from 'components/atoms/buttons/SquareBtn';
 
@@ -22,7 +22,7 @@ const Search = () => {
 
   return (
     <>
-      <Header title='도서 검색' />
+      <MobileHeader title='도서 검색' />
       <main>
         <Form>
           <TextInput

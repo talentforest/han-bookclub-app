@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import useCreateAccount from 'hooks/useCreateAccount';
 import BookField from 'components/organisms/login/BookField';
 import Subtitle from 'components/atoms/Subtitle';
-import Guide from 'components/atoms/Guide';
-import Header from 'layout/desktop/Header';
+import GuideBox from 'components/atoms/GuideBox';
+import MobileHeader from 'layout/desktop/Header';
 import SquareBtn from 'components/atoms/buttons/SquareBtn';
 import Input from 'components/atoms/inputs/Input';
 
@@ -27,7 +27,7 @@ const CreateAccount = () => {
 
   return (
     <>
-      <Header title='계정 생성' />
+      <MobileHeader title='계정 생성' />
 
       <main>
         {!showNextStep ? (
@@ -35,7 +35,7 @@ const CreateAccount = () => {
             <Subtitle title='사용하실 계정 정보를 입력해 주세요.' />
 
             {email && (
-              <Guide text='유효한 이메일을 작성하셔야 비밀번호 찾기 등 다른 기능을 제대로 이용할 수 있어요. 이메일이 맞는지 다시 한번 확인해주세요.' />
+              <GuideBox text='유효한 이메일을 작성하셔야 비밀번호 찾기 등 다른 기능을 제대로 이용할 수 있어요. 이메일이 맞는지 다시 한번 확인해주세요.' />
             )}
 
             <Input
@@ -117,7 +117,7 @@ const Form = styled.form`
   flex-direction: column;
 
   > label {
-    font-size: 13px;
+    font-size: 14px;
     margin: 20px 5px 5px;
     color: ${({ theme }) => theme.text.blue1};
     &:first-child {
@@ -168,8 +168,7 @@ const GenderBox = styled.div`
 `;
 
 const Msg = styled.p`
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 14px;
   width: 100%;
   text-align: center;
   color: ${({ theme }) => theme.text.blue3};

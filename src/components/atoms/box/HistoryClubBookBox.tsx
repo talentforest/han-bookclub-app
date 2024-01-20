@@ -105,7 +105,7 @@ const DetailInfoBox = styled.div`
   span {
     line-height: 1.4;
     padding-left: 4px;
-    font-size: 13px;
+    font-size: 14px;
   }
 `;
 

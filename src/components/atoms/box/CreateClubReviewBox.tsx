@@ -43,7 +43,7 @@ const CreateClubReviewBox = ({ docMonth }: PropsType) => {
   return (
     <Form onSubmit={onAddDocSubmit}>
       <TextArea
-        placeholder='모임 후 기억하고 싶은 이야기나 감상을 작성해주세요(한 문장도 좋아요!).'
+        placeholder='모임 후기나 기록하고 싶은 이야기를 작성해주세요(한 문장도 좋아요!).'
         value={text}
         onChange={onChange}
       />
@@ -62,7 +62,7 @@ const CreateClubReviewBox = ({ docMonth }: PropsType) => {
 };
 
 const Form = styled.form`
-  background-color: ${({ theme }) => theme.container.blue1};
+  background-color: ${({ theme }) => theme.container.blue2};
   box-shadow: ${({ theme }) => theme.boxShadow};
   padding: 12px;
   border-radius: 10px;

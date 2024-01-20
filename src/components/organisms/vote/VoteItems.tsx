@@ -35,7 +35,6 @@ const VoteItems = ({
         <VoteItem key={item.id}>
           <LabeledVoteItem>
             <div className='label'>{item.id}번</div>
-
             <Input
               name={`vote_item${item.id}`}
               type='text'
@@ -70,17 +69,23 @@ const VoteItem = styled.li`
 const LabeledVoteItem = styled(LabeledBox)`
   width: 100%;
   margin-bottom: 5px;
+  box-shadow: ${({ theme }) => theme.boxShadow};
+  border-radius: 10px;
   div.label {
     width: 50px;
     border: 1px solid ${({ theme }) => theme.text.gray1};
   }
   > input {
+    box-shadow: none;
     width: 100%;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    font-size: 16px;
   }
 `;
 
 const Textarea = styled.textarea`
-  font-size: 15px;
+  font-size: 16px;
   width: 100%;
   height: 120px;
   margin-bottom: 15px;

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import device from 'theme/mediaQueries';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
@@ -50,6 +49,7 @@ export default function BoxLabeledInput<T>({
             locale={ko}
             dateFormat='MM월 dd일 a hh:mm'
             shouldCloseOnSelect={false}
+            popperPlacement='bottom'
           >
             <button className='react-datepicker___button'>완료</button>
           </DateTimePicker>
@@ -82,11 +82,11 @@ export const LabeledBox = styled.div`
   align-items: center;
   height: 40px;
   margin-bottom: 8px;
-
+  width: 100%;
   > div.label {
     border: 1px solid ${({ theme }) => theme.text.gray1};
-    width: 75px;
     height: 100%;
+    min-width: 74px;
     background-color: #eaeaea;
     color: #888;
     border-top-left-radius: 10px;
@@ -97,15 +97,14 @@ export const LabeledBox = styled.div`
     padding: 10px 8px 8px 10px;
     font-size: 15px;
   }
-
   > input {
-    border: 1px solid ${({ theme }) => theme.text.gray1};
     height: 100%;
-    width: 200px;
+    flex: 1;
     padding: 10px 8px 8px 6px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     font-size: 15px;
+    border: 1px solid ${({ theme }) => theme.text.gray1};
     cursor: pointer;
     &:focus {
       outline: none;
@@ -116,8 +115,14 @@ export const LabeledBox = styled.div`
 const InputContainerBox = styled.div`
   border: 1px solid ${({ theme }) => theme.text.gray1};
   height: 100%;
+  flex: 1;
+
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+  input {
+    flex: 1;
+    width: auto;
+  }
   .react-datepicker {
     border: 1px solid ${({ theme }) => theme.text.gray2};
     font-size: 14px;
@@ -213,11 +218,6 @@ const DateTimePicker = styled(DatePicker)`
 
   &:focus {
     outline: none;
-  }
-
-  @media ${device.tablet} {
-    font-size: 16px;
-    padding: 15px;
   }
 `;
 

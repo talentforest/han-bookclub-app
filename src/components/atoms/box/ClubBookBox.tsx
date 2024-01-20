@@ -21,18 +21,15 @@ export default function ClubBookBox({ book }: Props) {
         ) : (
           <BookTextInfo>
             <h1>{book.title}</h1>
-
             <div>
               <span>{book.authors} ・ </span>
               <span> {book.publisher}</span>
             </div>
 
-            <div>
-              <FiLink fontSize={10} stroke='#888' />
-              <a href={book.url} target='_blank' rel='noreferrer'>
-                상세정보 보러가기
-              </a>
-            </div>
+            <a href={book.url} target='_blank' rel='noreferrer'>
+              <FiLink fontSize={12} stroke='#888' />
+              <span>상세정보 보러가기</span>
+            </a>
           </BookTextInfo>
         )}
       </div>
@@ -42,7 +39,7 @@ export default function ClubBookBox({ book }: Props) {
       {book.title === '' && (
         <RegisterClubBookBtn>
           <button>책 등록하러 가기</button>
-          <FiChevronRight fontSize={15} color='red' />
+          <FiChevronRight fontSize={16} color='#aaa' />
         </RegisterClubBookBtn>
       )}
     </Box>
@@ -63,6 +60,7 @@ const Box = styled.div`
     display: flex;
     flex-direction: column;
     align-items: start;
+    justify-content: space-between;
   }
   @media ${device.desktop} {
     grid-column: 1 / span 3;
@@ -70,28 +68,32 @@ const Box = styled.div`
 `;
 
 const BookTextInfo = styled.div`
-  width: 100%;
-  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 5px;
+  flex: 1;
   padding-left: 4px;
-
   > h1 {
     font-size: 20px;
   }
-
   > div {
     display: flex;
     align-items: center;
-
-    > span {
+    margin-bottom: 6px;
+    span {
       font-size: 15px;
       color: #666;
-      line-height: 24px;
+      line-height: 1.5;
     }
-
-    > a {
-      margin: 3px 0 0 3px;
+  }
+  > a {
+    display: flex;
+    align-items: center;
+    span {
+      line-height: 1;
       color: #aaa;
-      font-size: 13px;
+      font-size: 14px;
     }
   }
 `;

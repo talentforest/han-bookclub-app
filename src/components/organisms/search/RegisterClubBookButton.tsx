@@ -62,9 +62,8 @@ const RegisterBtn = styled.button`
   height: 50px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.text.gray1};
-
-  font-weight: 700;
 `;
+
 const Registered = styled(RegisterBtn)`
   color: ${({ theme }) => theme.text.blue3};
   background-color: ${({ theme }) => theme.container.yellow1};

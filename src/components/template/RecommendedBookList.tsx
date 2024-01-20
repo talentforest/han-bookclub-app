@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import PostRecommendedBook from 'components/atoms/post/PostRecommendedBook';
+import { EmptyBox } from 'routes/BookClubHistory';
 
 interface Props {
   yearMonthId?: string;
@@ -15,6 +16,7 @@ interface Props {
 const RecommendedBookList = ({ yearMonthId = thisYearMonthId }: Props) => {
   const [recommendedBooks, setRecommendedBooks] =
     useRecoilState(recommendsState);
+  console.log(recommendedBooks);
 
   const { pathname } = useLocation();
 
@@ -38,11 +40,11 @@ const RecommendedBookList = ({ yearMonthId = thisYearMonthId }: Props) => {
           />
         ))
       ) : (
-        <EmptyBox>
+        <EmptyRecommendedBookBoxs>
           {historyPage
             ? '추천된 책이 없습니다.'
             : '첫번째로 추천하고 싶은 책을 남겨보세요.'}
-        </EmptyBox>
+        </EmptyRecommendedBookBoxs>
       )}
     </RecommendedBookListBox>
   );
@@ -63,25 +65,11 @@ export const RecommendedBookListBox = styled.div<{ $grid?: boolean }>`
   }
 `;
 
-export const EmptyBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+const EmptyRecommendedBookBoxs = styled(EmptyBox)`
   height: 180px;
-  padding: 5px 20px;
-  text-align: center;
-  border-radius: 10px;
-  font-size: 14px;
-  color: #aaa;
-  box-shadow: ${({ theme }) => theme.boxShadow};
-  background-color: ${({ theme }) => theme.container.default};
   grid-column: 1 / span 3;
   @media ${device.tablet} {
-    font-size: 16px;
-    border-radius: 15px;
-    padding: 8px 30px;
-    height: 240px;
+    height: 220px;
     grid-column: 1 / span 4;
   }
   @media ${device.desktop} {

@@ -135,7 +135,7 @@ export const ErrorMsg = styled.span`
 const FindPasswordLink = styled(Link)`
   text-align: center;
   margin-top: 20px;
-  font-size: 13px;
+  font-size: 14px;
   text-decoration: underline;
   @media ${device.tablet} {
     font-size: 14px;

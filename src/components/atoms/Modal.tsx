@@ -27,14 +27,15 @@ export default function Modal({
             <FiX size={20} />
           </button>
         </ModalHeaderBox>
-        <ContentBox>{children}</ContentBox>
+
+        {children}
       </BoxModal>
     </>
   );
 }
 
 const BoxModal = styled.section<{ $width: string }>`
-  z-index: 20;
+  z-index: 10;
   width: ${({ $width }) => $width};
   height: min-content;
   max-height: 90vh;
@@ -67,14 +68,6 @@ const ModalHeaderBox = styled.div`
   > h3 {
     font-size: 18px;
     padding-top: 4px;
-  }
-`;
-
-const ContentBox = styled.div`
-  overflow: scroll;
-  scroll-behavior: auto;
-  &::-webkit-scrollbar {
-    display: none;
   }
 `;
 

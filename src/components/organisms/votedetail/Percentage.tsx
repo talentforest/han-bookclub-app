@@ -39,7 +39,7 @@ const Container = styled.div<{ $gauge: string }>`
   justify-content: flex-end;
   padding-right: 10px;
   color: ${({ theme }) => theme.text.blue3};
-  font-size: 13px;
+  font-size: 14px;
   top: 0;
   right: 0;
   width: ${({ $gauge }) => ($gauge ? $gauge : '10px')};

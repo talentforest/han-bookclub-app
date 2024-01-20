@@ -1,5 +1,4 @@
 import { allUsersState } from 'data/userAtom';
-import { FiCheckCircle } from 'react-icons/fi';
 import { useRecoilValue } from 'recoil';
 import { bookFieldsOfClub } from 'util/index';
 import { FormEvent } from 'react';
@@ -84,9 +83,7 @@ export default function EditBookFieldHostForm({
         />
       </div>
 
-      <SquareBtn type='submit' name='변경하기'>
-        <FiCheckCircle />
-      </SquareBtn>
+      <SquareBtn type='submit' name='변경하기' />
     </Form>
   );
 }

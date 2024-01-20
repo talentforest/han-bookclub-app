@@ -11,7 +11,8 @@ import ExpiredVoteBox from 'components/organisms/vote/ExpiredVoteBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import Loading from 'components/atoms/Loading';
-import Header from 'layout/mobile/Header';
+import MobileHeader from 'layout/mobile/MobileHeader';
+import { EmptyBox } from './BookClubHistory';
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -35,7 +36,7 @@ const Vote = () => {
 
   return (
     <>
-      <Header title='한페이지의 투표함' />
+      <MobileHeader title='한페이지의 투표함' />
       {votes.length === 0 ? (
         <Loading />
       ) : (
@@ -91,10 +92,11 @@ const AddVoteBtnBox = styled.div`
   @media ${device.tablet} {
   }
 `;
+
 const VoteList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   margin: 10px auto 40px;
   width: 100%;
   @media ${device.tablet} {
@@ -103,20 +105,6 @@ const VoteList = styled.div`
     gap: 20px;
     margin-top: 20px;
   }
-`;
-const EmptyBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 180px;
-  padding: 10px;
-  background-color: ${({ theme }) => theme.container.default};
-  box-shadow: ${({ theme }) => theme.boxShadow};
-  border-radius: 10px;
-  margin-bottom: 30px;
-  color: #aaa;
-  font-size: 14px;
 `;
 
 export default Vote;

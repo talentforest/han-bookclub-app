@@ -3,15 +3,15 @@ import { currentUserState } from 'data/userAtom';
 import { authService } from 'fbase';
 import { bookFields, existDocObj } from 'util/index';
 import { useEffect } from 'react';
+import { FiCheck, FiEdit2 } from 'react-icons/fi';
 import styled from 'styled-components';
 import useHandleProfile from 'hooks/useHandleProfile';
 import Loading from 'components/atoms/Loading';
-import Guide from 'components/atoms/Guide';
+import GuideBox from 'components/atoms/GuideBox';
 import TextInput from 'components/atoms/inputs/TextInput';
-import Header from 'layout/mobile/Header';
+import MobileHeader from 'layout/mobile/MobileHeader';
 import UserImg from 'components/atoms/UserImg';
 import device from 'theme/mediaQueries';
-import { FiCheck, FiEdit2 } from 'react-icons/fi';
 
 const EditProfile = () => {
   const userData = useRecoilValue(currentUserState);
@@ -40,7 +40,7 @@ const EditProfile = () => {
     <Loading />
   ) : (
     <>
-      <Header title='프로필 정보' backBtn />
+      <MobileHeader title='프로필 정보' backBtn />
       <main>
         <UserImg
           editing={editing}
@@ -51,12 +51,12 @@ const EditProfile = () => {
           <>
             {!anonymous && (
               <EditBtn type='button' onClick={onToggleEditClick}>
-                <FiEdit2 fontSize={15} stroke='#6397ff' />
-                <span>프로필 수정하기</span>
+                <FiEdit2 fontSize={15} stroke='#aaa' />
+                <span>프로필 수정</span>
               </EditBtn>
             )}
 
-            <Guide text='이메일은 변경할 수 없습니다.' />
+            <GuideBox text='이메일은 변경할 수 없습니다.' />
 
             <List>
               <Item>
@@ -132,16 +132,18 @@ const EditProfile = () => {
 
 const EditBtn = styled.button`
   display: flex;
-  gap: 4px;
+  gap: 8px;
   align-items: center;
   border: 1px solid ${({ theme }) => theme.text.gray1};
   margin: 20px auto 30px;
   border-radius: 20px;
-  padding: 3px 10px;
+  padding: 8px 12px;
   background-color: #fff;
   span {
     color: #888;
     font-size: 16px;
+    line-height: 1;
+    padding-top: 2px;
   }
 `;
 
@@ -150,7 +152,7 @@ const EmptySign = styled.span`
   width: 100%;
   text-align: end;
   color: ${({ theme }) => theme.text.blue3};
-  font-size: 13px;
+  font-size: 14px;
   @media ${device.tablet} {
     font-size: 16px;
   }
@@ -188,10 +190,12 @@ const Item = styled.li`
 `;
 
 const Title = styled.h4`
-  font-weight: 700;
+  color: ${({ theme }) => theme.text.gray4};
   font-size: 14px;
   width: 55px;
+  padding-top: 3px;
   @media ${device.tablet} {
+    padding-top: 1px;
     font-size: 16px;
     width: 94px;
   }
@@ -211,14 +215,15 @@ const FieldList = styled.div`
 
 const FieldBtn = styled.button<{ $active?: boolean }>`
   cursor: pointer;
-  padding: 6px 10px 3px;
+  padding: 7px 10px 4px;
   font-size: 16px;
   border-radius: 30px;
   border: 1px solid ${({ theme }) => theme.text.gray1};
   background-color: ${({ $active, theme }) =>
-    $active ? theme.container.yellow1 : theme.container.default};
+    $active ? theme.container.purple1 : theme.container.default};
   color: ${({ $active, theme }) =>
-    $active ? theme.text.blue1 : theme.text.gray2};
+    $active ? theme.text.purple : theme.text.gray2};
+  box-shadow: ${({ theme }) => theme.boxShadow};
 `;
 
 const FavBookFieldList = styled(FieldList)`
@@ -230,6 +235,8 @@ const FavBookFieldList = styled(FieldList)`
 const FavFieldItem = styled(FieldBtn)`
   cursor: none;
   padding: 6px 10px 4px;
+  background-color: ${({ theme }) => theme.container.purple1};
+  color: ${({ theme }) => theme.text.purple};
 `;
 
 export default EditProfile;

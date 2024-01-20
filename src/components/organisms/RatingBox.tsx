@@ -44,7 +44,7 @@ const Box = styled.div<{ $readOnly: boolean }>`
 const Info = styled.div<{ $readOnly: boolean }>`
   display: flex;
   flex-direction: column;
-  font-size: 12px;
+  font-size: 14px;
   margin-left: 8px;
   > span {
     color: ${({ theme }) => theme.text.blue3};

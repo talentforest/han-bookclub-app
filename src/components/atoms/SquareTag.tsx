@@ -19,7 +19,9 @@ const TagItem = styled.li`
   border: 1px solid #f4fab3;
   padding: 8px 12px 6px;
   border-radius: 8px;
-  font-size: 15px;
-  color: #aaa;
   background-color: ${({ theme }) => theme.container.yellow1};
+  > button {
+    color: ${({ theme }) => theme.text.yellow};
+    font-size: 14px;
+  }
 `;

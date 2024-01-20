@@ -29,13 +29,13 @@ interface Props {
   settingBtn?: boolean;
 }
 
-const Header = ({ title, backBtn, settingBtn }: Props) => {
+const MobileHeader = ({ title, backBtn, settingBtn }: Props) => {
   const navigate = useNavigate();
 
   const onBackClick = () => navigate(-1);
 
   return (
-    <MobileHeader>
+    <Header>
       {title === '독서모임 한페이지' && (
         <img
           src={`${process.env.PUBLIC_URL}/hanpage_logo.png`}
@@ -55,20 +55,20 @@ const Header = ({ title, backBtn, settingBtn }: Props) => {
           <FiSettings fontSize={18} />
         </Link>
       )}
-    </MobileHeader>
+    </Header>
   );
 };
 
-const MobileHeader = styled.header`
+const Header = styled.header`
   padding: 15px 20px 5px;
   height: 45px;
-  position: relative;
   display: flex;
   align-items: center;
   gap: 3px;
   img {
     width: 22px;
     height: 22px;
+    margin-bottom: 4px;
   }
   h1 {
     color: ${({ theme }) => theme.text.gray4};
@@ -80,4 +80,4 @@ const MobileHeader = styled.header`
   }
 `;
 
-export default Header;
+export default MobileHeader;

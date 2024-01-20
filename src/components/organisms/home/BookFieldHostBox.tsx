@@ -138,7 +138,6 @@ const BookFieldHostListItem = styled.li`
   justify-content: center;
   padding: 0 20px;
   @media ${device.tablet} {
-    /* border: 1px solid red; */
   }
 `;
 

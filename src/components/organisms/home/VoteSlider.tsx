@@ -71,7 +71,7 @@ const Votes = styled.div<{ $votesNum: number }>`
 
 const EmptyContainer = styled.div`
   width: 100%;
-  height: 130px;
+  height: 160px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -84,7 +84,7 @@ const EmptyContainer = styled.div`
     display: flex;
     align-items: center;
     color: #aaa;
-    font-size: 14px;
+    font-size: 15px;
   }
   a {
     height: 40px;

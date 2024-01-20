@@ -6,7 +6,7 @@ import BookDesc from 'components/organisms/search/BookDesc';
 import RegisterClubBookButton from 'components/organisms/search/RegisterClubBookButton';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import styled from 'styled-components';
-import Header from 'layout/mobile/Header';
+import MobileHeader from 'layout/mobile/MobileHeader';
 
 type LocationState = { state: { searchedBook: IBookApi } };
 
@@ -21,7 +21,7 @@ const SearchedBookInfo = () => {
 
   return (
     <>
-      <Header title='도서 정보' backBtn />
+      <MobileHeader title='도서 정보' backBtn />
       <Main>
         <div className='thumbnailBox'>
           <BookThumbnailImg title={title} thumbnail={thumbnail} />

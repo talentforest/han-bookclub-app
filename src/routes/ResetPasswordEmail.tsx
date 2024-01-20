@@ -4,7 +4,7 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import Subtitle from 'components/atoms/Subtitle';
-import Header from 'layout/desktop/Header';
+import MobileHeader from 'layout/desktop/Header';
 import SquareBtn from 'components/atoms/buttons/SquareBtn';
 import Input from 'components/atoms/inputs/Input';
 
@@ -28,7 +28,7 @@ const ResetPasswordEmail = () => {
 
   return (
     <>
-      <Header title='비밀번호 찾기' />
+      <MobileHeader title='비밀번호 찾기' />
 
       <main>
         <Subtitle title='비밀번호가 생각나지 않으세요?' />
@@ -62,7 +62,7 @@ const Detail = styled.p`
   margin-bottom: 10px;
   padding-left: 4px;
   color: ${({ theme }) => theme.text.gray4};
-  font-size: 13px;
+  font-size: 14px;
   @media ${device.tablet} {
     font-size: 14px;
   }

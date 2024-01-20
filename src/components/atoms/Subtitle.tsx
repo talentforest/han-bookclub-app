@@ -13,9 +13,10 @@ const Sub = styled.h3`
   display: flex;
   align-items: center;
   width: fit-content;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   padding-left: 4px;
-  color: #333;
+  font-size: 17px;
+  color: ${({ theme }) => theme.text.gray4};
   @media ${device.tablet} {
     font-size: 18px;
   }

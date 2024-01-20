@@ -28,7 +28,8 @@ export default function PostFooter({
 const Footer = styled.footer`
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
+
   > span {
     font-size: 14px;
     color: #aaa;

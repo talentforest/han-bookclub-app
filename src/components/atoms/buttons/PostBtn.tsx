@@ -15,7 +15,7 @@ const Button = styled.button`
   width: fit-content;
   height: 100%;
   border: none;
-  background-color: ${({ theme }) => theme.container.blue2};
+  background-color: ${({ theme }) => theme.container.blue3};
   padding: 12px 14px;
   border-radius: 5px;
   color: #fff;

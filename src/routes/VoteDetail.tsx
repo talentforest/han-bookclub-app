@@ -3,13 +3,12 @@ import { useLocation } from 'react-router-dom';
 import { FiCheckCircle, FiCircle } from 'react-icons/fi';
 import useHandleVoting from 'hooks/useHandleVoting';
 import device from 'theme/mediaQueries';
-import styled from 'styled-components';
-import FormDetails from 'components/organisms/votedetail/FormDetails';
+import VoteDetails from 'components/organisms/votedetail/VoteDetails';
 import Percentage from 'components/organisms/votedetail/Percentage';
-import Subtitle from 'components/atoms/Subtitle';
-import Header from 'layout/mobile/Header';
+import MobileHeader from 'layout/mobile/MobileHeader';
 import NameTag from 'components/atoms/NameTag';
 import SquareBtn from 'components/atoms/buttons/SquareBtn';
+import styled from 'styled-components';
 
 type LocationState = { state: { voteDocId: string } };
 
@@ -31,57 +30,56 @@ const VoteDetail = () => {
 
   return (
     <>
-      <Header title='투표함' backBtn />
+      <MobileHeader title='투표함' backBtn />
+
       {currentVote?.vote?.voteItem && (
         <main>
-          <Form onSubmit={onVotingSubmit}>
-            <FormDetails voteDetail={currentVote} />
+          <VoteDetails voteDetail={currentVote} />
 
-            {expiredVote || mySubmittedVote.length ? (
-              <>
-                <Votelist $disabled>
-                  {currentVote.vote.voteItem.map((voteItem) => (
-                    <VoteItem
-                      key={voteItem.id}
-                      $selected={!!mySubmittedVoteItems(voteItem.id)}
-                    >
-                      <FiCheckCircle fontSize={14} stroke='#333' />
-                      <ItemText>{voteItem.item}</ItemText>
-                      <Percentage
-                        voteItems={currentVote.vote.voteItem}
-                        voteItemId={voteItem.id}
-                      />
-                    </VoteItem>
-                  ))}
-                </Votelist>
+          {expiredVote || mySubmittedVote.length ? (
+            <ResultBox>
+              <Votelist $disabled>
+                {currentVote.vote.voteItem.map((voteItem) => (
+                  <VoteItem
+                    key={voteItem.id}
+                    $selected={!!mySubmittedVoteItems(voteItem.id)}
+                  >
+                    <FiCheckCircle fontSize={14} stroke='#333' />
+                    <ItemText>{voteItem.item}</ItemText>
+                    <Percentage
+                      voteItems={currentVote.vote.voteItem}
+                      voteItemId={voteItem.id}
+                    />
+                  </VoteItem>
+                ))}
+              </Votelist>
 
-                <SquareBtn name='투표 완료' disabled />
-              </>
-            ) : (
-              <>
-                <Votelist>
-                  {currentVote?.vote?.voteItem.map((voteItem) => (
-                    <VoteItem
-                      key={voteItem.id}
-                      onClick={() => onVoteItemClick(voteItem.id)}
-                      $selected={!!selectedItem(voteItem.id)}
-                    >
-                      <FiCircle fontSize={14} stroke='#444' />
-                      <ItemText>{voteItem.item}</ItemText>
-                      <Percentage
-                        voteItems={currentVote.vote.voteItem}
-                        voteItemId={voteItem.id}
-                      />
-                    </VoteItem>
-                  ))}
-                </Votelist>
-                <SquareBtn type='submit' name='투표하기' />
-              </>
-            )}
-          </Form>
+              <SquareBtn name='투표 완료' disabled />
+            </ResultBox>
+          ) : (
+            <Form onSubmit={onVotingSubmit}>
+              <Votelist>
+                {currentVote?.vote?.voteItem.map((voteItem) => (
+                  <VoteItem
+                    key={voteItem.id}
+                    onClick={() => onVoteItemClick(voteItem.id)}
+                    $selected={!!selectedItem(voteItem.id)}
+                  >
+                    <FiCircle fontSize={14} stroke='#444' />
+                    <ItemText>{voteItem.item}</ItemText>
+                    <Percentage
+                      voteItems={currentVote.vote.voteItem}
+                      voteItemId={voteItem.id}
+                    />
+                  </VoteItem>
+                ))}
+              </Votelist>
+              <SquareBtn type='submit' name='투표하기' />
+            </Form>
+          )}
 
           <InfoBox>
-            <Subtitle title={`투표인원: ${votingMember.length}명`} />
+            <h4>{`투표인원: ${votingMember.length}명`}</h4>
             <VoteMember>
               {votingMember.map((member) => (
                 <NameTag key={member.id} name={member.id} />
@@ -95,11 +93,12 @@ const VoteDetail = () => {
 };
 
 const Form = styled.form`
-  margin-bottom: 20px;
   button {
     margin-bottom: 5px;
   }
 `;
+
+const ResultBox = styled.div``;
 
 const Votelist = styled.ul<{ $disabled?: boolean }>`
   position: relative;
@@ -142,19 +141,19 @@ const ItemText = styled.span`
   line-height: 1.5;
   margin-left: 8px;
   @media ${device.tablet} {
-    font-size: 18px;
     width: 85%;
+    font-size: 18px;
   }
 `;
+
 const InfoBox = styled.div`
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  > button {
-    align-self: flex-end;
-  }
 `;
-const VoteMember = styled.div`
+
+const VoteMember = styled.ul`
   width: 100%;
   display: flex;
   flex-wrap: wrap;

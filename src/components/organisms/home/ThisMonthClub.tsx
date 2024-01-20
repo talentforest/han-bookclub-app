@@ -31,7 +31,7 @@ export default function ThisMonthClub() {
 }
 
 const BoxesContainer = styled.div`
-  margin: 12px 0;
+  margin: 6px 0 12px;
   gap: 10px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);

@@ -58,23 +58,25 @@ export default function HeaderBox({ header, meeting }: Props) {
 
   return (
     <Box>
-      <h2>{header}</h2>
+      <Header>
+        <h2>{header}</h2>
+      </Header>
 
       <InfoBox>
         {header === '이달의 발제자' &&
           thisMonthHosts?.map((host) => <NameTag key={host} name={host} />)}
 
         {header === '모임 시간' && (
-          <p className={meeting.time === 0 ? 'no_info' : ''}>
+          <span className={meeting.time === 0 ? 'no_info' : ''}>
             {getLocaleDateTime(new Date(meeting.time)) ||
               `정해진 모임 시간이 없어요.`}
-          </p>
+          </span>
         )}
 
         {header === '모임 장소' && (
-          <p className={!meeting.place ? 'no_info' : ''}>
+          <span className={!meeting.place ? 'no_info' : ''}>
             {meeting.place || `정해진 모임 장소가 없어요.`}
-          </p>
+          </span>
         )}
 
         {header !== '이달의 발제자' && pathname !== '/' && (
@@ -108,6 +110,7 @@ export default function HeaderBox({ header, meeting }: Props) {
             />
             <TagListBox $height={showTagList ? 100 : 0}>
               <span>추천장소</span>
+
               <TagList>
                 {placeDoc.place.slice(0, 4).map((place) => (
                   <SquareTag
@@ -134,19 +137,20 @@ const Box = styled.div`
   box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: 10px;
   flex: 1;
-
-  > h2 {
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-    display: flex;
-    justify-content: center;
-    padding: 12px 0px;
-    font-size: 15px;
-    background-color: #eaeaea;
-    color: #888;
-  }
-
   @media ${device.tablet} {
+  }
+`;
+
+const Header = styled.div`
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  display: flex;
+  justify-content: center;
+  padding: 8px 0px;
+  background-color: ${({ theme }) => theme.container.blue1};
+  > h2 {
+    font-size: 14px;
+    color: ${({ theme }) => theme.text.gray3};
   }
 `;
 
@@ -161,11 +165,12 @@ const InfoBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
-  p {
-    font-size: 16px;
+  > span {
+    width: 77px;
+    font-size: 15px;
     word-spacing: -1px;
     text-align: center;
-    line-height: 24px;
+    line-height: 1.5;
   }
   .no_info {
     color: #aaa;
@@ -173,6 +178,12 @@ const InfoBox = styled.div`
   > div {
     border: 1px solid #eaeaea;
     width: 94%;
+  }
+  @media ${device.tablet} {
+    > span {
+      width: 150px;
+      font-size: 16px;
+    }
   }
 `;
 
@@ -192,16 +203,17 @@ const TagListBox = styled.div<{ $height: number }>`
   overflow: hidden;
   margin-top: 12px;
   > span {
+    padding-left: 4px;
     font-size: 15px;
     color: #aaa;
   }
 `;
 
 const TagList = styled.ul`
-  margin-top: 6px;
+  margin-top: 2px;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 4px;
 `;
 
 const SubmitBtn = styled.input`
@@ -211,6 +223,6 @@ const SubmitBtn = styled.input`
   border-radius: 10px;
   padding: 12px 10px 10px;
   font-size: 16px;
-  background-color: ${({ theme }) => theme.container.blue1};
+  background-color: ${({ theme }) => theme.container.blue3};
   color: #fff;
 `;

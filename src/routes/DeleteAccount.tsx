@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import useDeleteAccount from 'hooks/useDeleteAccount';
-import Header from 'layout/mobile/Header';
-import Guide from 'components/atoms/Guide';
+import MobileHeader from 'layout/mobile/MobileHeader';
+import GuideBox from 'components/atoms/GuideBox';
 import device from 'theme/mediaQueries';
 import SquareBtn from 'components/atoms/buttons/SquareBtn';
 import Input from 'components/atoms/inputs/Input';
@@ -16,7 +16,7 @@ const DeleteAccount = () => {
 
   return (
     <>
-      <Header title='탈퇴' backBtn />
+      <MobileHeader title='탈퇴' backBtn />
       <main>
         <Form onSubmit={onDeleteSubmit}>
           {showMessage && <Msg>비밀번호가 맞지 않습니다.</Msg>}
@@ -38,7 +38,7 @@ const DeleteAccount = () => {
           </LabelInputBtnBox>
         </Form>
 
-        <Guide text=' 탈퇴할 시 회원님의 데이터는 즉시 모두 삭제되며, 데이터는 복구 불가능합니다.' />
+        <GuideBox text=' 탈퇴할 시 회원님의 데이터는 즉시 모두 삭제되며, 데이터는 복구 불가능합니다.' />
       </main>
     </>
   );
@@ -76,7 +76,7 @@ export const LabelInputBtnBox = styled.div`
 `;
 
 const Msg = styled.span`
-  font-size: 13px;
+  font-size: 14px;
   color: ${({ theme }) => theme.text.blue1};
   margin-bottom: 3px;
   display: block;

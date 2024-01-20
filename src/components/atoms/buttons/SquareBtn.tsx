@@ -37,10 +37,10 @@ export default function SquareBtn({
 }
 
 export const Btn = styled.button<{ $disabled: boolean; $color?: BtnColor }>`
+  cursor: ${({ $disabled }) => ($disabled ? 'default' : 'pointer')};
   height: 40px;
   width: 100%;
   padding: 0 12px;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,9 +57,11 @@ export const Btn = styled.button<{ $disabled: boolean; $color?: BtnColor }>`
   span {
     font-size: 15px;
     color: ${({ $disabled, theme }) =>
-      $disabled ? theme.text.gray2 : theme.text.blue1};
+      $disabled ? theme.text.gray2 : theme.text.blue2};
   }
   @media ${device.tablet} {
-    /* height: 40px; */
+    span {
+      font-size: 16px;
+    }
   }
 `;

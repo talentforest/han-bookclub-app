@@ -43,13 +43,12 @@ const Item = styled.li`
   position: relative;
   border-radius: 10px;
   background-color: #fff;
-  padding: 8px 12px;
+  padding: 10px 12px 8px;
   height: 110px;
-  margin-top: 30px;
+  margin-top: 20px;
   box-shadow: ${({ theme }) => theme.boxShadow};
   display: flex;
   align-items: center;
-
   > img {
     position: absolute;
     top: -12px;
