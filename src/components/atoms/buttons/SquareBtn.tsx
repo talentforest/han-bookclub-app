@@ -38,7 +38,7 @@ export default function SquareBtn({
 
 export const Btn = styled.button<{ $disabled: boolean; $color?: BtnColor }>`
   cursor: ${({ $disabled }) => ($disabled ? 'default' : 'pointer')};
-  height: 40px;
+  min-height: 40px;
   width: 100%;
   padding: 0 12px;
   display: flex;

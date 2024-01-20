@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FiChevronRight, FiPlus } from 'react-icons/fi';
 import { getCollection } from 'api/getFbDoc';
 import { getFbRoute } from 'util/index';
@@ -21,12 +21,14 @@ export default function TabBox({ yearMonthId }: Props) {
   const [hostReview, setHostReview] = useRecoilState(hostReviewState);
   const [subjects, setSubjects] = useRecoilState(subjectsState);
 
-  const { alertAskJoinMember } = useAlertAskJoin('see');
+  const { blockLinkAndAlertJoinMember } = useAlertAskJoin('see');
 
   useEffect(() => {
     getCollection(getFbRoute(yearMonthId).HOST_REVIEW, setHostReview);
     getCollection(getFbRoute(yearMonthId).SUBJECTS, setSubjects);
   }, [subjects.length]);
+
+  const { pathname } = useLocation();
 
   return (
     <div>
@@ -49,7 +51,7 @@ export default function TabBox({ yearMonthId }: Props) {
               <Record type='발제문' post={subjects[0]} lineClamp={5} />
 
               <Link
-                onClick={alertAskJoinMember}
+                onClick={blockLinkAndAlertJoinMember}
                 className='see-more'
                 to='subjects'
                 state={{ id: yearMonthId, postType: '발제문' }}
@@ -60,14 +62,20 @@ export default function TabBox({ yearMonthId }: Props) {
             </>
           ) : (
             <BtnBox>
-              <Link
-                to='subjects'
-                state={{ id: yearMonthId, postType: '발제문' }}
-              >
-                <FiPlus />
-                <span>{`${tab} 추가하러 가기`}</span>
-              </Link>
-              <Desc>모두 작성할 수 있어요</Desc>
+              {pathname.includes('history') ? (
+                <EmptySign>기록된 발제문이 없습니다</EmptySign>
+              ) : (
+                <>
+                  <Link
+                    to='subjects'
+                    state={{ id: yearMonthId, postType: '발제문' }}
+                  >
+                    <FiPlus />
+                    <span>{`${tab} 추가하러 가기`}</span>
+                  </Link>
+                  <Desc>모두 작성할 수 있어요</Desc>
+                </>
+              )}
             </BtnBox>
           )}
         </TabContentBox>
@@ -80,7 +88,7 @@ export default function TabBox({ yearMonthId }: Props) {
               <Record type='정리 기록' post={hostReview[0]} lineClamp={10} />
 
               <Link
-                onClick={alertAskJoinMember}
+                onClick={blockLinkAndAlertJoinMember}
                 className='see-more'
                 to='host-review'
                 state={{ id: yearMonthId, postType: '정리 기록' }}
@@ -91,14 +99,20 @@ export default function TabBox({ yearMonthId }: Props) {
             </>
           ) : (
             <BtnBox>
-              <Link
-                to='host-review'
-                state={{ id: yearMonthId, postType: '정리 기록' }}
-              >
-                <FiPlus />
-                <span>{`${tab} 추가하러 가기`}</span>
-              </Link>
-              <Desc>이달의 발제자만 작성할 수 있어요</Desc>
+              {pathname.includes('history') ? (
+                <EmptySign>기록된 정리 기록이 없습니다</EmptySign>
+              ) : (
+                <>
+                  <Link
+                    to='host-review'
+                    state={{ id: yearMonthId, postType: '정리 기록' }}
+                  >
+                    <FiPlus />
+                    <span>{`${tab} 추가하러 가기`}</span>
+                  </Link>
+                  <Desc>이달의 발제자만 작성할 수 있어요</Desc>
+                </>
+              )}
             </BtnBox>
           )}
         </TabContentBox>
@@ -106,6 +120,14 @@ export default function TabBox({ yearMonthId }: Props) {
     </div>
   );
 }
+
+const EmptySign = styled.span`
+  font-size: 15px;
+  text-align: center;
+  height: 100%;
+  display: block;
+  color: ${({ theme }) => theme.text.gray3};
+`;
 
 const TabList = styled.ul`
   display: flex;

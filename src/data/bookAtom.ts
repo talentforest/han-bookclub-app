@@ -13,12 +13,14 @@ export interface IBookApi {
   price: number;
   thumbnail: string;
 }
+
 export interface IRecommendedBook {
   thumbnail: string;
   title: string;
   authors: string[];
   url: string;
 }
+
 export const recommendBookState = atom<IRecommendedBook>({
   key: `recommendBook${v4()}`,
   default: {
@@ -28,10 +30,12 @@ export const recommendBookState = atom<IRecommendedBook>({
     url: '',
   },
 });
-export const bookDescState = atom<IBookApi[]>({
+
+export const bookDescState = atom<IBookApi>({
   key: `bookDesc${v4()}`,
-  default: [],
+  default: null,
 });
+
 export const searchListState = atom<IBookApi[]>({
   key: `searchList${v4()}`,
   default: [],

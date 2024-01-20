@@ -41,12 +41,12 @@ const Vote = () => {
         <Loading />
       ) : (
         <main>
-          <AddVoteBtnBox>
+          <AddBox>
             <Subtitle title='진행중인 투표함' />
             <button type='button' onClick={onModalClick}>
-              <FiPlusCircle fontSize={20} stroke='#2054ff' />
+              <FiPlusCircle />
             </button>
-          </AddVoteBtnBox>
+          </AddBox>
 
           <VoteList>
             {progressVotes?.length ? (
@@ -77,14 +77,16 @@ const Vote = () => {
   );
 };
 
-const AddVoteBtnBox = styled.div`
+export const AddBox = styled.div`
   display: flex;
   align-items: center;
-  gap: 3px;
-  color: ${({ theme }) => theme.text.blue3};
-  font-size: 16px;
+  gap: 5px;
   button {
-    padding-bottom: 3px;
+    svg {
+      font-size: 20px;
+      margin-bottom: 5px;
+      stroke: ${({ theme }) => theme.text.blue2};
+    }
   }
   @media ${device.tablet} {
     gap: 5px;

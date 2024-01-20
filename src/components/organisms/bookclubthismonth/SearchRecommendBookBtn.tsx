@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
-import RecommendPostAddModal from '../modal/RecommendPostAddModal';
+import SearchedBookPostAddModal from '../modal/SearchedBookPostAddModal';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 
@@ -18,8 +18,8 @@ const SearchRecommendBookBtn = () => {
       </Btn>
 
       {openRecommendPostModal && (
-        <RecommendPostAddModal
-          collName={''}
+        <SearchedBookPostAddModal
+          title='추천책 작성하기'
           onToggleClick={toggleRecommendPostModal}
         />
       )}

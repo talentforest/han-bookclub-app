@@ -20,7 +20,7 @@ const UserNameBox = ({ creatorId, fontSize = 15 }: PropsType) => {
 
   const user = allUserDocs.find((user) => user.id === creatorId);
 
-  const { alertAskJoinMember, anonymous } = useAlertAskJoin('see');
+  const { blockLinkAndAlertJoinMember, anonymous } = useAlertAskJoin('see');
 
   useEffect(() => {
     if (allUserDocs.length === 0) {
@@ -35,7 +35,11 @@ const UserNameBox = ({ creatorId, fontSize = 15 }: PropsType) => {
   return (
     <>
       {anonymous ? (
-        <Username onClick={alertAskJoinMember} $fontSize={fontSize} to={to}>
+        <Username
+          onClick={blockLinkAndAlertJoinMember}
+          $fontSize={fontSize}
+          to={to}
+        >
           {user?.displayName && <span>{user.displayName}</span>}
         </Username>
       ) : user ? (

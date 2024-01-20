@@ -44,15 +44,17 @@ const BoxModal = styled.section<{ $width: string }>`
   flex-direction: column;
   padding: 12px;
   margin: auto;
-  top: 0;
+  top: 5%;
   right: 0;
   left: 0;
-  bottom: 0;
   border-radius: 10px;
   background-color: #fff;
-
   @media ${device.tablet} {
     max-width: 60vw;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
   }
 `;
 

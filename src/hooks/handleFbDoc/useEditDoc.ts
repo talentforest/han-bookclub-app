@@ -1,8 +1,8 @@
 import { IDocument } from 'data/documentsAtom';
 import { dbService } from 'fbase';
+import { useState } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
-import { useState } from 'react';
 
 interface PropsType {
   post: IDocument;

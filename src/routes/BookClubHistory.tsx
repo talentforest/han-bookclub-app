@@ -74,6 +74,7 @@ const YearTagList = styled.ul`
 const TagItem = styled.li<{ $active: boolean }>`
   border-radius: 8px;
   h1 {
+    border-radius: 10px;
     padding: 8px 10px;
     font-size: 14px;
     background-color: ${({ $active, theme }) =>

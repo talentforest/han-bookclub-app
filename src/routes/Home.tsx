@@ -1,4 +1,6 @@
 import { thisYear } from 'util/index';
+import { FiChevronRight } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import Subtitle from 'components/atoms/Subtitle';
 import GuideBox from 'components/atoms/GuideBox';
 import BookFieldHostBox from 'components/organisms/home/BookFieldHostBox';
@@ -23,6 +25,11 @@ const Home = () => {
         <Section>
           <Subtitle title={`${thisYear}년 개인별 챌린지`} />
           <ChallengeBookContainer />
+
+          <SeeMoreChallengeBtn to='/challenge'>
+            <span>챌린지 더보기</span>
+            <FiChevronRight />
+          </SeeMoreChallengeBtn>
         </Section>
 
         <Section>
@@ -51,6 +58,26 @@ export const Section = styled.section`
   }
   @media ${device.desktop} {
     margin-bottom: 80px;
+  }
+`;
+
+const SeeMoreChallengeBtn = styled(Link)`
+  border-radius: 10px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background-color: ${({ theme }) => theme.container.purple1};
+  box-shadow: ${({ theme }) => theme.boxShadow};
+  span {
+    padding-top: 3px;
+    color: ${({ theme }) => theme.text.purple};
+  }
+  svg {
+    color: ${({ theme }) => theme.text.purple};
   }
 `;
 

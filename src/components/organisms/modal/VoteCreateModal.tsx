@@ -87,6 +87,7 @@ const Form = styled.form`
   justify-content: space-between;
   overflow: scroll;
   scroll-behavior: auto;
+  padding-bottom: 10px;
   &::-webkit-scrollbar {
     display: none;
   }

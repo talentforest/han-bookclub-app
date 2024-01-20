@@ -1,26 +1,31 @@
 import { Fragment, useEffect, useState } from 'react';
 import { cutLetter } from 'util/index';
 import { useSetRecoilState } from 'recoil';
-import { IBookApi, recommendBookState } from 'data/bookAtom';
+import { IBookApi, bookDescState, recommendBookState } from 'data/bookAtom';
 import { FiCheckCircle, FiSearch } from 'react-icons/fi';
 import Modal from 'components/atoms/Modal';
-import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import useSearchBook from 'hooks/useSearchBook';
 import TextInput from 'components/atoms/inputs/TextInput';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import CreateRecommendBookBox from 'components/atoms/box/CreateRecommendBookBox';
 import DottedDividingLine from 'components/atoms/DottedDividingLine';
+import CreateChallengeBookBox from 'components/atoms/box/CreateChallengeBookBox';
+import styled from 'styled-components';
 
 interface Props {
-  collName: string;
+  title: '챌린지 등록하기' | '추천책 작성하기';
   onToggleClick: () => void;
 }
 
-export default function RecommendPostAddModal({ onToggleClick }: Props) {
+export default function SearchedBookPostAddModal({
+  title,
+  onToggleClick,
+}: Props) {
   const [currStep, setCurrStep] = useState(1);
 
   const setMyRecommendBook = useSetRecoilState(recommendBookState);
+  const setBookDesc = useSetRecoilState(bookDescState);
 
   const {
     searchInputRef,
@@ -37,7 +42,11 @@ export default function RecommendPostAddModal({ onToggleClick }: Props) {
 
   const onSearchedBookBoxClick = (book: IBookApi) => {
     setCurrStep(2);
-    setMyRecommendBook(book);
+    if (title === '추천책 작성하기') {
+      setMyRecommendBook(book);
+    } else {
+      setBookDesc(book);
+    }
   };
 
   const onModalToggleClick = () => {
@@ -48,7 +57,7 @@ export default function RecommendPostAddModal({ onToggleClick }: Props) {
   const resulbBoxheight = 81 * (searchList.length > 3 ? 3 : searchList.length);
 
   return (
-    <Modal title='추천책 작성하기' onToggleClick={onModalToggleClick}>
+    <Modal title={title} onToggleClick={onModalToggleClick}>
       {currStep === 1 && (
         <StepBox>
           <SearchBox>
@@ -59,7 +68,9 @@ export default function RecommendPostAddModal({ onToggleClick }: Props) {
             />
             <TextInput
               ref={searchInputRef}
-              placeholder='추천책을 검색해주세요.'
+              placeholder={`${
+                title === '추천책 작성하기' ? '추천책' : '챌린지 책'
+              }을 검색해주세요.`}
               onChange={onBookQueryChange}
             />
           </SearchBox>
@@ -100,9 +111,12 @@ export default function RecommendPostAddModal({ onToggleClick }: Props) {
         </StepBox>
       )}
 
-      {currStep === 2 && (
-        <CreateRecommendBookBox onModalClose={onModalToggleClick} />
-      )}
+      {currStep === 2 &&
+        (title === '추천책 작성하기' ? (
+          <CreateRecommendBookBox onModalClose={onModalToggleClick} />
+        ) : (
+          <CreateChallengeBookBox onModalClose={onModalToggleClick} />
+        ))}
     </Modal>
   );
 }

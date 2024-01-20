@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
-interface IPwInputProps {
+interface IInputProps {
   type?: 'password' | 'email' | 'text';
   name: string;
   placeholder: string;
   value: string;
-  onChange: (event: React.FormEvent<HTMLInputElement>) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   autoComplete?: 'new-password' | 'username' | 'current-password' | 'email';
   required?: boolean;
 }
@@ -19,7 +19,7 @@ const Input = ({
   onChange,
   autoComplete,
   required,
-}: IPwInputProps) => {
+}: IInputProps) => {
   return (
     <InputBox
       type={type}

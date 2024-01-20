@@ -13,6 +13,7 @@ type PageHeaderTitle =
 type DetailPageHeaderTitle =
   | '도서 정보'
   | '투표함'
+  | `${string}년 개인별 챌린지`
   | `${string}의 한페이지 모임`
   | `${string}의 한페이지 발제문`
   | `${string}의 한페이지 정리 기록`
