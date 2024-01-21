@@ -1,9 +1,9 @@
 import { IDocument } from 'data/documentsAtom';
+import { FormEvent } from 'react';
 import Modal from 'components/atoms/Modal';
 import QuillEditor from 'components/atoms/QuillEditor';
 import useEditDoc from 'hooks/handleFbDoc/useEditDoc';
-import styled from 'styled-components';
-import { FormEvent } from 'react';
+import SquareBtn from 'components/atoms/buttons/SquareBtn';
 
 interface Props {
   post: IDocument;
@@ -32,19 +32,8 @@ export default function PostEditModal({
           text={editedText}
           setText={setEditedText}
         />
-        <SubmitBtn type='submit' value='수정하기' />
+        <SquareBtn name='수정하기' type='submit' />
       </form>
     </Modal>
   );
 }
-
-const SubmitBtn = styled.input`
-  border: 1px solid #eaeaea;
-  width: 100%;
-  margin-top: 20px;
-  border-radius: 10px;
-  padding: 12px 10px 10px;
-  font-size: 16px;
-  background-color: ${({ theme }) => theme.container.blue2};
-  color: #fff;
-`;

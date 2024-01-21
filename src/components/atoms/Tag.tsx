@@ -20,7 +20,7 @@ export default function Tag({
   );
 }
 
-const InfoTag = styled.h1<{ $rounded: boolean; $color: TagColor }>`
+const InfoTag = styled.h4<{ $rounded: boolean; $color: TagColor }>`
   padding: 6px 12px 4px;
   height: fit-content;
   width: fit-content;

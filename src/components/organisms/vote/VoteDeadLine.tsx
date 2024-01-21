@@ -29,7 +29,7 @@ const VoteDeadLine = ({ endDate, setEndDate }: IDateProps) => {
 };
 
 const Deadline = styled.div`
-  margin: 30px 0;
+  margin: 30px 0 10px;
   width: 100%;
   display: flex;
   flex-direction: column;

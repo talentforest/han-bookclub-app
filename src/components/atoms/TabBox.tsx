@@ -48,7 +48,7 @@ export default function TabBox({ yearMonthId }: Props) {
         <TabContentBox $active={tab === '발제문'}>
           {subjects[0] ? (
             <>
-              <Record type='발제문' post={subjects[0]} lineClamp={5} />
+              <Record type='발제문' post={subjects[0]} lineClamp={8} />
 
               <Link
                 onClick={blockLinkAndAlertJoinMember}
@@ -85,7 +85,7 @@ export default function TabBox({ yearMonthId }: Props) {
         <TabContentBox $active={tab === '정리 기록'}>
           {hostReview[0] ? (
             <>
-              <Record type='정리 기록' post={hostReview[0]} lineClamp={10} />
+              <Record type='정리 기록' post={hostReview[0]} lineClamp={8} />
 
               <Link
                 onClick={blockLinkAndAlertJoinMember}

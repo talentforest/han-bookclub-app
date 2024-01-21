@@ -3,7 +3,7 @@ import device from 'theme/mediaQueries';
 
 interface Props {
   text: string;
-  lineClamp?: number | 'none';
+  lineClamp?: number;
 }
 
 export default function PostContent({ text, lineClamp }: Props) {
@@ -15,14 +15,14 @@ export default function PostContent({ text, lineClamp }: Props) {
   );
 }
 
-const ContentBox = styled.div<{ $lineClamp: number | 'none' }>`
+const ContentBox = styled.p<{ $lineClamp: number }>`
   display: -webkit-box;
-  line-clamp: ${({ $lineClamp }) => $lineClamp};
+  -webkit-line-clamp: ${({ $lineClamp }) => $lineClamp};
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin-bottom: 5px;
-  min-height: ${({ $lineClamp }) => ($lineClamp === 'none' ? '100px' : '20px')};
-  flex: ${({ $lineClamp }) => ($lineClamp === 'none' ? 0 : 1)};
+  min-height: ${({ $lineClamp }) => ($lineClamp === 0 ? '100px' : '20px')};
+  flex: ${({ $lineClamp }) => $lineClamp};
   line-height: 1.6;
   p,
   blockquote,
@@ -71,7 +71,6 @@ const ContentBox = styled.div<{ $lineClamp: number | 'none' }>`
     text-decoration: underline;
   }
   @media ${device.tablet} {
-    min-height: ${({ $lineClamp }) =>
-      $lineClamp === 'none' ? '110px' : '50px'};
+    min-height: ${({ $lineClamp }) => ($lineClamp === 0 ? '110px' : '50px')};
   }
 `;

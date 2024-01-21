@@ -11,7 +11,7 @@ export default function BookThumbnailImg({ title, thumbnail }: Props) {
   return thumbnail ? (
     <ThumnailImg src={thumbnail} alt={`${title} 북커버 이미지`} />
   ) : (
-    <NoThumbnailBox>
+    <NoThumbnailBox className='no_img_box'>
       <FiBook fontSize={25} stroke='#aaa' />
     </NoThumbnailBox>
   );

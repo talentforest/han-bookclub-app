@@ -5,9 +5,8 @@ import { getFbRoute } from 'util/index';
 import { thisMonthClubState } from 'data/documentsAtom';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import styled from 'styled-components';
-import PostBtn from 'components/atoms/buttons/PostBtn';
-// import RatingBox from 'components/organisms/RatingBox';
 import device from 'theme/mediaQueries';
+import SquareBtn from '../buttons/SquareBtn';
 
 interface PropsType {
   docMonth: string;
@@ -48,14 +47,7 @@ const CreateClubReviewBox = ({ docMonth }: PropsType) => {
         onChange={onChange}
       />
       <div>
-        {/* <RatingBox
-          thumbnail={thumbnail}
-          title={title}
-          rating={rating}
-          setRating={setRating}
-        /> */}
-
-        <PostBtn value='남기기' />
+        <SquareBtn name='남기기' type='submit' />
       </div>
     </Form>
   );

@@ -29,6 +29,7 @@ const Input = styled.input`
   width: 100%;
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.text.gray1};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   padding: 15px 10px;
   font-size: 16px;
   &:focus {

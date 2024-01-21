@@ -5,8 +5,8 @@ import { getFbRoute } from 'util/index';
 import { thisMonthClubState } from 'data/documentsAtom';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import QuillEditor from 'components/atoms/QuillEditor';
-import PostBtn from 'components/atoms/buttons/PostBtn';
 import Modal from 'components/atoms/Modal';
+import SquareBtn from 'components/atoms/buttons/SquareBtn';
 
 interface Props {
   toggleModal: () => void;
@@ -59,7 +59,7 @@ const PostAddModal = ({ toggleModal, title }: Props) => {
           setText={setText}
         />
 
-        <PostBtn value='작성 완료' />
+        <SquareBtn name='작성 완료' type='submit' />
       </form>
     </Modal>
   );

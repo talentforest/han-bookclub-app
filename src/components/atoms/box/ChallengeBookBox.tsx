@@ -71,6 +71,11 @@ export default function ChallengeBookBox({ challenge }: Props) {
         </BookBox>
 
         <Position $width={percentNum}>
+          <div className='pages'>
+            <span>
+              {currentPage}p / {wholePage}p
+            </span>
+          </div>
           <div className='percentage'>
             <FaRunning fontSize={14} />
           </div>
@@ -167,13 +172,15 @@ const Position = styled.div<{ $width: number }>`
   .pages {
     position: absolute;
     right: 0;
-    top: -35px;
-    font-size: 13px;
-    color: ${({ theme }) => theme.text.gray2};
+    top: -25px;
+    span {
+      color: ${({ theme }) => theme.text.gray3};
+      font-size: 15px;
+    }
   }
   svg {
     position: absolute;
-    right: 0;
+    right: -5px;
     bottom: 4px;
     fill: ${({ theme }) => theme.text.green};
   }

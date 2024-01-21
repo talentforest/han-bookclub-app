@@ -8,15 +8,10 @@ interface Props {
   type: '발제문' | '정리 기록' | '모임 후기' | '책 추천';
   post: IDocument;
   collName?: string;
-  lineClamp?: number | 'none';
+  lineClamp?: number;
 }
 
-export default function Record({
-  type,
-  post,
-  collName,
-  lineClamp = 'none',
-}: Props) {
+export default function Record({ type, post, collName, lineClamp = 0 }: Props) {
   const { createdAt, text } = post;
 
   return (
@@ -25,7 +20,7 @@ export default function Record({
 
       <PostContent lineClamp={lineClamp} text={text} />
 
-      {lineClamp === 'none' && (
+      {lineClamp === 0 && (
         <PostFooter
           footerType='likes'
           post={post}

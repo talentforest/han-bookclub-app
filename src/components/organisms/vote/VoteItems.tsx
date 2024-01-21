@@ -68,7 +68,7 @@ const VoteItem = styled.li`
 
 const LabeledVoteItem = styled(LabeledBox)`
   width: 100%;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: 10px;
   div.label {

@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { thisMonthClubState } from 'data/documentsAtom';
-import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import PostBtn from '../buttons/PostBtn';
 import BookThumbnailImg from '../BookThumbnailImg';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
+import styled from 'styled-components';
+import SquareBtn from '../buttons/SquareBtn';
 
 interface Props {
   onModalClose: () => void;
@@ -73,7 +73,7 @@ export default function CreateRecommendBookBox({ onModalClose }: Props) {
           </BookInfo>
         )}
 
-        <PostBtn value='추천하기' />
+        <SquareBtn name='추천하기' type='submit' />
       </Footer>
     </Form>
   );

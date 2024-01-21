@@ -16,7 +16,6 @@ interface Props {
 const RecommendedBookList = ({ yearMonthId = thisYearMonthId }: Props) => {
   const [recommendedBooks, setRecommendedBooks] =
     useRecoilState(recommendsState);
-  console.log(recommendedBooks);
 
   const { pathname } = useLocation();
 

@@ -41,14 +41,17 @@ export default function TableItem({ bookFieldhost, onEditClick }: Props) {
         )}
       </FieldHost>
 
-      <SubmitBtn type='button' onClick={onEditClick}>
+      <button type='button' onClick={onEditClick}>
         <FiEdit3 />
-      </SubmitBtn>
+      </button>
     </ItemBox>
   );
 }
 
 const ItemBox = styled.div`
+  > button {
+    padding: 2px 8px;
+  }
   @media ${device.tablet} {
     min-height: 80px;
   }
@@ -69,20 +72,4 @@ const HostList = styled.ul`
   flex-wrap: wrap;
   gap: 5px;
   overflow: hidden;
-`;
-
-const SubmitBtn = styled.button`
-  padding: 0 0 10px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  svg {
-    width: 14px;
-    height: 14px;
-    stroke: #aaa;
-  }
-  @media ${device.tablet} {
-    padding: 4px 0 10px 10px;
-  }
 `;

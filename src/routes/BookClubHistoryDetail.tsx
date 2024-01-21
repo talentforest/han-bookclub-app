@@ -1,13 +1,13 @@
 import { useLocation } from 'react-router-dom';
 import { IBookClubInfo } from 'data/documentsAtom';
+import { formattedYearMonth } from 'util/index';
+import { Section } from './Home';
 import Subtitle from 'components/atoms/Subtitle';
-import styled from 'styled-components';
 import HistoryClubBookBox from 'components/atoms/box/HistoryClubBookBox';
 import TabBox from 'components/atoms/TabBox';
 import RecommendedBookList from 'components/template/RecommendedBookList';
 import ClubReviewList from 'components/template/ClubReviewList';
 import MobileHeader from 'layout/mobile/MobileHeader';
-import { formattedYearMonth } from 'util/index';
 
 type LocationState = { state: { document: IBookClubInfo } };
 
@@ -26,7 +26,9 @@ const BookClubHistoryDetail = () => {
       />
 
       <main>
-        <HistoryClubBookBox document={document} />
+        <Section>
+          <HistoryClubBookBox document={document} />
+        </Section>
 
         <Section>
           <Subtitle title='발제문과 모임 정리 기록' />
@@ -46,9 +48,5 @@ const BookClubHistoryDetail = () => {
     </>
   );
 };
-
-const Section = styled.section`
-  margin-top: 40px;
-`;
 
 export default BookClubHistoryDetail;

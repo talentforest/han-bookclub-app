@@ -1,10 +1,3 @@
-import useHandleSchedule from 'hooks/useHandleSchedule';
-import styled from 'styled-components';
-import device from 'theme/mediaQueries';
-import Modal from '../Modal';
-import BoxLabeledInput from '../inputs/BoxLabeledInput';
-import SquareTag from '../SquareTag';
-import NameTag from '../NameTag';
 import { FiEdit3 } from 'react-icons/fi';
 import { useEffect, useRef, useState } from 'react';
 import { ISchedule } from 'data/documentsAtom';
@@ -18,6 +11,14 @@ import {
 import { useRecoilValue } from 'recoil';
 import { fieldHostDocState } from 'data/bookFieldHostAtom';
 import { useLocation } from 'react-router-dom';
+import useHandleSchedule from 'hooks/useHandleSchedule';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+import Modal from '../Modal';
+import BoxLabeledInput from '../inputs/BoxLabeledInput';
+import SquareTag from '../SquareTag';
+import NameTag from '../NameTag';
+import SquareBtn from '../buttons/SquareBtn';
 
 interface Props {
   header: '이달의 발제자' | '모임 시간' | '모임 장소';
@@ -92,7 +93,7 @@ export default function HeaderBox({ header, meeting }: Props) {
               value={time}
               setValue={setTime}
             />
-            <SubmitBtn type='submit' value='설정하기' />
+            <SquareBtn type='submit' name='설정하기' />
           </form>
         </Modal>
       )}
@@ -122,7 +123,7 @@ export default function HeaderBox({ header, meeting }: Props) {
               </TagList>
             </TagListBox>
 
-            <SubmitBtn type='submit' value='설정하기' />
+            <SquareBtn type='submit' name='설정하기' />
           </form>
         </Modal>
       )}
@@ -214,15 +215,4 @@ const TagList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-`;
-
-const SubmitBtn = styled.input`
-  border: 1px solid #eaeaea;
-  width: 100%;
-  margin-top: 20px;
-  border-radius: 10px;
-  padding: 12px 10px 10px;
-  font-size: 16px;
-  background-color: ${({ theme }) => theme.container.blue3};
-  color: #fff;
 `;

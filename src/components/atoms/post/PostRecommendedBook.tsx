@@ -106,6 +106,11 @@ const PostContentBox = styled.div`
     height: 96px;
     margin-right: 15px;
   }
+  .no_img_box {
+    float: left;
+    height: 96px;
+    margin-right: 15px;
+  }
   @media ${device.tablet} {
   }
 `;
@@ -148,6 +153,7 @@ const RecommendedBookItem = styled.li`
   justify-content: flex-end;
   align-items: center;
   gap: 8px;
+  margin-top: 30px;
   width: 120px;
   height: 130px;
   background-color: #fff;

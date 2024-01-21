@@ -80,6 +80,7 @@ const TagItem = styled.li<{ $active: boolean }>`
     background-color: ${({ $active, theme }) =>
       $active ? theme.container.blue3 : '#eee'};
     color: ${({ $active, theme }) => ($active ? '#fff' : theme.text.gray2)};
+    box-shadow: ${({ theme }) => theme.boxShadow};
   }
 `;
 
@@ -104,7 +105,7 @@ export const EmptyBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 16px;
   color: ${({ theme }) => theme.text.gray2};
   border-radius: 10px;
   background-color: ${({ theme }) => theme.container.default};

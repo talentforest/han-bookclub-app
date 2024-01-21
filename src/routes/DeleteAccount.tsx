@@ -53,7 +53,7 @@ export const LabelInputBtnBox = styled.div`
   label {
     padding-left: 5px;
     font-size: 14px;
-    color: ${({ theme }) => theme.container.blue2};
+    color: ${({ theme }) => theme.text.blue2};
   }
   > div {
     padding-top: 5px;
@@ -62,6 +62,10 @@ export const LabelInputBtnBox = styled.div`
     gap: 8px;
     input {
       flex: 1;
+    }
+    button {
+      width: 100px;
+      margin-top: 0;
     }
   }
   @media ${device.tablet} {
