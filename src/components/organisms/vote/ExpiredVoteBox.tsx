@@ -70,20 +70,19 @@ const Title = styled.h4`
 `;
 
 const LabelResultBox = styled(LabeledBox)`
-  margin-bottom: 0;
+  border: 1px solid ${({ theme }) => theme.text.gray1};
+  box-shadow: none;
   div.label {
     padding: 0 5px;
     gap: 4px;
     min-width: 60px;
     width: 60px;
-    border: 1px solid ${({ theme }) => theme.container.blue1};
     background-color: ${({ theme }) => theme.text.gray2};
     span {
       color: white;
     }
   }
   div.info {
-    border: 1px solid ${({ theme }) => theme.text.gray1};
     background-color: ${({ theme }) => theme.container.default};
     height: 100%;
     display: flex;

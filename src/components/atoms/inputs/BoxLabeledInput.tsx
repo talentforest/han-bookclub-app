@@ -44,7 +44,8 @@ export default function BoxLabeledInput<T>({
             selectsEnd
             endDate={value as Date}
             minDate={new Date()}
-            showTimeSelect
+            showTimeInput
+            timeInputLabel='시간:'
             timeFormat='HH:mm'
             timeIntervals={60}
             timeCaption='모임 시간'
@@ -70,10 +71,15 @@ export default function BoxLabeledInput<T>({
         )}
       </InputBox>
 
-      {label === '모임 날짜' && (
+      {label === '모임 시간' && (
         <FiCalendar
           fontSize={16}
-          style={{ position: 'absolute', right: 10, paddingBottom: 2 }}
+          style={{
+            position: 'absolute',
+
+            right: 10,
+            paddingBottom: 2,
+          }}
         />
       )}
     </LabeledBox>
@@ -85,11 +91,12 @@ export const LabeledBox = styled.div`
   display: flex;
   align-items: center;
   height: 40px;
-  margin-bottom: 8px;
   width: 100%;
+  border-radius: 10px;
+  border: 1px solid ${({ theme }) => theme.text.gray1};
+  box-shadow: ${({ theme }) => theme.boxShadow};
   cursor: pointer;
   > .label {
-    border: 1px solid ${({ theme }) => theme.text.gray1};
     height: 100%;
     min-width: 76px;
     background-color: #eaeaea;
@@ -110,22 +117,30 @@ const InputBox = styled.div`
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   font-size: 15px;
-  border: 1px solid ${({ theme }) => theme.text.gray1};
+  display: flex;
   input {
     /* 인풋 공통 스타일 */
     border: none;
     height: 100%;
     padding: 12px 8px 8px 12px;
-    width: 68vw;
-    min-width: inherit;
     font-size: 15px;
+    flex: 1;
+    width: inherit;
+    background-color: transparent;
+  }
+  .react-datepicker-wrapper {
+    display: flex;
+    flex: 1;
+  }
+  .react-datepicker__input-container {
+    display: flex;
+    flex: 1;
   }
 
+  /* 날짜 캘린더 */
   .react-datepicker {
     border: 1px solid ${({ theme }) => theme.text.gray2};
-    font-size: 14px;
-    display: flex;
-    width: 327px;
+    font-size: 15px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
   }
@@ -135,26 +150,15 @@ const InputBox = styled.div`
     border-bottom-color: #c8d3ff;
   }
 
-  .react-datepicker___submit_btn {
-    border: 1px solid ${({ theme }) => theme.text.gray2};
-    position: absolute;
-    bottom: -40px;
-    height: 40px;
-    left: -1px;
-    width: 327px;
-    padding: 10px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    background-color: #c8d3ff;
-    font-size: 16px;
-  }
-
   .react-datepicker__header {
     background-color: #c8d3ff;
   }
 
-  .react-datepicker__month-container {
-    float: none;
+  .react-datepicker__navigation-icon::before {
+    border-color: #4872f9;
+    border-width: 2px 2px 0 0;
+    height: 7px;
+    width: 7px;
   }
 
   /* 요일들 */
@@ -179,29 +183,27 @@ const InputBox = styled.div`
     background-color: #aabbfe;
   }
 
-  .react-datepicker__time-container
-    .react-datepicker__time
-    .react-datepicker__time-box
-    ul.react-datepicker__time-list
-    li.react-datepicker__time-list-item--selected {
+  /* 완료 버튼 */
+  .react-datepicker___submit_btn {
+    border: 1px solid ${({ theme }) => theme.text.gray2};
+    position: absolute;
+    bottom: -40px;
+    height: 40px;
+    left: -1px;
+    right: -1px;
+    padding: 10px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
     background-color: #c8d3ff;
-    color: #662df7;
+    font-size: 16px;
   }
 
-  .react-datepicker__time-container
-    .react-datepicker__time
-    .react-datepicker__time-box
-    ul.react-datepicker__time-list
-    li.react-datepicker__time-list-item--selected {
-    margin: 0 5px;
-    height: 25px;
-    border-radius: 6px;
-  }
-  .react-datepicker__navigation-icon::before {
-    border-color: #4872f9;
-    border-width: 2px 2px 0 0;
-    height: 7px;
-    width: 7px;
+  /* 시간 */
+  .react-datepicker__input-time-container {
+    float: none;
+    margin: 0;
+    padding: 0 15px;
+    border-top: 1px solid ${({ theme }) => theme.container.purple2};
   }
   @media ${device.tablet} {
     input {

@@ -95,9 +95,9 @@ const Item = styled.li`
   position: relative;
   border-radius: 10px;
   background-color: #fff;
-  padding: 12px 12px 8px;
+  padding: 10px 12px 8px;
   height: 130px;
-  margin-top: 20px;
+  margin-top: 24px;
   box-shadow: ${({ theme }) => theme.boxShadow};
   display: flex;
   flex-direction: column;
@@ -155,7 +155,7 @@ const BtnBox = styled.div`
 
 const Position = styled.div<{ $width: number }>`
   position: relative;
-  margin-top: 18px;
+  margin-top: 25px;
   display: flex;
   align-items: center;
   border: 1px solid ${({ theme }) => theme.container.blue2};
@@ -175,10 +175,10 @@ const Position = styled.div<{ $width: number }>`
   .pages {
     position: absolute;
     right: 0;
-    top: -25px;
+    top: -21px;
     span {
       color: ${({ theme }) => theme.text.gray2};
-      font-size: 14px;
+      font-size: 13px;
     }
   }
   svg {

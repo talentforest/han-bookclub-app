@@ -84,7 +84,7 @@ export default function SearchedBookPostAddModal({
                     thumbnail={book.thumbnail}
                   />
                   <div>
-                    <h3>{cutLetter(book.title, 18)}</h3>
+                    <h3>{cutLetter(book.title, 16)}</h3>
 
                     {!!book.authors.length && (
                       <span>

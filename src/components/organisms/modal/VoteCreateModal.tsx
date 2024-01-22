@@ -88,6 +88,7 @@ const Form = styled.form`
   overflow: scroll;
   scroll-behavior: auto;
   padding-bottom: 10px;
+  padding: 4px;
   &::-webkit-scrollbar {
     display: none;
   }

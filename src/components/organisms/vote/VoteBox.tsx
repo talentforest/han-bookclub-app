@@ -84,16 +84,14 @@ const ItemList = styled.ul`
 const LabelVoteBox = styled(LabeledBox)`
   height: 35px;
   width: 100%;
+  margin-bottom: 8px;
   div.label {
     width: 50px;
     font-size: 15px;
-    border: 1px solid ${({ theme }) => theme.text.gray1};
     background-color: ${({ theme }) => theme.container.yellow2};
     color: ${({ theme }) => theme.text.blue1};
   }
   div.info {
-    border-left: none;
-    border: 1px solid ${({ theme }) => theme.text.gray1};
     height: 100%;
     width: 100%;
     border-top-right-radius: 10px;

@@ -81,7 +81,8 @@ const TagItem = styled.li<{ $active: boolean }>`
     h4 {
       background-color: inherit;
       color: inherit;
-      font-size: 15px;
+      font-size: 14px;
+      padding: 6px 10px;
     }
   }
   @media ${device.tablet} {

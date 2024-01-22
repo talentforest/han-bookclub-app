@@ -38,7 +38,7 @@ const AddVoteItemBtn = styled.button`
   justify-content: center;
   align-items: center;
   font-size: 14px;
-  margin-top: 10px;
+  margin-top: 5px;
   padding: 6px 10px 3px;
   border-radius: 10px;
   box-shadow: ${({ theme }) => theme.boxShadow};

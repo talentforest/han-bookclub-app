@@ -154,7 +154,7 @@ const TabContentBox = styled.div<{ $active: boolean }>`
   flex-direction: column;
   justify-content: space-between;
   min-height: 220px;
-  max-height: 340px;
+  max-height: 360px;
   padding: 15px 15px 8px;
   border-radius: 10px;
   border-top-left-radius: 0;

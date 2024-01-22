@@ -38,7 +38,7 @@ export default function Challenge() {
           </div>
           <Tag
             color='green'
-            name={`디데이: +${getDDay('2024-12-31')} (2024.12.31)`}
+            name={`디데이: +${getDDay('2024-12-31')} (24년 12월 31일 )`}
           />
         </AddBox>
 

@@ -42,7 +42,7 @@ export default function ChallengeEditModal({ challenge, onModalClose }: Props) {
   const { title, thumbnail, authors, publisher } = books[0];
 
   return (
-    <Modal title='챌린지 진도 수정하기' onToggleClick={onModalClose}>
+    <Modal title='나의 챌린지 진도 수정하기' onToggleClick={onModalClose}>
       <Form onSubmit={onSubmit}>
         <BookBox>
           <BookThumbnailImg title={title} thumbnail={thumbnail} />
