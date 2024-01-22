@@ -72,15 +72,24 @@ const YearTagList = styled.ul`
 `;
 
 const TagItem = styled.li<{ $active: boolean }>`
-  border-radius: 8px;
-  h1 {
-    border-radius: 10px;
-    padding: 8px 10px;
-    font-size: 14px;
+  > button {
+    border-radius: 8px;
     background-color: ${({ $active, theme }) =>
       $active ? theme.container.blue3 : '#eee'};
     color: ${({ $active, theme }) => ($active ? '#fff' : theme.text.gray2)};
     box-shadow: ${({ theme }) => theme.boxShadow};
+    h4 {
+      background-color: inherit;
+      color: inherit;
+      font-size: 15px;
+    }
+  }
+  @media ${device.tablet} {
+    > button {
+      h4 {
+        font-size: 16px;
+      }
+    }
   }
 `;
 

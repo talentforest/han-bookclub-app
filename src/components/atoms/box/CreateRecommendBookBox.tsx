@@ -72,8 +72,7 @@ export default function CreateRecommendBookBox({ onModalClose }: Props) {
             </div>
           </BookInfo>
         )}
-
-        <SquareBtn name='추천하기' type='submit' />
+        <SquareBtn name='추천하기' type='submit' width='fit-content' />
       </Footer>
     </Form>
   );

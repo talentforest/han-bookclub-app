@@ -33,7 +33,7 @@ const DeleteAccount = () => {
                 autoComplete='current-password'
               />
 
-              <SquareBtn type='submit' name='탈퇴하기' />
+              <SquareBtn width='fit-content' type='submit' name='탈퇴하기' />
             </div>
           </LabelInputBtnBox>
         </Form>
@@ -62,10 +62,6 @@ export const LabelInputBtnBox = styled.div`
     gap: 8px;
     input {
       flex: 1;
-    }
-    button {
-      width: 100px;
-      margin-top: 0;
     }
   }
   @media ${device.tablet} {

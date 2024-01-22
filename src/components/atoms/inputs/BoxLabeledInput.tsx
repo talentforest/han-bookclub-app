@@ -4,6 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
 import { ChangeEvent, MutableRefObject } from 'react';
 import { FiCalendar } from 'react-icons/fi';
+import device from 'theme/mediaQueries';
 
 interface Props<T> {
   label: string;
@@ -28,12 +29,14 @@ export default function BoxLabeledInput<T>({
 
   return (
     <LabeledBox>
-      <div className='label'>{label}</div>
+      <label htmlFor={label} className='label'>
+        {label}
+      </label>
 
-      {label === '모임 시간' ? (
-        <InputContainerBox>
-          <DateTimePicker
-            name='datepicker'
+      <InputBox>
+        {label === '모임 시간' ? (
+          <DatePicker
+            id='모임 시간'
             selected={value as Date}
             onChange={(date) => {
               setValue(date as Date as T);
@@ -51,22 +54,23 @@ export default function BoxLabeledInput<T>({
             shouldCloseOnSelect={false}
             popperPlacement='bottom'
           >
-            <button className='react-datepicker___button'>완료</button>
-          </DateTimePicker>
-        </InputContainerBox>
-      ) : (
-        <input
-          ref={placeInputRef}
-          type='text'
-          value={value as string}
-          onChange={onChange}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          placeholder='정해진 모임 장소가 없습니다'
-        />
-      )}
+            <button className='react-datepicker___submit_btn'>완료</button>
+          </DatePicker>
+        ) : (
+          <input
+            ref={placeInputRef}
+            type='text'
+            id='모임 장소'
+            value={value as string}
+            onChange={onChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            placeholder='정해진 모임 장소가 없습니다'
+          />
+        )}
+      </InputBox>
 
-      {label === '모임 시간' && (
+      {label === '모임 날짜' && (
         <FiCalendar
           fontSize={16}
           style={{ position: 'absolute', right: 10, paddingBottom: 2 }}
@@ -83,10 +87,11 @@ export const LabeledBox = styled.div`
   height: 40px;
   margin-bottom: 8px;
   width: 100%;
-  > div.label {
+  cursor: pointer;
+  > .label {
     border: 1px solid ${({ theme }) => theme.text.gray1};
     height: 100%;
-    min-width: 74px;
+    min-width: 76px;
     background-color: #eaeaea;
     color: #888;
     border-top-left-radius: 10px;
@@ -97,32 +102,25 @@ export const LabeledBox = styled.div`
     padding: 10px 8px 8px 10px;
     font-size: 15px;
   }
-  > input {
-    height: 100%;
-    flex: 1;
-    padding: 10px 8px 8px 6px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    font-size: 15px;
-    border: 1px solid ${({ theme }) => theme.text.gray1};
-    cursor: pointer;
-    &:focus {
-      outline: none;
-    }
-  }
 `;
 
-const InputContainerBox = styled.div`
-  border: 1px solid ${({ theme }) => theme.text.gray1};
+const InputBox = styled.div`
   height: 100%;
-  flex: 1;
-
+  width: 100%;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+  font-size: 15px;
+  border: 1px solid ${({ theme }) => theme.text.gray1};
   input {
-    flex: 1;
-    width: auto;
+    /* 인풋 공통 스타일 */
+    border: none;
+    height: 100%;
+    padding: 12px 8px 8px 12px;
+    width: 68vw;
+    min-width: inherit;
+    font-size: 15px;
   }
+
   .react-datepicker {
     border: 1px solid ${({ theme }) => theme.text.gray2};
     font-size: 14px;
@@ -137,17 +135,18 @@ const InputContainerBox = styled.div`
     border-bottom-color: #c8d3ff;
   }
 
-  .react-datepicker___button {
+  .react-datepicker___submit_btn {
     border: 1px solid ${({ theme }) => theme.text.gray2};
     position: absolute;
-    bottom: -35px;
-    height: 35px;
+    bottom: -40px;
+    height: 40px;
     left: -1px;
     width: 327px;
     padding: 10px;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
     background-color: #c8d3ff;
+    font-size: 16px;
   }
 
   .react-datepicker__header {
@@ -204,21 +203,9 @@ const InputContainerBox = styled.div`
     height: 7px;
     width: 7px;
   }
-`;
-
-const DateTimePicker = styled(DatePicker)`
-  border: none;
-  height: 100%;
-  width: 200px;
-  padding: 11px 8px 8px 6px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  font-size: 15px;
-  cursor: pointer;
-
-  &:focus {
-    outline: none;
+  @media ${device.tablet} {
+    input {
+      font-size: 16px;
+    }
   }
 `;
-
-// 달력 커스텀

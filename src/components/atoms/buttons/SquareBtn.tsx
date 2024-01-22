@@ -11,6 +11,7 @@ interface Props {
   disabled?: boolean;
   handleClick?: () => void;
   color?: BtnColor;
+  width?: '100%' | 'fit-content';
 }
 
 export default function SquareBtn({
@@ -20,6 +21,7 @@ export default function SquareBtn({
   disabled,
   handleClick,
   color = 'blue',
+  width = '100%',
 }: Props) {
   return (
     <Btn
@@ -28,6 +30,7 @@ export default function SquareBtn({
       disabled={disabled}
       $disabled={disabled}
       $color={color}
+      $width={width}
     >
       {children}
 
@@ -36,11 +39,14 @@ export default function SquareBtn({
   );
 }
 
-export const Btn = styled.button<{ $disabled: boolean; $color?: BtnColor }>`
+export const Btn = styled.button<{
+  $disabled: boolean;
+  $width?: 'fit-content' | '100%';
+  $color?: BtnColor;
+}>`
   cursor: ${({ $disabled }) => ($disabled ? 'default' : 'pointer')};
   min-height: 40px;
-  width: 100%;
-  margin-top: 10px;
+  width: ${({ $width }) => $width};
   padding: 0 12px;
   display: flex;
   align-items: center;

@@ -36,13 +36,14 @@ const Btn = styled.button`
   align-items: center;
   padding: 8px 15px;
   border-radius: 30px;
-  color: ${({ theme }) => theme.text.gray4};
   background-color: #fff;
   box-shadow: ${({ theme }) => theme.boxShadow};
   span {
+    color: ${({ theme }) => theme.text.gray3};
     font-size: 15px;
   }
   svg {
+    stroke: ${({ theme }) => theme.text.gray3};
     margin-bottom: 2px;
   }
   @media ${device.tablet} {

@@ -86,21 +86,21 @@ export default function HeaderBox({ header, meeting }: Props) {
       </InfoBox>
 
       {isEditing && header === '모임 시간' && (
-        <Modal title='모임 시간' width='300px' onToggleClick={onEditClick}>
-          <form onSubmit={onTimeSubmit}>
+        <Modal title='모임 시간' onToggleClick={onEditClick}>
+          <Form onSubmit={onTimeSubmit}>
             <BoxLabeledInput
               label='모임 시간'
               value={time}
               setValue={setTime}
             />
             <SquareBtn type='submit' name='설정하기' />
-          </form>
+          </Form>
         </Modal>
       )}
 
       {isEditing && header === '모임 장소' && (
-        <Modal title='모임 장소' width='300px' onToggleClick={onEditClick}>
-          <form onSubmit={onPlaceSubmit}>
+        <Modal title='모임 장소' onToggleClick={onEditClick}>
+          <Form onSubmit={onPlaceSubmit}>
             <BoxLabeledInput
               label='모임 장소'
               value={place}
@@ -124,7 +124,7 @@ export default function HeaderBox({ header, meeting }: Props) {
             </TagListBox>
 
             <SquareBtn type='submit' name='설정하기' />
-          </form>
+          </Form>
         </Modal>
       )}
     </Box>
@@ -138,8 +138,6 @@ const Box = styled.div`
   box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: 10px;
   flex: 1;
-  @media ${device.tablet} {
-  }
 `;
 
 const Header = styled.div`
@@ -202,7 +200,7 @@ const TagListBox = styled.div<{ $height: number }>`
   height: ${($height) => `${$height}px`};
   transition: height 0.5s ease;
   overflow: hidden;
-  margin-top: 12px;
+  margin: 12px 0 20px;
   > span {
     padding-left: 4px;
     font-size: 15px;
@@ -215,4 +213,11 @@ const TagList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
 `;

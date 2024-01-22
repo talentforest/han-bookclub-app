@@ -12,6 +12,7 @@ import ChallengeEditModal from 'components/organisms/modal/ChallengeEditModal';
 import styled from 'styled-components';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { dbService } from 'fbase';
+import device from 'theme/mediaQueries';
 
 interface Props {
   challenge: IChallenge;
@@ -75,8 +76,9 @@ export default function ChallengeBookBox({ challenge }: Props) {
             <span>
               {currentPage}p / {wholePage}p
             </span>
+            <span> ({percentNum.toFixed(0)}%)</span>
           </div>
-          <div className='percentage'>
+          <div className='progress-bar'>
             <FaRunning fontSize={14} />
           </div>
         </Position>
@@ -105,9 +107,9 @@ const Item = styled.li`
 const BookBox = styled.div`
   flex: 1;
   > img {
+    height: 100px;
     position: absolute;
     top: -12px;
-    height: 103px;
   }
   > .info {
     display: flex;
@@ -117,6 +119,7 @@ const BookBox = styled.div`
     margin-left: 85px;
     flex: 1;
     height: 100%;
+
     h1 {
       padding-bottom: 2px;
       display: flex;
@@ -160,7 +163,7 @@ const Position = styled.div<{ $width: number }>`
   height: 12px;
   width: 100%;
   padding: 2px;
-  .percentage {
+  .progress-bar {
     position: relative;
     background-color: ${({ theme }) => theme.container.green1};
     width: ${({ $width }) => `${$width}%`};
@@ -174,8 +177,8 @@ const Position = styled.div<{ $width: number }>`
     right: 0;
     top: -25px;
     span {
-      color: ${({ theme }) => theme.text.gray3};
-      font-size: 15px;
+      color: ${({ theme }) => theme.text.gray2};
+      font-size: 14px;
     }
   }
   svg {
@@ -183,5 +186,8 @@ const Position = styled.div<{ $width: number }>`
     right: -5px;
     bottom: 4px;
     fill: ${({ theme }) => theme.text.green};
+  }
+  @media ${device.tablet} {
+    margin-top: 26px;
   }
 `;
