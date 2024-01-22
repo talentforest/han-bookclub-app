@@ -21,68 +21,67 @@ export default function PostRecommendedBook({
 }: Props) {
   const [openModal, setOpenModal] = useState(false);
 
-  const {
-    text,
-    creatorId,
-    createdAt,
-    recommendedBook: { title, thumbnail, authors, url },
-  } = recommendedBookDoc;
+  const { text, creatorId, createdAt, recommendedBook } = recommendedBookDoc;
+
+  const { title, thumbnail, authors, url } = recommendedBook || {};
 
   return (
-    <>
-      <RecommendedBookItem
-        as='button'
-        type='button'
-        onClick={() => setOpenModal(true)}
-      >
-        <div className='bookimg'>
-          <BookThumbnailImg title={title} thumbnail={thumbnail} />
-        </div>
-
-        <div className='title'>
-          <h4>{cutLetter(title, 6)}</h4>
-          <FiFileText stroke='#aaa' fontSize={13} />
-        </div>
-
-        <UserNameBox creatorId={creatorId} />
-      </RecommendedBookItem>
-
-      {openModal && (
-        <Modal
-          title='추천책 보기'
-          onToggleClick={() => setOpenModal((prev) => !prev)}
+    recommendedBook && (
+      <>
+        <RecommendedBookItem
+          as='button'
+          type='button'
+          onClick={() => setOpenModal(true)}
         >
-          <PostBox>
-            <PostHeader
-              collName={collName}
-              post={recommendedBookDoc}
-              postType='책 추천'
-            />
+          <div className='bookimg'>
+            <BookThumbnailImg title={title} thumbnail={thumbnail} />
+          </div>
 
-            <PostContentBox>
-              <BookThumbnailImg title={title} thumbnail={thumbnail} />
-              <RecommendBookBox>
-                <div>
-                  <a href={url} target='_blank' rel='noreferrer'>
-                    <span>{title}</span>
-                    <FiExternalLink stroke='#aaa' fontSize={14} />
-                  </a>
-                  <span>{authors.join(', ')}</span>
-                </div>
-                <p dangerouslySetInnerHTML={{ __html: text }} />
-              </RecommendBookBox>
-            </PostContentBox>
+          <div className='title'>
+            <h4>{cutLetter(title, 6)}</h4>
+            <FiFileText stroke='#aaa' fontSize={13} />
+          </div>
 
-            <PostFooter
-              collName={collName}
-              footerType='likes'
-              post={recommendedBookDoc}
-              createdAt={createdAt}
-            />
-          </PostBox>
-        </Modal>
-      )}
-    </>
+          <UserNameBox creatorId={creatorId} />
+        </RecommendedBookItem>
+
+        {openModal && (
+          <Modal
+            title='추천책 보기'
+            onToggleClick={() => setOpenModal((prev) => !prev)}
+          >
+            <PostBox>
+              <PostHeader
+                collName={collName}
+                post={recommendedBookDoc}
+                postType='책 추천'
+              />
+
+              <PostContentBox>
+                <BookThumbnailImg title={title} thumbnail={thumbnail} />
+                <RecommendBookBox>
+                  <div>
+                    <a href={url} target='_blank' rel='noreferrer'>
+                      <span>{title}</span>
+                      <FiExternalLink stroke='#aaa' fontSize={14} />
+                    </a>
+                    <span>{authors.join(', ')}</span>
+                  </div>
+                  <p dangerouslySetInnerHTML={{ __html: text }} />
+                </RecommendBookBox>
+              </PostContentBox>
+
+              <PostFooter
+                collName={collName}
+                footerType='likes'
+                post={recommendedBookDoc}
+                createdAt={createdAt}
+              />
+            </PostBox>
+          </Modal>
+        )}
+      </>
+    )
   );
 }
 
