@@ -1,5 +1,5 @@
 import { getDocument } from 'api/getFbDoc';
-import { BookFieldType } from 'components/organisms/login/BookField';
+import { BookFieldType } from 'components/organisms/BookField';
 import { currentUserState, IExtraUserData } from 'data/userAtom';
 import { authService, dbService, storageService } from 'fbase';
 import { getAuth, updateProfile } from 'firebase/auth';
@@ -7,7 +7,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { USER_DATA } from 'util/index';
+import { USER_DATA } from 'constants/index';
 
 const useHandleProfile = () => {
   const [userData, setUserData] = useRecoilState(currentUserState);

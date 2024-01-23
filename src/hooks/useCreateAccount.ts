@@ -1,10 +1,10 @@
-import { BookFieldType } from 'components/organisms/login/BookField';
+import { BookFieldType } from 'components/organisms/BookField';
 import { authService, dbService } from 'fbase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { USER_DATA } from 'util/index';
+import { USER_DATA } from 'constants/index';
 
 const useCreateAccount = (setShowNextStep?: (step: boolean) => void) => {
   const [email, setEmail] = useState('');

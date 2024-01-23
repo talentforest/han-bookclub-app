@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import useDeleteAccount from 'hooks/useDeleteAccount';
 import MobileHeader from 'layout/mobile/MobileHeader';
-import GuideBox from 'components/atoms/GuideBox';
+import GuideLine from 'components/atoms/GuideLine';
 import device from 'theme/mediaQueries';
-import SquareBtn from 'components/atoms/buttons/SquareBtn';
-import Input from 'components/atoms/inputs/Input';
+import SquareBtn from 'components/atoms/button/SquareBtn';
+import Input from 'components/atoms/input/Input';
 
 const DeleteAccount = () => {
   const {
@@ -38,7 +38,7 @@ const DeleteAccount = () => {
           </LabelInputBtnBox>
         </Form>
 
-        <GuideBox text=' 탈퇴할 시 회원님의 데이터는 즉시 모두 삭제되며, 데이터는 복구 불가능합니다.' />
+        <GuideLine text=' 탈퇴할 시 회원님의 데이터는 즉시 모두 삭제되며, 데이터는 복구 불가능합니다.' />
       </main>
     </>
   );

@@ -3,19 +3,19 @@ import { IExtraUserData, allUsersState, currentUserState } from 'data/userAtom';
 import { MouseEvent, useEffect } from 'react';
 import { Section } from './Home';
 import { useLocation } from 'react-router-dom';
-import { USER_DATA } from 'util/index';
+import { USER_DATA } from 'constants/index';
 import { getCollection } from 'api/getFbDoc';
 import { CircleImg, ImgBox } from 'components/atoms/UserImg';
 import { FiUser } from 'react-icons/fi';
 import { EmptyBox } from './BookClubHistory';
-import BookImgRecordBox from 'components/organisms/mybookshelf/BookImgRecordBox';
+import BookImgRecordBox from 'components/molecules/book-box/BookImgRecordBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import Loading from 'components/atoms/Loading';
 import Subtitle from 'components/atoms/Subtitle';
-import Tag from 'components/atoms/Tag';
+import Tag from 'components/atoms/tag/Tag';
 import MobileHeader from 'layout/mobile/MobileHeader';
-import GuideBox from 'components/atoms/GuideBox';
+import GuideLine from 'components/atoms/GuideLine';
 
 const Bookshelf = () => {
   const currentUser = useRecoilValue(currentUserState);
@@ -114,7 +114,7 @@ const Bookshelf = () => {
 
         <Section>
           <Subtitle title={`${userName}의 발제문`} />
-          <GuideBox text='2022년 6월 이후의 기록이 제공됩니다.' />
+          <GuideLine text='2022년 6월 이후의 기록이 제공됩니다.' />
 
           <RecordList>
             {userSubjects.length !== 0 ? (
@@ -135,7 +135,7 @@ const Bookshelf = () => {
 
         <Section>
           <Subtitle title={`${userName}의 모임 후기`} />
-          <GuideBox text='2022년 6월 이후의 기록이 제공됩니다.' />
+          <GuideLine text='2022년 6월 이후의 기록이 제공됩니다.' />
 
           <RecordList>
             {userReviews.length !== 0 ? (

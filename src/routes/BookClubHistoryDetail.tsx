@@ -1,15 +1,15 @@
 import { useLocation } from 'react-router-dom';
-import { IBookClubInfo } from 'data/documentsAtom';
-import { formattedYearMonth } from 'util/index';
+import { IBookClub } from 'data/bookClubAtom';
+import { formatKRMarkDate } from 'util/index';
 import { Section } from './Home';
 import Subtitle from 'components/atoms/Subtitle';
-import HistoryClubBookBox from 'components/atoms/box/HistoryClubBookBox';
-import TabBox from 'components/atoms/TabBox';
-import RecommendedBookList from 'components/template/RecommendedBookList';
-import ClubReviewList from 'components/template/ClubReviewList';
+import HistoryClubBookBox from 'components/molecules/book-box/HistoryClubBookBox';
+import TabBox from 'components/organisms/TabBox';
+import RecommendedBookList from 'components/organisms/RecommendedBookList';
+import ClubReviewList from 'components/organisms/ClubReviewList';
 import MobileHeader from 'layout/mobile/MobileHeader';
 
-type LocationState = { state: { document: IBookClubInfo } };
+type LocationState = { state: { document: IBookClub } };
 
 const BookClubHistoryDetail = () => {
   const {
@@ -21,7 +21,7 @@ const BookClubHistoryDetail = () => {
   return (
     <>
       <MobileHeader
-        title={`${formattedYearMonth(id)}의 한페이지 모임`}
+        title={`${formatKRMarkDate(id, 'YY년 MM월')}의 한페이지 모임`}
         backBtn
       />
 

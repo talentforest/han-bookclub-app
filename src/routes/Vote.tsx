@@ -1,34 +1,33 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { votesState } from 'data/documentsAtom';
-import { krCurTime, isoFormatDate } from 'util/index';
+import { todayWithHyphen } from 'util/index';
 import { getCollection } from 'api/getFbDoc';
 import { FiPlusCircle } from 'react-icons/fi';
-import VoteBox from 'components/organisms/vote/VoteBox';
+import { EmptyBox } from './BookClubHistory';
+import { votesState } from 'data/voteAtom';
+import { VOTE } from 'constants/index';
+import VoteBox from 'components/organisms/VoteBox';
 import VoteCreateModal from 'components/organisms/modal/VoteCreateModal';
 import Subtitle from 'components/atoms/Subtitle';
-import ExpiredVoteBox from 'components/organisms/vote/ExpiredVoteBox';
+import ExpiredVoteBox from 'components/organisms/ExpiredVoteBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import Loading from 'components/atoms/Loading';
 import MobileHeader from 'layout/mobile/MobileHeader';
-import { EmptyBox } from './BookClubHistory';
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [votes, setVotes] = useRecoilState(votesState);
 
   const progressVotes = votes.filter(
-    (item) => item.deadline >= isoFormatDate(krCurTime)
+    (item) => item.deadline >= todayWithHyphen
   );
 
-  const expiredVote = votes.filter(
-    (item) => item.deadline < isoFormatDate(krCurTime)
-  );
+  const expiredVote = votes.filter((item) => item.deadline < todayWithHyphen);
 
   useEffect(() => {
     if (votes.length === 0) {
-      getCollection('Vote', setVotes);
+      getCollection(VOTE, setVotes);
     }
   }, []);
 

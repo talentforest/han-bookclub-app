@@ -1,16 +1,17 @@
-import { challengeState } from 'data/challengeAtom';
+import { challengeState } from 'data/bookAtom';
 import { useRecoilState } from 'recoil';
-import { CHALLENGE, getDDay, thisYear } from 'util/index';
+import { getDDay, thisYear } from 'util/index';
 import { useEffect, useState } from 'react';
 import { FiPlusCircle } from 'react-icons/fi';
 import { getCollection } from 'api/getFbDoc';
+import { CHALLENGE } from 'constants/index';
 import MobileHeader from 'layout/mobile/MobileHeader';
-import ChallengeBookBox from 'components/atoms/box/ChallengeBookBox';
+import ChallengeBookBox from 'components/molecules/book-box/ChallengeBookBox';
 import Subtitle from 'components/atoms/Subtitle';
 import SearchedBookPostAddModal from 'components/organisms/modal/SearchedBookPostAddModal';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import Tag from 'components/atoms/Tag';
+import Tag from 'components/atoms/tag/Tag';
 
 export default function Challenge() {
   const [showChallengeModal, setShowChallengeModal] = useState(false);

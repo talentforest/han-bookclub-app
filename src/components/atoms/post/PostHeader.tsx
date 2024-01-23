@@ -2,7 +2,7 @@ import { FiUserCheck } from 'react-icons/fi';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { IDocument } from 'data/documentsAtom';
-import NameTag from '../NameTag';
+import NameTag from '../tag/NameTag';
 import PostEditDeleteBox from 'components/organisms/PostEditDeleteBox';
 import styled from 'styled-components';
 

@@ -24,19 +24,27 @@ type DetailPageHeaderTitle =
   | '비밀번호 변경'
   | '탈퇴';
 
+type NotLogInPage = '계정 생성' | '비밀번호 찾기';
+
 interface Props {
-  title: PageHeaderTitle | DetailPageHeaderTitle;
+  title: PageHeaderTitle | DetailPageHeaderTitle | NotLogInPage;
   backBtn?: boolean;
   settingBtn?: boolean;
+  showDesktop?: boolean;
 }
 
-const MobileHeader = ({ title, backBtn, settingBtn }: Props) => {
+const MobileHeader = ({
+  title,
+  backBtn,
+  settingBtn,
+  showDesktop = false,
+}: Props) => {
   const navigate = useNavigate();
 
   const onBackClick = () => navigate(-1);
 
   return (
-    <Header>
+    <Header $showDesktop={showDesktop}>
       {title === '독서모임 한페이지' && (
         <img
           src={`${process.env.PUBLIC_URL}/hanpage_logo.png`}
@@ -60,7 +68,9 @@ const MobileHeader = ({ title, backBtn, settingBtn }: Props) => {
   );
 };
 
-const Header = styled.header`
+//
+
+const Header = styled.header<{ $showDesktop: boolean }>`
   padding: 15px 20px 5px;
   height: 45px;
   display: flex;
@@ -77,7 +87,26 @@ const Header = styled.header`
     flex: 1;
   }
   @media ${device.tablet} {
-    display: none;
+    display: ${({ $showDesktop }) => ($showDesktop ? 'flex' : 'none')};
+    height: 45px;
+    margin-top: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 20px 80px;
+    h1 {
+      color: ${({ theme }) => theme.text.gray4};
+    }
+    h1 {
+      font-size: 20px;
+    }
+  }
+  @media ${device.desktop} {
+    padding: 0;
+    padding-top: 15px 0;
+    width: 70%;
+    margin: 10px auto;
   }
 `;
 

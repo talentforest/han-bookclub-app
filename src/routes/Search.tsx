@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
-import ResultBookBox from 'components/organisms/search/ResultBookBox';
-import TextInput from 'components/atoms/inputs/TextInput';
+import ResultBookBox from 'components/organisms/ResultBookBox';
+import TextInput from 'components/atoms/input/TextInput';
 import useSearchBook from 'hooks/useSearchBook';
 import device from 'theme/mediaQueries';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import styled from 'styled-components';
-import SquareBtn from 'components/atoms/buttons/SquareBtn';
+import SquareBtn from 'components/atoms/button/SquareBtn';
 
 const Search = () => {
   const {

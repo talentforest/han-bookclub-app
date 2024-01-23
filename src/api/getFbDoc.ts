@@ -7,7 +7,7 @@ import {
   query,
 } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
-import { USER_DATA } from '../util/index';
+import { USER_DATA } from 'constants/index';
 
 export function getDocument<T>(
   coll: string,

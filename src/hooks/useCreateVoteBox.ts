@@ -1,10 +1,11 @@
-import { votesState } from 'data/documentsAtom';
 import { currentUserState } from 'data/userAtom';
 import { authService, dbService } from 'fbase';
 import { addDoc, collection } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { isoFormatDate } from 'util/index';
+import { formatHyphenDate } from 'util/index';
+import { votesState } from 'data/voteAtom';
+import { VOTE } from 'constants/index';
 import useAlertAskJoin from './useAlertAskJoin';
 
 interface ICreateVoteBox {
@@ -27,13 +28,13 @@ const useCreateVoteBox = ({ endDate, onModalClick }: ICreateVoteBox) => {
   const voteBoxData = {
     createdAt: Date.now(),
     creatorId: userData.uid,
-    deadline: isoFormatDate(endDate),
+    deadline: formatHyphenDate(endDate),
     vote,
     voteId: votes.length + 1,
   };
 
   const addDocVote = async () => {
-    await addDoc(collection(dbService, 'Vote'), voteBoxData);
+    await addDoc(collection(dbService, VOTE), voteBoxData);
   };
 
   const onRegisterSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

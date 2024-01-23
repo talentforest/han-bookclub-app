@@ -3,7 +3,7 @@ import { FormEvent } from 'react';
 import Modal from 'components/atoms/Modal';
 import QuillEditor from 'components/atoms/QuillEditor';
 import useEditDoc from 'hooks/handleFbDoc/useEditDoc';
-import SquareBtn from 'components/atoms/buttons/SquareBtn';
+import SquareBtn from 'components/atoms/button/SquareBtn';
 
 interface Props {
   post: IDocument;

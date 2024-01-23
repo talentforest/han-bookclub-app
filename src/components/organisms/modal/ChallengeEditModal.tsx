@@ -1,15 +1,16 @@
-import { IChallenge } from 'data/challengeAtom';
+import { IChallenge } from 'data/bookAtom';
 import { currentUserState } from 'data/userAtom';
 import { dbService } from 'fbase';
 import { doc, setDoc } from 'firebase/firestore';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { CHALLENGE } from 'constants/index';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import Modal from 'components/atoms/Modal';
-import SquareBtn from 'components/atoms/buttons/SquareBtn';
-import Input from 'components/atoms/inputs/Input';
+import SquareBtn from 'components/atoms/button/SquareBtn';
+import Input from 'components/atoms/input/Input';
 import styled from 'styled-components';
-import Tag from 'components/atoms/Tag';
+import Tag from 'components/atoms/tag/Tag';
 
 interface Props {
   challenge: IChallenge;
@@ -30,7 +31,7 @@ export default function ChallengeEditModal({ challenge, onModalClose }: Props) {
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    await setDoc(doc(dbService, 'Challenge', `${userData.uid}`), challengeDoc);
+    await setDoc(doc(dbService, CHALLENGE, `${userData.uid}`), challengeDoc);
     onModalClose();
     alert('현재 페이지가 수정되었어요!');
   };

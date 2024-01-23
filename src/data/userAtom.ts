@@ -1,4 +1,4 @@
-import { BookFieldType } from 'components/organisms/login/BookField';
+import { BookFieldType } from 'components/organisms/BookField';
 import { authService } from 'fbase';
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import { atom } from 'recoil';

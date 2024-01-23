@@ -2,10 +2,10 @@ import { authService, dbService } from 'fbase';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { getCollection, getDocument } from 'api/getFbDoc';
-import { IVote } from 'data/voteItemAtom';
+import { IVote } from 'data/voteAtom';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
-import { VOTE } from 'util/index';
+import { VOTE } from 'constants/index';
 
 const useHandleVoting = (voteDocId: string) => {
   const { uid } = useRecoilValue(currentUserState);

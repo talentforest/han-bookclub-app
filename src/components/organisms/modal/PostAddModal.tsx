@@ -2,11 +2,11 @@ import { FormEvent, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { getFbRoute } from 'util/index';
-import { thisMonthClubState } from 'data/documentsAtom';
+import { thisMonthBookClubState } from 'data/bookClubAtom';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import QuillEditor from 'components/atoms/QuillEditor';
 import Modal from 'components/atoms/Modal';
-import SquareBtn from 'components/atoms/buttons/SquareBtn';
+import SquareBtn from 'components/atoms/button/SquareBtn';
 
 interface Props {
   toggleModal: () => void;
@@ -16,7 +16,7 @@ interface Props {
 const PostAddModal = ({ toggleModal, title }: Props) => {
   const [text, setText] = useState('');
 
-  const thisMonthClub = useRecoilValue(thisMonthClubState);
+  const thisMonthClub = useRecoilValue(thisMonthBookClubState);
   const userData = useRecoilValue(currentUserState);
 
   const {

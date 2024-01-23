@@ -1,14 +1,15 @@
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { authService } from 'fbase';
-import { bookFields, existDocObj } from 'util/index';
+import { existDocObj } from 'util/index';
+import { bookFields } from 'constants/index';
 import { useEffect } from 'react';
 import { FiCheck, FiEdit2 } from 'react-icons/fi';
 import styled from 'styled-components';
 import useHandleProfile from 'hooks/useHandleProfile';
 import Loading from 'components/atoms/Loading';
-import GuideBox from 'components/atoms/GuideBox';
-import TextInput from 'components/atoms/inputs/TextInput';
+import GuideLine from 'components/atoms/GuideLine';
+import TextInput from 'components/atoms/input/TextInput';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import UserImg from 'components/atoms/UserImg';
 import device from 'theme/mediaQueries';
@@ -56,7 +57,7 @@ const EditProfile = () => {
               </EditBtn>
             )}
 
-            <GuideBox text='이메일은 변경할 수 없습니다.' />
+            <GuideLine text='이메일은 변경할 수 없습니다.' />
 
             <List>
               <Item>

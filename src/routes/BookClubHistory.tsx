@@ -1,20 +1,20 @@
-import { useEffect } from 'react';
-import { clubYearArr, thisYearMonthId } from 'util/index';
+import { useEffect, useState } from 'react';
+import { thisYear, thisYearMonthId } from 'util/index';
 import { getCollection } from 'api/getFbDoc';
-import { clubInfoByYearState } from 'data/documentsAtom';
-import { selectedYearAtom } from 'data/selectedYearAtom';
+import { bookClubByYearState } from 'data/bookClubAtom';
 import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { HiMiniArrowUpRight } from 'react-icons/hi2';
-import HistoryClubBookBox from 'components/atoms/box/HistoryClubBookBox';
+import { clubYearArr } from 'constants/yearOfBookClub';
+import HistoryClubBookBox from 'components/molecules/book-box/HistoryClubBookBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
-import Tag from 'components/atoms/Tag';
+import Tag from 'components/atoms/tag/Tag';
 import MobileHeader from 'layout/mobile/MobileHeader';
 
 const BookClubHistory = () => {
-  const [selectedYear, setSelectedYear] = useRecoilState(selectedYearAtom);
-  const [clubInfoDocs, setClubInfoDocs] = useRecoilState(clubInfoByYearState);
+  const [selectedYear, setSelectedYear] = useState(`${thisYear}`);
+  const [clubInfoDocs, setClubInfoDocs] = useRecoilState(bookClubByYearState);
 
   useEffect(() => {
     getCollection(`BookClub-${selectedYear}`, setClubInfoDocs);

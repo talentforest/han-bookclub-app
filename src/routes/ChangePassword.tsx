@@ -2,8 +2,8 @@ import { authService } from 'fbase';
 import styled from 'styled-components';
 import useChangePw from 'hooks/useChangePw';
 import MobileHeader from 'layout/mobile/MobileHeader';
-import SquareBtn from 'components/atoms/buttons/SquareBtn';
-import Input from 'components/atoms/inputs/Input';
+import SquareBtn from 'components/atoms/button/SquareBtn';
+import Input from 'components/atoms/input/Input';
 
 const ChangePassword = () => {
   const user = authService?.currentUser;

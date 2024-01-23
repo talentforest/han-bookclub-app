@@ -4,9 +4,9 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import Subtitle from 'components/atoms/Subtitle';
-import MobileHeader from 'layout/desktop/Header';
-import SquareBtn from 'components/atoms/buttons/SquareBtn';
-import Input from 'components/atoms/inputs/Input';
+import SquareBtn from 'components/atoms/button/SquareBtn';
+import Input from 'components/atoms/input/Input';
+import MobileHeader from 'layout/mobile/MobileHeader';
 
 const ResetPasswordEmail = () => {
   const [email, setEmail] = useState('');
@@ -28,7 +28,7 @@ const ResetPasswordEmail = () => {
 
   return (
     <>
-      <MobileHeader title='비밀번호 찾기' />
+      <MobileHeader showDesktop title='비밀번호 찾기' backBtn />
 
       <main>
         <Subtitle title='비밀번호가 생각나지 않으세요?' />

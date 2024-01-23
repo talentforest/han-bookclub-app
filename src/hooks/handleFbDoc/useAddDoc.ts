@@ -10,7 +10,8 @@ import { authService, dbService } from 'fbase';
 import { collection, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { thisYearMonthId, USER_DATA, existDocObj } from 'util/index';
+import { thisYearMonthId, existDocObj } from 'util/index';
+import { USER_DATA } from 'constants/index';
 import useAlertAskJoin from '../useAlertAskJoin';
 
 interface PropsType {

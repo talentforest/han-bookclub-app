@@ -4,7 +4,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { thisYear } from 'util/index';
-import { BOOK_FIELD_HOST } from 'util/index';
+import { BOOK_FIELD_HOST } from 'constants/index';
 import useAlertAskJoin from './useAlertAskJoin';
 
 export interface ChangeSelectValue {

@@ -9,7 +9,7 @@ import { deleteDoc, doc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { USER_DATA } from 'util/index';
+import { USER_DATA } from 'constants/index';
 
 const useDeleteAccount = () => {
   const [password, setPassword] = useState('');

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IBookApi } from 'data/bookAtom';
+import { ISearchedBook } from 'data/bookAtom';
 
 interface BookQuery {
   query: string;
@@ -22,7 +22,7 @@ export const searchBook = (params: BookQuery) => {
 
 export const searchBookHandler = async (
   query: string,
-  setFunc: (bookData: IBookApi[]) => void
+  setFunc: (bookData: ISearchedBook[]) => void
 ) => {
   const params = {
     query: query,

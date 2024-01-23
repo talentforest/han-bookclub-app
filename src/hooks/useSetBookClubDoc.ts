@@ -1,13 +1,14 @@
-import { IBookApi } from 'data/bookAtom';
+import { ISearchedBook } from 'data/bookAtom';
 import { currentUserState } from 'data/userAtom';
 import { dbService } from 'fbase';
 import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { thisYearMonthId, THIS_YEAR_BOOKCLUB } from 'util/index';
+import { thisYearMonthId } from 'util/index';
+import { THIS_YEAR_BOOKCLUB } from 'constants/index';
 
 interface PropsType {
-  searchedBook: IBookApi;
+  searchedBook: ISearchedBook;
 }
 
 const useSetBookClubDoc = ({ searchedBook }: PropsType) => {

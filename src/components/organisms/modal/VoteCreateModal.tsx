@@ -4,13 +4,13 @@ import useCreateVoteBox from 'hooks/useCreateVoteBox';
 import 'react-datepicker/dist/react-datepicker.css';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
-import VoteDeadLine from '../vote/VoteDeadLine';
-import VoteItems from '../vote/VoteItems';
-import AddVoteItem from '../vote/AddVoteItem';
+import VoteDeadLine from '../../molecules/modal/VoteDeadLine';
+import VoteItems from '../../molecules/modal/VoteItems';
+import AddVoteItem from '../../molecules/modal/AddVoteItem';
 import Modal from 'components/atoms/Modal';
-import SquareBtn from 'components/atoms/buttons/SquareBtn';
-import GuideBox from 'components/atoms/GuideBox';
-import Input from 'components/atoms/inputs/Input';
+import SquareBtn from 'components/atoms/button/SquareBtn';
+import GuideLine from 'components/atoms/GuideLine';
+import Input from 'components/atoms/input/Input';
 
 interface PropsType {
   onModalClick: () => void;
@@ -42,7 +42,7 @@ const VoteCreateModal = ({ onModalClick }: PropsType) => {
           required
         />
 
-        <GuideBox
+        <GuideLine
           text='모임책 선정과 관련된 투표라면, 왜 이 책을 선정했는지를 각 항목에
             작성해주세요!'
           color='green'

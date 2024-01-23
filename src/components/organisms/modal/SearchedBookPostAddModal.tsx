@@ -1,16 +1,20 @@
 import { Fragment, useEffect, useState } from 'react';
 import { cutLetter } from 'util/index';
 import { useSetRecoilState } from 'recoil';
-import { IBookApi, bookDescState, recommendBookState } from 'data/bookAtom';
+import {
+  ISearchedBook,
+  bookDescState,
+  recommendBookState,
+} from 'data/bookAtom';
 import { FiCheckCircle, FiSearch } from 'react-icons/fi';
 import Modal from 'components/atoms/Modal';
 import device from 'theme/mediaQueries';
 import useSearchBook from 'hooks/useSearchBook';
-import TextInput from 'components/atoms/inputs/TextInput';
+import TextInput from 'components/atoms/input/TextInput';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
-import CreateRecommendBookBox from 'components/atoms/box/CreateRecommendBookBox';
+import CreateRecommendBookBox from 'components/molecules/modal/CreateRecommendBookBox';
 import DottedDividingLine from 'components/atoms/DottedDividingLine';
-import CreateChallengeBookBox from 'components/atoms/box/CreateChallengeBookBox';
+import CreateChallengeBookBox from 'components/molecules/book-box/CreateChallengeBookBox';
 import styled from 'styled-components';
 
 interface Props {
@@ -40,7 +44,7 @@ export default function SearchedBookPostAddModal({
     }
   }, []);
 
-  const onSearchedBookBoxClick = (book: IBookApi) => {
+  const onSearchedBookBoxClick = (book: ISearchedBook) => {
     setCurrStep(2);
     if (title === '추천책 작성하기') {
       setMyRecommendBook(book);

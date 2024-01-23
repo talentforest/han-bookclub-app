@@ -1,14 +1,14 @@
 import { useLocation } from 'react-router-dom';
-import { IBookApi } from 'data/bookAtom';
+import { ISearchedBook } from 'data/bookAtom';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
-import BookDesc from 'components/organisms/search/BookDesc';
-import RegisterClubBookButton from 'components/organisms/search/RegisterClubBookButton';
+import SearchedBookDesc from 'components/molecules/SearchedBookDesc';
+import RegisterClubBookButton from 'components/molecules/RegisterClubBookButton';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import styled from 'styled-components';
 import MobileHeader from 'layout/mobile/MobileHeader';
 
-type LocationState = { state: { searchedBook: IBookApi } };
+type LocationState = { state: { searchedBook: ISearchedBook } };
 
 const SearchedBookInfo = () => {
   const userData = useRecoilValue(currentUserState);
@@ -33,7 +33,7 @@ const SearchedBookInfo = () => {
           <RegisterClubBookButton searchedBook={searchedBook} />
         )}
 
-        {searchedBook && <BookDesc detailInfo={searchedBook} />}
+        {searchedBook && <SearchedBookDesc detailInfo={searchedBook} />}
       </Main>
     </>
   );

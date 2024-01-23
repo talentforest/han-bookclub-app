@@ -1,13 +1,13 @@
-import { krCurTime, isoFormatDate } from 'util/index';
+import { todayWithHyphen } from 'util/index';
 import { useLocation } from 'react-router-dom';
 import { FiCheckCircle, FiCircle } from 'react-icons/fi';
 import useHandleVoting from 'hooks/useHandleVoting';
 import device from 'theme/mediaQueries';
-import VoteDetails from 'components/organisms/votedetail/VoteDetails';
-import Percentage from 'components/organisms/votedetail/Percentage';
+import VoteDetails from 'components/organisms/VoteSelectReasonDetails';
+import Percentage from 'components/organisms/Percentage';
 import MobileHeader from 'layout/mobile/MobileHeader';
-import NameTag from 'components/atoms/NameTag';
-import SquareBtn from 'components/atoms/buttons/SquareBtn';
+import NameTag from 'components/atoms/tag/NameTag';
+import SquareBtn from 'components/atoms/button/SquareBtn';
 import styled from 'styled-components';
 
 type LocationState = { state: { voteDocId: string } };
@@ -26,7 +26,7 @@ const VoteDetail = () => {
     mySubmittedVote,
     mySubmittedVoteItems,
   } = useHandleVoting(voteDocId);
-  const expiredVote = currentVote?.deadline < isoFormatDate(krCurTime);
+  const expiredVote = currentVote?.deadline < todayWithHyphen;
 
   return (
     <>

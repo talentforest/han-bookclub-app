@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import LogOutBtn from 'components/atoms/buttons/LogOutBtn';
+import LogOutBtn from 'components/atoms/button/LogOutBtn';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import MobileHeader from 'layout/mobile/MobileHeader';

@@ -1,15 +1,12 @@
 import { Fragment, useEffect, useState } from 'react';
-import {
-  clubInfoByYearState,
-  hostReviewState,
-  subjectsState,
-} from 'data/documentsAtom';
+import { hostReviewState, subjectsState } from 'data/documentsAtom';
+import { bookClubByYearState } from 'data/bookClubAtom';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { formattedYearMonth, getFbRoute, thisYearMonthId } from 'util/index';
+import { getFbRoute, thisYearMonthId, formatKRMarkDate } from 'util/index';
 import { getCollection } from 'api/getFbDoc';
-import HistoryClubBookBox from 'components/atoms/box/HistoryClubBookBox';
-import Record from 'components/atoms/post/Record';
+import HistoryClubBookBox from 'components/molecules/book-box/HistoryClubBookBox';
+import Record from 'components/molecules/Record';
 import PostAddModal from 'components/organisms/modal/PostAddModal';
 import styled from 'styled-components';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
@@ -27,7 +24,7 @@ interface LocationState {
 }
 
 export default function Post() {
-  const [clubInfoDocs, setClubInfoDocs] = useRecoilState(clubInfoByYearState);
+  const [clubInfoDocs, setClubInfoDocs] = useRecoilState(bookClubByYearState);
   const [hostReview, setHostReview] = useRecoilState(hostReviewState);
   const [subjects, setSubjects] = useRecoilState(subjectsState);
   const [openAddPostModal, setOpenAddPostModal] = useState(false);
@@ -55,7 +52,7 @@ export default function Post() {
   };
 
   const headerYearMonth =
-    id === thisYearMonthId ? '이달' : formattedYearMonth(id);
+    id === thisYearMonthId ? '이달' : formatKRMarkDate(id, 'YY년 MM월');
 
   return (
     <>

@@ -4,7 +4,8 @@ import { dbService } from 'fbase';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { USER_DATA, existDocObj } from 'util/index';
+import { existDocObj } from 'util/index';
+import { USER_DATA } from 'constants/index';
 
 interface PropsType {
   docId: string;

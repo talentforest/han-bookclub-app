@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 import { authService } from 'fbase';
 import device from 'theme/mediaQueries';
 import useLogIn from 'hooks/useLogIn';
-import SquareBtn, { Btn } from 'components/atoms/buttons/SquareBtn';
+import SquareBtn, { Btn } from 'components/atoms/button/SquareBtn';
 import styled from 'styled-components';
-import Input from 'components/atoms/inputs/Input';
+import Input from 'components/atoms/input/Input';
 
 interface ILoginProps {
   isLoggedIn: boolean;

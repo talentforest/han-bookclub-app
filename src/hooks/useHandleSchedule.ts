@@ -1,13 +1,16 @@
-import { ISchedule, thisMonthClubState } from 'data/documentsAtom';
+import { ISchedule, thisMonthBookClubState } from 'data/bookClubAtom';
 import { dbService } from 'fbase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { thisYearMonthId, THIS_YEAR_BOOKCLUB } from 'util/index';
+import { thisYearMonthId } from 'util/index';
+import { THIS_YEAR_BOOKCLUB } from 'constants/index';
 import useAlertAskJoin from './useAlertAskJoin';
 
 const useHandleSchedule = (meeting: ISchedule) => {
-  const [thisMonthClub, setThisMonthClub] = useRecoilState(thisMonthClubState);
+  const [thisMonthClub, setThisMonthClub] = useRecoilState(
+    thisMonthBookClubState
+  );
   const [time, setTime] = useState(
     meeting?.time === 0 ? null : new Date(meeting?.time)
   );

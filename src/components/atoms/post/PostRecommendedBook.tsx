@@ -7,7 +7,7 @@ import PostHeader from './PostHeader';
 import PostFooter from './PostFooter';
 import BookThumbnailImg from '../BookThumbnailImg';
 import Modal from '../Modal';
-import UserNameBox from 'components/organisms/UserNameBox';
+import UserNameBox from 'components/atoms/UserNameBox';
 import device from 'theme/mediaQueries';
 
 interface Props {

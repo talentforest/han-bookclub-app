@@ -1,7 +1,7 @@
-import { getLocalDate } from 'util/index';
+import { getLocaleDate } from 'util/index';
 import { IDocument } from 'data/documentsAtom';
 import styled from 'styled-components';
-import LikesBox from '../LikesBox';
+import LikesBox from '../../molecules/LikesBox';
 
 interface Props {
   post?: IDocument;
@@ -18,7 +18,7 @@ export default function PostFooter({
 }: Props) {
   return (
     <Footer>
-      <span>{getLocalDate(createdAt)}</span>
+      <span>{getLocaleDate(createdAt)}</span>
 
       {footerType === 'likes' && <LikesBox collName={collName} record={post} />}
     </Footer>

@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 import { v4 } from 'uuid';
 
-export interface IBookApi {
+export interface ISearchedBook {
   title: string;
   contents: string;
   url: string;
@@ -21,6 +21,15 @@ export interface IRecommendedBook {
   url: string;
 }
 
+export interface IChallenge {
+  id?: string;
+  createdAt: number;
+  creatorId: string;
+  books: ISearchedBook[];
+  wholePage: number;
+  currentPage: number;
+}
+
 export const recommendBookState = atom<IRecommendedBook>({
   key: `recommendBook${v4()}`,
   default: {
@@ -31,12 +40,17 @@ export const recommendBookState = atom<IRecommendedBook>({
   },
 });
 
-export const bookDescState = atom<IBookApi>({
+export const bookDescState = atom<ISearchedBook>({
   key: `bookDesc${v4()}`,
   default: null,
 });
 
-export const searchListState = atom<IBookApi[]>({
+export const searchListState = atom<ISearchedBook[]>({
   key: `searchList${v4()}`,
   default: [],
+});
+
+export const challengeState = atom<IChallenge[]>({
+  key: `challenge/${v4()}`,
+  default: null,
 });

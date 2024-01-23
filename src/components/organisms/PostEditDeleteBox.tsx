@@ -4,7 +4,7 @@ import { IDocument } from 'data/documentsAtom';
 import { useLocation } from 'react-router-dom';
 import useDeleteDoc from 'hooks/handleFbDoc/useDeleteDoc';
 import PostEditModal from './modal/PostEditModal';
-import ShareBtn from 'components/atoms/buttons/ShareBtn';
+import ShareBtn from 'components/atoms/button/ShareBtn';
 import styled from 'styled-components';
 
 interface Props {
