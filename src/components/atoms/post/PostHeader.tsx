@@ -3,13 +3,15 @@ import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { IDocument } from 'data/documentsAtom';
 import NameTag from '../tag/NameTag';
-import PostEditDeleteBox from 'components/organisms/PostEditDeleteBox';
+import PostEditDeleteBox, {
+  PostType,
+} from 'components/organisms/PostEditDeleteBox';
 import styled from 'styled-components';
 
 interface Props {
   collName: string;
   post: IDocument;
-  postType?: '발제문' | '정리 기록' | '모임 후기' | '책 추천';
+  postType?: PostType;
 }
 
 export default function PostHeader({ collName, post, postType }: Props) {
@@ -29,7 +31,11 @@ export default function PostHeader({ collName, post, postType }: Props) {
       </div>
 
       {userData.uid === creatorId && collName && (
-        <PostEditDeleteBox post={post} collName={collName} />
+        <PostEditDeleteBox
+          post={post}
+          collName={collName}
+          postType={postType}
+        />
       )}
     </Header>
   );

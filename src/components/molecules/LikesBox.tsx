@@ -7,23 +7,23 @@ import UserNameBox from 'components/atoms/UserNameBox';
 import useHandleLike from 'hooks/useHandleLike';
 import styled from 'styled-components';
 
-interface IRecordFooterProps {
-  record: IDocument;
+interface Props {
+  post: IDocument;
   collName: string;
 }
 
-const LikesBox = ({ record, collName }: IRecordFooterProps) => {
+const LikesBox = ({ post, collName }: Props) => {
   const currentUser = useRecoilValue(currentUserState);
 
   const { like, setLike, onLikeClick, showLikeUsers, toggleShowLikeUsers } =
     useHandleLike({
-      likes: record?.likes || 0,
-      likeUsers: record?.likeUsers || [],
-      docId: record.id,
+      likes: post?.likes || 0,
+      likeUsers: post?.likeUsers || [],
+      docId: post.id,
       collName,
     });
 
-  const currentUserLike = record?.likeUsers?.some(
+  const currentUserLike = post?.likeUsers?.some(
     (uid) => uid === currentUser.uid
   );
 
@@ -41,7 +41,7 @@ const LikesBox = ({ record, collName }: IRecordFooterProps) => {
         ) : (
           <FiChevronDown fontSize={15} stroke='#aaa' />
         )}
-        {record?.likeUsers?.length || 0}명이 좋아합니다
+        {post?.likeUsers?.length || 0}명이 좋아합니다
       </ShowUserBtn>
 
       <LikeBtn type='button' disabled={!collName} onClick={onLikeClick}>
@@ -56,7 +56,7 @@ const LikesBox = ({ record, collName }: IRecordFooterProps) => {
         <LikeUsersBox>
           <h4>좋아한 사람</h4>
           <ul onClick={toggleShowLikeUsers}>
-            {record?.likeUsers?.map((user) => (
+            {post?.likeUsers?.map((user) => (
               <UserNameBox key={user} creatorId={user} />
             ))}
           </ul>

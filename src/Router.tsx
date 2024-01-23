@@ -19,7 +19,7 @@ import DeleteAccount from 'routes/DeleteAccount';
 import BookClubHistoryDetail from 'routes/BookClubHistoryDetail';
 import ScrollToTop from 'components/atoms/ScrollToTop';
 import Bookshelf from './routes/Bookshelf';
-import Post from 'routes/Post';
+import PostDetail from 'routes/PostDetail';
 import Challenge from 'routes/Challenge';
 
 interface PropsType {
@@ -41,8 +41,8 @@ function Router({ isLoggedIn }: PropsType) {
             <Route path='/' element={<Home />} />
 
             <Route path='/bookclub' element={<BookClubOfThisMonth />} />
-            <Route path='/bookclub/subjects' element={<Post />} />
-            <Route path='/bookclub/host-review' element={<Post />} />
+            <Route path='/bookclub/subjects' element={<PostDetail />} />
+            <Route path='/bookclub/host-review' element={<PostDetail />} />
 
             <Route path='/challenge' element={<Challenge />} />
 
@@ -51,8 +51,8 @@ function Router({ isLoggedIn }: PropsType) {
 
             <Route path='/history' element={<BookClubHistory />} />
             <Route path='/history/:id' element={<BookClubHistoryDetail />} />
-            <Route path='/history/:id/host-review' element={<Post />} />
-            <Route path='/history/:id/subjects' element={<Post />} />
+            <Route path='/history/:id/host-review' element={<PostDetail />} />
+            <Route path='/history/:id/subjects' element={<PostDetail />} />
 
             <Route path='/vote' element={<Vote />} />
             <Route path='/vote/:id' element={<VoteDetail />} />

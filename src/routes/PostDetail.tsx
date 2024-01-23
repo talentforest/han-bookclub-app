@@ -6,24 +6,22 @@ import { useRecoilState } from 'recoil';
 import { getFbRoute, thisYearMonthId, formatKRMarkDate } from 'util/index';
 import { getCollection } from 'api/getFbDoc';
 import HistoryClubBookBox from 'components/molecules/book-box/HistoryClubBookBox';
-import Record from 'components/molecules/Record';
+import Post from 'components/molecules/Post';
 import PostAddModal from 'components/organisms/modal/PostAddModal';
 import styled from 'styled-components';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import DottedDividingLine from 'components/atoms/DottedDividingLine';
 
-type PostType = '발제문' | '정리 기록';
-
 interface LocationState {
   pathname: string;
   state: {
     id: string;
-    postType: PostType;
+    postType: '발제문' | '정리 기록';
   };
 }
 
-export default function Post() {
+export default function PostDetail() {
   const [clubInfoDocs, setClubInfoDocs] = useRecoilState(bookClubByYearState);
   const [hostReview, setHostReview] = useRecoilState(hostReviewState);
   const [subjects, setSubjects] = useRecoilState(subjectsState);
@@ -73,7 +71,7 @@ export default function Post() {
         {postType === '발제문' &&
           subjects.map((subject, index) => (
             <Fragment key={subject.id}>
-              <Record
+              <Post
                 type='발제문'
                 post={subject}
                 collName={getFbRoute(id)?.SUBJECTS}
@@ -83,7 +81,7 @@ export default function Post() {
           ))}
 
         {postType === '정리 기록' && hostReview[0] && (
-          <Record
+          <Post
             type='정리 기록'
             post={hostReview[0]}
             collName={getFbRoute(id)?.HOST_REVIEW}

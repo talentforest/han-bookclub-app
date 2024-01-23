@@ -20,7 +20,7 @@ export default function PostFooter({
     <Footer>
       <span>{getLocaleDate(createdAt)}</span>
 
-      {footerType === 'likes' && <LikesBox collName={collName} record={post} />}
+      {footerType === 'likes' && <LikesBox collName={collName} post={post} />}
     </Footer>
   );
 }

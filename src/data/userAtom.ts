@@ -11,26 +11,26 @@ export interface IUserData {
   photoURL: string;
 }
 
-export interface IUserRecord {
+export interface IUserPostDocId {
   docId: string;
   monthId: string;
 }
 
-export interface IUserRecords {
-  hostReviews: IUserRecord[];
-  subjects: IUserRecord[];
-  reviews: IUserRecord[];
-  recommendedBooks: IUserRecord[];
+export interface IUserPostDocs {
+  hostReviews: IUserPostDocId[];
+  subjects: IUserPostDocId[];
+  reviews: IUserPostDocId[];
+  recommendedBooks: IUserPostDocId[];
 }
 
-export interface IExtraUserData {
+export interface IUserDataDoc {
   name: string;
   favoriteBookField: BookFieldType[];
   email: string;
   displayName: string;
   photoURL: string;
   id?: string;
-  userRecords: IUserRecords;
+  userRecords: IUserPostDocs;
 }
 
 const auth = getAuth();
@@ -45,7 +45,7 @@ export const refreshUserState = atom({
   ],
 });
 
-export const allUsersState = atom<IExtraUserData[]>({
+export const allUsersState = atom<IUserDataDoc[]>({
   key: `allUsers/${v4}`,
   default: [],
 });
@@ -79,7 +79,7 @@ export const currentUserState = atom<IUserData | null>({
   ],
 });
 
-export const userExtraInfoState = atom<IExtraUserData>({
+export const userExtraInfoState = atom<IUserDataDoc>({
   key: `userExtraInfo/${v4}`,
-  default: {} as IExtraUserData,
+  default: {} as IUserDataDoc,
 });

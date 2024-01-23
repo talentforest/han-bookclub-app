@@ -3,15 +3,16 @@ import styled from 'styled-components';
 import PostHeader from '../atoms/post/PostHeader';
 import PostFooter from '../atoms/post/PostFooter';
 import PostContent from '../atoms/post/PostContent';
+import { PostType } from 'components/organisms/PostEditDeleteBox';
 
 interface Props {
-  type: '발제문' | '정리 기록' | '모임 후기' | '책 추천';
+  type: PostType;
   post: IDocument;
   collName?: string;
   lineClamp?: number;
 }
 
-export default function Record({ type, post, collName, lineClamp = 0 }: Props) {
+export default function Post({ type, post, collName, lineClamp = 0 }: Props) {
   const { createdAt, text } = post;
 
   return (

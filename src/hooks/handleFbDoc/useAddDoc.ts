@@ -3,7 +3,7 @@ import { recommendBookState } from 'data/bookAtom';
 import { IDocument } from 'data/documentsAtom';
 import {
   currentUserState,
-  IUserRecord,
+  IUserPostDocId,
   userExtraInfoState,
 } from 'data/userAtom';
 import { authService, dbService } from 'fbase';
@@ -63,7 +63,7 @@ const useAddDoc = ({ setText, collName, docData, setRating }: PropsType) => {
     setText('');
   };
 
-  const updateUserData = async (newUserDocId: IUserRecord) => {
+  const updateUserData = async (newUserDocId: IUserPostDocId) => {
     const { reviews, subjects, recommendedBooks, hostReviews } =
       userExtraData.userRecords;
 

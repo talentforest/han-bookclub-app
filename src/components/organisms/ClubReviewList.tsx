@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import { reviewsState } from 'data/documentsAtom';
 import { useLocation } from 'react-router-dom';
 import { EmptyBox } from 'routes/BookClubHistory';
-import Record from 'components/molecules/Record';
+import Post from 'components/molecules/Post';
 import DottedDividingLine from 'components/atoms/DottedDividingLine';
 import styled from 'styled-components';
 
@@ -23,11 +23,11 @@ const ClubReviewList = ({ yearMonthId = thisYearMonthId }: Props) => {
   }, []);
 
   return (
-    <RecordBox>
+    <PostBox>
       {reviews?.length !== 0 ? (
         reviews?.map((review, index) => (
           <Fragment key={review.id}>
-            <Record
+            <Post
               post={review}
               type='모임 후기'
               collName={getFbRoute(yearMonthId).REVIEWS}
@@ -42,11 +42,11 @@ const ClubReviewList = ({ yearMonthId = thisYearMonthId }: Props) => {
             : '첫번째 모임후기를 남겨보세요.'}
         </EmptyReviewList>
       )}
-    </RecordBox>
+    </PostBox>
   );
 };
 
-const RecordBox = styled.div`
+const PostBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;

@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { IExtraUserData, allUsersState, currentUserState } from 'data/userAtom';
+import { IUserDataDoc, allUsersState, currentUserState } from 'data/userAtom';
 import { MouseEvent, useEffect } from 'react';
 import { Section } from './Home';
 import { useLocation } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { getCollection } from 'api/getFbDoc';
 import { CircleImg, ImgBox } from 'components/atoms/UserImg';
 import { FiUser } from 'react-icons/fi';
 import { EmptyBox } from './BookClubHistory';
-import BookImgRecordBox from 'components/molecules/book-box/BookImgRecordBox';
+import BookImgPostBox from 'components/molecules/book-box/BookImgPostBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import Loading from 'components/atoms/Loading';
@@ -40,7 +40,7 @@ const Bookshelf = () => {
   };
 
   const { id, photoURL, displayName, favoriteBookField, userRecords } =
-    (user as IExtraUserData) || {};
+    (user as IUserDataDoc) || {};
 
   const userFavBookField = favoriteBookField || [];
   const userSubjects = userRecords?.subjects || [];
@@ -95,13 +95,13 @@ const Bookshelf = () => {
         <Section>
           <Subtitle title={`${userName}의 정리 기록`} />
 
-          <RecordList>
+          <PostList>
             {userHostReviews.length !== 0 ? (
               userHostReviews.map((hostReview) => (
-                <BookImgRecordBox
+                <BookImgPostBox
                   key={hostReview.docId}
-                  recordId={hostReview}
-                  recordSort='hostReview'
+                  postId={hostReview}
+                  postType='정리 기록'
                 />
               ))
             ) : (
@@ -109,20 +109,20 @@ const Bookshelf = () => {
                 아직 작성한 발제자의 정리 기록이 없어요
               </EmptyBookShelfBox>
             )}
-          </RecordList>
+          </PostList>
         </Section>
 
         <Section>
           <Subtitle title={`${userName}의 발제문`} />
           <GuideLine text='2022년 6월 이후의 기록이 제공됩니다.' />
 
-          <RecordList>
+          <PostList>
             {userSubjects.length !== 0 ? (
               userSubjects.map((subjectId) => (
-                <BookImgRecordBox
+                <BookImgPostBox
                   key={subjectId.docId}
-                  recordId={subjectId}
-                  recordSort='subjects'
+                  postId={subjectId}
+                  postType='발제문'
                 />
               ))
             ) : (
@@ -130,20 +130,20 @@ const Bookshelf = () => {
                 아직 작성한 발제문이 없어요.
               </EmptyBookShelfBox>
             )}
-          </RecordList>
+          </PostList>
         </Section>
 
         <Section>
           <Subtitle title={`${userName}의 모임 후기`} />
           <GuideLine text='2022년 6월 이후의 기록이 제공됩니다.' />
 
-          <RecordList>
+          <PostList>
             {userReviews.length !== 0 ? (
               userReviews.map((reviewId) => (
-                <BookImgRecordBox
+                <BookImgPostBox
                   key={reviewId.docId}
-                  recordId={reviewId}
-                  recordSort='reviews'
+                  postId={reviewId}
+                  postType='모임 후기'
                 />
               ))
             ) : (
@@ -151,7 +151,7 @@ const Bookshelf = () => {
                 아직 작성한 모임 후기가 없어요.
               </EmptyBookShelfBox>
             )}
-          </RecordList>
+          </PostList>
         </Section>
       </main>
     </>
@@ -173,7 +173,7 @@ export const FavBookFieldList = styled.ul`
   margin-bottom: 40px;
 `;
 
-export const RecordList = styled.ul`
+export const PostList = styled.ul`
   min-height: 15vh;
   display: grid;
   grid-template-columns: repeat(4, 1fr);

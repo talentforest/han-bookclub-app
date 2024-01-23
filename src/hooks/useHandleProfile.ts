@@ -1,6 +1,6 @@
 import { getDocument } from 'api/getFbDoc';
 import { BookFieldType } from 'components/organisms/BookField';
-import { currentUserState, IExtraUserData } from 'data/userAtom';
+import { currentUserState, IUserDataDoc } from 'data/userAtom';
 import { authService, dbService, storageService } from 'fbase';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -11,7 +11,7 @@ import { USER_DATA } from 'constants/index';
 
 const useHandleProfile = () => {
   const [userData, setUserData] = useRecoilState(currentUserState);
-  const [extraUserData, setExtraUserData] = useState({} as IExtraUserData);
+  const [extraUserData, setExtraUserData] = useState({} as IUserDataDoc);
   const [editing, setEditing] = useState(false);
   const [newUserImgUrl, setNewUserImgUrl] = useState('');
   const [newDisplayName, setNewDisplayName] = useState(userData.displayName);
