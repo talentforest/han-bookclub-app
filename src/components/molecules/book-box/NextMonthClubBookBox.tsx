@@ -27,14 +27,23 @@ export default function NextMonthClubBookBox() {
   return (
     existNextBookClubDoc?.book && (
       <Box>
+        <BookThumbnailImg title={book.title} thumbnail={book.thumbnail} />
+
         <div>
           <Tag name='다음 모임책' color='purple' />
 
           <BookTextInfo>
             <h1>{book.title}</h1>
+            <div>
+              <span>
+                {book.authors[0]}
+                {book.authors.length !== 1 &&
+                  `(외 ${book.authors.length - 1}명)`}
+              </span>
+              <span> ・ {book.publisher}</span>
+            </div>
           </BookTextInfo>
         </div>
-        <BookThumbnailImg title={book.title} thumbnail={book.thumbnail} />
       </Box>
     )
   );
@@ -48,13 +57,14 @@ const Box = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 95px;
+  height: 105px;
   grid-column: 1 / span 3;
   > div {
     flex: 1;
     height: 100%;
     gap: 5px;
     display: flex;
+    align-items: flex-end;
     justify-content: space-between;
     flex-direction: column;
   }
@@ -65,14 +75,27 @@ const Box = styled.div`
 
 const BookTextInfo = styled.div`
   display: flex;
+  align-items: flex-end;
   flex-direction: column;
-  justify-content: flex-start;
-  margin-left: 4px;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  margin: 0 4px 0 10px;
   > h1 {
+    margin-top: 2px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
     font-size: 16px;
+  }
+  > div {
+    margin-top: 2px;
+    display: flex;
+    span {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      font-size: 14px;
+      color: ${({ theme }) => theme.text.gray3};
+    }
   }
 `;

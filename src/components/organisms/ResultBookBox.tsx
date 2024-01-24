@@ -3,7 +3,6 @@ import { getLocaleDate, cutLetter } from 'util/index';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
-// import RegisterRecommendButton from '../molecules/RegisterRecommendButton';
 
 interface PropsType {
   searchedBook: ISearchedBook;
@@ -33,7 +32,6 @@ const ResultBookBox = ({ searchedBook, modal }: PropsType) => {
         </BookDetail>
       </div>
     </BookResultBox>
-    // <RegisterRecommendButton searchedBook={searchedBook} />
   );
 };
 

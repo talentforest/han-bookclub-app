@@ -22,7 +22,7 @@ const RegisterClubBookBtn = ({ searchedBook }: PropsType) => {
     (bookclub) => bookclub.id === getNextMonthId()
   );
 
-  const searchedRegisterBook =
+  const registeredBook =
     searchedBook.title === existNextBookClubDoc?.book?.title &&
     searchedBook.publisher === existNextBookClubDoc?.book?.publisher;
 
@@ -30,7 +30,7 @@ const RegisterClubBookBtn = ({ searchedBook }: PropsType) => {
     if (!existNextBookClubDoc) {
       getCollection(`BookClub-${thisYear}`, setThisYearBookClubInfos);
     }
-    if (existNextBookClubDoc && searchedRegisterBook) {
+    if (existNextBookClubDoc && registeredBook) {
       setSubmitted(true);
     }
   }, [submitted, existNextBookClubDoc]);
@@ -38,17 +38,18 @@ const RegisterClubBookBtn = ({ searchedBook }: PropsType) => {
   return (
     <>
       {submitted ? (
-        <SquareBtn name='등록 완료' disabled />
+        <SquareBtn name='등록 완료' disabled width='fit-content' />
       ) : (
         <SquareBtn
           name={
-            searchedRegisterBook
-              ? `다음 ${nextMonth}월 모임책 등록`
-              : `다음 ${nextMonth}월 모임책으로 변경`
+            !registeredBook && existNextBookClubDoc
+              ? `다음 ${nextMonth}월 모임책으로 변경`
+              : `다음 ${nextMonth}월 모임책 등록`
           }
           type='button'
           handleClick={setNextMonthBookClubDoc}
           color='purple'
+          width='fit-content'
         />
       )}
     </>
