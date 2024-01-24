@@ -16,6 +16,7 @@ import CreateClubReviewBox from 'components/molecules/CreateClubReviewBox';
 import SearchBookBtn from 'components/atoms/button/SearchBookBtn';
 import RecommendedBookList from 'components/organisms/RecommendedBookList';
 import MobileHeader from 'layout/mobile/MobileHeader';
+import TextWithIconLink from 'components/atoms/button/TextWithIconLink';
 
 const BookClubOfThisMonth = () => {
   const [thisMonthClub, setThisMonthClub] = useRecoilState(
@@ -42,6 +43,7 @@ const BookClubOfThisMonth = () => {
         <main>
           <Section>
             <ThisMonthClub />
+            <TextWithIconLink name='다음 모임책 등록' to='/search' />
             <GuideLine text='모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 수정만 가능할 뿐 새로 작성이 불가능한 점 유의해주세요.' />
           </Section>
 

@@ -32,6 +32,7 @@ const useSearchBook = () => {
     searchInputRef,
     onBookQueryChange,
     searchList,
+    setSearchList,
     closeSearchList,
   };
 };

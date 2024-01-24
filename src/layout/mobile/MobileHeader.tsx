@@ -87,11 +87,10 @@ const Header = styled.header<{ $showDesktop: boolean }>`
     flex: 1;
   }
   @media ${device.tablet} {
-    display: ${({ $showDesktop }) => ($showDesktop ? 'flex' : 'none')};
     height: 45px;
     margin-top: 10px;
     position: relative;
-    display: flex;
+    display: ${({ $showDesktop }) => ($showDesktop ? 'flex' : 'none')};
     align-items: center;
     gap: 3px;
     padding: 20px 80px;

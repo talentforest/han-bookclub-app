@@ -4,7 +4,7 @@ import { dbService } from 'fbase';
 import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { thisYearMonthId } from 'util/index';
+import { getNextMonthId } from 'util/index';
 import { THIS_YEAR_BOOKCLUB } from 'constants/index';
 
 interface PropsType {
@@ -12,9 +12,10 @@ interface PropsType {
 }
 
 const useSetBookClubDoc = ({ searchedBook }: PropsType) => {
-  const [toggle, setToggle] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState(`${thisYearMonthId}`);
+  const [submitted, setSubmitted] = useState(false);
+
   const userData = useRecoilValue(currentUserState);
+
   const {
     thumbnail,
     title,
@@ -44,31 +45,16 @@ const useSetBookClubDoc = ({ searchedBook }: PropsType) => {
     creatorId: userData.uid,
   };
 
-  const setThisYearBookClubDoc = async () => {
-    const selectMonthRef = doc(
-      dbService,
-      THIS_YEAR_BOOKCLUB,
-      `${selectedMonth}`
-    );
+  const setNextMonthBookClubDoc = async () => {
+    const selectMonthRef = doc(dbService, THIS_YEAR_BOOKCLUB, getNextMonthId());
     await setDoc(selectMonthRef, bookClubInfo);
-  };
-
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setThisYearBookClubDoc();
-    setToggle((prev) => !prev);
-  };
-
-  const onMonthChange = async (event: React.FormEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget;
-    setSelectedMonth(value);
+    setSubmitted(true);
   };
 
   return {
-    toggle,
-    setToggle,
-    onSubmit,
-    onMonthChange,
+    submitted,
+    setSubmitted,
+    setNextMonthBookClubDoc,
   };
 };
 

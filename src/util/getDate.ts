@@ -74,3 +74,12 @@ export function getDDay(deadline: string) {
   const diffDay = Math.floor(diff / (1000 * 60 * 60 * 24));
   return `${diffDay + 1}일`;
 }
+
+// 다음달
+export const getNextMonthId = () => {
+  const date = new Date(thisYearMonthId);
+  date.setMonth(date.getMonth() + 1);
+  return formatHyphenDate(date, 'YYYY-MM');
+};
+
+export const nextMonth = getLocaleDate(getNextMonthId(), { month: 'short' });

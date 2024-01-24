@@ -6,24 +6,27 @@ import device from 'theme/mediaQueries';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import styled from 'styled-components';
 import SquareBtn from 'components/atoms/button/SquareBtn';
+import NextMonthClubBookBox from 'components/molecules/book-box/NextMonthClubBookBox';
 
 const Search = () => {
   const {
     onBookQueryChange,
-    searchList, //
+    searchList,
+    setSearchList, //
   } = useSearchBook();
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (inputRef && !searchList.length) {
-      inputRef.current.focus();
-    }
+    setSearchList([]);
+    inputRef.current.focus();
   }, []);
 
   return (
     <>
-      <MobileHeader title='도서 검색' />
+      <MobileHeader title='도서 검색' backBtn />
       <main>
+        <NextMonthClubBookBox />
         <Form>
           <TextInput
             ref={inputRef}
@@ -69,6 +72,7 @@ const Form = styled.form`
   justify-content: space-between;
   height: 50px;
   gap: 5px;
+  margin-top: 10px;
   input {
     height: inherit;
     min-width: 150px;

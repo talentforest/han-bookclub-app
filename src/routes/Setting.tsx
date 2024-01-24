@@ -20,7 +20,7 @@ const Setting = () => {
 
   return (
     <>
-      <MobileHeader title='설정' backBtn />
+      <MobileHeader title='설정' backBtn showDesktop={false} />
       <main>
         <SettingTitle>사용자 설정</SettingTitle>
         <List>

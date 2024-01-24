@@ -11,6 +11,7 @@ import ChallengeBookContainer from 'components/organisms/ChallengeBookContainer'
 import ThisMonthClub from 'components/organisms/ThisMonthClub';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import device from 'theme/mediaQueries';
+import NextMonthClubBookBox from 'components/molecules/book-box/NextMonthClubBookBox';
 
 const Home = () => {
   return (
@@ -20,6 +21,7 @@ const Home = () => {
         <Section>
           <GuideLine text='매월 1일에 업데이트 됩니다' />
           <ThisMonthClub />
+          <NextMonthClubBookBox />
         </Section>
 
         <Section>
@@ -52,6 +54,8 @@ const Home = () => {
 };
 
 export const Section = styled.section`
+  display: flex;
+  flex-direction: column;
   margin-bottom: 65px;
   @media ${device.tablet} {
     margin-bottom: 80px;

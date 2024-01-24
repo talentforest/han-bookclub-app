@@ -28,7 +28,7 @@ const SearchedBookDesc = ({ detailInfo }: PropsType) => {
   return (
     <BookDetail>
       {detailArr.map(({ label, info }) => (
-        <InfoBox>
+        <InfoBox key={label}>
           <div className='label'>{label}</div>
           <div className='info'>{info}</div>
         </InfoBox>
@@ -46,17 +46,18 @@ const SearchedBookDesc = ({ detailInfo }: PropsType) => {
 };
 
 const BookDetail = styled.div`
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   width: 100%;
   p {
-    margin-top: 15px;
+    margin: 15px 0;
   }
   a {
     align-self: flex-end;
     font-size: 15px;
     text-decoration: underline;
-    color: ${({ theme }) => theme.text.blue3};
+    color: ${({ theme }) => theme.text.blue2};
   }
   @media ${device.tablet} {
     min-height: 40vh;
@@ -66,7 +67,7 @@ const BookDetail = styled.div`
 
 const InfoBox = styled(LabeledBox)`
   width: 100%;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   div.label {
     width: 70px;
     font-size: 15px;

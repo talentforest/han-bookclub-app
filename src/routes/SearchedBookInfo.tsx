@@ -1,9 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { ISearchedBook } from 'data/bookAtom';
-import { useRecoilValue } from 'recoil';
-import { currentUserState } from 'data/userAtom';
 import SearchedBookDesc from 'components/molecules/SearchedBookDesc';
-import RegisterClubBookButton from 'components/molecules/RegisterClubBookButton';
+import RegisterClubBookBtn from 'components/molecules/RegisterClubBookBtn';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import styled from 'styled-components';
 import MobileHeader from 'layout/mobile/MobileHeader';
@@ -11,8 +9,6 @@ import MobileHeader from 'layout/mobile/MobileHeader';
 type LocationState = { state: { searchedBook: ISearchedBook } };
 
 const SearchedBookInfo = () => {
-  const userData = useRecoilValue(currentUserState);
-
   const {
     state: { searchedBook },
   } = useLocation() as LocationState;
@@ -29,9 +25,7 @@ const SearchedBookInfo = () => {
 
         <h3>《 {title} 》</h3>
 
-        {userData.uid === process.env.REACT_APP_ADMIN_KEY && (
-          <RegisterClubBookButton searchedBook={searchedBook} />
-        )}
+        <RegisterClubBookBtn searchedBook={searchedBook} />
 
         {searchedBook && <SearchedBookDesc detailInfo={searchedBook} />}
       </Main>

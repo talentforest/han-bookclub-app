@@ -1,5 +1,5 @@
 import { FiChevronRight, FiLink } from 'react-icons/fi';
-import { thisMonth } from 'util/index';
+import { getLocaleDate, thisMonth } from 'util/index';
 import { ISearchedBook } from 'data/bookAtom';
 import Tag from '../../atoms/tag/Tag';
 import styled from 'styled-components';
@@ -11,10 +11,12 @@ interface Props {
 }
 
 export default function ClubBookBox({ book }: Props) {
+  const month = getLocaleDate(thisMonth, { month: 'numeric' });
+
   return (
     <Box>
       <div>
-        <Tag name={`${thisMonth}월의 모임`} />
+        <Tag name={`${month}월의 모임`} />
 
         {book.title === '' ? (
           <NoInfoText>아직 등록된 책이 없어요.</NoInfoText>

@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
-type BtnColor = 'red' | 'purple' | 'yellow' | 'blue' | 'orange';
+type BtnColor = 'red' | 'purple' | 'blue' | 'orange';
 
 interface Props {
   name: string;

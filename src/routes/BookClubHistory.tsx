@@ -20,9 +20,7 @@ const BookClubHistory = () => {
     getCollection(`BookClub-${selectedYear}`, setClubInfoDocs);
   }, [setClubInfoDocs, selectedYear]);
 
-  const clubHistory = clubInfoDocs?.filter(
-    (doc) => doc?.id !== thisYearMonthId
-  );
+  const clubHistory = clubInfoDocs?.filter((doc) => doc?.id < thisYearMonthId);
 
   return (
     <>
