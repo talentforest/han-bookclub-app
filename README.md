@@ -1,32 +1,39 @@
-# 📚 한페이지 독서모임 기록장
+# 📚 독서모임 한페이지 레코드북
 
-### 한페이지 독서모임은 무엇인가요?
+### ❓ 독서모임 한페이지 레코드북이 무엇인가요?
 
-> 한페이지 독서모임은 매달 멤버 한명 한명이 돌아가며 분야에 맞게 책을 선정하고, 멤버가 선정한 책에 대해 서로의 생각을 나누는 독서모임입니다.
+> 제가 참여하고 있는 독서모임 한페이지를 위해 만든 어플리케이션입니다. 독서모임 한페이지는 매월 1회 모임을 진행하며, 매달 멤버들이 돌아가며 이달의 발제자가 되고, 이달의 발제자가 직접 선정한 모임책으로 서로의 생각을 나누는 독서모임입니다.
+>
+> 이런 독서모임 한페이지의 특성에 맞게 개발한 어플리케이션이 바로 독서모임 한페이지 레코드북입니다.
 
-### 한페이지 독서모임 기록장?
+### ❓ 왜 개발했나요?
 
-> 한페이지 독서모임 기록장 앱은 멤버들이 나누었던 다양한 생각을 기록하기 위해 개발했습니다. 이곳에서 한페이지 독서모임의 모든 기록(발제문, 추천하고 싶은 책, 모임 후기)등등을 작성하는 등, [독서모임 운영에 도움이 되는 기능](#1-한페이지-독서모임-기록관리-앱의-대표-기능-소개) 들이 포함되어 있습니다.
+> 독서모임 한페이지 레코드는 그달의 발제문과 멤버들이 나누었던 다양한 관점과 생각들을 그냥 흘려보내지 않기 위해 개발했습니다. 다양한 배경을 가진 멤버들이 사용해야 하다보니, 노션이나 다른 모임관리 앱 같은 수단보다도 웹페이지이야말로 모든 멤버들에게 가장 접근성이 좋은 툴이라고 생각되었습니다.
+>
+> 그리고 독서모임 한페이지만의 특성을 담아 멤버들이 잘 이용할 수 있도록 개발했습니다. 독서모임 한페이지의 모든 기록(발제문, 추천하고 싶은 책, 모임 후기)등등을 작성하는 등, [독서모임 운영에 도움이 되는 기능](#1-한페이지-독서모임-기록관리-앱의-대표-기능-소개) 들이 포함되어 있습니다.
 
-### [Demo 👀](https://talentforest.github.io/han-bookclub-app/)
+<br/>
 
 <div>
-  <img src="https://user-images.githubusercontent.com/91457443/214667631-d1b0bdf4-55b1-4bdc-8365-495a7157b794.png" width="30%">
-  <img src="https://user-images.githubusercontent.com/91457443/214668136-bce02d97-831f-4744-a513-32862ce99a4a.png" width="65%">
+  <img alt="iPhone 5_SE" src="https://github.com/talentforest/han-bookclub-app/assets/91457443/54e29b44-42bf-4b32-9963-c4e39d3319c9" width="20%">
+  <img alt="Nest Hub" src="https://github.com/talentforest/han-bookclub-app/assets/91457443/e46a1090-e61f-4cf7-9758-12403284f2a5" width="56%">
 </div>
+
+
+### [Demo 바로가기 👀](https://talentforest.github.io/han-bookclub-app/)
 
 <br/>
 
 ## 프로젝트에 사용한 스택
 
 <div>
+  <img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black">
   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black">
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white">
   <img src="https://img.shields.io/badge/recoil-007af4?style=for-the-badge&logo=recoil&logoColor=white">
   <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled components&logoColor=white">
-  <img src="https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=mui&logoColor=white">
+  <img src="https://img.shields.io/badge/github pages-222222?style=for-the-badge&logo=github pages&logoColor=white">
   <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white">
-  <img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black">
   <img src="https://img.shields.io/badge/react quill-333?style=for-the-badge&logoColor=black">
 </div>
 
@@ -34,119 +41,91 @@
 
 ## 프로젝트의 기획부터 개발 기간
 
-| 기획                    | 개발                                |
+| 첫 기획                    | 개발 후 출시                         |
 | ----------------------- | ----------------------------------- |
 | 2022.04.20 ~ 2022.04.27 | 2022.04.28 ~ 22.06.30 (버전 v1.0.0) |
 
-- 계속 기능 업데이트중
+| 버전  | 날짜     | 업데이트 사항 |
+| ----- | -------- |--------- |
+| 1.0.0 | 22.06.30 |         |
+| 2.0.0 | 24.01.20 | 전체 페이지 UI 변경, <br/> 발제문과 정리 기록 위치 변경, <br/> 챌린지 페이지, <br/> 직접 모임책 등록 기능 |
 
-| 버전  | 날짜     |
-| ----- | -------- |
-| 1.0.0 | 22.06.30 |
-| 1.0.1 | 22.07.03 |
-| 1.1.1 | 22.08.31 |
-| 1.1.2 | 22.09.03 |
-| 1.2.2 | 22.10.11 |
-| 1.3.2 | 22.11.03 |
+계속 업데이트중
 
 <br/>
 
-## 목차
+### 목차
 
-> ### [목차 1. 한페이지 독서모임 기록관리 앱의 대표 기능 소개](#1-한페이지-독서모임-기록관리-앱의-대표-기능-소개)
+> #### 목차 1. 독서모임 한페이지 레코드북의 대표 기능 소개
 >
-> - #### 반응형 웹페이지
+> - ##### 반응형 웹페이지
 >
-> - #### 로그인과 회원가입
+> - ##### 로그인과 회원가입, 프로필 수정
 >
-> - #### 이달의 모임책에 대한 글 작성, 수정, 삭제 기능
+> - ##### 카카오 책 검색 API를 통한 책 검색 기능
 >
-> - #### 카카오 책 검색 API를 통한 책 검색 기능
+> - ##### 이달의 모임에 대한 정보와 글 작성, 수정, 삭제 기능
 >
-> - #### 카카오톡으로 공유 기능
+> - ##### 카카오톡으로 공유 기능
 >
-> - #### 투표 기능
+> - ##### 투표 기능
 >
-> - #### 프로필 수정 기능
+> #### 목차 2. 프로젝트 스펙과 구조 살펴보기
 >
-> ### [목차 2. 프로젝트 스펙과 구조 살펴보기](#2-프로젝트-스펙과-구조-살펴보기)
+> - ##### 스펙
 >
-> - #### 스펙
+> - ##### 파일 구조
 >
-> - #### 파일 구조
+> - ##### 데이터 구조
 >
-> - #### 데이터 구조
->
-> ### [목차 3. 업데이트 계획](#3-업데이트-계획)
+> #### 목차 3. 업데이트 계획
 
 <br/>
 
-### [1. 한페이지 독서모임 기록관리 앱의 대표 기능 소개](#목차-1-한페이지-독서모임-기록관리-앱의-대표-기능-소개)
+### 1. 독서모임 한페이지 레코드북의 대표 기능 소개
 
-### 반응형 웹사이트 제작
-
-- 모바일 중심의 반응형 웹사이트로 제작하였습니다.
+#### 1) 반응형 웹사이트 제작
+- styled components에서 미디어 쿼리를 활용하여 모바일 중심의 반응형 웹사이트로 제작하였습니다. 특히 데스크탑에서의 탑 네비게이션과 모바일의 바텀 네비게이션 컴포넌트를 구분하여 미디어 쿼리를 통해 각 화면에 맞게 적용하였습니다. 그 반응형 스타일로 grid 형식과 flex를 많이 활용하였습니다.
 
 <div>
-  <img src="https://user-images.githubusercontent.com/91457443/214667631-d1b0bdf4-55b1-4bdc-8365-495a7157b794.png" width="30%">
-  <img src="https://user-images.githubusercontent.com/91457443/214668136-bce02d97-831f-4744-a513-32862ce99a4a.png" width="65%">
+  <img alt="iPhone 5_SE 2" src="https://github.com/talentforest/han-bookclub-app/assets/91457443/f56f86b4-8b3a-4052-afe9-37b76596ecd0" width="22%">
+  <img alt="Nest Hub" src="https://github.com/talentforest/han-bookclub-app/assets/91457443/b35b1d1b-5fac-4583-acde-6c9635f8f8af" width="56%">
 </div>
 
-### 로그인과 회원가입
+<br/>
+
+#### 2) 로그인과 회원가입
 
 - 로그인과 익명 로그인, 비밀번호 찾기 기능
-
-  - 모두 Firebase 인증 기능을 이용하였습니다. 회원가입한 회원이 아니더라도 익명 로그인을 통해 앱을 둘러볼 수 있습니다.(하지만 익명 로그인에서는 작성, 투표 기능 등등이 제한됩니다.)
-
-<div>
-  <img src="https://user-images.githubusercontent.com/91457443/214671999-732e61dd-4fb5-4f7d-bf02-4b6054076d6b.png" width="25%">
-  <img src="https://user-images.githubusercontent.com/91457443/214672709-715d9cb3-12f0-46af-9fcc-a78b4d38d06c.png" width="25%">
-  <img src="https://user-images.githubusercontent.com/91457443/214672815-7e42307b-716c-456a-8847-945790d3eb12.png" width="25%">
-</div>
-
-- 회원가입 절차를 통한 회원들의 정보 등록
-  - 각 멤버의 이름과 성별, 좋아하는 책분야 정보를 Firebase에 database에 저장합니다.
-
-### 이달의 책에 대한 글 작성, 수정, 삭제 기능
-
-- <strong>추천한 책 | 발제문 | 모임 후기</strong> 이렇게 세가지 작성 카테고리로 구분되어 있습니다.
+  - 모두 Firebase 인증 기능을 활용하였습니다.
+  - 가입한 회원만이 모든 기능을 이용 가능하며, 익명 로그인을 통해 입장이 가능하지만 익명 로그인에서는 작성, 보기, 투표 기능 등등이 제한됩니다.
+    - 가입된 회원인지 검증하는 custom hook을 만들어 인증이 필요한 기능을 이용하려 할 때마다 활용하였습니다. 익명의 사용자는 로그인을 요청하거나 적절한 alert 메시지를 받게 됩니다.
 
 <div>
-  <img src="https://user-images.githubusercontent.com/91457443/214677737-888c587c-55c8-437c-9362-b19a4e52a972.png" width="40%">
-  <img src="https://user-images.githubusercontent.com/91457443/214678075-a9c5b318-80b7-4bf1-8cca-341514016e8f.png" width="25%">
+  <img src="https://github.com/talentforest/han-bookclub-app/assets/91457443/0351b912-5471-4248-9f41-cfa74ac93a7f" width="25%">
 </div>
 
-### 카카오 책 검색 API를 통한 책 검색 기능
+<br/>
 
-- 추천한 책 카테고리에서 추천하고 싶은 책은 카카오 책 검색 api로 정보를 찾아 해당 정보를 등록할 수 있습니다.
+#### 3) 이달의 책에 대한 글 작성, 수정, 삭제, 공유 기능
+
+- 독서모임 한페이지는 가장 중요한 기록으로 <strong>발제문과 정리 기록</strong> 두가지가 있습니다. 이달의 발제자가 모임 전 책에 대한 발제문을 올리고, 모임 후 모임에서 나눴던 이야기를 정리하는 정리 기록을 작성하고 있습니다. 이외에도 모든 멤버들이 작성할 수 있는 추천책, 모임 후기 기능도 있습니다. 물론 모든 글이 작성뿐만 아니라 수정, 삭제가 가능하며 카카오톡으로 공유가 가능합니다.
+- 발제문과 정리 기록과 같은 글을 react-quill 라이브러리를 이용하였습니다.
 
 <div>
-  <img src="https://user-images.githubusercontent.com/91457443/214673665-0b047c4c-96e6-447e-84c9-910ca8c88c78.png" width="25%">
-  <img src="https://user-images.githubusercontent.com/91457443/214673785-001ff35e-8b17-4316-be2f-84870f8a060c.png" width="25%">
+  <img src="https://github.com/talentforest/han-bookclub-app/assets/91457443/7b7a27d9-2a75-44d0-8b28-94227e6c8a35" width="55%">
+  <img src="https://github.com/talentforest/han-bookclub-app/assets/91457443/691520a6-12be-450a-9716-f2373d31d950" width="20%">
 </div>
 
-### 투표하기 기능
+<br/>
 
-- 투표함을 등록할 수 있는 페이지
-  - 모든 멤버는 투표함을 등록하거나 자신이 등록한 투표함을 삭제할 수 있습니다.
-  - 투표 항목에 대해 중복 선택이 가능합니다.
-  - 퍼센테이지로 득표율이 나타납니다.
-  - 하단에 투표를 완료한 멤버의 아이디가 나타납니다.
+#### 4) 카카오 책 검색 API를 통한 책 검색 기능
+
+- 책 정보를 검색하는 API로 카카오 책 검색 API를 사용하였습니다. 책 정보가 필요한 일이 3가지가 있는데, 멤버들이 소개하고 싶은 책, 도전하는 챌린지 책, 다음달에 등록할 책 이렇게 3가지가 있습니다. 카카오 책 검색 api로 정보를 찾아 해당 책정보를 찾고 등록할 수 있습니다.
 
 <div>
-  <img src="https://user-images.githubusercontent.com/91457443/214675710-065c4e2e-e9a4-42d0-80bd-b553874a7274.png" width="25%">
-  <img src="https://user-images.githubusercontent.com/91457443/214675800-91cf8e0f-8840-474d-b951-562a301bbe48.png" width="25%">
+  <img src="https://github.com/talentforest/han-bookclub-app/assets/91457443/030b1bf2-8f83-486f-81bb-eab7a81b5827" width="25%">
 </div>
-
-### 프로필 수정 기능
-
-- 설정의 프로필 수정하기 페이지로 들어가서, 이름, 좋아하는 책분야를 수정할 수 있습니다.
-- 프로필 이미지를 변경할 수 있습니다.
-  - 이미지를 저장하는 Firebase의 Storage는 한정되어 있기에 유저가 프로필 이미지를 변경하면 이전 이미지는 삭제되고 새로운 이미지가 저장됩니다.
-
-### 카카오톡으로 공유 기능
-
-- 작성된 글과 모임 시간, 장소는 카카오톡으로 공유할 수 있습니다.
 
 <br/>
 
@@ -155,7 +134,7 @@
 <br/>
 <br/>
 
-### [2. 프로젝트 스펙과 구조 살펴보기](#목차-2-프로젝트-스펙과-구조-살펴보기)
+### 2. 프로젝트 스펙과 구조 살펴보기
 
 > 스펙
 
@@ -165,7 +144,7 @@
 
 <img src="https://img.shields.io/badge/recoil-007af4?style=for-the-badge&logo=recoil&logoColor=white"> Recoil은 일단 React 전용 전역 상태 관리 라이브러리로 React에 가장 최적화되어 있고, Redux와 달리 보일러플레이트가 많이 필요 없이 굉장히 직관적이어서 사용했습니다.
 
-<img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black"> 독서모임의 기록물들을 저장하고 관리하고 싶어 서버리스의 파이어베이스를 공부하며 사용해보았습니다.
+<img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black"> 독서모임의 기록물들을 저장할 곳으로 파이어베이스가 서버리스에서 가장 입문하기 좋다고 생각되어 공부하며 사용해보았습니다.
 
 > 파일 구조
 
@@ -175,26 +154,18 @@
 ├── public
 ├── src
 │   ├── api  # 서버와 통신하는 API, (ex.카카오톡 책 검색, Firebase 문서 데이터 검색)
-│   ├── component
-│   │   ├── atom  # 전역에서 재사용되는 가장 작은 컴포넌트
-│   │   ├── organisms  # 여러개의 atom들을 조합한 컴포넌트
-│   │   │   ├── bookclubhistory
-│   │   │   ├── bookclubthismonth
-│   │   │   ├── home
-│   │   │   ├── login
-│   │   │   ├── mybookshelf
-│   │   │   ├── search
-│   │   │   ├── setting
-│   │   │   ├── vote
-│   │   │   ├── votedetail
-│   │   ├── template  # 페이지의 한 부분을 차지하는 컴포넌트
+│   ├── components
+│   │   ├── atoms  # 전역에서 재사용되는 가장 작은 컴포넌트
+│   │   ├── molecules # 여러개의 atom들을 조합한 컴포넌트
+│   │   ├── organisms  # 페이지의 컨텍스트가 담겨지는 컴포넌트
 │   │   ├── App.tsx
+│   ├── constants # 유용한 상수들을 담은 폴더 ex. 파이어베이스 컬렉션 이름
 │   ├── data  # recoil 상태 관련 데이터를 담은 폴더
 │   ├── hooks
-│   ├── layout
+│   ├── layout # 탑 헤더 네비게이션, 모바일 바텀 네비게이션
 │   ├── routes
 │   ├── theme
-│   ├── util
+│   ├── util # 전역에서 사용되는 유용한 함수들
 │   ├── firebase.tsx  # firebase 설정 파일
 │   ├── index.tsx
 │   └── Router.tsx
@@ -206,38 +177,10 @@
 └── tsconfig.json
 ```
 
-> 데이터 구조
-
-데이터가 필요한 컴포넌트에서 firebase의 실시간 수신 리스너 API를 통해 데이터를 불러오는 구조입니다. 모임 후기를 보여주는 컴포넌트에서 `useEffect`를 통해 데이터를 불러 클라이언트 상의 recoil 상태에 저장합니다. 하지만 컴포넌트가 재랜더링되었을 때 이미 필요한 데이터가 상태에 있다면 firebase에서 데이터를 불러오지 않는 구조로 불필요한 데이터 요청을 막았습니다. 또한 어떤 값을 서버에 업데이트 했을 때에도 이미 클라이언트 상의 recoil 상태에서 업데이트가 되어 있기 때문에 서버에서 업데이트된 값을 또 불러오지 않으며 `useEffect`의 의존성 배열을 통해 값의 변화를 재랜더링합니다.
-
-#### Example
-
-```Typescript
-  const Home = () => {
-    const [thisMonthClub, setThisMonthClub] = useRecoilState(thisMonthClubState);
-    // recoil의 상태에 이번달 클럽 데이터 저장한다.
-    const { book, meeting, id } = thisMonthClub;
-    const shouldUpdateBookClub = id !== thisYearMonthId;
-    // 북클럽 데이터의 아이디는 연도와 월(ex.2022-02), 현재 아이디가 이번 연도와 월과 맞지 않는 경우
-
-    useEffect(() => {
-      if (shouldUpdateBookClub) {
-        getDocument(THIS_YEAR_BOOKCLUB, thisYearMonthId, setThisMonthClub);
-      }
-      // 이와 같은 경우에는 서버에서 새로운 데이터를 불러오며, 로컬스토리지에 이번달 클럽정보를 저장해 다음에 접속했을 때는 로컬스토리지에 저장된 클럽 정보를 사용한다.
-    }, []);
-
-    return (
-      {/* ... */}
-    )
-  }
-
-```
+아토믹 디자인 시스템을 활용해 보았는데, 아쉬운 부분이 많습니다. 
 
 <br/>
 
-### [3. 업데이트 계획](#목차-3-업데이트-계획)
+### 3. 업데이트 계획
 
 > 계속해서 독서모임 멤버들과의 논의를 통해 업데이트를 할 예정입니다!
->
-> [여기서 프로젝트 진행계획과 상황을 확인하실 수 있습니다.](https://jellieplanet.notion.site/c7cdb25ca7804e75953655c7e95c1acc)
