@@ -10,7 +10,7 @@ import Modal from 'components/atoms/Modal';
 import SquareBtn from 'components/atoms/button/SquareBtn';
 import Input from 'components/atoms/input/Input';
 import styled from 'styled-components';
-import Tag from 'components/atoms/tag/Tag';
+import { getPercentage } from 'util/index';
 
 interface Props {
   challenge: IChallenge;
@@ -43,26 +43,30 @@ export default function ChallengeEditModal({ challenge, onModalClose }: Props) {
   const { title, thumbnail, authors, publisher } = books[0];
 
   return (
-    <Modal title='나의 챌린지 진도 수정하기' onToggleClick={onModalClose}>
+    <Modal title='나의 챌린지 진도 수정' onToggleClick={onModalClose}>
       <Form onSubmit={onSubmit}>
         <BookBox>
           <BookThumbnailImg title={title} thumbnail={thumbnail} />
-          <div>
+          <BookTextInfo>
             <h4>{title}</h4>
-            <div>
+            <AuthorPublisher>
               <span>
                 {authors[0]}
                 {authors.length !== 1 && `(외 ${authors.length - 1}명)`}
               </span>
-              {publisher && <span>{publisher}</span>}
-            </div>
-          </div>
+              <span> ・ {publisher}</span>
+            </AuthorPublisher>
+            <span>
+              {currentPageNum}p / {wholePage}p
+              <span className='percent'>
+                ({getPercentage(currentPage, wholePage).toFixed(0)}%)
+              </span>
+            </span>
+          </BookTextInfo>
         </BookBox>
 
-        <Tag name={`전체 페이지 수: ${wholePage}p`} />
-
         <PageBox>
-          <label>현재 페이지 수</label>
+          <label>현재까지 읽은 페이지</label>
           <Input
             name='currentPage'
             value={`${currentPageNum}`}
@@ -88,7 +92,7 @@ const Form = styled.form`
 `;
 
 const BookBox = styled.div`
-  height: 100px;
+  height: 88px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -97,25 +101,38 @@ const BookBox = styled.div`
   padding: 10px 10px;
   margin-bottom: 10px;
   border-radius: 10px;
-  > div {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    h4 {
-      font-size: 16px;
-      line-height: 1.4;
+`;
+
+const BookTextInfo = styled.div`
+  > h4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 16px;
+  }
+  > span {
+    line-height: 0;
+    font-size: 14px;
+    color: ${({ theme }) => theme.container.blue3};
+    .percent {
+      margin-left: 5px;
+      font-size: 13px;
+      color: ${({ theme }) => theme.container.blue3};
     }
-    div {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      span {
-        font-size: 14px;
-        line-height: 1.3;
-        color: ${({ theme }) => theme.text.gray3};
-      }
-    }
+  }
+`;
+
+const AuthorPublisher = styled.div`
+  margin-top: 2px;
+  display: flex;
+  span {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 14px;
+    color: ${({ theme }) => theme.text.gray3};
   }
 `;
 

@@ -11,7 +11,6 @@ import Subtitle from 'components/atoms/Subtitle';
 import SearchedBookPostAddModal from 'components/organisms/modal/SearchedBookPostAddModal';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import Tag from 'components/atoms/tag/Tag';
 
 export default function Challenge() {
   const [showChallengeModal, setShowChallengeModal] = useState(false);
@@ -37,10 +36,12 @@ export default function Challenge() {
               <FiPlusCircle />
             </button>
           </div>
-          <Tag
-            color='green'
-            name={`디데이: +${getDDay('2024-12-31')} (24년 12월 31일 )`}
-          />
+          <DDay>
+            <span>
+              디데이: <span className='dday'>{getDDay('2024-12-31')}</span>
+            </span>
+            <span className='date'>(2024년 12월 31일)</span>
+          </DDay>
         </AddBox>
 
         <ChallengeBookList>
@@ -64,33 +65,48 @@ export default function Challenge() {
 }
 
 const AddBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
   margin-bottom: 30px;
-
-  > div {
+  > div:first-child {
     display: flex;
     align-items: center;
+    h3 {
+      margin-bottom: 0;
+    }
     svg {
       font-size: 20px;
       stroke: ${({ theme }) => theme.text.blue2};
-      margin: 0 8px 5px 8px;
+      margin: 2px 0 0 8px;
     }
   }
   span {
+    margin-bottom: 2px;
     color: ${({ theme }) => theme.text.gray3};
     .dday {
-      color: ${({ theme }) => theme.text.blue2};
+      color: ${({ theme }) => theme.text.purple};
     }
   }
-  h4 {
-    font-size: 15px;
-  }
+
   @media ${device.tablet} {
-    margin-bottom: 0px;
     display: flex;
     justify-content: space-between;
     h4 {
       font-size: 16px;
     }
+  }
+`;
+
+const DDay = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 6px 0 0 4px;
+  .date {
+    font-size: 13px;
+    margin-top: 2px;
   }
 `;
 

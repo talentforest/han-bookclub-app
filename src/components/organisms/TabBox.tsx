@@ -48,7 +48,7 @@ export default function TabBox({ yearMonthId }: Props) {
         <TabContentBox $active={tab === '발제문'}>
           {subjects[0] ? (
             <>
-              <Post type='발제문' post={subjects[0]} lineClamp={8} />
+              <Post type='발제문' post={subjects[0]} lineClamp={7} />
 
               <Link
                 onClick={blockLinkAndAlertJoinMember}
@@ -85,7 +85,7 @@ export default function TabBox({ yearMonthId }: Props) {
         <TabContentBox $active={tab === '정리 기록'}>
           {hostReview[0] ? (
             <>
-              <Post type='정리 기록' post={hostReview[0]} lineClamp={8} />
+              <Post type='정리 기록' post={hostReview[0]} lineClamp={7} />
 
               <Link
                 onClick={blockLinkAndAlertJoinMember}
@@ -153,7 +153,7 @@ const TabContentBox = styled.div<{ $active: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 220px;
+  min-height: 200px;
   max-height: 360px;
   padding: 15px 15px 8px;
   border-radius: 10px;
