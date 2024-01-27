@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
 import { v4 } from 'uuid';
 import { ISearchedBook } from './bookAtom';
+import { thisYear } from 'util/index';
 
 export interface IBookClub {
   id?: string;
@@ -32,6 +33,11 @@ export const thisMonthBookClubState = atom<IBookClub>({
       });
     },
   ],
+});
+
+export const selectedYearState = atom<string>({
+  key: `selectedYearState/${v4()}`,
+  default: thisYear,
 });
 
 export const bookClubByYearState = atom<IBookClub[]>({

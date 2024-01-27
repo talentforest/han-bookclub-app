@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { thisYear, thisYearMonthId } from 'util/index';
+import { useEffect } from 'react';
+import { thisYearMonthId } from 'util/index';
 import { getCollection } from 'api/getFbDoc';
-import { bookClubByYearState } from 'data/bookClubAtom';
+import { bookClubByYearState, selectedYearState } from 'data/bookClubAtom';
 import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { HiMiniArrowUpRight } from 'react-icons/hi2';
@@ -9,11 +9,11 @@ import { yearOfBookClub } from 'constants/yearOfBookClub';
 import HistoryClubBookBox from 'components/molecules/book-box/HistoryClubBookBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
-import Tag from 'components/atoms/Tag';
 import MobileHeader from 'layout/mobile/MobileHeader';
+import SquareBtn from 'components/atoms/button/SquareBtn';
 
 const BookClubHistory = () => {
-  const [selectedYear, setSelectedYear] = useState(`${thisYear}`);
+  const [selectedYear, setSelectedYear] = useRecoilState(selectedYearState);
   const [clubInfoDocs, setClubInfoDocs] = useRecoilState(bookClubByYearState);
 
   useEffect(() => {
@@ -25,14 +25,18 @@ const BookClubHistory = () => {
   return (
     <>
       <MobileHeader title='지난 한페이지 모임' />
+
       <main>
         <YearTagList>
           {yearOfBookClub.map((year) => (
-            <TagItem key={year} $active={year === selectedYear}>
-              <button onClick={() => setSelectedYear(year)} type='button'>
-                <Tag name={`${year}년`} roundedFull={false} />
-              </button>
-            </TagItem>
+            <YearTag key={year} $active={year === selectedYear}>
+              <SquareBtn
+                name={`${year}년`}
+                type='button'
+                handleClick={() => setSelectedYear(year)}
+                width='fit-content'
+              />
+            </YearTag>
           ))}
         </YearTagList>
 
@@ -69,23 +73,23 @@ const YearTagList = styled.ul`
   margin-bottom: 20px;
 `;
 
-const TagItem = styled.li<{ $active: boolean }>`
-  > button {
-    border-radius: 8px;
+const YearTag = styled.li<{ $active: boolean }>`
+  button {
     background-color: ${({ $active, theme }) =>
       $active ? theme.container.blue3 : '#eee'};
     color: ${({ $active, theme }) => ($active ? '#fff' : theme.text.gray2)};
-    box-shadow: ${({ theme }) => theme.boxShadow};
-    h4 {
-      background-color: inherit;
-      color: inherit;
-      font-size: 14px;
-      padding: 6px 10px;
-    }
   }
+  border-radius: 8px;
+  box-shadow: ${({ theme }) => theme.boxShadow};
+  span {
+    background-color: inherit;
+    color: inherit;
+    font-size: 15px;
+  }
+
   @media ${device.tablet} {
     > button {
-      h4 {
+      span {
         font-size: 16px;
       }
     }
