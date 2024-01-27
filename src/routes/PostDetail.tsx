@@ -23,7 +23,7 @@ interface LocationState {
 
 export default function PostDetail() {
   const [clubInfoDocs, setClubInfoDocs] = useRecoilState(bookClubByYearState);
-  const [hostReview, setHostReview] = useRecoilState(hostReviewState);
+  const [hostReviews, setHostReviews] = useRecoilState(hostReviewState);
   const [subjects, setSubjects] = useRecoilState(subjectsState);
   const [openAddPostModal, setOpenAddPostModal] = useState(false);
 
@@ -36,7 +36,7 @@ export default function PostDetail() {
 
   useEffect(() => {
     getCollection(`BookClub-${year}`, setClubInfoDocs);
-    getCollection(getFbRoute(id).HOST_REVIEW, setHostReview);
+    getCollection(getFbRoute(id).HOST_REVIEW, setHostReviews);
     getCollection(getFbRoute(id).SUBJECTS, setSubjects);
   }, []);
 
@@ -64,7 +64,7 @@ export default function PostDetail() {
 
         {pathname.includes('bookclub') && (
           <AddPostBtn onClick={toggleAddPostModal} type='button'>
-            {postType === '발제문' ? '발제문' : '정리 기록'} 추가하기
+            {postType === '발제문' ? '발제문' : '정리 기록'} 작성하기
           </AddPostBtn>
         )}
 
@@ -80,13 +80,17 @@ export default function PostDetail() {
             </Fragment>
           ))}
 
-        {postType === '정리 기록' && hostReview[0] && (
-          <Post
-            type='정리 기록'
-            post={hostReview[0]}
-            collName={getFbRoute(id)?.HOST_REVIEW}
-          />
-        )}
+        {postType === '정리 기록' &&
+          hostReviews.map((review, index) => (
+            <Fragment key={review.id}>
+              <Post
+                type='정리 기록'
+                post={review}
+                collName={getFbRoute(id)?.HOST_REVIEW}
+              />
+              {hostReviews.length - 1 !== index && <DottedDividingLine />}
+            </Fragment>
+          ))}
 
         {openAddPostModal && (
           <PostAddModal

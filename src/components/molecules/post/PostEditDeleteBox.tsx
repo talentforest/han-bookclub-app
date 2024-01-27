@@ -60,7 +60,7 @@ const BtnBox = styled.div`
   button {
     line-height: 0;
     padding: 2px;
-    margin-left: 8px;
+    margin-left: 6px;
   }
 `;
 

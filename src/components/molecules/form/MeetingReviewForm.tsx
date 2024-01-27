@@ -14,9 +14,9 @@ interface PropsType {
 
 const MeetingReviewForm = ({ docMonth }: PropsType) => {
   const [text, setText] = useState('');
-  const [rating, setRating] = useState<number | null>(0);
   const clubInfo = useRecoilValue(thisMonthBookClubState);
   const userData = useRecoilValue(currentUserState);
+
   const collName = getFbRoute(docMonth).MEETING_REVIEWS;
 
   const {
@@ -29,12 +29,10 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
     text,
     title,
     thumbnail,
-    rating: rating || 0,
   };
 
   const { onAddDocSubmit, onChange } = useAddDoc({
     setText,
-    setRating,
     collName,
     docData,
   });

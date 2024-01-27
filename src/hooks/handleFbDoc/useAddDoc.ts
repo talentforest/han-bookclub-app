@@ -18,10 +18,9 @@ interface PropsType {
   setText: (text: string) => void;
   collName: string;
   docData: IDocument;
-  setRating?: (rating: number) => void;
 }
 
-const useAddDoc = ({ setText, collName, docData, setRating }: PropsType) => {
+const useAddDoc = ({ setText, collName, docData }: PropsType) => {
   const [userExtraData, setUserExtraData] = useRecoilState(userExtraInfoState);
   const setMyRecommendBook = useSetRecoilState(recommendBookState);
   const userData = useRecoilValue(currentUserState);
@@ -51,9 +50,6 @@ const useAddDoc = ({ setText, collName, docData, setRating }: PropsType) => {
 
       updateUserData(newUserDocId);
 
-      if (docData.rating) {
-        setRating(0);
-      }
       if (docData?.recommendedBook?.title) {
         setMyRecommendBook({ thumbnail: '', title: '', authors: [], url: '' });
       }
