@@ -17,16 +17,17 @@ export const ResetStyle = createGlobalStyle`
       -ms-overflow-style: none;
     }
     > div {
+      padding-bottom: 60px;
       > main {
         position: relative;
-        padding: 10px 20px 100px;
+        padding: 10px 20px 40px;
         @media ${device.tablet} {
-          padding: 10px 80px 100px;
+          padding: 10px 80px 40px;
         }
         @media ${device.desktop} {
           padding: 0;
           width: 70%;
-          margin: 0 auto 100px;
+          margin: 0 auto 40px;
         }
       }
     }
