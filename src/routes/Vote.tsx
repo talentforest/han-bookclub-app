@@ -6,10 +6,10 @@ import { FiPlusCircle } from 'react-icons/fi';
 import { EmptyBox } from './BookClubHistory';
 import { votesState } from 'data/voteAtom';
 import { VOTE } from 'constants/index';
-import VoteBox from 'components/organisms/VoteBox';
+import VoteBox from 'components/molecules/VoteBox';
 import VoteCreateModal from 'components/organisms/modal/VoteCreateModal';
 import Subtitle from 'components/atoms/Subtitle';
-import ExpiredVoteBox from 'components/organisms/ExpiredVoteBox';
+import VoteExpiredBox from 'components/molecules/VoteExpiredBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import Loading from 'components/atoms/Loading';
@@ -61,7 +61,7 @@ const Vote = () => {
           <VoteList>
             {expiredVote?.length ? (
               expiredVote.map((voteDetail) => (
-                <ExpiredVoteBox key={voteDetail.id} voteDetail={voteDetail} />
+                <VoteExpiredBox key={voteDetail.id} voteDetail={voteDetail} />
               ))
             ) : (
               <EmptyBox>아직 만료된 투표가 없습니다.</EmptyBox>

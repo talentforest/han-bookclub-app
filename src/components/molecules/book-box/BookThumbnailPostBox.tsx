@@ -8,16 +8,16 @@ import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import Modal from 'components/atoms/Modal';
-import PostFooter from 'components/atoms/post/PostFooter';
-import PostEditDeleteBox, { PostType } from '../../organisms/PostEditDeleteBox';
-import PostContent from 'components/atoms/post/PostContent';
+import PostFooter from 'components/molecules/post/PostFooter';
+import PostEditDeleteBox, { PostType } from '../post/PostEditDeleteBox';
+import PostContent from 'components/atoms/PostContent';
 
 interface PropsType {
   postId: IUserPostDocId;
   postType?: PostType;
 }
 
-const BookImgPostBox = ({ postId, postType }: PropsType) => {
+const BookThumbnailPostBox = ({ postId, postType }: PropsType) => {
   const currentUser = useRecoilValue(currentUserState);
 
   const allUsers = useRecoilValue(allUsersState);
@@ -28,7 +28,7 @@ const BookImgPostBox = ({ postId, postType }: PropsType) => {
 
   const getPostRoute = () => {
     if (postType === '발제문') return getFbRoute(monthId).SUBJECTS;
-    if (postType === '모임 후기') return getFbRoute(monthId).REVIEWS;
+    if (postType === '모임 후기') return getFbRoute(monthId).MEETING_REVIEWS;
     if (postType === '정리 기록') return getFbRoute(monthId).HOST_REVIEW;
   };
 
@@ -114,4 +114,4 @@ const BtnsBox = styled.div`
   margin-bottom: 15px;
 `;
 
-export default BookImgPostBox;
+export default BookThumbnailPostBox;

@@ -4,9 +4,9 @@ import { formatKRMarkDate } from 'util/index';
 import { Section } from './Home';
 import Subtitle from 'components/atoms/Subtitle';
 import HistoryClubBookBox from 'components/molecules/book-box/HistoryClubBookBox';
-import TabBox from 'components/organisms/TabBox';
+import PostTabBox from 'components/organisms/PostTabBox';
 import RecommendedBookList from 'components/organisms/RecommendedBookList';
-import ClubReviewList from 'components/organisms/ClubReviewList';
+import MeetingReviewList from 'components/organisms/MeetingReviewList';
 import MobileHeader from 'layout/mobile/MobileHeader';
 
 type LocationState = { state: { document: IBookClub } };
@@ -32,7 +32,7 @@ const BookClubHistoryDetail = () => {
 
         <Section>
           <Subtitle title='발제문과 모임 정리 기록' />
-          <TabBox yearMonthId={id} />
+          <PostTabBox yearMonthId={id} />
         </Section>
 
         <Section>
@@ -42,7 +42,7 @@ const BookClubHistoryDetail = () => {
 
         <Section>
           <Subtitle title='모임 후기' />
-          <ClubReviewList yearMonthId={id} />
+          <MeetingReviewList yearMonthId={id} />
         </Section>
       </main>
     </>

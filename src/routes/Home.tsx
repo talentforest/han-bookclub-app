@@ -3,12 +3,12 @@ import { FiChevronRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import Subtitle from 'components/atoms/Subtitle';
 import GuideLine from 'components/atoms/GuideLine';
-import BookFieldHostBox from 'components/molecules/BookFieldHostBox';
+import BookFieldHostTable from 'components/organisms/BookFieldHostTable';
 import VoteSlider from 'components/organisms/VoteSlider';
 import styled from 'styled-components';
 import RecommendedBooksScrollBox from 'components/organisms/RecommendedBooksScrollBox';
-import ChallengeBookContainer from 'components/organisms/ChallengeBookContainer';
-import ThisMonthClub from 'components/organisms/ThisMonthClub';
+import ChallengeBookList from 'components/organisms/ChallengeBookList';
+import ThisMonthBookClub from 'components/organisms/ThisMonthBookClub';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import device from 'theme/mediaQueries';
 import NextMonthClubBookBox from 'components/molecules/book-box/NextMonthClubBookBox';
@@ -20,13 +20,13 @@ const Home = () => {
       <main>
         <Section>
           <GuideLine text='매월 1일에 업데이트 됩니다' />
-          <ThisMonthClub />
+          <ThisMonthBookClub />
           <NextMonthClubBookBox />
         </Section>
 
         <Section>
           <Subtitle title={`${thisYear}년 개인별 챌린지`} />
-          <ChallengeBookContainer />
+          <ChallengeBookList />
 
           <SeeMoreChallengeBtn to='/challenge'>
             <span>챌린지 더보기</span>
@@ -46,7 +46,7 @@ const Home = () => {
 
         <Section>
           <Subtitle title={`${thisYear} 한페이지의 독서분야와 발제자`} />
-          <BookFieldHostBox />
+          <BookFieldHostTable />
         </Section>
       </main>
     </>

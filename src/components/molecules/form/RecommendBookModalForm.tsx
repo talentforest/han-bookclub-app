@@ -13,7 +13,7 @@ import SquareBtn from '../../atoms/button/SquareBtn';
 interface Props {
   onModalClose: () => void;
 }
-export default function CreateRecommendBookBox({ onModalClose }: Props) {
+export default function RecommendBookModalForm({ onModalClose }: Props) {
   const [text, setText] = useState('');
   const userData = useRecoilValue(currentUserState);
   const thisMonthClub = useRecoilValue(thisMonthBookClubState);

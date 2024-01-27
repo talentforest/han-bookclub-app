@@ -13,7 +13,7 @@ export const bookFields = [
   { id: 10, name: '과학' },
 ];
 
-export const bookFieldsOfClub = [
+export const bookFieldsOfBookClub = [
   { value: 1, label: '과학' },
   { value: 2, label: '국내문학' },
   { value: 3, label: '시/에세이' },

@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { bookClubByYearState } from 'data/bookClubAtom';
 import { getCollection } from 'api/getFbDoc';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
-import Tag from 'components/atoms/tag/Tag';
+import Tag from 'components/atoms/Tag';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 

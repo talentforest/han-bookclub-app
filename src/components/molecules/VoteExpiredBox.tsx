@@ -9,7 +9,7 @@ interface PropsType {
   voteDetail: IVote;
 }
 
-const ExpiredVoteBox = ({ voteDetail }: PropsType) => {
+const VoteExpiredBox = ({ voteDetail }: PropsType) => {
   const {
     id,
     voteId,
@@ -98,4 +98,4 @@ const LabelResultBox = styled(LabeledBox)`
   }
 `;
 
-export default ExpiredVoteBox;
+export default VoteExpiredBox;

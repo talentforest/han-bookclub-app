@@ -1,7 +1,7 @@
 import { getLocaleDate } from 'util/index';
 import { IDocument } from 'data/documentsAtom';
 import styled from 'styled-components';
-import LikesBox from '../../molecules/LikesBox';
+import LikeBtnInfoBox from '../LikeBtnInfoBox';
 
 interface Props {
   post?: IDocument;
@@ -20,7 +20,9 @@ export default function PostFooter({
     <Footer>
       <span>{getLocaleDate(createdAt)}</span>
 
-      {footerType === 'likes' && <LikesBox collName={collName} post={post} />}
+      {footerType === 'likes' && (
+        <LikeBtnInfoBox collName={collName} post={post} />
+      )}
     </Footer>
   );
 }

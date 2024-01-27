@@ -8,7 +8,7 @@ import ChallengeBookBox from 'components/molecules/book-box/ChallengeBookBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 
-export default function ChallengeBookContainer() {
+export default function ChallengeBookList() {
   const [challengeBooks, setChallengeBook] = useRecoilState(challengeState);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function ChallengeBookContainer() {
   }, []);
 
   return (
-    <ChallengeBookList>
+    <ChallengeBooks>
       {!!challengeBooks?.length ? (
         challengeBooks
           ?.slice(0, 4)
@@ -28,11 +28,11 @@ export default function ChallengeBookContainer() {
       ) : (
         <EmptyBox>챌린지 책이 아직 없습니다.</EmptyBox>
       )}
-    </ChallengeBookList>
+    </ChallengeBooks>
   );
 }
 
-const ChallengeBookList = styled.ul`
+const ChallengeBooks = styled.ul`
   @media ${device.tablet} {
     display: grid;
     gap: 0 10px;

@@ -3,10 +3,10 @@ import { useLocation } from 'react-router-dom';
 import { FiCheckCircle, FiCircle } from 'react-icons/fi';
 import useHandleVoting from 'hooks/useHandleVoting';
 import device from 'theme/mediaQueries';
-import VoteDetails from 'components/organisms/VoteSelectReasonDetails';
-import Percentage from 'components/organisms/Percentage';
+import VoteDetails from 'components/molecules/VoteDetailReasonDetails';
+import VoteDetailItemPercent from 'components/molecules/VoteDetailItemPercent';
 import MobileHeader from 'layout/mobile/MobileHeader';
-import NameTag from 'components/atoms/tag/NameTag';
+import NameTag from 'components/atoms/NameTag';
 import SquareBtn from 'components/atoms/button/SquareBtn';
 import styled from 'styled-components';
 
@@ -46,7 +46,7 @@ const VoteDetail = () => {
                   >
                     <FiCheckCircle fontSize={14} stroke='#333' />
                     <ItemText>{voteItem.item}</ItemText>
-                    <Percentage
+                    <VoteDetailItemPercent
                       voteItems={currentVote.vote.voteItem}
                       voteItemId={voteItem.id}
                     />
@@ -67,7 +67,7 @@ const VoteDetail = () => {
                   >
                     <FiCircle fontSize={14} stroke='#444' />
                     <ItemText>{voteItem.item}</ItemText>
-                    <Percentage
+                    <VoteDetailItemPercent
                       voteItems={currentVote.vote.voteItem}
                       voteItemId={voteItem.id}
                     />

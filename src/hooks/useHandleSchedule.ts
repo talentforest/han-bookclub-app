@@ -7,15 +7,17 @@ import { thisYearMonthId } from 'util/index';
 import { THIS_YEAR_BOOKCLUB } from 'constants/index';
 import useAlertAskJoin from './useAlertAskJoin';
 
-const useHandleSchedule = (meeting: ISchedule) => {
-  const [thisMonthClub, setThisMonthClub] = useRecoilState(
+const useHandleSchedule = (
+  meeting: ISchedule,
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  const [thisMonthBookClub, setThisMonthBookClub] = useRecoilState(
     thisMonthBookClubState
   );
   const [time, setTime] = useState(
     meeting?.time === 0 ? null : new Date(meeting?.time)
   );
   const [place, setPlace] = useState(meeting?.place);
-  const [isEditing, setIsEditing] = useState(false);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
 
@@ -29,7 +31,7 @@ const useHandleSchedule = (meeting: ISchedule) => {
       meeting: { ...meeting, time: time.getTime() },
     };
     await updateDoc(document, editInfo);
-    setThisMonthClub({ ...thisMonthClub, ...editInfo });
+    setThisMonthBookClub({ ...thisMonthBookClub, ...editInfo });
     setIsEditing(false);
   };
 
@@ -41,7 +43,7 @@ const useHandleSchedule = (meeting: ISchedule) => {
       meeting: { ...meeting, place },
     };
     await updateDoc(document, editInfo);
-    setThisMonthClub({ ...thisMonthClub, ...editInfo });
+    setThisMonthBookClub({ ...thisMonthBookClub, ...editInfo });
     setIsEditing(false);
   };
 
@@ -53,7 +55,6 @@ const useHandleSchedule = (meeting: ISchedule) => {
   const onTagClick = (place: string) => setPlace(place);
 
   return {
-    isEditing,
     onTimeSubmit,
     onPlaceSubmit,
     onEditClick,

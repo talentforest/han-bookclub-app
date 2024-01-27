@@ -23,7 +23,7 @@ interface IVoteProps {
   openTextArea: boolean;
 }
 
-const VoteItems = ({
+const VoteModalItems = ({
   vote,
   onTitleChange,
   onItemDeleteClick,
@@ -102,4 +102,4 @@ const Textarea = styled.textarea`
   }
 `;
 
-export default VoteItems;
+export default VoteModalItems;

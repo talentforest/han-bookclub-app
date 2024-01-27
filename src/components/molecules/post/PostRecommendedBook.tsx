@@ -5,8 +5,8 @@ import { cutLetter } from 'util/index';
 import styled from 'styled-components';
 import PostHeader from './PostHeader';
 import PostFooter from './PostFooter';
-import BookThumbnailImg from '../BookThumbnailImg';
-import Modal from '../Modal';
+import BookThumbnailImg from '../../atoms/BookThumbnailImg';
+import Modal from '../../atoms/Modal';
 import UserNameBox from 'components/atoms/UserNameBox';
 import device from 'theme/mediaQueries';
 

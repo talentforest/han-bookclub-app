@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 import { getFbRoute, thisYearMonthId, formatKRMarkDate } from 'util/index';
 import { getCollection } from 'api/getFbDoc';
 import HistoryClubBookBox from 'components/molecules/book-box/HistoryClubBookBox';
-import Post from 'components/molecules/Post';
+import Post from 'components/molecules/post/Post';
 import PostAddModal from 'components/organisms/modal/PostAddModal';
 import styled from 'styled-components';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';

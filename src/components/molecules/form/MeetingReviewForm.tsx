@@ -6,18 +6,18 @@ import { getFbRoute } from 'util/index';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import SquareBtn from '../atoms/button/SquareBtn';
+import SquareBtn from '../../atoms/button/SquareBtn';
 
 interface PropsType {
   docMonth: string;
 }
 
-const CreateClubReviewBox = ({ docMonth }: PropsType) => {
+const MeetingReviewForm = ({ docMonth }: PropsType) => {
   const [text, setText] = useState('');
   const [rating, setRating] = useState<number | null>(0);
   const clubInfo = useRecoilValue(thisMonthBookClubState);
   const userData = useRecoilValue(currentUserState);
-  const collName = getFbRoute(docMonth).REVIEWS;
+  const collName = getFbRoute(docMonth).MEETING_REVIEWS;
 
   const {
     book: { title, thumbnail },
@@ -87,4 +87,4 @@ const TextArea = styled.textarea`
   }
 `;
 
-export default CreateClubReviewBox;
+export default MeetingReviewForm;

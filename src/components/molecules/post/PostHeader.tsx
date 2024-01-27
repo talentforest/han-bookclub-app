@@ -2,10 +2,10 @@ import { FiUserCheck } from 'react-icons/fi';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { IDocument } from 'data/documentsAtom';
-import NameTag from '../tag/NameTag';
+import NameTag from '../../atoms/NameTag';
 import PostEditDeleteBox, {
   PostType,
-} from 'components/organisms/PostEditDeleteBox';
+} from 'components/molecules/post/PostEditDeleteBox';
 import styled from 'styled-components';
 
 interface Props {

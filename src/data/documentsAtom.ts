@@ -20,8 +20,8 @@ export const subjectsState = atom<IDocument[]>({
   default: [],
 });
 
-export const reviewsState = atom<IDocument[]>({
-  key: `reviewDocs/${v4()}`,
+export const meetingReviewsState = atom<IDocument[]>({
+  key: `meetingReviewDocs/${v4()}`,
   default: [],
 });
 

@@ -8,7 +8,7 @@ interface PropsType {
   voteItemId: number;
 }
 
-const Percentage = ({ voteItems, voteItemId }: PropsType) => {
+const VoteDetailItemPercent = ({ voteItems, voteItemId }: PropsType) => {
   // 총 투표수
   const totalVoteCount = voteItems
     ?.map((item) => item.voteCount)
@@ -52,4 +52,4 @@ const Container = styled.div<{ $gauge: string }>`
   }
 `;
 
-export default Percentage;
+export default VoteDetailItemPercent;

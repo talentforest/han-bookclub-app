@@ -5,11 +5,11 @@ import { bookClubByYearState } from 'data/bookClubAtom';
 import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { HiMiniArrowUpRight } from 'react-icons/hi2';
-import { clubYearArr } from 'constants/yearOfBookClub';
+import { yearOfBookClub } from 'constants/yearOfBookClub';
 import HistoryClubBookBox from 'components/molecules/book-box/HistoryClubBookBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
-import Tag from 'components/atoms/tag/Tag';
+import Tag from 'components/atoms/Tag';
 import MobileHeader from 'layout/mobile/MobileHeader';
 
 const BookClubHistory = () => {
@@ -27,7 +27,7 @@ const BookClubHistory = () => {
       <MobileHeader title='지난 한페이지 모임' />
       <main>
         <YearTagList>
-          {clubYearArr.map((year) => (
+          {yearOfBookClub.map((year) => (
             <TagItem key={year} $active={year === selectedYear}>
               <button onClick={() => setSelectedYear(year)} type='button'>
                 <Tag name={`${year}년`} roundedFull={false} />

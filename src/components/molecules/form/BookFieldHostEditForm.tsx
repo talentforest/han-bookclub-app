@@ -3,11 +3,11 @@ import { useRecoilValue } from 'recoil';
 import { FormEvent } from 'react';
 import { IBookFieldHost } from 'data/bookFieldHostAtom';
 import { ChangeSelectValue, SelectValue } from 'hooks/useHandleFieldHost';
-import { bookFieldsOfClub } from 'constants/index';
+import { bookFieldsOfBookClub } from 'constants/index';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import Select from 'react-select';
-import SquareBtn from '../atoms/button/SquareBtn';
+import SquareBtn from '../../atoms/button/SquareBtn';
 
 interface Props {
   index: number;
@@ -18,7 +18,7 @@ interface Props {
   setSelectedValues: React.Dispatch<React.SetStateAction<SelectValue>>;
 }
 
-export default function EditBookFieldHostForm({
+export default function BookFieldHostEditForm({
   bookFieldHost,
   onSubmit,
   onEditClick,
@@ -39,7 +39,7 @@ export default function EditBookFieldHostForm({
   });
 
   const fieldOptions = [
-    ...bookFieldsOfClub,
+    ...bookFieldsOfBookClub,
     { value: 'no_field', label: '분야 없음' },
   ];
 

@@ -11,7 +11,7 @@ interface PropsType {
   bookFields: BookFieldType;
 }
 
-const BookField = ({
+const BookFieldCheckBox = ({
   bookFieldName,
   checkedBoxHandler,
   bookFields,
@@ -41,4 +41,4 @@ const BookField = ({
   );
 };
 
-export default BookField;
+export default BookFieldCheckBox;

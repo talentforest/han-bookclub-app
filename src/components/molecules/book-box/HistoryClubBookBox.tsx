@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
-import Tag from 'components/atoms/tag/Tag';
+import Tag from 'components/atoms/Tag';
 
 interface PropsType {
   document: IBookClub;

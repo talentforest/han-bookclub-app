@@ -12,9 +12,9 @@ import device from 'theme/mediaQueries';
 import useSearchBook from 'hooks/useSearchBook';
 import TextInput from 'components/atoms/input/TextInput';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
-import CreateRecommendBookBox from 'components/molecules/modal/CreateRecommendBookBox';
+import RecommendBookModalForm from 'components/molecules/form/RecommendBookModalForm';
 import DottedDividingLine from 'components/atoms/DottedDividingLine';
-import CreateChallengeBookBox from 'components/molecules/book-box/CreateChallengeBookBox';
+import ChallengeModalForm from 'components/molecules/form/ChallengeModalForm';
 import styled from 'styled-components';
 
 interface Props {
@@ -117,9 +117,9 @@ export default function SearchedBookPostAddModal({
 
       {currStep === 2 &&
         (title === '추천책 작성하기' ? (
-          <CreateRecommendBookBox onModalClose={onModalToggleClick} />
+          <RecommendBookModalForm onModalClose={onModalToggleClick} />
         ) : (
-          <CreateChallengeBookBox onModalClose={onModalToggleClick} />
+          <ChallengeModalForm onModalClose={onModalToggleClick} />
         ))}
     </Modal>
   );

@@ -2,17 +2,18 @@ import { IDocument } from 'data/documentsAtom';
 import { currentUserState } from 'data/userAtom';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { FiChevronDown, FiChevronUp, FiHeart } from 'react-icons/fi';
+import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import UserNameBox from 'components/atoms/UserNameBox';
 import useHandleLike from 'hooks/useHandleLike';
 import styled from 'styled-components';
+import LikeBtn from 'components/atoms/button/LikeBtn';
 
 interface Props {
   post: IDocument;
   collName: string;
 }
 
-const LikesBox = ({ post, collName }: Props) => {
+const LikeBtnInfoBox = ({ post, collName }: Props) => {
   const currentUser = useRecoilValue(currentUserState);
 
   const { like, setLike, onLikeClick, showLikeUsers, toggleShowLikeUsers } =
@@ -44,13 +45,7 @@ const LikesBox = ({ post, collName }: Props) => {
         {post?.likeUsers?.length || 0}명이 좋아합니다
       </ShowUserBtn>
 
-      <LikeBtn type='button' disabled={!collName} onClick={onLikeClick}>
-        <FiHeart
-          stroke={!collName ? '#aaa' : 'red'}
-          fill={!collName ? '#aaa' : !like ? 'transparent' : 'red'}
-          fontSize={13}
-        />
-      </LikeBtn>
+      <LikeBtn collName={collName} like={like} onLikeClick={onLikeClick} />
 
       {showLikeUsers && (
         <LikeUsersBox>
@@ -84,11 +79,6 @@ const ShowUserBtn = styled.button`
   margin-right: 4px;
 `;
 
-const LikeBtn = styled.button`
-  line-height: 0;
-  padding: 2px;
-`;
-
 const LikeUsersBox = styled.div`
   position: absolute;
   bottom: 30px;
@@ -120,4 +110,4 @@ const LikeUsersBox = styled.div`
   }
 `;
 
-export default LikesBox;
+export default LikeBtnInfoBox;

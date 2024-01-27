@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import ResultBookBox from 'components/organisms/ResultBookBox';
+import ResultBookBox from 'components/molecules/book-box/ResultBookBox';
 import TextInput from 'components/atoms/input/TextInput';
 import useSearchBook from 'hooks/useSearchBook';
 import device from 'theme/mediaQueries';

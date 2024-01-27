@@ -16,11 +16,11 @@ export interface ISchedule {
 }
 
 export const thisMonthBookClubState = atom<IBookClub>({
-  key: `thisMonthClub/${v4()}`,
+  key: `thisMonthBookClub/${v4()}`,
   default: {} as IBookClub,
   effects: [
     ({ setSelf, onSet }) => {
-      const storeKey = 'thisMonthClub';
+      const storeKey = 'thisMonthBookClub';
       const savedValue = localStorage.getItem(storeKey);
       if (savedValue != null) {
         setSelf(JSON.parse(savedValue));
@@ -35,11 +35,11 @@ export const thisMonthBookClubState = atom<IBookClub>({
 });
 
 export const bookClubByYearState = atom<IBookClub[]>({
-  key: `clubInfoByYear/${v4()}`,
+  key: `bookClubInfoByYear/${v4()}`,
   default: [],
   effects: [
     ({ setSelf, onSet }) => {
-      const bookMeetingStoreKey = 'clubInfoByYear';
+      const bookMeetingStoreKey = 'bookClubInfoByYear';
       const savedValue = localStorage.getItem(bookMeetingStoreKey);
       if (savedValue !== null) {
         setSelf(JSON.parse(savedValue));

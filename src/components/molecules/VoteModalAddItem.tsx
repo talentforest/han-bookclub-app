@@ -16,7 +16,7 @@ interface IVoteProps {
   onItemPlusClick: () => void;
 }
 
-const AddVoteItem = ({ vote, onItemPlusClick }: IVoteProps) => {
+const VoteModalAddItem = ({ vote, onItemPlusClick }: IVoteProps) => {
   return (
     <>
       {vote.voteItem?.length > 5 && (
@@ -62,4 +62,4 @@ const AddVoteItemBtn = styled.button`
   }
 `;
 
-export default AddVoteItem;
+export default VoteModalAddItem;

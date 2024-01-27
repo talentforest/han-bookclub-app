@@ -2,10 +2,10 @@ import { getFbRoute, thisYearMonthId } from 'util/index';
 import { getCollection } from 'api/getFbDoc';
 import { Fragment, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { reviewsState } from 'data/documentsAtom';
+import { meetingReviewsState } from 'data/documentsAtom';
 import { useLocation } from 'react-router-dom';
 import { EmptyBox } from 'routes/BookClubHistory';
-import Post from 'components/molecules/Post';
+import Post from 'components/molecules/post/Post';
 import DottedDividingLine from 'components/atoms/DottedDividingLine';
 import styled from 'styled-components';
 
@@ -13,26 +13,27 @@ interface Props {
   yearMonthId?: string;
 }
 
-const ClubReviewList = ({ yearMonthId = thisYearMonthId }: Props) => {
-  const [reviews, setReviews] = useRecoilState(reviewsState);
+const MeetingReviewList = ({ yearMonthId = thisYearMonthId }: Props) => {
+  const [meetingReviews, setMeetingReviews] =
+    useRecoilState(meetingReviewsState);
 
   const { pathname } = useLocation();
 
   useEffect(() => {
-    getCollection(getFbRoute(yearMonthId).REVIEWS, setReviews);
+    getCollection(getFbRoute(yearMonthId).MEETING_REVIEWS, setMeetingReviews);
   }, []);
 
   return (
     <PostBox>
-      {reviews?.length !== 0 ? (
-        reviews?.map((review, index) => (
-          <Fragment key={review.id}>
+      {meetingReviews?.length !== 0 ? (
+        meetingReviews?.map((meetingReview, index) => (
+          <Fragment key={meetingReview.id}>
             <Post
-              post={review}
+              post={meetingReview}
               type='모임 후기'
-              collName={getFbRoute(yearMonthId).REVIEWS}
+              collName={getFbRoute(yearMonthId).MEETING_REVIEWS}
             />
-            {reviews?.length - 1 !== index && <DottedDividingLine />}
+            {meetingReviews?.length - 1 !== index && <DottedDividingLine />}
           </Fragment>
         ))
       ) : (
@@ -54,4 +55,4 @@ const PostBox = styled.div`
 
 const EmptyReviewList = styled(EmptyBox)``;
 
-export default ClubReviewList;
+export default MeetingReviewList;

@@ -16,7 +16,7 @@ interface Props {
   onModalClose: () => void;
 }
 
-export default function CreateChallengeBookBox({ onModalClose }: Props) {
+export default function ChallengeModalForm({ onModalClose }: Props) {
   const bookDesc = useRecoilValue(bookDescState);
   const userData = useRecoilValue(currentUserState);
   const [pageNums, setPageNums] = useState({

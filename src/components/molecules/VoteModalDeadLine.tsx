@@ -10,7 +10,7 @@ interface IDateProps {
   setEndDate: (date: Date) => void;
 }
 
-const VoteDeadLine = ({ endDate, setEndDate }: IDateProps) => {
+const VoteModalDeadLine = ({ endDate, setEndDate }: IDateProps) => {
   return (
     <Deadline>
       <Subtitle title='투표 종료일 설정' />
@@ -72,4 +72,4 @@ const DatePick = styled(DatePicker)`
   }
 `;
 
-export default VoteDeadLine;
+export default VoteModalDeadLine;

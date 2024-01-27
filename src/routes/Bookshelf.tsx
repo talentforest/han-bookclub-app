@@ -8,12 +8,12 @@ import { getCollection } from 'api/getFbDoc';
 import { CircleImg, ImgBox } from 'components/atoms/UserImg';
 import { FiUser } from 'react-icons/fi';
 import { EmptyBox } from './BookClubHistory';
-import BookImgPostBox from 'components/molecules/book-box/BookImgPostBox';
+import BookThumbnailPostBox from 'components/molecules/book-box/BookThumbnailPostBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import Loading from 'components/atoms/Loading';
 import Subtitle from 'components/atoms/Subtitle';
-import Tag from 'components/atoms/tag/Tag';
+import Tag from 'components/atoms/Tag';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import GuideLine from 'components/atoms/GuideLine';
 
@@ -98,7 +98,7 @@ const Bookshelf = () => {
           <PostList>
             {userHostReviews.length !== 0 ? (
               userHostReviews.map((hostReview) => (
-                <BookImgPostBox
+                <BookThumbnailPostBox
                   key={hostReview.docId}
                   postId={hostReview}
                   postType='정리 기록'
@@ -119,7 +119,7 @@ const Bookshelf = () => {
           <PostList>
             {userSubjects.length !== 0 ? (
               userSubjects.map((subjectId) => (
-                <BookImgPostBox
+                <BookThumbnailPostBox
                   key={subjectId.docId}
                   postId={subjectId}
                   postType='발제문'
@@ -140,7 +140,7 @@ const Bookshelf = () => {
           <PostList>
             {userReviews.length !== 0 ? (
               userReviews.map((reviewId) => (
-                <BookImgPostBox
+                <BookThumbnailPostBox
                   key={reviewId.docId}
                   postId={reviewId}
                   postType='모임 후기'

@@ -1,7 +1,7 @@
 import { FiChevronRight, FiLink } from 'react-icons/fi';
 import { getLocaleDate, thisMonth } from 'util/index';
 import { ISearchedBook } from 'data/bookAtom';
-import Tag from '../../atoms/tag/Tag';
+import Tag from '../../atoms/Tag';
 import styled from 'styled-components';
 import BookThumbnailImg from '../../atoms/BookThumbnailImg';
 import device from 'theme/mediaQueries';

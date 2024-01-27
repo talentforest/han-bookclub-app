@@ -1,9 +1,9 @@
 import { IDocument } from 'data/documentsAtom';
 import styled from 'styled-components';
-import PostHeader from '../atoms/post/PostHeader';
-import PostFooter from '../atoms/post/PostFooter';
-import PostContent from '../atoms/post/PostContent';
-import { PostType } from 'components/organisms/PostEditDeleteBox';
+import PostHeader from './PostHeader';
+import PostFooter from './PostFooter';
+import PostContent from '../../atoms/PostContent';
+import { PostType } from 'components/molecules/post/PostEditDeleteBox';
 
 interface Props {
   type: PostType;

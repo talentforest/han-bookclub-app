@@ -8,11 +8,11 @@ import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import useHandleFieldHost from 'hooks/useHandleFieldHost';
 import Loading from 'components/atoms/Loading';
-import TableItem from 'components/organisms/TableItem';
-import EditBookFieldHostForm from 'components/organisms/EditBookFieldHostForm';
+import BookFieldHostTableItem from 'components/molecules/BookFieldHostTableItem';
+import BookFieldHostEditForm from 'components/molecules/form/BookFieldHostEditForm';
 import Modal from 'components/atoms/Modal';
 
-const BookFieldHostBox = () => {
+const BookFieldHostTable = () => {
   const [bookFieldHostDoc, setBookFieldHostDoc] =
     useRecoilState(fieldHostDocState);
 
@@ -47,7 +47,7 @@ const BookFieldHostBox = () => {
                     onToggleClick={() => onEditClick(index)}
                     title={`${bookFieldhost.month}월의 독서분야와 발제자`}
                   >
-                    <EditBookFieldHostForm
+                    <BookFieldHostEditForm
                       bookFieldHost={bookFieldhost}
                       onSubmit={onSubmit}
                       onEditClick={onEditClick}
@@ -58,7 +58,7 @@ const BookFieldHostBox = () => {
                   </Modal>
                 )}
 
-                <TableItem
+                <BookFieldHostTableItem
                   onEditClick={() => onEditClick(index)}
                   bookFieldhost={bookFieldhost}
                 />
@@ -142,4 +142,4 @@ const BookFieldHostListItem = styled.li`
   }
 `;
 
-export default BookFieldHostBox;
+export default BookFieldHostTable;

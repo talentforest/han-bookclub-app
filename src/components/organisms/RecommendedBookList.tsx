@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { EmptyBox } from 'routes/BookClubHistory';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import PostRecommendedBook from 'components/atoms/post/PostRecommendedBook';
+import PostRecommendedBook from 'components/molecules/post/PostRecommendedBook';
 
 interface Props {
   yearMonthId?: string;

@@ -3,7 +3,7 @@ import { gender, bookFields } from 'constants/index';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import useCreateAccount from 'hooks/useCreateAccount';
-import BookField from 'components/organisms/BookField';
+import BookFieldCheckBox from 'components/molecules/BookFieldCheckBox';
 import Subtitle from 'components/atoms/Subtitle';
 import GuideLine from 'components/atoms/GuideLine';
 import SquareBtn from 'components/atoms/button/SquareBtn';
@@ -94,7 +94,7 @@ const CreateAccount = () => {
             <label>관심 분야</label>
             <Fieldset className='bookfield'>
               {bookFields.map((item, index) => (
-                <BookField
+                <BookFieldCheckBox
                   key={index}
                   bookFieldName={item.name}
                   bookFields={item}

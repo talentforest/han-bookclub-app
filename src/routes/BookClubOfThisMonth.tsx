@@ -9,14 +9,14 @@ import { BOOK_FIELD_HOST, THIS_YEAR_BOOKCLUB } from 'constants/index';
 import Loading from 'components/atoms/Loading';
 import Subtitle from 'components/atoms/Subtitle';
 import GuideLine from 'components/atoms/GuideLine';
-import ThisMonthClub from 'components/organisms/ThisMonthClub';
-import TabBox from 'components/organisms/TabBox';
-import ClubReviewList from 'components/organisms/ClubReviewList';
-import CreateClubReviewBox from 'components/molecules/CreateClubReviewBox';
+import ThisMonthClub from 'components/organisms/ThisMonthBookClub';
+import PostTabBox from 'components/organisms/PostTabBox';
+import MeetingReviewList from 'components/organisms/MeetingReviewList';
+import MeetingReviewForm from 'components/molecules/form/MeetingReviewForm';
 import SearchBookBtn from 'components/atoms/button/SearchBookBtn';
 import RecommendedBookList from 'components/organisms/RecommendedBookList';
 import MobileHeader from 'layout/mobile/MobileHeader';
-import TextWithIconLink from 'components/atoms/button/TextWithIconLink';
+import TextWithIconLink from 'components/atoms/TextWithIconLink';
 
 const BookClubOfThisMonth = () => {
   const [thisMonthClub, setThisMonthClub] = useRecoilState(
@@ -49,7 +49,7 @@ const BookClubOfThisMonth = () => {
 
           <Section>
             <Subtitle title='발제문과 정리 기록' />
-            <TabBox yearMonthId={id} />
+            <PostTabBox yearMonthId={id} />
           </Section>
 
           <Section>
@@ -60,8 +60,8 @@ const BookClubOfThisMonth = () => {
 
           <Section>
             <Subtitle title='모임 후기' />
-            <CreateClubReviewBox docMonth={thisYearMonthId} />
-            <ClubReviewList />
+            <MeetingReviewForm docMonth={thisYearMonthId} />
+            <MeetingReviewList />
           </Section>
         </main>
       </>

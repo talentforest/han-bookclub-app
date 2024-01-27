@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { ISearchedBook } from 'data/bookAtom';
 import SearchedBookDesc from 'components/molecules/SearchedBookDesc';
-import RegisterClubBookBtn from 'components/molecules/RegisterClubBookBtn';
+import RegisterClubBookBtn from 'components/atoms/button/RegisterClubBookBtn';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import styled from 'styled-components';
 import MobileHeader from 'layout/mobile/MobileHeader';

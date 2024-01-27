@@ -9,14 +9,14 @@ import { VOTE } from 'constants/index';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import GuideLine from 'components/atoms/GuideLine';
-import NameTag from 'components/atoms/tag/NameTag';
+import NameTag from 'components/atoms/NameTag';
 import ShareButton from 'components/atoms/button/ShareBtn';
 
 interface PropsType {
   voteDetail: IVote;
 }
 
-const VoteSelectReasonDetails = ({ voteDetail }: PropsType) => {
+const VoteDetailReasonDetails = ({ voteDetail }: PropsType) => {
   const { vote, creatorId, id } = voteDetail;
   const userData = useRecoilValue(currentUserState);
 
@@ -138,4 +138,4 @@ const ReasonDetailBox = styled.div`
   }
 `;
 
-export default VoteSelectReasonDetails;
+export default VoteDetailReasonDetails;

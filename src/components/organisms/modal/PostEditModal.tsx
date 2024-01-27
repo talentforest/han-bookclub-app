@@ -1,5 +1,5 @@
 import { IDocument } from 'data/documentsAtom';
-import { PostType } from '../PostEditDeleteBox';
+import { PostType } from '../../molecules/post/PostEditDeleteBox';
 import { FormEvent } from 'react';
 import Modal from 'components/atoms/Modal';
 import QuillEditor from 'components/atoms/QuillEditor';

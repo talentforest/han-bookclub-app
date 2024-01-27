@@ -1,7 +1,7 @@
 import { getDocument } from 'api/getFbDoc';
 import { useEffect, useState } from 'react';
 import { getFbRoute } from 'util/index';
-import PostRecommendedBook from '../../atoms/post/PostRecommendedBook';
+import PostRecommendedBook from '../post/PostRecommendedBook';
 
 interface Props {
   docIds: { docId: string; monthId: string };

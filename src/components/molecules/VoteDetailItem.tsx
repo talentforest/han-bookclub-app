@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import device from 'theme/mediaQueries';
-import Percentage from './Percentage';
 import { IVoteItem } from 'data/voteAtom';
+import VoteDetailItemPercent from './VoteDetailItemPercent';
+import device from 'theme/mediaQueries';
+import styled from 'styled-components';
 
 interface Props {
   selected: boolean;
@@ -11,7 +11,7 @@ interface Props {
   onClick?: () => void;
 }
 
-export default function VoteItem({
+export default function VoteDetailItem({
   onClick,
   selected,
   voteItem,
@@ -27,7 +27,7 @@ export default function VoteItem({
         disabled={disabled}
       >
         <ItemText>{voteItem.item}</ItemText>
-        <Percentage voteItems={voteItems} voteItemId={voteItem.id} />
+        <VoteDetailItemPercent voteItems={voteItems} voteItemId={voteItem.id} />
       </VoteItemBtn>
     </li>
   );

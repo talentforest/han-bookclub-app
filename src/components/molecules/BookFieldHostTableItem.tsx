@@ -3,14 +3,17 @@ import { IBookFieldHost } from 'data/bookFieldHostAtom';
 import { FaCaretRight } from 'react-icons/fa6';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import NameTag from '../atoms/tag/NameTag';
+import NameTag from '../atoms/NameTag';
 
 interface Props {
   bookFieldhost: IBookFieldHost;
   onEditClick: () => void;
 }
 
-export default function TableItem({ bookFieldhost, onEditClick }: Props) {
+export default function BookFieldHostTableItem({
+  bookFieldhost,
+  onEditClick,
+}: Props) {
   const { month, field, hosts } = bookFieldhost;
 
   return (

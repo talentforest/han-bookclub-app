@@ -2,7 +2,7 @@ import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import { useState } from 'react';
 import { IDocument } from 'data/documentsAtom';
 import useDeleteDoc from 'hooks/handleFbDoc/useDeleteDoc';
-import PostEditModal from './modal/PostEditModal';
+import PostEditModal from '../../organisms/modal/PostEditModal';
 import ShareBtn from 'components/atoms/button/ShareBtn';
 import styled from 'styled-components';
 

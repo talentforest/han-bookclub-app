@@ -1,5 +1,5 @@
 import { getDocument } from 'api/getFbDoc';
-import { BookFieldType } from 'components/organisms/BookField';
+import { BookFieldType } from 'components/molecules/BookFieldCheckBox';
 import { currentUserState, IUserDataDoc } from 'data/userAtom';
 import { authService, dbService, storageService } from 'fbase';
 import { getAuth, updateProfile } from 'firebase/auth';

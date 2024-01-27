@@ -4,9 +4,9 @@ import useCreateVoteBox from 'hooks/useCreateVoteBox';
 import 'react-datepicker/dist/react-datepicker.css';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
-import VoteDeadLine from '../../molecules/modal/VoteDeadLine';
-import VoteItems from '../../molecules/modal/VoteItems';
-import AddVoteItem from '../../molecules/modal/AddVoteItem';
+import VoteModalDeadLine from '../../molecules/VoteModalDeadLine';
+import VoteModalItems from '../../molecules/VoteModalItems';
+import VoteModalAddItem from '../../molecules/VoteModalAddItem';
 import Modal from 'components/atoms/Modal';
 import SquareBtn from 'components/atoms/button/SquareBtn';
 import GuideLine from 'components/atoms/GuideLine';
@@ -64,16 +64,16 @@ const VoteCreateModal = ({ onModalClick }: PropsType) => {
           </AddTextAreaBtn>
         </LabelBox>
 
-        <VoteItems
+        <VoteModalItems
           vote={vote}
           onTitleChange={onTitleChange}
           onItemDeleteClick={onItemDeleteClick}
           openTextArea={openTextArea}
         />
 
-        <AddVoteItem vote={vote} onItemPlusClick={onItemPlusClick} />
+        <VoteModalAddItem vote={vote} onItemPlusClick={onItemPlusClick} />
 
-        <VoteDeadLine endDate={endDate} setEndDate={setEndDate} />
+        <VoteModalDeadLine endDate={endDate} setEndDate={setEndDate} />
 
         <SquareBtn type='submit' name='투표 등록하기' />
       </Form>
