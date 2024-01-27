@@ -5,7 +5,7 @@ import { Section } from './Home';
 import Subtitle from 'components/atoms/Subtitle';
 import HistoryClubBookBox from 'components/molecules/book-box/HistoryClubBookBox';
 import PostTabBox from 'components/organisms/PostTabBox';
-import RecommendedBookList from 'components/organisms/RecommendedBookList';
+import RecommendedBookScrollList from 'components/organisms/RecommendedBookScrollList';
 import MeetingReviewList from 'components/organisms/MeetingReviewList';
 import MobileHeader from 'layout/mobile/MobileHeader';
 
@@ -37,7 +37,7 @@ const BookClubHistoryDetail = () => {
 
         <Section>
           <Subtitle title='멤버들이 소개한 책' />
-          <RecommendedBookList yearMonthId={id} />
+          <RecommendedBookScrollList yearMonthId={id} />
         </Section>
 
         <Section>

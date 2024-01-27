@@ -14,7 +14,7 @@ import PostTabBox from 'components/organisms/PostTabBox';
 import MeetingReviewList from 'components/organisms/MeetingReviewList';
 import MeetingReviewForm from 'components/molecules/form/MeetingReviewForm';
 import SearchBookBtn from 'components/atoms/button/SearchBookBtn';
-import RecommendedBookList from 'components/organisms/RecommendedBookList';
+import RecommendedBookScrollList from 'components/organisms/RecommendedBookScrollList';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import TextWithIconLink from 'components/atoms/TextWithIconLink';
 
@@ -55,7 +55,7 @@ const BookClubOfThisMonth = () => {
           <Section>
             <Subtitle title='책 추천하기' />
             <SearchBookBtn />
-            <RecommendedBookList />
+            <RecommendedBookScrollList />
           </Section>
 
           <Section>

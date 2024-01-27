@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import { allUsersState } from 'data/userAtom';
-import RecommendedBookBox from '../molecules/book-box/RecommendedBookBox';
+import RecommendedBookBoxById from '../molecules/book-box/RecommendedBookBoxById';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -8,7 +8,7 @@ interface MonthData {
   monthId: string;
 }
 
-export default function RecommendedBooksScrollBox() {
+export default function RecommendedBooksByIdScrollBox() {
   const usersData = useRecoilValue(allUsersState);
 
   function compareYearMonth(a: MonthData, b: MonthData): number {
@@ -23,17 +23,17 @@ export default function RecommendedBooksScrollBox() {
     .sort(compareYearMonth);
 
   return (
-    <ScrollContainerBox>
-      <RecommendedBookList $length={recommendedBookIds.length}>
+    <ScrollContainer>
+      <RecommendedBookByIdList $length={recommendedBookIds.length}>
         {recommendedBookIds.map((docIds) => (
-          <RecommendedBookBox key={docIds.docId} docIds={docIds} />
+          <RecommendedBookBoxById key={docIds.docId} docIds={docIds} />
         ))}
-      </RecommendedBookList>
-    </ScrollContainerBox>
+      </RecommendedBookByIdList>
+    </ScrollContainer>
   );
 }
 
-const ScrollContainerBox = styled.div`
+const ScrollContainer = styled.div`
   padding-bottom: 5px;
   overflow: scroll;
   scroll-behavior: auto;
@@ -42,7 +42,7 @@ const ScrollContainerBox = styled.div`
   }
 `;
 
-const RecommendedBookList = styled.ul<{ $length: number }>`
+const RecommendedBookByIdList = styled.ul<{ $length: number }>`
   position: relative;
   display: flex;
   gap: 10px;

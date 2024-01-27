@@ -41,7 +41,7 @@ const initialValue = {
   title: '',
 };
 
-export default function RecommendedBookBox({ docIds }: Props) {
+export default function RecommendedBookBoxById({ docIds }: Props) {
   const [recommendedBook, setRecommendedBook] =
     useState<RecommendedBook>(initialValue);
 

@@ -8,7 +8,7 @@ import GuideLine from 'components/atoms/GuideLine';
 import BookFieldHostTable from 'components/organisms/BookFieldHostTable';
 import VoteSlider from 'components/organisms/VoteSlider';
 import styled from 'styled-components';
-import RecommendedBooksScrollBox from 'components/organisms/RecommendedBooksScrollBox';
+import RecommendedBooksByIdScrollBox from 'components/organisms/RecommendedBooksByIdScrollBox';
 import ChallengeBookList from 'components/organisms/ChallengeBookList';
 import ThisMonthBookClub from 'components/organisms/ThisMonthBookClub';
 import MobileHeader from 'layout/mobile/MobileHeader';
@@ -43,7 +43,7 @@ const Home = () => {
 
         <Section>
           <Subtitle title='한페이지 멤버들이 소개했던 책' />
-          <RecommendedBooksScrollBox />
+          <RecommendedBooksByIdScrollBox />
         </Section>
 
         <Section>
