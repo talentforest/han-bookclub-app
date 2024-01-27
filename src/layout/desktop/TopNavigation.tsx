@@ -59,12 +59,13 @@ const Nav = styled.nav`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100px;
+    height: 80px;
     padding: 20px 80px;
   }
   @media ${device.desktop} {
     padding: 0;
     width: 70%;
+    height: 100px;
     margin: 0 auto;
   }
 `;

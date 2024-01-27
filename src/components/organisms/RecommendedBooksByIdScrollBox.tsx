@@ -19,7 +19,6 @@ export default function RecommendedBooksByIdScrollBox() {
     .map((item) => item?.userRecords?.recommendedBooks)
     .filter((item) => !!item?.length)
     .flat()
-    .slice(0, 8)
     .sort(compareYearMonth);
 
   return (

@@ -8,6 +8,8 @@ import PostTabBox from 'components/organisms/PostTabBox';
 import RecommendedBookScrollList from 'components/organisms/RecommendedBookScrollList';
 import MeetingReviewList from 'components/organisms/MeetingReviewList';
 import MobileHeader from 'layout/mobile/MobileHeader';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
 
 type LocationState = { state: { document: IBookClub } };
 
@@ -26,6 +28,10 @@ const BookClubHistoryDetail = () => {
       />
 
       <main>
+        <DeskTopTitle>
+          {formatKRMarkDate(id, 'YY년 MM월')}의 한페이지 모임
+        </DeskTopTitle>
+
         <Section>
           <HistoryClubBookBox document={document} />
         </Section>
@@ -48,5 +54,15 @@ const BookClubHistoryDetail = () => {
     </>
   );
 };
+
+const DeskTopTitle = styled.h1`
+  display: none;
+  @media ${device.tablet} {
+    font-size: 17px;
+    display: block;
+    margin: 0 0 10px 4px;
+    color: ${({ theme }) => theme.text.gray4};
+  }
+`;
 
 export default BookClubHistoryDetail;
