@@ -15,7 +15,7 @@ const ResultBookBox = ({ searchedBook, modal }: PropsType) => {
   const bookTitle = title.includes('/') ? title.split('/')[0] : title;
 
   return (
-    <BookResultBox $modal={modal} to={bookTitle} state={{ searchedBook }}>
+    <BookResultBoxLink $modal={modal} to={bookTitle} state={{ searchedBook }}>
       <BookThumbnailImg thumbnail={thumbnail} title={title} />
       <div>
         <BookDetail $modal={modal}>
@@ -31,11 +31,11 @@ const ResultBookBox = ({ searchedBook, modal }: PropsType) => {
           <span>{getLocaleDate(datetime)}</span>
         </BookDetail>
       </div>
-    </BookResultBox>
+    </BookResultBoxLink>
   );
 };
 
-const BookResultBox = styled(Link)<{ $modal: boolean }>`
+const BookResultBoxLink = styled(Link)<{ $modal: boolean }>`
   width: 100%;
   height: ${({ $modal }) => ($modal ? '60px' : '85px')};
   margin-bottom: ${({ $modal }) => ($modal ? '0' : '10px')};

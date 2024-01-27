@@ -47,7 +47,7 @@ export const Btn = styled.button<{
   cursor: ${({ $disabled }) => ($disabled ? 'default' : 'pointer')};
   min-height: 40px;
   width: ${({ $width }) => $width};
-  padding: 0 12px;
+  padding: 0 9px;
   display: flex;
   align-items: center;
   justify-content: center;

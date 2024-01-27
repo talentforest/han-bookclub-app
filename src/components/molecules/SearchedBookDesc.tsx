@@ -34,7 +34,7 @@ const SearchedBookDesc = ({ detailInfo }: PropsType) => {
         </InfoBox>
       ))}
 
-      <p dangerouslySetInnerHTML={{ __html: contents }} />
+      <p dangerouslySetInnerHTML={{ __html: `${contents}...` }} />
 
       {url && (
         <a href={url} target='_blank' rel='noreferrer'>
