@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import Tag from 'components/atoms/Tag';
+import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 
 interface PropsType {
   document: IBookClub;
@@ -29,18 +30,12 @@ const HistoryClubBookBox = ({ document }: PropsType) => {
         {pathname === '/history' && (
           <Tag name={`${month}월의 책`} color='yellow' />
         )}
-
-        <h3>{title ? cutLetter(title, 30) : '이벤트'}</h3>
-
-        {pathname !== '/history' && !!authors?.length && publisher && (
-          <div className='authors_publisher'>
-            <span>
-              {authors.join(', ')}
-              {authors.length !== 1 && `(외 ${authors.length - 1}명)`}
-            </span>
-            <span> ・ {publisher}</span>
-          </div>
-        )}
+        <div>
+          <h3>{title ? cutLetter(title, 40) : '이벤트'}</h3>
+          {pathname !== '/history' && !!authors?.length && publisher && (
+            <BookAuthorPublisher authors={authors} publisher={publisher} />
+          )}
+        </div>
 
         <div className='meeting'>
           <span>{getMeetingTime(new Date(time))}</span>
@@ -64,17 +59,6 @@ const BookBox = styled.div`
   box-shadow: ${({ theme }) => theme.boxShadow};
   cursor: pointer;
 
-  .authors_publisher {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3px;
-    align-items: start;
-    flex: 1;
-    span {
-      line-height: 1.1;
-      color: #666;
-    }
-  }
   .meeting {
     display: flex;
     flex-direction: column;

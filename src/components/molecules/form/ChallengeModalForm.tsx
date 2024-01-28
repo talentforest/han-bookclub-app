@@ -11,6 +11,7 @@ import BookThumbnailImg from '../../atoms/BookThumbnailImg';
 import Input from '../../atoms/input/Input';
 import SquareBtn from '../../atoms/button/SquareBtn';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
+import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 
 interface Props {
   onModalClose: () => void;
@@ -69,13 +70,7 @@ export default function ChallengeModalForm({ onModalClose }: Props) {
         <BookThumbnailImg title={title} thumbnail={thumbnail} />
         <div>
           <h4>{title}</h4>
-          <div>
-            <span>
-              {authors[0]}
-              {authors.length !== 1 && `(외 ${authors.length - 1}명)`}
-            </span>
-            {publisher && <span>{publisher}</span>}
-          </div>
+          <BookAuthorPublisher authors={authors} publisher={publisher} />
         </div>
       </BookBox>
 

@@ -11,6 +11,7 @@ import SquareBtn from 'components/atoms/button/SquareBtn';
 import Input from 'components/atoms/input/Input';
 import styled from 'styled-components';
 import { getPercentage } from 'util/index';
+import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 
 interface Props {
   challenge: IChallenge;
@@ -49,13 +50,7 @@ export default function ChallengeEditModal({ challenge, onModalClose }: Props) {
           <BookThumbnailImg title={title} thumbnail={thumbnail} />
           <BookTextInfo>
             <h4>{title}</h4>
-            <AuthorPublisher>
-              <span>
-                {authors[0]}
-                {authors.length !== 1 && `(외 ${authors.length - 1}명)`}
-              </span>
-              <span> ・ {publisher}</span>
-            </AuthorPublisher>
+            <BookAuthorPublisher authors={authors} publisher={publisher} />
             <span>
               {currentPageNum}p / {wholePage}p
               <span className='percent'>
@@ -120,19 +115,6 @@ const BookTextInfo = styled.div`
       font-size: 13px;
       color: ${({ theme }) => theme.container.blue3};
     }
-  }
-`;
-
-const AuthorPublisher = styled.div`
-  margin-top: 2px;
-  display: flex;
-  span {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    font-size: 14px;
-    color: ${({ theme }) => theme.text.gray3};
   }
 `;
 

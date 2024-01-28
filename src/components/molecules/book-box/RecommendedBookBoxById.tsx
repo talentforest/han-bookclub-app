@@ -18,6 +18,7 @@ interface RecommendedBook {
     thumbnail: string;
     title: string;
     url: string;
+    publisher: string;
   };
   text: string;
   thumbnail: string;
@@ -35,6 +36,7 @@ const initialValue = {
     thumbnail: '',
     title: '',
     url: '',
+    publisher: '',
   },
   text: '',
   thumbnail: '',

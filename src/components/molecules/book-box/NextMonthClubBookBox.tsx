@@ -7,6 +7,7 @@ import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import Tag from 'components/atoms/Tag';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
+import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 
 export default function NextMonthClubBookBox() {
   const [thisYearBookClubInfos, setThisYearBookClubInfos] =
@@ -34,14 +35,10 @@ export default function NextMonthClubBookBox() {
 
           <BookTextInfo>
             <h1>{book.title}</h1>
-            <div>
-              <span>
-                {book.authors[0]}
-                {book.authors.length !== 1 &&
-                  `(외 ${book.authors.length - 1}명)`}
-              </span>
-              <span> ・ {book.publisher}</span>
-            </div>
+            <BookAuthorPublisher
+              authors={book.authors}
+              publisher={book.publisher}
+            />
           </BookTextInfo>
         </div>
       </Box>
@@ -78,24 +75,8 @@ const BookTextInfo = styled.div`
   align-items: flex-end;
   flex-direction: column;
   margin: 0 4px 0 10px;
-  > h1 {
-    margin-top: 2px;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    font-size: 16px;
-  }
   > div {
     margin-top: 2px;
     display: flex;
-    span {
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      font-size: 14px;
-      color: ${({ theme }) => theme.text.gray3};
-    }
   }
 `;

@@ -3,6 +3,7 @@ import { getLocaleDate, cutLetter } from 'util/index';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
+import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 
 interface PropsType {
   searchedBook: ISearchedBook;
@@ -21,13 +22,7 @@ const ResultBookBox = ({ searchedBook, modal }: PropsType) => {
         <BookDetail $modal={modal}>
           <h3>{cutLetter(title, 16)}</h3>
 
-          <div>
-            <span>
-              {authors[0]}
-              {authors.length !== 1 && `(외 ${authors.length - 1}명)`}
-            </span>
-            <span> ・ {publisher}</span>
-          </div>
+          <BookAuthorPublisher authors={authors} publisher={publisher} />
           <span>{getLocaleDate(datetime)}</span>
         </BookDetail>
       </div>
@@ -64,7 +59,7 @@ const BookDetail = styled.div<{ $modal: boolean }>`
   > h3 {
     font-size: ${({ $modal }) => ($modal ? '14px' : '15px')};
   }
-  span {
+  > span {
     font-size: ${({ $modal }) => ($modal ? '12px' : '13px')};
     color: #888;
     line-height: 1.4;

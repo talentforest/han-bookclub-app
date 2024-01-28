@@ -19,6 +19,7 @@ export interface IRecommendedBook {
   title: string;
   authors: string[];
   url: string;
+  publisher: string;
 }
 
 export interface IChallenge {
@@ -37,6 +38,7 @@ export const recommendBookState = atom<IRecommendedBook>({
     title: '',
     authors: [],
     url: '',
+    publisher: '',
   },
 });
 

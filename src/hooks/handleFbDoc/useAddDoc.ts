@@ -51,7 +51,13 @@ const useAddDoc = ({ setText, collName, docData }: PropsType) => {
       updateUserData(newUserDocId);
 
       if (docData?.recommendedBook?.title) {
-        setMyRecommendBook({ thumbnail: '', title: '', authors: [], url: '' });
+        setMyRecommendBook({
+          thumbnail: '',
+          title: '',
+          authors: [],
+          url: '',
+          publisher: '',
+        });
       }
     } catch (error) {
       console.error('Error adding document:', error);

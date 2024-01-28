@@ -16,6 +16,7 @@ import RecommendBookModalForm from 'components/molecules/form/RecommendBookModal
 import DottedDividingLine from 'components/atoms/DottedDividingLine';
 import ChallengeModalForm from 'components/molecules/form/ChallengeModalForm';
 import styled from 'styled-components';
+import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 
 interface Props {
   title: '챌린지 등록하기' | '추천책 작성하기';
@@ -90,14 +91,10 @@ export default function SearchedBookPostAddModal({
                   <div>
                     <h3>{cutLetter(book.title, 16)}</h3>
 
-                    {!!book.authors.length && (
-                      <span>
-                        {book.authors[0]}
-                        {book.authors.length !== 1 &&
-                          `(외 ${book.authors.length - 1}명)`}
-                      </span>
-                    )}
-                    {book.publisher && <span>{book.publisher}</span>}
+                    <BookAuthorPublisher
+                      authors={book.authors}
+                      publisher={book.publisher}
+                    />
                   </div>
 
                   <button

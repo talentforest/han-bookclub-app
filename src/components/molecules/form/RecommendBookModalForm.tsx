@@ -9,6 +9,7 @@ import BookThumbnailImg from '../../atoms/BookThumbnailImg';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import styled from 'styled-components';
 import SquareBtn from '../../atoms/button/SquareBtn';
+import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 
 interface Props {
   onModalClose: () => void;
@@ -21,7 +22,7 @@ export default function RecommendBookModalForm({ onModalClose }: Props) {
 
   const { book } = thisMonthClub;
 
-  const { title, thumbnail, authors, url } = recommendBook;
+  const { title, thumbnail, authors, url, publisher } = recommendBook;
 
   const collName = getFbRoute(thisYearMonthId).RECOMMENDED_BOOKS;
 
@@ -31,7 +32,7 @@ export default function RecommendBookModalForm({ onModalClose }: Props) {
     creatorId: userData.uid,
     title: book.title,
     thumbnail: book.thumbnail,
-    recommendedBook: { title, thumbnail, url, authors },
+    recommendedBook: { title, thumbnail, url, authors, publisher },
   };
 
   const { onAddDocSubmit, onChange } = useAddDoc({
@@ -63,12 +64,7 @@ export default function RecommendBookModalForm({ onModalClose }: Props) {
             <BookThumbnailImg title={title} thumbnail={thumbnail} />
             <div>
               <h3>{cutLetter(title, 17)}</h3>
-              {!!authors.length && (
-                <span>
-                  {authors[0]}
-                  {authors.length !== 1 && `(외 ${authors.length - 1}명)`}
-                </span>
-              )}
+              <BookAuthorPublisher authors={authors} publisher={publisher} />
             </div>
           </BookInfo>
         )}

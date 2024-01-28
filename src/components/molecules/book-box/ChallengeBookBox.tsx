@@ -14,6 +14,7 @@ import UserNameBox from 'components/atoms/UserNameBox';
 import ChallengeEditModal from 'components/organisms/modal/ChallengeEditModal';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
+import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 
 interface Props {
   challenge: IChallenge;
@@ -57,17 +58,12 @@ export default function ChallengeBookBox({ challenge }: Props) {
           )}
 
           <BookThumbnail title={title} thumbnail={thumbnail} />
+
           <div className='info'>
             <UserNameBox creatorId={creatorId} fontSize={15} />
-
-            <h1>{cutLetter(title, 40)}</h1>
-
             <div>
-              <span>
-                {authors[0]}
-                {authors.length !== 1 && `(외 ${authors.length - 1}명)`}
-              </span>
-              {publisher && <span> ・ {publisher}</span>}
+              <h3>{title ? cutLetter(title, 40) : '이벤트'}</h3>
+              <BookAuthorPublisher authors={authors} publisher={publisher} />
             </div>
           </div>
         </BookBox>
@@ -120,20 +116,10 @@ const BookBox = styled.div`
     margin-left: 85px;
     flex: 1;
     height: 100%;
-
-    h1 {
-      padding-bottom: 2px;
-      display: flex;
-      align-items: flex-end;
-      flex: 1;
-      font-size: 16px;
-      line-height: 1.3;
-    }
+    padding-bottom: 4px;
     > div {
-      > span {
-        line-height: 1;
-        font-size: 15px;
-        color: #888;
+      h3 {
+        margin-bottom: 2px;
       }
     }
   }
