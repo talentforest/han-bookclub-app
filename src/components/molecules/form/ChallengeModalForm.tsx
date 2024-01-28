@@ -1,4 +1,4 @@
-import { bookDescState } from 'data/bookAtom';
+import { bookDescState, challengeState } from 'data/bookAtom';
 import { IChallenge } from 'data/bookAtom';
 import { currentUserState } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
@@ -18,6 +18,7 @@ interface Props {
 }
 
 export default function ChallengeModalForm({ onModalClose }: Props) {
+  const userChallenges = useRecoilValue(challengeState);
   const bookDesc = useRecoilValue(bookDescState);
   const userData = useRecoilValue(currentUserState);
   const [pageNums, setPageNums] = useState({
@@ -25,14 +26,11 @@ export default function ChallengeModalForm({ onModalClose }: Props) {
     currentPage: 0,
   });
 
-  const { title, thumbnail, authors, publisher } = bookDesc;
+  const findMyChallengeBooks = userChallenges.find(
+    (challenge) => challenge.id === userData.uid
+  );
 
-  const challengeDoc: IChallenge = {
-    createdAt: Date.now(),
-    creatorId: userData.uid,
-    books: [bookDesc],
-    ...pageNums,
-  };
+  const { title, thumbnail, authors, publisher } = bookDesc;
 
   const { anonymous, alertAskJoinMember } = useAlertAskJoin('write');
 
@@ -40,11 +38,24 @@ export default function ChallengeModalForm({ onModalClose }: Props) {
     event.preventDefault();
     if (anonymous) return alertAskJoinMember();
 
-    await setDoc(doc(dbService, CHALLENGE, `${userData.uid}`), challengeDoc);
+    const challengeDoc: IChallenge = findMyChallengeBooks
+      ? {
+          ...findMyChallengeBooks,
+          books: [...findMyChallengeBooks.books, { ...bookDesc, ...pageNums }],
+        }
+      : {
+          createdAt: Date.now(),
+          creatorId: userData.uid,
+          books: [{ ...bookDesc, ...pageNums }],
+        };
+
+    await setDoc(doc(dbService, CHALLENGE, userData.uid), challengeDoc);
 
     onModalClose();
 
-    alert('2024년 챌린지가 추가되었습니다! 챌린지 달성을 응원할게요!');
+    alert(
+      '2024년 개인별 챌린지 책이 추가되었습니다! 챌린지 달성을 응원할게요!'
+    );
   };
 
   const onChange = (

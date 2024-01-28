@@ -1,8 +1,8 @@
-import { IChallenge } from 'data/bookAtom';
+import { IChallenge, IChallengeBook } from 'data/bookAtom';
 import { currentUserState } from 'data/userAtom';
 import { dbService } from 'fbase';
 import { doc, setDoc } from 'firebase/firestore';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 import { useRecoilValue } from 'recoil';
 import { CHALLENGE } from 'constants/index';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
@@ -10,29 +10,42 @@ import Modal from 'components/atoms/Modal';
 import SquareBtn from 'components/atoms/button/SquareBtn';
 import Input from 'components/atoms/input/Input';
 import styled from 'styled-components';
-import { getPercentage } from 'util/index';
 import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 
 interface Props {
   challenge: IChallenge;
+  currChallengeBook: IChallengeBook;
   onModalClose: () => void;
+  currentPageNum: number;
+  setCurrentPageNum: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function ChallengeEditModal({ challenge, onModalClose }: Props) {
-  const { wholePage, currentPage, books } = challenge;
+export default function ChallengeEditModal({
+  challenge,
+  currChallengeBook,
+  onModalClose,
+  currentPageNum,
+  setCurrentPageNum,
+}: Props) {
+  const { books } = challenge;
   const userData = useRecoilValue(currentUserState);
-  const [currentPageNum, setCurrentPageNum] = useState(currentPage);
-
-  const challengeDoc: IChallenge = {
-    ...challenge,
-    createdAt: Date.now(),
-    currentPage: currentPageNum,
-  };
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    await setDoc(doc(dbService, CHALLENGE, `${userData.uid}`), challengeDoc);
+    const editedPageBooks = books.map((book) =>
+      book.title === currChallengeBook.title
+        ? { ...book, currentPage: currentPageNum }
+        : book
+    );
+
+    const editedChallengeDoc: IChallenge = {
+      ...challenge,
+      createdAt: Date.now(),
+      books: editedPageBooks,
+    };
+
+    await setDoc(doc(dbService, CHALLENGE, userData.uid), editedChallengeDoc);
     onModalClose();
     alert('현재 페이지가 수정되었어요!');
   };
@@ -41,7 +54,7 @@ export default function ChallengeEditModal({ challenge, onModalClose }: Props) {
     setCurrentPageNum(+event.target.value);
   };
 
-  const { title, thumbnail, authors, publisher } = books[0];
+  const { title, thumbnail, authors, publisher } = currChallengeBook;
 
   return (
     <Modal title='나의 챌린지 진도 수정' onToggleClick={onModalClose}>
@@ -51,12 +64,6 @@ export default function ChallengeEditModal({ challenge, onModalClose }: Props) {
           <BookTextInfo>
             <h4>{title}</h4>
             <BookAuthorPublisher authors={authors} publisher={publisher} />
-            <span>
-              {currentPageNum}p / {wholePage}p
-              <span className='percent'>
-                ({getPercentage(currentPage, wholePage).toFixed(0)}%)
-              </span>
-            </span>
           </BookTextInfo>
         </BookBox>
 

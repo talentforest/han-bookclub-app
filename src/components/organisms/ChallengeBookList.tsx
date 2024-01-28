@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { challengeState } from 'data/bookAtom';
 import { EmptyBox } from 'routes/BookClubHistory';
 import { CHALLENGE } from 'constants/fbRouteName';
-import ChallengeBookBox from 'components/molecules/book-box/ChallengeBookBox';
+import UserChallengeBox from 'components/molecules/UserChallengeBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 
@@ -23,7 +23,7 @@ export default function ChallengeBookList() {
         challengeBooks
           ?.slice(0, 4)
           ?.map((challenge, index) => (
-            <ChallengeBookBox key={index} challenge={challenge} />
+            <UserChallengeBox key={index} challenge={challenge} />
           ))
       ) : (
         <EmptyBox>챌린지 책이 아직 없습니다.</EmptyBox>

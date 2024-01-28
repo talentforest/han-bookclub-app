@@ -18,17 +18,14 @@ export default function BookAuthorPublisher({ authors, publisher }: Props) {
 }
 
 const Info = styled.div`
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: ${({ theme }) => theme.text.gray3};
   > span {
     line-height: 1;
     font-size: 15px;
     color: #888;
   }
-  /* span {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    font-size: 14px;
-    color: ${({ theme }) => theme.text.gray3};
-  } */
 `;

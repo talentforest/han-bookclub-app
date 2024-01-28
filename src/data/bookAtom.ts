@@ -22,13 +22,16 @@ export interface IRecommendedBook {
   publisher: string;
 }
 
+export interface IChallengeBook extends ISearchedBook {
+  currentPage: number;
+  wholePage: number;
+}
+
 export interface IChallenge {
   id?: string;
   createdAt: number;
   creatorId: string;
-  books: ISearchedBook[];
-  wholePage: number;
-  currentPage: number;
+  books: IChallengeBook[];
 }
 
 export const recommendBookState = atom<IRecommendedBook>({

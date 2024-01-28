@@ -6,7 +6,7 @@ import { FiPlusCircle } from 'react-icons/fi';
 import { getCollection } from 'api/getFbDoc';
 import { CHALLENGE } from 'constants/index';
 import MobileHeader from 'layout/mobile/MobileHeader';
-import ChallengeBookBox from 'components/molecules/book-box/ChallengeBookBox';
+import UserChallengeBox from 'components/molecules/UserChallengeBox';
 import Subtitle from 'components/atoms/Subtitle';
 import SearchedBookPostAddModal from 'components/organisms/modal/SearchedBookPostAddModal';
 import styled from 'styled-components';
@@ -14,11 +14,11 @@ import device from 'theme/mediaQueries';
 
 export default function Challenge() {
   const [showChallengeModal, setShowChallengeModal] = useState(false);
-  const [challengeBooks, setChallengeBook] = useRecoilState(challengeState);
+  const [userChallenges, setUserChallenges] = useRecoilState(challengeState);
 
   useEffect(() => {
-    if (!challengeBooks) {
-      getCollection(CHALLENGE, setChallengeBook);
+    if (!userChallenges) {
+      getCollection(CHALLENGE, setUserChallenges);
     }
   }, []);
 
@@ -44,14 +44,14 @@ export default function Challenge() {
           </DDay>
         </AddBox>
 
-        <ChallengeBookList>
-          {challengeBooks?.map(
-            (challenge, index) =>
+        <UserChallengeList>
+          {userChallenges?.map(
+            (challenge) =>
               challenge && (
-                <ChallengeBookBox key={index} challenge={challenge} />
+                <UserChallengeBox key={challenge.id} challenge={challenge} />
               )
           )}
-        </ChallengeBookList>
+        </UserChallengeList>
 
         {showChallengeModal && (
           <SearchedBookPostAddModal
@@ -110,10 +110,10 @@ const DDay = styled.div`
   }
 `;
 
-const ChallengeBookList = styled.ul`
-  @media ${device.desktop} {
+const UserChallengeList = styled.ul`
+  @media ${device.tablet} {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 18px;
   }
 `;
