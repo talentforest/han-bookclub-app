@@ -8,3 +8,4 @@ export const VOTE = 'Vote';
 export const MEETING_PLACE = 'MeetingPlace';
 export const CHALLENGE = 'Challenge';
 export const RECOMMENDED_BOOKS = 'RecommendedBooks';
+export const SENTENCES2024 = 'Sentence-2024';

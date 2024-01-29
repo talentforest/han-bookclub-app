@@ -24,6 +24,8 @@ export default function PostEditModal({
     collName,
   });
 
+  console.log(postType, collName);
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) =>
     onEditedSubmit(event, onToggleClick);
 

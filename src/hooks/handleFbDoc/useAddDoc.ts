@@ -39,10 +39,13 @@ const useAddDoc = ({ setText, collName, docData }: PropsType) => {
   const onAddDocSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    console.log(docData);
+
     try {
       if (docData.text.length === 0) return;
 
       await setDoc(docRef, docData);
+
       const newUserDocId = {
         monthId: thisYearMonthId,
         docId: docRef.id,
@@ -66,30 +69,48 @@ const useAddDoc = ({ setText, collName, docData }: PropsType) => {
   };
 
   const updateUserData = async (newUserDocId: IUserPostDocId) => {
-    const { reviews, subjects, recommendedBooks, hostReviews } =
-      userExtraData.userRecords;
+    // const { reviews, subjects, recommendedBooks, hostReviews, sentences } =
+    //   userExtraData.userRecords || {};
+
+    if (collName.includes('Sentence')) {
+      await updateDoc(userDataRef, {
+        'userRecords.sentences': [
+          ...(userExtraData?.userRecords?.sentences ?? []),
+          newUserDocId,
+        ],
+      });
+    }
 
     if (collName.includes('Reviews')) {
       await updateDoc(userDataRef, {
-        'userRecords.reviews': [...(reviews ?? []), newUserDocId],
+        'userRecords.reviews': [
+          ...(userExtraData?.userRecords?.reviews ?? []),
+          newUserDocId,
+        ],
       });
     }
     if (collName.includes('Subjects')) {
       await updateDoc(userDataRef, {
-        'userRecords.subjects': [...(subjects ?? []), newUserDocId],
+        'userRecords.subjects': [
+          ...(userExtraData?.userRecords?.subjects ?? []),
+          newUserDocId,
+        ],
       });
     }
     if (collName.includes('RecommendedBooks')) {
       await updateDoc(userDataRef, {
         'userRecords.recommendedBooks': [
-          ...(recommendedBooks ?? []),
+          ...(userExtraData?.userRecords?.recommendedBooks ?? []),
           { monthId: thisYearMonthId, docId: docRef.id },
         ],
       });
     }
     if (collName.includes('HostReview')) {
       await updateDoc(userDataRef, {
-        'userRecords.hostReviews': [...(hostReviews ?? []), newUserDocId],
+        'userRecords.hostReviews': [
+          ...(userExtraData?.userRecords?.hostReviews ?? []),
+          newUserDocId,
+        ],
       });
     }
   };

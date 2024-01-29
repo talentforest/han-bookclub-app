@@ -1,62 +1,86 @@
-import { challengeState } from 'data/bookAtom';
+import { challengeState, sentencesState } from 'data/bookAtom';
 import { useRecoilState } from 'recoil';
 import { getDDay, thisYear } from 'util/index';
 import { useEffect, useState } from 'react';
 import { FiPlusCircle } from 'react-icons/fi';
 import { getCollection } from 'api/getFbDoc';
-import { CHALLENGE } from 'constants/index';
+import { CHALLENGE, SENTENCES2024 } from 'constants/index';
+import { Section } from './Home';
+import { EmptyBox } from './BookClubHistory';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import UserChallengeBox from 'components/molecules/UserChallengeBox';
 import Subtitle from 'components/atoms/Subtitle';
 import SearchedBookPostAddModal from 'components/organisms/modal/SearchedBookPostAddModal';
+import BookSentenceBox from 'components/molecules/post/PostSentenceBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
+import GuideLine from 'components/atoms/GuideLine';
 
 export default function Challenge() {
   const [showChallengeModal, setShowChallengeModal] = useState(false);
+
   const [userChallenges, setUserChallenges] = useRecoilState(challengeState);
+  const [sentences, setSentences] = useRecoilState(sentencesState);
 
   useEffect(() => {
     if (!userChallenges) {
       getCollection(CHALLENGE, setUserChallenges);
     }
+    getCollection(SENTENCES2024, setSentences);
   }, []);
 
-  const onToggleClick = () => setShowChallengeModal((prev) => !prev);
+  const onChallengeModalClick = () => setShowChallengeModal((prev) => !prev);
 
   return (
     <>
       <MobileHeader title={`${thisYear}년 개인별 챌린지`} backBtn />
 
       <main>
-        <AddBox>
-          <div>
-            <Subtitle title='진행중인 챌린지' />
-            <button type='button' onClick={onToggleClick}>
-              <FiPlusCircle />
-            </button>
-          </div>
-          <DDay>
-            <span>
-              디데이: <span className='dday'>{getDDay('2024-12-31')}</span>
-            </span>
-            <span className='date'>(2024년 12월 31일)</span>
-          </DDay>
-        </AddBox>
+        <Section>
+          <Subtitle title='공유하고 싶은 문구들' />
+          <GuideLine text='아래 개인별 챌린지 박스에서 추가할 수 있어요' />
 
-        <UserChallengeList>
-          {userChallenges?.map(
-            (challenge) =>
-              challenge && (
+          <SentenceList>
+            {!!sentences && sentences?.length !== 0 ? (
+              sentences?.map((sentence) => (
+                <BookSentenceBox
+                  key={sentence.createdAt}
+                  bookSentence={sentence}
+                />
+              ))
+            ) : (
+              <EmptyBox>아직 문구가 없습니다.</EmptyBox>
+            )}
+          </SentenceList>
+        </Section>
+
+        <Section>
+          <AddBox>
+            <AddBtnBox>
+              <Subtitle title='개인별 챌린지 현황' />
+              <button type='button' onClick={onChallengeModalClick}>
+                <FiPlusCircle />
+              </button>
+            </AddBtnBox>
+            <DDay>
+              <span>
+                디데이: <span className='dday'>{getDDay('2024-12-31')}</span>
+              </span>
+              <span className='date'>(2024년 12월 31일)</span>
+            </DDay>
+          </AddBox>
+          <UserChallengeList>
+            {userChallenges?.length !== 0 &&
+              userChallenges?.map((challenge) => (
                 <UserChallengeBox key={challenge.id} challenge={challenge} />
-              )
-          )}
-        </UserChallengeList>
+              ))}
+          </UserChallengeList>
+        </Section>
 
         {showChallengeModal && (
           <SearchedBookPostAddModal
             title='챌린지 등록하기'
-            onToggleClick={onToggleClick}
+            onToggleClick={onChallengeModalClick}
           />
         )}
       </main>
@@ -64,24 +88,26 @@ export default function Challenge() {
   );
 }
 
+const AddBtnBox = styled.div`
+  display: flex;
+  align-items: center;
+  h3 {
+    margin-bottom: 0;
+  }
+  svg {
+    font-size: 20px;
+    stroke: ${({ theme }) => theme.text.blue2};
+    margin: 2px 0 0 8px;
+  }
+`;
+
 const AddBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
   justify-content: space-between;
-  margin-bottom: 30px;
-  > div:first-child {
-    display: flex;
-    align-items: center;
-    h3 {
-      margin-bottom: 0;
-    }
-    svg {
-      font-size: 20px;
-      stroke: ${({ theme }) => theme.text.blue2};
-      margin: 2px 0 0 8px;
-    }
-  }
+  margin-bottom: 15px;
+
   span {
     margin-bottom: 2px;
     color: ${({ theme }) => theme.text.gray3};
@@ -107,6 +133,17 @@ const DDay = styled.div`
   .date {
     font-size: 13px;
     margin-top: 2px;
+  }
+`;
+
+const SentenceList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  @media ${device.tablet} {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
   }
 `;
 

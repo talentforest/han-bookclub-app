@@ -6,7 +6,12 @@ import PostEditModal from '../../organisms/modal/PostEditModal';
 import ShareBtn from 'components/atoms/button/ShareBtn';
 import styled from 'styled-components';
 
-export type PostType = '발제문' | '정리 기록' | '모임 후기' | '책 추천';
+export type PostType =
+  | '발제문'
+  | '정리 기록'
+  | '모임 후기'
+  | '책 추천'
+  | '공유하고 싶은 문구';
 
 interface Props {
   collName: string;
@@ -17,7 +22,10 @@ interface Props {
 const PostEditDeleteBox = ({ collName, post, postType }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const { onDeleteClick } = useDeleteDoc({ docId: post.id, collName });
+  const { onDeleteClick } = useDeleteDoc({
+    docId: post.id,
+    collName,
+  });
 
   const onToggleClick = () => setIsEditing((prev) => !prev);
 
@@ -27,10 +35,10 @@ const PostEditDeleteBox = ({ collName, post, postType }: Props) => {
     <>
       <BtnBox>
         <button onClick={onToggleClick}>
-          <FiEdit fontSize={15} stroke='#888' />
+          <FiEdit fontSize={14} stroke='#888' />
         </button>
         <button onClick={onDeleteClick}>
-          <FiTrash2 fontSize={16} stroke='#888' />
+          <FiTrash2 fontSize={15} stroke='#888' />
         </button>
 
         {isShareBtn && (
@@ -59,7 +67,7 @@ const BtnBox = styled.div`
   align-items: center;
   button {
     line-height: 0;
-    padding: 2px;
+    padding: 2px 4px;
     margin-left: 6px;
   }
 `;

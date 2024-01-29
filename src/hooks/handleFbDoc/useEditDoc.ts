@@ -18,7 +18,7 @@ const useEditDoc = ({ post, collName }: PropsType) => {
 
   const updatedData = () => {
     if (collName.includes('Reviews')) {
-      return { text: editedText, rating: 0 };
+      return { text: editedText };
     }
     return { text: editedText };
   };

@@ -12,7 +12,6 @@ export interface IDocument {
   recommendedBook?: IRecommendedBook;
   likes?: number;
   likeUsers?: string[];
-  rating?: number;
 }
 
 export const subjectsState = atom<IDocument[]>({

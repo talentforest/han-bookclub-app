@@ -34,6 +34,17 @@ export interface IChallenge {
   books: IChallengeBook[];
 }
 
+export interface ISentence {
+  id: string;
+  title: string;
+  thumbnail: string;
+  createdAt: number;
+  creatorId: string;
+  text: string;
+  likeUsers?: string[];
+  likes?: number;
+}
+
 export const recommendBookState = atom<IRecommendedBook>({
   key: `recommendBook${v4()}`,
   default: {
@@ -57,5 +68,10 @@ export const searchListState = atom<ISearchedBook[]>({
 
 export const challengeState = atom<IChallenge[]>({
   key: `challenge/${v4()}`,
+  default: null,
+});
+
+export const sentencesState = atom<ISentence[]>({
+  key: `sentences/${v4()}`,
   default: null,
 });

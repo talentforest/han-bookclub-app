@@ -2,12 +2,14 @@ import { cutLetter } from 'util/index';
 import { IChallenge, IChallengeBook } from 'data/bookAtom';
 import { useLocation } from 'react-router-dom';
 import { FiTrash2 } from 'react-icons/fi';
+
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { dbService } from 'fbase';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { CHALLENGE } from 'constants/index';
+import { TbBlockquote } from 'react-icons/tb';
 import BookThumbnail from '../atoms/BookThumbnailImg';
 import UserNameBox from 'components/atoms/UserNameBox';
 import ChallengeEditModal from 'components/organisms/modal/ChallengeEditModal';
@@ -15,6 +17,7 @@ import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 import ChallengePagePosition from './ChallengePagePosition';
+import SentenceAddModal from 'components/organisms/modal/SentenceAddModal';
 
 interface Props {
   challenge: IChallenge;
@@ -29,12 +32,14 @@ export default function UserChallengeBox({ challenge }: Props) {
   const [currentPageNum, setCurrentPageNum] = useState(
     currChallengeBook.currentPage
   );
+  const [showSentenceModal, setShowSentenceModal] = useState(false);
 
   const { pathname } = useLocation();
 
   const { title, thumbnail, authors, publisher, wholePage } = currChallengeBook;
 
-  const onModalClick = () => setOpenModal((prev) => !prev);
+  const onChallengeEditModalClick = () => setOpenModal((prev) => !prev);
+  const onSentenceModalClick = () => setShowSentenceModal((prev) => !prev);
 
   const docRef = doc(dbService, CHALLENGE, id);
 
@@ -67,8 +72,12 @@ export default function UserChallengeBox({ challenge }: Props) {
         <BookBox>
           {pathname === '/challenge' && currentUser.uid === creatorId && (
             <BtnBox>
+              <button type='button' onClick={onSentenceModalClick}>
+                <TbBlockquote fontSize={17} />
+              </button>
+
               <button type='button' onClick={onDeleteClick}>
-                <FiTrash2 fontSize={14} />
+                <FiTrash2 fontSize={15} />
               </button>
             </BtnBox>
           )}
@@ -88,7 +97,7 @@ export default function UserChallengeBox({ challenge }: Props) {
           currentPage={currentPageNum}
           wholePage={wholePage}
           editable={currentUser.uid === creatorId}
-          onEditClick={onModalClick}
+          onEditClick={onChallengeEditModalClick}
         />
       </ChallengeBook>
 
@@ -113,11 +122,18 @@ export default function UserChallengeBox({ challenge }: Props) {
 
       {openModal && (
         <ChallengeEditModal
-          onModalClose={onModalClick}
+          onModalClose={onChallengeEditModalClick}
           challenge={challenge}
           currChallengeBook={currChallengeBook}
           currentPageNum={currentPageNum}
           setCurrentPageNum={setCurrentPageNum}
+        />
+      )}
+
+      {showSentenceModal && (
+        <SentenceAddModal
+          book={{ title, thumbnail }}
+          onToggleClick={onSentenceModalClick}
         />
       )}
     </div>
@@ -141,11 +157,11 @@ const BookBox = styled.div`
   flex: 1;
   display: flex;
   > img {
-    height: 100px;
+    height: 90px;
     margin-top: -24px;
   }
   > .info {
-    min-height: 75px;
+    min-height: 70px;
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -158,7 +174,13 @@ const BookBox = styled.div`
     padding-bottom: 4px;
     > div {
       h3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        font-size: 16px;
         line-height: 1.4;
+        margin-bottom: 2px;
       }
     }
   }
@@ -169,12 +191,11 @@ const BtnBox = styled.div`
   position: absolute;
   right: 8px;
   top: 4px;
-  gap: 10px;
+  gap: 7px;
   button {
     padding: 4px;
   }
   svg {
-    font-size: 14px;
     stroke: ${({ theme }) => theme.text.gray2};
   }
 `;
