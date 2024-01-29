@@ -2,7 +2,7 @@ import { IDocument } from 'data/documentsAtom';
 import styled from 'styled-components';
 import PostHeader from './PostHeader';
 import PostFooter from './PostFooter';
-import PostContent from '../../atoms/PostContent';
+import EditorContent from '../../atoms/EditorContent';
 import { PostType } from 'components/molecules/post/PostEditDeleteBox';
 
 interface Props {
@@ -19,7 +19,7 @@ export default function Post({ type, post, collName, lineClamp = 0 }: Props) {
     <Article>
       <PostHeader collName={collName} post={post} postType={type} />
 
-      <PostContent lineClamp={lineClamp} text={text} />
+      <EditorContent lineClamp={lineClamp} text={text} />
 
       {lineClamp === 0 && (
         <PostFooter

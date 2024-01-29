@@ -6,7 +6,7 @@ interface Props {
   lineClamp?: number;
 }
 
-export default function PostContent({ text, lineClamp }: Props) {
+export default function EditorContent({ text, lineClamp }: Props) {
   return (
     <ContentBox
       $lineClamp={lineClamp}

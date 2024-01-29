@@ -7,7 +7,7 @@ import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import UserNameBox from 'components/atoms/UserNameBox';
 import PostEditDeleteBox from '../molecules/post/PostEditDeleteBox';
 import styled from 'styled-components';
-import PostContent from 'components/atoms/PostContent';
+import EditorContent from 'components/atoms/EditorContent';
 import LikeBtnInfoBox from '../molecules/LikeBtnInfoBox';
 
 interface Props {
@@ -37,7 +37,7 @@ export default function PostSentenceBox({ sentence }: Props) {
       </BoxHeader>
 
       <Content>
-        <PostContent text={text} />
+        <EditorContent text={text} />
       </Content>
 
       <BoxFooter>

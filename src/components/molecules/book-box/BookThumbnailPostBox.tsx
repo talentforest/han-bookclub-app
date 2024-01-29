@@ -10,7 +10,7 @@ import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import Modal from 'components/atoms/Modal';
 import PostFooter from 'components/molecules/post/PostFooter';
 import PostEditDeleteBox, { PostType } from '../post/PostEditDeleteBox';
-import PostContent from 'components/atoms/PostContent';
+import EditorContent from 'components/atoms/EditorContent';
 
 interface PropsType {
   postId: IUserPostDocId;
@@ -63,7 +63,7 @@ const BookThumbnailPostBox = ({ postId, postType }: PropsType) => {
       {openModal && (
         <Modal title={`${userName}의 ${postType}`} onToggleClick={handleModal}>
           <PostBox>
-            <PostContent text={text} />
+            <EditorContent text={text} />
 
             <BtnsBox>
               {currentUser.uid === creatorId && (
