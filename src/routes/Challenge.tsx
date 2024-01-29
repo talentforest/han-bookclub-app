@@ -1,6 +1,6 @@
 import { challengeState, sentencesState } from 'data/bookAtom';
 import { useRecoilState } from 'recoil';
-import { getDDay, thisYear } from 'util/index';
+import { thisYear } from 'util/index';
 import { useEffect, useState } from 'react';
 import { FiPlusCircle } from 'react-icons/fi';
 import { getCollection } from 'api/getFbDoc';
@@ -15,6 +15,7 @@ import BookSentenceBox from 'components/organisms/PostSentenceBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import GuideLine from 'components/atoms/GuideLine';
+import DDay from 'components/atoms/DDay';
 
 export default function Challenge() {
   const [showChallengeModal, setShowChallengeModal] = useState(false);
@@ -58,12 +59,7 @@ export default function Challenge() {
                 <FiPlusCircle />
               </button>
             </AddBtnBox>
-            <DDay>
-              <span>
-                디데이: <span className='dday'>{getDDay('2024-12-31')}</span>
-              </span>
-              <span className='date'>(2024년 12월 31일)</span>
-            </DDay>
+            <DDay hyphenDate={'2024-12-31'} />
           </AddBox>
           <UserChallengeList>
             {userChallenges?.length !== 0 &&
@@ -103,32 +99,12 @@ const AddBox = styled.div`
   align-items: start;
   justify-content: space-between;
   margin-bottom: 15px;
-
-  span {
-    margin-bottom: 2px;
-    color: ${({ theme }) => theme.text.gray3};
-    .dday {
-      color: ${({ theme }) => theme.text.purple};
-    }
-  }
-
   @media ${device.tablet} {
     display: flex;
     justify-content: space-between;
     h4 {
       font-size: 16px;
     }
-  }
-`;
-
-const DDay = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin: 6px 0 0 4px;
-  .date {
-    font-size: 13px;
-    margin-top: 2px;
   }
 `;
 

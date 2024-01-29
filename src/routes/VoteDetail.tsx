@@ -9,6 +9,7 @@ import MobileHeader from 'layout/mobile/MobileHeader';
 import NameTag from 'components/atoms/NameTag';
 import SquareBtn from 'components/atoms/button/SquareBtn';
 import styled from 'styled-components';
+import DDay from 'components/atoms/DDay';
 
 type LocationState = { state: { voteDocId: string } };
 
@@ -34,6 +35,7 @@ const VoteDetail = () => {
 
       {currentVote?.vote?.voteItem && (
         <main>
+          <DDay hyphenDate={currentVote.deadline} />
           <VoteDetails voteDetail={currentVote} />
 
           {expiredVote || mySubmittedVote.length ? (

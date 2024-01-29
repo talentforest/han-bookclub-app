@@ -1,4 +1,4 @@
-import { getDDay, cutLetter } from 'util/index';
+import { cutLetter } from 'util/index';
 import { Link } from 'react-router-dom';
 import { IVote } from 'data/voteAtom';
 import { LabeledBox } from 'components/atoms/input/BoxLabeledInput';
@@ -6,6 +6,7 @@ import { FiChevronRight, FiMoreHorizontal } from 'react-icons/fi';
 import { MdOutlineHowToVote } from 'react-icons/md';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
+import DDay from 'components/atoms/DDay';
 
 interface PropsType {
   voteDetail: IVote;
@@ -37,7 +38,7 @@ const VoteBox = ({ voteDetail }: PropsType) => {
       </ItemList>
 
       <Bottom>
-        <p>디데이: {getDDay(deadline)}</p>
+        <DDay hyphenDate={deadline} isDateMark={false} />
         <Link to={`/vote/${voteId}`} state={{ voteDocId: id }}>
           <span>투표하러 가기</span>
           <FiChevronRight fontSize={16} />
