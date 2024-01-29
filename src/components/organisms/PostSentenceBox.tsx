@@ -58,10 +58,16 @@ const SentenceBox = styled.li`
   border-radius: 10px;
 `;
 
+const BoxHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const Content = styled.div`
   border-left: 4px solid ${({ theme }) => theme.container.gray};
   padding: 0 3px 0 8px;
-  margin-top: 10px;
+  margin-top: 20px;
 `;
 
 const BookInfo = styled.div`
@@ -84,14 +90,8 @@ const BookInfo = styled.div`
   }
 `;
 
-const BoxHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 const BoxFooter = styled.div`
-  margin-top: 10px;
+  margin-top: 15px;
   display: flex;
   flex-direction: column;
   > span {

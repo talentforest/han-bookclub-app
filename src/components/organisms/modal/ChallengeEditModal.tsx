@@ -54,7 +54,12 @@ export default function ChallengeEditModal({
     await setDoc(doc(dbService, CHALLENGE, userData.uid), editedChallengeDoc);
     onModalClose();
     setCurrentPageNum(currentPage);
-    alert('현재 페이지가 수정되었어요!');
+
+    if (currentPage === currChallengeBook.wholePage) {
+      alert('축하합니다! 챌린지 하나를 완주하셨군요!👏👏👏');
+    } else {
+      alert('현재 페이지가 수정되었어요!');
+    }
   };
 
   const { title, thumbnail, authors, publisher } = currChallengeBook;

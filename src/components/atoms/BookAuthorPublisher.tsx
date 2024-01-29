@@ -25,7 +25,8 @@ const Info = styled.div`
   color: ${({ theme }) => theme.text.gray3};
   > span {
     line-height: 1;
-    font-size: 15px;
+    font-size: 14px;
+    padding-top: 3px;
     color: #888;
   }
 `;

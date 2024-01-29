@@ -103,9 +103,6 @@ export default function UserChallengeBox({ challenge }: Props) {
 
       {pathname === '/challenge' && otherChallengeBooks.length !== 0 && (
         <OtherChallengeBook>
-          <h4>
-            <UserNameBox creatorId={creatorId} fontSize={15} />의 추가 챌린지북
-          </h4>
           <div>
             {otherChallengeBooks.map((book) => (
               <button
@@ -146,7 +143,7 @@ const ChallengeBook = styled.li`
   background-color: #fff;
   padding: 10px 8px 8px;
   flex: 1;
-  margin-top: 25px;
+  margin-top: 15px;
   box-shadow: ${({ theme }) => theme.boxShadow};
   display: flex;
   flex-direction: column;
@@ -161,7 +158,7 @@ const BookBox = styled.div`
     margin-top: -24px;
   }
   > .info {
-    min-height: 70px;
+    min-height: 72px;
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -180,7 +177,7 @@ const BookBox = styled.div`
         overflow: hidden;
         font-size: 16px;
         line-height: 1.4;
-        margin-bottom: 2px;
+        margin-bottom: 4px;
       }
     }
   }
@@ -205,7 +202,7 @@ const OtherChallengeBook = styled.div`
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-end;
-  margin: 10px 0 20px;
+  margin-top: 2px;
   overflow: scroll;
   scroll-behavior: auto;
   &::-webkit-scrollbar {
@@ -230,7 +227,7 @@ const OtherChallengeBook = styled.div`
     justify-content: flex-end;
     img {
       margin: 0;
-      border-radius: 4px;
+      border-radius: 6px;
     }
   }
   @media ${device.tablet} {
