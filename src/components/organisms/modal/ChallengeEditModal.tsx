@@ -41,6 +41,10 @@ export default function ChallengeEditModal({
       return alert('현재 페이지가 전체 페이지보다 많습니다!');
     }
 
+    if (isNaN(currentPage)) {
+      return alert('숫자를 입력해주세요.');
+    }
+
     const editedPageBooks = books.map((book) =>
       book.title === currChallengeBook.title ? { ...book, currentPage } : book
     );
