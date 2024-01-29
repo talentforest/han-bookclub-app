@@ -1,3 +1,4 @@
+import { MutableRefObject } from 'react';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -9,6 +10,7 @@ interface IInputProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   autoComplete?: 'new-password' | 'username' | 'current-password' | 'email';
   required?: boolean;
+  ref?: MutableRefObject<HTMLInputElement>;
 }
 
 const Input = ({
@@ -19,9 +21,11 @@ const Input = ({
   onChange,
   autoComplete,
   required,
+  ref,
 }: IInputProps) => {
   return (
     <InputBox
+      ref={ref}
       type={type}
       name={name}
       placeholder={placeholder}

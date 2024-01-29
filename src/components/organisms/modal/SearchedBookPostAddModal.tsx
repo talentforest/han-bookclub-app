@@ -10,7 +10,7 @@ import { FiCheckCircle, FiSearch } from 'react-icons/fi';
 import Modal from 'components/atoms/Modal';
 import device from 'theme/mediaQueries';
 import useSearchBook from 'hooks/useSearchBook';
-import TextInput from 'components/atoms/input/TextInput';
+import RefInput from 'components/atoms/input/RefInput';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import RecommendBookModalForm from 'components/molecules/form/RecommendBookModalForm';
 import DottedDividingLine from 'components/atoms/DottedDividingLine';
@@ -71,7 +71,7 @@ export default function SearchedBookPostAddModal({
               stroke='#aaa'
               style={{ position: 'absolute', top: '11px', left: '12px' }}
             />
-            <TextInput
+            <RefInput
               ref={searchInputRef}
               placeholder={`${
                 title === '추천책 작성하기' ? '추천책' : '챌린지 책'

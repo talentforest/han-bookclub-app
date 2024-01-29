@@ -2,15 +2,15 @@ import { IChallenge, IChallengeBook } from 'data/bookAtom';
 import { currentUserState } from 'data/userAtom';
 import { dbService } from 'fbase';
 import { doc, setDoc } from 'firebase/firestore';
-import { ChangeEvent, FormEvent } from 'react';
+import { FormEvent, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { CHALLENGE } from 'constants/index';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import Modal from 'components/atoms/Modal';
 import SquareBtn from 'components/atoms/button/SquareBtn';
-import Input from 'components/atoms/input/Input';
-import styled from 'styled-components';
 import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
+import RefInput from 'components/atoms/input/RefInput';
+import styled from 'styled-components';
 
 interface Props {
   challenge: IChallenge;
@@ -30,13 +30,19 @@ export default function ChallengeEditModal({
   const { books } = challenge;
   const userData = useRecoilValue(currentUserState);
 
+  const currPageRef = useRef<HTMLInputElement>();
+
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const currentPage = +currPageRef.current.value;
+
+    if (currentPage > currChallengeBook.wholePage) {
+      return alert('현재 페이지가 전체 페이지보다 많습니다!');
+    }
+
     const editedPageBooks = books.map((book) =>
-      book.title === currChallengeBook.title
-        ? { ...book, currentPage: currentPageNum }
-        : book
+      book.title === currChallengeBook.title ? { ...book, currentPage } : book
     );
 
     const editedChallengeDoc: IChallenge = {
@@ -47,11 +53,8 @@ export default function ChallengeEditModal({
 
     await setDoc(doc(dbService, CHALLENGE, userData.uid), editedChallengeDoc);
     onModalClose();
+    setCurrentPageNum(currentPage);
     alert('현재 페이지가 수정되었어요!');
-  };
-
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setCurrentPageNum(+event.target.value);
   };
 
   const { title, thumbnail, authors, publisher } = currChallengeBook;
@@ -68,12 +71,11 @@ export default function ChallengeEditModal({
         </BookBox>
 
         <PageBox>
-          <label>현재까지 읽은 페이지</label>
-          <Input
+          <label>현재까지 읽은 페이지: {currentPageNum}p</label>
+          <RefInput
+            ref={currPageRef}
             name='currentPage'
-            value={`${currentPageNum}`}
-            placeholder='현재 페이지 수를 적어주세요.'
-            onChange={onChange}
+            placeholder='현재 페이지를 수정해주세요.'
           />
         </PageBox>
 

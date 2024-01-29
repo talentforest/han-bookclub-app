@@ -5,11 +5,11 @@ import device from 'theme/mediaQueries';
 interface ITextInputProps {
   name?: string;
   value?: string;
-  onChange: (event: React.FormEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.FormEvent<HTMLInputElement>) => void;
   placeholder: string;
 }
 
-const TextInput = React.forwardRef(
+const RefInput = React.forwardRef(
   (props: ITextInputProps, ref: ForwardedRef<HTMLInputElement>) => {
     return (
       <Input
@@ -44,4 +44,4 @@ const Input = styled.input`
     font-size: 18px;
   }
 `;
-export default TextInput;
+export default RefInput;

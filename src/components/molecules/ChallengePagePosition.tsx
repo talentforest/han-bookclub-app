@@ -45,7 +45,7 @@ export default function ChallengePagePosition({
 
 const Position = styled.div`
   position: relative;
-  margin-top: 25px;
+  margin-top: 30px;
   display: flex;
   align-items: center;
   border: 1px solid ${({ theme }) => theme.container.blue2};
@@ -62,7 +62,7 @@ const Position = styled.div`
 const Page = styled.div`
   position: absolute;
   right: 0;
-  top: -20px;
+  top: -25px;
   > button {
     display: flex;
     align-items: center;

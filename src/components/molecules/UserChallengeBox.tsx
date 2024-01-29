@@ -2,7 +2,6 @@ import { cutLetter } from 'util/index';
 import { IChallenge, IChallengeBook } from 'data/bookAtom';
 import { useLocation } from 'react-router-dom';
 import { FiTrash2 } from 'react-icons/fi';
-
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
@@ -27,7 +26,7 @@ export default function UserChallengeBox({ challenge }: Props) {
   const { creatorId, books, id } = challenge;
 
   const currentUser = useRecoilValue(currentUserState);
-  const [openModal, setOpenModal] = useState(false);
+  const [openChallengeEditModal, setOpenChallengeEditModal] = useState(false);
   const [currChallengeBook, setCurrChallengeBook] = useState(books[0]);
   const [currentPageNum, setCurrentPageNum] = useState(
     currChallengeBook.currentPage
@@ -38,7 +37,8 @@ export default function UserChallengeBox({ challenge }: Props) {
 
   const { title, thumbnail, authors, publisher, wholePage } = currChallengeBook;
 
-  const onChallengeEditModalClick = () => setOpenModal((prev) => !prev);
+  const onChallengeEditModalClick = () =>
+    setOpenChallengeEditModal((prev) => !prev);
   const onSentenceModalClick = () => setShowSentenceModal((prev) => !prev);
 
   const docRef = doc(dbService, CHALLENGE, id);
@@ -120,7 +120,7 @@ export default function UserChallengeBox({ challenge }: Props) {
         </OtherChallengeBook>
       )}
 
-      {openModal && (
+      {openChallengeEditModal && (
         <ChallengeEditModal
           onModalClose={onChallengeEditModalClick}
           challenge={challenge}

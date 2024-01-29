@@ -39,8 +39,6 @@ const useAddDoc = ({ setText, collName, docData }: PropsType) => {
   const onAddDocSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log(docData);
-
     try {
       if (docData.text.length === 0) return;
 
@@ -69,9 +67,6 @@ const useAddDoc = ({ setText, collName, docData }: PropsType) => {
   };
 
   const updateUserData = async (newUserDocId: IUserPostDocId) => {
-    // const { reviews, subjects, recommendedBooks, hostReviews, sentences } =
-    //   userExtraData.userRecords || {};
-
     if (collName.includes('Sentence')) {
       await updateDoc(userDataRef, {
         'userRecords.sentences': [

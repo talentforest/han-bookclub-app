@@ -11,14 +11,13 @@ import MobileHeader from 'layout/mobile/MobileHeader';
 import UserChallengeBox from 'components/molecules/UserChallengeBox';
 import Subtitle from 'components/atoms/Subtitle';
 import SearchedBookPostAddModal from 'components/organisms/modal/SearchedBookPostAddModal';
-import BookSentenceBox from 'components/molecules/post/PostSentenceBox';
+import BookSentenceBox from 'components/organisms/PostSentenceBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import GuideLine from 'components/atoms/GuideLine';
 
 export default function Challenge() {
   const [showChallengeModal, setShowChallengeModal] = useState(false);
-
   const [userChallenges, setUserChallenges] = useRecoilState(challengeState);
   const [sentences, setSentences] = useRecoilState(sentencesState);
 
@@ -41,15 +40,12 @@ export default function Challenge() {
           <GuideLine text='아래 개인별 챌린지 박스에서 추가할 수 있어요' />
 
           <SentenceList>
-            {!!sentences && sentences?.length !== 0 ? (
+            {sentences?.length !== 0 ? (
               sentences?.map((sentence) => (
-                <BookSentenceBox
-                  key={sentence.createdAt}
-                  bookSentence={sentence}
-                />
+                <BookSentenceBox key={sentence.createdAt} sentence={sentence} />
               ))
             ) : (
-              <EmptyBox>아직 문구가 없습니다.</EmptyBox>
+              <EmptyBox>아직 공유한 문구가 없습니다.</EmptyBox>
             )}
           </SentenceList>
         </Section>

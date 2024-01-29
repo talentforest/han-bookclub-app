@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import ResultBookBox from 'components/molecules/book-box/ResultBookBox';
-import TextInput from 'components/atoms/input/TextInput';
+import RefInput from 'components/atoms/input/RefInput';
 import useSearchBook from 'hooks/useSearchBook';
 import device from 'theme/mediaQueries';
 import MobileHeader from 'layout/mobile/MobileHeader';
@@ -28,7 +28,7 @@ const Search = () => {
       <main>
         <NextMonthClubBookBox />
         <Form>
-          <TextInput
+          <RefInput
             ref={inputRef}
             placeholder='등록하실 책을 검색해주세요.'
             onChange={onBookQueryChange}

@@ -5,19 +5,19 @@ import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
 import UserNameBox from 'components/atoms/UserNameBox';
-import PostEditDeleteBox from './PostEditDeleteBox';
+import PostEditDeleteBox from '../molecules/post/PostEditDeleteBox';
 import styled from 'styled-components';
 import PostContent from 'components/atoms/PostContent';
-import LikeBtnInfoBox from '../LikeBtnInfoBox';
+import LikeBtnInfoBox from '../molecules/LikeBtnInfoBox';
 
 interface Props {
-  bookSentence: ISentence;
+  sentence: ISentence;
 }
 
-export default function PostSentenceBox({ bookSentence }: Props) {
+export default function PostSentenceBox({ sentence }: Props) {
   const currentUser = useRecoilValue(currentUserState);
 
-  const { text, createdAt, thumbnail, title, creatorId } = bookSentence;
+  const { text, createdAt, thumbnail, title, creatorId } = sentence;
 
   return (
     <SentenceBox>
@@ -31,7 +31,7 @@ export default function PostSentenceBox({ bookSentence }: Props) {
           <PostEditDeleteBox
             collName={SENTENCES2024}
             postType='공유하고 싶은 문구'
-            post={bookSentence}
+            post={sentence}
           />
         )}
       </BoxHeader>
@@ -44,7 +44,7 @@ export default function PostSentenceBox({ bookSentence }: Props) {
         <span>{getLocaleDate(createdAt)}</span>
         <div>
           <UserNameBox creatorId={creatorId} />
-          <LikeBtnInfoBox post={bookSentence} collName={SENTENCES2024} />
+          <LikeBtnInfoBox post={sentence} collName={SENTENCES2024} />
         </div>
       </BoxFooter>
     </SentenceBox>

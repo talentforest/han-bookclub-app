@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import useHandleProfile from 'hooks/useHandleProfile';
 import Loading from 'components/atoms/Loading';
 import GuideLine from 'components/atoms/GuideLine';
-import TextInput from 'components/atoms/input/TextInput';
+import RefInput from 'components/atoms/input/RefInput';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import UserImg from 'components/atoms/UserImg';
 import device from 'theme/mediaQueries';
@@ -95,7 +95,7 @@ const EditProfile = () => {
 
               <Item>
                 <Title>닉네임</Title>
-                <TextInput
+                <RefInput
                   onChange={onDisplayNameChange}
                   placeholder='닉네임을 입력해주세요'
                   value={newDisplayName || ''}
