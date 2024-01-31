@@ -8,7 +8,7 @@ import { CHALLENGE, SENTENCES2024 } from 'constants/index';
 import { Section } from './Home';
 import { EmptyBox } from './BookClubHistory';
 import MobileHeader from 'layout/mobile/MobileHeader';
-import UserChallengeBox from 'components/molecules/UserChallengeBox';
+import UserChallengeBox from 'components/organisms/UserChallengeBox';
 import Subtitle from 'components/atoms/Subtitle';
 import SearchedBookPostAddModal from 'components/organisms/modal/SearchedBookPostAddModal';
 import BookSentenceBox from 'components/organisms/PostSentenceBox';
@@ -120,6 +120,9 @@ const SentenceList = styled.ul`
 `;
 
 const UserChallengeList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   @media ${device.tablet} {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

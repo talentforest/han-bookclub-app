@@ -13,7 +13,7 @@ interface PropsType {
   fontSize?: number;
 }
 
-const UserNameBox = ({ creatorId, fontSize = 15 }: PropsType) => {
+const UserName = ({ creatorId, fontSize = 15 }: PropsType) => {
   const currentUser = useRecoilValue(currentUserState);
 
   const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersState);
@@ -35,17 +35,17 @@ const UserNameBox = ({ creatorId, fontSize = 15 }: PropsType) => {
   return (
     <>
       {anonymous ? (
-        <Username
+        <UserPageLink
           onClick={blockLinkAndAlertJoinMember}
           $fontSize={fontSize}
           to={to}
         >
           {user?.displayName && <span>{user.displayName}</span>}
-        </Username>
+        </UserPageLink>
       ) : user ? (
-        <Username $fontSize={fontSize} to={to} state={{ userId: user.id }}>
+        <UserPageLink $fontSize={fontSize} to={to} state={{ userId: user.id }}>
           {user?.displayName && <span>{user.displayName}</span>}
-        </Username>
+        </UserPageLink>
       ) : (
         <></>
       )}
@@ -53,7 +53,7 @@ const UserNameBox = ({ creatorId, fontSize = 15 }: PropsType) => {
   );
 };
 
-const Username = styled(Link)<{ $fontSize: number }>`
+const UserPageLink = styled(Link)<{ $fontSize: number }>`
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -71,4 +71,4 @@ const Username = styled(Link)<{ $fontSize: number }>`
   }
 `;
 
-export default UserNameBox;
+export default UserName;

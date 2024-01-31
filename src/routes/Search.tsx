@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react';
-import ResultBookBox from 'components/molecules/book-box/ResultBookBox';
+import SearchedBookBox from 'components/molecules/SearchedBookBox';
 import RefInput from 'components/atoms/input/RefInput';
 import useSearchBook from 'hooks/useSearchBook';
 import device from 'theme/mediaQueries';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import styled from 'styled-components';
 import SquareBtn from 'components/atoms/button/SquareBtn';
-import NextMonthClubBookBox from 'components/molecules/book-box/NextMonthClubBookBox';
+import BookClubNextMonthBox from 'components/molecules/BookClubNextMonthBox';
 
 const Search = () => {
   const {
@@ -26,7 +26,7 @@ const Search = () => {
     <>
       <MobileHeader title='도서 검색' backBtn />
       <main>
-        <NextMonthClubBookBox />
+        <BookClubNextMonthBox />
         <Form>
           <RefInput
             ref={inputRef}
@@ -41,9 +41,9 @@ const Search = () => {
           <p>최대 10건이 검색됩니다.</p>
 
           {searchList.map((searchedBook, index) => (
-            <ResultBookBox
+            <SearchedBookBox
+              key={`${searchedBook.isbn}-${index}`}
               searchedBook={searchedBook}
-              key={`${searchedBook.isbn}${index}`}
             />
           ))}
         </BookResults>

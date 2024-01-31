@@ -38,7 +38,7 @@ export default function SentenceAddModal({ onToggleClick, book }: Props) {
     event.preventDefault();
 
     if (sentence === '') {
-      return window.alert('추천하는 책 정보를 찾아서 넣어주세요.');
+      return window.alert('문구가 없습니다.');
     }
 
     onAddDocSubmit(event);

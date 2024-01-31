@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import { allUsersState } from 'data/userAtom';
-import RecommendedBookBoxById from '../molecules/book-box/RecommendedBookBoxById';
+import RecommendedBookBoxById from './RecommendedBookBoxById';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 

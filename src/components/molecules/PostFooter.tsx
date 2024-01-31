@@ -1,7 +1,7 @@
 import { getLocaleDate } from 'util/index';
 import { IDocument } from 'data/documentsAtom';
 import styled from 'styled-components';
-import LikeBtnInfoBox from '../LikeBtnInfoBox';
+import LikeBtnInfoBox from './LikeBtnInfoBox';
 
 interface Props {
   post?: IDocument;

@@ -7,7 +7,7 @@ import { bookFieldsOfBookClub } from 'constants/index';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import Select from 'react-select';
-import SquareBtn from '../../atoms/button/SquareBtn';
+import SquareBtn from '../atoms/button/SquareBtn';
 
 interface Props {
   index: number;

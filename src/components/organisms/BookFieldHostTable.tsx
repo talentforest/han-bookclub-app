@@ -8,8 +8,8 @@ import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import useHandleFieldHost from 'hooks/useHandleFieldHost';
 import Loading from 'components/atoms/Loading';
-import BookFieldHostTableItem from 'components/molecules/BookFieldHostTableItem';
-import BookFieldHostEditForm from 'components/molecules/form/BookFieldHostEditForm';
+import BookFieldHostTableItem from 'components/organisms/BookFieldHostTableItem';
+import BookFieldHostEditForm from 'components/organisms/BookFieldHostEditForm';
 import Modal from 'components/atoms/Modal';
 
 const BookFieldHostTable = () => {

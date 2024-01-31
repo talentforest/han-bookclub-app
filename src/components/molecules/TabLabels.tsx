@@ -8,7 +8,7 @@ interface Props {
   currTab: TabName;
 }
 
-export default function TabListOnTop({ tabList, currTab, setCurrTab }: Props) {
+export default function TabLabels({ tabList, currTab, setCurrTab }: Props) {
   return (
     <TabList>
       {tabList.map((tab) => (

@@ -7,6 +7,7 @@ import SquareBtn from 'components/atoms/button/SquareBtn';
 import BoxLabeledInput from 'components/atoms/input/BoxLabeledInput';
 import styled from 'styled-components';
 import useHandleSchedule from 'hooks/useHandleSchedule';
+import Tag from 'components/atoms/Tag';
 
 interface Props {
   title: string;
@@ -67,9 +68,13 @@ export default function MeetingInfoModal({
 
             <TagList>
               {placeDoc.place.slice(0, 4).map((place) => (
-                <SquareBoxBtn key={place} onClick={() => onTagClick(place)}>
-                  {place}
-                </SquareBoxBtn>
+                <button
+                  key={place}
+                  type='button'
+                  onClick={() => onTagClick(place)}
+                >
+                  <Tag name={place} roundedFull={false} color='yellow' />
+                </button>
               ))}
             </TagList>
           </TagListBox>
@@ -86,6 +91,7 @@ const TagListBox = styled.div<{ $height: number }>`
   transition: height 0.5s ease;
   overflow: hidden;
   margin: 12px 0 20px;
+  padding: 5px 0;
   > span {
     padding-left: 4px;
     font-size: 15px;
@@ -97,7 +103,7 @@ const TagList = styled.ul`
   margin-top: 2px;
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 8px;
 `;
 
 const Form = styled.form`
@@ -105,13 +111,4 @@ const Form = styled.form`
   flex-direction: column;
   justify-content: space-between;
   flex: 1;
-`;
-
-const SquareBoxBtn = styled.div`
-  border: 1px solid #f4fab3;
-  padding: 8px 12px 6px;
-  border-radius: 8px;
-  background-color: ${({ theme }) => theme.container.yellow1};
-  color: ${({ theme }) => theme.text.yellow};
-  font-size: 14px;
 `;

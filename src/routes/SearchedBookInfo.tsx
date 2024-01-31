@@ -1,8 +1,8 @@
 import { useLocation } from 'react-router-dom';
 import { ISearchedBook } from 'data/bookAtom';
-import SearchedBookDesc from 'components/molecules/SearchedBookDesc';
+import SearchedBookDesc from 'components/organisms/SearchedBookDesc';
 import RegisterClubBookBtn from 'components/atoms/button/RegisterClubBookBtn';
-import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
+import BookThumbnail from 'components/atoms/BookThumbnail';
 import styled from 'styled-components';
 import MobileHeader from 'layout/mobile/MobileHeader';
 
@@ -20,7 +20,7 @@ const SearchedBookInfo = () => {
       <MobileHeader title='도서 정보' backBtn />
       <Main>
         <div className='thumbnailBox'>
-          <BookThumbnailImg title={title} thumbnail={thumbnail} />
+          <BookThumbnail title={title} thumbnail={thumbnail} />
         </div>
 
         <h3>《 {title} 》</h3>

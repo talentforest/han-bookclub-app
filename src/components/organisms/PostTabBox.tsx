@@ -4,8 +4,7 @@ import { getCollection } from 'api/getFbDoc';
 import { getFbRoute } from 'util/index';
 import { useRecoilState } from 'recoil';
 import { hostReviewState, subjectsState } from 'data/documentsAtom';
-import { TabName } from 'components/molecules/TabListOnTop';
-import TabListOnTop from 'components/molecules/TabListOnTop';
+import TabLabels, { TabName } from 'components/molecules/TabLabels';
 import TabContentBox from 'components/molecules/TabContentBox';
 
 interface Props {
@@ -28,7 +27,7 @@ export default function PostTabBox({ yearMonthId }: Props) {
 
   return (
     <div>
-      <TabListOnTop
+      <TabLabels
         tabList={['발제문', '정리 기록']}
         currTab={currTab}
         setCurrTab={setCurrTab}

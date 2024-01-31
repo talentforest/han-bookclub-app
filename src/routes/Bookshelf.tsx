@@ -8,7 +8,7 @@ import { getCollection } from 'api/getFbDoc';
 import { CircleImg, ImgBox } from 'components/atoms/UserImg';
 import { FiUser } from 'react-icons/fi';
 import { EmptyBox } from './BookClubHistory';
-import BookThumbnailPostBox from 'components/molecules/book-box/BookThumbnailPostBox';
+import BookThumbnailPostBox from 'components/organisms/PostBookThumbnailBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import Loading from 'components/atoms/Loading';

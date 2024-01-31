@@ -2,10 +2,8 @@ import { FiUserCheck } from 'react-icons/fi';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { IDocument } from 'data/documentsAtom';
-import NameTag from '../../atoms/NameTag';
-import PostEditDeleteBox, {
-  PostType,
-} from 'components/molecules/post/PostEditDeleteBox';
+import NameTag from '../atoms/NameTag';
+import PostHandleBtns, { PostType } from 'components/molecules/PostHandleBtns';
 import styled from 'styled-components';
 
 interface Props {
@@ -31,11 +29,7 @@ export default function PostHeader({ collName, post, postType }: Props) {
       </div>
 
       {userData.uid === creatorId && collName && (
-        <PostEditDeleteBox
-          post={post}
-          collName={collName}
-          postType={postType}
-        />
+        <PostHandleBtns post={post} collName={collName} postType={postType} />
       )}
     </Header>
   );

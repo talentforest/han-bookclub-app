@@ -24,7 +24,7 @@ const Info = styled.div`
   overflow: hidden;
   color: ${({ theme }) => theme.text.gray3};
   > span {
-    line-height: 1;
+    line-height: 1.4;
     font-size: 14px;
     padding-top: 3px;
     color: #888;

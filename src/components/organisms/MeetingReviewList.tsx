@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import { meetingReviewsState } from 'data/documentsAtom';
 import { useLocation } from 'react-router-dom';
 import { EmptyBox } from 'routes/BookClubHistory';
-import Post from 'components/molecules/post/Post';
+import Post from 'components/molecules/Post';
 import DottedDividingLine from 'components/atoms/DottedDividingLine';
 import styled from 'styled-components';
 

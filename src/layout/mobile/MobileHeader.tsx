@@ -57,7 +57,7 @@ const MobileHeader = ({
           <FiChevronLeft fontSize={22} />
         </button>
       )}
-      <h1>{title}</h1>
+      <span>{title}</span>
 
       {settingBtn && (
         <Link to='/setting'>
@@ -81,10 +81,13 @@ const Header = styled.header<{ $showDesktop: boolean }>`
     height: 22px;
     margin-bottom: 4px;
   }
-  h1 {
+  span {
     color: ${({ theme }) => theme.text.gray4};
     font-size: 18px;
     flex: 1;
+  }
+  svg {
+    stroke: ${({ theme }) => theme.text.gray4};
   }
   @media ${device.tablet} {
     height: 45px;

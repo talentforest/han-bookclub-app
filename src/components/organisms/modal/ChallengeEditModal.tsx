@@ -5,7 +5,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import { FormEvent, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { CHALLENGE } from 'constants/index';
-import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
+import BookThumbnail from 'components/atoms/BookThumbnail';
 import Modal from 'components/atoms/Modal';
 import SquareBtn from 'components/atoms/button/SquareBtn';
 import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
@@ -72,7 +72,7 @@ export default function ChallengeEditModal({
     <Modal title='나의 챌린지 진도 수정' onToggleClick={onModalClose}>
       <Form onSubmit={onSubmit}>
         <BookBox>
-          <BookThumbnailImg title={title} thumbnail={thumbnail} />
+          <BookThumbnail title={title} thumbnail={thumbnail} />
           <BookTextInfo>
             <h4>{title}</h4>
             <BookAuthorPublisher authors={authors} publisher={publisher} />

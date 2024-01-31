@@ -1,7 +1,7 @@
 import { getDocument } from 'api/getFbDoc';
 import { useEffect, useState } from 'react';
 import { getFbRoute } from 'util/index';
-import PostRecommendedBook from '../post/PostRecommendedBook';
+import PostRecommendedBookBox from './PostRecommendedBookBox';
 
 interface Props {
   docIds: { docId: string; monthId: string };
@@ -60,7 +60,7 @@ export default function RecommendedBookBoxById({ docIds }: Props) {
   }, []);
 
   return (
-    <PostRecommendedBook
+    <PostRecommendedBookBox
       recommendedBookDoc={recommendedBook}
       collName={getFbRoute(monthId).RECOMMENDED_BOOKS}
     />

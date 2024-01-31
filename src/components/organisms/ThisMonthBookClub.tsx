@@ -6,7 +6,7 @@ import { thisMonthBookClubState } from 'data/bookClubAtom';
 import { THIS_YEAR_BOOKCLUB } from 'constants/fbRouteName';
 import { fieldHostDocState } from 'data/bookFieldHostAtom';
 import { useLocation } from 'react-router-dom';
-import ClubBookBox from 'components/molecules/book-box/ClubBookBox';
+import BookClubThisMonthBox from 'components/molecules/BookClubThisMonthBox';
 import LabelOnTopBox from 'components/molecules/LabelOnTopBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
@@ -34,21 +34,19 @@ export default function ThisMonthBookClub() {
 
   return (
     <BoxesContainer>
-      {book && <ClubBookBox book={book} />}
+      {book && <BookClubThisMonthBox book={book} />}
 
       {meeting && (
         <>
           <LabelOnTopBox
             labelOnTop='모임 시간'
-            content={
-              getMeetingTime(meeting.time) || `정해진 모임 시간이 없어요.`
-            }
+            content={meeting.time ? getMeetingTime(meeting.time) : ''}
             meeting={meeting}
             editable={pathname !== '/'}
           />
           <LabelOnTopBox
             labelOnTop='모임 장소'
-            content={meeting.place || `정해진 모임 장소가 없어요.`}
+            content={meeting.place}
             meeting={meeting}
             editable={pathname !== '/'}
           />

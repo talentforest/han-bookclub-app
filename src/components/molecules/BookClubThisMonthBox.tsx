@@ -1,34 +1,34 @@
 import { FiChevronRight, FiLink } from 'react-icons/fi';
 import { getLocaleDate, thisMonth } from 'util/index';
 import { ISearchedBook } from 'data/bookAtom';
-import Tag from '../../atoms/Tag';
+import Tag from '../atoms/Tag';
 import styled from 'styled-components';
-import BookThumbnailImg from '../../atoms/BookThumbnailImg';
+import BookThumbnail from '../atoms/BookThumbnail';
 import device from 'theme/mediaQueries';
+import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 
 interface Props {
   book: ISearchedBook;
 }
 
-export default function ClubBookBox({ book }: Props) {
+export default function BookClubThisMonthBox({ book }: Props) {
   const month = getLocaleDate(thisMonth, { month: 'numeric' });
+
+  const { title, thumbnail, authors, publisher, url } = book;
 
   return (
     <Box>
       <div>
         <Tag name={`${month}월의 모임`} />
 
-        {book.title === '' ? (
+        {title === '' ? (
           <NoInfoText>아직 등록된 책이 없어요.</NoInfoText>
         ) : (
           <BookTextInfo>
-            <h1>{book.title}</h1>
-            <div>
-              <span>{book.authors} ・ </span>
-              <span> {book.publisher}</span>
-            </div>
+            <h1>{title}</h1>
+            <BookAuthorPublisher authors={authors} publisher={publisher} />
 
-            <a href={book.url} target='_blank' rel='noreferrer'>
+            <a href={url} target='_blank' rel='noreferrer'>
               <FiLink fontSize={12} stroke='#888' />
               <span>상세정보 보러가기</span>
             </a>
@@ -36,9 +36,9 @@ export default function ClubBookBox({ book }: Props) {
         )}
       </div>
 
-      <BookThumbnailImg title={book.title} thumbnail={book.thumbnail} />
+      <BookThumbnail title={title} thumbnail={thumbnail} />
 
-      {book.title === '' && (
+      {title === '' && (
         <RegisterClubBookBtn>
           <button>책 등록하러 가기</button>
           <FiChevronRight fontSize={16} color='#aaa' />

@@ -15,7 +15,7 @@ const useHandleSchedule = (
     thisMonthBookClubState
   );
   const [time, setTime] = useState(
-    meeting?.time === 0 ? null : new Date(meeting?.time)
+    !meeting?.time ? new Date() : new Date(meeting?.time)
   );
   const [place, setPlace] = useState(meeting?.place);
 

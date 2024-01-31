@@ -3,13 +3,13 @@ import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { bookClubByYearState } from 'data/bookClubAtom';
 import { getCollection } from 'api/getFbDoc';
-import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
+import BookThumbnail from 'components/atoms/BookThumbnail';
 import Tag from 'components/atoms/Tag';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 
-export default function NextMonthClubBookBox() {
+export default function BookClubNextMonthBox() {
   const [thisYearBookClubInfos, setThisYearBookClubInfos] =
     useRecoilState(bookClubByYearState);
 
@@ -28,7 +28,7 @@ export default function NextMonthClubBookBox() {
   return (
     existNextBookClubDoc?.book && (
       <Box>
-        <BookThumbnailImg title={book.title} thumbnail={book.thumbnail} />
+        <BookThumbnail title={book.title} thumbnail={book.thumbnail} />
 
         <div>
           <Tag name='다음 모임책' color='purple' />

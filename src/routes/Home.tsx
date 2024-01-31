@@ -13,7 +13,7 @@ import ChallengeBookList from 'components/organisms/ChallengeBookList';
 import ThisMonthBookClub from 'components/organisms/ThisMonthBookClub';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import device from 'theme/mediaQueries';
-import NextMonthClubBookBox from 'components/molecules/book-box/NextMonthClubBookBox';
+import BookClubNextMonthBox from 'components/molecules/BookClubNextMonthBox';
 
 const Home = () => {
   return (
@@ -23,7 +23,7 @@ const Home = () => {
         <Section>
           <GuideLine text='매월 1일에 업데이트 됩니다' />
           <ThisMonthBookClub />
-          <NextMonthClubBookBox />
+          <BookClubNextMonthBox />
         </Section>
 
         <Section>

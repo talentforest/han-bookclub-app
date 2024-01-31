@@ -12,7 +12,7 @@ import GuideLine from 'components/atoms/GuideLine';
 import ThisMonthClub from 'components/organisms/ThisMonthBookClub';
 import PostTabBox from 'components/organisms/PostTabBox';
 import MeetingReviewList from 'components/organisms/MeetingReviewList';
-import MeetingReviewForm from 'components/molecules/form/MeetingReviewForm';
+import MeetingReviewForm from 'components/organisms/MeetingReviewForm';
 import SearchBookBtn from 'components/atoms/button/SearchBookBtn';
 import RecommendedBookScrollList from 'components/organisms/RecommendedBookScrollList';
 import MobileHeader from 'layout/mobile/MobileHeader';

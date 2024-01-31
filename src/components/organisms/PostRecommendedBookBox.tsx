@@ -3,11 +3,11 @@ import { FiExternalLink, FiFileText } from 'react-icons/fi';
 import { useState } from 'react';
 import { cutLetter } from 'util/index';
 import styled from 'styled-components';
-import PostHeader from './PostHeader';
-import PostFooter from './PostFooter';
-import BookThumbnailImg from '../../atoms/BookThumbnailImg';
-import Modal from '../../atoms/Modal';
-import UserNameBox from 'components/atoms/UserNameBox';
+import PostHeader from '../molecules/PostHeader';
+import PostFooter from '../molecules/PostFooter';
+import BookThumbnail from '../atoms/BookThumbnail';
+import Modal from '../atoms/Modal';
+import UserName from 'components/atoms/UserName';
 import device from 'theme/mediaQueries';
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
   collName: string;
 }
 
-export default function PostRecommendedBook({
+export default function PostRecommendedBookBox({
   recommendedBookDoc,
   collName,
 }: Props) {
@@ -34,7 +34,7 @@ export default function PostRecommendedBook({
           onClick={() => setOpenModal(true)}
         >
           <div className='bookimg'>
-            <BookThumbnailImg title={title} thumbnail={thumbnail} />
+            <BookThumbnail title={title} thumbnail={thumbnail} />
           </div>
 
           <div className='title'>
@@ -42,7 +42,7 @@ export default function PostRecommendedBook({
             <FiFileText stroke='#aaa' fontSize={13} />
           </div>
 
-          <UserNameBox creatorId={creatorId} />
+          <UserName creatorId={creatorId} />
         </RecommendedBookItem>
 
         {openModal && (
@@ -58,7 +58,7 @@ export default function PostRecommendedBook({
               />
 
               <PostContentBox>
-                <BookThumbnailImg title={title} thumbnail={thumbnail} />
+                <BookThumbnail title={title} thumbnail={thumbnail} />
                 <RecommendBookBox>
                   <div>
                     <a href={url} target='_blank' rel='noreferrer'>

@@ -1,4 +1,4 @@
-import UserNameBox from 'components/atoms/UserNameBox';
+import UserName from 'components/atoms/UserName';
 import styled from 'styled-components';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 export default function NameTag({ name, color = '#fff7c8' }: Props) {
   return (
     <TagItem $color={color}>
-      <UserNameBox fontSize={14} creatorId={name} />
+      <UserName fontSize={14} creatorId={name} />
     </TagItem>
   );
 }

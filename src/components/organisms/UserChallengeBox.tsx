@@ -9,13 +9,13 @@ import { dbService } from 'fbase';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { CHALLENGE } from 'constants/index';
 import { TbBlockquote } from 'react-icons/tb';
-import BookThumbnail from '../atoms/BookThumbnailImg';
-import UserNameBox from 'components/atoms/UserNameBox';
+import BookThumbnail from '../atoms/BookThumbnail';
+import UserName from 'components/atoms/UserName';
 import ChallengeEditModal from 'components/organisms/modal/ChallengeEditModal';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
-import ChallengePagePosition from './ChallengePagePosition';
+import PagePosition from '../molecules/PagePosition';
 import SentenceAddModal from 'components/organisms/modal/SentenceAddModal';
 
 interface Props {
@@ -85,7 +85,7 @@ export default function UserChallengeBox({ challenge }: Props) {
           <BookThumbnail title={title} thumbnail={thumbnail} />
 
           <div className='info'>
-            <UserNameBox creatorId={creatorId} fontSize={15} />
+            <UserName creatorId={creatorId} fontSize={15} />
             <div>
               <h3>{title ? cutLetter(title, 40) : '이벤트'}</h3>
               <BookAuthorPublisher authors={authors} publisher={publisher} />
@@ -93,7 +93,7 @@ export default function UserChallengeBox({ challenge }: Props) {
           </div>
         </BookBox>
 
-        <ChallengePagePosition
+        <PagePosition
           currentPage={currentPageNum}
           wholePage={wholePage}
           editable={currentUser.uid === creatorId}
@@ -188,7 +188,7 @@ const BtnBox = styled.div`
   position: absolute;
   right: 8px;
   top: 4px;
-  gap: 7px;
+  gap: 4px;
   button {
     padding: 4px;
   }

@@ -5,10 +5,10 @@ import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { thisMonthBookClubState } from 'data/bookClubAtom';
 import device from 'theme/mediaQueries';
-import BookThumbnailImg from '../../atoms/BookThumbnailImg';
+import BookThumbnail from '../atoms/BookThumbnail';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import styled from 'styled-components';
-import SquareBtn from '../../atoms/button/SquareBtn';
+import SquareBtn from '../atoms/button/SquareBtn';
 import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 
 interface Props {
@@ -61,7 +61,7 @@ export default function RecommendBookModalForm({ onModalClose }: Props) {
       <Footer>
         {thumbnail && (
           <BookInfo>
-            <BookThumbnailImg title={title} thumbnail={thumbnail} />
+            <BookThumbnail title={title} thumbnail={thumbnail} />
             <div>
               <h3>{cutLetter(title, 17)}</h3>
               <BookAuthorPublisher authors={authors} publisher={publisher} />

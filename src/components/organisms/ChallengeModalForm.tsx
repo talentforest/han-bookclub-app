@@ -7,9 +7,9 @@ import { dbService } from 'fbase';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { CHALLENGE } from 'constants/index';
 import styled from 'styled-components';
-import BookThumbnailImg from '../../atoms/BookThumbnailImg';
-import Input from '../../atoms/input/Input';
-import SquareBtn from '../../atoms/button/SquareBtn';
+import BookThumbnail from '../atoms/BookThumbnail';
+import Input from '../atoms/input/Input';
+import SquareBtn from '../atoms/button/SquareBtn';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
 import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 
@@ -37,6 +37,18 @@ export default function ChallengeModalForm({ onModalClose }: Props) {
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (anonymous) return alertAskJoinMember();
+
+    if (isNaN(pageNums.currentPage) || isNaN(pageNums.wholePage)) {
+      return alert('숫자를 입력해주세요.');
+    }
+
+    const alreayExistBook = findMyChallengeBooks.books.find(
+      (book) => book.title === bookDesc.title
+    );
+
+    if (alreayExistBook) {
+      return alert('이미 똑같은 책이 존재하고 있어요.');
+    }
 
     const challengeDoc: IChallenge = findMyChallengeBooks
       ? {
@@ -78,7 +90,7 @@ export default function ChallengeModalForm({ onModalClose }: Props) {
     <Form onSubmit={onSubmit}>
       <h3>내가 선택한 챌린지</h3>
       <BookBox>
-        <BookThumbnailImg title={title} thumbnail={thumbnail} />
+        <BookThumbnail title={title} thumbnail={thumbnail} />
         <div>
           <h4>{title}</h4>
           <BookAuthorPublisher authors={authors} publisher={publisher} />

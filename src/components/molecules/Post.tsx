@@ -2,8 +2,8 @@ import { IDocument } from 'data/documentsAtom';
 import styled from 'styled-components';
 import PostHeader from './PostHeader';
 import PostFooter from './PostFooter';
-import EditorContent from '../../atoms/EditorContent';
-import { PostType } from 'components/molecules/post/PostEditDeleteBox';
+import EditorContent from '../atoms/EditorContent';
+import { PostType } from 'components/molecules/PostHandleBtns';
 
 interface Props {
   type: PostType;
@@ -12,7 +12,7 @@ interface Props {
   lineClamp?: number;
 }
 
-export default function Post({ type, post, collName, lineClamp = 0 }: Props) {
+export default function Post({ type, post, collName, lineClamp }: Props) {
   const { createdAt, text } = post;
 
   return (
@@ -21,7 +21,7 @@ export default function Post({ type, post, collName, lineClamp = 0 }: Props) {
 
       <EditorContent lineClamp={lineClamp} text={text} />
 
-      {lineClamp === 0 && (
+      {!lineClamp && (
         <PostFooter
           footerType='likes'
           post={post}

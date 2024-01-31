@@ -6,7 +6,7 @@ import { getFbRoute } from 'util/index';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import SquareBtn from '../../atoms/button/SquareBtn';
+import SquareBtn from '../atoms/button/SquareBtn';
 
 interface PropsType {
   docMonth: string;

@@ -3,7 +3,7 @@ import { currentUserState } from 'data/userAtom';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
-import UserNameBox from 'components/atoms/UserNameBox';
+import UserName from 'components/atoms/UserName';
 import useHandleLike from 'hooks/useHandleLike';
 import styled from 'styled-components';
 import LikeBtn from 'components/atoms/button/LikeBtn';
@@ -52,7 +52,7 @@ const LikeBtnInfoBox = ({ post, collName }: Props) => {
           <h4>좋아한 사람</h4>
           <ul onClick={toggleShowLikeUsers}>
             {post?.likeUsers?.map((user) => (
-              <UserNameBox key={user} creatorId={user} />
+              <UserName key={user} creatorId={user} />
             ))}
           </ul>
         </LikeUsersBox>

@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { challengeState } from 'data/bookAtom';
 import { EmptyBox } from 'routes/BookClubHistory';
 import { CHALLENGE } from 'constants/fbRouteName';
-import UserChallengeBox from 'components/molecules/UserChallengeBox';
+import UserChallengeBox from 'components/organisms/UserChallengeBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 
@@ -33,6 +33,9 @@ export default function ChallengeBookList() {
 }
 
 const ChallengeBooks = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   @media ${device.tablet} {
     display: grid;
     gap: 0 10px;

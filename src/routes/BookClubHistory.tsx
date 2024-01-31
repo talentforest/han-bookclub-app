@@ -6,11 +6,10 @@ import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { HiMiniArrowUpRight } from 'react-icons/hi2';
 import { yearOfBookClub } from 'constants/yearOfBookClub';
-import HistoryClubBookBox from 'components/molecules/book-box/HistoryClubBookBox';
+import BookClubHistoryBox from 'components/molecules/BookClubHistoryBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import MobileHeader from 'layout/mobile/MobileHeader';
-import SquareBtn from 'components/atoms/button/SquareBtn';
 
 const BookClubHistory = () => {
   const [selectedYear, setSelectedYear] = useRecoilState(selectedYearState);
@@ -30,12 +29,9 @@ const BookClubHistory = () => {
         <YearTagList>
           {yearOfBookClub.map((year) => (
             <YearTag key={year} $active={year === selectedYear}>
-              <SquareBtn
-                name={`${year}년`}
-                type='button'
-                handleClick={() => setSelectedYear(year)}
-                width='fit-content'
-              />
+              <button type='button' onClick={() => setSelectedYear(year)}>
+                {year}년
+              </button>
             </YearTag>
           ))}
         </YearTagList>
@@ -45,7 +41,7 @@ const BookClubHistory = () => {
             clubHistory?.map((document) => (
               <li key={document.id}>
                 <Link to={document.id} state={{ document }}>
-                  {document && <HistoryClubBookBox document={document} />}
+                  {document && <BookClubHistoryBox document={document} />}
 
                   <HiMiniArrowUpRight
                     fill='#aaa'
@@ -74,25 +70,16 @@ const YearTagList = styled.ul`
 `;
 
 const YearTag = styled.li<{ $active: boolean }>`
-  button {
+  border-radius: 8px;
+  box-shadow: ${({ theme }) => theme.boxShadow};
+  > button {
     background-color: ${({ $active, theme }) =>
       $active ? theme.container.blue3 : '#eee'};
     color: ${({ $active, theme }) => ($active ? '#fff' : theme.text.gray2)};
+    padding: 10px;
+    border-radius: 8px;
   }
-  border-radius: 8px;
-  box-shadow: ${({ theme }) => theme.boxShadow};
-  span {
-    background-color: inherit;
-    color: inherit;
-    font-size: 15px;
-  }
-
   @media ${device.tablet} {
-    > button {
-      span {
-        font-size: 16px;
-      }
-    }
   }
 `;
 

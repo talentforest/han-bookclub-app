@@ -13,7 +13,7 @@ interface Props {
   onEditClick: () => void;
 }
 
-export default function ChallengePagePosition({
+export default function PagePosition({
   currentPage,
   wholePage,
   editable,

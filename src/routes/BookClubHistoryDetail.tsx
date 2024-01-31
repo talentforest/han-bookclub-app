@@ -3,7 +3,7 @@ import { IBookClub } from 'data/bookClubAtom';
 import { formatKRMarkDate } from 'util/index';
 import { Section } from './Home';
 import Subtitle from 'components/atoms/Subtitle';
-import HistoryClubBookBox from 'components/molecules/book-box/HistoryClubBookBox';
+import BookClubHistoryBox from 'components/molecules/BookClubHistoryBox';
 import PostTabBox from 'components/organisms/PostTabBox';
 import RecommendedBookScrollList from 'components/organisms/RecommendedBookScrollList';
 import MeetingReviewList from 'components/organisms/MeetingReviewList';
@@ -33,7 +33,7 @@ const BookClubHistoryDetail = () => {
         </DeskTopTitle>
 
         <Section>
-          <HistoryClubBookBox document={document} />
+          <BookClubHistoryBox document={document} />
         </Section>
 
         <Section>

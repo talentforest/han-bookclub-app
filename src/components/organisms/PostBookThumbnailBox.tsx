@@ -6,10 +6,10 @@ import { getDocument } from 'api/getFbDoc';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
+import BookThumbnail from 'components/atoms/BookThumbnail';
 import Modal from 'components/atoms/Modal';
-import PostFooter from 'components/molecules/post/PostFooter';
-import PostEditDeleteBox, { PostType } from '../post/PostEditDeleteBox';
+import PostFooter from 'components/molecules/PostFooter';
+import PostHandleBtns, { PostType } from '../molecules/PostHandleBtns';
 import EditorContent from 'components/atoms/EditorContent';
 
 interface PropsType {
@@ -17,14 +17,13 @@ interface PropsType {
   postType?: PostType;
 }
 
-const BookThumbnailPostBox = ({ postId, postType }: PropsType) => {
+const PostBookThumbnailBox = ({ postId, postType }: PropsType) => {
   const currentUser = useRecoilValue(currentUserState);
-
   const allUsers = useRecoilValue(allUsersState);
+  const [post, setPost] = useState({} as IDocument);
+  const [openPostDetailModal, setOpenPostDetailModal] = useState(false);
 
   const { docId, monthId } = postId;
-  const [post, setPost] = useState({} as IDocument);
-  const [openModal, setOpenModal] = useState(false);
 
   const getPostRoute = () => {
     if (postType === '발제문') return getFbRoute(monthId).SUBJECTS;
@@ -38,7 +37,7 @@ const BookThumbnailPostBox = ({ postId, postType }: PropsType) => {
     }
   }, []);
 
-  const handleModal = () => setOpenModal((prev) => !prev);
+  const handleModal = () => setOpenPostDetailModal((prev) => !prev);
 
   const { thumbnail, title, createdAt, creatorId, text } = post;
 
@@ -50,7 +49,7 @@ const BookThumbnailPostBox = ({ postId, postType }: PropsType) => {
     <>
       {existDocObj(post) ? (
         <PostItem onClick={handleModal}>
-          <BookThumbnailImg thumbnail={thumbnail} title={title} />
+          <BookThumbnail thumbnail={thumbnail} title={title} />
         </PostItem>
       ) : (
         <PostItem $skeleton>
@@ -60,14 +59,14 @@ const BookThumbnailPostBox = ({ postId, postType }: PropsType) => {
         </PostItem>
       )}
 
-      {openModal && (
+      {openPostDetailModal && (
         <Modal title={`${userName}의 ${postType}`} onToggleClick={handleModal}>
           <PostBox>
             <EditorContent text={text} />
 
             <BtnsBox>
               {currentUser.uid === creatorId && (
-                <PostEditDeleteBox
+                <PostHandleBtns
                   post={post}
                   collName={getPostRoute()}
                   postType={postType}
@@ -114,4 +113,4 @@ const BtnsBox = styled.div`
   margin-bottom: 15px;
 `;
 
-export default BookThumbnailPostBox;
+export default PostBookThumbnailBox;

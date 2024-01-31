@@ -5,8 +5,8 @@ import { useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { getFbRoute, thisYearMonthId, formatKRMarkDate } from 'util/index';
 import { getCollection } from 'api/getFbDoc';
-import HistoryClubBookBox from 'components/molecules/book-box/HistoryClubBookBox';
-import Post from 'components/molecules/post/Post';
+import BookClubHistoryBox from 'components/molecules/BookClubHistoryBox';
+import Post from 'components/molecules/Post';
 import PostAddModal from 'components/organisms/modal/PostAddModal';
 import styled from 'styled-components';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
@@ -60,7 +60,7 @@ export default function PostDetail() {
       />
 
       <Main>
-        {document && <HistoryClubBookBox document={document} />}
+        {document && <BookClubHistoryBox document={document} />}
 
         {pathname.includes('bookclub') && (
           <AddPostBtn onClick={toggleAddPostModal} type='button'>

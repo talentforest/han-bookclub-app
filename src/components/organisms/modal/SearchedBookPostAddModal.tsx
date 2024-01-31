@@ -1,22 +1,20 @@
 import { Fragment, useEffect, useState } from 'react';
-import { cutLetter } from 'util/index';
+import { FiSearch } from 'react-icons/fi';
 import { useSetRecoilState } from 'recoil';
 import {
   ISearchedBook,
   bookDescState,
   recommendBookState,
 } from 'data/bookAtom';
-import { FiCheckCircle, FiSearch } from 'react-icons/fi';
 import Modal from 'components/atoms/Modal';
-import device from 'theme/mediaQueries';
 import useSearchBook from 'hooks/useSearchBook';
 import RefInput from 'components/atoms/input/RefInput';
-import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
-import RecommendBookModalForm from 'components/molecules/form/RecommendBookModalForm';
+import RecommendBookModalForm from 'components/organisms/RecommendBookModalForm';
+import ChallengeModalForm from 'components/organisms/ChallengeModalForm';
+import SearchedBookBox from 'components/molecules/SearchedBookBox';
 import DottedDividingLine from 'components/atoms/DottedDividingLine';
-import ChallengeModalForm from 'components/molecules/form/ChallengeModalForm';
+import device from 'theme/mediaQueries';
 import styled from 'styled-components';
-import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 
 interface Props {
   title: '챌린지 등록하기' | '추천책 작성하기';
@@ -27,10 +25,10 @@ export default function SearchedBookPostAddModal({
   title,
   onToggleClick,
 }: Props) {
-  const [currStep, setCurrStep] = useState(1);
-
   const setMyRecommendBook = useSetRecoilState(recommendBookState);
   const setBookDesc = useSetRecoilState(bookDescState);
+
+  const [currStep, setCurrStep] = useState(1);
 
   const {
     searchInputRef,
@@ -45,21 +43,17 @@ export default function SearchedBookPostAddModal({
     }
   }, []);
 
-  const onSearchedBookBoxClick = (book: ISearchedBook) => {
-    setCurrStep(2);
-    if (title === '추천책 작성하기') {
-      setMyRecommendBook(book);
-    } else {
-      setBookDesc(book);
-    }
-  };
-
   const onModalToggleClick = () => {
     onToggleClick();
     closeSearchList();
   };
 
-  const resulbBoxheight = 81 * (searchList.length > 3 ? 3 : searchList.length);
+  const onSelectedBtnClick = (book: ISearchedBook) => {
+    changeStep(2);
+    title === '추천책 작성하기' ? setMyRecommendBook(book) : setBookDesc(book);
+  };
+
+  const changeStep = (step: number) => setCurrStep(step);
 
   return (
     <Modal title={title} onToggleClick={onModalToggleClick}>
@@ -80,34 +74,18 @@ export default function SearchedBookPostAddModal({
             />
           </SearchBox>
 
-          <BookResults $height={resulbBoxheight}>
-            {searchList.slice(0, 3).map((book, index) => (
-              <Fragment key={`${book.title}-${index}`}>
-                <BookBox>
-                  <BookThumbnailImg
-                    title={book.title}
-                    thumbnail={book.thumbnail}
+          <BookResults>
+            {searchList?.length !== 0 &&
+              searchList.map((book, index) => (
+                <Fragment key={`${book.title}-${index}`}>
+                  <SearchedBookBox
+                    searchedBook={book}
+                    onSelectedBtnClick={onSelectedBtnClick}
+                    modal
                   />
-                  <div>
-                    <h3>{cutLetter(book.title, 16)}</h3>
-
-                    <BookAuthorPublisher
-                      authors={book.authors}
-                      publisher={book.publisher}
-                    />
-                  </div>
-
-                  <button
-                    type='button'
-                    onClick={() => onSearchedBookBoxClick(book)}
-                  >
-                    <FiCheckCircle fontSize={12} stroke='#8bb0ff' />
-                    <span>선택</span>
-                  </button>
-                </BookBox>
-                {index !== searchList.length && <DottedDividingLine />}
-              </Fragment>
-            ))}
+                  {searchList?.length - 1 !== index && <DottedDividingLine />}
+                </Fragment>
+              ))}
           </BookResults>
         </StepBox>
       )}
@@ -160,58 +138,22 @@ const SearchBox = styled.div`
   }
 `;
 
-const BookResults = styled.section<{ $height: number }>`
+const BookResults = styled.section`
   display: flex;
   flex-direction: column;
   background-color: #fff;
   min-height: 200px;
-  height: ${({ $height }) => `${$height}px`};
+  height: 300px;
   transition: height 0.5s ease;
-  overflow: hidden;
-`;
-
-const BookBox = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 80px;
-  padding: 10px 5px;
-  gap: 10px;
-
-  > div:first-child {
-    max-width: 42px;
+  overflow: scroll;
+  .no_search {
     display: flex;
-    align-items: center;
+    padding-top: 60px;
     justify-content: center;
-  }
-
-  > div {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     height: 100%;
-    h3 {
+    span {
       font-size: 15px;
-    }
-    span {
-      font-size: 14px;
-      color: #888;
-    }
-  }
-  > button {
-    position: absolute;
-    right: 4px;
-    bottom: 5px;
-    color: #666;
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    padding-left: 5px;
-    span {
-      padding-top: 4px;
-      color: ${({ theme }) => theme.text.blue1};
+      color: ${({ theme }) => theme.text.gray3};
     }
   }
 `;

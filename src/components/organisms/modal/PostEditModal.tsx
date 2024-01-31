@@ -1,5 +1,5 @@
 import { IDocument } from 'data/documentsAtom';
-import { PostType } from '../../molecules/post/PostEditDeleteBox';
+import { PostType } from '../../molecules/PostHandleBtns';
 import { FormEvent } from 'react';
 import Modal from 'components/atoms/Modal';
 import QuillEditor from 'components/atoms/QuillEditor';
@@ -35,7 +35,7 @@ export default function PostEditModal({
           text={editedText}
           setText={setEditedText}
         />
-        <SquareBtn name='수정하기' type='submit' />
+        <SquareBtn name='수정하기' type='submit' width='100%' />
       </form>
     </Modal>
   );

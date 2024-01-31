@@ -21,8 +21,7 @@ const ContentBox = styled.p<{ $lineClamp: number }>`
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin-bottom: 5px;
-  min-height: ${({ $lineClamp }) => ($lineClamp === 0 ? '100px' : '20px')};
-  flex: ${({ $lineClamp }) => $lineClamp};
+  min-height: ${({ $lineClamp }) => ($lineClamp ? '80px' : '40px')};
   line-height: 1.6;
   p,
   blockquote,
@@ -71,6 +70,6 @@ const ContentBox = styled.p<{ $lineClamp: number }>`
     text-decoration: underline;
   }
   @media ${device.tablet} {
-    min-height: ${({ $lineClamp }) => ($lineClamp === 0 ? '110px' : '50px')};
+    min-height: ${({ $lineClamp }) => ($lineClamp ? '100px' : '50px')};
   }
 `;

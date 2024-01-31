@@ -36,8 +36,9 @@ const VoteExpiredBox = ({ voteDetail }: PropsType) => {
         <div className='label'>
           <span>선정</span>
         </div>
+
         <div className='info'>
-          <span>{cutLetter(getVoteResultTitle(), 16)}</span>
+          <span>{getVoteResultTitle()}</span>
         </div>
       </LabelResultBox>
     </Vote>
@@ -87,12 +88,16 @@ const LabelResultBox = styled(LabeledBox)`
     height: 100%;
     display: flex;
     align-items: center;
-    padding-left: 8px;
+    padding: 0 8px;
     width: 100%;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     border-left: none;
     span {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
       font-size: 15px;
     }
   }

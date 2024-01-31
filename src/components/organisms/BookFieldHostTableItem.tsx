@@ -1,6 +1,6 @@
 import { FiEdit3 } from 'react-icons/fi';
 import { IBookFieldHost } from 'data/bookFieldHostAtom';
-import { FaCaretRight } from 'react-icons/fa6';
+import { thisMonth } from 'util/index';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import NameTag from '../atoms/NameTag';
@@ -18,15 +18,14 @@ export default function BookFieldHostTableItem({
 
   return (
     <ItemBox className='tablebox'>
-      <span className='month'>{`${month}월`}</span>
-      {bookFieldhost.month === new Date().getMonth() + 1 && (
-        <FaCaretRight
-          fill='#888'
-          style={{ position: 'absolute', left: '35px' }}
-        />
-      )}
+      <MonthBox
+        className='month'
+        $thisMonth={bookFieldhost.month === +thisMonth}
+      >
+        <span>{month}월</span>
+      </MonthBox>
 
-      <FieldHost>
+      <BookFieldHost>
         {field ? (
           <span className='field'>{field}</span>
         ) : (
@@ -42,7 +41,7 @@ export default function BookFieldHostTableItem({
         ) : (
           <span className='host no_info'>발제자 없음</span>
         )}
-      </FieldHost>
+      </BookFieldHost>
 
       <button type='button' onClick={onEditClick}>
         <FiEdit3 />
@@ -60,11 +59,28 @@ const ItemBox = styled.div`
   }
 `;
 
-const FieldHost = styled.div`
+const MonthBox = styled.span<{ $thisMonth: boolean }>`
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    border-radius: 28px;
+    font-size: 15px;
+    padding-top: 2px;
+    background-color: ${({ $thisMonth, theme }) =>
+      $thisMonth ? theme.container.blue1 : 'transparent'};
+    color: ${({ $thisMonth, theme }) =>
+      $thisMonth ? theme.text.blue1 : theme.text.default};
+  }
+`;
+
+const BookFieldHost = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
   flex: 1;
+
   .no_info {
     font-size: 14px;
   }

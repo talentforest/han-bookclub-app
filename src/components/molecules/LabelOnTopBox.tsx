@@ -36,7 +36,9 @@ export default function LabelOnTopBox({
               <NameTag key={host} name={host} />
             ))
           ) : (
-            <span className={!content ? 'no_content' : ''}>{content}</span>
+            <span className={!content ? 'no_content' : ''}>
+              {labelOnTop} 정하기
+            </span>
           )}
 
           {editable && <FiEdit3Btn onClick={onEditClick} />}
@@ -95,7 +97,10 @@ const ContentBox = styled.div`
     line-height: 1.5;
   }
   .no_content {
+    font-size: 15px;
+    line-height: 1.4;
     color: #aaa;
+    width: 60px;
   }
   > div {
     border: 1px solid #eaeaea;

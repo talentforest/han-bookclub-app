@@ -1,9 +1,9 @@
 import { IDocument } from 'data/documentsAtom';
 import { FiChevronRight, FiPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import { TabName } from './TabListOnTop';
+import { TabName } from './TabLabels';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
-import Post from 'components/molecules/post/Post';
+import Post from 'components/molecules/Post';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -43,14 +43,14 @@ export default function TabContentBox({
       ) : (
         <>
           {editable ? (
-            <>
+            <GoToAddPostBox>
               <Link to={linkTo} state={{ id: yearMonthId, postType: currTab }}>
                 <FiPlus />
-                <span>{`${currTab} 추가하러 가기`}</span>
+                <span>{currTab} 추가하러 가기</span>
               </Link>
 
               <Desc>모두 작성할 수 있어요</Desc>
-            </>
+            </GoToAddPostBox>
           ) : (
             <EmptySign>기록된 {currTab}이 없습니다</EmptySign>
           )}
@@ -65,7 +65,7 @@ const TabContent = styled.div`
   flex-direction: column;
   justify-content: space-between;
   min-height: 200px;
-  max-height: 360px;
+  max-height: 260px;
   padding: 15px 15px 8px;
   border-radius: 10px;
   border-top-left-radius: 0;
@@ -74,7 +74,6 @@ const TabContent = styled.div`
   pre {
     margin-bottom: 10px;
   }
-
   .see-more {
     height: 25px;
     display: flex;
@@ -101,6 +100,28 @@ const Desc = styled.p`
   text-align: center;
   font-size: 14px;
   color: ${({ theme }) => theme.text.gray2};
+`;
+
+const GoToAddPostBox = styled.div`
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  a {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 4px;
+    span {
+      color: ${({ theme }) => theme.text.blue3};
+      margin-top: 4px;
+    }
+    svg {
+      stroke: ${({ theme }) => theme.text.blue3};
+    }
+  }
 `;
 
 const EmptySign = styled.span`

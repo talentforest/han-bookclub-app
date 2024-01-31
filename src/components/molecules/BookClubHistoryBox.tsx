@@ -3,7 +3,7 @@ import { IBookClub } from 'data/bookClubAtom';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
+import BookThumbnail from 'components/atoms/BookThumbnail';
 import Tag from 'components/atoms/Tag';
 import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 
@@ -11,7 +11,7 @@ interface PropsType {
   document: IBookClub;
 }
 
-const HistoryClubBookBox = ({ document }: PropsType) => {
+const BookClubHistoryBox = ({ document }: PropsType) => {
   const { pathname } = useLocation();
 
   const {
@@ -24,7 +24,7 @@ const HistoryClubBookBox = ({ document }: PropsType) => {
 
   return (
     <BookBox>
-      <BookThumbnailImg thumbnail={thumbnail} title={title} />
+      <BookThumbnail thumbnail={thumbnail} title={title} />
 
       <DetailInfoBox>
         {pathname === '/history' && (
@@ -38,8 +38,10 @@ const HistoryClubBookBox = ({ document }: PropsType) => {
         </div>
 
         <div className='meeting'>
-          <span>{getMeetingTime(new Date(time))}</span>
-          <span>{place}</span>
+          <span>
+            {!!time ? getMeetingTime(time) : '정해진 모임 시간이 없습니다.'}
+          </span>
+          <span>{!!place ? place : '정해진 모임 장소가 없습니다.'}</span>
         </div>
       </DetailInfoBox>
     </BookBox>
@@ -95,4 +97,4 @@ const DetailInfoBox = styled.div`
   }
 `;
 
-export default HistoryClubBookBox;
+export default BookClubHistoryBox;

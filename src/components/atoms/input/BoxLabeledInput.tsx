@@ -38,9 +38,7 @@ export default function BoxLabeledInput<T>({
           <DatePicker
             id='모임 시간'
             selected={value as Date}
-            onChange={(date) => {
-              setValue(date as Date as T);
-            }}
+            onChange={(date) => setValue(date as Date as T)}
             selectsEnd
             endDate={value as Date}
             minDate={new Date()}

@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { votesState } from 'data/voteAtom';
 import { VOTE } from 'constants/index';
 import styled from 'styled-components';
-import VoteBox from 'components/molecules/VoteBox';
+import VoteBox from 'components/organisms/VoteBox';
 import device from 'theme/mediaQueries';
 
 const VoteSlider = () => {

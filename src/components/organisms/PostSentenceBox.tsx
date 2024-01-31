@@ -3,9 +3,9 @@ import { ISentence } from 'data/bookAtom';
 import { SENTENCES2024 } from 'constants/index';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
-import BookThumbnailImg from 'components/atoms/BookThumbnailImg';
-import UserNameBox from 'components/atoms/UserNameBox';
-import PostEditDeleteBox from '../molecules/post/PostEditDeleteBox';
+import BookThumbnail from 'components/atoms/BookThumbnail';
+import UserName from 'components/atoms/UserName';
+import PostHandleBtns from '../molecules/PostHandleBtns';
 import styled from 'styled-components';
 import EditorContent from 'components/atoms/EditorContent';
 import LikeBtnInfoBox from '../molecules/LikeBtnInfoBox';
@@ -23,12 +23,12 @@ export default function PostSentenceBox({ sentence }: Props) {
     <SentenceBox>
       <BoxHeader>
         <BookInfo>
-          <BookThumbnailImg thumbnail={thumbnail} title={title} />
+          <BookThumbnail thumbnail={thumbnail} title={title} />
           <span>{title}</span>
         </BookInfo>
 
         {creatorId === currentUser.uid && (
-          <PostEditDeleteBox
+          <PostHandleBtns
             collName={SENTENCES2024}
             postType='공유하고 싶은 문구'
             post={sentence}
@@ -43,7 +43,7 @@ export default function PostSentenceBox({ sentence }: Props) {
       <BoxFooter>
         <span>{getLocaleDate(createdAt)}</span>
         <div>
-          <UserNameBox creatorId={creatorId} />
+          <UserName creatorId={creatorId} />
           <LikeBtnInfoBox post={sentence} collName={SENTENCES2024} />
         </div>
       </BoxFooter>

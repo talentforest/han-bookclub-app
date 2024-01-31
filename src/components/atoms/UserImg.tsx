@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
+import { FiImage, FiUser } from 'react-icons/fi';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import { FiImage, FiUser } from 'react-icons/fi';
 
 interface ProfileType {
   editing: boolean;
