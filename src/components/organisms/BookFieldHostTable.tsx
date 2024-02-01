@@ -26,7 +26,7 @@ const BookFieldHostTable = () => {
 
   useEffect(() => {
     if (!existDocObj(bookFieldHostDoc)) {
-      getDocument(BOOK_FIELD_HOST, `${thisYear}`, setBookFieldHostDoc);
+      getDocument(BOOK_FIELD_HOST, thisYear, setBookFieldHostDoc);
     }
   }, [bookFieldHostDoc]);
 
