@@ -16,6 +16,7 @@ import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import GuideLine from 'components/atoms/GuideLine';
 import DDay from 'components/atoms/DDay';
+import Tag from 'components/atoms/Tag';
 
 export default function Challenge() {
   const [showChallengeModal, setShowChallengeModal] = useState(false);
@@ -38,7 +39,6 @@ export default function Challenge() {
       <main>
         <Section>
           <Subtitle title='공유하고 싶은 문구들' />
-          <GuideLine text='아래 개인별 챌린지 박스에서 추가할 수 있어요' />
 
           <SentenceList>
             {sentences?.length !== 0 ? (
@@ -49,24 +49,28 @@ export default function Challenge() {
               <EmptyBox>아직 공유한 문구가 없습니다.</EmptyBox>
             )}
           </SentenceList>
+
+          <GuideLine text='아래 개인별 챌린지 박스에서 추가할 수 있어요' />
         </Section>
 
         <Section>
-          <AddBox>
-            <AddBtnBox>
-              <Subtitle title='개인별 챌린지 현황' />
-              <button type='button' onClick={onChallengeModalClick}>
-                <FiPlusCircle />
-              </button>
-            </AddBtnBox>
+          <AddBtnBox>
+            <Subtitle title='개인별 챌린지 현황' />
+            <button type='button' onClick={onChallengeModalClick}>
+              <FiPlusCircle />
+            </button>
+          </AddBtnBox>
+
+          <Tag color='blue'>
             <DDay hyphenDate={'2024-12-31'} />
-          </AddBox>
-          <UserChallengeList>
+          </Tag>
+
+          <ChallengeList>
             {userChallenges?.length !== 0 &&
               userChallenges?.map((challenge) => (
                 <UserChallengeBox key={challenge.id} challenge={challenge} />
               ))}
-          </UserChallengeList>
+          </ChallengeList>
         </Section>
 
         {showChallengeModal && (
@@ -82,29 +86,16 @@ export default function Challenge() {
 
 const AddBtnBox = styled.div`
   display: flex;
-  align-items: center;
-  h3 {
-    margin-bottom: 0;
-  }
+  align-items: flex-start;
+  justify-content: space-between;
   svg {
     font-size: 20px;
     stroke: ${({ theme }) => theme.text.blue2};
-    margin: 2px 0 0 8px;
+    margin: 3px 0 8px 4px;
   }
-`;
-
-const AddBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  @media ${device.tablet} {
-    display: flex;
-    justify-content: space-between;
-    h4 {
-      font-size: 16px;
-    }
+  > div {
+    flex: 1;
+    align-items: flex-end;
   }
 `;
 
@@ -119,10 +110,11 @@ const SentenceList = styled.ul`
   }
 `;
 
-const UserChallengeList = styled.ul`
+const ChallengeList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 15px;
+  margin-top: 15px;
   @media ${device.tablet} {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

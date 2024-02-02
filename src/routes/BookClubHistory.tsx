@@ -76,8 +76,9 @@ const YearTag = styled.li<{ $active: boolean }>`
     background-color: ${({ $active, theme }) =>
       $active ? theme.container.blue3 : '#eee'};
     color: ${({ $active, theme }) => ($active ? '#fff' : theme.text.gray2)};
-    padding: 10px;
+    padding: 10px 8px;
     border-radius: 8px;
+    font-size: 15px;
   }
   @media ${device.tablet} {
   }

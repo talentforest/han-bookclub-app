@@ -1,9 +1,11 @@
+import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 type TagColor = 'green' | 'purple' | 'blue' | 'yellow';
 
 interface Props {
-  name: string;
+  name?: string;
+  children?: ReactNode;
   roundedFull?: boolean;
   color?: TagColor;
 }
@@ -12,15 +14,18 @@ export default function Tag({
   name,
   roundedFull = true,
   color = 'blue',
+  children,
 }: Props) {
   return (
     <InfoTag $rounded={roundedFull} $color={color}>
-      {name}
+      {name && name}
+      {children && children}
     </InfoTag>
   );
 }
 
-const InfoTag = styled.h4<{ $rounded: boolean; $color: TagColor }>`
+const InfoTag = styled.span<{ $rounded: boolean; $color: TagColor }>`
+  display: block;
   padding: 6px 12px 4px;
   height: fit-content;
   width: fit-content;

@@ -35,7 +35,6 @@ const VoteDetail = () => {
 
       {currentVote?.vote?.voteItem && (
         <main>
-          <DDay hyphenDate={currentVote.deadline} />
           <VoteDetails voteDetail={currentVote} />
 
           {expiredVote || mySubmittedVote.length ? (
@@ -80,6 +79,8 @@ const VoteDetail = () => {
             </Form>
           )}
 
+          <DDay hyphenDate={currentVote.deadline} />
+
           <InfoBox>
             <h4>{`투표인원: ${votingMember.length}명`}</h4>
             <VoteMember>
@@ -95,12 +96,15 @@ const VoteDetail = () => {
 };
 
 const Form = styled.form`
+  margin-bottom: 20px;
   button {
     margin-bottom: 5px;
   }
 `;
 
-const ResultBox = styled.div``;
+const ResultBox = styled.div`
+  margin-bottom: 20px;
+`;
 
 const Votelist = styled.ul<{ $disabled?: boolean }>`
   position: relative;

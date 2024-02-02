@@ -9,9 +9,11 @@ interface Props {
 export default function DDay({ hyphenDate, isDateMark = true }: Props) {
   return (
     <DDayBox>
-      <span>
-        디데이: <span className='dday'>{getDDay(hyphenDate)}</span>
-      </span>
+      <div>
+        <span className='d-day'>D-DAY:</span>
+        <span className='leftDay'>{getDDay(hyphenDate)}</span>
+      </div>
+
       {isDateMark && (
         <span className='date'>({getLocaleDate(hyphenDate)})</span>
       )}
@@ -22,15 +24,24 @@ export default function DDay({ hyphenDate, isDateMark = true }: Props) {
 const DDayBox = styled.div`
   display: flex;
   align-items: center;
-  gap: 4px;
-  span {
-    color: ${({ theme }) => theme.text.gray3};
+  justify-content: center;
+  gap: 5px;
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
-  .date {
+  .d-day {
     font-size: 13px;
     margin-top: 2px;
   }
-  .dday {
+  .leftDay {
+    font-size: 16px;
     color: ${({ theme }) => theme.text.blue2};
+  }
+  .date {
+    font-size: 14px;
+    margin-top: 2px;
+    color: ${({ theme }) => theme.text.gray3};
   }
 `;

@@ -104,6 +104,14 @@ const TagList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  padding: 5px 2px;
+  > button {
+    box-shadow: ${({ theme }) => theme.boxShadow};
+    border-radius: 8px;
+    span {
+      box-shadow: none;
+    }
+  }
 `;
 
 const Form = styled.form`

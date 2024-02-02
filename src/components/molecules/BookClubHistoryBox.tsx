@@ -51,7 +51,7 @@ const BookClubHistoryBox = ({ document }: PropsType) => {
 const BookBox = styled.div`
   position: relative;
   width: 100%;
-  height: 135px;
+  height: 140px;
   display: flex;
   justify-content: space-between;
   gap: 10px;

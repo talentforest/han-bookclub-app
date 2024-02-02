@@ -103,17 +103,15 @@ export default function UserChallengeBox({ challenge }: Props) {
 
       {pathname === '/challenge' && otherChallengeBooks.length !== 0 && (
         <OtherChallengeBook>
-          <div>
-            {otherChallengeBooks.map((book) => (
-              <button
-                key={book.title}
-                type='button'
-                onClick={() => onChangeCurrentBook(book)}
-              >
-                <BookThumbnail title={book.title} thumbnail={book.thumbnail} />
-              </button>
-            ))}
-          </div>
+          {otherChallengeBooks.map((book) => (
+            <button
+              key={book.title}
+              type='button'
+              onClick={() => onChangeCurrentBook(book)}
+            >
+              <BookThumbnail title={book.title} thumbnail={book.thumbnail} />
+            </button>
+          ))}
         </OtherChallengeBook>
       )}
 
@@ -199,37 +197,18 @@ const BtnBox = styled.div`
 
 const OtherChallengeBook = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  gap: 6px;
+  align-items: center;
   justify-content: flex-end;
-  margin-top: 2px;
-  overflow: scroll;
-  scroll-behavior: auto;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  h4 {
-    color: ${({ theme }) => theme.text.gray2};
-    display: flex;
-    font-size: 15px;
-    a {
-      span {
-        color: ${({ theme }) => theme.text.gray2};
-      }
-    }
-  }
-  div {
-    width: 100%;
-    display: flex;
-    gap: 10px;
-    height: 45px;
-    margin: 3px 0;
-    justify-content: flex-end;
+  padding: 8px 2px;
+  button {
+    height: 50px;
     img {
       margin: 0;
-      border-radius: 6px;
+      border-radius: 3px;
     }
   }
+
   @media ${device.tablet} {
     h4 {
       font-size: 16px;
