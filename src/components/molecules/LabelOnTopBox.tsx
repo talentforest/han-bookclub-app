@@ -31,15 +31,16 @@ export default function LabelOnTopBox({
         </Header>
 
         <ContentBox>
-          {labelOnTop === '이달의 발제자' ? (
-            (content as string[])?.map((host) => (
-              <NameTag key={host} name={host} />
-            ))
-          ) : (
-            <span className={!content ? 'no_content' : ''}>
-              {labelOnTop} 정하기
-            </span>
-          )}
+          {!content && <span className='no_content'>정보가 아직 없어요</span>}
+
+          {content &&
+            (labelOnTop === '이달의 발제자' ? (
+              (content as string[])?.map((host) => (
+                <NameTag key={host} name={host} />
+              ))
+            ) : (
+              <span>{content}</span>
+            ))}
 
           {editable && <FiEdit3Btn onClick={onEditClick} />}
         </ContentBox>
