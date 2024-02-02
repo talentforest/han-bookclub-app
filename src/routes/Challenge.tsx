@@ -39,6 +39,7 @@ export default function Challenge() {
       <main>
         <Section>
           <Subtitle title='공유하고 싶은 문구들' />
+          <GuideLine text='아래 개인별 챌린지 박스에서 추가할 수 있어요' />
 
           <SentenceList>
             {sentences?.length !== 0 ? (
@@ -49,8 +50,6 @@ export default function Challenge() {
               <EmptyBox>아직 공유한 문구가 없습니다.</EmptyBox>
             )}
           </SentenceList>
-
-          <GuideLine text='아래 개인별 챌린지 박스에서 추가할 수 있어요' />
         </Section>
 
         <Section>
@@ -87,15 +86,10 @@ export default function Challenge() {
 const AddBtnBox = styled.div`
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
   svg {
     font-size: 20px;
     stroke: ${({ theme }) => theme.text.blue2};
     margin: 3px 0 8px 4px;
-  }
-  > div {
-    flex: 1;
-    align-items: flex-end;
   }
 `;
 

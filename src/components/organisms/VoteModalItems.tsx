@@ -1,5 +1,4 @@
 import { LabeledBox } from 'components/atoms/input/BoxLabeledInput';
-import Input from 'components/atoms/input/Input';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
@@ -35,7 +34,8 @@ const VoteModalItems = ({
         <VoteItem key={item.id}>
           <LabeledVoteItem>
             <div className='label'>{item.id}번</div>
-            <Input
+            <input
+              className='info'
               name={`vote_item${item.id}`}
               type='text'
               placeholder='투표항목을 적어주세요.'
@@ -70,12 +70,15 @@ const LabeledVoteItem = styled(LabeledBox)`
   width: 100%;
   margin-bottom: 10px;
   div.label {
-    width: 50px;
-    border: none;
+    min-width: 50px;
   }
-  > input {
+  input.info {
+    height: 100%;
+    padding: 0 5px;
+    background-color: transparent;
     box-shadow: none;
     border: none;
+    flex: 1;
     width: 100%;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;

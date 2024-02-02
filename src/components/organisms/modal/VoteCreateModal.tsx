@@ -97,6 +97,9 @@ const Form = styled.form`
     font-size: 14px;
     margin: 5px 0 5px 3px;
   }
+  > input {
+    margin-bottom: 5px;
+  }
   @media ${device.tablet} {
   }
 `;
