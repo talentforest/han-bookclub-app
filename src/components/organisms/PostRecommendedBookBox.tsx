@@ -1,14 +1,14 @@
 import { IDocument } from 'data/documentsAtom';
-import { FiExternalLink, FiFileText } from 'react-icons/fi';
+import { FiChevronRight, FiExternalLink } from 'react-icons/fi';
 import { useState } from 'react';
 import { cutLetter } from 'util/index';
-import styled from 'styled-components';
 import PostHeader from '../molecules/PostHeader';
 import PostFooter from '../molecules/PostFooter';
 import BookThumbnail from '../atoms/BookThumbnail';
 import Modal from '../atoms/Modal';
 import UserName from 'components/atoms/UserName';
 import device from 'theme/mediaQueries';
+import styled from 'styled-components';
 
 interface Props {
   recommendedBookDoc: IDocument;
@@ -25,21 +25,23 @@ export default function PostRecommendedBookBox({
 
   const { title, thumbnail, authors, url } = recommendedBook || {};
 
+  const onBookThumbnailClick = () => setOpenModal(true);
+
   return (
     recommendedBook && (
       <>
-        <RecommendedBookItem
-          as='button'
-          type='button'
-          onClick={() => setOpenModal(true)}
-        >
-          <div className='bookimg'>
+        <RecommendedBookItem>
+          <button
+            type='button'
+            onClick={onBookThumbnailClick}
+            className='bookimg'
+          >
             <BookThumbnail title={title} thumbnail={thumbnail} />
-          </div>
+          </button>
 
           <div className='title'>
-            <h4>{cutLetter(title, 6)}</h4>
-            <FiFileText stroke='#aaa' fontSize={13} />
+            <h4>{cutLetter(title, 7)}</h4>
+            <FiChevronRight size={15} />
           </div>
 
           <UserName creatorId={creatorId} />
@@ -172,8 +174,12 @@ const RecommendedBookItem = styled.li`
     gap: 2px;
     h4 {
       font-size: 14px;
-      color: #aaa;
+      color: ${({ theme }) => theme.text.gray2};
       line-height: 1;
+      margin: 3px 0 0 6px;
+    }
+    svg {
+      stroke: ${({ theme }) => theme.text.gray2};
     }
   }
   @media ${device.tablet} {

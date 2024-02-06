@@ -1,19 +1,16 @@
 import { useRecoilValue } from 'recoil';
 import { allUsersState } from 'data/userAtom';
+import { compareYearMonth } from 'util/index';
+import { Navigation, Scrollbar, Autoplay } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/scrollbar';
 import RecommendedBookBoxById from './RecommendedBookBoxById';
 import styled from 'styled-components';
-import device from 'theme/mediaQueries';
-
-interface MonthData {
-  monthId: string;
-}
 
 export default function RecommendedBooksByIdScrollBox() {
   const usersData = useRecoilValue(allUsersState);
-
-  function compareYearMonth(a: MonthData, b: MonthData): number {
-    return a.monthId.localeCompare(b.monthId);
-  }
 
   const recommendedBookIds = usersData
     .map((item) => item?.userRecords?.recommendedBooks)
@@ -23,31 +20,64 @@ export default function RecommendedBooksByIdScrollBox() {
 
   return (
     <ScrollContainer>
-      <RecommendedBookByIdList $length={recommendedBookIds.length}>
+      <Swiper
+        modules={[Autoplay, Navigation, Scrollbar]}
+        spaceBetween={15}
+        breakpoints={{
+          1024: {
+            slidesPerView: 5,
+          },
+          800: {
+            slidesPerView: 4,
+          },
+          500: {
+            slidesPerView: 3,
+          },
+          320: {
+            slidesPerView: 2,
+          },
+        }}
+        slidesPerView='auto'
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: true,
+        }}
+        navigation
+        scrollbar={{ draggable: true }}
+      >
         {recommendedBookIds.map((docIds) => (
-          <RecommendedBookBoxById key={docIds.docId} docIds={docIds} />
+          <SwiperSlide key={docIds.docId}>
+            <RecommendedBookBoxById docIds={docIds} />
+          </SwiperSlide>
         ))}
-      </RecommendedBookByIdList>
+      </Swiper>
     </ScrollContainer>
   );
 }
 
 const ScrollContainer = styled.div`
-  padding-bottom: 5px;
-  overflow: scroll;
-  scroll-behavior: auto;
-  &::-webkit-scrollbar {
-    display: none;
+  .swiper {
+    padding-bottom: 25px;
   }
-`;
-
-const RecommendedBookByIdList = styled.ul<{ $length: number }>`
-  position: relative;
-  display: flex;
-  gap: 10px;
-  width: ${({ $length }) => `${$length * 130}px`};
-  padding: 0 5px 0 2px;
-  @media ${device.tablet} {
-    gap: 15px;
+  .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* 네비게이션 아이콘 스타일 */
+  .swiper-button-prev {
+    left: -5px;
+  }
+  .swiper-button-next {
+    right: -5px;
+  }
+  .swiper-button-prev:after,
+  .swiper-button-next:after {
+    font-size: 24px;
+    color: ${({ theme }) => theme.container.blue3};
+  }
+  /* 스크롤바 드래그 현재 위치 색 */
+  .swiper-scrollbar-drag {
+    background-color: ${({ theme }) => theme.container.blue3};
   }
 `;
