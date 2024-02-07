@@ -84,7 +84,9 @@ const Bookshelf = () => {
           <FavBookFieldList>
             {userFavBookField.length !== 0 ? (
               userFavBookField.map((field) => (
-                <Tag key={field.id} name={field.name} color='purple' />
+                <Tag key={field.id} color='purple'>
+                  <span>{field.name}</span>
+                </Tag>
               ))
             ) : (
               <Loading height='12vh' />

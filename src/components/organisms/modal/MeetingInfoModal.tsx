@@ -73,7 +73,9 @@ export default function MeetingInfoModal({
                   type='button'
                   onClick={() => onTagClick(place)}
                 >
-                  <Tag name={place} roundedFull={false} color='yellow' />
+                  <Tag roundedFull={false} color='yellow'>
+                    <span>{place}</span>
+                  </Tag>
                 </button>
               ))}
             </TagList>

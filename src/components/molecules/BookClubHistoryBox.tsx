@@ -28,7 +28,9 @@ const BookClubHistoryBox = ({ document }: PropsType) => {
 
       <DetailInfoBox>
         {pathname === '/history' && (
-          <Tag name={`${month}월의 책`} color='yellow' />
+          <Tag color='yellow'>
+            <span>{month}월의 책</span>
+          </Tag>
         )}
         <div>
           <h3>{title ? cutLetter(title, 40) : '이벤트'}</h3>

@@ -19,7 +19,9 @@ export default function BookClubThisMonthBox({ book }: Props) {
   return (
     <Box>
       <div>
-        <Tag name={`${month}월의 모임`} />
+        <Tag>
+          <span>{month}월의 모임</span>
+        </Tag>
 
         {title === '' ? (
           <NoInfoText>아직 등록된 책이 없어요.</NoInfoText>

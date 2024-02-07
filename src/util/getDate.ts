@@ -45,11 +45,17 @@ export const formatHyphenDate = (
 };
 
 export const formatKRMarkDate = (
-  docId: string,
-  format: 'YYYY년 MM월' | 'YY년 MM월'
+  date: string | number,
+  format: 'YYYY년 MM월' | 'YY년 MM월' | 'YYYY년 MM월 DD일'
 ) => {
-  const yearFormat = format === 'YYYY년 MM월' ? 'numeric' : '2-digit';
-  return getLocaleDate(docId, { year: yearFormat, month: 'short' }, 'mark');
+  const yearFormat = format.includes('YYYY년 MM월') ? 'numeric' : '2-digit';
+  const dayFormat = format === 'YYYY년 MM월 DD일' ? 'numeric' : undefined;
+
+  return getLocaleDate(
+    date,
+    { year: yearFormat, month: 'short', day: dayFormat },
+    'mark'
+  );
 };
 
 // M월 D일 (일) 오후 H:MM

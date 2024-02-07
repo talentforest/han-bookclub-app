@@ -47,7 +47,7 @@ const ShareBtn = ({
 
   return (
     <Btn id='kakaotalk-sharing-btn'>
-      <FiShare2 fontSize={15} stroke='#888' />
+      <FiShare2 fontSize={15} stroke='#aaa' />
     </Btn>
   );
 };

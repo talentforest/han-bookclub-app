@@ -11,7 +11,7 @@ export default function PostDeleteBtn({ docId, collName }: Props) {
 
   return (
     <button onClick={onDeleteClick}>
-      <FiTrash2 fontSize={15} stroke='#888' />
+      <FiTrash2 fontSize={15} stroke='#aaa' />
     </button>
   );
 }

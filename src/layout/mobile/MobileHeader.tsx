@@ -11,6 +11,7 @@ type PageHeaderTitle =
   | `${string}의 책장`;
 
 type DetailPageHeaderTitle =
+  | '공유하고 싶은 문구들'
   | '도서 정보'
   | '투표함'
   | `${string}년 개인별 챌린지`

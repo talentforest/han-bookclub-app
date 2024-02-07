@@ -44,7 +44,9 @@ export default function SentenceAddModal({ onToggleClick, book }: Props) {
     onAddDocSubmit(event);
 
     onToggleClick();
-    alert('문구가 추가되었습니다!');
+    alert(
+      '문구가 추가되었습니다. 공유해주신 좋은 문구를 멤버들이 볼 수 있게 되었어요!'
+    );
   };
 
   return (

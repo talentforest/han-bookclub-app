@@ -21,6 +21,7 @@ import ScrollToTop from 'components/atoms/ScrollToTop';
 import Bookshelf from './routes/Bookshelf';
 import PostDetail from 'routes/PostDetail';
 import Challenge from 'routes/Challenge';
+import Sentence from 'routes/Sentence';
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -45,6 +46,7 @@ function Router({ isLoggedIn }: PropsType) {
             <Route path='/bookclub/host-review' element={<PostDetail />} />
 
             <Route path='/challenge' element={<Challenge />} />
+            <Route path='/sentence' element={<Sentence />} />
 
             <Route path='/search' element={<Search />} />
             <Route path='/search/:id' element={<SearchedBookInfo />} />

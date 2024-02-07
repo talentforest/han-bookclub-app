@@ -18,7 +18,7 @@ export default function PostEditBtn({ collName, postType, post }: Props) {
   return (
     <>
       <button onClick={onToggleClick}>
-        <FiEdit fontSize={14} stroke='#888' />
+        <FiEdit fontSize={14} stroke='#aaa' />
       </button>
 
       {isEditing && (

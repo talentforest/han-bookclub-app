@@ -4,43 +4,43 @@ import styled from 'styled-components';
 type TagColor = 'green' | 'purple' | 'blue' | 'yellow';
 
 interface Props {
-  name?: string;
-  children?: ReactNode;
-  roundedFull?: boolean;
+  children: ReactNode;
   color?: TagColor;
+  roundedFull?: boolean;
 }
 
 export default function Tag({
-  name,
+  children,
   roundedFull = true,
   color = 'blue',
-  children,
 }: Props) {
   return (
     <InfoTag $rounded={roundedFull} $color={color}>
-      {name && name}
       {children && children}
     </InfoTag>
   );
 }
 
-const InfoTag = styled.span<{ $rounded: boolean; $color: TagColor }>`
-  display: block;
+const getTextColor = (color: 'blue' | 'yellow' | 'purple' | 'green') => {
+  return color === 'blue'
+    ? '#3d70a0'
+    : color === 'yellow'
+    ? '#9f8116'
+    : color === 'purple'
+    ? '#695ac8'
+    : color === 'green'
+    ? '#379a32'
+    : '';
+};
+
+const InfoTag = styled.div<{ $rounded: boolean; $color: TagColor }>`
+  display: flex;
+  gap: 5px;
   padding: 6px 12px 4px;
   height: fit-content;
   width: fit-content;
   box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: ${({ $rounded }) => ($rounded ? '30px' : '8px')};
-  color: ${({ $color }) =>
-    $color === 'blue'
-      ? '#3d70a0'
-      : $color === 'yellow'
-      ? '#9f8116'
-      : $color === 'purple'
-      ? '#695ac8'
-      : $color === 'green'
-      ? '#379a32'
-      : ''};
   background-color: ${({ $color }) =>
     $color === 'blue'
       ? '#d1e9ff'
@@ -51,5 +51,18 @@ const InfoTag = styled.span<{ $rounded: boolean; $color: TagColor }>`
       : $color === 'green'
       ? '#bcf5d5'
       : ''};
-  font-size: 14px;
+  span,
+  h1,
+  h2,
+  h3,
+  h4,
+  h6,
+  h5 {
+    font-size: 14px;
+    color: ${({ $color }) => getTextColor($color)};
+  }
+  svg {
+    margin-top: 2px;
+    stroke: ${({ $color }) => getTextColor($color)};
+  }
 `;

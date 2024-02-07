@@ -28,7 +28,6 @@ const ContentBox = styled.p<{ $lineClamp: number }>`
   li {
     margin-bottom: 10px;
   }
-
   blockquote {
     padding-left: 8px;
     padding-top: 0px;

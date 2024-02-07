@@ -31,7 +31,9 @@ export default function BookClubNextMonthBox() {
         <BookThumbnail title={book.title} thumbnail={book.thumbnail} />
 
         <div>
-          <Tag name='다음 모임책' color='purple' />
+          <Tag color='purple'>
+            <span>다음 모임책</span>
+          </Tag>
 
           <BookTextInfo>
             <h1>{book.title}</h1>
