@@ -67,40 +67,7 @@ export default function UserChallengeBox({ challenge }: Props) {
   };
 
   return (
-    <div>
-      <ChallengeBook>
-        <BookBox>
-          {pathname === '/challenge' && currentUser.uid === creatorId && (
-            <BtnBox>
-              <button type='button' onClick={onSentenceModalClick}>
-                <TbBlockquote fontSize={17} />
-              </button>
-
-              <button type='button' onClick={onDeleteClick}>
-                <FiTrash2 fontSize={15} />
-              </button>
-            </BtnBox>
-          )}
-
-          <BookThumbnail title={title} thumbnail={thumbnail} />
-
-          <div className='info'>
-            <UserName creatorId={creatorId} fontSize={15} />
-            <div>
-              <h3>{title ? cutLetter(title, 40) : '이벤트'}</h3>
-              <BookAuthorPublisher authors={authors} publisher={publisher} />
-            </div>
-          </div>
-        </BookBox>
-
-        <PagePosition
-          currentPage={currentPageNum}
-          wholePage={wholePage}
-          editable={currentUser.uid === creatorId}
-          onEditClick={onChallengeEditModalClick}
-        />
-      </ChallengeBook>
-
+    <UserBox>
       {pathname === '/challenge' && otherChallengeBooks.length !== 0 && (
         <OtherChallengeBook>
           {otherChallengeBooks.map((book) => (
@@ -114,6 +81,39 @@ export default function UserChallengeBox({ challenge }: Props) {
           ))}
         </OtherChallengeBook>
       )}
+
+      <ChallengeBook>
+        <BookBox>
+          <BookThumbnail title={title} thumbnail={thumbnail} />
+
+          <div className='info'>
+            <UserName creatorId={creatorId} fontSize={15} />
+            <div>
+              <h3>{title ? cutLetter(title, 40) : '이벤트'}</h3>
+              <BookAuthorPublisher authors={authors} publisher={publisher} />
+            </div>
+          </div>
+
+          {pathname === '/challenge' && currentUser.uid === creatorId && (
+            <BtnBox>
+              <button type='button' onClick={onSentenceModalClick}>
+                <TbBlockquote fontSize={17} />
+              </button>
+
+              <button type='button' onClick={onDeleteClick}>
+                <FiTrash2 fontSize={15} />
+              </button>
+            </BtnBox>
+          )}
+        </BookBox>
+
+        <PagePosition
+          currentPage={currentPageNum}
+          wholePage={wholePage}
+          editable={currentUser.uid === creatorId}
+          onEditClick={onChallengeEditModalClick}
+        />
+      </ChallengeBook>
 
       {openChallengeEditModal && (
         <ChallengeEditModal
@@ -131,17 +131,49 @@ export default function UserChallengeBox({ challenge }: Props) {
           onToggleClick={onSentenceModalClick}
         />
       )}
-    </div>
+    </UserBox>
   );
 }
 
-const ChallengeBook = styled.li`
+const UserBox = styled.li`
+  position: relative;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const OtherChallengeBook = styled.div`
+  align-self: flex-end;
+  max-width: 77%;
+  overflow: scroll;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  padding: 5px;
+  top: -40px;
+  right: 3px;
+  button {
+    height: 70px;
+    img {
+      margin: 0;
+      border-radius: 6px;
+    }
+  }
+  @media ${device.tablet} {
+    h4 {
+      font-size: 16px;
+    }
+  }
+`;
+
+const ChallengeBook = styled.div`
   position: relative;
   border-radius: 10px;
   background-color: #fff;
   padding: 10px 8px 8px;
   flex: 1;
-  margin-top: 15px;
   box-shadow: ${({ theme }) => theme.boxShadow};
   display: flex;
   flex-direction: column;
@@ -153,7 +185,7 @@ const BookBox = styled.div`
   display: flex;
   > img {
     height: 90px;
-    margin-top: -24px;
+    margin-top: -22px;
   }
   > .info {
     min-height: 72px;
@@ -183,35 +215,14 @@ const BookBox = styled.div`
 
 const BtnBox = styled.div`
   display: flex;
+  gap: 4px;
   position: absolute;
   right: 8px;
   top: 4px;
-  gap: 4px;
   button {
     padding: 4px;
   }
   svg {
     stroke: ${({ theme }) => theme.text.gray2};
-  }
-`;
-
-const OtherChallengeBook = styled.div`
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 8px 2px;
-  button {
-    height: 50px;
-    img {
-      margin: 0;
-      border-radius: 3px;
-    }
-  }
-
-  @media ${device.tablet} {
-    h4 {
-      font-size: 16px;
-    }
   }
 `;

@@ -110,7 +110,7 @@ const ChallengeList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-top: 15px;
+  margin-top: 30px;
   @media ${device.tablet} {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
