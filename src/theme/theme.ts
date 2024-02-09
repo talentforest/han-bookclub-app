@@ -39,5 +39,5 @@ export const theme: DefaultTheme = {
     orange: '#ffbc6b',
     pink: '#FFC3F2',
   },
-  boxShadow: '3px 1px 4px  rgba(100,100,100,0.2)',
+  boxShadow: '1px 1px 4px 1px  rgba(100,100,100,0.1)',
 };

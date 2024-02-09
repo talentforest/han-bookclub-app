@@ -13,15 +13,17 @@ interface Props {
 }
 
 export default function SentenceSlideBox({ sentence }: Props) {
-  const { text, createdAt, thumbnail, title, creatorId } = sentence;
+  const { text, createdAt, thumbnail, title, creatorId, page } = sentence;
 
   return (
     <SentenceBox>
       <BoxHeader>
         <BookInfo>
           <BookThumbnail thumbnail={thumbnail} title={title} />
-          <span>{title}</span>
+          <span className='title'>{title}</span>
         </BookInfo>
+
+        <UserName creatorId={creatorId} fontSize={14} />
       </BoxHeader>
 
       <Content>
@@ -30,14 +32,14 @@ export default function SentenceSlideBox({ sentence }: Props) {
         <BiSolidQuoteRight className='quote-right' />
       </Content>
 
+      <Page>p.{page}</Page>
+
       <BoxFooter>
-        <UserName creatorId={creatorId} fontSize={14} />
-        <div>
-          <SubmitedDate>
-            {formatKRMarkDate(createdAt, 'YYYY년 MM월 DD일')}
-          </SubmitedDate>
-          <LikeBtnInfoBox post={sentence} collName={SENTENCES2024} />
-        </div>
+        <SubmitedDate>
+          {formatKRMarkDate(createdAt, 'YYYY년 MM월 DD일')}
+        </SubmitedDate>
+
+        <LikeBtnInfoBox post={sentence} collName={SENTENCES2024} />
       </BoxFooter>
     </SentenceBox>
   );
@@ -58,29 +60,20 @@ const BoxHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 5px;
 `;
 
-const BookInfo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  height: 20px;
-  img {
-    border-radius: 2px;
-  }
-  span {
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.2;
-    margin-top: 4px;
-    color: ${({ theme }) => theme.text.gray3};
-  }
+const SubmitedDate = styled.span`
+  color: ${({ theme }) => theme.text.gray3};
+  font-size: 13px;
+  align-self: flex-end;
+  margin-right: 3px;
+  margin-top: 2px;
 `;
 
 const Content = styled.div`
   margin: 18px 0 10px;
+  flex: 1;
   .quote-left {
     margin-right: 6px;
     fill: ${({ theme }) => theme.text.gray2};
@@ -99,25 +92,41 @@ const Content = styled.div`
   }
 `;
 
-const SubmitedDate = styled.span`
-  color: ${({ theme }) => theme.text.gray3};
-  font-size: 13px;
-  align-self: flex-end;
-  margin-right: 3px;
-`;
-
 const BoxFooter = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
-  a {
-    align-self: flex-end;
-    margin-right: 5px;
+  margin-top: 20px;
+  gap: 8px;
+`;
+
+const Page = styled.span`
+  line-height: 1.2;
+  font-size: 14px;
+  margin-top: 10px;
+  color: ${({ theme }) => theme.text.gray3};
+  align-self: flex-end;
+  margin-right: 5px;
+`;
+
+const BookInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 16px;
+  padding: 0 3px;
+  flex: 1;
+  img {
+    border-radius: 2px;
   }
-  > div {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  .title {
+    line-height: 1.2;
+    font-size: 15px;
+    color: ${({ theme }) => theme.text.gray3};
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 `;

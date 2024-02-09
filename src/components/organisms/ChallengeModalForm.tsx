@@ -135,7 +135,7 @@ const Form = styled.form`
 `;
 
 const BookBox = styled.div`
-  height: 100px;
+  height: 80px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -152,16 +152,6 @@ const BookBox = styled.div`
     h4 {
       font-size: 16px;
       line-height: 1.4;
-    }
-    div {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      span {
-        font-size: 14px;
-        line-height: 1.3;
-        color: ${({ theme }) => theme.text.gray3};
-      }
     }
   }
 `;

@@ -17,7 +17,7 @@ interface Props {
 export default function PostSentenceBox({ sentence }: Props) {
   const currentUser = useRecoilValue(currentUserState);
 
-  const { text, thumbnail, title, creatorId } = sentence;
+  const { text, thumbnail, title, creatorId, page } = sentence;
 
   return (
     <SentenceItem>
@@ -33,10 +33,13 @@ export default function PostSentenceBox({ sentence }: Props) {
             />
           )}
         </BoxHeader>
+
         <BiSolidQuoteLeft className='quote-left' />
         <EditorContent text={text} />
         <BiSolidQuoteRight className='quote-right' />
       </Content>
+
+      <Page>p.{page}</Page>
 
       <BoxFooter>
         <UserName creatorId={creatorId} fontSize={14} />
@@ -89,6 +92,15 @@ const Content = styled.div`
     margin-left: 6px;
     fill: ${({ theme }) => theme.text.gray2};
   }
+`;
+
+const Page = styled.span`
+  line-height: 1.2;
+  font-size: 14px;
+  margin-top: 10px;
+  color: ${({ theme }) => theme.text.gray3};
+  align-self: flex-end;
+  margin-right: 5px;
 `;
 
 const BoxFooter = styled.div`

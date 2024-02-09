@@ -41,6 +41,7 @@ export interface ISentence {
   createdAt: number;
   creatorId: string;
   text: string;
+  page: number;
   likeUsers?: string[];
   likes?: number;
 }

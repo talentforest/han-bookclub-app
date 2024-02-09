@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
 interface IInputProps {
+  id?: string;
   type?: 'password' | 'email' | 'text';
   name: string;
   placeholder: string;
@@ -14,6 +15,7 @@ interface IInputProps {
 }
 
 const Input = ({
+  id,
   type = 'text',
   name,
   placeholder,
@@ -25,6 +27,7 @@ const Input = ({
 }: IInputProps) => {
   return (
     <InputBox
+      id={id}
       ref={ref}
       type={type}
       name={name}

@@ -83,18 +83,17 @@ const DetailInfoBox = styled.div`
   justify-content: space-between;
   height: 100%;
   flex: 1;
+  padding-left: 2px;
   h3 {
     line-height: 1.3;
-    padding-left: 4px;
     margin: 4px 0;
     font-size: 16px;
     display: flex;
     align-items: start;
     justify-content: space-between;
   }
-  span {
+  .meeting span {
     line-height: 1.4;
-    padding-left: 4px;
     font-size: 14px;
   }
 `;
