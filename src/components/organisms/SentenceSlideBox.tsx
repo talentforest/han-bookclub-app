@@ -82,8 +82,6 @@ const Content = styled.div`
     display: inline;
     min-height: 0;
     font-size: 16px;
-    padding: 5px 0;
-    margin-top: 3px;
     line-height: 1.6;
   }
   .quote-right {

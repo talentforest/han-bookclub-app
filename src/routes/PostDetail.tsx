@@ -27,10 +27,14 @@ export default function PostDetail() {
   const [subjects, setSubjects] = useRecoilState(subjectsState);
   const [openAddPostModal, setOpenAddPostModal] = useState(false);
 
-  const {
-    state: { id, postType },
-    pathname,
-  } = useLocation() as LocationState;
+  const { pathname, state } = useLocation() as LocationState;
+
+  const docPostType = pathname.includes('subjects') ? '발제문' : '정리 기록';
+  const docId = pathname.includes('bookclub')
+    ? thisYearMonthId
+    : pathname.slice(9, 16);
+
+  const { id, postType } = state || { id: docId, postType: docPostType };
 
   const year = id.slice(0, 4);
 

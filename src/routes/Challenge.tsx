@@ -109,7 +109,7 @@ const AddBtnBox = styled.div`
 const ChallengeList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
   margin-top: 30px;
   @media ${device.tablet} {
     display: grid;
