@@ -5,30 +5,59 @@ import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { USER_DATA } from 'constants/index';
+import { createAccountSteps } from 'constants/createAccountSteps';
 
-const useCreateAccount = (setShowNextStep?: (step: boolean) => void) => {
+const useCreateAccount = () => {
+  const [currentStep, setCurrentStep] = useState(createAccountSteps[0]);
+
+  const [keyword, setKeyword] = useState('');
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [checkPassword, setCheckPassword] = useState('');
   const [showErrorMsg, setShowErrorMsg] = useState('');
+
   const [username, setUsername] = useState('');
   const [userGender, setUserGender] = useState('');
   const [checkedBookField, setCheckedBookField] = useState(new Set());
+
   const navigate = useNavigate();
 
-  const onFirstStepSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onFirstStepChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const {
+      currentTarget: { value },
+    } = event;
+
+    setKeyword(value);
+  };
+
+  const onFirstStepSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (keyword === process.env.REACT_APP_AUTH_MEMBER) {
+      setCurrentStep({ step: 2, stepName: '계정 정보' });
+    } else {
+      alert('키워드가 일치하지 않습니다!');
+    }
+  };
+
+  const onSecondStepSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
 
     try {
       if (password.length < 8)
-        return setShowErrorMsg('비밀번호가 8자리 이하입니다.');
+        return setShowErrorMsg('비밀번호가 8자리 이하에요.');
+
       if (password !== checkPassword)
         return setShowErrorMsg('비밀번호가 일치하지 않아요.');
 
       window.alert(
         '다음 단계에서 간단한 정보를 작성하시면 회원가입이 완료됩니다!'
       );
-      setShowNextStep(true);
+
+      setCurrentStep({ step: 3, stepName: '멤버 정보' });
     } catch (error) {
       if ((error as Error).message.includes('email-already-in-use'))
         return setShowErrorMsg(
@@ -37,7 +66,7 @@ const useCreateAccount = (setShowNextStep?: (step: boolean) => void) => {
     }
   };
 
-  const onFirstStepChange = (event: React.FormEvent<HTMLInputElement>) => {
+  const onSecondStepChange = (event: React.FormEvent<HTMLInputElement>) => {
     const {
       currentTarget: { name, value },
     } = event;
@@ -57,8 +86,9 @@ const useCreateAccount = (setShowNextStep?: (step: boolean) => void) => {
     }
   };
 
-  const onLastStepSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onThirdStepSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     try {
       await createUserWithEmailAndPassword(authService, email, password);
       if (username && userGender && checkedBookField.size !== 0) {
@@ -86,10 +116,13 @@ const useCreateAccount = (setShowNextStep?: (step: boolean) => void) => {
     }
   };
 
-  const onLastStepChange = async (event: React.FormEvent<HTMLInputElement>) => {
+  const onThirdStepChange = async (
+    event: React.FormEvent<HTMLInputElement>
+  ) => {
     const {
       currentTarget: { name, value },
     } = event;
+
     switch (name) {
       case 'username':
         setUsername(value);
@@ -113,17 +146,21 @@ const useCreateAccount = (setShowNextStep?: (step: boolean) => void) => {
   };
 
   return {
+    currentStep,
+    keyword,
+    onFirstStepChange,
+    onFirstStepSubmit,
     email,
     password,
     checkPassword,
     showErrorMsg,
-    onFirstStepChange,
-    onFirstStepSubmit,
+    onSecondStepChange,
+    onSecondStepSubmit,
     username,
     userGender,
     checkedBookField,
-    onLastStepChange,
-    onLastStepSubmit,
+    onThirdStepChange,
+    onThirdStepSubmit,
     checkedBoxHandler,
   };
 };

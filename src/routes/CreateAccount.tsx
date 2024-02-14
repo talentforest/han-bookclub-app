@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { gender, bookFields } from 'constants/index';
+import { createAccountSteps } from 'constants/createAccountSteps';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import useCreateAccount from 'hooks/useCreateAccount';
@@ -9,69 +9,97 @@ import GuideLine from 'components/atoms/GuideLine';
 import SquareBtn from 'components/atoms/button/SquareBtn';
 import Input from 'components/atoms/input/Input';
 import MobileHeader from 'layout/mobile/MobileHeader';
+import Tag from 'components/atoms/Tag';
 
 const CreateAccount = () => {
-  const [showNextStep, setShowNextStep] = useState(false);
   const {
+    currentStep,
+    keyword,
+    onFirstStepChange,
+    onFirstStepSubmit,
     email,
     password,
     checkPassword,
     showErrorMsg,
-    onFirstStepChange,
-    onFirstStepSubmit,
+    onSecondStepChange,
+    onSecondStepSubmit,
     username,
-    onLastStepChange,
-    onLastStepSubmit,
+    onThirdStepChange,
+    onThirdStepSubmit,
     checkedBoxHandler,
-  } = useCreateAccount(setShowNextStep);
+  } = useCreateAccount();
 
   return (
     <>
       <MobileHeader showDesktop title='계정 생성' backBtn />
 
       <main>
-        {!showNextStep ? (
-          <>
-            <Subtitle title='사용하실 계정 정보를 입력해 주세요.' />
-            <Form onSubmit={onFirstStepSubmit}>
-              {email && (
-                <GuideLine text='유효한 이메일을 작성하셔야 비밀번호 찾기 등 다른 기능을 제대로 이용할 수 있어요. 이메일이 맞는지 다시 한번 확인해주세요.' />
-              )}
+        <MainHeader>
+          <Tag>
+            <span>
+              {currentStep.step} / {createAccountSteps.length}
+            </span>
+          </Tag>
+          <Subtitle title={currentStep.stepName} />
+        </MainHeader>
 
-              <Input
-                name='email'
-                type='email'
-                placeholder='자주 사용하는 이메일 계정을 입력해주세요.'
-                value={email}
-                onChange={onFirstStepChange}
-              />
-              <Input
-                name='password'
-                type='password'
-                placeholder='비밀번호는 8자 이상이어야 합니다.'
-                value={password}
-                onChange={onFirstStepChange}
-              />
-              <Input
-                name='checkPassword'
-                type='password'
-                placeholder='비밀번호를 다시 한번 입력해주세요.'
-                value={checkPassword}
-                onChange={onFirstStepChange}
-              />
-              {showErrorMsg && <Msg>{showErrorMsg}</Msg>}
+        {currentStep.step === 1 && (
+          <Form onSubmit={onFirstStepSubmit}>
+            <GuideLine text='한페이지 멤버들에게 제공된 키워드를 입력해 주세요.' />
+            <Input
+              id='키워드'
+              name=''
+              type='text'
+              placeholder='키워드를 작성해주세요'
+              value={keyword}
+              onChange={onFirstStepChange}
+              required
+            />
+            <SquareBtn type='submit' name='완료' />
+          </Form>
+        )}
 
-              <SquareBtn type='submit' name='계정 생성하기' />
-            </Form>
-          </>
-        ) : (
-          <Form onSubmit={onLastStepSubmit}>
+        {currentStep.step === 2 && (
+          <Form onSubmit={onSecondStepSubmit}>
+            <GuideLine text='사용하실 계정 정보를 입력해 주세요.' />
+            {email && (
+              <GuideLine text='유효한 이메일을 작성하셔야 비밀번호 찾기 등 다른 기능을 제대로 이용할 수 있어요. 이메일이 맞는지 다시 한번 확인해주세요.' />
+            )}
+            <Input
+              name='email'
+              type='email'
+              placeholder='자주 사용하는 이메일 계정을 입력해주세요.'
+              value={email}
+              onChange={onSecondStepChange}
+            />
+            <Input
+              name='password'
+              type='password'
+              placeholder='비밀번호는 8자 이상이어야 합니다.'
+              value={password}
+              onChange={onSecondStepChange}
+            />
+            <Input
+              name='checkPassword'
+              type='password'
+              placeholder='비밀번호를 다시 한번 입력해주세요.'
+              value={checkPassword}
+              onChange={onSecondStepChange}
+            />
+            {showErrorMsg && <Msg>{showErrorMsg}</Msg>}
+
+            <SquareBtn type='submit' name='계정 생성하기' />
+          </Form>
+        )}
+
+        {currentStep.step === 3 && (
+          <Form onSubmit={onThirdStepSubmit}>
             <label>이름</label>
             <Input
               name='username'
               value={username}
               placeholder='이름을 입력해주세요.'
-              onChange={onLastStepChange}
+              onChange={onThirdStepChange}
             />
 
             <label>성별</label>
@@ -84,7 +112,7 @@ const CreateAccount = () => {
                     type='radio'
                     name='gender'
                     value={item}
-                    onChange={onLastStepChange}
+                    onChange={onThirdStepChange}
                     required
                   />
                 </GenderBox>
@@ -112,6 +140,13 @@ const CreateAccount = () => {
     </>
   );
 };
+
+const MainHeader = styled.header`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 10px;
+`;
 
 const Form = styled.form`
   display: flex;
