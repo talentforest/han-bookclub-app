@@ -12,19 +12,19 @@ import device from 'theme/mediaQueries';
 
 const VoteSlider = () => {
   const [votes, setVotes] = useRecoilState(votesState);
-  const progressVotes = votes.filter(
+  const progressVotes = votes?.filter(
     (item) => item.deadline >= todayWithHyphen
   );
 
   useEffect(() => {
-    if (votes.length === 0) {
+    if (!votes?.length) {
       getCollection(VOTE, setVotes);
     }
   }, []);
 
   return (
     <>
-      {progressVotes.length ? (
+      {progressVotes?.length ? (
         <VotesContainer>
           <Votes $votesNum={progressVotes?.length}>
             {progressVotes?.map((voteDetail) => (

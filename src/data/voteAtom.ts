@@ -22,7 +22,7 @@ export interface IVote {
 
 export const votesState = atom<IVote[]>({
   key: `voteDocs/${v4()}`,
-  default: [],
+  default: null,
 });
 
 export const voteItemState = atom<IVoteItem[]>({

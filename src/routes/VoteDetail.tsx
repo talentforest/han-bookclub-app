@@ -66,7 +66,11 @@ const VoteDetail = () => {
                     onClick={() => onVoteItemClick(voteItem.id)}
                     $selected={!!selectedItem(voteItem.id)}
                   >
-                    <FiCircle fontSize={14} stroke='#444' />
+                    {!!selectedItem(voteItem.id) ? (
+                      <FiCheckCircle fontSize={14} stroke='#2c4fff' />
+                    ) : (
+                      <FiCircle fontSize={14} stroke='#666' />
+                    )}
                     <ItemText>{voteItem.item}</ItemText>
                     <VoteDetailItemPercent
                       voteItems={currentVote.vote.voteItem}
@@ -125,8 +129,8 @@ const VoteItem = styled.li<{ $selected: boolean }>`
   overflow: hidden;
   border: ${({ $selected, theme }) =>
     $selected
-      ? `2px solid ${theme.container.blue1}`
-      : `1px solid ${theme.text.gray1}`};
+      ? `2px solid ${theme.container.blue3}`
+      : `2px solid ${theme.text.gray1}`};
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 5px;

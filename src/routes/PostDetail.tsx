@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import DottedDividingLine from 'components/atoms/DottedDividingLine';
+import Loading from 'components/atoms/Loading';
 
 interface LocationState {
   pathname: string;
@@ -56,6 +57,8 @@ export default function PostDetail() {
   const headerYearMonth =
     id === thisYearMonthId ? '이달' : formatKRMarkDate(id, 'YY년 MM월');
 
+  const posts = postType === '발제문' ? subjects : hostReviews;
+
   return (
     <>
       <MobileHeader
@@ -68,39 +71,34 @@ export default function PostDetail() {
 
         {pathname.includes('bookclub') && (
           <AddPostBtn onClick={toggleAddPostModal} type='button'>
-            {postType === '발제문' ? '발제문' : '정리 기록'} 작성하기
+            {postType} 작성하기
           </AddPostBtn>
         )}
 
-        {postType === '발제문' &&
-          subjects.map((subject, index) => (
-            <Fragment key={subject.id}>
+        {!posts ? (
+          <Loading height='25vh' />
+        ) : (
+          posts &&
+          posts?.length !== 0 &&
+          posts.map((post, index) => (
+            <Fragment key={post.id}>
               <Post
-                type='발제문'
-                post={subject}
-                collName={getFbRoute(id)?.SUBJECTS}
+                type={postType}
+                post={post}
+                collName={
+                  postType === '발제문'
+                    ? getFbRoute(id)?.SUBJECTS
+                    : getFbRoute(id)?.HOST_REVIEW
+                }
               />
-              {subjects.length - 1 !== index && <DottedDividingLine />}
+              {posts.length - 1 !== index && <DottedDividingLine />}
             </Fragment>
-          ))}
-
-        {postType === '정리 기록' &&
-          hostReviews.map((review, index) => (
-            <Fragment key={review.id}>
-              <Post
-                type='정리 기록'
-                post={review}
-                collName={getFbRoute(id)?.HOST_REVIEW}
-              />
-              {hostReviews.length - 1 !== index && <DottedDividingLine />}
-            </Fragment>
-          ))}
+          ))
+        )}
 
         {openAddPostModal && (
           <PostAddModal
-            title={
-              postType === '발제문' ? '발제문 작성하기' : '정리 기록 작성하기'
-            }
+            title={`${postType} 작성하기`}
             toggleModal={toggleAddPostModal}
           />
         )}

@@ -26,7 +26,6 @@ const useDeleteDoc = ({ docId, collName }: PropsType) => {
   }, [userData.uid]);
 
   const onDeleteClick = async () => {
-    console.log(collName);
     const confirm = window.confirm('정말로 삭제하시겠어요?');
     if (!confirm) return;
     await deleteDoc(docRef);

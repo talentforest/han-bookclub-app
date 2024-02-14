@@ -19,11 +19,11 @@ export default function PostTabBox({ yearMonthId }: Props) {
   useEffect(() => {
     getCollection(getFbRoute(yearMonthId).HOST_REVIEW, setHostReview);
     getCollection(getFbRoute(yearMonthId).SUBJECTS, setSubjects);
-  }, [subjects.length]);
+  }, [subjects?.length]);
 
   const { pathname } = useLocation();
 
-  const post = currTab === '발제문' ? subjects[0] : hostReview[0];
+  const post = currTab === '발제문' ? subjects?.[0] : hostReview[0];
 
   return (
     <div>

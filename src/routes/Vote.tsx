@@ -19,14 +19,14 @@ const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [votes, setVotes] = useRecoilState(votesState);
 
-  const progressVotes = votes.filter(
+  const progressVotes = votes?.filter(
     (item) => item.deadline >= todayWithHyphen
   );
 
-  const expiredVote = votes.filter((item) => item.deadline < todayWithHyphen);
+  const expiredVote = votes?.filter((item) => item.deadline < todayWithHyphen);
 
   useEffect(() => {
-    if (votes.length === 0) {
+    if (!votes?.length) {
       getCollection(VOTE, setVotes);
     }
   }, []);
@@ -36,7 +36,7 @@ const Vote = () => {
   return (
     <>
       <MobileHeader title='한페이지의 투표함' />
-      {votes.length === 0 ? (
+      {votes?.length === 0 ? (
         <Loading />
       ) : (
         <main>

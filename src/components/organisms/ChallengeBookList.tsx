@@ -7,6 +7,7 @@ import { CHALLENGE } from 'constants/fbRouteName';
 import UserChallengeBox from 'components/organisms/UserChallengeBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
+import Loading from 'components/atoms/Loading';
 
 export default function ChallengeBookList() {
   const [challengeBooks, setChallengeBook] = useRecoilState(challengeState);
@@ -18,17 +19,23 @@ export default function ChallengeBookList() {
   }, []);
 
   return (
-    <ChallengeBooks>
-      {!!challengeBooks?.length ? (
-        challengeBooks
-          ?.slice(0, 4)
-          ?.map((challenge, index) => (
-            <UserChallengeBox key={index} challenge={challenge} />
-          ))
+    <>
+      {!challengeBooks ? (
+        <Loading height='40vh' />
       ) : (
-        <EmptyBox>챌린지 책이 아직 없습니다.</EmptyBox>
+        <ChallengeBooks>
+          {!!challengeBooks?.length ? (
+            challengeBooks
+              ?.slice(0, 4)
+              ?.map((challenge, index) => (
+                <UserChallengeBox key={index} challenge={challenge} />
+              ))
+          ) : (
+            <EmptyBox>챌린지 책이 아직 없습니다.</EmptyBox>
+          )}
+        </ChallengeBooks>
       )}
-    </ChallengeBooks>
+    </>
   );
 }
 

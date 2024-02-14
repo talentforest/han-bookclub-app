@@ -13,17 +13,20 @@ interface ICreateVoteBox {
   onModalClick: () => void;
 }
 
+const initialVote = {
+  title: '',
+  voteItem: [
+    { id: 1, item: '', voteCount: 0, selectReason: '' },
+    { id: 2, item: '', voteCount: 0, selectReason: '' },
+  ],
+};
+
 const useCreateVoteBox = ({ endDate, onModalClick }: ICreateVoteBox) => {
   const userData = useRecoilValue(currentUserState);
   const votes = useRecoilValue(votesState);
+  const [vote, setVote] = useState(initialVote);
+
   const { alertAskJoinMember } = useAlertAskJoin('register');
-  const [vote, setVote] = useState({
-    title: '',
-    voteItem: [
-      { id: 1, item: '', voteCount: 0, selectReason: '' },
-      { id: 2, item: '', voteCount: 0, selectReason: '' },
-    ],
-  });
 
   const voteBoxData = {
     createdAt: Date.now(),

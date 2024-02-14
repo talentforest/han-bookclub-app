@@ -87,6 +87,7 @@ const LabelVoteBox = styled(LabeledBox)`
   width: 100%;
   margin-bottom: 8px;
   div.label {
+    min-width: 0;
     width: 50px;
     font-size: 15px;
     background-color: ${({ theme }) => theme.container.yellow2};

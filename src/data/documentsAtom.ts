@@ -16,7 +16,12 @@ export interface IDocument {
 
 export const subjectsState = atom<IDocument[]>({
   key: `subjectDocs/${v4()}`,
-  default: [],
+  default: null,
+});
+
+export const hostReviewState = atom<IDocument[]>({
+  key: `hostReview/${v4()}`,
+  default: null,
 });
 
 export const meetingReviewsState = atom<IDocument[]>({
@@ -26,10 +31,5 @@ export const meetingReviewsState = atom<IDocument[]>({
 
 export const recommendsState = atom<IDocument[]>({
   key: `recommendDocs/${v4()}`,
-  default: [],
-});
-
-export const hostReviewState = atom<IDocument[]>({
-  key: `hostReview/${v4()}`,
   default: [],
 });
