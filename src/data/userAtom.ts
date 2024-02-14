@@ -3,7 +3,6 @@ import { authService } from 'fbase';
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import { atom } from 'recoil';
 import { v4 } from 'uuid';
-import { ISentence } from './bookAtom';
 
 export interface IUserData {
   uid: string;
@@ -22,7 +21,7 @@ export interface IUserPostDocs {
   subjects: IUserPostDocId[];
   reviews: IUserPostDocId[];
   recommendedBooks: IUserPostDocId[];
-  sentences: ISentence[];
+  sentences: IUserPostDocId[];
 }
 
 export interface IUserDataDoc {

@@ -16,8 +16,8 @@ const useDeleteDoc = ({ docId, collName }: PropsType) => {
   const [userExtraData, setUserExtraData] = useRecoilState(userExtraInfoState);
   const userData = useRecoilValue(currentUserState);
 
-  const docRef = doc(dbService, collName, `${docId}`);
-  const userDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
+  const docRef = doc(dbService, collName, docId);
+  const userDataRef = doc(dbService, USER_DATA, userData.uid);
 
   useEffect(() => {
     if (userData.uid && !existDocObj(userExtraData)) {
@@ -26,14 +26,15 @@ const useDeleteDoc = ({ docId, collName }: PropsType) => {
   }, [userData.uid]);
 
   const onDeleteClick = async () => {
-    const confirm = window.confirm('정말로 삭제하시겠습니까?');
+    console.log(collName);
+    const confirm = window.confirm('정말로 삭제하시겠어요?');
     if (!confirm) return;
     await deleteDoc(docRef);
     updateUserData();
   };
 
   const updateUserData = async () => {
-    const { reviews, subjects, recommendedBooks, hostReviews } =
+    const { reviews, subjects, recommendedBooks, hostReviews, sentences } =
       userExtraData.userRecords;
 
     if (collName.includes('Reviews')) {
@@ -62,6 +63,13 @@ const useDeleteDoc = ({ docId, collName }: PropsType) => {
       );
       await updateDoc(userDataRef, {
         'userRecords.hostReviews': filteredArr,
+      });
+    }
+
+    if (collName.includes('Sentence-2024')) {
+      const filteredArr = sentences.filter((item) => item.docId !== docRef.id);
+      await updateDoc(userDataRef, {
+        'userRecords.sentences': filteredArr,
       });
     }
   };

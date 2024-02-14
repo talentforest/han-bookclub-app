@@ -48,7 +48,7 @@ export default function UserChallengeBox({ challenge }: Props) {
   );
 
   const onDeleteClick = async () => {
-    const confirm = window.confirm('정말로 삭제하시겠습니까?');
+    const confirm = window.confirm('정말로 삭제하시겠어요?');
     if (!confirm) return;
 
     if (books.length > 1) {
