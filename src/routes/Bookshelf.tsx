@@ -27,9 +27,8 @@ const Bookshelf = () => {
     }
   }, []);
 
-  const {
-    state: { userId },
-  } = useLocation();
+  const { state } = useLocation();
+  const userId = state ? state.userId : currentUser;
 
   const user = allUserDocs.find((user) => user.id === userId);
 

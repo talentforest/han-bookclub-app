@@ -36,13 +36,26 @@ export default function ChallengeModalForm({ onModalClose }: Props) {
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     if (anonymous) return alertAskJoinMember();
 
     if (isNaN(pageNums.currentPage) || isNaN(pageNums.wholePage)) {
       return alert('숫자를 입력해주세요.');
     }
 
-    const alreayExistBook = findMyChallengeBooks.books.find(
+    if (pageNums.wholePage === 0) {
+      return alert(
+        '전체 페이지 수가 0이 될 수 없습니다. 다시 한번 확인해주세요!'
+      );
+    }
+
+    if (pageNums.currentPage > pageNums.wholePage) {
+      return alert(
+        '현재 페이지수가 전체 페이지 수보다 많을 수 없습니다. 다시 한번 확인해주세요!'
+      );
+    }
+
+    const alreayExistBook = findMyChallengeBooks?.books?.find(
       (book) => book.title === bookDesc.title
     );
 
