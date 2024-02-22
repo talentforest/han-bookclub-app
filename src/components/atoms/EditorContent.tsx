@@ -16,17 +16,18 @@ export default function EditorContent({ text, lineClamp }: Props) {
 }
 
 const ContentBox = styled.p<{ $lineClamp: number }>`
+  font-family: 'IBMPlexSansKR_Regular';
+  line-height: 1.8;
   display: -webkit-box;
   -webkit-line-clamp: ${({ $lineClamp }) => $lineClamp};
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin-bottom: 5px;
   min-height: ${({ $lineClamp }) => ($lineClamp ? '80px' : '40px')};
-  line-height: 1.6;
   p,
-  blockquote,
-  li {
-    margin-bottom: 10px;
+  li,
+  blockquote {
+    margin-bottom: 15px;
   }
   blockquote {
     padding-left: 8px;

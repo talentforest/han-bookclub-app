@@ -8,8 +8,14 @@ export const ResetStyle = createGlobalStyle`
      font-weight: normal;
      font-style: normal;
   }
-
+  @font-face {
+    font-family: 'IBMPlexSansKR_Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
   body {
+    font-family: "Locus_Sangsang";
     background-color: ${({ theme }) => theme.bgColor};
     ::-webkit-scrollbar {
       display: none;
@@ -31,17 +37,14 @@ export const ResetStyle = createGlobalStyle`
         }
       }
     }
-    
   }
   * {
-    font-family: "Locus_Sangsang";
     color: ${({ theme }) => theme.text.default};
-    box-sizing: border-box;
-    
+    box-sizing: border-box; 
   }
-  
   textarea, 
   button {
+    font-family: "Locus_Sangsang";
     padding: 0;
     margin: 0;
     border: none;
@@ -193,6 +196,7 @@ export const ResetStyle = createGlobalStyle`
     line-height: 0;
   }
   input, textarea {
+    font-family: 'Locus_Sangsang';
     &:focus {
       outline: none;
     }
