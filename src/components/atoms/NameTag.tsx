@@ -19,7 +19,8 @@ const TagItem = styled.li<{ $color: string }>`
   padding: 3px 6px 0;
   background-color: ${({ $color }) => $color};
   list-style: none;
-  height: 25px;
+  height: 26px;
+  width: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;

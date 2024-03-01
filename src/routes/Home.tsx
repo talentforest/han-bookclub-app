@@ -1,8 +1,4 @@
 import { thisYear } from 'util/index';
-import { FiChevronRight, FiExternalLink } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
-import { notionUrls } from 'constants/notionUrl';
-import { SiNotion } from 'react-icons/si';
 import Subtitle from 'components/atoms/Subtitle';
 import GuideLine from 'components/atoms/GuideLine';
 import BookFieldHostTable from 'components/organisms/BookFieldHostTable';
@@ -14,6 +10,9 @@ import ThisMonthBookClub from 'components/organisms/ThisMonthBookClub';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import device from 'theme/mediaQueries';
 import BookClubNextMonthBox from 'components/molecules/BookClubNextMonthBox';
+import AbsenceMemberTable from 'components/organisms/AbsenceMemberTable';
+import Footer from 'layout/Footer';
+import LinkChevronRightBtn from 'components/atoms/LinkChevronRightBtn';
 
 const Home = () => {
   return (
@@ -27,18 +26,18 @@ const Home = () => {
         </Section>
 
         <Section>
-          <Subtitle title={`${thisYear}년 개인별 챌린지`} />
-          <ChallengeBookList />
-
-          <SeeMoreChallengeBtn to='/challenge'>
-            <span>챌린지 더보기</span>
-            <FiChevronRight />
-          </SeeMoreChallengeBtn>
+          <Subtitle title={`${thisYear} 한페이지 독서모임 정보`} />
+          <TableContainer>
+            <BookFieldHostTable />
+            <AbsenceMemberTable />
+          </TableContainer>
+          <LinkChevronRightBtn title='독서모임 정보 더보기' to='/bookshelf' />
         </Section>
 
         <Section>
-          <Subtitle title='투표함' />
-          <VoteSlider />
+          <Subtitle title={`${thisYear}년 개인별 챌린지`} />
+          <ChallengeBookList />
+          <LinkChevronRightBtn title='챌린지 더보기' to='/challenge' />
         </Section>
 
         <Section>
@@ -47,28 +46,16 @@ const Home = () => {
         </Section>
 
         <Section>
+          <Subtitle title='투표함' />
+          <VoteSlider />
+        </Section>
+
+        <Section>
           <Subtitle title={`${thisYear} 한페이지의 독서분야와 발제자`} />
-          <BookFieldHostTable />
         </Section>
       </main>
 
-      <Footer>
-        <div>
-          <SiNotion />
-          <h4>노션 페이지</h4>
-        </div>
-        <ul>
-          {notionUrls.map((notionUrl) => (
-            <li key={notionUrl.name}>
-              <a href={notionUrl.url} target='_blank' rel='noreferrer'>
-                <span> {notionUrl.name}</span>
-                <FiExternalLink />
-              </a>
-            </li>
-          ))}
-        </ul>
-        <span>ⓒ 독서모임 한페이지 All rights reserved</span>
-      </Footer>
+      <Footer />
     </>
   );
 };
@@ -85,68 +72,10 @@ export const Section = styled.section`
   }
 `;
 
-const SeeMoreChallengeBtn = styled(Link)`
-  border-radius: 10px;
-  width: 100%;
-  margin-top: 10px;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  background-color: ${({ theme }) => theme.container.purple1};
-  box-shadow: ${({ theme }) => theme.boxShadow};
-  span {
-    padding-top: 3px;
-    color: ${({ theme }) => theme.text.purple};
-  }
-  svg {
-    color: ${({ theme }) => theme.text.purple};
-  }
-`;
-
-const Footer = styled.footer`
-  padding: 15px 25px 20px;
+const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
-  border-top: 1px solid #ddd;
-  > span {
-    margin-top: 20px;
-    color: ${({ theme }) => theme.text.gray2};
-    font-size: 15px;
-  }
-  div {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-bottom: 10px;
-    h4 {
-      color: ${({ theme }) => theme.text.gray2};
-    }
-    svg {
-      fill: ${({ theme }) => theme.text.gray2};
-    }
-  }
-  ul {
-    padding-left: 20px;
-    li {
-      list-style: disc;
-    }
-  }
-  a {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    span {
-      line-height: 1.5;
-      color: ${({ theme }) => theme.text.gray4};
-    }
-    svg {
-      stroke: ${({ theme }) => theme.text.gray3};
-      margin-bottom: 4px;
-    }
-    padding-bottom: 8px;
-  }
+  gap: 12px;
 `;
 
 export default Home;

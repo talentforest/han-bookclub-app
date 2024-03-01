@@ -13,15 +13,17 @@ interface PropsType {
 const GuideLine = ({ text, color = 'gray', icon = true }: PropsType) => {
   return (
     <Box $color={color}>
-      {icon && (color === 'red' ? <FiAlertOctagon /> : <FiInfo />)}
-      <span>{text}</span>
+      <span>
+        {icon && (color === 'red' ? <FiAlertOctagon /> : <FiInfo />)}
+        {text}
+      </span>
     </Box>
   );
 };
 
 const Box = styled.div<{ $color: GuideColor }>`
   margin: 0px 4px 0px;
-  > svg {
+  svg {
     width: 14px;
     height: 14px;
     float: left;
@@ -37,7 +39,7 @@ const Box = styled.div<{ $color: GuideColor }>`
   }
   > span {
     line-height: 1.5;
-    font-size: 14px;
+    font-size: 15px;
     color: ${({ $color, theme }) =>
       $color === 'gray'
         ? theme.text.gray3

@@ -10,10 +10,9 @@ import Select from 'react-select';
 import SquareBtn from '../atoms/button/SquareBtn';
 
 interface Props {
-  index: number;
+  month: number;
   bookFieldHost: IBookFieldHost;
-  onSubmit: (event: FormEvent<HTMLFormElement>, index: number) => void;
-  onEditClick: (index: number) => void;
+  onSubmit: (event: FormEvent<HTMLFormElement>, month: number) => void;
   selectedValues: SelectValue;
   setSelectedValues: React.Dispatch<React.SetStateAction<SelectValue>>;
 }
@@ -21,10 +20,9 @@ interface Props {
 export default function BookFieldHostEditForm({
   bookFieldHost,
   onSubmit,
-  onEditClick,
   selectedValues,
   setSelectedValues,
-  index,
+  month,
 }: Props) {
   const usersDoc = useRecoilValue(allUsersState);
 
@@ -33,7 +31,8 @@ export default function BookFieldHostEditForm({
   const hostNames = [
     ...usersDoc,
     { id: 'no_host', displayName: '발제자 없음' },
-  ];
+  ].filter((user) => user.displayName !== '한 페이지 멤버');
+
   const hostOptions = hostNames.map((host) => {
     return { value: host.id, label: host.displayName };
   });
@@ -57,7 +56,7 @@ export default function BookFieldHostEditForm({
   };
 
   return (
-    <Form onSubmit={(event) => onSubmit(event, index)}>
+    <Form onSubmit={(event) => onSubmit(event, month)}>
       <div>
         <label htmlFor='독서분야'>독서분야</label>
         <SelectBox
@@ -68,6 +67,7 @@ export default function BookFieldHostEditForm({
           onChange={(value) => onBookFieldChange(value as ChangeSelectValue)}
         />
       </div>
+
       <div>
         <label htmlFor='발제자'>발제자</label>
         <SelectBox

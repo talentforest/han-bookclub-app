@@ -17,46 +17,51 @@ export interface SelectValue {
   hosts: string[];
 }
 
-const initialValue: SelectValue = { field: '', hosts: [''] };
+const initialModalState = {
+  isEditing: false,
+  month: 1,
+};
+
+const initialfFieldHost: SelectValue = { field: '', hosts: [''] };
 
 const useHandleFieldHost = () => {
-  const [isEditing, setIsEditing] = useState(new Array(12).fill(false));
-  const [fieldHostsDoc, setFieldHostsDoc] = useRecoilState(fieldHostDocState);
-  const [selectedValues, setSelectedValues] = useState(initialValue);
+  const [editingMonthInfo, setEditingMonthInfo] = useState(initialModalState);
+  const [selectedValues, setSelectedValues] = useState(initialfFieldHost);
+  const [fieldHostDoc, setFieldHostDoc] = useRecoilState(fieldHostDocState);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
 
-  const fbDoc = doc(dbService, BOOK_FIELD_HOST, `${thisYear}`);
+  const fbDoc = doc(dbService, BOOK_FIELD_HOST, thisYear);
 
-  const onEditClick = (idx: number) => {
+  const onEditClick = (month?: number) => {
     if (anonymous) return alertAskJoinMember();
-
-    const editedArr = isEditing.map((editItem, index) =>
-      index === idx ? !editItem : editItem
-    );
-    setIsEditing(editedArr);
+    if (month) {
+      const doc = fieldHostDoc.info.find((item) => item.month === month);
+      setSelectedValues(doc);
+    }
+    setEditingMonthInfo({ isEditing: !editingMonthInfo.isEditing, month });
   };
 
   const onSubmit = async (
     event: React.FormEvent<HTMLFormElement>,
-    index: number
+    month: number
   ) => {
     event.preventDefault();
 
-    const editedList = fieldHostsDoc.info.map((fieldHost) => {
+    const editedList = fieldHostDoc.info.map((fieldHost) => {
       const editedObj = { ...fieldHost, ...selectedValues };
-      return fieldHost.month === index + 1 ? editedObj : fieldHost;
+      return fieldHost.month === month ? editedObj : fieldHost;
     });
 
-    const newList = { ...fieldHostsDoc, info: editedList };
+    const newList = { ...fieldHostDoc, info: editedList };
 
-    setFieldHostsDoc(newList);
+    setFieldHostDoc(newList);
     await updateDoc(fbDoc, newList);
-    onEditClick(index);
+    onEditClick(month);
   };
 
   return {
-    isEditing,
+    editingMonthInfo,
     onSubmit,
     onEditClick,
     selectedValues,
