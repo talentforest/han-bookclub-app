@@ -20,17 +20,18 @@ const Home = () => {
       <MobileHeader title='독서모임 한페이지' />
       <main>
         <Section>
+          <Subtitle title={`이달의 한페이지 독서모임 정보`} />
           <GuideLine text='매월 1일에 업데이트 됩니다' />
-          <ThisMonthBookClub />
-          <BookClubNextMonthBox />
-        </Section>
 
-        <Section>
-          <Subtitle title={`${thisYear} 한페이지 독서모임 정보`} />
+          <ThisMonthBookClub />
+
           <TableContainer>
             <BookFieldHostTable />
             <AbsenceMemberTable />
           </TableContainer>
+
+          <BookClubNextMonthBox />
+
           <LinkChevronRightBtn title='독서모임 정보 더보기' to='/bookshelf' />
         </Section>
 
@@ -49,10 +50,6 @@ const Home = () => {
           <Subtitle title='투표함' />
           <VoteSlider />
         </Section>
-
-        <Section>
-          <Subtitle title={`${thisYear} 한페이지의 독서분야와 발제자`} />
-        </Section>
       </main>
 
       <Footer />
@@ -64,6 +61,7 @@ export const Section = styled.section`
   display: flex;
   flex-direction: column;
   margin-bottom: 65px;
+  position: relative;
   @media ${device.tablet} {
     margin-bottom: 80px;
   }
@@ -76,6 +74,12 @@ const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
+  > table {
+    width: 100%;
+  }
+  @media ${device.tablet} {
+    flex-direction: row;
+  }
 `;
 
 export default Home;

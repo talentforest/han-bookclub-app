@@ -59,7 +59,7 @@ const Box = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 140px;
-  grid-column: 1 / span 3;
+  grid-column: 1 / span 2;
   > div {
     display: flex;
     flex-direction: column;

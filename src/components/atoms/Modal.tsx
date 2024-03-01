@@ -49,7 +49,7 @@ const BoxModal = styled.section<{ $width: string }>`
   right: 0;
   left: 0;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.container.default};
   @media ${device.tablet} {
     max-width: 60vw;
     top: 0;

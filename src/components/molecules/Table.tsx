@@ -76,12 +76,12 @@ export default function Table({
 
               {'onceAbsenceMonth' in record && (
                 <TableDataItem
-                  label='일회불참달'
+                  label='일회불참'
                   data={record.onceAbsenceMonth}
                 />
               )}
               {'breakMonth' in record && (
-                <TableDataItem label='모임정지달' data={record.breakMonth} />
+                <TableDataItem label='모임정지' data={record.breakMonth} />
               )}
 
               {'month' in record && labels.includes('수정') && (
@@ -164,8 +164,10 @@ const TableRow = styled.tr<{ $thisMonth?: boolean }>`
       gap: 4px;
     }
     &.absence {
-      font-size: 15px;
       color: ${({ theme }) => theme.container.gray};
+    }
+    &.attendance {
+      color: ${({ theme }) => theme.text.gray4};
     }
   }
 `;

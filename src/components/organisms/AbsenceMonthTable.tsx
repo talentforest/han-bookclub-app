@@ -3,13 +3,12 @@ import { existDocObj, thisMonth } from 'util/index';
 import { getDocument } from 'api/getFbDoc';
 import { THIS_YEAR_BOOKCLUB, ABSENCE_MEMBERS } from 'constants/index';
 import { absenceListState } from 'data/absenceAtom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import AbsenceForm from './AbsenceForm';
 import Modal from 'components/atoms/Modal';
 import TableFolderBtn from 'components/atoms/button/TableFolderBtn';
 import Table from 'components/molecules/Table';
 import useHandleAbsence from 'hooks/useHandleAbsence';
-import { currentUserState } from 'data/userAtom';
 
 export type AbsenceMonthByPersonal = {
   month: number;
@@ -20,13 +19,14 @@ export type AbsenceMonthByPersonal = {
 interface Props {
   userId: string;
   isFoldable?: boolean;
+  isEditable?: boolean;
 }
 
 export default function AbsenceMonthTable({
   userId,
   isFoldable = false,
+  isEditable = false,
 }: Props) {
-  const currentUser = useRecoilValue(currentUserState);
   const [absenceList, setAbsenceList] = useRecoilState(absenceListState);
   const [openTable, setOpenTable] = useState(false);
 
@@ -43,6 +43,9 @@ export default function AbsenceMonthTable({
   useEffect(() => {
     if (!existDocObj(absenceList)) {
       getDocument(THIS_YEAR_BOOKCLUB, ABSENCE_MEMBERS, setAbsenceList);
+    }
+    if (isEditable) {
+      setOpenTable(true);
     }
   }, [absenceList]);
 
@@ -63,17 +66,22 @@ export default function AbsenceMonthTable({
 
   return (
     <>
-      <Table
-        labels={
-          currentUser.uid === userId
-            ? ['월', '일회불참달', '모임정지달', '수정']
-            : ['월', '일회불참달', '모임정지달']
-        }
-        records={openTable ? absenceMonths : [absenceThisMonth]}
-        onEditClick={onEditClick}
-        isFoldable={isFoldable}
-      />
-      <TableFolderBtn openTable={openTable} toggleTable={toggleTable} />
+      {absenceMonths && (
+        <Table
+          labels={
+            isEditable
+              ? ['월', '일회불참', '모임정지', '수정']
+              : ['월', '일회불참', '모임정지']
+          }
+          records={openTable ? absenceMonths : [absenceThisMonth]}
+          onEditClick={onEditClick}
+          isFoldable={isFoldable}
+        />
+      )}
+
+      {isFoldable && (
+        <TableFolderBtn openTable={openTable} toggleTable={toggleTable} />
+      )}
 
       {editingMonthInfo.isEditing && (
         <Modal

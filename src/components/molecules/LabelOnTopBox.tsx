@@ -63,7 +63,6 @@ const Box = styled.div`
   background-color: ${({ theme }) => theme.container.default};
   box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: 10px;
-  flex: 1;
 `;
 
 const Header = styled.div`
