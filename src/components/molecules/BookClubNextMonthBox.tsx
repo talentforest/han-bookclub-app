@@ -57,7 +57,7 @@ const Box = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 105px;
-  grid-column: 1 / span 3;
+  grid-column: span 2;
   > div {
     flex: 1;
     height: 100%;
@@ -68,7 +68,7 @@ const Box = styled.div`
     flex-direction: column;
   }
   @media ${device.desktop} {
-    grid-column: 1 / span 3;
+    grid-column: span 2;
   }
 `;
 

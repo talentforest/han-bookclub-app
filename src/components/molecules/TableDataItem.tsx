@@ -7,8 +7,7 @@ export type Label =
   | '일회불참멤버'
   | '모임정지멤버'
   | '일회불참'
-  | '모임정지'
-  | '수정';
+  | '모임정지';
 
 interface Props {
   data: string | number | boolean | string[];

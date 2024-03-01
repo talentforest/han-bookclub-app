@@ -4,7 +4,6 @@ import { ISearchedBook } from 'data/bookAtom';
 import Tag from '../atoms/Tag';
 import styled from 'styled-components';
 import BookThumbnail from '../atoms/BookThumbnail';
-import device from 'theme/mediaQueries';
 import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 
 interface Props {
@@ -59,15 +58,12 @@ const Box = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 140px;
-  grid-column: 1 / span 2;
+  grid-column: span 2;
   > div {
     display: flex;
     flex-direction: column;
     align-items: start;
     justify-content: space-between;
-  }
-  @media ${device.desktop} {
-    grid-column: 1 / span 3;
   }
 `;
 

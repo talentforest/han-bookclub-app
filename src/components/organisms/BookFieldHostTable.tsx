@@ -4,6 +4,7 @@ import { getDocument } from 'api/getFbDoc';
 import { useEffect, useState } from 'react';
 import { fieldHostDocState } from 'data/bookFieldHostAtom';
 import { BOOK_FIELD_HOST } from 'constants/index';
+import { Label } from 'components/molecules/TableDataItem';
 import useHandleFieldHost from 'hooks/useHandleFieldHost';
 import Loading from 'components/atoms/Loading';
 import BookFieldHostEditForm from 'components/organisms/BookFieldHostEditForm';
@@ -12,10 +13,16 @@ import Table from '../molecules/Table';
 import TableFolderBtn from 'components/atoms/button/TableFolderBtn';
 
 interface Props {
+  isMonth?: boolean;
   isFoldable?: boolean;
+  isEditable?: boolean;
 }
 
-const BookFieldHostTable = ({ isFoldable = false }: Props) => {
+const BookFieldHostTable = ({
+  isMonth = false,
+  isEditable = false,
+  isFoldable = false,
+}: Props) => {
   const [bookFieldHostDoc, setBookFieldHostDoc] =
     useRecoilState(fieldHostDocState);
   const [openTable, setOpenTable] = useState(false);
@@ -40,17 +47,22 @@ const BookFieldHostTable = ({ isFoldable = false }: Props) => {
     (doc) => doc.month === +thisMonth
   );
 
+  const labels: Label[] = isMonth
+    ? ['월', '독서분야', '발제자']
+    : ['독서분야', '발제자'];
+
   return (
     <>
       {bookFieldHostDoc.info ? (
         <>
           <Table
-            labels={['독서분야', '발제자']}
+            labels={labels}
             records={
               openTable ? bookFieldHostDoc.info : [thisMonthBookFieldAndHost]
             }
             onEditClick={onEditClick}
             isFoldable={isFoldable}
+            isEditable={isEditable}
           />
 
           {isFoldable && (

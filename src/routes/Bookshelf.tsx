@@ -1,13 +1,12 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { IUserDataDoc, allUsersState, currentUserState } from 'data/userAtom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Section } from './Home';
 import { useLocation } from 'react-router-dom';
 import { USER_DATA } from 'constants/index';
 import { getCollection } from 'api/getFbDoc';
 import { PostType } from 'components/molecules/PostHandleBtns';
 import { EmptyBox } from './BookClubHistory';
-import { FiEdit } from 'react-icons/fi';
 import Subtitle from 'components/atoms/Subtitle';
 import Tag from 'components/atoms/Tag';
 import MobileHeader from 'layout/mobile/MobileHeader';
@@ -18,11 +17,9 @@ import BookshelfPostList from 'components/organisms/BookshelfPostList';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import Loading from 'components/atoms/Loading';
-import Modal from 'components/atoms/Modal';
 
 const Bookshelf = () => {
   const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersState);
-  const [openTableModal, setOpenTableModal] = useState(false);
   const currentUser = useRecoilValue(currentUserState);
 
   const { state } = useLocation();
@@ -45,8 +42,6 @@ const Bookshelf = () => {
 
   const isCurrentUser = currentUser.uid === id;
   const userName = isCurrentUser ? '나' : displayName;
-
-  const toggleTableModal = () => setOpenTableModal((prev) => !prev);
 
   return (
     <>
@@ -78,15 +73,13 @@ const Bookshelf = () => {
 
         <Section>
           <Subtitle title={`${userName}의 독서 모임 참여 여부`} />
-          <TableEditBtn type='button' onClick={toggleTableModal}>
-            <FiEdit />
-          </TableEditBtn>
-          {userId && <AbsenceMonthTable userId={userId} isFoldable />}
 
-          {openTableModal && (
-            <Modal title='불참 정보 수정' onToggleClick={toggleTableModal}>
-              <AbsenceMonthTable userId={userId} isEditable />
-            </Modal>
+          {userId && (
+            <AbsenceMonthTable
+              userId={userId}
+              isFoldable
+              isEditable={isCurrentUser}
+            />
           )}
         </Section>
 
@@ -152,16 +145,6 @@ export const EmptyBookShelfBox = styled(EmptyBox)`
   }
   @media ${device.desktop} {
     grid-column: 1 / span 7;
-  }
-`;
-
-export const TableEditBtn = styled.button`
-  position: absolute;
-  right: 0;
-  top: 2px;
-  padding: 3px;
-  svg {
-    stroke: ${({ theme }) => theme.text.gray3};
   }
 `;
 

@@ -8,10 +8,16 @@ import Table from '../molecules/Table';
 import TableFolderBtn from 'components/atoms/button/TableFolderBtn';
 
 interface Props {
+  isMonth?: boolean;
   isFoldable?: boolean;
+  isEditable?: boolean;
 }
 
-export default function AbsenceMemberTable({ isFoldable }: Props) {
+export default function AbsenceMemberTable({
+  isFoldable,
+  isMonth,
+  isEditable,
+}: Props) {
   const [absenceList, setAbsenceList] = useRecoilState(absenceListState);
   const [openTable, setOpenTable] = useState(false);
 
@@ -32,11 +38,16 @@ export default function AbsenceMemberTable({ isFoldable }: Props) {
       {thisMonthAbsence && (
         <>
           <Table
-            labels={['일회불참멤버', '모임정지멤버']}
+            labels={
+              isMonth
+                ? ['월', '일회불참멤버', '모임정지멤버']
+                : ['일회불참멤버', '모임정지멤버']
+            }
             records={
               openTable ? absenceList.absenceMembers : [thisMonthAbsence]
             }
             isFoldable={isFoldable}
+            isEditable={isEditable}
           />
 
           {isFoldable && (

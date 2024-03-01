@@ -30,8 +30,9 @@ export const theme: DefaultTheme = {
     green1: '#bcf5d5',
     green2: '#80E37E',
 
-    yellow1: '#ffe69d',
-    yellow2: '#ffeb88',
+    yellow1: '#fcfac5',
+    yellow2: '#ffe69d',
+    yellow3: '#ffeb88',
 
     purple1: '#e3defd',
     purple2: '#B6C2FF',

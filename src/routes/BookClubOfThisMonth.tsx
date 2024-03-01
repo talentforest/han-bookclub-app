@@ -17,6 +17,7 @@ import SearchBookBtn from 'components/atoms/button/SearchBookBtn';
 import RecommendedBookScrollList from 'components/organisms/RecommendedBookScrollList';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import TextWithIconLink from 'components/atoms/TextWithIconLink';
+import AbsenceMemberTable from 'components/organisms/AbsenceMemberTable';
 
 const BookClubOfThisMonth = () => {
   const [thisMonthClub, setThisMonthClub] = useRecoilState(
@@ -39,16 +40,21 @@ const BookClubOfThisMonth = () => {
   ) : (
     thisMonthClub && (
       <>
-        <MobileHeader title='이달의 한페이지 모임' />
+        <MobileHeader title='이달의 한페이지 독서모임' />
         <main>
           <Section>
             <ThisMonthClub />
             <TextWithIconLink name='다음 모임책 등록' to='/search' />
-            <GuideLine text='모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 수정만 가능할 뿐 새로 작성이 불가능한 점 유의해주세요.' />
+          </Section>
+
+          <Section>
+            <Subtitle title='이달의 불참 멤버' />
+            <AbsenceMemberTable />
           </Section>
 
           <Section>
             <Subtitle title='발제문과 정리 기록' />
+            <GuideLine text='모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 수정만 가능할 뿐 새로 작성이 불가능한 점 유의해주세요.' />
             <PostTabBox yearMonthId={id} />
           </Section>
 

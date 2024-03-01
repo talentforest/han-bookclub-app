@@ -23,7 +23,7 @@ const BookClubHistory = () => {
 
   return (
     <>
-      <MobileHeader title='지난 한페이지 모임' />
+      <MobileHeader title='지난 한페이지 독서모임' />
 
       <main>
         <YearTagList>

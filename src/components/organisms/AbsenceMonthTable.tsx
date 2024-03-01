@@ -44,9 +44,6 @@ export default function AbsenceMonthTable({
     if (!existDocObj(absenceList)) {
       getDocument(THIS_YEAR_BOOKCLUB, ABSENCE_MEMBERS, setAbsenceList);
     }
-    if (isEditable) {
-      setOpenTable(true);
-    }
   }, [absenceList]);
 
   const absenceMonths: AbsenceMonthByPersonal[] =
@@ -68,14 +65,11 @@ export default function AbsenceMonthTable({
     <>
       {absenceMonths && (
         <Table
-          labels={
-            isEditable
-              ? ['월', '일회불참', '모임정지', '수정']
-              : ['월', '일회불참', '모임정지']
-          }
+          labels={['월', '일회불참', '모임정지']}
           records={openTable ? absenceMonths : [absenceThisMonth]}
           onEditClick={onEditClick}
           isFoldable={isFoldable}
+          isEditable={isEditable}
         />
       )}
 

@@ -22,6 +22,7 @@ import Bookshelf from './routes/Bookshelf';
 import PostDetail from 'routes/PostDetail';
 import Challenge from 'routes/Challenge';
 import Sentence from 'routes/Sentence';
+import BookClubInformation from 'routes/BookClubInformation';
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -40,6 +41,7 @@ function Router({ isLoggedIn }: PropsType) {
         {isLoggedIn ? (
           <>
             <Route path='/' element={<Home />} />
+            <Route path='/bookclubinfo' element={<BookClubInformation />} />
 
             <Route path='/bookclub' element={<BookClubOfThisMonth />} />
             <Route path='/bookclub/subjects' element={<PostDetail />} />

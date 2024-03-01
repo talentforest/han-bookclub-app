@@ -23,15 +23,15 @@ const ToggleBtn = styled.button`
   justify-content: center;
   align-items: center;
   gap: 5px;
-  background-color: #f4f4f4;
+  background-color: #fffbfb;
   box-shadow: ${({ theme }) => theme.boxShadow};
   svg {
-    font-size: 12px;
-    padding-bottom: 2px;
+    font-size: 14px;
+    padding-bottom: 3px;
     fill: ${({ theme }) => theme.text.gray2};
   }
   span {
-    font-size: 13px;
+    font-size: 14px;
     color: ${({ theme }) => theme.text.gray3};
   }
 `;

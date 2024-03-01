@@ -25,7 +25,7 @@ export default function LabelOnTopBox({
 
   return (
     <>
-      <Box>
+      <Box className={labelOnTop === '모임 시간' ? 'time' : 'place'}>
         <Header>
           <h2>{labelOnTop}</h2>
         </Header>
@@ -63,6 +63,15 @@ const Box = styled.div`
   background-color: ${({ theme }) => theme.container.default};
   box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: 10px;
+  @media ${device.tablet} {
+    grid-row: 1;
+    &.time {
+      grid-column: 3 / span 1;
+    }
+    &.place {
+      grid-column: 4 / span 1;
+    }
+  }
 `;
 
 const Header = styled.div`
@@ -100,7 +109,6 @@ const ContentBox = styled.div`
     font-size: 15px;
     line-height: 1.4;
     color: #aaa;
-    width: 60px;
   }
   > div {
     border: 1px solid #eaeaea;

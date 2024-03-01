@@ -54,7 +54,10 @@ const BoxesContainer = styled.div`
   gap: 10px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  @media ${device.desktop} {
-    grid-template-columns: repeat(5, 1fr);
+  > table {
+    grid-column: span 2;
+  }
+  @media ${device.tablet} {
+    grid-template-columns: repeat(4, 1fr);
   }
 `;

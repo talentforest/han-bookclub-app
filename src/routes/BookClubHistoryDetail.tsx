@@ -23,13 +23,13 @@ const BookClubHistoryDetail = () => {
   return (
     <>
       <MobileHeader
-        title={`${formatKRMarkDate(id, 'YY년 MM월')}의 한페이지 모임`}
+        title={`${formatKRMarkDate(id, 'YY년 MM월')}의 한페이지 독서모임`}
         backBtn
       />
 
       <main>
         <DeskTopTitle>
-          {formatKRMarkDate(id, 'YY년 MM월')}의 한페이지 모임
+          {formatKRMarkDate(id, 'YY년 MM월')}의 한페이지 독서모임
         </DeskTopTitle>
 
         <Section>

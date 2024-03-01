@@ -12,6 +12,7 @@ interface Props {
   records: IBookFieldHost[] | Absence[] | AbsenceMonthByPersonal[];
   onEditClick?: (month: number) => void;
   isFoldable: boolean;
+  isEditable: boolean;
 }
 
 export default function Table({
@@ -19,9 +20,8 @@ export default function Table({
   records,
   onEditClick,
   isFoldable,
+  isEditable,
 }: Props) {
-  const labelContents = labels.filter((label) => label !== '수정');
-
   return (
     <TableContainer $isFoldable={isFoldable}>
       <colgroup>
@@ -32,12 +32,12 @@ export default function Table({
 
       <thead>
         <TableRow>
-          {labelContents.map((label) => (
+          {labels.map((label) => (
             <th key={label} className={label === '월' ? 'month' : 'label'}>
               {label}
             </th>
           ))}
-          {labels.includes('수정') && <th className='edit'> </th>}
+          {isEditable && <th className='edit'> </th>}
         </TableRow>
       </thead>
 
@@ -84,7 +84,7 @@ export default function Table({
                 <TableDataItem label='모임정지' data={record.breakMonth} />
               )}
 
-              {'month' in record && labels.includes('수정') && (
+              {'month' in record && isEditable && (
                 <td className='edit'>
                   <button
                     type='button'
@@ -114,10 +114,11 @@ const TableContainer = styled.table<{ $isFoldable: boolean }>`
   box-shadow: ${({ theme }) => theme.boxShadow};
   > thead {
     th {
-      background-color: ${({ theme }) => theme.container.gray};
       padding: 12px 0;
       font-size: 15px;
-      color: ${({ theme }) => theme.text.gray3};
+      background-color: ${({ theme }) => theme.container.yellow1};
+      font-size: 14px;
+      color: ${({ theme }) => theme.text.yellow};
       &:first-child {
         border-top-left-radius: 10px;
       }
@@ -154,7 +155,7 @@ const TableRow = styled.tr<{ $thisMonth?: boolean }>`
     font-size: 15px;
     &.month {
       color: ${({ $thisMonth, theme }) =>
-        $thisMonth ? theme.text.blue3 : theme.text.gray3};
+        $thisMonth ? theme.text.green : theme.text.gray3};
     }
     > ul {
       display: flex;

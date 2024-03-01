@@ -1,7 +1,6 @@
 import { thisYear } from 'util/index';
 import Subtitle from 'components/atoms/Subtitle';
 import GuideLine from 'components/atoms/GuideLine';
-import BookFieldHostTable from 'components/organisms/BookFieldHostTable';
 import VoteSlider from 'components/organisms/VoteSlider';
 import styled from 'styled-components';
 import RecommendedBooksByIdScrollBox from 'components/organisms/RecommendedBooksByIdScrollBox';
@@ -10,9 +9,10 @@ import ThisMonthBookClub from 'components/organisms/ThisMonthBookClub';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import device from 'theme/mediaQueries';
 import BookClubNextMonthBox from 'components/molecules/BookClubNextMonthBox';
-import AbsenceMemberTable from 'components/organisms/AbsenceMemberTable';
-import Footer from 'layout/Footer';
 import LinkChevronRightBtn from 'components/atoms/LinkChevronRightBtn';
+import Footer from 'layout/Footer';
+import BookFieldHostTable from 'components/organisms/BookFieldHostTable';
+import AbsenceMemberTable from 'components/organisms/AbsenceMemberTable';
 
 const Home = () => {
   return (
@@ -20,19 +20,19 @@ const Home = () => {
       <MobileHeader title='독서모임 한페이지' />
       <main>
         <Section>
-          <Subtitle title={`이달의 한페이지 독서모임 정보`} />
+          <Subtitle title='이달의 한페이지' />
           <GuideLine text='매월 1일에 업데이트 됩니다' />
-
           <ThisMonthBookClub />
-
-          <TableContainer>
-            <BookFieldHostTable />
-            <AbsenceMemberTable />
-          </TableContainer>
-
           <BookClubNextMonthBox />
+        </Section>
 
-          <LinkChevronRightBtn title='독서모임 정보 더보기' to='/bookshelf' />
+        <Section>
+          <Subtitle title='독서모임 한페이지 월별 정보' />
+          <TableContainer>
+            <BookFieldHostTable isMonth />
+            <AbsenceMemberTable isMonth />
+          </TableContainer>
+          <LinkChevronRightBtn title='월별 정보 더보기' to='/bookclubinfo' />
         </Section>
 
         <Section>
@@ -60,10 +60,11 @@ const Home = () => {
 export const Section = styled.section`
   display: flex;
   flex-direction: column;
-  margin-bottom: 65px;
+  margin-top: 10px;
+  margin-bottom: 55px;
   position: relative;
   @media ${device.tablet} {
-    margin-bottom: 80px;
+    margin-bottom: 70px;
   }
   @media ${device.desktop} {
     margin-bottom: 80px;
@@ -73,13 +74,7 @@ export const Section = styled.section`
 const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  > table {
-    width: 100%;
-  }
-  @media ${device.tablet} {
-    flex-direction: row;
-  }
+  gap: 10px;
 `;
 
 export default Home;
