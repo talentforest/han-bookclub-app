@@ -76,10 +76,12 @@ const Logo = styled.div<{ $active: boolean }>`
   font-size: 16px;
   img {
     width: auto;
-    height: 20px;
-    margin-bottom: 2px;
+    height: 21px;
+    margin-bottom: 1px;
   }
   span {
+    font-weight: 700;
+    font-size: 18px;
     color: ${({ $active, theme }) =>
       $active ? theme.text.blue2 : theme.text.default};
   }
@@ -101,6 +103,7 @@ const Item = styled.li<{ $active: boolean }>`
   align-items: center;
   cursor: pointer;
   a {
+    font-weight: 500;
     color: ${({ $active, theme }) =>
       $active ? theme.text.blue2 : theme.text.default};
   }

@@ -16,7 +16,7 @@ export default function EditorContent({ text, lineClamp }: Props) {
 }
 
 const ContentBox = styled.p<{ $lineClamp: number }>`
-  font-family: 'IBMPlexSansKR_Regular';
+  font-family: 'SUITE';
   line-height: 1.8;
   display: -webkit-box;
   -webkit-line-clamp: ${({ $lineClamp }) => $lineClamp};

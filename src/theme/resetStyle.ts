@@ -9,13 +9,31 @@ export const ResetStyle = createGlobalStyle`
      font-style: normal;
   }
   @font-face {
-    font-family: 'IBMPlexSansKR_Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
+      font-family: 'SUITE';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Light.woff2') format('woff2');
+      font-weight: 300;
+      font-style: normal;
+  }
+  @font-face {
+      font-family: 'SUITE';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+  }
+  @font-face {
+      font-family: 'SUITE';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Medium.woff2') format('woff2');
+      font-weight: 500;
+      font-style: normal;
+  }
+  @font-face {
+      font-family: 'SUITE';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Bold.woff2') format('woff2');
+      font-weight: 700;
+      font-style: bold;
+  }
   body {
-    font-family: "Locus_Sangsang";
+    font-family: "SUITE";
     background-color: ${({ theme }) => theme.bgColor};
     ::-webkit-scrollbar {
       display: none;
@@ -44,7 +62,7 @@ export const ResetStyle = createGlobalStyle`
   }
   textarea, 
   button {
-    font-family: "Locus_Sangsang";
+    font-family: "SUITE";
     padding: 0;
     margin: 0;
     border: none;
@@ -196,12 +214,12 @@ export const ResetStyle = createGlobalStyle`
     line-height: 0;
   }
   input, textarea {
-    font-family: 'Locus_Sangsang';
+    font-family: "SUITE";
     &:focus {
       outline: none;
     }
     &::placeholder {
-    color: #aaa;
+    color: #bbb;
   }
   
   }

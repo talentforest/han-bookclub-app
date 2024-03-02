@@ -59,6 +59,7 @@ const UserPageLink = styled(Link)<{ $fontSize: number }>`
   align-items: center;
   justify-content: center;
   > span {
+    font-family: 'Locus_Sangsang';
     line-height: 1;
     color: #666;
     font-size: ${({ $fontSize }) => ($fontSize ? `${$fontSize}px` : '20px')};
