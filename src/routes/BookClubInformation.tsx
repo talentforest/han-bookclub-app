@@ -17,7 +17,7 @@ export default function BookClubInformation() {
           <AbsenceMemberTable isFoldable isMonth />
           <LinkChevronRightBtn
             title='불참 설정하러 가기'
-            to='/bookshelf'
+            to='/setting/absence'
             userState
           />
         </Section>

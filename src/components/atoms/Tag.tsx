@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
 
-type TagColor = 'green' | 'purple' | 'blue' | 'yellow';
+type TagColor = 'green' | 'purple' | 'blue' | 'yellow' | 'red';
 
 interface Props {
   children: ReactNode;
@@ -21,7 +21,7 @@ export default function Tag({
   );
 }
 
-const getTextColor = (color: 'blue' | 'yellow' | 'purple' | 'green') => {
+const getTextColor = (color: TagColor) => {
   return color === 'blue'
     ? '#3d70a0'
     : color === 'yellow'
@@ -30,6 +30,8 @@ const getTextColor = (color: 'blue' | 'yellow' | 'purple' | 'green') => {
     ? '#695ac8'
     : color === 'green'
     ? '#379a32'
+    : color === 'red'
+    ? '#ea4f4f'
     : '';
 };
 
@@ -50,6 +52,8 @@ const InfoTag = styled.div<{ $rounded: boolean; $color: TagColor }>`
       ? '#e3defd'
       : $color === 'green'
       ? '#bcf5d5'
+      : $color === 'red'
+      ? '#ffdfdf'
       : ''};
   span,
   h1,

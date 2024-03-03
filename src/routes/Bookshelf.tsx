@@ -3,10 +3,16 @@ import { IUserDataDoc, allUsersState, currentUserState } from 'data/userAtom';
 import { useEffect } from 'react';
 import { Section } from './Home';
 import { useLocation } from 'react-router-dom';
-import { USER_DATA } from 'constants/index';
-import { getCollection } from 'api/getFbDoc';
+import {
+  ABSENCE_MEMBERS,
+  THIS_YEAR_BOOKCLUB,
+  USER_DATA,
+} from 'constants/index';
+import { getCollection, getDocument } from 'api/getFbDoc';
 import { PostType } from 'components/molecules/PostHandleBtns';
 import { EmptyBox } from './BookClubHistory';
+import { existDocObj, thisMonth } from 'util/index';
+import { absenceListState } from 'data/absenceAtom';
 import Subtitle from 'components/atoms/Subtitle';
 import Tag from 'components/atoms/Tag';
 import MobileHeader from 'layout/mobile/MobileHeader';
@@ -18,6 +24,7 @@ import styled from 'styled-components';
 import Loading from 'components/atoms/Loading';
 
 const Bookshelf = () => {
+  const [absenceList, setAbsenceList] = useRecoilState(absenceListState);
   const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersState);
   const currentUser = useRecoilValue(currentUserState);
 
@@ -29,7 +36,23 @@ const Bookshelf = () => {
     if (allUserDocs.length === 0) {
       getCollection(USER_DATA, setAllUserDocs);
     }
+    if (!existDocObj(absenceList)) {
+      getDocument(THIS_YEAR_BOOKCLUB, ABSENCE_MEMBERS, setAbsenceList);
+    }
   }, []);
+
+  const isAbsenceThisMonth = () => {
+    if (absenceList.absenceMembers) {
+      const thisMonthAbsence = absenceList.absenceMembers.find(
+        (absence) => absence.month === +thisMonth
+      );
+      const isBreak = thisMonthAbsence.breakMembers.includes(state.userId);
+      const onceAbsence = thisMonthAbsence.onceAbsenceMembers.includes(
+        state.userId
+      );
+      return isBreak || onceAbsence;
+    }
+  };
 
   const {
     id,
@@ -40,8 +63,9 @@ const Bookshelf = () => {
   } = (userData as IUserDataDoc) || {};
 
   const isCurrentUser = currentUser.uid === id;
-  const userName = isCurrentUser ? '나' : displayName;
+  const userName = !userData || isCurrentUser ? '나' : displayName;
 
+  // console.log(isAbsenceThisMonth());
   return (
     <>
       <MobileHeader
@@ -54,9 +78,15 @@ const Bookshelf = () => {
         <Section>
           <UserImgName photoURL={photoURL} displayName={displayName} />
           <AttendanceBox>
-            <Tag color='green' roundedFull={false}>
-              <span>✅ 이번달 출석</span>
-            </Tag>
+            {isAbsenceThisMonth() ? (
+              <Tag color='red' roundedFull={false}>
+                <span>🔴 이번달 불참</span>
+              </Tag>
+            ) : (
+              <Tag color='green' roundedFull={false}>
+                <span>✅ 이번달 출석</span>
+              </Tag>
+            )}
           </AttendanceBox>
         </Section>
 
