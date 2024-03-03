@@ -2,9 +2,9 @@ import { FiUserCheck } from 'react-icons/fi';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { IDocument } from 'data/documentsAtom';
-import NameTag from '../atoms/NameTag';
 import PostHandleBtns, { PostType } from 'components/molecules/PostHandleBtns';
 import styled from 'styled-components';
+import UserName from 'components/atoms/UserName';
 
 interface Props {
   collName: string;
@@ -25,7 +25,7 @@ export default function PostHeader({ collName, post, postType }: Props) {
           style={{ stroke: '#888', marginBottom: '3px' }}
         />
         <span>{postType === '정리 기록' ? '이달의 발제자' : '작성자'}</span>
-        <NameTag name={creatorId} />
+        <UserName tag creatorId={creatorId} />
       </div>
 
       {userData.uid === creatorId && collName && (

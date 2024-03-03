@@ -23,6 +23,7 @@ import PostDetail from 'routes/PostDetail';
 import Challenge from 'routes/Challenge';
 import Sentence from 'routes/Sentence';
 import BookClubInformation from 'routes/BookClubInformation';
+import Absence from 'routes/Absence';
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -65,6 +66,7 @@ function Router({ isLoggedIn }: PropsType) {
             <Route path='/bookshelf/:username' element={<Bookshelf />} />
 
             <Route path='/setting' element={<Setting />} />
+            <Route path='/setting/absence' element={<Absence />} />
             <Route path='/setting/edit-profile' element={<EditProfile />} />
             <Route path='/setting/edit-password' element={<ChangePassword />} />
             <Route path='/setting/delete-account' element={<DeleteAccount />} />

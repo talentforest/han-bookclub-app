@@ -145,7 +145,4 @@ const PageBox = styled.div`
     font-size: 14px;
     color: ${({ theme }) => theme.text.gray3};
   }
-  input {
-    flex: 1;
-  }
 `;

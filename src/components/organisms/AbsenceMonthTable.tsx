@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { existDocObj, thisMonth } from 'util/index';
+import { useEffect } from 'react';
+import { existDocObj } from 'util/index';
 import { getDocument } from 'api/getFbDoc';
 import { THIS_YEAR_BOOKCLUB, ABSENCE_MEMBERS } from 'constants/index';
 import { absenceListState } from 'data/absenceAtom';
 import { useRecoilState } from 'recoil';
 import AbsenceForm from './AbsenceForm';
 import Modal from 'components/atoms/Modal';
-import TableFolderBtn from 'components/atoms/button/TableFolderBtn';
 import Table from 'components/molecules/Table';
 import useHandleAbsence from 'hooks/useHandleAbsence';
+import Loading from 'components/atoms/Loading';
 
 export type AbsenceMonthByPersonal = {
   month: number;
@@ -28,7 +28,6 @@ export default function AbsenceMonthTable({
   isEditable = false,
 }: Props) {
   const [absenceList, setAbsenceList] = useRecoilState(absenceListState);
-  const [openTable, setOpenTable] = useState(false);
 
   const {
     editingMonthInfo,
@@ -37,8 +36,6 @@ export default function AbsenceMonthTable({
     selectedValues,
     setSelectedValues,
   } = useHandleAbsence();
-
-  const toggleTable = () => setOpenTable((prev) => !prev);
 
   useEffect(() => {
     if (!existDocObj(absenceList)) {
@@ -57,24 +54,18 @@ export default function AbsenceMonthTable({
       }
     );
 
-  const absenceThisMonth = absenceMonths?.find(
-    (doc) => doc.month === +thisMonth
-  );
-
   return (
     <>
-      {absenceMonths && (
+      {!!absenceMonths?.length ? (
         <Table
           labels={['월', '일회불참', '모임정지']}
-          records={openTable ? absenceMonths : [absenceThisMonth]}
+          records={absenceMonths}
           onEditClick={onEditClick}
           isFoldable={isFoldable}
           isEditable={isEditable}
         />
-      )}
-
-      {isFoldable && (
-        <TableFolderBtn openTable={openTable} toggleTable={toggleTable} />
+      ) : (
+        <Loading height='40vh' />
       )}
 
       {editingMonthInfo.isEditing && (

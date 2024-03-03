@@ -6,10 +6,10 @@ import device from 'theme/mediaQueries';
 import VoteDetails from 'components/organisms/VoteDetailReasonDetails';
 import VoteDetailItemPercent from 'components/organisms/VoteDetailItemPercent';
 import MobileHeader from 'layout/mobile/MobileHeader';
-import NameTag from 'components/atoms/NameTag';
 import SquareBtn from 'components/atoms/button/SquareBtn';
 import styled from 'styled-components';
 import DDay from 'components/atoms/DDay';
+import UserName from 'components/atoms/UserName';
 
 type LocationState = { state: { voteDocId: string } };
 
@@ -83,13 +83,13 @@ const VoteDetail = () => {
             </Form>
           )}
 
-          <DDay hyphenDate={currentVote.deadline} />
+          {!expiredVote && <DDay hyphenDate={currentVote.deadline} />}
 
           <InfoBox>
             <h4>{`투표인원: ${votingMember.length}명`}</h4>
             <VoteMember>
               {votingMember.map((member) => (
-                <NameTag key={member.id} name={member.id} />
+                <UserName tag key={member.id} creatorId={member.id} />
               ))}
             </VoteMember>
           </InfoBox>

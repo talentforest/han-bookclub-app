@@ -30,7 +30,7 @@ const Input = styled.input`
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.text.gray1};
   box-shadow: ${({ theme }) => theme.boxShadow};
-  padding: 15px 10px;
+  padding: 8px 10px;
   font-size: 16px;
   &:focus {
     outline: none;
@@ -41,7 +41,6 @@ const Input = styled.input`
   @media ${device.tablet} {
     height: 60px;
     margin-bottom: 20px;
-    font-size: 18px;
   }
 `;
 export default RefInput;

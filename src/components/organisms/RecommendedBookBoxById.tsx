@@ -54,13 +54,13 @@ const RecommendedBookItem = styled.li`
   width: 120px;
   height: 130px;
   background-color: #fff;
-  padding: 5px 3px 7px;
+  padding: 5px 3px 3px;
   border-radius: 10px;
   box-shadow: ${({ theme }) => theme.boxShadow};
   .bookimg {
     position: absolute;
     height: 100px;
-    top: -25px;
+    top: -28px;
   }
   .title {
     width: 100%;

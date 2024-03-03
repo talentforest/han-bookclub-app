@@ -11,9 +11,10 @@ import useAlertAskJoin from 'hooks/useAlertAskJoin';
 interface PropsType {
   creatorId: string;
   fontSize?: number;
+  tag?: boolean;
 }
 
-const UserName = ({ creatorId, fontSize = 15 }: PropsType) => {
+const UserName = ({ creatorId, fontSize = 15, tag }: PropsType) => {
   const currentUser = useRecoilValue(currentUserState);
 
   const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersState);
@@ -33,7 +34,7 @@ const UserName = ({ creatorId, fontSize = 15 }: PropsType) => {
   const to = `/bookshelf${isCurrentUser ? '' : `/${user?.displayName}`}`;
 
   return (
-    <>
+    <TagItem $color={tag ? user?.tagColor : 'eee'} $tag={tag}>
       {anonymous ? (
         <UserPageLink
           onClick={blockLinkAndAlertJoinMember}
@@ -49,9 +50,21 @@ const UserName = ({ creatorId, fontSize = 15 }: PropsType) => {
       ) : (
         <></>
       )}
-    </>
+    </TagItem>
   );
 };
+
+const TagItem = styled.div<{ $color: string; $tag: boolean }>`
+  border-radius: 5px;
+  padding: ${({ $tag }) => ($tag ? '3px 6px 0' : '')};
+  background-color: ${({ $color, $tag }) => ($tag ? $color : '')};
+  list-style: none;
+  height: 26px;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const UserPageLink = styled(Link)<{ $fontSize: number }>`
   cursor: pointer;
@@ -67,7 +80,7 @@ const UserPageLink = styled(Link)<{ $fontSize: number }>`
   @media ${device.tablet} {
     > span {
       font-size: ${({ $fontSize }) =>
-        $fontSize ? `${$fontSize + 2}px` : '22px'};
+        $fontSize ? `${$fontSize + 1}px` : '18px'};
     }
   }
 `;

@@ -22,6 +22,7 @@ type DetailPageHeaderTitle =
   | '한페이지 정리 기록'
   | '도서 검색'
   | '설정'
+  | '나의 모임불참 설정'
   | '프로필 정보'
   | '비밀번호 변경'
   | '탈퇴';
@@ -84,6 +85,7 @@ const Header = styled.header<{ $showDesktop: boolean }>`
     margin-bottom: 4px;
   }
   span {
+    font-weight: 600;
     color: ${({ theme }) => theme.text.gray4};
     font-size: 18px;
     flex: 1;

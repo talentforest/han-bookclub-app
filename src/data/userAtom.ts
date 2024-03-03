@@ -31,6 +31,7 @@ export interface IUserDataDoc {
   displayName: string;
   photoURL: string;
   id?: string;
+  tagColor: string;
   userRecords: IUserPostDocs;
 }
 

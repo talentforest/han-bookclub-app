@@ -42,10 +42,10 @@ export default function ChallengeBookList() {
 const ChallengeBooks = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
   @media ${device.tablet} {
     display: grid;
-    gap: 0 10px;
+    gap: 0 15px;
     grid-template-columns: repeat(2, 1fr);
   }
 `;

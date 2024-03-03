@@ -3,8 +3,8 @@ import { FiEdit3 } from 'react-icons/fi';
 import { ISchedule } from 'data/bookClubAtom';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import NameTag from '../atoms/NameTag';
 import MeetingInfoModal from 'components/organisms/modal/MeetingInfoModal';
+import UserName from 'components/atoms/UserName';
 
 interface Props {
   labelOnTop: '이달의 발제자' | '모임 시간' | '모임 장소';
@@ -36,7 +36,7 @@ export default function LabelOnTopBox({
           {content &&
             (labelOnTop === '이달의 발제자' ? (
               (content as string[])?.map((host) => (
-                <NameTag key={host} name={host} />
+                <UserName key={host} creatorId={host} tag />
               ))
             ) : (
               <span>{content}</span>
@@ -99,13 +99,12 @@ const ContentBox = styled.div`
   flex-direction: column;
   gap: 6px;
   > span {
-    width: 77px;
+    width: 84px;
     font-size: 15px;
-    word-spacing: -1px;
     text-align: center;
-    line-height: 1.5;
   }
   .no_content {
+    width: 90%;
     font-size: 15px;
     line-height: 1.4;
     color: #aaa;
@@ -116,7 +115,6 @@ const ContentBox = styled.div`
   }
   @media ${device.tablet} {
     > span {
-      width: 150px;
       font-size: 16px;
     }
   }

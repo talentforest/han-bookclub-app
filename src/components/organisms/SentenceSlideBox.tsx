@@ -1,12 +1,10 @@
-import { cutLetter, formatKRMarkDate } from 'util/index';
+import { cutLetter, getLocaleDate } from 'util/index';
 import { ISentence } from 'data/bookAtom';
-import { SENTENCES2024 } from 'constants/index';
 import { BiSolidQuoteLeft, BiSolidQuoteRight } from 'react-icons/bi';
 import BookThumbnail from 'components/atoms/BookThumbnail';
 import UserName from 'components/atoms/UserName';
 import styled from 'styled-components';
 import EditorContent from 'components/atoms/EditorContent';
-import LikeBtnInfoBox from '../molecules/LikeBtnInfoBox';
 
 interface Props {
   sentence: ISentence;
@@ -35,11 +33,7 @@ export default function SentenceSlideBox({ sentence }: Props) {
       <Page>p.{page}</Page>
 
       <BoxFooter>
-        <SubmitedDate>
-          {formatKRMarkDate(createdAt, 'YYYY년 MM월 DD일')}
-        </SubmitedDate>
-
-        <LikeBtnInfoBox post={sentence} collName={SENTENCES2024} />
+        <SubmitedDate>{getLocaleDate(createdAt)}</SubmitedDate>
       </BoxFooter>
     </SentenceBox>
   );
@@ -120,7 +114,7 @@ const BookInfo = styled.div`
   .title {
     line-height: 1.2;
     font-size: 15px;
-    color: ${({ theme }) => theme.text.gray3};
+    color: ${({ theme }) => theme.text.gray4};
     flex: 1;
     display: -webkit-box;
     -webkit-line-clamp: 1;

@@ -10,7 +10,8 @@ const Setting = () => {
 
   const useSettings = [
     { to: 'edit-profile', name: '프로필 정보' },
-    { to: 'edit-password', name: '비밀번호 변경하기' },
+    { to: 'edit-password', name: '비밀번호 변경' },
+    { to: 'absence', name: '모임불참 설정' },
   ];
 
   const etcSettings = [

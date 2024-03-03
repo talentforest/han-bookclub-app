@@ -16,6 +16,7 @@ const Sub = styled.h3`
   margin-bottom: 8px;
   padding-left: 4px;
   font-size: 17px;
+  font-weight: 500;
   color: ${({ theme }) => theme.text.gray4};
   @media ${device.tablet} {
     font-size: 18px;

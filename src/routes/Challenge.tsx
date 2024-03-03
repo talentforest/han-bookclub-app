@@ -44,20 +44,22 @@ export default function Challenge() {
           <Subtitle title='공유하고 싶은 문구들' />
           <GuideLine text='아래 개인별 챌린지 박스에서 추가할 수 있어요' />
 
-          {sentences?.length !== 0 ? (
-            <SwiperContainer>
-              {sentences?.slice(0, 4).map((sentence) => (
-                <SwiperSlide key={sentence.id}>
-                  <SentenceSlideBox
-                    key={sentence.createdAt}
-                    sentence={sentence}
-                  />
-                </SwiperSlide>
-              ))}
-            </SwiperContainer>
-          ) : (
-            <EmptyBox>아직 공유한 문구가 없습니다.</EmptyBox>
-          )}
+          <SentenceListBox>
+            {sentences?.length !== 0 ? (
+              <SwiperContainer>
+                {sentences?.slice(0, 4).map((sentence) => (
+                  <SwiperSlide key={sentence.id}>
+                    <SentenceSlideBox
+                      key={sentence.createdAt}
+                      sentence={sentence}
+                    />
+                  </SwiperSlide>
+                ))}
+              </SwiperContainer>
+            ) : (
+              <EmptyBox>아직 공유한 문구가 없습니다.</EmptyBox>
+            )}
+          </SentenceListBox>
 
           <SentenceLink to='/sentence'>
             <span>문구 더보기</span>
@@ -106,15 +108,19 @@ const AddBtnBox = styled.div`
   }
 `;
 
+const SentenceListBox = styled.div`
+  margin-top: 10px;
+`;
+
 const ChallengeList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin-top: 30px;
+  margin-top: 20px;
   @media ${device.tablet} {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
+    gap: 25px 20px;
   }
 `;
 

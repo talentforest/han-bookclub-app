@@ -9,8 +9,8 @@ import { VOTE } from 'constants/index';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import GuideLine from 'components/atoms/GuideLine';
-import NameTag from 'components/atoms/NameTag';
 import ShareButton from 'components/atoms/button/ShareBtn';
+import UserName from 'components/atoms/UserName';
 
 interface PropsType {
   voteDetail: IVote;
@@ -34,7 +34,7 @@ const VoteDetailReasonDetails = ({ voteDetail }: PropsType) => {
     <>
       <VoteInfo>
         <span>투표 등록: </span>
-        <NameTag name={creatorId} />
+        <UserName tag creatorId={creatorId} />
         <div>
           {creatorId === userData.uid && (
             <FiTrash2 stroke='#888' onClick={onDeleteClick} />
@@ -80,7 +80,7 @@ const VoteInfo = styled.div`
     font-size: 15px;
     padding-right: 5px;
   }
-  div {
+  div:last-child {
     flex: 1;
     display: flex;
     justify-content: flex-end;

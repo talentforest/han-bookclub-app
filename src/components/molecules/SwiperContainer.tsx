@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Navigation, Scrollbar, Autoplay } from 'swiper/modules';
+import { Navigation, Autoplay, Pagination, Scrollbar } from 'swiper/modules';
 import { Swiper } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -17,7 +17,7 @@ interface Props {
 
 export default function SwiperContainer({ children, options }: Props) {
   const swiperOptions = {
-    modules: [Autoplay, Navigation, Scrollbar],
+    modules: [Autoplay, Pagination, Navigation, Scrollbar],
     spaceBetween: 15,
     slidesPerView: 1,
     autoplay: {
@@ -25,6 +25,9 @@ export default function SwiperContainer({ children, options }: Props) {
       disableOnInteraction: true,
     },
     navigation: true,
+    pagination: {
+      type: 'fraction' as 'fraction' | 'bullets' | 'progressbar' | 'custom',
+    },
     scrollbar: { draggable: true },
     ...options,
   };
@@ -48,21 +51,40 @@ const Container = styled.div`
   }
   /* 네비게이션 아이콘 스타일 */
   .swiper-button-prev {
-    left: -5px;
+    left: 2px;
+    border-radius: 30px;
+    background-color: ${({ theme }) => theme.text.gray1};
+    box-shadow: ${({ theme }) => theme.boxShadow};
+    width: 30px;
+    height: 30px;
+    top: 42%;
   }
   .swiper-button-next {
-    right: -5px;
+    right: 2px;
+    border-radius: 30px;
+    background-color: ${({ theme }) => theme.text.gray1};
+    box-shadow: ${({ theme }) => theme.boxShadow};
+    width: 30px;
+    height: 30px;
+    top: 42%;
   }
   .swiper-button-prev:after,
   .swiper-button-next:after {
-    font-size: 24px;
-    color: ${({ theme }) => theme.container.purple2};
+    font-size: 14px;
+    color: ${({ theme }) => theme.text.default};
   }
   /* 스크롤바 드래그 */
   .swiper-scrollbar.swiper-scrollbar-horizontal {
     cursor: pointer;
   }
   .swiper-scrollbar-drag {
-    background-color: ${({ theme }) => theme.container.purple2};
+    background-color: ${({ theme }) => theme.text.gray2};
+  }
+  .swiper-pagination {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: ${({ theme }) => theme.text.gray2};
   }
 `;

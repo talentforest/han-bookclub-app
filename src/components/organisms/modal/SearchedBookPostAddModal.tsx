@@ -114,9 +114,6 @@ const SearchBox = styled.div`
   margin-bottom: 10px;
   input {
     height: inherit;
-    min-width: 150px;
-    width: 100%;
-    padding-top: 18px;
     padding-left: 35px;
     border-radius: 30px;
   }
@@ -126,11 +123,8 @@ const SearchBox = styled.div`
   @media ${device.tablet} {
     height: 62px;
     input {
-      height: 40px;
-      min-width: 150px;
       width: 100%;
-      padding-left: 35px;
-      border-radius: 30px;
+      height: 40px;
     }
     button {
       width: 150px;

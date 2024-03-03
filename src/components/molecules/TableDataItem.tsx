@@ -1,4 +1,4 @@
-import NameTag from 'components/atoms/NameTag';
+import UserName from 'components/atoms/UserName';
 
 export type Label =
   | '월'
@@ -23,7 +23,12 @@ export default function TableDataItem({ isMulti = false, data, label }: Props) {
           <ul>
             {!!(data as string[])?.length ? (
               (data as string[]).map((item) => (
-                <NameTag key={item} name={item as string} />
+                <UserName
+                  key={item}
+                  creatorId={item as string}
+                  tag
+                  fontSize={13}
+                />
               ))
             ) : (
               <span className='no_info'>없음</span>
@@ -32,10 +37,10 @@ export default function TableDataItem({ isMulti = false, data, label }: Props) {
         </td>
       ) : label === '월' ? (
         <td className='month'>{data}월</td>
-      ) : label === '모임정지' ? (
-        <td className={data ? 'attendance' : 'absence'}>정지</td>
-      ) : label === '일회불참' ? (
-        <td className={data ? 'attendance' : 'absence'}>불참</td>
+      ) : label === '모임정지' || label === '일회불참' ? (
+        <td className={data ? 'absence' : 'attendance'}>
+          {data ? label === '모임정지' ? '🔴' : '🟠' : <></>}
+        </td>
       ) : (
         <td>{data}</td>
       )}

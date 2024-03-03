@@ -18,6 +18,7 @@ import styled from 'styled-components';
 
 const swiperOptions = {
   slidesPerView: 'auto' as 'auto',
+  pagination: false,
   breakpoints: {
     1024: {
       slidesPerView: 5,

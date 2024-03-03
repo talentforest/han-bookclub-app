@@ -87,7 +87,7 @@ export default function UserChallengeBox({ challenge }: Props) {
           <BookThumbnail title={title} thumbnail={thumbnail} />
 
           <div className='info'>
-            <UserName creatorId={creatorId} fontSize={15} />
+            <UserName creatorId={creatorId} fontSize={14} />
             <div>
               <h3>{title ? cutLetter(title, 40) : '이벤트'}</h3>
               <BookAuthorPublisher authors={authors} publisher={publisher} />
@@ -184,15 +184,15 @@ const BookBox = styled.div`
   flex: 1;
   display: flex;
   > img {
-    height: 90px;
-    margin-top: -22px;
+    height: 95px;
+    margin-top: -18px;
   }
   > .info {
-    min-height: 72px;
+    min-height: 70px;
     display: flex;
     flex-direction: column;
     align-items: start;
-    gap: 5px;
+    gap: 3px;
     justify-content: space-between;
     padding: 0 4px;
     margin-left: 5px;
@@ -207,7 +207,6 @@ const BookBox = styled.div`
         overflow: hidden;
         font-size: 16px;
         line-height: 1.4;
-        margin-bottom: 4px;
       }
     }
   }

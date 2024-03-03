@@ -1,7 +1,7 @@
-import { thisYear, existDocObj, thisMonth } from 'util/index';
+import { thisYear, existDocObj } from 'util/index';
 import { useRecoilState } from 'recoil';
 import { getDocument } from 'api/getFbDoc';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { fieldHostDocState } from 'data/bookFieldHostAtom';
 import { BOOK_FIELD_HOST } from 'constants/index';
 import { Label } from 'components/molecules/TableDataItem';
@@ -10,7 +10,6 @@ import Loading from 'components/atoms/Loading';
 import BookFieldHostEditForm from 'components/organisms/BookFieldHostEditForm';
 import Modal from 'components/atoms/Modal';
 import Table from '../molecules/Table';
-import TableFolderBtn from 'components/atoms/button/TableFolderBtn';
 
 interface Props {
   isMonth?: boolean;
@@ -25,9 +24,6 @@ const BookFieldHostTable = ({
 }: Props) => {
   const [bookFieldHostDoc, setBookFieldHostDoc] =
     useRecoilState(fieldHostDocState);
-  const [openTable, setOpenTable] = useState(false);
-
-  const toggleTable = () => setOpenTable((prev) => !prev);
 
   const {
     editingMonthInfo,
@@ -43,34 +39,22 @@ const BookFieldHostTable = ({
     }
   }, [bookFieldHostDoc]);
 
-  const thisMonthBookFieldAndHost = bookFieldHostDoc.info?.find(
-    (doc) => doc.month === +thisMonth
-  );
-
   const labels: Label[] = isMonth
     ? ['월', '독서분야', '발제자']
     : ['독서분야', '발제자'];
 
   return (
     <>
-      {bookFieldHostDoc.info ? (
-        <>
-          <Table
-            labels={labels}
-            records={
-              openTable ? bookFieldHostDoc.info : [thisMonthBookFieldAndHost]
-            }
-            onEditClick={onEditClick}
-            isFoldable={isFoldable}
-            isEditable={isEditable}
-          />
-
-          {isFoldable && (
-            <TableFolderBtn openTable={openTable} toggleTable={toggleTable} />
-          )}
-        </>
+      {!!bookFieldHostDoc.info ? (
+        <Table
+          labels={labels}
+          records={bookFieldHostDoc.info}
+          onEditClick={onEditClick}
+          isFoldable={isFoldable}
+          isEditable={isEditable}
+        />
       ) : (
-        <Loading height='70vh' />
+        <Loading height='10vh' />
       )}
 
       {editingMonthInfo.isEditing && (

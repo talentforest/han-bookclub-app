@@ -26,21 +26,19 @@ export default function LabeledCheckBox({
   };
 
   return (
-    <>
-      <LabelInputBox>
-        <input
-          type='checkbox'
-          id={label}
-          checked={checked}
-          onChange={checkHandler}
-        />
-        <div>
-          <label htmlFor={label}>{label}</label>
+    <LabelInputBox>
+      <input
+        type='checkbox'
+        id={label}
+        checked={checked}
+        onChange={checkHandler}
+      />
+      <div>
+        <label htmlFor={label}>{label}</label>
 
-          {detail && <GuideLine color='gray' text={detail} />}
-        </div>
-      </LabelInputBox>
-    </>
+        {detail && <GuideLine color='gray' text={detail} />}
+      </div>
+    </LabelInputBox>
   );
 }
 
@@ -50,7 +48,6 @@ const LabelInputBox = styled.div`
   gap: 3px;
   label {
     display: inline-block;
-    padding-top: 3px;
     margin-bottom: 8px;
     font-size: 16px;
     cursor: pointer;

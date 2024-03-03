@@ -27,7 +27,7 @@ const Box = styled.div<{ $color: GuideColor }>`
     width: 14px;
     height: 14px;
     float: left;
-    margin: 2px 5px 0 0;
+    margin: 4px 5px 0 0;
     stroke: ${({ $color, theme }) =>
       $color === 'gray'
         ? theme.text.gray3

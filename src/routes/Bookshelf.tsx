@@ -11,7 +11,6 @@ import Subtitle from 'components/atoms/Subtitle';
 import Tag from 'components/atoms/Tag';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import GuideLine from 'components/atoms/GuideLine';
-import AbsenceMonthTable from 'components/organisms/AbsenceMonthTable';
 import UserImgName from 'components/molecules/UserImgName';
 import BookshelfPostList from 'components/organisms/BookshelfPostList';
 import device from 'theme/mediaQueries';
@@ -54,6 +53,11 @@ const Bookshelf = () => {
       <main>
         <Section>
           <UserImgName photoURL={photoURL} displayName={displayName} />
+          <AttendanceBox>
+            <Tag color='green' roundedFull={false}>
+              <span>✅ 이번달 출석</span>
+            </Tag>
+          </AttendanceBox>
         </Section>
 
         <Section>
@@ -61,7 +65,7 @@ const Bookshelf = () => {
           <FavBookFieldList>
             {favoriteBookField && favoriteBookField?.length !== 0 ? (
               favoriteBookField.map((field) => (
-                <Tag key={field.id} color='purple' roundedFull={false}>
+                <Tag key={field.id} color='purple'>
                   <span>{field.name}</span>
                 </Tag>
               ))
@@ -69,18 +73,6 @@ const Bookshelf = () => {
               <Loading height='12vh' />
             )}
           </FavBookFieldList>
-        </Section>
-
-        <Section>
-          <Subtitle title={`${userName}의 독서 모임 참여 여부`} />
-
-          {userId && (
-            <AbsenceMonthTable
-              userId={userId}
-              isFoldable
-              isEditable={isCurrentUser}
-            />
-          )}
         </Section>
 
         {(['정리 기록', '발제문', '모임 후기'] as PostType[]).map(
@@ -111,12 +103,8 @@ export const AttendanceBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
   margin-top: 10px;
-  span {
-    color: ${({ theme }) => theme.text.green};
-  }
-
   > button {
   }
 `;

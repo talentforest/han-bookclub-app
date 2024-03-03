@@ -27,15 +27,6 @@ const Home = () => {
         </Section>
 
         <Section>
-          <Subtitle title='독서모임 한페이지 월별 정보' />
-          <TableContainer>
-            <BookFieldHostTable isMonth />
-            <AbsenceMemberTable isMonth />
-          </TableContainer>
-          <LinkChevronRightBtn title='월별 정보 더보기' to='/bookclubinfo' />
-        </Section>
-
-        <Section>
           <Subtitle title={`${thisYear}년 개인별 챌린지`} />
           <ChallengeBookList />
           <LinkChevronRightBtn title='챌린지 더보기' to='/challenge' />
@@ -49,6 +40,15 @@ const Home = () => {
         <Section>
           <Subtitle title='투표함' />
           <VoteSlider />
+        </Section>
+
+        <Section>
+          <Subtitle title='한페이지 독서모임 월별 정보' />
+          <TableContainer>
+            <BookFieldHostTable isMonth />
+            <AbsenceMemberTable isMonth />
+          </TableContainer>
+          <LinkChevronRightBtn title='월별 정보 더보기' to='/bookclubinfo' />
         </Section>
       </main>
 

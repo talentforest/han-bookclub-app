@@ -1,11 +1,11 @@
 import { absenceListState } from 'data/absenceAtom';
-import { useEffect, useState } from 'react';
-import { existDocObj, thisMonth } from 'util/index';
+import { useEffect } from 'react';
+import { existDocObj } from 'util/index';
 import { ABSENCE_MEMBERS, THIS_YEAR_BOOKCLUB } from 'constants/index';
 import { useRecoilState } from 'recoil';
 import { getDocument } from 'api/getFbDoc';
 import Table from '../molecules/Table';
-import TableFolderBtn from 'components/atoms/button/TableFolderBtn';
+import Loading from 'components/atoms/Loading';
 
 interface Props {
   isMonth?: boolean;
@@ -19,9 +19,6 @@ export default function AbsenceMemberTable({
   isEditable,
 }: Props) {
   const [absenceList, setAbsenceList] = useRecoilState(absenceListState);
-  const [openTable, setOpenTable] = useState(false);
-
-  const toggleTable = () => setOpenTable((prev) => !prev);
 
   useEffect(() => {
     if (!existDocObj(absenceList)) {
@@ -29,31 +26,21 @@ export default function AbsenceMemberTable({
     }
   }, [absenceList]);
 
-  const thisMonthAbsence = absenceList?.absenceMembers?.find(
-    (doc) => doc.month === +thisMonth
-  );
-
   return (
     <>
-      {thisMonthAbsence && (
-        <>
-          <Table
-            labels={
-              isMonth
-                ? ['월', '일회불참멤버', '모임정지멤버']
-                : ['일회불참멤버', '모임정지멤버']
-            }
-            records={
-              openTable ? absenceList.absenceMembers : [thisMonthAbsence]
-            }
-            isFoldable={isFoldable}
-            isEditable={isEditable}
-          />
-
-          {isFoldable && (
-            <TableFolderBtn openTable={openTable} toggleTable={toggleTable} />
-          )}
-        </>
+      {!!absenceList.absenceMembers ? (
+        <Table
+          labels={
+            isMonth
+              ? ['월', '일회불참멤버', '모임정지멤버']
+              : ['일회불참멤버', '모임정지멤버']
+          }
+          records={absenceList.absenceMembers}
+          isFoldable={isFoldable}
+          isEditable={isEditable}
+        />
+      ) : (
+        <Loading height='10vh' />
       )}
     </>
   );
