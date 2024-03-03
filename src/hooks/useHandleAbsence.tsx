@@ -13,12 +13,6 @@ export interface AbsenceSelectValue {
   onceAbsenceMonth: boolean;
 }
 
-// export interface Absence {
-//   month: number;
-//   breakMembers: string[];
-//   onceAbsenceMembers: string[];
-// }
-
 const initialModalState = {
   isEditing: false,
   month: 1,
@@ -66,7 +60,9 @@ const useHandleAbsence = () => {
 
   const handleMember = (member: string[], checked: boolean) => {
     if (checked) {
-      return [...member, currentUser.uid];
+      return member.includes(currentUser.uid)
+        ? member
+        : [...member, currentUser.uid];
     } else {
       return member.filter((member) => member !== currentUser.uid);
     }
@@ -82,6 +78,7 @@ const useHandleAbsence = () => {
 
     const editedList = absenceList.absenceMembers.map((absence) => {
       const { breakMembers, onceAbsenceMembers } = absence;
+
       const editedObj = {
         ...absence,
         breakMembers: handleMember(breakMembers, breakMonth),
