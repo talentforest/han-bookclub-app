@@ -25,7 +25,7 @@ export default function TableDataItem({ isMulti = false, data, label }: Props) {
               (data as string[]).map((item) => (
                 <UserName
                   key={item}
-                  creatorId={item as string}
+                  userId={item as string}
                   tag
                   fontSize={13}
                 />

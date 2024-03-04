@@ -110,22 +110,16 @@ const SearchBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 40px;
   margin-bottom: 10px;
   input {
-    height: inherit;
     padding-left: 35px;
     border-radius: 30px;
   }
   button {
     width: 70px;
+    padding-bottom: 4px;
   }
   @media ${device.tablet} {
-    height: 62px;
-    input {
-      width: 100%;
-      height: 40px;
-    }
     button {
       width: 150px;
     }

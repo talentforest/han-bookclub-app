@@ -98,7 +98,6 @@ const EmptyContainer = styled.div`
     background-color: ${({ theme }) => theme.container.yellow1};
     box-shadow: ${({ theme }) => theme.boxShadow};
     span {
-      padding-top: 3px;
       font-size: 15px;
     }
     svg {

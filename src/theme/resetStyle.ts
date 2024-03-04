@@ -82,6 +82,9 @@ export const ResetStyle = createGlobalStyle`
   }
   a {
     text-decoration: none;
+    > span {
+      font-weight: 500;
+    }
   }
   ol,
   ul, li {

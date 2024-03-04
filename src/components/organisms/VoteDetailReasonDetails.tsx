@@ -6,6 +6,7 @@ import { dbService } from 'fbase';
 import { IVote } from 'data/voteAtom';
 import { FiTrash2 } from 'react-icons/fi';
 import { VOTE } from 'constants/index';
+import { getLocaleDate } from 'util/index';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import GuideLine from 'components/atoms/GuideLine';
@@ -17,7 +18,7 @@ interface PropsType {
 }
 
 const VoteDetailReasonDetails = ({ voteDetail }: PropsType) => {
-  const { vote, creatorId, id } = voteDetail;
+  const { vote, creatorId, id, createdAt } = voteDetail;
   const userData = useRecoilValue(currentUserState);
 
   const navigate = useNavigate();
@@ -33,8 +34,8 @@ const VoteDetailReasonDetails = ({ voteDetail }: PropsType) => {
   return (
     <>
       <VoteInfo>
-        <span>투표 등록: </span>
-        <UserName tag creatorId={creatorId} />
+        <span>투표 등록 멤버: </span>
+        <UserName tag userId={creatorId} />
         <div>
           {creatorId === userData.uid && (
             <FiTrash2 stroke='#888' onClick={onDeleteClick} />
@@ -45,6 +46,11 @@ const VoteDetailReasonDetails = ({ voteDetail }: PropsType) => {
             path='vote'
           />
         </div>
+      </VoteInfo>
+
+      <VoteInfo>
+        <span>투표 등록일: </span>
+        <span>{getLocaleDate(createdAt)}</span>
       </VoteInfo>
 
       <Title>{vote.title}</Title>
@@ -72,8 +78,7 @@ const VoteInfo = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-top: 15px;
+  margin-top: 8px;
   > span {
     display: flex;
     align-items: center;
@@ -94,7 +99,8 @@ const Title = styled.h3`
   white-space: pre-line;
   word-break: break-all;
   font-size: 18px;
-  padding-top: 10px;
+  padding: 10px 0;
+  margin-top: 10px;
 `;
 
 const ReasonDetails = styled.details`

@@ -46,14 +46,18 @@ const LabelInputBox = styled.div`
   display: flex;
   align-items: start;
   gap: 3px;
-  label {
-    display: inline-block;
-    margin-bottom: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    color: ${({ theme }) => theme.text.default};
+  div {
+    flex: 1;
+    label {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      color: ${({ theme }) => theme.text.default};
+    }
   }
-  input {
-    cursor: pointer;
+  input[type='checkbox'] {
+    width: 15px;
+    height: 15px;
   }
 `;

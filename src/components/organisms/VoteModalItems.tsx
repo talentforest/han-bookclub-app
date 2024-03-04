@@ -69,6 +69,8 @@ const VoteItem = styled.li`
 const LabeledVoteItem = styled(LabeledBox)`
   width: 100%;
   margin-bottom: 10px;
+  border: 1px solid ${({ theme }) => theme.text.gray1};
+  box-shadow: none;
   div.label {
     min-width: 50px;
   }
@@ -93,7 +95,6 @@ const Textarea = styled.textarea`
   margin-bottom: 15px;
   padding: 8px;
   border-radius: 10px;
-  border: none;
   border: 1px solid ${({ theme }) => theme.text.gray1};
   box-shadow: 2px 2px 2px 2px rgba(200, 200, 200, 0.2);
   resize: none;

@@ -33,6 +33,7 @@ const LinkBtn = styled(Link)`
   margin-top: 10px;
   gap: 3px;
   span {
+    font-weight: 500;
     font-size: 15px;
     color: ${({ theme }) => theme.text.gray3};
   }

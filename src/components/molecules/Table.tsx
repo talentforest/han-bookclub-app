@@ -4,9 +4,9 @@ import { Fragment, useState } from 'react';
 import { thisMonth } from 'util/index';
 import { FiChevronDown, FiChevronUp, FiEdit } from 'react-icons/fi';
 import { AbsenceMonthByPersonal } from 'components/organisms/AbsenceMonthTable';
+import { useLocation } from 'react-router-dom';
 import TableDataItem, { Label } from 'components/molecules/TableDataItem';
 import styled from 'styled-components';
-import { useLocation } from 'react-router-dom';
 
 type TableRecord = IBookFieldHost | Absence | AbsenceMonthByPersonal;
 
@@ -106,7 +106,7 @@ export default function Table({
                   <TableDataItem label='모임정지' data={record.breakMonth} />
                 )}
 
-                {'month' in record && isEditable && (
+                {isEditable && 'month' in record && (
                   <td>
                     <button
                       type='button'

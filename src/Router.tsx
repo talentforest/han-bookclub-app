@@ -42,7 +42,7 @@ function Router({ isLoggedIn }: PropsType) {
         {isLoggedIn ? (
           <>
             <Route path='/' element={<Home />} />
-            <Route path='/bookclubinfo' element={<BookClubInformation />} />
+            <Route path='/monthlyinfo' element={<BookClubInformation />} />
 
             <Route path='/bookclub' element={<BookClubOfThisMonth />} />
             <Route path='/bookclub/subjects' element={<PostDetail />} />

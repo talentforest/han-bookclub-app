@@ -35,17 +35,11 @@ const VoteCreateModal = ({ onModalClick }: PropsType) => {
 
         <Input
           type='text'
-          placeholder='투표의 제목을 적어주세요.'
+          placeholder='투표 제목을 적어주세요.'
           value={vote.title}
           onChange={onTitleChange}
           name='title'
           required
-        />
-
-        <GuideLine
-          text='모임책 선정과 관련된 투표라면, 왜 이 책을 선정했는지를 각 항목에
-            작성해주세요!'
-          color='green'
         />
 
         <LabelBox>
@@ -63,6 +57,12 @@ const VoteCreateModal = ({ onModalClick }: PropsType) => {
             <span>선정 이유 작성</span>
           </AddTextAreaBtn>
         </LabelBox>
+
+        <GuideLine
+          text='모임책 선정과 관련된 투표라면, 왜 이 책을 선정했는지를 각 항목에
+            작성해주세요!'
+          color='green'
+        />
 
         <VoteModalItems
           vote={vote}
@@ -94,7 +94,7 @@ const Form = styled.form`
   }
   label {
     color: ${({ theme }) => theme.text.blue2};
-    font-size: 14px;
+    font-size: 15px;
     margin: 5px 0 5px 3px;
   }
   > input {

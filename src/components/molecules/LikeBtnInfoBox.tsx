@@ -10,7 +10,7 @@ import LikeBtn from 'components/atoms/button/LikeBtn';
 
 interface Props {
   post: IDocument;
-  collName: string;
+  collName?: string;
 }
 
 const LikeBtnInfoBox = ({ post, collName }: Props) => {
@@ -52,7 +52,7 @@ const LikeBtnInfoBox = ({ post, collName }: Props) => {
           <h4>좋아한 사람</h4>
           <ul onClick={toggleShowLikeUsers}>
             {post?.likeUsers?.map((user) => (
-              <UserName key={user} creatorId={user} />
+              <UserName key={user} userId={user} />
             ))}
           </ul>
         </LikeUsersBox>

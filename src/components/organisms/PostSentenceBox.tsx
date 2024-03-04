@@ -42,7 +42,7 @@ export default function PostSentenceBox({ sentence }: Props) {
       <Page>p.{page}</Page>
 
       <BoxFooter>
-        <UserName creatorId={creatorId} fontSize={14} />
+        <UserName tag userId={creatorId} fontSize={14} />
         <LikeBtnInfoBox post={sentence} collName={SENTENCES2024} />
       </BoxFooter>
     </SentenceItem>

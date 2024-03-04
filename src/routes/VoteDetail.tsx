@@ -89,7 +89,7 @@ const VoteDetail = () => {
             <h4>{`투표인원: ${votingMember.length}명`}</h4>
             <VoteMember>
               {votingMember.map((member) => (
-                <UserName tag key={member.id} creatorId={member.id} />
+                <UserName tag key={member.id} userId={member.id} />
               ))}
             </VoteMember>
           </InfoBox>

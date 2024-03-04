@@ -36,7 +36,7 @@ export default function LabelOnTopBox({
           {content &&
             (labelOnTop === '이달의 발제자' ? (
               (content as string[])?.map((host) => (
-                <UserName key={host} creatorId={host} tag />
+                <UserName key={host} userId={host} tag />
               ))
             ) : (
               <span>{content}</span>

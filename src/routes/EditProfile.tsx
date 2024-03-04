@@ -52,7 +52,7 @@ const EditProfile = () => {
           <>
             {!anonymous && (
               <EditBtn type='button' onClick={onToggleEditClick}>
-                <FiEdit2 fontSize={15} stroke='#aaa' />
+                <FiEdit2 fontSize={14} stroke='#aaa' />
                 <span>프로필 수정</span>
               </EditBtn>
             )}
@@ -144,7 +144,6 @@ const EditBtn = styled.button`
     color: #888;
     font-size: 16px;
     line-height: 1;
-    padding-top: 2px;
   }
 `;
 

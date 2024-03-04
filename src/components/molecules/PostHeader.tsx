@@ -25,7 +25,7 @@ export default function PostHeader({ collName, post, postType }: Props) {
           style={{ stroke: '#888', marginBottom: '3px' }}
         />
         <span>{postType === '정리 기록' ? '이달의 발제자' : '작성자'}</span>
-        <UserName tag creatorId={creatorId} />
+        <UserName tag userId={creatorId} />
       </div>
 
       {userData.uid === creatorId && collName && (

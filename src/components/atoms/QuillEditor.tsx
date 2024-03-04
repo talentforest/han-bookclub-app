@@ -45,7 +45,6 @@ const Editor = styled(ReactQuill)`
   .ql-editor.ql-blank::before {
     color: #ccc;
   }
-
   .ql-toolbar {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -66,7 +65,7 @@ const Editor = styled(ReactQuill)`
   }
   .ql-editor {
     padding: 8px 10px;
-
+    font-family: 'SUITE';
     p,
     blockquote,
     li {
@@ -81,6 +80,12 @@ const Editor = styled(ReactQuill)`
 
     span {
       font-size: 16px;
+      &.ql-size-small {
+        font-size: 14px;
+      }
+      &.ql-size-large {
+        font-size: 18px;
+      }
     }
 
     ol,
@@ -105,6 +110,9 @@ const Editor = styled(ReactQuill)`
       li {
         list-style-type: disc;
       }
+      li::marker {
+        color: ${({ theme }) => theme.text.gray3};
+      }
     }
     ol {
       li {
@@ -113,7 +121,7 @@ const Editor = styled(ReactQuill)`
     }
     a {
       font-size: 15px;
-      color: ${({ theme }) => theme.text.blue1};
+      color: ${({ theme }) => theme.text.blue2};
       text-decoration: underline;
     }
   }

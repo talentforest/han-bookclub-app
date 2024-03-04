@@ -48,7 +48,7 @@ const Home = () => {
             <BookFieldHostTable isMonth />
             <AbsenceMemberTable isMonth />
           </TableContainer>
-          <LinkChevronRightBtn title='월별 정보 더보기' to='/bookclubinfo' />
+          <LinkChevronRightBtn title='월별 정보 더보기' to='/monthlyinfo' />
         </Section>
       </main>
 

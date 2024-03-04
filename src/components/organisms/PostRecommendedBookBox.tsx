@@ -44,7 +44,7 @@ export default function PostRecommendedBookBox({
             <FiChevronRight size={15} />
           </div>
 
-          <UserName creatorId={creatorId} />
+          <UserName userId={creatorId} />
         </RecommendedBookItem>
 
         {openModal && (

@@ -38,7 +38,7 @@ export default function RecommendedBookBoxById({ docIds }: Props) {
 
       <div className='title'>{title && <h4>{cutLetter(title, 7)}</h4>}</div>
 
-      <UserName creatorId={creatorId} />
+      <UserName userId={creatorId} />
     </RecommendedBookItem>
   );
 }

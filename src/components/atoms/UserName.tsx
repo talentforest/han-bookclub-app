@@ -9,17 +9,17 @@ import device from 'theme/mediaQueries';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
 
 interface PropsType {
-  creatorId: string;
+  userId: string;
   fontSize?: number;
   tag?: boolean;
 }
 
-const UserName = ({ creatorId, fontSize = 15, tag }: PropsType) => {
+const UserName = ({ userId, fontSize = 15, tag }: PropsType) => {
   const currentUser = useRecoilValue(currentUserState);
 
   const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersState);
 
-  const user = allUserDocs.find((user) => user.id === creatorId);
+  const user = allUserDocs.find((user) => user.id === userId);
 
   const { blockLinkAndAlertJoinMember, anonymous } = useAlertAskJoin('see');
 
@@ -27,14 +27,18 @@ const UserName = ({ creatorId, fontSize = 15, tag }: PropsType) => {
     if (allUserDocs.length === 0) {
       getCollection(USER_DATA, setAllUserDocs);
     }
-  }, [creatorId, allUserDocs, setAllUserDocs]);
+  }, [userId, allUserDocs, setAllUserDocs]);
 
   const isCurrentUser = currentUser.uid === user?.id;
 
   const to = `/bookshelf${isCurrentUser ? '' : `/${user?.displayName}`}`;
 
   return (
-    <TagItem $color={tag ? user?.tagColor : 'eee'} $tag={tag}>
+    <TagItem
+      as={tag ? 'li' : 'div'}
+      $color={tag ? user?.tagColor : 'eee'}
+      $tag={tag}
+    >
       {anonymous ? (
         <UserPageLink
           onClick={blockLinkAndAlertJoinMember}
@@ -56,10 +60,9 @@ const UserName = ({ creatorId, fontSize = 15, tag }: PropsType) => {
 
 const TagItem = styled.div<{ $color: string; $tag: boolean }>`
   border-radius: 5px;
-  padding: ${({ $tag }) => ($tag ? '3px 6px 0' : '')};
+  padding: ${({ $tag }) => ($tag ? '0 6px' : '')};
   background-color: ${({ $color, $tag }) => ($tag ? $color : '')};
-  list-style: none;
-  height: 26px;
+  height: ${({ $tag }) => ($tag ? '26px' : '')};
   width: fit-content;
   display: flex;
   align-items: center;
@@ -72,6 +75,7 @@ const UserPageLink = styled(Link)<{ $fontSize: number }>`
   align-items: center;
   justify-content: center;
   > span {
+    padding-top: 4px;
     font-family: 'Locus_Sangsang';
     line-height: 1;
     color: #666;

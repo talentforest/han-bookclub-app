@@ -87,7 +87,7 @@ export default function UserChallengeBox({ challenge }: Props) {
           <BookThumbnail title={title} thumbnail={thumbnail} />
 
           <div className='info'>
-            <UserName creatorId={creatorId} fontSize={14} />
+            <UserName userId={creatorId} fontSize={14} />
             <div>
               <h3>{title ? cutLetter(title, 40) : '이벤트'}</h3>
               <BookAuthorPublisher authors={authors} publisher={publisher} />

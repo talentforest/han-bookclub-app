@@ -5,6 +5,7 @@ import BookThumbnail from 'components/atoms/BookThumbnail';
 import UserName from 'components/atoms/UserName';
 import styled from 'styled-components';
 import EditorContent from 'components/atoms/EditorContent';
+import LikeBtnInfoBox from 'components/molecules/LikeBtnInfoBox';
 
 interface Props {
   sentence: ISentence;
@@ -21,7 +22,7 @@ export default function SentenceSlideBox({ sentence }: Props) {
           <span className='title'>{title}</span>
         </BookInfo>
 
-        <UserName creatorId={creatorId} fontSize={14} />
+        <UserName userId={creatorId} fontSize={14} />
       </BoxHeader>
 
       <Content>
@@ -34,6 +35,7 @@ export default function SentenceSlideBox({ sentence }: Props) {
 
       <BoxFooter>
         <SubmitedDate>{getLocaleDate(createdAt)}</SubmitedDate>
+        <LikeBtnInfoBox post={sentence} />
       </BoxFooter>
     </SentenceBox>
   );

@@ -116,7 +116,6 @@ const GoToAddPostBox = styled.div`
     gap: 4px;
     span {
       color: ${({ theme }) => theme.text.blue3};
-      margin-top: 4px;
     }
     svg {
       stroke: ${({ theme }) => theme.text.blue3};

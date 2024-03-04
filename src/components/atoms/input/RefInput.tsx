@@ -1,6 +1,5 @@
 import React, { ForwardedRef } from 'react';
 import styled from 'styled-components';
-import device from 'theme/mediaQueries';
 
 interface ITextInputProps {
   name?: string;
@@ -37,10 +36,6 @@ const Input = styled.input`
   }
   &::placeholder {
     color: #aaa;
-  }
-  @media ${device.tablet} {
-    height: 60px;
-    margin-bottom: 20px;
   }
 `;
 export default RefInput;

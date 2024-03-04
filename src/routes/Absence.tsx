@@ -15,7 +15,7 @@ export default function Absence() {
 
       <main>
         <Section>
-          <Subtitle title={`${thisYear}년 한페이지 독서모임 불참 설정`} />
+          <Subtitle title={`${thisYear}년 모임 불참`} />
           <AbsenceMonthTable userId={currentUser.uid} isEditable={true} />
         </Section>
       </main>
