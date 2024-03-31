@@ -45,8 +45,8 @@ const Home = () => {
         <Section>
           <Subtitle title='한페이지 독서모임 월별 정보' />
           <TableContainer>
-            <BookFieldHostTable isMonth />
             <AbsenceMemberTable isMonth />
+            <BookFieldHostTable isMonth />
           </TableContainer>
           <LinkChevronRightBtn title='월별 정보 더보기' to='/monthlyinfo' />
         </Section>

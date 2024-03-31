@@ -58,6 +58,7 @@ export default function AbsenceMonthTable({
     <>
       {!!absenceMonths?.length ? (
         <Table
+          color='blue'
           labels={['월', '일회불참', '모임정지']}
           records={absenceMonths}
           onEditClick={onEditClick}

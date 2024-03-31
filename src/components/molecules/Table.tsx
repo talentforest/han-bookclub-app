@@ -1,16 +1,19 @@
 import { IBookFieldHost } from 'data/bookFieldHostAtom';
 import { Absence } from 'data/absenceAtom';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { thisMonth } from 'util/index';
 import { FiChevronDown, FiChevronUp, FiEdit } from 'react-icons/fi';
 import { AbsenceMonthByPersonal } from 'components/organisms/AbsenceMonthTable';
-import { useLocation } from 'react-router-dom';
 import TableDataItem, { Label } from 'components/molecules/TableDataItem';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
 
 type TableRecord = IBookFieldHost | Absence | AbsenceMonthByPersonal;
 
+type LabelColor = 'yellow' | 'blue';
+
 interface Props {
+  color?: LabelColor;
   labels: Label[];
   records: TableRecord[];
   onEditClick?: (month: number) => void;
@@ -19,6 +22,7 @@ interface Props {
 }
 
 export default function Table({
+  color = 'yellow',
   labels,
   records,
   onEditClick,
@@ -29,14 +33,19 @@ export default function Table({
 
   const toggleTable = () => setOpenTable((prev) => !prev);
 
-  const thisMonthRecord = records.find((doc) => {
-    return doc.month === +thisMonth;
-  }) as TableRecord | undefined;
+  const thisMonthRecord: TableRecord[] = records.filter(
+    (doc) => doc.month === +thisMonth
+  );
+
+  const showingRecords = openTable ? records : thisMonthRecord;
 
   const { pathname } = useLocation();
 
-  const showingRecords =
-    pathname === '/setting/absence' || openTable ? records : [thisMonthRecord];
+  useEffect(() => {
+    if (pathname === '/monthlyinfo' || pathname === '/setting/absence') {
+      setOpenTable((prev) => !prev);
+    }
+  }, []);
 
   return (
     <TableContainer>
@@ -55,7 +64,7 @@ export default function Table({
         </colgroup>
 
         <thead>
-          <TableRow>
+          <TableRow $color={color}>
             {labels.map((label) => (
               <th key={label}>{label}</th>
             ))}
@@ -67,6 +76,7 @@ export default function Table({
           {showingRecords?.map((record, index) => (
             <Fragment key={index}>
               <TableRow
+                $color={color}
                 $thisMonth={
                   ('month' in record ? record.month : index + 1) === +thisMonth
                 }
@@ -142,22 +152,6 @@ const TableContainer = styled.div`
     border-radius: 10px;
     background-color: ${({ theme }) => theme.container.default};
     box-shadow: ${({ theme }) => theme.boxShadow};
-    > thead {
-      th {
-        padding: 12px 0;
-        font-weight: 500;
-        font-size: 15px;
-        background-color: ${({ theme }) => theme.container.lightGray};
-        font-size: 14px;
-        color: ${({ theme }) => theme.text.yellow};
-        &:first-child {
-          border-top-left-radius: 10px;
-        }
-        &:last-child {
-          border-top-right-radius: 10px;
-        }
-      }
-    }
     .no_info {
       color: #aaa;
       font-size: 14px;
@@ -165,22 +159,43 @@ const TableContainer = styled.div`
   }
 `;
 
-const TableRow = styled.tr<{ $thisMonth?: boolean }>`
-  border-bottom: 1px solid #e7e7e7;
+const TableRow = styled.tr<{
+  $color?: LabelColor;
+  $thisMonth?: boolean;
+}>`
+  border-bottom: 1px solid #f0f0f0;
   &:last-child {
     border-bottom: 0;
+  }
+  > th {
+    padding: 12px 0;
+    font-weight: 500;
+    font-size: 15px;
+    background-color: ${({ theme }) => theme.container.lightGray};
+    font-size: 14px;
+    color: ${({ theme, $color }) =>
+      $color === 'blue' ? theme.text.blue1 : theme.text.yellow};
+    &:first-child {
+      border-top-left-radius: 10px;
+    }
+    &:last-child {
+      border-top-right-radius: 10px;
+    }
   }
   > td {
     text-align: center;
     padding: 10px 5px;
     font-size: 15px;
-
     &.month {
       background-color: ${({ theme }) => theme.container.lightGray};
       font-weight: 500;
       font-size: 14px;
-      color: ${({ $thisMonth, theme }) =>
-        $thisMonth ? theme.text.yellow : theme.text.gray3};
+      color: ${({ $thisMonth, $color, theme }) =>
+        $thisMonth
+          ? $color === 'blue'
+            ? theme.text.blue1
+            : theme.text.yellow
+          : theme.text.gray3};
     }
     > ul {
       display: flex;

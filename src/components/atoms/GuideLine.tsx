@@ -22,7 +22,7 @@ const GuideLine = ({ text, color = 'gray', icon = true }: PropsType) => {
 };
 
 const Box = styled.div<{ $color: GuideColor }>`
-  margin: 0px 4px 0px;
+  margin: 0px 4px 4px;
   svg {
     width: 14px;
     height: 14px;

@@ -4,6 +4,7 @@ import { existDocObj } from 'util/index';
 import { ABSENCE_MEMBERS, THIS_YEAR_BOOKCLUB } from 'constants/index';
 import { useRecoilState } from 'recoil';
 import { getDocument } from 'api/getFbDoc';
+import { Label } from 'components/molecules/TableDataItem';
 import Table from '../molecules/Table';
 import Loading from 'components/atoms/Loading';
 
@@ -26,21 +27,22 @@ export default function AbsenceMemberTable({
     }
   }, [absenceList]);
 
+  const defaultLabels: Label[] = ['일회불참멤버', '모임정지멤버'];
+
+  const labels: Label[] = isMonth ? ['월', ...defaultLabels] : defaultLabels;
+
   return (
     <>
       {!!absenceList.absenceMembers ? (
         <Table
-          labels={
-            isMonth
-              ? ['월', '일회불참멤버', '모임정지멤버']
-              : ['일회불참멤버', '모임정지멤버']
-          }
+          color='blue'
+          labels={labels}
           records={absenceList.absenceMembers}
           isFoldable={isFoldable}
           isEditable={isEditable}
         />
       ) : (
-        <Loading height='10vh' />
+        <Loading height={'10vh'} />
       )}
     </>
   );

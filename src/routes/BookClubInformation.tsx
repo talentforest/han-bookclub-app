@@ -16,7 +16,7 @@ export default function BookClubInformation() {
           <Subtitle title='월별 불참 멤버' />
           <AbsenceMemberTable isFoldable isMonth />
           <LinkChevronRightBtn
-            title='불참 설정하러 가기'
+            title='나의 불참 설정하러 가기'
             to='/setting/absence'
             userState
           />

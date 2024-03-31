@@ -53,8 +53,8 @@ export default function AbsenceForm({
           checkedBoxHandler={checkedBoxHandler}
           detail={
             absence === '모임 정지'
-              ? '만약 모임을 두달 이상 불참하게 될 계획이라면 모임정지에 표시해주세요.'
-              : undefined
+              ? '모임에 신경쓰지 못하는 달이 될 경우 체크해주세요.(모임후기 작성 X)'
+              : '일정상 모임에 참석하지 못하는 경우에 체크해주세요.(모임후기 작성 O)'
           }
         />
       ))}
