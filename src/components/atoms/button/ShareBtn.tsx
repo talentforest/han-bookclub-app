@@ -1,7 +1,7 @@
 import { currentUserState } from 'data/userAtom';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { FiShare2 } from 'react-icons/fi';
+import { RiKakaoTalkFill } from 'react-icons/ri';
 import styled from 'styled-components';
 
 interface IShareButtonProps {
@@ -9,7 +9,7 @@ interface IShareButtonProps {
   description: string;
   path: string;
   place?: string;
-  schedule?: string;
+  time?: string;
 }
 
 const ShareBtn = ({
@@ -17,7 +17,7 @@ const ShareBtn = ({
   description,
   path,
   place,
-  schedule,
+  time,
 }: IShareButtonProps) => {
   const userData = useRecoilValue(currentUserState);
 
@@ -35,7 +35,7 @@ const ShareBtn = ({
       templateId: 85261,
       templateArgs: {
         place,
-        schedule,
+        schedule: time,
         userId: userData?.displayName,
         userImg: userData?.photoURL,
         title,
@@ -46,8 +46,8 @@ const ShareBtn = ({
   };
 
   return (
-    <Btn id='kakaotalk-sharing-btn'>
-      <FiShare2 fontSize={15} stroke='#aaa' />
+    <Btn className='share-btn' id='kakaotalk-sharing-btn'>
+      <RiKakaoTalkFill fontSize={18} fill='#FFCD00' />
     </Btn>
   );
 };

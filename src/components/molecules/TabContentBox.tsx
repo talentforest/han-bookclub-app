@@ -49,7 +49,9 @@ export default function TabContentBox({
                 <span>{currTab} 추가하러 가기</span>
               </Link>
 
-              <Desc>모두 작성할 수 있어요</Desc>
+              <Desc>
+                {currTab === '정리 기록' ? '발제자만' : '모두'} 작성할 수 있어요
+              </Desc>
             </GoToAddPostBox>
           ) : (
             <EmptySign>기록된 {currTab}이 없습니다</EmptySign>

@@ -32,14 +32,14 @@ export default function ThisMonthBookClub() {
       {meeting && (
         <>
           <LabelOnTopBox
-            labelOnTop='모임 시간'
-            content={meeting.time ? getMeetingTime(meeting.time) : ''}
+            labelOnTop='모임 장소'
+            content={meeting.place}
             meeting={meeting}
             editable={pathname !== '/'}
           />
           <LabelOnTopBox
-            labelOnTop='모임 장소'
-            content={meeting.place}
+            labelOnTop='모임 시간'
+            content={meeting.time ? getMeetingTime(meeting.time) : ''}
             meeting={meeting}
             editable={pathname !== '/'}
           />

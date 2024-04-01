@@ -65,7 +65,6 @@ const Bookshelf = () => {
   const isCurrentUser = currentUser.uid === id;
   const userName = !userData || isCurrentUser ? '나' : displayName;
 
-  // console.log(isAbsenceThisMonth());
   return (
     <>
       <MobileHeader

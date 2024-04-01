@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { FiEdit3 } from 'react-icons/fi';
 import { ISchedule } from 'data/bookClubAtom';
+import { getLocaleDate } from 'util/index';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import MeetingInfoModal from 'components/organisms/modal/MeetingInfoModal';
 import UserName from 'components/atoms/UserName';
+import ShareBtn from 'components/atoms/button/ShareBtn';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
   labelOnTop: '이달의 발제자' | '모임 시간' | '모임 장소';
@@ -16,18 +19,34 @@ interface Props {
 export default function LabelOnTopBox({
   labelOnTop,
   content,
-  meeting,
+  meeting: { place, time },
   editable,
 }: Props) {
   const [openModal, setOpenModal] = useState(false);
 
   const onEditClick = () => setOpenModal((prev) => !prev);
 
+  const { pathname } = useLocation();
+
+  const timeBox = labelOnTop === '모임 시간';
+
   return (
     <>
-      <Box className={labelOnTop === '모임 시간' ? 'time' : 'place'}>
+      <Box className={timeBox ? 'time' : 'place'}>
         <Header>
           <h2>{labelOnTop}</h2>
+
+          {timeBox && pathname === '/bookclub' && place && time && (
+            <ShareBtn
+              place={place}
+              time={getLocaleDate(time)}
+              title='✨이번달의 모임일정을 공지합니다~'
+              description={`이번 모임은 🏢${place}에서 🕰${getLocaleDate(
+                time
+              )}에 만나요!`}
+              path='bookclub'
+            />
+          )}
         </Header>
 
         <ContentBox>
@@ -41,15 +60,15 @@ export default function LabelOnTopBox({
             ) : (
               <span>{content}</span>
             ))}
-
-          {editable && <FiEdit3Btn onClick={onEditClick} />}
         </ContentBox>
+
+        {editable && <FiEdit3 onClick={onEditClick} stroke='#aaa' size={15} />}
       </Box>
 
       {openModal && (
         <MeetingInfoModal
           title={labelOnTop}
-          meeting={meeting}
+          meeting={{ time, place }}
           setIsEditing={setOpenModal}
         />
       )}
@@ -58,23 +77,30 @@ export default function LabelOnTopBox({
 }
 
 const Box = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.container.default};
   box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: 10px;
+  > svg {
+    position: absolute;
+    bottom: 6px;
+    right: 8px;
+  }
   @media ${device.tablet} {
     grid-row: 1;
     &.time {
-      grid-column: 3 / span 1;
+      grid-column: 4 / span 1;
     }
     &.place {
-      grid-column: 4 / span 1;
+      grid-column: 3 / span 1;
     }
   }
 `;
 
 const Header = styled.div`
+  position: relative;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   display: flex;
@@ -85,6 +111,11 @@ const Header = styled.div`
     font-size: 14px;
     color: ${({ theme }) => theme.text.gray3};
   }
+  .share-btn {
+    position: absolute;
+    top: 10px;
+    right: 8px;
+  }
 `;
 
 const ContentBox = styled.div`
@@ -94,10 +125,10 @@ const ContentBox = styled.div`
   min-height: 80px;
   align-items: center;
   justify-content: center;
-  padding: 8px 4px 15px;
+  padding: 8px 4px 10px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  flex: 1;
   > span {
     width: 84px;
     font-size: 15px;
@@ -118,14 +149,4 @@ const ContentBox = styled.div`
       font-size: 16px;
     }
   }
-`;
-
-const FiEdit3Btn = styled(FiEdit3)`
-  position: absolute;
-  right: 4px;
-  bottom: 2px;
-  padding: 6px;
-  width: 25px;
-  height: 25px;
-  stroke: #aaa;
 `;

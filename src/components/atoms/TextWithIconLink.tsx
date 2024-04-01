@@ -19,15 +19,14 @@ export default function TextWithIconLink({ name, to }: Props) {
 const LinkBtn = styled(Link)`
   display: flex;
   align-items: center;
-  place-self: end;
-  margin-bottom: 5px;
-
+  margin-top: 5px;
+  align-self: end;
   span {
     font-size: 15px;
     color: ${({ theme }) => theme.container.blue3};
   }
   svg {
-    margin-bottom: 3px;
+    margin-bottom: 2px;
     stroke: ${({ theme }) => theme.container.blue3};
   }
 `;

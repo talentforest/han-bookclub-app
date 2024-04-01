@@ -10,7 +10,7 @@ import { getLocaleDate } from 'util/index';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import GuideLine from 'components/atoms/GuideLine';
-import ShareButton from 'components/atoms/button/ShareBtn';
+import ShareBtn from 'components/atoms/button/ShareBtn';
 import UserName from 'components/atoms/UserName';
 
 interface PropsType {
@@ -40,7 +40,7 @@ const VoteDetailReasonDetails = ({ voteDetail }: PropsType) => {
           {creatorId === userData.uid && (
             <FiTrash2 stroke='#888' onClick={onDeleteClick} />
           )}
-          <ShareButton
+          <ShareBtn
             title='✨새로운 투표가 등록되었어요!'
             description='투표하러 가볼까요? 👀'
             path='vote'

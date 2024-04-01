@@ -24,6 +24,7 @@ const BookClubOfThisMonth = () => {
     thisMonthBookClubState
   );
   const [fieldsHostDoc, setFieldsHostDoc] = useRecoilState(fieldHostDocState);
+
   const { id } = thisMonthClub;
 
   useEffect(() => {
@@ -44,6 +45,7 @@ const BookClubOfThisMonth = () => {
         <main>
           <Section>
             <ThisMonthClub />
+
             <TextWithIconLink name='다음 모임책 등록' to='/search' />
           </Section>
 
