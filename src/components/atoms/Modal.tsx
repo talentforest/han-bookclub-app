@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { FiX } from 'react-icons/fi';
+import ReactDOM from 'react-dom';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 
@@ -16,7 +17,8 @@ export default function Modal({
   width = '90%',
   children,
 }: Props) {
-  return (
+  const el = document.getElementById('modal');
+  return ReactDOM.createPortal(
     <>
       <OverlayBox onClick={onToggleClick} />
 
@@ -30,7 +32,8 @@ export default function Modal({
 
         {children}
       </BoxModal>
-    </>
+    </>,
+    el
   );
 }
 
