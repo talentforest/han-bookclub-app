@@ -3,11 +3,16 @@ import styled from 'styled-components';
 interface Props {
   authors: string[];
   publisher: string;
+  fontSize?: number;
 }
 
-export default function BookAuthorPublisher({ authors, publisher }: Props) {
+export default function BookAuthorPublisher({
+  authors,
+  publisher,
+  fontSize = 14,
+}: Props) {
   return (
-    <Info>
+    <Info $fontSize={fontSize}>
       <span>
         {authors[0]}
         {authors.length !== 1 && `(외 ${authors.length - 1}명)`}
@@ -17,7 +22,7 @@ export default function BookAuthorPublisher({ authors, publisher }: Props) {
   );
 }
 
-const Info = styled.div`
+const Info = styled.div<{ $fontSize: number }>`
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -25,7 +30,7 @@ const Info = styled.div`
   color: ${({ theme }) => theme.text.gray3};
   > span {
     line-height: 1.4;
-    font-size: 14px;
+    font-size: ${({ $fontSize }) => `${$fontSize}px`};
     padding-top: 3px;
     color: #888;
   }

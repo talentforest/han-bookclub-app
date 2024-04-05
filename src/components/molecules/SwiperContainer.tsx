@@ -41,7 +41,7 @@ export default function SwiperContainer({ children, options }: Props) {
 
 const Container = styled.div`
   .swiper {
-    padding-bottom: 20px;
+    padding: 4px 0 20px;
   }
   .swiper-slide {
     display: flex;

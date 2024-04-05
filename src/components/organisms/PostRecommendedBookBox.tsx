@@ -1,9 +1,8 @@
 import { IDocument } from 'data/documentsAtom';
 import { FiChevronRight, FiExternalLink } from 'react-icons/fi';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { cutLetter } from 'util/index';
 import PostHeader from '../molecules/PostHeader';
-import PostFooter from '../molecules/PostFooter';
 import BookThumbnail from '../atoms/BookThumbnail';
 import Modal from '../atoms/Modal';
 import UserName from 'components/atoms/UserName';
@@ -13,15 +12,17 @@ import styled from 'styled-components';
 interface Props {
   recommendedBookDoc: IDocument;
   collName: string;
+  children?: ReactNode;
 }
 
 export default function PostRecommendedBookBox({
   recommendedBookDoc,
   collName,
+  children,
 }: Props) {
   const [openModal, setOpenModal] = useState(false);
 
-  const { text, creatorId, createdAt, recommendedBook } = recommendedBookDoc;
+  const { text, creatorId, recommendedBook } = recommendedBookDoc;
 
   const { title, thumbnail, authors, url } = recommendedBook || {};
 
@@ -37,14 +38,11 @@ export default function PostRecommendedBookBox({
             className='bookimg'
           >
             <BookThumbnail title={title} thumbnail={thumbnail} />
+            <FiChevronRight size={20} />
           </button>
 
-          <div className='title'>
-            <h4>{cutLetter(title, 7)}</h4>
-            <FiChevronRight size={15} />
-          </div>
-
-          <UserName userId={creatorId} />
+          <h4 className='title'>{cutLetter(title, 7)}</h4>
+          <UserName userId={creatorId} fontSize={14} />
         </RecommendedBookItem>
 
         {openModal && (
@@ -73,12 +71,7 @@ export default function PostRecommendedBookBox({
                 </RecommendBookBox>
               </PostContentBox>
 
-              <PostFooter
-                collName={collName}
-                footerType='likes'
-                post={recommendedBookDoc}
-                createdAt={createdAt}
-              />
+              {children}
             </PostBox>
           </Modal>
         )}
@@ -89,7 +82,7 @@ export default function PostRecommendedBookBox({
 
 const PostBox = styled.article`
   margin-top: 5px;
-  gap: 10px;
+  gap: 5px;
   display: flex;
   flex-direction: column;
   overflow: scroll;
@@ -101,7 +94,7 @@ const PostBox = styled.article`
 
 const PostContentBox = styled.div`
   gap: 10px;
-  margin-bottom: 10px;
+  margin: 5px 0 10px;
   > img {
     float: left;
     height: 96px;
@@ -156,7 +149,7 @@ const RecommendedBookItem = styled.li`
   gap: 8px;
   margin-top: 30px;
   width: 120px;
-  height: 130px;
+  height: 140px;
   background-color: #fff;
   padding: 5px 3px 7px;
   border-radius: 10px;
@@ -165,6 +158,13 @@ const RecommendedBookItem = styled.li`
     position: absolute;
     height: 100px;
     top: -25px;
+    svg {
+      position: absolute;
+      right: -20px;
+      top: 50px;
+
+      stroke: ${({ theme }) => theme.text.gray2};
+    }
   }
   .title {
     width: 100%;
@@ -172,15 +172,10 @@ const RecommendedBookItem = styled.li`
     align-items: center;
     justify-content: center;
     gap: 2px;
-    h4 {
-      font-size: 14px;
-      color: ${({ theme }) => theme.text.gray2};
-      line-height: 1;
-      margin: 3px 0 0 6px;
-    }
-    svg {
-      stroke: ${({ theme }) => theme.text.gray2};
-    }
+    font-size: 15px;
+    color: ${({ theme }) => theme.text.gray2};
+    line-height: 1;
+    margin: 3px 0 0 6px;
   }
   @media ${device.tablet} {
     width: 125px;
@@ -191,10 +186,8 @@ const RecommendedBookItem = styled.li`
     }
     .title {
       margin-bottom: 5px;
-      h4 {
-        font-size: 15px;
-        color: #888;
-      }
+      font-size: 15px;
+      color: #888;
     }
   }
 `;

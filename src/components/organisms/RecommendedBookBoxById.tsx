@@ -1,92 +1,100 @@
 import { getDocument } from 'api/getFbDoc';
 import { useEffect, useState } from 'react';
-import { cutLetter } from 'util/index';
 import { IDocument } from 'data/documentsAtom';
-import UserName from 'components/atoms/UserName';
+import { IBookClub } from 'data/bookClubAtom';
+import { Link } from 'react-router-dom';
+import { getLocaleDate } from 'util/index';
+import { HiMiniArrowUpRight } from 'react-icons/hi2';
+import PostRecommendedBookBox from './PostRecommendedBookBox';
 import BookThumbnail from 'components/atoms/BookThumbnail';
-import device from 'theme/mediaQueries';
+import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 import styled from 'styled-components';
 
 interface Props {
   docIds: { docId: string; monthId: string };
 }
 
-export default function RecommendedBookBoxById({ docIds }: Props) {
+export default function RecommendedBookBoxById({
+  docIds: { docId, monthId },
+}: Props) {
   const [recommendedBookDoc, setRecommendedBookDoc] = useState<IDocument>();
-
-  const { docId, monthId } = docIds;
+  const [clubBookDoc, setClubBookDoc] = useState<IBookClub>();
 
   const year = monthId.slice(0, 4);
 
+  const collection = `BookClub-${year}/${monthId}/RecommendedBooks/`;
+
   useEffect(() => {
-    getDocument(
-      `BookClub-${year}/${monthId}/RecommendedBooks/`,
-      docId,
-      setRecommendedBookDoc
-    );
+    getDocument(`BookClub-${year}`, monthId, setClubBookDoc);
+    getDocument(collection, docId, setRecommendedBookDoc);
   }, []);
 
-  const { creatorId, recommendedBook } = recommendedBookDoc || {};
-
-  const { title, thumbnail } = recommendedBook || {};
-
   return (
-    <RecommendedBookItem>
-      <div className='bookimg'>
-        <BookThumbnail title={title} thumbnail={thumbnail} />
-      </div>
-
-      <div className='title'>{title && <h4>{cutLetter(title, 7)}</h4>}</div>
-
-      <UserName userId={creatorId} />
-    </RecommendedBookItem>
+    <>
+      {recommendedBookDoc && (
+        <PostRecommendedBookBox
+          recommendedBookDoc={recommendedBookDoc}
+          collName={collection}
+        >
+          <Date>{getLocaleDate(recommendedBookDoc.createdAt)}</Date>
+          <Title>추천책이 나왔던 모임책</Title>
+          <ClubBookBox
+            to={`/history/${monthId}`}
+            state={{ document: clubBookDoc }}
+          >
+            <BookThumbnail
+              thumbnail={clubBookDoc.book.thumbnail}
+              title={clubBookDoc.book.title}
+            />
+            <div>
+              <h5 className='title'>{clubBookDoc.book.title}</h5>
+              <BookAuthorPublisher
+                authors={clubBookDoc.book.authors}
+                publisher={clubBookDoc.book.publisher}
+                fontSize={13}
+              />
+            </div>
+            <HiMiniArrowUpRight className='arrow-right' />
+          </ClubBookBox>
+        </PostRecommendedBookBox>
+      )}
+    </>
   );
 }
 
-const RecommendedBookItem = styled.li`
-  position: relative;
+const Date = styled.span`
+  font-size: 14px;
+  color: ${({ theme }) => theme.text.gray3};
+  text-align: end;
+`;
+
+const Title = styled.h5`
+  font-size: 15px;
+  font-weight: 500;
+`;
+
+const ClubBookBox = styled(Link)`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
   align-items: center;
   gap: 8px;
-  margin-top: 30px;
-  width: 120px;
-  height: 130px;
-  background-color: #fff;
-  padding: 5px 3px 3px;
-  border-radius: 10px;
+  margin-bottom: 10px;
+  border: 1px solid ${({ theme }) => theme.container.gray};
   box-shadow: ${({ theme }) => theme.boxShadow};
-  .bookimg {
-    position: absolute;
-    height: 100px;
-    top: -28px;
+  border-radius: 12px;
+  padding: 6px 10px;
+  background-color: ${({ theme }) => theme.container.blue1};
+  img {
+    height: 45px;
   }
-  .title {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-    h4 {
-      font-size: 14px;
-      color: #aaa;
-      line-height: 1;
-    }
-  }
-  @media ${device.tablet} {
-    width: 125px;
-    height: 145px;
-    gap: 4px;
-    .bookimg {
-      height: 110px;
-    }
+  > div {
+    flex: 1;
     .title {
-      margin-bottom: 5px;
-      h4 {
-        font-size: 15px;
-        color: #888;
-      }
+      font-size: 14px;
+      font-weight: 500;
     }
+  }
+  .arrow-right {
+    align-self: flex-end;
+    fill: ${({ theme }) => theme.text.gray3};
   }
 `;

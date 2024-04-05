@@ -8,6 +8,7 @@ import { EmptyBox } from 'routes/BookClubHistory';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import PostRecommendedBookBox from 'components/organisms/PostRecommendedBookBox';
+import PostFooter from 'components/molecules/PostFooter';
 
 interface Props {
   yearMonthId?: string;
@@ -39,7 +40,14 @@ const RecommendedBookScrollList = ({
               key={recommendedBook.id}
               recommendedBookDoc={recommendedBook}
               collName={getFbRoute(yearMonthId).RECOMMENDED_BOOKS}
-            />
+            >
+              <PostFooter
+                collName={getFbRoute(yearMonthId).RECOMMENDED_BOOKS}
+                footerType='likes'
+                post={recommendedBook}
+                createdAt={recommendedBook.createdAt}
+              />
+            </PostRecommendedBookBox>
           ))}
         </RecommendedBookList>
       ) : (
