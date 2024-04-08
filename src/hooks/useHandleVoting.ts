@@ -5,7 +5,7 @@ import { getCollection, getDocument } from 'api/getFbDoc';
 import { IVote } from 'data/voteAtom';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
-import { VOTE } from 'constants/index';
+import { BOOK_VOTE } from 'constants/index';
 
 const useHandleVoting = (voteDocId: string) => {
   const { uid } = useRecoilValue(currentUserState);
@@ -20,7 +20,7 @@ const useHandleVoting = (voteDocId: string) => {
 
   useEffect(() => {
     getCollection(`Vote/${voteDocId}/Voted Items`, setVotingMember);
-    getDocument(VOTE, `${voteDocId}`, setCurrentVote);
+    getDocument(BOOK_VOTE, `${voteDocId}`, setCurrentVote);
   }, [setVotingMember, voteDocId, setCurrentVote, memberVoteRef]);
 
   const onVotingSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

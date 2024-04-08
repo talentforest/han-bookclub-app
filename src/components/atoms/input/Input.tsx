@@ -5,7 +5,7 @@ import device from 'theme/mediaQueries';
 interface IInputProps {
   id?: string;
   type?: 'password' | 'email' | 'text';
-  name: string;
+  name?: string;
   placeholder: string;
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;

@@ -26,14 +26,14 @@ const useSearchBook = () => {
     }
   };
 
-  const closeSearchList = () => setSearchList([]);
+  const resetSearchList = () => setSearchList([]);
 
   return {
     searchInputRef,
     onBookQueryChange,
     searchList,
     setSearchList,
-    closeSearchList,
+    resetSearchList,
   };
 };
 

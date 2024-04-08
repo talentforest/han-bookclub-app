@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import { FiCheckCircle, FiCircle } from 'react-icons/fi';
 import useHandleVoting from 'hooks/useHandleVoting';
 import device from 'theme/mediaQueries';
-import VoteDetails from 'components/organisms/VoteDetailReasonDetails';
 import VoteDetailItemPercent from 'components/organisms/VoteDetailItemPercent';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import SquareBtn from 'components/atoms/button/SquareBtn';
@@ -27,16 +26,15 @@ const VoteDetail = () => {
     mySubmittedVote,
     mySubmittedVoteItems,
   } = useHandleVoting(voteDocId);
+
   const expiredVote = currentVote?.deadline < todayWithHyphen;
 
   return (
     <>
-      <MobileHeader title='투표함' backBtn />
+      <MobileHeader title='모임책 투표함' backBtn />
 
       {currentVote?.vote?.voteItem && (
         <main>
-          <VoteDetails voteDetail={currentVote} />
-
           {expiredVote || mySubmittedVote.length ? (
             <ResultBox>
               <Votelist $disabled>

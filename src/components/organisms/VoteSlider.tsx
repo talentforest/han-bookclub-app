@@ -4,21 +4,22 @@ import { useRecoilState } from 'recoil';
 import { todayWithHyphen } from 'util/index';
 import { FiChevronRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import { votesState } from 'data/voteAtom';
-import { VOTE } from 'constants/index';
+import { bookVotesState } from 'data/voteAtom';
+import { BOOK_VOTE } from 'constants/index';
+import VoteProgressBox from '../molecules/VoteProgressBox';
 import styled from 'styled-components';
-import VoteBox from 'components/organisms/VoteBox';
 import device from 'theme/mediaQueries';
 
 const VoteSlider = () => {
-  const [votes, setVotes] = useRecoilState(votesState);
-  const progressVotes = votes?.filter(
-    (item) => item.deadline >= todayWithHyphen
+  const [bookVotes, setBookVotes] = useRecoilState(bookVotesState);
+
+  const progressVotes = bookVotes?.filter(
+    (vote) => vote.deadline >= todayWithHyphen
   );
 
   useEffect(() => {
-    if (!votes?.length) {
-      getCollection(VOTE, setVotes);
+    if (!bookVotes?.length) {
+      getCollection(BOOK_VOTE, setBookVotes);
     }
   }, []);
 
@@ -28,7 +29,7 @@ const VoteSlider = () => {
         <VotesContainer>
           <Votes $votesNum={progressVotes?.length}>
             {progressVotes?.map((voteDetail) => (
-              <VoteBox key={voteDetail.id} voteDetail={voteDetail} />
+              <VoteProgressBox key={voteDetail.id} voteDetail={voteDetail} />
             ))}
           </Votes>
         </VotesContainer>

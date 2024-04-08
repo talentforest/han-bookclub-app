@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { useSetRecoilState } from 'recoil';
 import {
@@ -11,8 +11,7 @@ import useSearchBook from 'hooks/useSearchBook';
 import RefInput from 'components/atoms/input/RefInput';
 import RecommendBookModalForm from 'components/organisms/RecommendBookModalForm';
 import ChallengeModalForm from 'components/organisms/ChallengeModalForm';
-import SearchedBookBox from 'components/molecules/SearchedBookBox';
-import DottedDividingLine from 'components/atoms/DottedDividingLine';
+import SearchedBookList from '../SearchedBookList';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 
@@ -34,7 +33,7 @@ export default function SearchedBookPostAddModal({
     searchInputRef,
     onBookQueryChange,
     searchList,
-    closeSearchList, //
+    resetSearchList, //
   } = useSearchBook();
 
   useEffect(() => {
@@ -45,10 +44,10 @@ export default function SearchedBookPostAddModal({
 
   const onModalToggleClick = () => {
     onToggleClick();
-    closeSearchList();
+    resetSearchList();
   };
 
-  const onSelectedBtnClick = (book: ISearchedBook) => {
+  const onSelectBtnClick = (book: ISearchedBook) => {
     changeStep(2);
     title === '추천책 작성하기' ? setMyRecommendBook(book) : setBookDesc(book);
   };
@@ -74,19 +73,12 @@ export default function SearchedBookPostAddModal({
             />
           </SearchBox>
 
-          <BookResults>
-            {searchList?.length !== 0 &&
-              searchList.map((book, index) => (
-                <Fragment key={`${book.title}-${index}`}>
-                  <SearchedBookBox
-                    searchedBook={book}
-                    onSelectedBtnClick={onSelectedBtnClick}
-                    modal
-                  />
-                  {searchList?.length - 1 !== index && <DottedDividingLine />}
-                </Fragment>
-              ))}
-          </BookResults>
+          {searchList?.length !== 0 && (
+            <SearchedBookList
+              searchList={searchList}
+              onSelectBtnClick={onSelectBtnClick}
+            />
+          )}
         </StepBox>
       )}
 
@@ -122,26 +114,6 @@ const SearchBox = styled.div`
   @media ${device.tablet} {
     button {
       width: 150px;
-    }
-  }
-`;
-
-const BookResults = styled.section`
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-  min-height: 200px;
-  height: 300px;
-  transition: height 0.5s ease;
-  overflow: scroll;
-  .no_search {
-    display: flex;
-    padding-top: 60px;
-    justify-content: center;
-    height: 100%;
-    span {
-      font-size: 15px;
-      color: ${({ theme }) => theme.text.gray3};
     }
   }
 `;

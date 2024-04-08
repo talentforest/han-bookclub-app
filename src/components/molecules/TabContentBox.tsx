@@ -1,11 +1,12 @@
 import { IDocument } from 'data/documentsAtom';
-import { FiChevronRight, FiPlus } from 'react-icons/fi';
+import { FiChevronRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { TabName } from './TabLabels';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
 import Post from 'components/molecules/Post';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
+import PlusIconWithTextLink from 'components/atoms/button/PlusIconLinkBtn';
 
 interface Props {
   currTab: TabName;
@@ -44,10 +45,11 @@ export default function TabContentBox({
         <>
           {editable ? (
             <GoToAddPostBox>
-              <Link to={linkTo} state={{ id: yearMonthId, postType: currTab }}>
-                <FiPlus />
-                <span>{currTab} 추가하러 가기</span>
-              </Link>
+              <PlusIconWithTextLink
+                to={linkTo}
+                state={{ id: yearMonthId, postType: currTab }}
+                name={`${currTab} 추가하러 가기`}
+              />
 
               <Desc>
                 {currTab === '정리 기록' ? '발제자만' : '모두'} 작성할 수 있어요

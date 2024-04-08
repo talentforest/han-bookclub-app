@@ -9,13 +9,13 @@ import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 interface PropsType {
   searchedBook: ISearchedBook;
   modal?: boolean;
-  onSelectedBtnClick?: (book: ISearchedBook) => void;
+  onSelectBtnClick?: (book: ISearchedBook) => void;
 }
 
 const SearchedBookBox = ({
   searchedBook,
   modal,
-  onSelectedBtnClick,
+  onSelectBtnClick,
 }: PropsType) => {
   const { title, thumbnail, authors, publisher } = searchedBook;
 
@@ -36,10 +36,7 @@ const SearchedBookBox = ({
       </BookDetail>
 
       {modal && (
-        <SelectBtn
-          type='button'
-          onClick={() => onSelectedBtnClick(searchedBook)}
-        >
+        <SelectBtn type='button' onClick={() => onSelectBtnClick(searchedBook)}>
           <FiCheckCircle fontSize={14} stroke='#8bb0ff' />
           <span>선택</span>
         </SelectBtn>

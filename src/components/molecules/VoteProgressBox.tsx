@@ -1,40 +1,35 @@
 import { cutLetter } from 'util/index';
 import { Link } from 'react-router-dom';
-import { IVote } from 'data/voteAtom';
+import { IBookVote } from 'data/voteAtom';
 import { LabeledBox } from 'components/atoms/input/BoxLabeledInput';
 import { FiChevronRight, FiMoreHorizontal } from 'react-icons/fi';
 import { MdOutlineHowToVote } from 'react-icons/md';
+import DDay from 'components/atoms/DDay';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
-import DDay from 'components/atoms/DDay';
 
 interface PropsType {
-  voteDetail: IVote;
+  voteDetail: IBookVote;
 }
 
-const VoteBox = ({ voteDetail }: PropsType) => {
-  const {
-    id,
-    vote: { title, voteItem },
-    deadline,
-    voteId,
-  } = voteDetail;
+const VoteProgressBox = ({ voteDetail }: PropsType) => {
+  const { id, title, voteItems, deadline, voteId } = voteDetail;
 
   return (
-    <Vote>
+    <VoteBox>
       <Title>
         <MdOutlineHowToVote fill='#316cff' fontSize={20} />
         {cutLetter(title, 40)}
       </Title>
 
       <ItemList>
-        {voteItem?.slice(0, 2).map((item) => (
-          <LabelVoteBox key={item.id}>
-            <div className='label'>{`${item.id}번`}</div>
-            <div className='info'>{cutLetter(item.item, 16)}</div>
+        {voteItems?.slice(0, 2).map(({ id, book }) => (
+          <LabelVoteBox key={id}>
+            <div className='label'>{`${id}번`}</div>
+            <div className='info'>{cutLetter(book.title, 16)}</div>
           </LabelVoteBox>
         ))}
-        {voteItem.length > 2 && <FiMoreHorizontal />}
+        {voteItems.length > 2 && <FiMoreHorizontal />}
       </ItemList>
 
       <Bottom>
@@ -44,18 +39,18 @@ const VoteBox = ({ voteDetail }: PropsType) => {
           <FiChevronRight fontSize={16} />
         </Link>
       </Bottom>
-    </Vote>
+    </VoteBox>
   );
 };
 
-const Vote = styled.div`
+const VoteBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 210px;
   width: 100%;
-  border-radius: 10px;
-  padding: 12px;
+  border-radius: 15px;
+  padding: 12px 15px;
   background-color: ${({ theme }) => theme.container.default};
   box-shadow: ${({ theme }) => theme.boxShadow};
   @media ${device.tablet} {
@@ -135,4 +130,4 @@ const Bottom = styled.div`
   }
 `;
 
-export default VoteBox;
+export default VoteProgressBox;

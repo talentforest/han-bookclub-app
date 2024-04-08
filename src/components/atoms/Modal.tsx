@@ -42,16 +42,17 @@ const BoxModal = styled.section<{ $width: string }>`
   width: ${({ $width }) => $width};
   min-height: 180px;
   height: min-content;
-  max-height: 90vh;
+  max-height: 78vh;
   position: fixed;
   display: flex;
   flex-direction: column;
-  padding: 12px;
+  padding: 10px 12px 18px;
   margin: auto;
-  top: 5%;
+  top: 0;
   right: 0;
   left: 0;
-  border-radius: 10px;
+  bottom: 0;
+  border-radius: 15px;
   background-color: ${({ theme }) => theme.container.default};
   @media ${device.tablet} {
     max-width: 60vw;

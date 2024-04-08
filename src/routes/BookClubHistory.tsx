@@ -107,7 +107,7 @@ export const EmptyBox = styled.div`
   justify-content: center;
   font-size: 16px;
   color: ${({ theme }) => theme.text.gray2};
-  border-radius: 10px;
+  border-radius: 15px;
   background-color: ${({ theme }) => theme.container.default};
   box-shadow: ${({ theme }) => theme.boxShadow};
   @media ${device.tablet} {

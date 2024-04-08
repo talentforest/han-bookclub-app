@@ -5,6 +5,8 @@ export const TAG_LIST = 'TagList';
 export const BOOK_FIELD_HOST = 'BookFieldAndHost';
 export const THIS_YEAR_BOOKCLUB = `BookClub-${thisYear}`;
 export const VOTE = 'Vote';
+export const BOOK_VOTE = 'BookVote';
+
 export const MEETING_PLACE = 'MeetingPlace';
 export const CHALLENGE = 'Challenge';
 export const RECOMMENDED_BOOKS = 'RecommendedBooks';

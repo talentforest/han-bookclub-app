@@ -20,6 +20,32 @@ export interface IVote {
   voteId: number;
 }
 
+export interface IBookVoteItem {
+  id: number;
+  book: {
+    title: string;
+    thumbnail: string;
+    url: string;
+  };
+  voteCount: number;
+  selectReason: string;
+}
+
+export interface IBookVote {
+  id?: string;
+  voteId: number;
+  title: string;
+  creatorId: string;
+  createdAt: number;
+  deadline: string;
+  voteItems: IBookVoteItem[];
+}
+
+export const bookVotesState = atom<IBookVote[]>({
+  key: `bookVoteDocs/${v4()}`,
+  default: null,
+});
+
 export const votesState = atom<IVote[]>({
   key: `voteDocs/${v4()}`,
   default: null,

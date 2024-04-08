@@ -1,82 +1,158 @@
 import { useState } from 'react';
-import { FiCheckCircle } from 'react-icons/fi';
-import useCreateVoteBox from 'hooks/useCreateVoteBox';
+import { ko } from 'date-fns/esm/locale';
+import { ISearchedBook } from 'data/bookAtom';
 import 'react-datepicker/dist/react-datepicker.css';
-import device from 'theme/mediaQueries';
-import styled from 'styled-components';
-import VoteModalDeadLine from '../VoteModalDeadLine';
-import VoteModalItems from '../VoteModalItems';
-import VoteModalAddItem from '../VoteModalAddItem';
+import DatePicker from 'react-datepicker';
 import Modal from 'components/atoms/Modal';
 import SquareBtn from 'components/atoms/button/SquareBtn';
-import GuideLine from 'components/atoms/GuideLine';
 import Input from 'components/atoms/input/Input';
+import BookVoteItem from 'components/atoms/BookVoteItem';
+import useCreateBookVoteBox from 'hooks/useCreateBookVoteBox';
+import useSearchBook from 'hooks/useSearchBook';
+import RefInput from 'components/atoms/input/RefInput';
+import SearchedBookList from '../SearchedBookList';
+import device from 'theme/mediaQueries';
+import styled from 'styled-components';
 
 interface PropsType {
-  onModalClick: () => void;
+  onToggleModal: () => void;
 }
 
-const VoteCreateModal = ({ onModalClick }: PropsType) => {
-  const [endDate, setEndDate] = useState(new Date());
-  const [openTextArea, setOpenTextArea] = useState(false);
+const initialSearchBook = {
+  openSearch: false,
+  itemId: 1,
+};
+
+const VoteCreateModal = ({ onToggleModal }: PropsType) => {
+  const [searchBook, setSearchBook] = useState(initialSearchBook);
+  const [openSelectReason, setOpenSelectReason] = useState(false);
 
   const {
-    vote,
-    onRegisterSubmit,
-    onTitleChange,
-    onItemPlusClick,
-    onItemDeleteClick,
-  } = useCreateVoteBox({ endDate, onModalClick });
+    newVote,
+    setNewVote,
+    onNewVoteSubmit,
+    onVoteTitleChange,
+    onDateChange,
+  } = useCreateBookVoteBox({ onToggleModal });
+
+  const {
+    searchInputRef,
+    onBookQueryChange,
+    searchList,
+    resetSearchList, //
+  } = useSearchBook();
+
+  const toggleSearch = (id?: number) => {
+    resetSearchList();
+    setSearchBook(({ openSearch, itemId }) => {
+      return { itemId: id || itemId, openSearch: !openSearch };
+    });
+  };
+
+  const toggleSelectReason = () => setOpenSelectReason((prev) => !prev);
+
+  const onSelectBtnClick = (book: ISearchedBook) => {
+    const { title, url, thumbnail } = book;
+
+    const newBookItem = { title, url, thumbnail };
+
+    const voteItems = newVote.voteItems.map((voteItem) => {
+      const itemId = voteItem.id === searchBook.itemId;
+      return itemId ? { ...voteItem, book: newBookItem } : voteItem;
+    });
+
+    setNewVote({ ...newVote, voteItems });
+    toggleSelectReason();
+  };
+
+  const onReasonChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
+    const { value } = event.currentTarget;
+
+    const vote = {
+      ...newVote,
+      voteItems: newVote.voteItems.map((item) => {
+        const itemId = item.id === searchBook.itemId;
+        return itemId ? { ...item, selectReason: value } : item;
+      }),
+    };
+
+    setNewVote(vote);
+  };
+
+  const { title, voteItems } = newVote;
 
   return (
-    <Modal title='투표 생성' onToggleClick={onModalClick}>
-      <Form onSubmit={onRegisterSubmit}>
-        <label>투표 제목</label>
+    <Modal title='모임책 투표 생성하기' onToggleClick={onToggleModal}>
+      {!searchBook.openSearch ? (
+        <Form onSubmit={onNewVoteSubmit}>
+          <label htmlFor='vote-title'>투표 제목</label>
+          <Input
+            id='vote-title'
+            type='text'
+            placeholder='1월 과학책 투표'
+            value={title}
+            onChange={onVoteTitleChange}
+            required
+          />
 
-        <Input
-          type='text'
-          placeholder='투표 제목을 적어주세요.'
-          value={vote.title}
-          onChange={onTitleChange}
-          name='title'
-          required
-        />
+          <label>투표할 모임책</label>
+          <VoteItems>
+            {voteItems.map((voteItem) => (
+              <BookVoteItem
+                key={voteItem.id}
+                voteItem={voteItem}
+                toggleSearch={toggleSearch}
+              />
+            ))}
+          </VoteItems>
 
-        <LabelBox>
-          <label>투표 항목</label>
+          <label htmlFor='datepicker'>투표 종료일</label>
+          <ReactDatePicker
+            id='datepicker'
+            selected={new Date(newVote.deadline)}
+            onChange={onDateChange}
+            selectsEnd
+            endDate={new Date(newVote.deadline)}
+            minDate={new Date()}
+            locale={ko}
+            dateFormat='yyyy년 MM월 dd일'
+          />
 
-          <AddTextAreaBtn
-            $active={openTextArea}
-            type='button'
-            onClick={() => setOpenTextArea((prev) => !prev)}
-          >
-            <FiCheckCircle
-              fontSize={12}
-              stroke={openTextArea ? '#6884ff' : '#aaa'}
-            />
-            <span>선정 이유 작성</span>
-          </AddTextAreaBtn>
-        </LabelBox>
-
-        <GuideLine
-          text='모임책 선정과 관련된 투표라면, 왜 이 책을 선정했는지를 각 항목에
-            작성해주세요!'
-          color='green'
-        />
-
-        <VoteModalItems
-          vote={vote}
-          onTitleChange={onTitleChange}
-          onItemDeleteClick={onItemDeleteClick}
-          openTextArea={openTextArea}
-        />
-
-        <VoteModalAddItem vote={vote} onItemPlusClick={onItemPlusClick} />
-
-        <VoteModalDeadLine endDate={endDate} setEndDate={setEndDate} />
-
-        <SquareBtn type='submit' name='투표 등록하기' />
-      </Form>
+          <SquareBtn type='submit' name='모임책 투표 등록' />
+        </Form>
+      ) : (
+        <>
+          {openSelectReason ? (
+            <>
+              <Textarea
+                placeholder='모임책으로 선정한 이유에 대해서 작성해주세요.'
+                value={newVote.voteItems[searchBook.itemId - 1].selectReason}
+                onChange={onReasonChange}
+              />
+              <SquareBtn
+                type='button'
+                name='투표함 모임책 등록하기'
+                handleClick={() => {
+                  toggleSelectReason();
+                  toggleSearch();
+                }}
+              />
+            </>
+          ) : (
+            <>
+              <RefInput
+                ref={searchInputRef}
+                placeholder={`투표할 책을 검색해주세요.`}
+                onChange={onBookQueryChange}
+              />
+              <SearchedBookList
+                searchList={searchList}
+                onSelectBtnClick={onSelectBtnClick}
+              />
+            </>
+          )}
+        </>
+      )}
     </Modal>
   );
 };
@@ -87,39 +163,68 @@ const Form = styled.form`
   justify-content: space-between;
   overflow: scroll;
   scroll-behavior: auto;
-  padding-bottom: 10px;
-  padding: 4px;
+  padding: 10px 4px;
   &::-webkit-scrollbar {
     display: none;
   }
   label {
-    color: ${({ theme }) => theme.text.blue2};
-    font-size: 15px;
-    margin: 5px 0 5px 3px;
+    color: ${({ theme }) => theme.container.blue3};
+    font-size: 14px;
+    margin: 25px 0 8px 5px;
+    &:first-child {
+      margin-top: 0;
+    }
   }
-  > input {
-    margin-bottom: 5px;
+`;
+
+const VoteItems = styled.ul`
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  @media ${device.tablet} {
+    gap: 15px;
+  }
+`;
+
+const ReactDatePicker = styled(DatePicker)`
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  border: 1px solid ${({ theme }) => theme.text.gray1};
+  cursor: pointer;
+  box-shadow: ${({ theme }) => theme.boxShadow};
+  margin-bottom: 40px;
+  .react-datepicker__navigation-icon::before {
+    border-color: #4872f9;
+    border-width: 2px 2px 0 0;
+    height: 7px;
+    width: 7px;
+  }
+  &:focus {
+    outline: none;
   }
   @media ${device.tablet} {
+    font-size: 16px;
+    padding: 15px;
   }
 `;
 
-const LabelBox = styled.div`
-  margin-top: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const AddTextAreaBtn = styled.button<{ $active: boolean }>`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  span {
-    padding-top: 2px;
-    font-size: 14px;
-    color: ${({ $active, theme }) =>
-      $active ? theme.text.gray4 : theme.text.gray2};
+const Textarea = styled.textarea`
+  font-size: 16px;
+  width: 100%;
+  height: 120px;
+  margin-bottom: 15px;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid ${({ theme }) => theme.text.gray1};
+  box-shadow: 2px 2px 2px 2px rgba(200, 200, 200, 0.2);
+  resize: none;
+  &::placeholder {
+    color: #aaa;
+  }
+  &:focus {
+    outline: none;
   }
 `;
 

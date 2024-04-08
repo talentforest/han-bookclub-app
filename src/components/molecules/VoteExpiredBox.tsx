@@ -1,35 +1,37 @@
-import { Link } from 'react-router-dom';
-import { cutLetter } from 'util/index';
-import { IVote } from 'data/voteAtom';
 import { LabeledBox } from 'components/atoms/input/BoxLabeledInput';
 import { MdOutlineHowToVote } from 'react-icons/md';
+import { Link } from 'react-router-dom';
+import { cutLetter } from 'util/index';
+import { IBookVoteItem } from 'data/voteAtom';
 import styled from 'styled-components';
 
-interface PropsType {
-  voteDetail: IVote;
+interface Props {
+  voteId: number;
+  voteTitle: string;
+  voteItems: IBookVoteItem[];
 }
 
-const VoteExpiredBox = ({ voteDetail }: PropsType) => {
-  const {
-    id,
-    voteId,
-    vote: { title, voteItem },
-  } = voteDetail;
-
+export default function VoteExpiredBox({
+  voteId,
+  voteTitle,
+  voteItems,
+}: Props) {
   const getVoteResultTitle = () => {
-    const voteCountArr = voteItem.map((item) => item.voteCount);
+    const voteCountArr = voteItems.map(({ voteCount }) => voteCount);
     const maxVoteCount = Math.max(...voteCountArr);
-    const voteResult = voteItem
-      .filter((item) => item.voteCount === maxVoteCount)
-      .map((item) => item.item);
-    return voteResult.join(', ');
+
+    const voteResult = voteItems.find(
+      ({ voteCount }) => voteCount === maxVoteCount
+    );
+
+    return voteResult.book.title;
   };
 
   return (
-    <Vote to={`/vote/${voteId}`} state={{ voteDocId: id }}>
+    <VoteDetailLink to={`/vote/${voteId}`} state={{ voteDocId: voteId }}>
       <Title>
         <MdOutlineHowToVote fill='#666' fontSize={20} />
-        {cutLetter(title, 40)}
+        {cutLetter(voteTitle, 40)}
       </Title>
 
       <LabelResultBox>
@@ -41,11 +43,11 @@ const VoteExpiredBox = ({ voteDetail }: PropsType) => {
           <span>{getVoteResultTitle()}</span>
         </div>
       </LabelResultBox>
-    </Vote>
+    </VoteDetailLink>
   );
-};
+}
 
-const Vote = styled(Link)`
+export const VoteDetailLink = styled(Link)`
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -71,7 +73,6 @@ const Title = styled.h4`
 `;
 
 const LabelResultBox = styled(LabeledBox)`
-  border: 1px solid ${({ theme }) => theme.text.gray1};
   box-shadow: none;
   div.label {
     padding: 0 5px;
@@ -102,5 +103,3 @@ const LabelResultBox = styled(LabeledBox)`
     }
   }
 `;
-
-export default VoteExpiredBox;
