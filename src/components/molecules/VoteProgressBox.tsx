@@ -4,6 +4,7 @@ import { IBookVote } from 'data/voteAtom';
 import { LabeledBox } from 'components/atoms/input/BoxLabeledInput';
 import { FiChevronRight, FiMoreHorizontal } from 'react-icons/fi';
 import { MdOutlineHowToVote } from 'react-icons/md';
+import { BOOK_VOTE } from 'constants/index';
 import DDay from 'components/atoms/DDay';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
@@ -25,7 +26,7 @@ const VoteProgressBox = ({ voteDetail }: PropsType) => {
       <ItemList>
         {voteItems?.slice(0, 2).map(({ id, book }) => (
           <LabelVoteBox key={id}>
-            <div className='label'>{`${id}번`}</div>
+            <div className='label'>{id}번</div>
             <div className='info'>{cutLetter(book.title, 16)}</div>
           </LabelVoteBox>
         ))}
@@ -34,7 +35,7 @@ const VoteProgressBox = ({ voteDetail }: PropsType) => {
 
       <Bottom>
         <DDay hyphenDate={deadline} isDateMark={false} />
-        <Link to={`/vote/${voteId}`} state={{ voteDocId: id }}>
+        <Link to={`/vote/${voteId}`} state={{ collName: BOOK_VOTE, docId: id }}>
           <span>투표하러 가기</span>
           <FiChevronRight fontSize={16} />
         </Link>

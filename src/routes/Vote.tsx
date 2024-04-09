@@ -64,13 +64,8 @@ const Vote = () => {
         <Subtitle title='기한이 만료된 투표함' />
         <VoteList>
           {expiredVote?.length !== 0 &&
-            expiredVote?.map(({ voteItems, title, voteId }) => (
-              <VoteExpiredBox
-                key={voteId}
-                voteItems={voteItems}
-                voteTitle={title}
-                voteId={voteId}
-              />
+            expiredVote?.map((vote) => (
+              <VoteExpiredBox key={vote.id} vote={vote} collName={BOOK_VOTE} />
             ))}
 
           <PreviousVoteBoxes />

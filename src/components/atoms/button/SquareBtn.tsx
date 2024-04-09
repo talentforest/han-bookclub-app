@@ -45,7 +45,7 @@ export const Btn = styled.button<{
   $color?: BtnColor;
 }>`
   cursor: ${({ $disabled }) => ($disabled ? 'default' : 'pointer')};
-  min-height: 40px;
+  min-height: 45px;
   width: ${({ $width }) => $width};
   padding: 0 9px;
   display: flex;
@@ -67,7 +67,7 @@ export const Btn = styled.button<{
       $disabled ? theme.text.gray2 : theme.text.blue2};
   }
   @media ${device.tablet} {
-    min-height: 45px;
+    min-height: 48px;
     span {
       font-size: 16px;
     }

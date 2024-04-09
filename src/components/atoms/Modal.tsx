@@ -67,14 +67,12 @@ const ModalHeaderBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-left: 4px;
-  margin-bottom: 5px;
+  margin: 4px 4px 8px;
   > button {
     padding: 0 5px;
   }
   > h3 {
-    font-size: 18px;
-    padding-top: 4px;
+    font-size: 17px;
   }
 `;
 

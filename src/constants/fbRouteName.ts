@@ -6,6 +6,8 @@ export const BOOK_FIELD_HOST = 'BookFieldAndHost';
 export const THIS_YEAR_BOOKCLUB = `BookClub-${thisYear}`;
 export const VOTE = 'Vote';
 export const BOOK_VOTE = 'BookVote';
+export const VOTEDITEMS_BY_MEMBER = 'VotedItemsByMember';
+export const VOTED_ITEMS = 'Voted Items';
 
 export const MEETING_PLACE = 'MeetingPlace';
 export const CHALLENGE = 'Challenge';

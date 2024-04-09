@@ -24,7 +24,6 @@ export default function DDay({ hyphenDate, isDateMark = true }: Props) {
 const DDayBox = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 5px;
   > div {
     display: flex;
@@ -36,7 +35,7 @@ const DDayBox = styled.div`
     margin-top: 2px;
   }
   .leftDay {
-    font-size: 16px;
+    font-size: 15px;
     color: ${({ theme }) => theme.text.blue2};
   }
   .date {

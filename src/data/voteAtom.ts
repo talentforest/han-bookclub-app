@@ -22,13 +22,23 @@ export interface IVote {
 
 export interface IBookVoteItem {
   id: number;
+  selectReason: string;
   book: {
     title: string;
     thumbnail: string;
     url: string;
   };
+}
+
+export interface IVoteCountById {
+  id: number;
   voteCount: number;
-  selectReason: string;
+  title: string;
+}
+
+export interface IVoteItemsByMember {
+  votedItem: { id: number; title: string }[];
+  createdAt: number;
 }
 
 export interface IBookVote {
@@ -40,6 +50,16 @@ export interface IBookVote {
   deadline: string;
   voteItems: IBookVoteItem[];
 }
+
+export const initialBookVote: IBookVote = {
+  id: '',
+  voteId: 1,
+  title: '',
+  creatorId: '',
+  createdAt: Date.now(),
+  deadline: '',
+  voteItems: [],
+};
 
 export const bookVotesState = atom<IBookVote[]>({
   key: `bookVoteDocs/${v4()}`,

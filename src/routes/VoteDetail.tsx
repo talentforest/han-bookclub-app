@@ -1,96 +1,134 @@
 import { todayWithHyphen } from 'util/index';
 import { useLocation } from 'react-router-dom';
-import { FiCheckCircle, FiCircle } from 'react-icons/fi';
+import { FiUsers } from 'react-icons/fi';
+import { BOOK_VOTE, VOTE } from 'constants/index';
 import useHandleVoting from 'hooks/useHandleVoting';
-import device from 'theme/mediaQueries';
-import VoteDetailItemPercent from 'components/organisms/VoteDetailItemPercent';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import SquareBtn from 'components/atoms/button/SquareBtn';
-import styled from 'styled-components';
 import DDay from 'components/atoms/DDay';
 import UserName from 'components/atoms/UserName';
+import VoteDetailHeader from 'components/organisms/VoteDetailHeader';
+import VoteBarItem from 'components/molecules/VoteBarItem';
+import VoteBookItem from 'components/molecules/VoteBookItem';
+import GuideLine from 'components/atoms/GuideLine';
+import VoteGaugeBarBox from 'components/molecules/VoteGaugeBarBox';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+import VoteBookItemBtn from 'components/atoms/button/VoteBookItemBtn';
+import VoteItemReasonBox from 'components/molecules/VoteItemReasonBox';
 
-type LocationState = { state: { voteDocId: string } };
+type LocationState = {
+  state: {
+    collName: string;
+    docId: string;
+  };
+};
 
 const VoteDetail = () => {
   const {
-    state: { voteDocId },
+    state: { collName, docId },
   } = useLocation() as LocationState;
 
   const {
-    currentVote,
-    votingMember,
+    bookVote,
+    votedItemsByMember,
+    voteCountsById,
+    totalVoteCount,
     selectedItem,
     onVotingSubmit,
     onVoteItemClick,
-    mySubmittedVote,
-    mySubmittedVoteItems,
-  } = useHandleVoting(voteDocId);
+    myVotedItems,
+    isMyVotedItems,
+    onVoteDeleteClick,
+  } = useHandleVoting({ collName, docId });
 
-  const expiredVote = currentVote?.deadline < todayWithHyphen;
+  const expiredVote = bookVote?.deadline < todayWithHyphen;
 
   return (
     <>
-      <MobileHeader title='모임책 투표함' backBtn />
+      <MobileHeader
+        title={`${expiredVote ? '만료된 ' : ''}모임책 투표함`}
+        backBtn
+      />
 
-      {currentVote?.vote?.voteItem && (
+      {bookVote?.voteItems && (
         <main>
-          {expiredVote || mySubmittedVote.length ? (
-            <ResultBox>
-              <Votelist $disabled>
-                {currentVote.vote.voteItem.map((voteItem) => (
-                  <VoteItem
-                    key={voteItem.id}
-                    $selected={!!mySubmittedVoteItems(voteItem.id)}
-                  >
-                    <FiCheckCircle fontSize={14} stroke='#333' />
-                    <ItemText>{voteItem.item}</ItemText>
-                    <VoteDetailItemPercent
-                      voteItems={currentVote.vote.voteItem}
-                      voteItemId={voteItem.id}
+          <VoteDetailHeader
+            vote={bookVote}
+            onVoteDeleteClick={onVoteDeleteClick}
+          />
+
+          <VoteItemReasonBox voteItems={bookVote.voteItems} />
+
+          <GuideLine text='중복 투표도 가능해요' />
+
+          {expiredVote || myVotedItems ? (
+            <CurrentVoteItems>
+              {collName === VOTE && (
+                <BarItemList $disabled>
+                  {bookVote.voteItems.map((voteItem) => (
+                    <VoteBarItem
+                      key={voteItem.id}
+                      selected={isMyVotedItems(voteItem.id)}
+                      voteCountsById={voteCountsById}
+                      totalVoteCount={totalVoteCount}
+                      voteItem={voteItem}
                     />
-                  </VoteItem>
-                ))}
-              </Votelist>
+                  ))}
+                </BarItemList>
+              )}
+
+              {collName === BOOK_VOTE && (
+                <>
+                  <BookItemList>
+                    {bookVote.voteItems.map((voteItem) => (
+                      <VoteBookItem key={voteItem.id} voteItem={voteItem} />
+                    ))}
+                  </BookItemList>
+
+                  <VoteGaugeBarBox
+                    voteCountsById={voteCountsById}
+                    totalVoteCount={totalVoteCount}
+                  />
+                </>
+              )}
 
               <SquareBtn name='투표 완료' disabled />
-            </ResultBox>
+            </CurrentVoteItems>
           ) : (
             <Form onSubmit={onVotingSubmit}>
-              <Votelist>
-                {currentVote?.vote?.voteItem.map((voteItem) => (
-                  <VoteItem
+              <BookItemList>
+                {bookVote.voteItems.map((voteItem) => (
+                  <VoteBookItem
                     key={voteItem.id}
-                    onClick={() => onVoteItemClick(voteItem.id)}
-                    $selected={!!selectedItem(voteItem.id)}
+                    selected={!!selectedItem(voteItem.id)}
+                    voteItem={voteItem}
                   >
-                    {!!selectedItem(voteItem.id) ? (
-                      <FiCheckCircle fontSize={14} stroke='#2c4fff' />
-                    ) : (
-                      <FiCircle fontSize={14} stroke='#666' />
-                    )}
-                    <ItemText>{voteItem.item}</ItemText>
-                    <VoteDetailItemPercent
-                      voteItems={currentVote.vote.voteItem}
-                      voteItemId={voteItem.id}
+                    <VoteBookItemBtn
+                      selected={!!selectedItem(voteItem.id)}
+                      onVoteItemClick={() => onVoteItemClick(voteItem.id)}
                     />
-                  </VoteItem>
+                  </VoteBookItem>
                 ))}
-              </Votelist>
+              </BookItemList>
+
               <SquareBtn type='submit' name='투표하기' />
             </Form>
           )}
 
-          {!expiredVote && <DDay hyphenDate={currentVote.deadline} />}
+          {!expiredVote && <DDay hyphenDate={bookVote.deadline} />}
 
-          <InfoBox>
-            <h4>{`투표인원: ${votingMember.length}명`}</h4>
-            <VoteMember>
-              {votingMember.map((member) => (
+          <VoteMemberBox>
+            <h4>
+              <FiUsers />
+              {`투표인원: ${votedItemsByMember?.length}명`}
+            </h4>
+            <MemberList>
+              {votedItemsByMember.map((member) => (
                 <UserName tag key={member.id} userId={member.id} />
               ))}
-            </VoteMember>
-          </InfoBox>
+            </MemberList>
+          </VoteMemberBox>
         </main>
       )}
     </>
@@ -99,69 +137,53 @@ const VoteDetail = () => {
 
 const Form = styled.form`
   margin-bottom: 20px;
-  button {
+  > button {
     margin-bottom: 5px;
   }
 `;
 
-const ResultBox = styled.div`
-  margin-bottom: 20px;
+const CurrentVoteItems = styled.div`
+  margin-bottom: 40px;
 `;
 
-const Votelist = styled.ul<{ $disabled?: boolean }>`
+const BookItemList = styled.ul`
   position: relative;
-  margin: 4px 0 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+  @media ${device.tablet} {
+    margin-bottom: 40px;
+    gap: 30px;
+  }
+`;
+
+const BarItemList = styled.ul<{ $disabled?: boolean }>`
+  position: relative;
+  margin: 4px 0 30px;
   pointer-events: ${({ $disabled }) => ($disabled ? 'none' : 'all')};
   @media ${device.tablet} {
     margin-bottom: 30px;
   }
 `;
 
-const VoteItem = styled.li<{ $selected: boolean }>`
-  cursor: pointer;
-  white-space: pre-line;
-  word-break: break-all;
-  position: relative;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  border: ${({ $selected, theme }) =>
-    $selected
-      ? `2px solid ${theme.container.blue3}`
-      : `2px solid ${theme.text.gray1}`};
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 5px;
-  background-color: ${({ theme }) => theme.container.default};
-  svg {
-    z-index: 2;
-  }
-  @media ${device.tablet} {
-    padding: 10px 15px;
-    margin-top: 15px;
-    min-height: 50px;
-  }
-`;
-
-const ItemText = styled.span`
-  z-index: 1;
-  width: 75%;
-  line-height: 1.5;
-  margin-left: 8px;
-  @media ${device.tablet} {
-    width: 85%;
-    font-size: 18px;
-  }
-`;
-
-const InfoBox = styled.div`
-  margin-top: 20px;
+const VoteMemberBox = styled.div`
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   gap: 5px;
+  h4 {
+    font-weight: 500;
+    color: ${({ theme }) => theme.text.gray4};
+    svg {
+      font-size: 14px;
+      margin-right: 4px;
+      stroke: ${({ theme }) => theme.text.gray3};
+    }
+  }
 `;
 
-const VoteMember = styled.ul`
+const MemberList = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;

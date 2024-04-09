@@ -1,37 +1,45 @@
 import { LabeledBox } from 'components/atoms/input/BoxLabeledInput';
 import { MdOutlineHowToVote } from 'react-icons/md';
 import { Link } from 'react-router-dom';
-import { cutLetter } from 'util/index';
-import { IBookVoteItem } from 'data/voteAtom';
+import { cutLetter, getVoteCountsById } from 'util/index';
+import { IBookVote, IVoteItemsByMember } from 'data/voteAtom';
+import { useEffect, useState } from 'react';
+import { BOOK_VOTE, VOTEDITEMS_BY_MEMBER, VOTED_ITEMS } from 'constants/index';
+import { getCollection } from 'api/getFbDoc';
 import styled from 'styled-components';
 
 interface Props {
-  voteId: number;
-  voteTitle: string;
-  voteItems: IBookVoteItem[];
+  vote: IBookVote;
+  collName: string;
 }
 
-export default function VoteExpiredBox({
-  voteId,
-  voteTitle,
-  voteItems,
-}: Props) {
-  const getVoteResultTitle = () => {
-    const voteCountArr = voteItems.map(({ voteCount }) => voteCount);
-    const maxVoteCount = Math.max(...voteCountArr);
+export default function VoteExpiredBox({ vote, collName }: Props) {
+  const [votedItemsByMember, setVotedItemsMyMember] = useState<
+    IVoteItemsByMember[]
+  >([]);
 
-    const voteResult = voteItems.find(
-      ({ voteCount }) => voteCount === maxVoteCount
-    );
+  const { voteId, voteItems, title, id } = vote;
 
-    return voteResult.book.title;
-  };
+  const subCollName =
+    collName === BOOK_VOTE ? VOTEDITEMS_BY_MEMBER : VOTED_ITEMS;
+
+  useEffect(() => {
+    if (!votedItemsByMember?.length) {
+      getCollection(`${collName}/${id}/${subCollName}`, setVotedItemsMyMember);
+    }
+  }, []);
+
+  const voteCountsById = getVoteCountsById(voteItems, votedItemsByMember);
+
+  const getHighestVoted = voteCountsById.find((book, _, arr) => {
+    return book.voteCount === Math.max(...arr.map((book) => book.voteCount));
+  });
 
   return (
-    <VoteDetailLink to={`/vote/${voteId}`} state={{ voteDocId: voteId }}>
+    <VoteDetailLink to={`/vote/${voteId}`} state={{ collName, docId: id }}>
       <Title>
         <MdOutlineHowToVote fill='#666' fontSize={20} />
-        {cutLetter(voteTitle, 40)}
+        {cutLetter(title, 40)}
       </Title>
 
       <LabelResultBox>
@@ -40,7 +48,7 @@ export default function VoteExpiredBox({
         </div>
 
         <div className='info'>
-          <span>{getVoteResultTitle()}</span>
+          <span>{getHighestVoted.title}</span>
         </div>
       </LabelResultBox>
     </VoteDetailLink>

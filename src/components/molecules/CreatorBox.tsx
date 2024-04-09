@@ -1,5 +1,5 @@
-import UserName from 'components/atoms/UserName';
 import { FiUserCheck } from 'react-icons/fi';
+import UserName from 'components/atoms/UserName';
 import styled from 'styled-components';
 
 interface Props {
