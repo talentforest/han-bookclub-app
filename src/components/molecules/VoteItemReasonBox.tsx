@@ -1,7 +1,7 @@
-import DottedDividingLine from 'components/atoms/DottedDividingLine';
 import { IBookVoteItem } from 'data/voteAtom';
 import { useState } from 'react';
-import { FiChevronsUp } from 'react-icons/fi';
+import { FiChevronsDown, FiChevronsUp } from 'react-icons/fi';
+import DottedDividingLine from 'components/atoms/DottedDividingLine';
 import styled from 'styled-components';
 
 interface Props {
@@ -20,33 +20,32 @@ export default function VoteItemReasonBox({ voteItems }: Props) {
       </ToggleBtn>
 
       {isOpen && (
-        <>
-          <ul>
-            {voteItems.map(({ selectReason, id, book }) => (
-              <li key={id}>
-                <span className='booktitle'>📚 {book.title}</span>
-                <DottedDividingLine />
+        <ul>
+          {voteItems.map(({ selectReason, id, book }) => (
+            <li key={id}>
+              <span className='booktitle'>📚 {book.title}</span>
+              <DottedDividingLine />
 
-                {selectReason ? (
-                  <p>{selectReason}</p>
-                ) : (
-                  <span className='emptyReason'>정보가 없습니다.</span>
-                )}
-              </li>
-            ))}
-          </ul>
-
-          <CloseBtn type='button' onClick={toggleDetails}>
-            <FiChevronsUp />
-            닫기
-          </CloseBtn>
-        </>
+              {selectReason ? (
+                <p>{selectReason}</p>
+              ) : (
+                <span className='emptyReason'>정보가 없습니다.</span>
+              )}
+            </li>
+          ))}
+        </ul>
       )}
+
+      <Btn type='button' onClick={toggleDetails}>
+        {isOpen ? <FiChevronsUp /> : <FiChevronsDown />}
+        {isOpen ? '닫기' : '열기'}
+      </Btn>
     </ReasonBox>
   );
 }
 
 const ReasonBox = styled.div`
+  position: relative;
   border: 1px solid ${({ theme }) => theme.container.gray};
   border-radius: 12px 15px;
   background-color: ${({ theme }) => theme.container.default};
@@ -55,8 +54,7 @@ const ReasonBox = styled.div`
   display: flex;
   flex-direction: column;
   > ul {
-    padding: 0 12px 10px;
-    margin-bottom: 3px;
+    padding: 0 12px 40px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -95,11 +93,11 @@ const ToggleBtn = styled.button`
   color: ${({ theme }) => theme.container.blue3};
 `;
 
-const CloseBtn = styled.button`
-  border-radius: 8px;
-  align-self: flex-end;
-  padding: 5px 8px;
-  margin: 0 12px 5px;
+const Btn = styled.button`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 10px 15px;
   display: flex;
   align-items: center;
   color: ${({ theme }) => theme.text.gray3};

@@ -33,7 +33,7 @@ export default function VoteBookItem({ voteItem, children, selected }: Props) {
             </a>
           )}
           <BookThumbnail thumbnail={thumbnail} title={title} />
-          <span>{cutLetter(title, 16)}</span>
+          <span>《{cutLetter(title, 16)}》</span>
         </BookBox>
       )}
 
@@ -89,7 +89,7 @@ const BookBox = styled.div`
     height: 115px;
   }
   > span {
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.4;
     text-align: center;
     margin-top: 8px;
@@ -98,22 +98,13 @@ const BookBox = styled.div`
 
   .external-link {
     position: absolute;
-    border: 1px solid ${({ theme }) => theme.container.lightGray};
-    border-radius: 50%;
     width: 28px;
     height: 28px;
-    background-color: ${({ theme }) => theme.container.lightGray};
     top: 3px;
-    right: 10px;
-    padding: 3px 3px 3px 4px;
-    box-shadow: ${({ theme }) => theme.boxShadow};
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    color: ${({ theme }) => theme.text.gray3};
+    right: 3px;
+    padding: 5px 3px 3px 4px;
     svg {
       font-size: 16px;
-      margin-right: 3px;
       stroke: ${({ theme }) => theme.container.blue3};
     }
   }
