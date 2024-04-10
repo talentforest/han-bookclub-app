@@ -94,6 +94,8 @@ const VoteDetail = () => {
               )}
 
               <SquareBtn name='투표 완료' disabled />
+
+              <SquareBtn type='button' name='다시 투표하기' />
             </CurrentVoteItems>
           ) : (
             <Form onSubmit={onVotingSubmit}>
@@ -144,6 +146,10 @@ const Form = styled.form`
 
 const CurrentVoteItems = styled.div`
   margin-bottom: 40px;
+  > button {
+    margin-top: 12px;
+    font-weight: 500;
+  }
 `;
 
 const BookItemList = styled.ul`
