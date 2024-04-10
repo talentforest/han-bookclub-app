@@ -1,5 +1,5 @@
 import { dbService } from 'fbase';
-import { deleteDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { getCollection, getDocument } from 'api/getFbDoc';
 import {
@@ -12,8 +12,8 @@ import { getVoteCountsById, turnVoteToBookVote } from 'util/index';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { BOOK_VOTE, VOTEDITEMS_BY_MEMBER, VOTED_ITEMS } from 'constants/index';
-import useAlertAskJoin from './useAlertAskJoin';
 import { useNavigate } from 'react-router-dom';
+import useAlertAskJoin from './useAlertAskJoin';
 
 interface Props {
   collName: string;
@@ -30,6 +30,10 @@ const useHandleVoting = ({ collName, docId }: Props) => {
   const [selectedVoteItems, setSelectedVoteItems] = useState([]);
 
   const [votedItemsByMember, setVotedItemsByMember] = useState([]);
+
+  const [isRevote, setIsRevoting] = useState(false);
+
+  const onToggleRevoteClick = () => setIsRevoting((prev) => !prev);
 
   const navigate = useNavigate();
 
@@ -62,19 +66,20 @@ const useHandleVoting = ({ collName, docId }: Props) => {
 
     if (anonymous) return alertAskJoinMember();
 
+    if (selectedVoteItems.length === 0)
+      return window.alert('투표할 항목이 선택되지 않았습니다.');
+
     try {
       const personalVoteRef = doc(dbService, VoteItemsColl, uid);
+
       await setDoc(personalVoteRef, {
         createdAt: Date.now(),
         votedItem: selectedVoteItems,
       });
 
-      const currentVoteRef = doc(dbService, BOOK_VOTE, docId);
-      await updateDoc(currentVoteRef, {
-        'vote.voteItems': bookVote.voteItems,
-      });
-
       window.alert('투표가 완료되었습니다!');
+
+      onToggleRevoteClick();
     } catch (error) {
       console.error(error);
     }
@@ -126,6 +131,8 @@ const useHandleVoting = ({ collName, docId }: Props) => {
     myVotedItems,
     isMyVotedItems,
     onVoteDeleteClick,
+    isRevote,
+    onToggleRevoteClick,
   };
 };
 

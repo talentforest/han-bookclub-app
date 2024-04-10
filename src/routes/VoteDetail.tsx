@@ -40,6 +40,8 @@ const VoteDetail = () => {
     myVotedItems,
     isMyVotedItems,
     onVoteDeleteClick,
+    isRevote,
+    onToggleRevoteClick,
   } = useHandleVoting({ collName, docId });
 
   const expiredVote = bookVote?.deadline < todayWithHyphen;
@@ -62,7 +64,7 @@ const VoteDetail = () => {
 
           <GuideLine text='중복 투표도 가능해요' />
 
-          {expiredVote || myVotedItems ? (
+          {expiredVote || (myVotedItems && !isRevote) ? (
             <CurrentVoteItems>
               {collName === VOTE && (
                 <BarItemList $disabled>
@@ -95,7 +97,11 @@ const VoteDetail = () => {
 
               <SquareBtn name='투표 완료' disabled />
 
-              <SquareBtn type='button' name='다시 투표하기' />
+              <SquareBtn
+                type='button'
+                name='다시 투표하기'
+                handleClick={onToggleRevoteClick}
+              />
             </CurrentVoteItems>
           ) : (
             <Form onSubmit={onVotingSubmit}>
