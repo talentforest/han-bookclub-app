@@ -60,7 +60,13 @@ const GaugeByBook = styled.div<{ $gauge: number; $id: number }>`
   border-radius: 30px;
   min-width: 20px;
   background-color: ${({ theme, $id }) =>
-    $id === 1 ? theme.container.purple2 : theme.container.orange};
+    $id === 1
+      ? theme.container.purple2
+      : $id === 2
+      ? theme.container.yellow2
+      : $id === 3
+      ? theme.container.blue2
+      : theme.container.pink};
   display: flex;
   align-items: center;
   justify-content: space-between;

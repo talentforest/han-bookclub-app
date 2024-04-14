@@ -2,6 +2,7 @@ import React, { ForwardedRef } from 'react';
 import styled from 'styled-components';
 
 interface ITextInputProps {
+  id?: string;
   name?: string;
   value?: string;
   onChange?: (event: React.FormEvent<HTMLInputElement>) => void;
@@ -14,6 +15,7 @@ const RefInput = React.forwardRef(
       <Input
         ref={ref}
         type='text'
+        id={props.id}
         name={props.name}
         placeholder={props.placeholder}
         value={props.value}

@@ -12,10 +12,10 @@ import VoteBarItem from 'components/molecules/VoteBarItem';
 import VoteBookItem from 'components/molecules/VoteBookItem';
 import GuideLine from 'components/atoms/GuideLine';
 import VoteGaugeBarBox from 'components/molecules/VoteGaugeBarBox';
-import styled from 'styled-components';
-import device from 'theme/mediaQueries';
 import VoteBookItemBtn from 'components/atoms/button/VoteBookItemBtn';
 import VoteItemReasonBox from 'components/molecules/VoteItemReasonBox';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
 
 type LocationState = {
   state: {
@@ -164,8 +164,16 @@ const BookItemList = styled.ul`
   justify-content: center;
   gap: 10px;
   margin: 20px 0;
+  flex-wrap: wrap;
+  li {
+    width: 48%;
+    max-width: 150px;
+  }
   @media ${device.tablet} {
     gap: 30px;
+    li {
+      max-width: 160px;
+    }
   }
 `;
 

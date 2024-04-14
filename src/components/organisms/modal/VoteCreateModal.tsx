@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ko } from 'date-fns/esm/locale';
 import { ISearchedBook } from 'data/bookAtom';
-import { FiSearch } from 'react-icons/fi';
+import { FiSearch, FiPlus, FiMinusCircle } from 'react-icons/fi';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 import Modal from 'components/atoms/Modal';
@@ -34,6 +34,8 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
     onNewVoteSubmit,
     onVoteTitleChange,
     onDateChange,
+    onAddVoteItemBtn,
+    onDeleteVoteItemClick,
   } = useCreateBookVoteBox({ onToggleModal });
 
   const {
@@ -52,7 +54,7 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
 
   const toggleSelectReason = () => setOpenSelectReason((prev) => !prev);
 
-  const onSelectBtnClick = (book: ISearchedBook) => {
+  const onSelectBookBtnClick = (book: ISearchedBook) => {
     const { title, url, thumbnail } = book;
 
     const newBookItem = { title, url, thumbnail };
@@ -66,7 +68,9 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
     toggleSelectReason();
   };
 
-  const onReasonChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
+  const onSelectReasonChange = (
+    event: React.FormEvent<HTMLTextAreaElement>
+  ) => {
     const { value } = event.currentTarget;
 
     const vote = {
@@ -83,19 +87,10 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
   const { title, voteItems } = newVote;
 
   return (
-    <Modal
-      title={
-        openSelectReason
-          ? '투표항목 선정 이유'
-          : searchBook.openSearch
-          ? '투표할 책 검색'
-          : '모임책 투표 생성하기'
-      }
-      onToggleClick={onToggleModal}
-    >
+    <Modal title='모임책 투표 생성하기' onToggleClick={onToggleModal}>
       {!searchBook.openSearch ? (
         <Form onSubmit={onNewVoteSubmit}>
-          <label htmlFor='vote-title'>투표 제목</label>
+          <Label htmlFor='vote-title'>투표 제목</Label>
           <Input
             id='vote-title'
             type='text'
@@ -105,14 +100,23 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
             required
           />
 
-          <label>투표할 모임책</label>
+          <Label>투표할 모임책</Label>
           <VoteItems>
             {voteItems.map((voteItem) => (
               <VoteBookItem key={voteItem.id} voteItem={voteItem}>
+                {voteItem.id > 2 && (
+                  <button
+                    onClick={() => onDeleteVoteItemClick(voteItem.id)}
+                    className='delete-btn'
+                  >
+                    <FiMinusCircle />
+                  </button>
+                )}
+
                 {voteItem.book.title === '' && (
                   <button
-                    type='button'
                     className='empty-box'
+                    type='button'
                     onClick={() => toggleSearch(voteItem.id)}
                   >
                     <FiSearch fontSize={25} />
@@ -123,7 +127,14 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
             ))}
           </VoteItems>
 
-          <label htmlFor='datepicker'>투표 종료일</label>
+          {voteItems.length < 4 && (
+            <AddVoteItemBtn type='button' onClick={onAddVoteItemBtn}>
+              <FiPlus />
+              <span>투표할 책 추가</span>
+            </AddVoteItemBtn>
+          )}
+
+          <Label htmlFor='datepicker'>투표 종료일</Label>
           <ReactDatePicker
             id='datepicker'
             selected={new Date(newVote.deadline)}
@@ -141,10 +152,12 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
         <>
           {openSelectReason ? (
             <>
+              <Label htmlFor='select-reason'>책등록 2단계</Label>
               <Textarea
+                id='select-reason'
                 placeholder='이 책을 투표항목으로 선정한 이유에 대해서 작성해주세요.'
                 value={newVote.voteItems[searchBook.itemId - 1].selectReason}
-                onChange={onReasonChange}
+                onChange={onSelectReasonChange}
               />
               <SquareBtn
                 type='button'
@@ -157,14 +170,16 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
             </>
           ) : (
             <>
+              <Label htmlFor='search-book'>책등록 1단계</Label>
               <RefInput
+                id='search-book'
                 ref={searchInputRef}
-                placeholder={`투표할 책을 검색해주세요.`}
+                placeholder='투표할 책을 검색해주세요.'
                 onChange={onBookQueryChange}
               />
               <SearchedBookList
                 searchList={searchList}
-                onSelectBtnClick={onSelectBtnClick}
+                onSelectBtnClick={onSelectBookBtnClick}
               />
             </>
           )}
@@ -173,6 +188,12 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
     </Modal>
   );
 };
+
+const Label = styled.label`
+  color: ${({ theme }) => theme.container.blue3};
+  font-size: 14px;
+  margin: 0 0 8px 5px;
+`;
 
 const Form = styled.form`
   display: flex;
@@ -185,9 +206,7 @@ const Form = styled.form`
     display: none;
   }
   label {
-    color: ${({ theme }) => theme.container.blue3};
-    font-size: 14px;
-    margin: 30px 0 8px 5px;
+    margin-top: 30px;
     &:first-child {
       margin-top: 0;
     }
@@ -200,11 +219,28 @@ const Form = styled.form`
 `;
 
 const VoteItems = styled.ul`
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
   @media ${device.tablet} {
-    gap: 20px;
+    gap: 18px;
+  }
+`;
+
+const AddVoteItemBtn = styled.button`
+  padding: 4px;
+  margin-top: 10px;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  svg {
+    font-size: 17px;
+    margin-right: 3px;
+    stroke: ${({ theme }) => theme.text.green};
+  }
+  span {
+    font-size: 15px;
+    color: ${({ theme }) => theme.text.green};
   }
 `;
 

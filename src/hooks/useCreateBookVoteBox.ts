@@ -4,7 +4,13 @@ import { addDoc, collection } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { formatHyphenDate } from 'util/index';
-import { IBookVote, bookVotesState, votesState } from 'data/voteAtom';
+import {
+  IBookVote,
+  IBookVoteItem,
+  bookVotesState,
+  initialBookVoteItem,
+  votesState,
+} from 'data/voteAtom';
 import { BOOK_VOTE } from 'constants/index';
 import useAlertAskJoin from './useAlertAskJoin';
 
@@ -52,6 +58,7 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
     const findNoBookInfo = newVote.voteItems.find(
       (voteItem) => voteItem.book.title === ''
     );
+
     if (findNoBookInfo) return alert('투표할 모임책이 등록되지 않았습니다!');
 
     try {
@@ -73,12 +80,47 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
     setNewVote(vote);
   };
 
+  const onAddVoteItemBtn = () => {
+    const newVoteItems: { voteItems: IBookVoteItem[] } = {
+      voteItems: [
+        ...newVote.voteItems,
+        {
+          ...initialBookVoteItem,
+          id: newVote.voteItems.length + 1,
+        },
+      ],
+    };
+
+    setNewVote((prev) => {
+      return { ...prev, ...newVoteItems };
+    });
+  };
+
+  const onDeleteVoteItemClick = (voteId: number) => {
+    const filteredVoteItems: IBookVoteItem[] = newVote.voteItems.filter(
+      ({ id }) => id !== voteId
+    );
+
+    const a =
+      voteId === 3 && newVote.voteItems.length === 4
+        ? filteredVoteItems.map((voteItem) =>
+            voteItem.id === 4 ? { ...voteItem, id: 3 } : voteItem
+          )
+        : filteredVoteItems;
+
+    setNewVote((prev) => {
+      return { ...prev, voteItems: a };
+    });
+  };
+
   return {
     newVote,
     setNewVote,
     onNewVoteSubmit,
     onVoteTitleChange,
     onDateChange,
+    onAddVoteItemBtn,
+    onDeleteVoteItemClick,
   };
 };
 

@@ -79,7 +79,9 @@ const useHandleVoting = ({ collName, docId }: Props) => {
 
       window.alert('투표가 완료되었습니다!');
 
-      onToggleRevoteClick();
+      if (myVotedItems) {
+        onToggleRevoteClick();
+      }
     } catch (error) {
       console.error(error);
     }
@@ -90,6 +92,7 @@ const useHandleVoting = ({ collName, docId }: Props) => {
     return selectedVoteItems.find(({ id }) => id === voteId);
   };
 
+  // 투표 항목 선택 / 해제
   const onVoteItemClick = (voteId: number) => {
     const isSelected = selectedItem(voteId);
 

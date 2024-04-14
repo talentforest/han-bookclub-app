@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
 import { IBookVoteItem } from 'data/voteAtom';
 import { cutLetter } from 'util/index';
+import { useLocation } from 'react-router-dom';
 import BookThumbnail from '../atoms/BookThumbnail';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
@@ -17,13 +18,15 @@ export default function VoteBookItem({ voteItem, children, selected }: Props) {
     book: { title, thumbnail, url },
   } = voteItem;
 
+  const { pathname } = useLocation();
+
   return (
     <Box $selected={selected}>
       {title === '' ? (
         <></>
       ) : (
         <BookBox>
-          {url && (
+          {url && pathname !== '/vote' && (
             <a
               className='external-link'
               href={url}
@@ -43,24 +46,32 @@ export default function VoteBookItem({ voteItem, children, selected }: Props) {
   );
 }
 
-const Box = styled.div<{ $selected: boolean }>`
+const Box = styled.li<{ $selected: boolean }>`
+  position: relative;
+  aspect-ratio: 0.7 / 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   position: relative;
-  width: 50%;
-  max-width: 150px;
   border: 2px solid
     ${({ theme, $selected }) =>
       $selected ? theme.container.purple2 : theme.container.lightGray};
   box-shadow: ${({ theme }) => theme.boxShadow};
   background-color: ${({ theme }) => theme.container.default};
   border-radius: 15px;
+  .delete-btn {
+    position: absolute;
+    top: -5px;
+    right: 0;
+    svg {
+      stroke: ${({ theme }) => theme.text.red};
+      font-size: 24px;
+    }
+  }
   .empty-box {
-    aspect-ratio: 0.7 / 1;
-    width: 50%;
-    height: 190px;
+    height: 100%;
+    width: 100%;
     background-color: ${({ theme }) => theme.container.default};
     display: flex;
     flex-direction: column;
@@ -73,7 +84,7 @@ const Box = styled.div<{ $selected: boolean }>`
       color: ${({ theme }) => theme.text.gray2};
     }
     svg {
-      stroke: ${({ theme }) => theme.text.gray3};
+      stroke: ${({ theme }) => theme.text.gray2};
     }
   }
 `;
@@ -83,11 +94,12 @@ const BookBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   height: 100%;
   width: 100%;
-  padding: 14px 10px 4px 10px;
+  padding: 14px 10px 10px 10px;
   > img {
-    height: 80%;
+    height: 70%;
   }
   > span {
     font-size: 14px;

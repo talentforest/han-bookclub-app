@@ -61,6 +61,16 @@ export const initialBookVote: IBookVote = {
   voteItems: [],
 };
 
+export const initialBookVoteItem: IBookVoteItem = {
+  id: 0,
+  selectReason: '',
+  book: {
+    title: '',
+    thumbnail: '',
+    url: '',
+  },
+};
+
 export const bookVotesState = atom<IBookVote[]>({
   key: `bookVoteDocs/${v4()}`,
   default: null,
