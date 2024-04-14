@@ -165,7 +165,6 @@ const BookItemList = styled.ul`
   gap: 10px;
   margin: 20px 0;
   @media ${device.tablet} {
-    margin-bottom: 40px;
     gap: 30px;
   }
 `;

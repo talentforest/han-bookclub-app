@@ -1,6 +1,7 @@
 import { IVoteCountById } from 'data/voteAtom';
 import { cutLetter, getPercentage } from 'util/index';
 import styled from 'styled-components';
+import device from 'theme/mediaQueries';
 
 interface Props {
   voteCountsById: IVoteCountById[];
@@ -28,6 +29,9 @@ export default function VoteGaugeBarBox({
 
 const GaugeBarsBox = styled.div`
   margin-bottom: 30px;
+  @media ${device.tablet} {
+    margin-bottom: 50px;
+  }
 `;
 
 const GaugeBar = styled.div`
@@ -56,7 +60,7 @@ const GaugeByBook = styled.div<{ $gauge: number; $id: number }>`
   border-radius: 30px;
   min-width: 20px;
   background-color: ${({ theme, $id }) =>
-    $id === 1 ? theme.container.blue2 : theme.container.green1};
+    $id === 1 ? theme.container.purple2 : theme.container.orange};
   display: flex;
   align-items: center;
   justify-content: space-between;

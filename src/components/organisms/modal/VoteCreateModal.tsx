@@ -187,9 +187,14 @@ const Form = styled.form`
   label {
     color: ${({ theme }) => theme.container.blue3};
     font-size: 14px;
-    margin: 25px 0 8px 5px;
+    margin: 30px 0 8px 5px;
     &:first-child {
       margin-top: 0;
+    }
+  }
+  @media ${device.tablet} {
+    label {
+      margin-top: 40px;
     }
   }
 `;
@@ -208,7 +213,7 @@ const ReactDatePicker = styled(DatePicker)`
   padding: 10px;
   border-radius: 10px;
   font-size: 16px;
-  border: 1px solid ${({ theme }) => theme.text.gray1};
+  border: 1px solid ${({ theme }) => theme.container.lightGray};
   cursor: pointer;
   box-shadow: ${({ theme }) => theme.boxShadow};
   margin-bottom: 40px;

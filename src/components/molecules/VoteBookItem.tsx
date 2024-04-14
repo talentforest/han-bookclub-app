@@ -4,6 +4,7 @@ import { IBookVoteItem } from 'data/voteAtom';
 import { cutLetter } from 'util/index';
 import BookThumbnail from '../atoms/BookThumbnail';
 import styled from 'styled-components';
+import device from 'theme/mediaQueries';
 
 interface Props {
   voteItem: IBookVoteItem;
@@ -49,10 +50,10 @@ const Box = styled.div<{ $selected: boolean }>`
   justify-content: space-between;
   position: relative;
   width: 50%;
-  max-width: 180px;
+  max-width: 150px;
   border: 2px solid
     ${({ theme, $selected }) =>
-      $selected ? theme.container.purple2 : theme.container.gray};
+      $selected ? theme.container.purple2 : theme.container.lightGray};
   box-shadow: ${({ theme }) => theme.boxShadow};
   background-color: ${({ theme }) => theme.container.default};
   border-radius: 15px;
@@ -84,9 +85,9 @@ const BookBox = styled.div`
   align-items: center;
   height: 100%;
   width: 100%;
-  padding: 14px 10px 8px 10px;
+  padding: 14px 10px 4px 10px;
   > img {
-    height: 115px;
+    height: 80%;
   }
   > span {
     font-size: 14px;
@@ -106,6 +107,12 @@ const BookBox = styled.div`
     svg {
       font-size: 16px;
       stroke: ${({ theme }) => theme.container.blue3};
+    }
+  }
+  @media ${device.tablet} {
+    > span {
+      margin-top: 12px;
+      font-size: 15px;
     }
   }
 `;
