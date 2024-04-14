@@ -166,13 +166,12 @@ const BookItemList = styled.ul`
   margin: 20px 0;
   flex-wrap: wrap;
   li {
-    width: 48%;
-    max-width: 150px;
+    width: 150px;
   }
   @media ${device.tablet} {
     gap: 30px;
     li {
-      max-width: 160px;
+      width: 160px;
     }
   }
 `;

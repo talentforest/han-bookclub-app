@@ -48,7 +48,6 @@ export default function VoteBookItem({ voteItem, children, selected }: Props) {
 
 const Box = styled.li<{ $selected: boolean }>`
   position: relative;
-  aspect-ratio: 0.7 / 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -70,7 +69,7 @@ const Box = styled.li<{ $selected: boolean }>`
     }
   }
   .empty-box {
-    height: 100%;
+    aspect-ratio: 0.75 / 1;
     width: 100%;
     background-color: ${({ theme }) => theme.container.default};
     display: flex;
@@ -99,13 +98,16 @@ const BookBox = styled.div`
   width: 100%;
   padding: 14px 10px 10px 10px;
   > img {
-    height: 70%;
+    height: 120px;
   }
   > span {
+    flex: 1;
+    display: flex;
+    align-items: center;
     font-size: 14px;
     line-height: 1.4;
     text-align: center;
-    margin-top: 8px;
+    margin-top: 5px;
     color: ${({ theme }) => theme.text.gray3};
   }
 

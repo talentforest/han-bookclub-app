@@ -59,7 +59,7 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
       (voteItem) => voteItem.book.title === ''
     );
 
-    if (findNoBookInfo) return alert('투표할 모임책이 등록되지 않았습니다!');
+    if (findNoBookInfo) return alert('투표 항목이 모두 작성되지 않았습니다!');
 
     try {
       addDocVote();
