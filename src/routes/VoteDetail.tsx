@@ -98,6 +98,7 @@ const VoteDetail = () => {
               <SquareBtn name='투표 완료' disabled />
 
               <SquareBtn
+                disabled={expiredVote}
                 type='button'
                 name='다시 투표하기'
                 handleClick={onToggleRevoteClick}
