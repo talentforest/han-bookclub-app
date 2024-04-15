@@ -1,5 +1,5 @@
 import { FiChevronRight, FiLink } from 'react-icons/fi';
-import { getLocaleDate, thisMonth } from 'util/index';
+import { thisMonth } from 'util/index';
 import { ISearchedBook } from 'data/bookAtom';
 import Tag from '../atoms/Tag';
 import styled from 'styled-components';
@@ -11,15 +11,13 @@ interface Props {
 }
 
 export default function BookClubThisMonthBox({ book }: Props) {
-  const month = getLocaleDate(thisMonth, { month: 'numeric' });
-
   const { title, thumbnail, authors, publisher, url } = book;
 
   return (
     <Box>
       <div>
         <Tag>
-          <span>{month}월의 모임</span>
+          <span>{+thisMonth}월의 모임</span>
         </Tag>
 
         {title === '' ? (
