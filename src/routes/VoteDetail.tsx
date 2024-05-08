@@ -64,6 +64,7 @@ const VoteDetail = () => {
 
           <GuideLine text='중복 투표도 가능해요' />
 
+          {/* 투표를 완료했거나 결과 화면 */}
           {expiredVote || (myVotedItems && !isRevote) ? (
             <CurrentVoteItems>
               {collName === VOTE && (
@@ -105,6 +106,7 @@ const VoteDetail = () => {
               />
             </CurrentVoteItems>
           ) : (
+            // 투표 화면
             <Form onSubmit={onVotingSubmit}>
               <BookItemList>
                 {bookVote.voteItems.map((voteItem) => (

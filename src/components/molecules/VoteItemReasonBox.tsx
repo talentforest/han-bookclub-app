@@ -66,18 +66,18 @@ const ReasonBox = styled.div`
       display: flex;
       flex-direction: column;
       .booktitle {
-        font-size: 14px;
+        font-size: 15px;
         color: ${({ theme }) => theme.text.gray4};
         padding: 3px 0;
       }
       p {
-        font-size: 14px;
+        font-size: 15px;
         padding: 4px 0;
         white-space: pre-wrap;
         word-break: break-all;
       }
       > .emptyReason {
-        font-size: 14px;
+        font-size: 15px;
         margin-top: 4px;
         color: ${({ theme }) => theme.text.gray3};
       }
@@ -89,21 +89,22 @@ const ToggleBtn = styled.button`
   padding: 10px 12px;
   text-align: start;
   cursor: pointer;
+  color: ${({ theme }) => theme.text.blue3};
   font-size: 15px;
-  color: ${({ theme }) => theme.container.blue3};
 `;
 
 const Btn = styled.button`
+  font-size: 15px;
   position: absolute;
   right: 0;
   bottom: 0;
   padding: 10px 15px;
   display: flex;
   align-items: center;
-  color: ${({ theme }) => theme.text.gray3};
+  color: ${({ theme }) => theme.text.blue3};
   svg {
     font-size: 16px;
     margin-right: 3px;
-    stroke: ${({ theme }) => theme.text.gray3};
+    stroke: ${({ theme }) => theme.container.blue3};
   }
 `;
