@@ -18,6 +18,7 @@ const Home = () => {
   return (
     <>
       <MobileHeader title='독서모임 한페이지' />
+
       <main>
         <Section>
           <Subtitle title='이달의 한페이지' />
