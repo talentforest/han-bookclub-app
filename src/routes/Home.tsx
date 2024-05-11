@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
 import { thisYear } from 'util/index';
-import { getDeviceToken } from 'fbase';
 import Subtitle from 'components/atoms/Subtitle';
 import GuideLine from 'components/atoms/GuideLine';
 import VoteSlider from 'components/organisms/VoteSlider';
@@ -17,12 +15,6 @@ import BookFieldHostTable from 'components/organisms/BookFieldHostTable';
 import AbsenceMemberTable from 'components/organisms/AbsenceMemberTable';
 
 const Home = () => {
-  const [deviceToken, setDeviceToken] = useState({ token: '' });
-
-  useEffect(() => {
-    getDeviceToken(setDeviceToken);
-  }, []);
-
   return (
     <>
       <MobileHeader title='독서모임 한페이지' />
