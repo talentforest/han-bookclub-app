@@ -1,5 +1,6 @@
 {
   "short_name": "han-bookclub",
   "start_url": "/han-bookclub-app/",
-  "display": "standalone"
+  "display": "standalone",
+  "scope": "/han-bookclub-app/"
 }
