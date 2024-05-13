@@ -1,6 +1,28 @@
 {
-  "short_name": "han-bookclub",
+  "short_name": "한페이지 독서모임",
+  "name": "한페이지 독서모임",
+  "id": "/han-bookclub-app/",
+  "icons": [
+    {
+      "src": "./favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "./hanpage_book_logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./hanpage_book_logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
   "start_url": "/han-bookclub-app/",
+  "scope": "/han-bookclub-app/",
   "display": "standalone",
-  "scope": "/han-bookclub-app/"
+  "orientation": "portrait",
+  "theme-color": "#FEFEFE",
+  "background-color": "#FEFEFE"
 }

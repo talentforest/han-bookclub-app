@@ -1,6 +1,10 @@
 /* eslint-disable no-undef */
-importScripts('https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging.js');
+importScripts(
+  'https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js'
+);
+importScripts(
+  'https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compat.js'
+);
 
 const firebaseConfig = {
   apiKey: 'AIzaSyA6HW3pwkb-agsEpSYWGmlYSuvFiJDxp5c',
@@ -13,26 +17,32 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const messaging = firebase.messaging(firebaseApp);
+firebase.initializeApp(firebaseConfig);
+const messaging = firebase.messaging();
 
 /* eslint-disable no-restricted-globals */
 self.addEventListener('install', function (e) {
   self.skipWaiting();
 });
 
-self.addEventListener('activate', function (e) {
-  console.log('fcm sw activate..');
+self.addEventListener('activate', (event) => {
+  event.waitUntil(clients.claim());
 });
 
 self.addEventListener('push', function (e) {
-  if (!e.data.json()) return;
+  if (!e.data) return;
 
-  const resultData = e.data.json().notification;
-  const notificationTitle = resultData.title;
+  const payload = e.data.json();
+  const notificationTitle = payload.notification.title;
   const notificationOptions = {
-    body: resultData.body,
+    body: payload.notification.body,
+    icon: payload.notification.icon || '/default-icon.png',
+    data: {
+      url: payload.notification.click_action || '/',
+    },
   };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  e.waitUntil(
+    self.registration.showNotification(notificationTitle, notificationOptions)
+  );
 });
