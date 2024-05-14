@@ -19,10 +19,11 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/han-bookclub-app/",
+  "start_url": "/han-bookclub-app",
   "scope": "/han-bookclub-app/",
   "display": "standalone",
   "orientation": "portrait",
-  "theme-color": "#FEFEFE",
-  "background-color": "#FEFEFE"
+  "theme_color": "#FEFEFE",
+  "background_color": "#FEFEFE",
+  "icon": ""
 }
