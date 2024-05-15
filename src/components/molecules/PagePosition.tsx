@@ -25,6 +25,8 @@ export default function PagePosition({
 
   return (
     <Position>
+      {percentNum === 100 && <CompleteMark>⭐️챌린지 달성⭐️</CompleteMark>}
+
       <Page>
         {pathname === '/challenge' && editable ? (
           <button type='button' onClick={onEditClick}>
@@ -50,19 +52,27 @@ const Position = styled.div`
   align-items: center;
   border: 1px solid ${({ theme }) => theme.container.blue2};
   border-radius: 20px;
-  height: 12px;
+  height: 13px;
   width: 100%;
-  padding: 2px;
-
+  padding: 3px;
   @media ${device.tablet} {
     margin-top: 26px;
   }
 `;
 
+const CompleteMark = styled.div`
+  position: absolute;
+  left: 0;
+  top: -28px;
+  border-radius: 12px;
+  font-size: 14px;
+  color: ${({ theme }) => theme.text.green};
+`;
+
 const Page = styled.div`
   position: absolute;
   right: 0;
-  top: -25px;
+  top: -28px;
   > button {
     display: flex;
     align-items: center;
@@ -76,7 +86,8 @@ const Page = styled.div`
 
 const ProgressBar = styled.div<{ $width: number }>`
   position: relative;
-  background-color: ${({ theme }) => theme.container.green1};
+  background-color: ${({ theme, $width }) =>
+    $width === 100 ? theme.container.green2 : theme.container.yellow2};
   width: ${({ $width }) => `${$width}%`};
   height: 100%;
   border-radius: 30px;

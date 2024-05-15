@@ -88,6 +88,7 @@ export default function UserChallengeBox({ challenge }: Props) {
 
           <div className='info'>
             <UserName userId={creatorId} fontSize={14} />
+
             <div>
               <h3>{title ? cutLetter(title, 40) : '이벤트'}</h3>
               <BookAuthorPublisher authors={authors} publisher={publisher} />
@@ -137,7 +138,7 @@ export default function UserChallengeBox({ challenge }: Props) {
 
 const UserBox = styled.li`
   position: relative;
-  margin-top: 20px;
+  margin-top: 25px;
   display: flex;
   flex-direction: column;
 `;
@@ -183,6 +184,7 @@ const ChallengeBook = styled.div`
 const BookBox = styled.div`
   flex: 1;
   display: flex;
+  margin-bottom: 5px;
   > img {
     height: 95px;
     margin-top: -18px;
