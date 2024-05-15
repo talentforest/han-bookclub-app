@@ -47,7 +47,7 @@ const useHandleSchedule = (
     setIsEditing(false);
 
     sendPushNotification(
-      '장소변경 알림 테스트',
+      '장소 변경 알림 테스트',
       '장소 변경되었다는 테스트 알림입니다.'
     );
   };

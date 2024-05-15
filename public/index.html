@@ -10,25 +10,36 @@
       rel="apple-touch-icon"
       href="%PUBLIC_URL%/hanpage_shortcut_logo.jpeg"
     />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <meta
       name="viewport"
       content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"
     />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#FEFEFE" />
     <meta
       name="description"
       content="Web site created using create-react-app"
     />
     <title>독서모임 한페이지</title>
     <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-    <script src="//han-bookclub-app/firebase-messaging-sw.js"></script>
-    <script>
+    <script type="text/javascript">
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register(
-            '/han-bookclub-app/firebase-messaging-sw.js'
+        navigator.serviceWorker
+          .register('/han-bookclub-app/firebase-messaging-sw.js', {
+            scope: '.',
+          })
+          .then(
+            function (registration) {
+              console.log(
+                '✅ServiceWorker registration successful with scope: ',
+                registration.scope
+              );
+            },
+            function (err) {
+              console.log('❌ServiceWorker registration failed: ', err);
+            }
           );
-        });
       }
     </script>
   </head>
