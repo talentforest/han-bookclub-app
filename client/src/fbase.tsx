@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, reauthenticateWithCredential } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
-import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import { getMessaging, getToken } from 'firebase/messaging';
 import axios from 'axios';
 
 const firebaseConfig = {
@@ -81,8 +81,3 @@ export const pushNotification = async (
       console.log('Error : ', error);
     });
 };
-
-onMessage(messaging, (payload) => {
-  console.log('Message received. ', payload);
-  // ...
-});
