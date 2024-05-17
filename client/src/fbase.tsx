@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, reauthenticateWithCredential } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
-import { getMessaging, getToken } from 'firebase/messaging';
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import axios from 'axios';
 
 const firebaseConfig = {
@@ -25,14 +25,16 @@ const messaging = getMessaging(app);
 export const sendPushNotification = (title: string, body: string) => {
   getDeviceToken()
     .then((token) => {
-      if (Notification.permission === 'granted') {
-        const notification = pushNotification(token, title, body);
-      } else if (Notification.permission !== 'denied') {
-        Notification.requestPermission().then((permission) => {
-          if (permission === 'granted') {
-            const notification = pushNotification(token, title, body);
-          }
-        });
+      if (token) {
+        if (Notification.permission === 'granted') {
+          pushNotification(token, title, body);
+        } else if (Notification.permission !== 'denied') {
+          Notification.requestPermission().then((permission) => {
+            if (permission === 'granted') {
+              pushNotification(token, title, body);
+            }
+          });
+        }
       }
     })
     .catch((error) => {
@@ -56,7 +58,7 @@ export const pushNotification = async (
 ) => {
   return axios
     .post(
-      'https://fcm.googleapis.com/fcm/send',
+      '//fcm.googleapis.com//v1/projects/han-bookclub/messages:send',
       {
         to: token,
         notification: {
@@ -68,7 +70,7 @@ export const pushNotification = async (
       {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `key=${process.env.REACT_APP_MESSAGING_SERVER_KEY}`,
+          Authorization: `bearer ${process.env.REACT_APP_MESSAGING_SERVER_KEY}`,
         },
       }
     )
@@ -79,3 +81,8 @@ export const pushNotification = async (
       console.log('Error : ', error);
     });
 };
+
+onMessage(messaging, (payload) => {
+  console.log('Message received. ', payload);
+  // ...
+});
