@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 
-type BtnColor = 'red' | 'purple' | 'blue' | 'orange';
+type BtnColor = 'gray' | 'purple' | 'blue' | 'orange';
 
 interface Props {
   name: string;
@@ -60,11 +60,17 @@ export const Btn = styled.button<{
       ? theme.container.orange
       : $color === 'purple'
       ? theme.container.purple1
+      : $color === 'gray'
+      ? theme.container.default
       : theme.container.blue1};
   span {
     font-size: 15px;
-    color: ${({ $disabled, theme }) =>
-      $disabled ? theme.text.gray2 : theme.text.blue2};
+    color: ${({ $disabled, $color, theme }) =>
+      $disabled
+        ? theme.text.gray2
+        : $color === 'gray'
+        ? theme.text.gray4
+        : theme.text.blue2};
   }
   @media ${device.tablet} {
     min-height: 48px;

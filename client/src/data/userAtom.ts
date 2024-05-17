@@ -33,6 +33,7 @@ export interface IUserDataDoc {
   id?: string;
   tagColor: string;
   userRecords: IUserPostDocs;
+  notification?: boolean;
 }
 
 const auth = getAuth();

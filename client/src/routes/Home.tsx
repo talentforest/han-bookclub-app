@@ -1,5 +1,4 @@
 import { thisYear } from 'util/index';
-import { useEffect, useState } from 'react';
 import Subtitle from 'components/atoms/Subtitle';
 import GuideLine from 'components/atoms/GuideLine';
 import VoteSlider from 'components/organisms/VoteSlider';
@@ -14,24 +13,9 @@ import LinkChevronRightBtn from 'components/atoms/LinkChevronRightBtn';
 import Footer from 'layout/Footer';
 import BookFieldHostTable from 'components/organisms/BookFieldHostTable';
 import AbsenceMemberTable from 'components/organisms/AbsenceMemberTable';
-import axios from 'axios';
+import AllowNotificationModalBox from 'components/organisms/modal/AllowNotificationModalBox';
 
 const Home = () => {
-  const [message, setMessage] = useState<string>('');
-
-  useEffect(() => {
-    axios
-      .get('api/hello')
-      .then((response) => {
-        setMessage(response.data.message);
-      })
-      .catch((error) => {
-        console.error('There was an error!', error);
-      });
-  }, []);
-
-  console.log(message);
-
   return (
     <>
       <MobileHeader title='독서모임 한페이지' />
@@ -71,6 +55,8 @@ const Home = () => {
       </main>
 
       <Footer />
+
+      <AllowNotificationModalBox />
     </>
   );
 };
