@@ -1,48 +1,31 @@
-/* eslint-disable no-undef */
-importScripts(
-  'https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js'
-);
-importScripts(
-  'https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compat.js'
-);
+import { initializeApp } from 'firebase/app';
+import { getMessaging } from 'firebase/messaging/sw';
+import { onBackgroundMessage } from 'firebase/messaging/sw';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyA6HW3pwkb-agsEpSYWGmlYSuvFiJDxp5c',
-  authDomain: 'han-bookclub.firebaseapp.com',
-  projectId: 'han-bookclub',
-  storageBucket: 'han-bookclub.appspot.com',
-  messagingSenderId: '1033530409448',
-  appId: '1:1033530409448:web:aff6942a34c0a48c81645d',
-  measurementId: 'G-925LMFR6FK',
-};
+const firebaseApp = initializeApp({
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
+});
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const messaging = firebase.messaging();
+const messaging = getMessaging(firebaseApp);
 
 /* eslint-disable no-restricted-globals */
-self.addEventListener('install', function (e) {
-  self.skipWaiting();
-});
-
-self.addEventListener('activate', (event) => {
-  event.waitUntil(clients.claim());
-});
-
-self.addEventListener('push', function (e) {
-  if (!e.data) return;
-
-  const payload = e.data.json();
-  const notificationTitle = payload.notification.title;
+onBackgroundMessage(messaging, (payload) => {
+  console.log(
+    '[firebase-messaging-sw.js] Received background message ',
+    payload
+  );
+  // Customize notification here
+  const notificationTitle = 'Background Message Title';
   const notificationOptions = {
-    body: payload.notification.body,
-    icon: payload.notification.icon || '/default-icon.png',
-    data: {
-      url: payload.notification.click_action || '/',
-    },
+    body: 'Background Message body.',
+    icon: '/firebase-logo.png',
   };
 
-  e.waitUntil(
-    self.registration.showNotification(notificationTitle, notificationOptions)
-  );
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
