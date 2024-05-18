@@ -6,7 +6,6 @@ import { useRecoilState } from 'recoil';
 import { thisYearMonthId } from 'util/index';
 import { THIS_YEAR_BOOKCLUB } from 'constants/index';
 import useAlertAskJoin from './useAlertAskJoin';
-import useSendPushNotification from './useSendPushNotification';
 
 const useHandleSchedule = (
   meeting: ISchedule,
@@ -21,8 +20,6 @@ const useHandleSchedule = (
   const [place, setPlace] = useState(meeting?.place);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
-
-  const { sendNotificationToCurrentUser } = useSendPushNotification();
 
   const document = doc(dbService, THIS_YEAR_BOOKCLUB, thisYearMonthId);
 

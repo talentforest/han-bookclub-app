@@ -15,7 +15,12 @@ const useSendPushNotification = () => {
 
   const postNotification = async (
     url: string,
-    data: { title: string; body?: string; token?: string; link?: string }
+    data: {
+      title: string;
+      body?: string;
+      token?: string;
+      link?: string;
+    }
   ) => {
     return axios
       .post(url, data)
@@ -29,8 +34,7 @@ const useSendPushNotification = () => {
 
   // 전체 유저에게 게시물 등록 알림 보내기
   const sendPostNotification = async (
-    type: '발제문' | '정리 기록' | '추천책' | '모임 후기',
-    link?: string
+    type: '발제문' | '정리 기록' | '추천책' | '모임 후기'
   ) => {
     const title = `${type}${type === '모임 후기' ? '가' : '이'} 등록되었어요!`;
 
@@ -38,10 +42,11 @@ const useSendPushNotification = () => {
       type === '모임 후기' ? '를' : '을'
     } 확인하러 가볼까요?`;
 
-    postNotification('/api/send-multicast', {
+    const url = `${process.env.REACT_APP_SEND_NOTIFICATION_API}/send-multicast`;
+
+    postNotification(url, {
       title,
       body,
-      link,
     });
   };
 
@@ -51,10 +56,13 @@ const useSendPushNotification = () => {
     body?: string;
   }) => {
     getDeviceToken().then((token) => {
-      postNotification(`/api/send-notification`, {
-        ...notificationData,
-        token,
-      });
+      postNotification(
+        `${process.env.REACT_APP_SEND_NOTIFICATION_API}/send-notification`,
+        {
+          ...notificationData,
+          token,
+        }
+      );
     });
   };
 

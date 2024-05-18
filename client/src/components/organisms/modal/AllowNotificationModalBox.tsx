@@ -16,8 +16,6 @@ export default function AllowNotificationModalBox() {
 
   const toggleModal = () => setShowModal((prev) => !prev);
 
-  const { sendNotificationToCurrentUser } = useSendPushNotification();
-
   const handleLocalStorage = (type: 'get' | 'set', notification?: boolean) => {
     const storeKey = 'notification';
     if (type === 'set') {
@@ -27,6 +25,8 @@ export default function AllowNotificationModalBox() {
       return localStorage.getItem(storeKey);
     }
   };
+
+  const { sendNotificationToCurrentUser } = useSendPushNotification();
 
   useEffect(() => {
     const notification = handleLocalStorage('get');
