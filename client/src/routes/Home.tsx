@@ -45,7 +45,7 @@ const Home = () => {
         </Section>
 
         <Section>
-          <Subtitle title='한페이지 독서모임 월별 정보' />
+          <Subtitle title='독서모임 한페이지 월별 정보' />
           <TableContainer>
             <AbsenceMemberTable isMonth />
             <BookFieldHostTable isMonth />

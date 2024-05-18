@@ -51,7 +51,7 @@ export default function AllowNotificationModalBox() {
         Notification.requestPermission().then((permission) => {
           if (permission === 'granted') {
             sendNotificationToCurrentUser({
-              title: '이제 알림을 받으실 수 있습니다!',
+              title: '이제 독서모임 한페이지에서 알림을 받으실 수 있습니다!',
             });
           }
         });

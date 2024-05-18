@@ -1,6 +1,6 @@
 {
-  "short_name": "한페이지 독서모임",
-  "name": "한페이지 독서모임",
+  "short_name": "독서모임 한페이지",
+  "name": "독서모임 한페이지",
   "start_url": "/han-bookclub-app/",
   "id": "/han-bookclub-app/",
   "scope": ".",

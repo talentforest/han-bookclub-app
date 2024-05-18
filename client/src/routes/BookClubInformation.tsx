@@ -9,7 +9,7 @@ import LinkChevronRightBtn from 'components/atoms/LinkChevronRightBtn';
 export default function BookClubInformation() {
   return (
     <>
-      <MobileHeader title={`${thisYear}년 한페이지 독서모임 정보`} backBtn />
+      <MobileHeader title={`${thisYear}년 독서모임 한페이지 정보`} backBtn />
 
       <main>
         <Section>

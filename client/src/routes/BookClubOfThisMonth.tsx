@@ -41,7 +41,7 @@ const BookClubOfThisMonth = () => {
   ) : (
     thisMonthClub && (
       <>
-        <MobileHeader title='이달의 한페이지 독서모임' />
+        <MobileHeader title='이달의 독서모임 한페이지' />
         <main>
           <Section>
             <ThisMonthClub />

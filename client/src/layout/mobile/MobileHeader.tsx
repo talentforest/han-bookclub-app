@@ -5,8 +5,8 @@ import device from 'theme/mediaQueries';
 
 type PageHeaderTitle =
   | '독서모임 한페이지'
-  | '지난 한페이지 독서모임'
-  | '이달의 한페이지 독서모임'
+  | '지난 독서모임 한페이지'
+  | '이달의 독서모임 한페이지'
   | '한페이지의 투표함'
   | `${string}의 책장`;
 
@@ -15,8 +15,8 @@ type DetailPageHeaderTitle =
   | '도서 정보'
   | `${string}모임책 투표함`
   | `${string}년 개인별 챌린지`
-  | `${string}년 한페이지 독서모임 정보`
-  | `${string}의 한페이지 독서모임`
+  | `${string}년 독서모임 한페이지 정보`
+  | `${string}의 독서모임 한페이지`
   | `${string}의 한페이지 발제문`
   | `${string}의 한페이지 정리 기록`
   | '한페이지 정리 기록'
