@@ -7,6 +7,7 @@ import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import SquareBtn from '../atoms/button/SquareBtn';
+import useSendPushNotification from 'hooks/useSendPushNotification';
 
 interface PropsType {
   docMonth: string;
@@ -16,6 +17,8 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
   const [text, setText] = useState('');
   const clubInfo = useRecoilValue(thisMonthBookClubState);
   const userData = useRecoilValue(currentUserState);
+
+  const { sendPostNotification } = useSendPushNotification();
 
   const collName = getFbRoute(docMonth).MEETING_REVIEWS;
 
@@ -37,8 +40,14 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
     docData,
   });
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onAddDocSubmit(event);
+    sendPostNotification('모임 후기');
+  };
+
   return (
-    <Form onSubmit={onAddDocSubmit}>
+    <Form onSubmit={handleSubmit}>
       <TextArea
         placeholder='모임 후기나 기록하고 싶은 이야기를 작성해주세요(한 문장도 좋아요!).'
         value={text}

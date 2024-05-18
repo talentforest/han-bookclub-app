@@ -14,3 +14,4 @@ export const CHALLENGE = 'Challenge';
 export const RECOMMENDED_BOOKS = 'RecommendedBooks';
 export const SENTENCES2024 = 'Sentence-2024';
 export const ABSENCE_MEMBERS = 'AbsenceMembers';
+export const FCM_NOTIFICATION = 'FCMNotification';
