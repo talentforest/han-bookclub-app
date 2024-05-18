@@ -21,10 +21,10 @@ onBackgroundMessage(messaging, (payload) => {
     payload
   );
   // Customize notification here
-  const notificationTitle = 'Background Message Title';
+  const notificationTitle = payload.notification.title;
   const notificationOptions = {
-    body: 'Background Message body.',
-    icon: '/firebase-logo.png',
+    body: payload.notification.body,
+    icon: '/han-bookclub-app/hanpage_logo.png',
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
