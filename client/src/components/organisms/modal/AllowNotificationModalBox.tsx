@@ -1,6 +1,6 @@
 import { FCM_NOTIFICATION, USER_DATA } from 'constants/index';
 import { currentUserState } from 'data/userAtom';
-import { dbService } from 'fbase';
+import { dbService, getDeviceToken } from 'fbase';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -30,7 +30,6 @@ export default function AllowNotificationModalBox() {
 
   useEffect(() => {
     const notification = handleLocalStorage('get');
-
     if (notification === null) {
       setShowModal(true);
     }
@@ -64,10 +63,12 @@ export default function AllowNotificationModalBox() {
 
   // 현재 유저의 기기 토큰 저장
   const storeToken = async () => {
+    const token = await getDeviceToken();
     await setDoc(doc(dbService, FCM_NOTIFICATION, uid), {
       uid,
       notification: true,
       createdAt: new Date().getTime(),
+      token,
     });
   };
 
