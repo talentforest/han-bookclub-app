@@ -1,5 +1,5 @@
 import { ISchedule, thisMonthBookClubState } from 'data/bookClubAtom';
-import { dbService, sendPushNotification } from 'fbase';
+import { dbService } from 'fbase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -45,11 +45,6 @@ const useHandleSchedule = (
     await updateDoc(document, editInfo);
     setThisMonthBookClub({ ...thisMonthBookClub, ...editInfo });
     setIsEditing(false);
-
-    sendPushNotification(
-      '장소 변경 알림 테스트',
-      '장소 변경되었다는 테스트 알림입니다.'
-    );
   };
 
   const onEditClick = () => {

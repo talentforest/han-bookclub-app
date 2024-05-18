@@ -7,6 +7,7 @@ import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import QuillEditor from 'components/atoms/QuillEditor';
 import Modal from 'components/atoms/Modal';
 import SquareBtn from 'components/atoms/button/SquareBtn';
+import useSendPushNotification from 'hooks/useSendPushNotification';
 
 interface Props {
   toggleModal: () => void;
@@ -18,6 +19,8 @@ const PostAddModal = ({ toggleModal, title }: Props) => {
 
   const thisMonthClub = useRecoilValue(thisMonthBookClubState);
   const userData = useRecoilValue(currentUserState);
+
+  const { sendPostNotification } = useSendPushNotification();
 
   const {
     id,
@@ -43,8 +46,11 @@ const PostAddModal = ({ toggleModal, title }: Props) => {
     docData,
   });
 
+  const postType = title === '발제문 작성하기' ? '발제문' : '정리 기록';
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     onAddDocSubmit(event);
+    sendPostNotification(postType);
     toggleModal();
   };
 
@@ -52,9 +58,7 @@ const PostAddModal = ({ toggleModal, title }: Props) => {
     <Modal onToggleClick={toggleModal} title={title}>
       <form onSubmit={handleSubmit}>
         <QuillEditor
-          placeholder={`${
-            title === '발제문 작성하기' ? '발제문' : '모임 기록'
-          }을 작성해주세요`}
+          placeholder={`${postType}을 작성해주세요`}
           text={text}
           setText={setText}
         />

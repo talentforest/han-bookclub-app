@@ -10,6 +10,7 @@ import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import styled from 'styled-components';
 import SquareBtn from '../atoms/button/SquareBtn';
 import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
+import useSendPushNotification from 'hooks/useSendPushNotification';
 
 interface Props {
   onModalClose: () => void;
@@ -19,6 +20,8 @@ export default function RecommendBookModalForm({ onModalClose }: Props) {
   const userData = useRecoilValue(currentUserState);
   const thisMonthClub = useRecoilValue(thisMonthBookClubState);
   const recommendBook = useRecoilValue(recommendBookState);
+
+  const { sendPostNotification } = useSendPushNotification();
 
   const { book } = thisMonthClub;
 
@@ -48,6 +51,7 @@ export default function RecommendBookModalForm({ onModalClose }: Props) {
       return window.alert('추천하는 책 정보를 찾아서 넣어주세요.');
     }
     onAddDocSubmit(event);
+    sendPostNotification('추천책');
     onModalClose();
   };
 

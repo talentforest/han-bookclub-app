@@ -1,12 +1,13 @@
-import { USER_DATA } from 'constants/index';
+import { FCM_NOTIFICATION, USER_DATA } from 'constants/index';
 import { currentUserState } from 'data/userAtom';
 import { dbService } from 'fbase';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import SquareBtn from 'components/atoms/button/SquareBtn';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
+import useSendPushNotification from 'hooks/useSendPushNotification';
 
 export default function AllowNotificationModalBox() {
   const [showModal, setShowModal] = useState(false);
@@ -25,6 +26,8 @@ export default function AllowNotificationModalBox() {
     }
   };
 
+  const { sendNotificationToCurrentUser } = useSendPushNotification();
+
   useEffect(() => {
     const notification = handleLocalStorage('get');
 
@@ -37,11 +40,35 @@ export default function AllowNotificationModalBox() {
     notification: boolean;
   }) => {
     handleLocalStorage('set', isPermitted.notification);
+
     if (uid) {
       const document = doc(dbService, USER_DATA, uid);
       await updateDoc(document, isPermitted);
     }
+
+    if (isPermitted.notification) {
+      if (Notification.permission !== 'denied') {
+        Notification.requestPermission().then((permission) => {
+          if (permission === 'granted') {
+            sendNotificationToCurrentUser({
+              title: '이제 알림을 받으실 수 있습니다!',
+            });
+          }
+        });
+      }
+      storeToken();
+    }
+
     toggleModal();
+  };
+
+  // 현재 유저의 기기 토큰 저장
+  const storeToken = async () => {
+    await setDoc(doc(dbService, FCM_NOTIFICATION, uid), {
+      uid,
+      notification: true,
+      createdAt: new Date().getTime(),
+    });
   };
 
   return (
