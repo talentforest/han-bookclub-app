@@ -1,13 +1,10 @@
 import { useState } from 'react';
 import { FiEdit3 } from 'react-icons/fi';
 import { ISchedule } from 'data/bookClubAtom';
-import { getLocaleDate } from 'util/index';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import MeetingInfoModal from 'components/organisms/modal/MeetingInfoModal';
 import UserName from 'components/atoms/UserName';
-import ShareBtn from 'components/atoms/button/ShareBtn';
-import { useLocation } from 'react-router-dom';
 
 interface Props {
   labelOnTop: '이달의 발제자' | '모임 시간' | '모임 장소';
@@ -26,8 +23,6 @@ export default function LabelOnTopBox({
 
   const onEditClick = () => setOpenModal((prev) => !prev);
 
-  const { pathname } = useLocation();
-
   const timeBox = labelOnTop === '모임 시간';
 
   return (
@@ -35,18 +30,6 @@ export default function LabelOnTopBox({
       <Box className={timeBox ? 'time' : 'place'}>
         <Header>
           <h2>{labelOnTop}</h2>
-
-          {timeBox && pathname === '/bookclub' && place && time && (
-            <ShareBtn
-              place={place}
-              time={getLocaleDate(time)}
-              title='✨이번달의 모임일정을 공지합니다~'
-              description={`이번 모임은 🏢${place}에서 🕰${getLocaleDate(
-                time
-              )}에 만나요!`}
-              path='bookclub'
-            />
-          )}
         </Header>
 
         <ContentBox>

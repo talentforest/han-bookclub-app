@@ -17,6 +17,6 @@ export default function PageWithPercent({ currentPage, wholePage }: Props) {
 }
 
 const Page = styled.div`
-  color: ${({ theme }) => theme.text.gray2};
+  color: ${({ theme }) => theme.text.gray3};
   font-size: 13px;
 `;

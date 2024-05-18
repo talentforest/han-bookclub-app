@@ -172,7 +172,7 @@ const OtherChallengeBook = styled.div`
 const ChallengeBook = styled.div`
   position: relative;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.container.default};
   padding: 10px 8px 8px;
   flex: 1;
   box-shadow: ${({ theme }) => theme.boxShadow};

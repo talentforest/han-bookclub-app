@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 import { getPercentage } from 'util/index';
 import styled from 'styled-components';
 import PageWithPercent from 'components/atoms/PageWithPercent';
-import device from 'theme/mediaQueries';
 
 interface Props {
   currentPage: number;
@@ -24,10 +23,16 @@ export default function PagePosition({
   const percentNum = getPercentage(currentPage, wholePage);
 
   return (
-    <Position>
+    <>
+      <ProgressContainer>
+        <ProgressBar $width={percentNum}>
+          <FaRunning fontSize={14} />
+        </ProgressBar>
+      </ProgressContainer>
+
       {percentNum === 100 && <CompleteMark>⭐️챌린지 달성⭐️</CompleteMark>}
 
-      <Page>
+      <PageInfo>
         {pathname === '/challenge' && editable ? (
           <button type='button' onClick={onEditClick}>
             <FiEdit3 />
@@ -36,18 +41,13 @@ export default function PagePosition({
         ) : (
           <PageWithPercent currentPage={currentPage} wholePage={wholePage} />
         )}
-      </Page>
-
-      <ProgressBar $width={percentNum}>
-        <FaRunning fontSize={14} />
-      </ProgressBar>
-    </Position>
+      </PageInfo>
+    </>
   );
 }
 
-const Position = styled.div`
-  position: relative;
-  margin-top: 30px;
+const ProgressContainer = styled.div`
+  margin: 10px 0 5px;
   display: flex;
   align-items: center;
   border: 1px solid ${({ theme }) => theme.container.blue2};
@@ -55,24 +55,20 @@ const Position = styled.div`
   height: 13px;
   width: 100%;
   padding: 3px;
-  @media ${device.tablet} {
-    margin-top: 26px;
-  }
 `;
 
 const CompleteMark = styled.div`
   position: absolute;
-  left: 0;
-  top: -28px;
+  right: 10px;
+  bottom: 6px;
+  font-size: 15px;
+  font-weight: 800;
   border-radius: 12px;
   font-size: 14px;
   color: ${({ theme }) => theme.text.green};
 `;
 
-const Page = styled.div`
-  position: absolute;
-  right: 0;
-  top: -28px;
+const PageInfo = styled.div`
   > button {
     display: flex;
     align-items: center;
