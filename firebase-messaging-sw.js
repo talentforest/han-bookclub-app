@@ -1,6 +1,10 @@
-import { initializeApp } from 'firebase/app';
-import { getMessaging } from 'firebase/messaging';
-import { onBackgroundMessage } from 'firebase/messaging/sw';
+/* eslint-disable no-undef */
+importScripts(
+  'https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js'
+);
+importScripts(
+  'https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compat.js'
+);
 
 const firebaseConfig = {
   apiKey: 'AIzaSyA6HW3pwkb-agsEpSYWGmlYSuvFiJDxp5c',
