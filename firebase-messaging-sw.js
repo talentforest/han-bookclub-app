@@ -16,12 +16,12 @@ const firebaseConfig = {
   measurementId: 'G-925LMFR6FK',
 };
 
-const app = initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
-const messaging = getMessaging(app);
+const messaging = firebase.messaging();
 
 /* eslint-disable no-restricted-globals */
-onBackgroundMessage(messaging, (payload) => {
+messaging.onBackground(messaging, (payload) => {
   console.log(
     '[firebase-messaging-sw.js] Received background message ',
     payload

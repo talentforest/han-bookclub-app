@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/han-bookclub-app/static/css/main.1fe4f361.css",
-    "main.js": "/han-bookclub-app/static/js/main.65328e73.js",
+    "main.js": "/han-bookclub-app/static/js/main.391b1cff.js",
     "index.html": "/han-bookclub-app/index.html",
     "main.1fe4f361.css.map": "/han-bookclub-app/static/css/main.1fe4f361.css.map",
-    "main.65328e73.js.map": "/han-bookclub-app/static/js/main.65328e73.js.map"
+    "main.391b1cff.js.map": "/han-bookclub-app/static/js/main.391b1cff.js.map"
   },
   "entrypoints": [
     "static/css/main.1fe4f361.css",
-    "static/js/main.65328e73.js"
+    "static/js/main.391b1cff.js"
   ]
 }
