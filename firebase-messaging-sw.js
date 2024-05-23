@@ -21,7 +21,7 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 /* eslint-disable no-restricted-globals */
-messaging.onBackground(messaging, (payload) => {
+messaging.onBackgroundMessage(messaging, (payload) => {
   console.log(
     '[firebase-messaging-sw.js] Received background message ',
     payload
