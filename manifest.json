@@ -3,7 +3,7 @@
   "name": "독서모임 한페이지",
   "start_url": "/han-bookclub-app/",
   "id": "/han-bookclub-app/",
-  "scope": ".",
+  "scope": "/han-bookclub-app/",
   "icons": [
     {
       "src": "/han-bookclub-app/favicon.ico",

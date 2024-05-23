@@ -30,7 +30,6 @@ messaging.onBackground(messaging, (payload) => {
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
-    icon: '/han-bookclub-app/hanpage_logo.png',
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
