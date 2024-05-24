@@ -2,7 +2,22 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, reauthenticateWithCredential } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
-import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import { getMessaging, getToken } from 'firebase/messaging';
+import { getFunctions, httpsCallable } from 'firebase/functions';
+
+interface SendNotification {
+  title: string;
+  body: string;
+}
+
+interface SendUnicast extends SendNotification {
+  token: string;
+}
+
+interface CallableResult {
+  successCount: number;
+  failureCount: number;
+}
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -20,10 +35,7 @@ export const reauth = reauthenticateWithCredential;
 export const dbService = getFirestore();
 export const storageService = getStorage();
 const messaging = getMessaging(app);
-
-onMessage(messaging, (payload) => {
-  console.log('Message received. ', payload);
-});
+const functions = getFunctions();
 
 export const getDeviceToken = async () => {
   return getToken(messaging, {
@@ -33,3 +45,13 @@ export const getDeviceToken = async () => {
     ),
   });
 };
+
+export const sendUnicast = httpsCallable<SendUnicast, CallableResult>(
+  functions,
+  'sendUnicast'
+);
+
+export const sendMulticast = httpsCallable<SendNotification, CallableResult>(
+  functions,
+  'sendMulticast'
+);

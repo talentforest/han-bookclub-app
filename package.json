@@ -5,10 +5,10 @@
   "private": true,
   "scripts": {
     "client": "cd client && npm start",
-    "server": "cd server && npm start",
+    "server": "cd server/functions && npm run serve",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
-  "devDependencies": {
-    "concurrently": "^7.0.0"
+  "dependencies": {
+    "concurrently": "^8.2.2"
   }
 }
