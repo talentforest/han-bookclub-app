@@ -7,6 +7,27 @@ importScripts(
   'https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compat.js'
 );
 
+/* eslint-disable no-restricted-globals */
+self.addEventListener('install', function (e) {
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', function (e) {
+  console.log('fcm sw activate..');
+});
+
+self.addEventListener('push', function (e) {
+  if (!e.data.json()) return;
+
+  const resultData = e.data.json().notification;
+  const notificationTitle = resultData.title;
+  const notificationOptions = {
+    body: resultData.body,
+  };
+
+  self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
 const firebaseConfig = {
   apiKey: 'AIzaSyA6HW3pwkb-agsEpSYWGmlYSuvFiJDxp5c',
   authDomain: 'han-bookclub.firebaseapp.com',
@@ -19,19 +40,19 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const messaging = firebase.messaging();
+// const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage((payload) => {
-  console.log(
-    '[firebase-messaging-sw.js] Received background message ',
-    payload
-  );
-  const notificationTitle = payload.notification.title;
-  const notificationOptions = {
-    body: payload.notification.body,
-    icon: '/han-bookclub-app/hanpage_logo.png',
-  };
+// messaging.onBackgroundMessage((payload) => {
+//   console.log(
+//     '[firebase-messaging-sw.js] Received background message ',
+//     payload
+//   );
+//   const notificationTitle = payload.notification.title;
+//   const notificationOptions = {
+//     body: payload.notification.body,
+//     icon: '/han-bookclub-app/hanpage_logo.png',
+//   };
 
-  // eslint-disable-next-line no-restricted-globals
-  self.registration.showNotification(notificationTitle, notificationOptions);
-});
+//   // eslint-disable-next-line no-restricted-globals
+//   self.registration.showNotification(notificationTitle, notificationOptions);
+// });
