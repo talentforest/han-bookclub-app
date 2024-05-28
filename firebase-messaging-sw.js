@@ -40,19 +40,19 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const messaging = firebase.messaging();
+// const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage((payload) => {
-  console.log(
-    '[firebase-messaging-sw.js] Received background message ',
-    payload
-  );
-  const notificationTitle = payload.notification.title;
-  const notificationOptions = {
-    body: payload.notification.body,
-    icon: '/han-bookclub-app/hanpage_logo.png',
-  };
+// messaging.onBackgroundMessage((payload) => {
+//   console.log(
+//     '[firebase-messaging-sw.js] Received background message ',
+//     payload
+//   );
+//   const notificationTitle = payload.notification.title;
+//   const notificationOptions = {
+//     body: payload.notification.body,
+//     icon: '/han-bookclub-app/hanpage_logo.png',
+//   };
 
-  // eslint-disable-next-line no-restricted-globals
-  self.registration.showNotification(notificationTitle, notificationOptions);
-});
+//   // eslint-disable-next-line no-restricted-globals
+//   self.registration.showNotification(notificationTitle, notificationOptions);
+// });
