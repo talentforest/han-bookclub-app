@@ -35,7 +35,7 @@ self.addEventListener('push', function (e) {
   const notificationTitle = resultData.title;
   const notificationOptions = {
     body: resultData.body,
-    icon: resultData.notification.icon,
+    icon: resultData.icon,
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
