@@ -35,8 +35,15 @@ self.addEventListener('push', function (e) {
   const notificationTitle = resultData.title;
   const notificationOptions = {
     body: resultData.body,
-    icon: resultData.icon,
+    icon: 'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg',
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+self.addEventListener('notificationclick', function (e) {
+  console.log(e.data);
+  const url = 'https://talentforest.github.io/han-bookclub-app/';
+  e.notification.close();
+  e.waitUntil(clients.openWindow(url));
 });
