@@ -42,8 +42,7 @@ self.addEventListener('push', function (e) {
 });
 
 self.addEventListener('notificationclick', function (e) {
-  console.log(e.data);
-  const url = 'https://talentforest.github.io/han-bookclub-app/';
+  const url = e.notification.data.url;
   e.notification.close();
   e.waitUntil(clients.openWindow(url));
 });
