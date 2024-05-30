@@ -31,25 +31,31 @@ self.addEventListener('activate', function (e) {
 self.addEventListener('push', function (e) {
   if (!e.data.json()) return;
 
-  const resultData = e.data.json().notification;
-  const notificationTitle = resultData.title;
-  const notificationOptions = {
-    body: resultData.body,
-    icon: 'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg',
+  const {
+    notification: { title, body },
+    data,
+  } = e.data.json();
+
+  const iconUrl =
+    'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
+
+  const options = {
+    body,
+    icon: iconUrl,
     actions: [
       { title: '화면보기', action: 'goTab' },
       { title: '닫기', action: 'close' },
     ],
-    data: {
-      url: resultData.data.url,
-    },
+    data,
   };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  self.registration.showNotification(title, options);
 });
 
 self.addEventListener('notificationclick', function (e) {
-  console.log('e.data:', e.data, 'e.resultData:', e.resultData);
+  e.notification.close();
+
+  const link = e.notification.data.url;
 
   switch (e.action) {
     case 'goTab':
@@ -60,16 +66,15 @@ self.addEventListener('notificationclick', function (e) {
           })
           .then((clientList) => {
             for (const client of clientList) {
-              if (client.url === '/' && 'focus' in client)
+              if (client.url === link && 'focus' in client)
                 return client.focus();
             }
-            if (clients.openWindow) return clients.openWindow('/');
+            if (clients.openWindow) return clients.openWindow(link);
           })
       );
       break;
 
     case 'close':
-      e.notification.close();
       break;
 
     default:
