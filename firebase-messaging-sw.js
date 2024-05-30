@@ -36,14 +36,44 @@ self.addEventListener('push', function (e) {
   const notificationOptions = {
     body: resultData.body,
     icon: 'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg',
+    actions: [
+      { title: '화면보기', action: 'goTab' },
+      { title: '닫기', action: 'close' },
+    ],
+    data: {
+      url: resultData.data.url,
+    },
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
 self.addEventListener('notificationclick', function (e) {
-  console.log(e.data, e.resultData);
-  const url = e.notification.data.url;
-  e.notification.close();
-  e.waitUntil(clients.openWindow(url));
+  console.log('e.data:', e.data, 'e.resultData:', e.resultData);
+
+  switch (e.action) {
+    case 'goTab':
+      e.waitUntil(
+        clients
+          .matchAll({
+            type: 'window',
+          })
+          .then((clientList) => {
+            for (const client of clientList) {
+              if (client.url === '/' && 'focus' in client)
+                return client.focus();
+            }
+            if (clients.openWindow) return clients.openWindow('/');
+          })
+      );
+      break;
+
+    case 'close':
+      e.notification.close();
+      break;
+
+    default:
+      console.log(`Unknown action clicked: '${e.action}'`);
+      break;
+  }
 });
