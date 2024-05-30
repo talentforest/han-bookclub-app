@@ -24,8 +24,11 @@ self.addEventListener('install', function (e) {
   self.skipWaiting();
 });
 
-self.addEventListener('activate', function (e) {
-  console.log('fcm sw activate..');
+// 서비스 워커 활성화 이벤트 리스너
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    clients.claim() // 클라이언트 제어 권한 획득
+  );
 });
 
 self.addEventListener('push', function (e) {
@@ -34,6 +37,7 @@ self.addEventListener('push', function (e) {
   const {
     notification: { title, body },
     data,
+    fcmMessageId,
   } = e.data.json();
 
   const iconUrl =
@@ -42,11 +46,8 @@ self.addEventListener('push', function (e) {
   const options = {
     body,
     icon: iconUrl,
-    actions: [
-      { title: '화면보기', action: 'goTab' },
-      { title: '닫기', action: 'close' },
-    ],
     data,
+    tag: fcmMessageId,
   };
 
   self.registration.showNotification(title, options);
@@ -57,45 +58,17 @@ self.addEventListener('notificationclick', function (e) {
 
   const link = e.notification.data.url;
 
-  if (!e.action) {
-    // 기본 알림 클릭 동작 (버튼 클릭이 아닌 경우)
-    e.waitUntil(
-      clients.matchAll({ type: 'window' }).then((clientList) => {
-        for (const client of clientList) {
-          if (client.url === link && 'focus' in client) {
-            return client.focus();
-          }
+  e.waitUntil(
+    clients.matchAll({ type: 'window' }).then((clientList) => {
+      for (const client of clientList) {
+        if (client.url === link && 'focus' in client) {
+          return client.focus();
         }
-        if (clients.openWindow) {
-          return clients.openWindow(link);
-        }
-      })
-    );
-    return;
-  }
-
-  switch (e.action) {
-    case 'goTab':
-      e.waitUntil(
-        clients
-          .matchAll({
-            type: 'window',
-          })
-          .then((clientList) => {
-            for (const client of clientList) {
-              if (client.url === link && 'focus' in client)
-                return client.focus();
-            }
-            if (clients.openWindow) return clients.openWindow(link);
-          })
-      );
-      break;
-
-    case 'close':
-      break;
-
-    default:
-      console.log(`Unknown action clicked: '${e.action}'`);
-      break;
-  }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(link);
+      }
+    })
+  );
+  return;
 });
