@@ -57,6 +57,23 @@ self.addEventListener('notificationclick', function (e) {
 
   const link = e.notification.data.url;
 
+  if (!e.action) {
+    // 기본 알림 클릭 동작 (버튼 클릭이 아닌 경우)
+    e.waitUntil(
+      clients.matchAll({ type: 'window' }).then((clientList) => {
+        for (const client of clientList) {
+          if (client.url === link && 'focus' in client) {
+            return client.focus();
+          }
+        }
+        if (clients.openWindow) {
+          return clients.openWindow(link);
+        }
+      })
+    );
+    return;
+  }
+
   switch (e.action) {
     case 'goTab':
       e.waitUntil(
