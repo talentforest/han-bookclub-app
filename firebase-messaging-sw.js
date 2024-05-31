@@ -38,18 +38,24 @@ messaging.onBackgroundMessage(function (payload) {
     '[firebase-messaging-sw.js] Received background message ',
     payload
   );
-  const notificationTitle = payload.notification.title;
+
+  const icon =
+    'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
+
+  const {
+    data: { title, body, link },
+  } = payload;
+
   const notificationOptions = {
-    body: payload.notification.body,
-    icon: 'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg',
-    data: {
-      url: payload.data.url, // URL 추가
-    },
-    tag: payload.messageId, // FCM 메시지 ID를 태그로 사용
+    body,
+    icon,
+    data: { link },
   };
 
+  console.log(notificationOptions);
+
   self.registration.showNotification(
-    `이건 서비스워커 알림: ${notificationTitle}`,
+    `이건 서비스워커 알림: ${title}`,
     notificationOptions
   );
 });
@@ -79,7 +85,7 @@ messaging.onBackgroundMessage(function (payload) {
 self.addEventListener('notificationclick', function (e) {
   e.notification.close();
 
-  const link = e.notification.data.url;
+  const link = e.notification.data.link;
 
   e.waitUntil(
     clients.matchAll({ type: 'window' }).then((clientList) => {
