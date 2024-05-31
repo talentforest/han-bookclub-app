@@ -19,8 +19,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const messaging = firebase.messaging();
-
 /* eslint-disable no-restricted-globals */
 self.addEventListener('install', function (e) {
   self.skipWaiting();
@@ -33,54 +31,26 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-messaging.onBackgroundMessage(function (payload) {
-  console.log(
-    '[firebase-messaging-sw.js] Received background message ',
-    payload
-  );
+self.addEventListener('push', function (e) {
+  if (!e.data.json()) return;
+
+  const {
+    data: { title, body, link },
+    fcmMessageId,
+  } = e.data.json();
 
   const icon =
     'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
 
-  const {
-    data: { title, body, link },
-  } = payload;
-
-  const notificationOptions = {
+  const options = {
     body,
     icon,
     data: { link },
+    tag: fcmMessageId,
   };
 
-  console.log(notificationOptions);
-
-  self.registration.showNotification(
-    `이건 서비스워커 알림: ${title}`,
-    notificationOptions
-  );
+  self.registration.showNotification(title, options);
 });
-
-// self.addEventListener('push', function (e) {
-//   if (!e.data.json()) return;
-
-//   const {
-//     notification: { title, body },
-//     data,
-//     fcmMessageId,
-//   } = e.data.json();
-
-//   const iconUrl =
-//     'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
-
-//   const options = {
-//     body,
-//     icon: iconUrl,
-//     data,
-//     tag: fcmMessageId,
-//   };
-
-//   self.registration.showNotification(title, options);
-// });
 
 self.addEventListener('notificationclick', function (e) {
   e.notification.close();
