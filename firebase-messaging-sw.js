@@ -8,13 +8,13 @@ importScripts(
 );
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyA6HW3pwkb-agsEpSYWGmlYSuvFiJDxp5c',
-  authDomain: 'han-bookclub.firebaseapp.com',
-  projectId: 'han-bookclub',
-  storageBucket: 'han-bookclub.appspot.com',
-  messagingSenderId: '1033530409448',
-  appId: '1:1033530409448:web:aff6942a34c0a48c81645d',
-  measurementId: 'G-925LMFR6FK',
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
 firebase.initializeApp(firebaseConfig);
