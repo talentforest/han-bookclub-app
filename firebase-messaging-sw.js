@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 importScripts(
-  'https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js'
+  'https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js'
 );
 
 importScripts(
-  'https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compat.js'
+  'https://www.gstatic.com/firebasejs/9.1.0/firebase-messaging-compat.js'
 );
 
 const firebaseConfig = {
@@ -19,6 +19,8 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+const messaging = firebase.messaging();
+
 /* eslint-disable no-restricted-globals */
 self.addEventListener('install', function (e) {
   self.skipWaiting();
@@ -31,27 +33,45 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-self.addEventListener('push', function (e) {
-  if (!e.data.json()) return;
-
-  const {
-    notification: { title, body },
-    data,
-    fcmMessageId,
-  } = e.data.json();
-
-  const iconUrl =
-    'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
-
-  const options = {
-    body,
-    icon: iconUrl,
-    data,
-    tag: fcmMessageId,
+messaging.onBackgroundMessage(function (payload) {
+  console.log(
+    '[firebase-messaging-sw.js] Received background message ',
+    payload
+  );
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: 'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg',
+    data: {
+      url: payload.data.url, // URL 추가
+    },
+    tag: payload.messageId, // FCM 메시지 ID를 태그로 사용
   };
 
-  self.registration.showNotification(title, options);
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
+
+// self.addEventListener('push', function (e) {
+//   if (!e.data.json()) return;
+
+//   const {
+//     notification: { title, body },
+//     data,
+//     fcmMessageId,
+//   } = e.data.json();
+
+//   const iconUrl =
+//     'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
+
+//   const options = {
+//     body,
+//     icon: iconUrl,
+//     data,
+//     tag: fcmMessageId,
+//   };
+
+//   self.registration.showNotification(title, options);
+// });
 
 self.addEventListener('notificationclick', function (e) {
   e.notification.close();
