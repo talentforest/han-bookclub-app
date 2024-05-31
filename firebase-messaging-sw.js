@@ -48,7 +48,10 @@ messaging.onBackgroundMessage(function (payload) {
     tag: payload.messageId, // FCM 메시지 ID를 태그로 사용
   };
 
-  // self.registration.showNotification(notificationTitle, notificationOptions);
+  self.registration.showNotification(
+    `이건 서비스워커 알림: ${notificationTitle}`,
+    notificationOptions
+  );
 });
 
 // self.addEventListener('push', function (e) {
