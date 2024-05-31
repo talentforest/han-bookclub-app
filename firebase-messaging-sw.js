@@ -19,6 +19,8 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+const messaging = firebase.messaging();
+
 /* eslint-disable no-restricted-globals */
 self.addEventListener('install', function (e) {
   self.skipWaiting();
@@ -31,26 +33,47 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-self.addEventListener('push', function (e) {
-  if (!e.data.json()) return;
-
-  const {
-    data: { title, body, link },
-    fcmMessageId,
-  } = e.data.json();
+messaging.onBackgroundMessage(function (payload) {
+  console.log(
+    '[firebase-messaging-sw.js] Received background message ',
+    payload
+  );
 
   const icon =
     'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
+
+  const {
+    data: { title, body, link },
+  } = payload;
 
   const options = {
     body,
     icon,
     data: { link },
-    tag: fcmMessageId,
   };
 
   self.registration.showNotification(title, options);
 });
+
+// self.addEventListener('push', function (e) {
+//   if (!e.data.json()) return;
+
+//   const {
+//     data: { title, body, link },
+//   } = payload;
+
+//   const icon =
+//     'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
+
+//   const options = {
+//     body,
+//     icon,
+//     data: { link },
+//     tag: fcmMessageId,
+//   };
+
+//   self.registration.showNotification(title, options);
+// });
 
 self.addEventListener('notificationclick', function (e) {
   e.notification.close();
