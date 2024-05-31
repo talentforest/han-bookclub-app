@@ -19,61 +19,37 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const messaging = firebase.messaging();
-
 /* eslint-disable no-restricted-globals */
-self.addEventListener('install', function (e) {
+self.addEventListener('install', function () {
   self.skipWaiting();
 });
 
 // 서비스 워커 활성화 이벤트 리스너
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
     clients.claim() // 클라이언트 제어 권한 획득
   );
 });
 
-messaging.onBackgroundMessage(function (payload) {
-  console.log(
-    '[firebase-messaging-sw.js] Received background message ',
-    payload
-  );
-
-  const icon =
-    'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
+self.addEventListener('push', function (e) {
+  if (!e.data.json()) return;
 
   const {
     data: { title, body, link },
   } = payload;
 
+  const icon =
+    'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
+
   const options = {
     body,
     icon,
     data: { link },
+    tag: fcmMessageId,
   };
 
   self.registration.showNotification(title, options);
 });
-
-// self.addEventListener('push', function (e) {
-//   if (!e.data.json()) return;
-
-//   const {
-//     data: { title, body, link },
-//   } = payload;
-
-//   const icon =
-//     'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
-
-//   const options = {
-//     body,
-//     icon,
-//     data: { link },
-//     tag: fcmMessageId,
-//   };
-
-//   self.registration.showNotification(title, options);
-// });
 
 self.addEventListener('notificationclick', function (e) {
   e.notification.close();
