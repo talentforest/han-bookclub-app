@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import Input from 'components/atoms/input/Input';
+import useSendPushNotification from 'hooks/useSendPushNotification';
 
 interface Props {
   onToggleClick: () => void;
@@ -19,6 +20,8 @@ export default function SentenceAddModal({ onToggleClick, book }: Props) {
   const [page, setPage] = useState('');
 
   const currentUser = useRecoilValue(currentUserState);
+
+  const { sendPostNotification } = useSendPushNotification();
 
   const { title, thumbnail } = book;
 
@@ -43,13 +46,12 @@ export default function SentenceAddModal({ onToggleClick, book }: Props) {
     if (sentence === '') {
       return window.alert('문구가 작성되지 않았습니다.');
     }
-
     if (page === '') {
       return window.alert('페이지가 작성되지 않았습니다.');
     }
 
     onAddDocSubmit(event);
-
+    sendPostNotification('공유하고 싶은 문구');
     onToggleClick();
     alert(
       '문구가 추가되었습니다. 공유해주신 좋은 문구를 멤버들이 볼 수 있게 되었어요!'

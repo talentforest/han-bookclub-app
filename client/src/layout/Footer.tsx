@@ -1,4 +1,4 @@
-import { notionUrls } from 'constants/notionUrl';
+import { notionUrls } from 'constants/index';
 import { FiExternalLink } from 'react-icons/fi';
 import { SiNotion } from 'react-icons/si';
 import styled from 'styled-components';

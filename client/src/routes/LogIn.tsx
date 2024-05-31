@@ -21,6 +21,9 @@ const LogIn = ({ isLoggedIn }: ILoginProps) => {
     onAnonymousLoginClick, //
   } = useLogIn(isLoggedIn);
 
+  // 홈에 들어오면, 만약 "알람을 허용했을 시" 토큰 가져와서 비교 후 업데이트
+  // App.tsx에서 해야되나? Home에서 하면 매번 비교하게 되는데.
+
   return (
     <>
       <Main $anonymous={anonymous}>

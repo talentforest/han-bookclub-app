@@ -55,7 +55,6 @@ const Home = () => {
       </main>
 
       <Footer />
-
       <AllowNotificationModalBox />
     </>
   );

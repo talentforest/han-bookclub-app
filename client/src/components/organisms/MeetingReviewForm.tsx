@@ -43,7 +43,9 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onAddDocSubmit(event);
-    sendPostNotification('모임 후기');
+    if (docData.text !== '') {
+      sendPostNotification('모임 후기');
+    }
   };
 
   return (
@@ -53,9 +55,7 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
         value={text}
         onChange={onChange}
       />
-      <div>
-        <SquareBtn name='남기기' type='submit' />
-      </div>
+      <SquareBtn name='남기기' type='submit' />
     </Form>
   );
 };

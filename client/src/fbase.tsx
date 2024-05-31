@@ -3,15 +3,24 @@ import { getAuth, reauthenticateWithCredential } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { getMessaging, getToken } from 'firebase/messaging';
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import {
+  connectFunctionsEmulator,
+  getFunctions,
+  httpsCallable,
+} from 'firebase/functions';
 
-interface SendNotification {
+interface NotificationData {
   title: string;
   body: string;
+  link: string;
 }
 
-interface SendUnicast extends SendNotification {
+export interface FcmUnicastData extends NotificationData {
   token: string;
+}
+
+export interface FcmMulticastData extends NotificationData {
+  uid: string;
 }
 
 interface CallableResult {
@@ -37,6 +46,10 @@ export const storageService = getStorage();
 const messaging = getMessaging(app);
 const functions = getFunctions();
 
+if (process.env.NODE_ENV === 'development') {
+  connectFunctionsEmulator(functions, 'localhost', 5001);
+}
+
 export const getDeviceToken = async () => {
   return getToken(messaging, {
     vapidKey: process.env.REACT_APP_MESSAGING_TOKEN,
@@ -46,12 +59,12 @@ export const getDeviceToken = async () => {
   });
 };
 
-export const sendUnicast = httpsCallable<SendUnicast, CallableResult>(
+export const sendUnicast = httpsCallable<FcmUnicastData, CallableResult>(
   functions,
   'sendUnicast'
 );
 
-export const sendMulticast = httpsCallable<SendNotification, CallableResult>(
+export const sendMulticast = httpsCallable<FcmMulticastData, CallableResult>(
   functions,
   'sendMulticast'
 );

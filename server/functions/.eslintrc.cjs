@@ -1,7 +1,3 @@
-import path from 'path';
-
-const rootPath = path.resolve(__dirname, 'server/functions');
-
 module.exports = {
   root: true,
   env: {
@@ -18,11 +14,7 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    projects: [
-      path.resolve(rootPath, 'tsconfig.json'),
-      path.resolve(rootPath, 'tsconfig.dev.json'),
-    ],
-
+    projects: ['tsconfig.json', 'tsconfig.dev.json'],
     sourceType: 'module',
   },
   ignorePatterns: [

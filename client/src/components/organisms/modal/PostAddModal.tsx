@@ -50,7 +50,9 @@ const PostAddModal = ({ toggleModal, title }: Props) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     onAddDocSubmit(event);
-    sendPostNotification(postType);
+    if (docData.text !== '') {
+      sendPostNotification(postType);
+    }
     toggleModal();
   };
 

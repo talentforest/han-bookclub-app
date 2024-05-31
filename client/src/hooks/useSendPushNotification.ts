@@ -1,7 +1,7 @@
 import { allUsersState, currentUserState } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
-import { getDeviceToken } from 'fbase';
-import axios from 'axios';
+import { getDeviceToken, sendMulticast, sendUnicast } from 'fbase';
+import { PostType } from 'components/molecules/PostHandleBtns';
 
 const useSendPushNotification = () => {
   const allUsers = useRecoilValue(allUsersState);
@@ -13,57 +13,47 @@ const useSendPushNotification = () => {
     return user.notification;
   };
 
-  const postNotification = async (
-    url: string,
-    data: {
-      title: string;
-      body?: string;
-      token?: string;
-      link?: string;
-    }
-  ) => {
-    return axios
-      .post(url, data)
-      .then((response) => {
-        console.log('Notification sent successfully:', response.data);
-      })
-      .catch((error) => {
-        console.error('There was an error sending the notification:', error);
-      });
-  };
-
   // 전체 유저에게 게시물 등록 알림 보내기
-  const sendPostNotification = async (
-    type: '발제문' | '정리 기록' | '추천책' | '모임 후기'
-  ) => {
-    const title = `${type}${type === '모임 후기' ? '가' : '이'} 등록되었어요!`;
+  const sendPostNotification = async (type: PostType) => {
+    const title = `📝새로운 ${type} 등록`;
 
-    const body = `${currentUser.displayName}님이 등록한 ${type}${
-      type === '모임 후기' ? '를' : '을'
-    } 확인하러 가볼까요?`;
+    const postposition =
+      type === '모임 후기' || type === '공유하고 싶은 문구' ? '를' : '을';
 
-    const url = `${process.env.REACT_APP_SEND_NOTIFICATION_API}/send-multicast`;
+    const body = `✨${currentUser.displayName}님이 방금 ${type}${postposition} 등록하셨어요. 바로 확인해보세요!👀`;
 
-    postNotification(url, {
-      title,
-      body,
-    });
+    const subPath =
+      type === '발제문'
+        ? 'bookclub/subjects'
+        : type === '정리 기록'
+        ? 'bookclub/host-review'
+        : type === '모임 후기' || type === '추천책'
+        ? 'bookclub'
+        : type === '공유하고 싶은 문구'
+        ? 'challenge'
+        : process.env.PUBLIC_URL;
+
+    const link = `${process.env.PUBLIC_URL}/${subPath}`;
+
+    sendMulticast({ title, body, link, uid: currentUser.uid }) //
+      .catch((err) => console.log(err));
   };
 
   // 현재 유저에게만 알림 보내기
   const sendNotificationToCurrentUser = async (notificationData: {
     title: string;
-    body?: string;
+    body: string;
+    link: string;
   }) => {
-    getDeviceToken().then((token) => {
-      postNotification(
-        `${process.env.REACT_APP_SEND_NOTIFICATION_API}/send-notification`,
-        {
-          ...notificationData,
-          token,
-        }
-      );
-    });
+    const { title, body, link } = notificationData;
+
+    getDeviceToken()
+      .then((token) => {
+        sendUnicast({ title, body, token, link });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return {

@@ -22,12 +22,11 @@
       content="Web site created using create-react-app"
     />
     <title>독서모임 한페이지</title>
-    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
     <script type="text/javascript">
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker
           .register('/han-bookclub-app/firebase-messaging-sw.js', {
-            scope: '.',
+            scope: '/han-bookclub-app/',
           })
           .then(
             function (registration) {
@@ -42,6 +41,7 @@
           );
       }
     </script>
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

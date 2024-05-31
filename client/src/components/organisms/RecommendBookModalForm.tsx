@@ -51,7 +51,9 @@ export default function RecommendBookModalForm({ onModalClose }: Props) {
       return window.alert('추천하는 책 정보를 찾아서 넣어주세요.');
     }
     onAddDocSubmit(event);
-    sendPostNotification('추천책');
+    if (title !== '' && docData.text !== '') {
+      sendPostNotification('추천책');
+    }
     onModalClose();
   };
 

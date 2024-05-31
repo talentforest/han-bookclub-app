@@ -54,7 +54,7 @@ export default function PostRecommendedBookBox({
               <PostHeader
                 collName={collName}
                 post={recommendedBookDoc}
-                postType='책 추천'
+                postType='추천책'
               />
 
               <PostContentBox>

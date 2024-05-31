@@ -8,7 +8,7 @@ export type PostType =
   | '발제문'
   | '정리 기록'
   | '모임 후기'
-  | '책 추천'
+  | '추천책'
   | '공유하고 싶은 문구';
 
 interface Props {

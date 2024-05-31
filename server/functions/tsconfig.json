@@ -3,8 +3,8 @@
     "target": "ESNext", // 최신 ECMAScript 버전으로 설정
     "module": "ESNext", // ES 모듈을 사용
     "moduleResolution": "node", // Node.js 모듈 해상도를 사용
-    "outDir": "lib", // 컴파일된 파일의 출력 디렉토리
     "rootDir": "src", // 소스 파일의 루트 디렉토리
+    "outDir": "lib", // 컴파일된 파일의 출력 디렉토리
     "strict": true, // 모든 엄격한 타입 검사 옵션을 활성화
     "esModuleInterop": true, // ES 모듈 호환성을 위해 필요
     "forceConsistentCasingInFileNames": true, // 파일 이름 대소문자 일관성 검사
@@ -12,6 +12,5 @@
     "noImplicitReturns": true, // 함수에서 암시적 반환을 허용하지 않음
     "noUnusedLocals": true, // 사용되지 않는 로컬 변수를 허용하지 않음
     "sourceMap": true // 소스 맵을 생성
-  },
-  "include": ["src"]
+  }
 }
