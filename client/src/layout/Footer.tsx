@@ -1,25 +1,8 @@
-import { notionUrls } from 'constants/index';
-import { FiExternalLink } from 'react-icons/fi';
-import { SiNotion } from 'react-icons/si';
 import styled from 'styled-components';
 
 export default function Footer() {
   return (
     <FooterContainer>
-      <div>
-        <SiNotion />
-        <h4>노션 페이지</h4>
-      </div>
-      <ul>
-        {notionUrls.map((notionUrl) => (
-          <li key={notionUrl.name}>
-            <a href={notionUrl.url} target='_blank' rel='noreferrer'>
-              <span> {notionUrl.name}</span>
-              <FiExternalLink />
-            </a>
-          </li>
-        ))}
-      </ul>
       <span>ⓒ 독서모임 한페이지 All rights reserved</span>
     </FooterContainer>
   );

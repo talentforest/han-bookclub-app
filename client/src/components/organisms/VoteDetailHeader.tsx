@@ -1,11 +1,10 @@
 import { IBookVote } from 'data/voteAtom';
 import { getLocaleDate } from 'util/index';
-import CreatorBox from 'components/molecules/CreatorBox';
-import styled from 'styled-components';
 import { FiTrash2 } from 'react-icons/fi';
-import ShareBtn from 'components/atoms/button/ShareBtn';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
+import CreatorBox from 'components/molecules/CreatorBox';
+import styled from 'styled-components';
 
 interface PropsType {
   vote: IBookVote;
@@ -16,10 +15,6 @@ const VoteDetailHeader = ({ vote, onVoteDeleteClick }: PropsType) => {
   const { creatorId, createdAt, title, voteItems } = vote;
 
   const { uid } = useRecoilValue(currentUserState);
-
-  const voteItemBooks = voteItems
-    .map((item) => `📚 ${item.book.title}`)
-    .join(' vs ');
 
   return (
     <Header>
@@ -34,12 +29,6 @@ const VoteDetailHeader = ({ vote, onVoteDeleteClick }: PropsType) => {
             >
               <FiTrash2 />
             </button>
-
-            <ShareBtn
-              title={title}
-              description={`${voteItemBooks}, 투표하러 가볼까요?`}
-              path='vote'
-            />
           </Btns>
         )}
       </div>
