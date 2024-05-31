@@ -36,7 +36,8 @@ self.addEventListener('push', function (e) {
 
   const {
     data: { title, body, link },
-  } = payload;
+    fcmMessageId,
+  } = e.data.json();
 
   const icon =
     'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
