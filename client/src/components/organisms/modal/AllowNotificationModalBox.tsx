@@ -36,10 +36,10 @@ export default function AllowNotificationModalBox() {
 
     const document = doc(dbService, FCM_NOTIFICATION, uid);
     // 다른 기기에서 허용한 적이 있는 경우
-    if (fcmDoc?.tokens?.length !== 0) {
+    if (fcmDoc?.notification === true && fcmDoc?.tokens?.length !== 0) {
       const fcmData = {
         createdAt: Date.now(),
-        tokens: [...fcmDoc.tokens, token],
+        tokens: [...fcmDoc?.tokens, token],
       };
       await updateDoc(document, fcmData);
     } else {
