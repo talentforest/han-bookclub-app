@@ -44,12 +44,12 @@ const VoteDetail = () => {
     onToggleRevoteClick,
   } = useHandleVoting({ collName, docId });
 
-  const expiredVote = bookVote?.deadline < todayWithHyphen;
+  const isExpiredVote = bookVote?.deadline < todayWithHyphen;
 
   return (
     <>
       <MobileHeader
-        title={`${expiredVote ? '만료된 ' : ''}모임책 투표함`}
+        title={`${isExpiredVote ? '만료된 ' : ''}모임책 투표함`}
         backBtn
       />
 
@@ -64,9 +64,10 @@ const VoteDetail = () => {
 
           <GuideLine text='중복 투표도 가능해요' />
 
-          {/* 투표를 완료했거나 결과 화면 */}
-          {expiredVote || (myVotedItems && !isRevote) ? (
+          {/* 투표를 완료했거나 만료된 이후 결과 화면 */}
+          {isExpiredVote || (myVotedItems && !isRevote) ? (
             <CurrentVoteItems>
+              {/* 일반 투표 */}
               {collName === VOTE && (
                 <BarItemList $disabled>
                   {bookVote.voteItems.map((voteItem) => (
@@ -81,11 +82,18 @@ const VoteDetail = () => {
                 </BarItemList>
               )}
 
+              {/* 책투표 */}
               {collName === BOOK_VOTE && (
                 <>
                   <BookItemList>
                     {bookVote.voteItems.map((voteItem) => (
-                      <VoteBookItem key={voteItem.id} voteItem={voteItem} />
+                      <VoteBookItem
+                        key={voteItem.id}
+                        voteItem={voteItem}
+                        voteCountsById={
+                          isExpiredVote ? voteCountsById : undefined
+                        }
+                      />
                     ))}
                   </BookItemList>
 
@@ -99,7 +107,7 @@ const VoteDetail = () => {
               <SquareBtn name='투표 완료' disabled />
 
               <SquareBtn
-                disabled={expiredVote}
+                disabled={isExpiredVote}
                 type='button'
                 name='다시 투표하기'
                 handleClick={onToggleRevoteClick}
@@ -127,7 +135,7 @@ const VoteDetail = () => {
             </Form>
           )}
 
-          {!expiredVote && <DDay hyphenDate={bookVote.deadline} />}
+          {!isExpiredVote && <DDay hyphenDate={bookVote.deadline} />}
 
           <VoteMemberBox>
             <h4>
@@ -169,12 +177,12 @@ const BookItemList = styled.ul`
   margin: 20px 0;
   flex-wrap: wrap;
   li {
-    width: 150px;
+    width: 138px;
   }
   @media ${device.tablet} {
     gap: 30px;
     li {
-      width: 160px;
+      width: 150px;
     }
   }
 `;
