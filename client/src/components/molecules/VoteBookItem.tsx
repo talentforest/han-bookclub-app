@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
-import { IBookVoteItem } from 'data/voteAtom';
+import { IBookVoteItem, IVoteCountById } from 'data/voteAtom';
 import { cutLetter } from 'util/index';
 import { useLocation } from 'react-router-dom';
 import BookThumbnail from '../atoms/BookThumbnail';
@@ -11,17 +11,27 @@ interface Props {
   voteItem: IBookVoteItem;
   selected?: boolean;
   children?: ReactNode;
+  voteCountsById?: IVoteCountById[];
 }
 
-export default function VoteBookItem({ voteItem, children, selected }: Props) {
+export default function VoteBookItem({
+  voteItem,
+  children,
+  selected,
+  voteCountsById,
+}: Props) {
   const {
     book: { title, thumbnail, url },
   } = voteItem;
 
+  const highestVoteItem = voteCountsById?.find((book, _, arr) => {
+    return book.voteCount === Math.max(...arr.map((book) => book.voteCount));
+  });
+
   const { pathname } = useLocation();
 
   return (
-    <Box $selected={selected}>
+    <Box $selected={selected} $isHighestItem={highestVoteItem?.title === title}>
       {title === '' ? (
         <></>
       ) : (
@@ -46,7 +56,7 @@ export default function VoteBookItem({ voteItem, children, selected }: Props) {
   );
 }
 
-const Box = styled.li<{ $selected: boolean }>`
+const Box = styled.li<{ $selected: boolean; $isHighestItem: boolean }>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -54,11 +64,16 @@ const Box = styled.li<{ $selected: boolean }>`
   justify-content: space-between;
   position: relative;
   border: 2px solid
-    ${({ theme, $selected }) =>
-      $selected ? theme.container.purple2 : theme.container.lightGray};
+    ${({ theme, $selected, $isHighestItem }) =>
+      $isHighestItem
+        ? theme.container.green2
+        : $selected
+        ? theme.container.purple2
+        : theme.container.lightGray};
   box-shadow: ${({ theme }) => theme.boxShadow};
   background-color: ${({ theme }) => theme.container.default};
   border-radius: 15px;
+  transform: ${({ $isHighestItem }) => ($isHighestItem ? 'scale(1.05)' : '')};
   .delete-btn {
     position: absolute;
     top: -5px;
