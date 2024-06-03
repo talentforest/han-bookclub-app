@@ -5,14 +5,16 @@ import { Section } from './Home';
 import { useLocation } from 'react-router-dom';
 import {
   ABSENCE_MEMBERS,
+  PENALTY,
   THIS_YEAR_BOOKCLUB,
   USER_DATA,
 } from 'constants/index';
 import { getCollection, getDocument } from 'api/getFbDoc';
 import { PostType } from 'components/molecules/PostHandleBtns';
 import { EmptyBox } from './BookClubHistory';
-import { existDocObj, thisMonth } from 'util/index';
+import { existDocObj, thisMonth, thisYear } from 'util/index';
 import { absenceListState } from 'data/absenceAtom';
+import { penaltyState } from 'data/penaltyAtom';
 import Subtitle from 'components/atoms/Subtitle';
 import Tag from 'components/atoms/Tag';
 import MobileHeader from 'layout/mobile/MobileHeader';
@@ -22,8 +24,10 @@ import BookshelfPostList from 'components/organisms/BookshelfPostList';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import Loading from 'components/atoms/Loading';
+import PenaltyBox from 'components/molecules/PenaltyBox';
 
 const Bookshelf = () => {
+  const [penaltyDoc, setPenaltyDoc] = useRecoilState(penaltyState);
   const [absenceList, setAbsenceList] = useRecoilState(absenceListState);
   const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersState);
   const currentUser = useRecoilValue(currentUserState);
@@ -38,6 +42,9 @@ const Bookshelf = () => {
     }
     if (!existDocObj(absenceList)) {
       getDocument(THIS_YEAR_BOOKCLUB, ABSENCE_MEMBERS, setAbsenceList);
+    }
+    if (!existDocObj(penaltyDoc)) {
+      getDocument(PENALTY, thisYear, setPenaltyDoc);
     }
   }, []);
 
@@ -64,6 +71,10 @@ const Bookshelf = () => {
 
   const isCurrentUser = currentUser.uid === id;
   const userName = !userData || isCurrentUser ? '나' : displayName;
+
+  const myPenalty = penaltyDoc.usersPenaltyList?.find(
+    (penalty: any) => penalty.uid === currentUser.uid
+  );
 
   return (
     <>
@@ -102,6 +113,22 @@ const Bookshelf = () => {
               <Loading height='12vh' />
             )}
           </FavBookFieldList>
+        </Section>
+
+        <Section>
+          <Subtitle title={`${userName}의 페널티 현황`} />
+          {myPenalty && (
+            <>
+              <PenaltyBox
+                title='의무 발제달'
+                passDeadline={myPenalty.passDeadline}
+              />
+              <PenaltyBox
+                title='총 페널티비'
+                passDeadline={myPenalty.passDeadline}
+              />
+            </>
+          )}
         </Section>
 
         {(['정리 기록', '발제문', '모임 후기'] as PostType[]).map(
