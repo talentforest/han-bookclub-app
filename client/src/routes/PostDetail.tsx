@@ -97,10 +97,7 @@ export default function PostDetail() {
         )}
 
         {openAddPostModal && (
-          <PostAddModal
-            title={`${postType} 작성하기`}
-            toggleModal={toggleAddPostModal}
-          />
+          <PostAddModal postType={postType} toggleModal={toggleAddPostModal} />
         )}
       </Main>
     </>

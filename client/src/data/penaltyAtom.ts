@@ -1,7 +1,7 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 import { v4 } from 'uuid';
 
-export type Months =
+export type Month =
   | '1월'
   | '2월'
   | '3월'
@@ -17,21 +17,27 @@ export type Months =
 
 interface PenaltyDoc {
   id: string;
-  usersPenaltyList: PenaltyItem[];
   createdAt: number;
+  [key: string]: OverduePenaltyMonths | string | number;
 }
 
-export interface PenaltyItem {
-  uid: string;
-  passDeadline: {
-    subject: Months[];
-    hostReview: Months[];
-    absence: Months[];
-    secondDeadline: Months[];
-  };
+export interface OverduePenaltyMonths {
+  overdueSubjectMonths: Month[];
+  overdueHostReviewMonths: Month[];
+  overdueAbsenceMonths: Month[];
 }
 
-export const penaltyState = atom<PenaltyDoc>({
+export const penaltyDocState = atom<PenaltyDoc>({
   key: `penaltyDoc/${v4()}`,
   default: {} as PenaltyDoc,
+});
+
+export const usersPenaltyList = selector({
+  key: `userPenaltyList/${v4()}`,
+  get: ({ get }) => {
+    const penaltyDoc = get(penaltyDocState);
+    const { createdAt, id: docId, ...rest } = penaltyDoc;
+    return Object.entries(rest) //
+      .map(([key, value]) => ({ [key]: value }));
+  },
 });

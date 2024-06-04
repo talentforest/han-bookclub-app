@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { thisMonthBookClubState } from 'data/bookClubAtom';
-import { getFbRoute } from 'util/index';
+import { getFbRoute, thisMonth } from 'util/index';
+import { absenceListState } from 'data/absenceAtom';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import SquareBtn from '../atoms/button/SquareBtn';
 import useSendPushNotification from 'hooks/useSendPushNotification';
+import useUpdatePenalty from 'hooks/useUpdatePenalty';
 
 interface PropsType {
   docMonth: string;
@@ -17,8 +19,14 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
   const [text, setText] = useState('');
   const clubInfo = useRecoilValue(thisMonthBookClubState);
   const userData = useRecoilValue(currentUserState);
+  const absenceList = useRecoilValue(absenceListState);
 
   const { sendPostNotification } = useSendPushNotification();
+
+  const isOnceAbsenceThisMonth = absenceList.absenceMembers
+    ?.find((item) => item.month === +thisMonth)
+    .onceAbsenceMembers //
+    .includes(userData.uid);
 
   const collName = getFbRoute(docMonth).MEETING_REVIEWS;
 
@@ -34,15 +42,24 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
     thumbnail,
   };
 
+  const { isOverdueEndOfThisMonth, updatePenaltyMonth } = useUpdatePenalty({
+    createdAt: docData.createdAt,
+  });
+
   const { onAddDocSubmit, onChange } = useAddDoc({
     setText,
     collName,
     docData,
   });
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // 일회 불참멤버이고, 이달 말까지의 기한이 넘은 경우
+    if (isOnceAbsenceThisMonth && isOverdueEndOfThisMonth) {
+      updatePenaltyMonth('불참 후기');
+    }
     onAddDocSubmit(event);
+
     if (docData.text !== '') {
       sendPostNotification('모임 후기');
     }
@@ -85,7 +102,6 @@ const TextArea = styled.textarea`
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 8px;
-
   @media ${device.tablet} {
     height: 150px;
   }
