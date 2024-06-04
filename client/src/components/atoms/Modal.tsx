@@ -42,11 +42,11 @@ const BoxModal = styled.section<{ $width: string }>`
   width: ${({ $width }) => $width};
   min-height: 180px;
   height: min-content;
-  max-height: 78vh;
+  max-height: 80vh;
   position: fixed;
   display: flex;
   flex-direction: column;
-  padding: 10px 12px 18px;
+  padding: 10px 12px 15px;
   margin: auto;
   top: 0;
   right: 0;
