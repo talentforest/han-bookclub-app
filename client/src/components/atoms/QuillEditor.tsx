@@ -59,7 +59,7 @@ const Editor = styled(ReactQuill)`
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     width: 100%;
-    height: 55vh;
+    height: 50vh;
     word-break: break-all;
     font-size: 16px;
   }
