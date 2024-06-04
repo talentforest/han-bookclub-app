@@ -1,24 +1,23 @@
-import { Months } from 'data/penaltyAtom';
+import { OverduePenaltyMonths } from 'data/penaltyAtom';
 import { Fragment, useState } from 'react';
 import { FiInfo } from 'react-icons/fi';
 import styled from 'styled-components';
 
 interface Props {
   title: string;
-  passDeadline: {
-    subject: Months[];
-    hostReview: Months[];
-    absence: Months[];
-    secondDeadline: Months[];
-  };
+  myPenalty: OverduePenaltyMonths;
 }
 
-export default function PenaltyBox({ title, passDeadline }: Props) {
+export default function PenaltyBox({ title, myPenalty }: Props) {
   const [isOpenInfo, setIsOpenInfo] = useState(false);
 
   const onInfoClick = () => setIsOpenInfo((prev) => !prev);
 
-  const { hostReview, subject, secondDeadline, absence } = passDeadline;
+  const {
+    overdueAbsenceMonths,
+    overdueHostReviewMonths,
+    overdueSubjectMonths,
+  } = myPenalty;
 
   const getNextMonth = (month: string) => {
     return +month.slice(0, -1) === 12
@@ -27,22 +26,18 @@ export default function PenaltyBox({ title, passDeadline }: Props) {
   };
 
   const totalCost = (
-    (subject.length + absence.length) * 7000 +
-    secondDeadline.length * 15000
+    (overdueSubjectMonths.length + overdueAbsenceMonths.length) *
+    7000
   ).toLocaleString('ko-KO');
 
   const costCauseList = [
     {
       title: '❗️발제문 기한 넘김 x ￦7,000',
-      penaltyMonths: subject,
+      penaltyMonths: overdueSubjectMonths,
     },
     {
       title: '❗️불참 후기 기한 넘김 x ￦7,000',
-      penaltyMonths: absence,
-    },
-    {
-      title: '❗️1차 페널티 기한 넘김 x ￦15,000',
-      penaltyMonths: secondDeadline,
+      penaltyMonths: overdueAbsenceMonths,
     },
   ];
 
@@ -53,8 +48,8 @@ export default function PenaltyBox({ title, passDeadline }: Props) {
       <div>
         {title === '의무 발제달' ? (
           <MonthList>
-            {hostReview.length !== 0 ? (
-              hostReview.map((month) => (
+            {overdueHostReviewMonths.length !== 0 ? (
+              overdueHostReviewMonths.map((month) => (
                 <li key={month}>{getNextMonth(month)}</li>
               ))
             ) : (

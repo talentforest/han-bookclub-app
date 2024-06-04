@@ -3,18 +3,20 @@ import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { getFbRoute } from 'util/index';
 import { thisMonthBookClubState } from 'data/bookClubAtom';
+import { PostType } from 'components/molecules/PostHandleBtns';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import QuillEditor from 'components/atoms/QuillEditor';
 import Modal from 'components/atoms/Modal';
 import SquareBtn from 'components/atoms/button/SquareBtn';
 import useSendPushNotification from 'hooks/useSendPushNotification';
+import useUpdatePenalty from 'hooks/useUpdatePenalty';
 
 interface Props {
   toggleModal: () => void;
-  title: '정리 기록 작성하기' | '발제문 작성하기';
+  postType: PostType;
 }
 
-const PostAddModal = ({ toggleModal, title }: Props) => {
+const PostAddModal = ({ toggleModal, postType }: Props) => {
   const [text, setText] = useState('');
 
   const thisMonthClub = useRecoilValue(thisMonthBookClubState);
@@ -28,17 +30,22 @@ const PostAddModal = ({ toggleModal, title }: Props) => {
   } = thisMonthClub;
 
   const collName =
-    title === '발제문 작성하기'
+    postType === '발제문'
       ? getFbRoute(id).SUBJECTS
       : getFbRoute(id).HOST_REVIEW;
 
   const docData = {
     text,
-    createdAt: Date.now(),
+    createdAt: new Date(2024, 5, 30).getTime(),
     creatorId: userData?.uid,
     title: bookTitle,
     thumbnail,
   };
+
+  const { isOverdueSubject, isOverdueEndOfThisMonth, updatePenaltyMonth } =
+    useUpdatePenalty({
+      createdAt: docData.createdAt,
+    });
 
   const { onAddDocSubmit } = useAddDoc({
     setText,
@@ -46,10 +53,15 @@ const PostAddModal = ({ toggleModal, title }: Props) => {
     docData,
   });
 
-  const postType = title === '발제문 작성하기' ? '발제문' : '정리 기록';
+  const isOverdue =
+    postType === '발제문' ? isOverdueSubject : isOverdueEndOfThisMonth;
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     onAddDocSubmit(event);
+    if (isOverdue) {
+      updatePenaltyMonth(postType);
+    }
+
     if (docData.text !== '') {
       sendPostNotification(postType);
     }
@@ -57,7 +69,7 @@ const PostAddModal = ({ toggleModal, title }: Props) => {
   };
 
   return (
-    <Modal onToggleClick={toggleModal} title={title}>
+    <Modal onToggleClick={toggleModal} title={`${postType} 작성하기`}>
       <form onSubmit={handleSubmit}>
         <QuillEditor
           placeholder={`${postType}을 작성해주세요`}

@@ -81,7 +81,7 @@ export function getDDay(deadline: string) {
   return `${diffDay + 1}일`;
 }
 
-// 다음달
+// 현재 시간의 다음달
 export const getNextMonthId = () => {
   const date = new Date(thisYearMonthId);
   date.setMonth(date.getMonth() + 1);
@@ -89,3 +89,35 @@ export const getNextMonthId = () => {
 };
 
 export const nextMonth = getLocaleDate(getNextMonthId(), { month: 'short' });
+
+// 모임 날짜: 매달 셋째주 일요일 구하기
+export function getThirdSunday(year = +thisYear, month = +thisMonth): Date {
+  let date = new Date(year, month - 1, 1);
+
+  while (date.getDay() !== 0) {
+    date.setDate(date.getDate() + 1);
+  }
+  date.setDate(date.getDate() + 14);
+  date.setHours(0, 0, 0, 0);
+
+  return date;
+}
+
+// ✅ 발제문 작성 기한: 모임 전주 금요일 자정까지
+export function getSubmitSubjectDate(
+  year = +thisYear,
+  month = +thisMonth
+): Date {
+  const date: Date = getThirdSunday(year, month);
+  date.setDate(date.getDate() - 2);
+  return date;
+}
+
+// ✅ 발제자의 정리 기록 => 매달 마지막 요일 자정
+// ✅ 모임 불참 후기 => 매달 마지막 요일 자정
+export function getLastDayOfMonth(year = +thisYear, month = +thisMonth): Date {
+  let date = new Date(year, month, 1);
+  date.setDate(date.getDate() - 1);
+  date.setHours(0, 0, 0, 0);
+  return date;
+}

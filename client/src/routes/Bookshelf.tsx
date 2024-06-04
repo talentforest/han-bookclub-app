@@ -14,20 +14,20 @@ import { PostType } from 'components/molecules/PostHandleBtns';
 import { EmptyBox } from './BookClubHistory';
 import { existDocObj, thisMonth, thisYear } from 'util/index';
 import { absenceListState } from 'data/absenceAtom';
-import { penaltyState } from 'data/penaltyAtom';
+import { OverduePenaltyMonths, penaltyDocState } from 'data/penaltyAtom';
 import Subtitle from 'components/atoms/Subtitle';
 import Tag from 'components/atoms/Tag';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import GuideLine from 'components/atoms/GuideLine';
 import UserImgName from 'components/molecules/UserImgName';
 import BookshelfPostList from 'components/organisms/BookshelfPostList';
+import PenaltyBox from 'components/molecules/PenaltyBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import Loading from 'components/atoms/Loading';
-import PenaltyBox from 'components/molecules/PenaltyBox';
 
 const Bookshelf = () => {
-  const [penaltyDoc, setPenaltyDoc] = useRecoilState(penaltyState);
+  const [penaltyDoc, setPenaltyDoc] = useRecoilState(penaltyDocState);
   const [absenceList, setAbsenceList] = useRecoilState(absenceListState);
   const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersState);
   const currentUser = useRecoilValue(currentUserState);
@@ -71,10 +71,7 @@ const Bookshelf = () => {
 
   const isCurrentUser = currentUser.uid === id;
   const userName = !userData || isCurrentUser ? '나' : displayName;
-
-  const myPenalty = penaltyDoc.usersPenaltyList?.find(
-    (penalty: any) => penalty.uid === currentUser.uid
-  );
+  const myPenalty = penaltyDoc[currentUser.uid];
 
   return (
     <>
@@ -121,11 +118,11 @@ const Bookshelf = () => {
             <>
               <PenaltyBox
                 title='의무 발제달'
-                passDeadline={myPenalty.passDeadline}
+                myPenalty={myPenalty as OverduePenaltyMonths}
               />
               <PenaltyBox
                 title='총 페널티비'
-                passDeadline={myPenalty.passDeadline}
+                myPenalty={myPenalty as OverduePenaltyMonths}
               />
             </>
           )}
