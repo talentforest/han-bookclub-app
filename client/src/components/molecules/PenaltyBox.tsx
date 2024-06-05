@@ -1,23 +1,31 @@
-import { OverduePenaltyMonths } from 'data/penaltyAtom';
-import { Fragment, useState } from 'react';
+import UserName from 'components/atoms/UserName';
+import { Month } from 'data/penaltyAtom';
+import { ReactNode, useState } from 'react';
 import { FiInfo } from 'react-icons/fi';
 import styled from 'styled-components';
 
 interface Props {
-  title: string;
-  myPenalty: OverduePenaltyMonths;
+  title:
+    | `${string} 의무 발제자`
+    | '의무 발제달'
+    | '누적 페널티비'
+    | '총 페널티비';
+  dutySubjectUsers?: string[];
+  subjectDutyMonths?: Month[];
+  totalCost?: number;
+  children?: ReactNode;
 }
 
-export default function PenaltyBox({ title, myPenalty }: Props) {
+export default function PenaltyBox({
+  title,
+  dutySubjectUsers,
+  subjectDutyMonths,
+  totalCost,
+  children,
+}: Props) {
   const [isOpenInfo, setIsOpenInfo] = useState(false);
 
   const onInfoClick = () => setIsOpenInfo((prev) => !prev);
-
-  const {
-    overdueAbsenceMonths,
-    overdueHostReviewMonths,
-    overdueSubjectMonths,
-  } = myPenalty;
 
   const getNextMonth = (month: string) => {
     return +month.slice(0, -1) === 12
@@ -25,109 +33,51 @@ export default function PenaltyBox({ title, myPenalty }: Props) {
       : `${+month.slice(0, -1) + 1}${month.slice(-1)}`;
   };
 
-  const totalCost = (
-    (overdueSubjectMonths.length + overdueAbsenceMonths.length) *
-    7000
-  ).toLocaleString('ko-KO');
-
-  const costCauseList = [
-    {
-      title: '❗️발제문 기한 넘김 x ￦7,000',
-      penaltyMonths: overdueSubjectMonths,
-    },
-    {
-      title: '❗️불참 후기 기한 넘김 x ￦7,000',
-      penaltyMonths: overdueAbsenceMonths,
-    },
-  ];
-
   return (
     <Box>
       <span>{title}</span>
 
       <div>
-        {title === '의무 발제달' ? (
-          <MonthList>
-            {overdueHostReviewMonths.length !== 0 ? (
-              overdueHostReviewMonths.map((month) => (
-                <li key={month}>{getNextMonth(month)}</li>
+        {title.includes('의무 발제자') && (
+          <List>
+            {dutySubjectUsers?.length !== 0 ? (
+              dutySubjectUsers?.map((userId) => (
+                <UserName key={userId} userId={userId} tag />
               ))
             ) : (
               <span>정보가 없습니다.</span>
             )}
-          </MonthList>
-        ) : (
+          </List>
+        )}
+
+        {title.includes('의무 발제달') && (
+          <List>
+            {subjectDutyMonths?.length !== 0 ? (
+              subjectDutyMonths?.map((month) => (
+                <Item key={month}>{getNextMonth(month)}</Item>
+              ))
+            ) : (
+              <span>정보가 없습니다.</span>
+            )}
+          </List>
+        )}
+
+        {title.includes('페널티비') && (
           <>
-            <span>￦{totalCost}</span>
-            {totalCost !== '0' && (
+            <span>￦{totalCost.toLocaleString('ko')}</span>
+            {totalCost !== 0 && children && (
               <button onClick={onInfoClick}>
                 <FiInfo />
               </button>
             )}
-          </>
-        )}
 
-        {isOpenInfo && (
-          <InfoModal>
-            {costCauseList.map(
-              ({ title, penaltyMonths }) =>
-                penaltyMonths.length !== 0 && (
-                  <Fragment key={title}>
-                    <span>{title}</span>
-                    <ul>
-                      {penaltyMonths.map((month) => (
-                        <li key={month}>{month}</li>
-                      ))}
-                    </ul>
-                  </Fragment>
-                )
-            )}
-            <div>
-              <span>합계:</span>
-              <span>￦{totalCost}</span>
-            </div>
-          </InfoModal>
+            {isOpenInfo && children}
+          </>
         )}
       </div>
     </Box>
   );
 }
-
-const InfoModal = styled.div`
-  box-shadow: ${({ theme }) => theme.boxShadow};
-  background-color: ${({ theme }) => theme.container.default};
-  border-radius: 12px;
-  position: absolute;
-  right: 0;
-  top: 52px;
-  padding: 10px 8px 5px;
-  z-index: 1;
-  span {
-    font-size: 13px;
-    color: ${({ theme }) => theme.text.gray4};
-  }
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    margin: 2px 0 8px 4px;
-    li {
-      background-color: ${({ theme }) => theme.container.purple1};
-      color: ${({ theme }) => theme.text.purple};
-      border-radius: 15px;
-      padding: 4px 8px;
-      font-size: 13px;
-    }
-  }
-  div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 12px;
-    border-top: 2px dotted ${({ theme }) => theme.text.gray1};
-    padding-top: 8px;
-  }
-`;
 
 const Box = styled.div`
   position: relative;
@@ -158,18 +108,19 @@ const Box = styled.div`
   }
 `;
 
-const MonthList = styled.ul`
+const List = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
   justify-content: flex-end;
   align-items: center;
   flex: 1;
-  li {
-    padding: 5px 8px;
-    border-radius: 10px;
-    font-size: 15px;
-    color: ${({ theme }) => theme.text.gray4};
-    background-color: ${({ theme }) => theme.container.yellow1};
-  }
+`;
+
+const Item = styled.li`
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 15px;
+  color: ${({ theme }) => theme.text.default};
+  background-color: ${({ theme }) => theme.container.lightGray};
 `;

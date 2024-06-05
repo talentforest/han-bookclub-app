@@ -9,7 +9,7 @@ import QuillEditor from 'components/atoms/QuillEditor';
 import Modal from 'components/atoms/Modal';
 import SquareBtn from 'components/atoms/button/SquareBtn';
 import useSendPushNotification from 'hooks/useSendPushNotification';
-import useUpdatePenalty from 'hooks/useUpdatePenalty';
+import useHandlePenalty from 'hooks/useHandlePenalty';
 
 interface Props {
   toggleModal: () => void;
@@ -43,7 +43,7 @@ const PostAddModal = ({ toggleModal, postType }: Props) => {
   };
 
   const { isOverdueSubject, isOverdueEndOfThisMonth, updatePenaltyMonth } =
-    useUpdatePenalty({
+    useHandlePenalty({
       createdAt: docData.createdAt,
     });
 
