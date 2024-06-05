@@ -1,4 +1,4 @@
-import { thisYear } from 'util/index';
+import { thisMonth, thisYear } from 'util/index';
 import Subtitle from 'components/atoms/Subtitle';
 import GuideLine from 'components/atoms/GuideLine';
 import VoteSlider from 'components/organisms/VoteSlider';
@@ -14,8 +14,12 @@ import Footer from 'layout/Footer';
 import BookFieldHostTable from 'components/organisms/BookFieldHostTable';
 import AbsenceMemberTable from 'components/organisms/AbsenceMemberTable';
 import AllowNotificationModalBox from 'components/organisms/modal/AllowNotificationModalBox';
+import PenaltyBox from 'components/molecules/PenaltyBox';
+import useHandlePenalty from 'hooks/useHandlePenalty';
 
 const Home = () => {
+  const { thisMonthSubjectDutyUsers, penaltyCostList } = useHandlePenalty({});
+
   return (
     <>
       <MobileHeader title='독서모임 한페이지' />
@@ -51,6 +55,22 @@ const Home = () => {
             <BookFieldHostTable isMonth />
           </TableContainer>
           <LinkChevronRightBtn title='월별 정보 더보기' to='/monthlyinfo' />
+        </Section>
+
+        <Section>
+          <Subtitle title='2024년 페널티 정보' />
+          <PenaltyBox
+            title={`${+thisMonth}월 의무 발제자`}
+            dutySubjectUsers={thisMonthSubjectDutyUsers}
+          />
+          <PenaltyBox
+            title='누적 페널티비'
+            totalCost={
+              (penaltyCostList.overdueAbsenceMonths?.length +
+                penaltyCostList.overdueSubjectMonths?.length) *
+              7000
+            }
+          />
         </Section>
       </main>
 

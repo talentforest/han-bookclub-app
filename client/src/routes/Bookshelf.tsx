@@ -25,6 +25,7 @@ import PenaltyBox from 'components/molecules/PenaltyBox';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import Loading from 'components/atoms/Loading';
+import PenaltyCostReceipt from 'components/molecules/PenaltyCostReceipt';
 
 const Bookshelf = () => {
   const [penaltyDoc, setPenaltyDoc] = useRecoilState(penaltyDocState);
@@ -53,9 +54,9 @@ const Bookshelf = () => {
       const thisMonthAbsence = absenceList.absenceMembers.find(
         (absence) => absence.month === +thisMonth
       );
-      const isBreak = thisMonthAbsence.breakMembers.includes(state.userId);
+      const isBreak = thisMonthAbsence.breakMembers.includes(state?.userId);
       const onceAbsence = thisMonthAbsence.onceAbsenceMembers.includes(
-        state.userId
+        state?.userId
       );
       return isBreak || onceAbsence;
     }
@@ -71,7 +72,7 @@ const Bookshelf = () => {
 
   const isCurrentUser = currentUser.uid === id;
   const userName = !userData || isCurrentUser ? '나' : displayName;
-  const myPenalty = penaltyDoc[currentUser.uid];
+  const myPenalty = penaltyDoc[id] as OverduePenaltyMonths;
 
   return (
     <>
@@ -118,12 +119,21 @@ const Bookshelf = () => {
             <>
               <PenaltyBox
                 title='의무 발제달'
-                myPenalty={myPenalty as OverduePenaltyMonths}
+                subjectDutyMonths={myPenalty.overdueHostReviewMonths}
               />
               <PenaltyBox
                 title='총 페널티비'
-                myPenalty={myPenalty as OverduePenaltyMonths}
-              />
+                totalCost={
+                  (myPenalty.overdueSubjectMonths?.length +
+                    myPenalty.overdueAbsenceMonths?.length) *
+                  7000
+                }
+              >
+                <PenaltyCostReceipt
+                  overdueSubjectMonths={myPenalty.overdueSubjectMonths}
+                  overdueAbsenceMonths={myPenalty.overdueAbsenceMonths}
+                />
+              </PenaltyBox>
             </>
           )}
         </Section>

@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import SquareBtn from '../atoms/button/SquareBtn';
 import useSendPushNotification from 'hooks/useSendPushNotification';
-import useUpdatePenalty from 'hooks/useUpdatePenalty';
+import useHandlePenalty from 'hooks/useHandlePenalty';
 
 interface PropsType {
   docMonth: string;
@@ -42,7 +42,7 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
     thumbnail,
   };
 
-  const { isOverdueEndOfThisMonth, updatePenaltyMonth } = useUpdatePenalty({
+  const { isOverdueEndOfThisMonth, updatePenaltyMonth } = useHandlePenalty({
     createdAt: docData.createdAt,
   });
 
