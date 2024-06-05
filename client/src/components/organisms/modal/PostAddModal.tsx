@@ -36,7 +36,7 @@ const PostAddModal = ({ toggleModal, postType }: Props) => {
 
   const docData = {
     text,
-    createdAt: new Date(2024, 5, 30).getTime(),
+    createdAt: Date.now(),
     creatorId: userData?.uid,
     title: bookTitle,
     thumbnail,
