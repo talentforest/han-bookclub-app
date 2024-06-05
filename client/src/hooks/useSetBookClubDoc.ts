@@ -4,7 +4,12 @@ import { dbService } from 'fbase';
 import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { getNextMonthId } from 'util/index';
+import {
+  getNextMonthId,
+  getThirdSunday,
+  thisMonth,
+  thisYear,
+} from 'util/index';
 import { THIS_YEAR_BOOKCLUB } from 'constants/index';
 
 interface PropsType {
@@ -28,6 +33,8 @@ const useSetBookClubDoc = ({ searchedBook }: PropsType) => {
     url,
   } = searchedBook;
 
+  const meetingTime = getThirdSunday(+thisYear, +thisMonth + 1, 13, 0);
+
   const bookClubInfo = {
     book: {
       thumbnail,
@@ -40,7 +47,7 @@ const useSetBookClubDoc = ({ searchedBook }: PropsType) => {
       datetime,
       url,
     },
-    meeting: { place: '', time: '' },
+    meeting: { place: '카페 느티', time: meetingTime.getTime() },
     createdAt: Date.now(),
     creatorId: userData.uid,
   };

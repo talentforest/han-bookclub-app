@@ -91,14 +91,19 @@ export const getNextMonthId = () => {
 export const nextMonth = getLocaleDate(getNextMonthId(), { month: 'short' });
 
 // 모임 날짜: 매달 셋째주 일요일 구하기
-export function getThirdSunday(year = +thisYear, month = +thisMonth): Date {
+export function getThirdSunday(
+  year = +thisYear,
+  month = +thisMonth,
+  hour = 0,
+  min = 0
+): Date {
   let date = new Date(year, month - 1, 1);
 
   while (date.getDay() !== 0) {
     date.setDate(date.getDate() + 1);
   }
   date.setDate(date.getDate() + 14);
-  date.setHours(0, 0, 0, 0);
+  date.setHours(hour, min, 0, 0);
 
   return date;
 }
