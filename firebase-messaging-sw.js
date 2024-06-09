@@ -19,6 +19,8 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+const messaging = firebase.messaging();
+
 /* eslint-disable no-restricted-globals */
 self.addEventListener('install', function () {
   self.skipWaiting();
@@ -31,43 +33,58 @@ self.addEventListener('activate', (e) => {
   );
 });
 
-self.addEventListener('push', function (e) {
-  if (!e.data.json()) return;
+const icon =
+  'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
 
-  const {
-    data: { title, body, link },
-    fcmMessageId,
-  } = e.data.json();
+messaging.onBackgroundMessage(messaging, (payload) => {
+  console.log(
+    '[firebase-messaging-sw.js] Received background message ',
+    payload
+  );
 
-  const icon =
-    'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
-
-  const options = {
-    body,
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
     icon,
-    data: { link },
-    tag: fcmMessageId,
   };
 
-  self.registration.showNotification(title, options);
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
-self.addEventListener('notificationclick', function (e) {
-  e.notification.close();
+// self.addEventListener('push', function (e) {
+//   if (!e.data.json()) return;
 
-  const link = e.notification.data.link;
+//   const {
+//     data: { title, body, link },
+//     fcmMessageId,
+//   } = e.data.json();
 
-  e.waitUntil(
-    clients.matchAll({ type: 'window' }).then((clientList) => {
-      for (const client of clientList) {
-        if (client.url === link && 'focus' in client) {
-          return client.focus();
-        }
-      }
-      if (clients.openWindow) {
-        return clients.openWindow(link);
-      }
-    })
-  );
-  return;
-});
+//   const options = {
+//     body,
+//     icon,
+//     data: { link },
+//     tag: fcmMessageId,
+//   };
+
+//   self.registration.showNotification(title, options);
+// });
+
+// self.addEventListener('notificationclick', function (e) {
+//   e.notification.close();
+
+//   const link = e.notification.data.link;
+
+//   e.waitUntil(
+//     clients.matchAll({ type: 'window' }).then((clientList) => {
+//       for (const client of clientList) {
+//         if (client.url === link && 'focus' in client) {
+//           return client.focus();
+//         }
+//       }
+//       if (clients.openWindow) {
+//         return clients.openWindow(link);
+//       }
+//     })
+//   );
+//   return;
+// });
