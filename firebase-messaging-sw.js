@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 importScripts(
-  'https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js'
+  'https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js'
 );
 
 importScripts(
-  'https://www.gstatic.com/firebasejs/9.1.0/firebase-messaging-compat.js'
+  'https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compat.js'
 );
 
 const firebaseConfig = {
@@ -33,10 +33,10 @@ self.addEventListener('activate', (e) => {
   );
 });
 
-const icon =
-  'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
-
 messaging.onBackgroundMessage(messaging, (payload) => {
+  const icon =
+    'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
+
   console.log(
     '[firebase-messaging-sw.js] Received background message ',
     payload
