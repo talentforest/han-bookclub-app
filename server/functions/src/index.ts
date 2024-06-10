@@ -69,17 +69,49 @@ export const sendMulticast = onCall(
     }
 
     const message = {
-      data: {
+      notification: {
         title,
         body,
-        link, // 클릭 시 이동할 URL을 data에 포함
+      },
+      data: {
+        link,
       },
       tokens,
+      webpush: {
+        fcmOptions: {
+          link,
+        },
+      },
     };
 
     try {
       const response = await admin.messaging().sendEachForMulticast(message);
-      console.log('Successfully sent message:', response);
+
+      // 유효하지 않은 토큰 삭제
+      const invalidTokens = tokens.filter(
+        (_, index) => response.responses[index].error?.code !== ''
+      );
+
+      if (invalidTokens.length > 0) {
+        const deletePromises = invalidTokens.map(async (invalidToken) => {
+          // Firestore에서 토큰이 포함된 문서 찾기
+          const snapshot = await db
+            .collection('FCMNotification')
+            .where('tokens', 'array-contains', invalidToken)
+            .get();
+
+          snapshot.forEach(async (doc) => {
+            const docData = doc.data();
+            const updatedTokens = docData.tokens.filter(
+              (token: string) => token === invalidToken
+            );
+
+            await doc.ref.update({ tokens: updatedTokens });
+          });
+        });
+        await Promise.all(deletePromises);
+      }
+
       return { success: true, response };
     } catch (error) {
       console.log('Error sending message:', error);
