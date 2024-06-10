@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, reauthenticateWithCredential } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
-import { getMessaging, getToken } from 'firebase/messaging';
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import {
   connectFunctionsEmulator,
   getFunctions,
@@ -49,6 +49,13 @@ const functions = getFunctions();
 if (process.env.NODE_ENV === 'development') {
   connectFunctionsEmulator(functions, 'localhost', 5001);
 }
+
+onMessage(messaging, (payload) => {
+  new Notification(payload.notification.title, {
+    body: payload.notification.body,
+    icon: 'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg',
+  });
+});
 
 export const getDeviceToken = async () => {
   return getToken(messaging, {
