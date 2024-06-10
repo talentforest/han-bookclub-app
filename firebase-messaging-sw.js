@@ -44,47 +44,29 @@ messaging.onBackgroundMessage(messaging, (payload) => {
 
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
-    body: payload.notification.body,
+    body: `onBackgroundMessage: ${payload.notification.body}`,
     icon,
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
-// self.addEventListener('push', function (e) {
-//   if (!e.data.json()) return;
+self.addEventListener('notificationclick', function (e) {
+  e.notification.close();
 
-//   const {
-//     data: { title, body, link },
-//     fcmMessageId,
-//   } = e.data.json();
+  const link = e.notification.data.link;
 
-//   const options = {
-//     body,
-//     icon,
-//     data: { link },
-//     tag: fcmMessageId,
-//   };
-
-//   self.registration.showNotification(title, options);
-// });
-
-// self.addEventListener('notificationclick', function (e) {
-//   e.notification.close();
-
-//   const link = e.notification.data.link;
-
-//   e.waitUntil(
-//     clients.matchAll({ type: 'window' }).then((clientList) => {
-//       for (const client of clientList) {
-//         if (client.url === link && 'focus' in client) {
-//           return client.focus();
-//         }
-//       }
-//       if (clients.openWindow) {
-//         return clients.openWindow(link);
-//       }
-//     })
-//   );
-//   return;
-// });
+  e.waitUntil(
+    clients.matchAll({ type: 'window' }).then((clientList) => {
+      for (const client of clientList) {
+        if (client.url === link && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(link);
+      }
+    })
+  );
+  return;
+});
