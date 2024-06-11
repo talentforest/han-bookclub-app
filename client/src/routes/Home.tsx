@@ -60,7 +60,7 @@ const Home = () => {
         <Section>
           <Subtitle title='2024년 페널티 정보' />
           <PenaltyBox
-            title={`${+thisMonth}월 의무 발제자`}
+            title={`${+thisMonth}월 의무 발제 부과`}
             dutySubjectUsers={thisMonthSubjectDutyUsers}
           />
           <PenaltyBox

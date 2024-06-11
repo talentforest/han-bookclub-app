@@ -15,12 +15,12 @@ const useSendPushNotification = () => {
 
   // 전체 유저에게 게시물 등록 알림 보내기
   const sendPostNotification = async (type: PostType) => {
-    const title = `📝새로운 ${type} 등록`;
+    const title = `🔥새로운 ${type} 등록`;
 
     const postposition =
       type === '모임 후기' || type === '공유하고 싶은 문구' ? '를' : '을';
 
-    const body = `✨${currentUser.displayName}님이 방금 ${type}${postposition} 등록하셨어요. 바로 확인해보세요!👀`;
+    const body = `${currentUser.displayName}님이 ${type}${postposition} 작성하셨어요. 바로 확인해보세요!👀`;
 
     const subPath =
       type === '발제문'
