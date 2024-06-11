@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 interface Props {
   title:
-    | `${string} 의무 발제자`
+    | `${string} 의무 발제 부과`
     | '의무 발제달'
     | '누적 페널티비'
     | '총 페널티비';
@@ -35,46 +35,48 @@ export default function PenaltyBox({
 
   return (
     <Box>
-      <span>{title}</span>
+      <BoxTitle className='title'>{title}</BoxTitle>
 
-      <div>
-        {title.includes('의무 발제자') && (
-          <List>
-            {dutySubjectUsers?.length !== 0 ? (
-              dutySubjectUsers?.map((userId) => (
+      {title.includes('의무 발제 부과') && (
+        <>
+          {dutySubjectUsers?.length !== 0 ? (
+            <List>
+              {dutySubjectUsers?.map((userId) => (
                 <UserName key={userId} userId={userId} tag />
-              ))
-            ) : (
-              <span>정보가 없습니다.</span>
-            )}
-          </List>
-        )}
+              ))}
+            </List>
+          ) : (
+            <EmptyData>발제가 부과된 사람이 없어요.</EmptyData>
+          )}
+        </>
+      )}
 
-        {title.includes('의무 발제달') && (
-          <List>
-            {subjectDutyMonths?.length !== 0 ? (
-              subjectDutyMonths?.map((month) => (
+      {title.includes('의무 발제달') && (
+        <>
+          {subjectDutyMonths?.length !== 0 ? (
+            <List>
+              {subjectDutyMonths?.map((month) => (
                 <Item key={month}>{getNextMonth(month)}</Item>
-              ))
-            ) : (
-              <span>정보가 없습니다.</span>
-            )}
-          </List>
-        )}
+              ))}
+            </List>
+          ) : (
+            <EmptyData>정보가 없습니다.</EmptyData>
+          )}
+        </>
+      )}
 
-        {title.includes('페널티비') && (
-          <>
-            <span>￦{totalCost.toLocaleString('ko')}</span>
-            {totalCost !== 0 && children && (
-              <button onClick={onInfoClick}>
-                <FiInfo />
-              </button>
-            )}
+      {title.includes('페널티비') && (
+        <>
+          <span>￦{totalCost.toLocaleString('ko')}</span>
+          {totalCost !== 0 && children && (
+            <button onClick={onInfoClick}>
+              <FiInfo />
+            </button>
+          )}
 
-            {isOpenInfo && children}
-          </>
-        )}
-      </div>
+          {isOpenInfo && children}
+        </>
+      )}
     </Box>
   );
 }
@@ -90,22 +92,12 @@ const Box = styled.div`
   background-color: ${({ theme }) => theme.container.default};
   box-shadow: ${({ theme }) => theme.boxShadow};
   margin-bottom: 10px;
-  > span {
-    font-size: 15px;
-    color: ${({ theme }) => theme.text.gray3};
-  }
-  > div {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    > button {
-      padding-top: 4px;
-      svg {
-        font-size: 16px;
-        stroke: ${({ theme }) => theme.text.gray3};
-      }
-    }
-  }
+`;
+
+const BoxTitle = styled.span`
+  min-width: 85px;
+  font-size: 15px;
+  color: ${({ theme }) => theme.text.gray3};
 `;
 
 const List = styled.ul`
@@ -114,7 +106,6 @@ const List = styled.ul`
   gap: 5px;
   justify-content: flex-end;
   align-items: center;
-  flex: 1;
 `;
 
 const Item = styled.li`
@@ -123,4 +114,8 @@ const Item = styled.li`
   font-size: 15px;
   color: ${({ theme }) => theme.text.default};
   background-color: ${({ theme }) => theme.container.lightGray};
+`;
+
+const EmptyData = styled.span`
+  text-align: end;
 `;

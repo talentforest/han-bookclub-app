@@ -116,7 +116,7 @@ const Bookshelf = () => {
         <Section>
           <Subtitle title={`${userName}의 페널티 현황`} />
           {myPenalty && (
-            <>
+            <PenaltyContainer>
               <PenaltyBox
                 title='의무 발제달'
                 subjectDutyMonths={myPenalty.overdueHostReviewMonths}
@@ -134,7 +134,7 @@ const Bookshelf = () => {
                   overdueAbsenceMonths={myPenalty.overdueAbsenceMonths}
                 />
               </PenaltyBox>
-            </>
+            </PenaltyContainer>
           )}
         </Section>
 
@@ -196,6 +196,12 @@ export const EmptyBookShelfBox = styled(EmptyBox)`
   }
   @media ${device.desktop} {
     grid-column: 1 / span 7;
+  }
+`;
+
+export const PenaltyContainer = styled.div`
+  @media ${device.desktop} {
+    width: 50%;
   }
 `;
 

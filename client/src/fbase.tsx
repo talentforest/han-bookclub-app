@@ -53,7 +53,6 @@ if (process.env.NODE_ENV === 'development') {
 onMessage(messaging, (payload) => {
   new Notification(payload.notification.title, {
     body: payload.notification.body,
-    icon: 'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg',
   });
 });
 
