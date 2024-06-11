@@ -54,14 +54,16 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('push', (event) => {
   const eventData = event.data.json();
 
-  const { notification } = eventData;
+  const {
+    notification: { body, title },
+  } = eventData;
 
   const options = {
-    body: notification.body,
+    body,
     icon: 'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg',
   };
   event.waitUntil(
-    self.registration.showNotification(notification.title, options)
+    self.registration.showNotification(`푸시이벤트: ${title}`, options)
   );
 });
 
