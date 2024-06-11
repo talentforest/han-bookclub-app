@@ -33,38 +33,22 @@ self.addEventListener('activate', (e) => {
   );
 });
 
-// messaging.onBackgroundMessage(messaging, (payload) => {
-//   const icon =
-//     'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
+messaging.onBackgroundMessage(messaging, (payload) => {
+  const icon =
+    'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
 
-//   console.log(
-//     '[firebase-messaging-sw.js] Received background message ',
-//     payload
-//   );
-
-//   const notificationTitle = payload.notification.title;
-//   const notificationOptions = {
-//     body: `onBackgroundMessage: ${payload.notification.body}`,
-//     icon,
-//   };
-
-//   self.registration.showNotification(notificationTitle, notificationOptions);
-// });
-
-self.addEventListener('push', (event) => {
-  const eventData = event.data.json();
-
-  const {
-    notification: { body, title },
-  } = eventData;
-
-  const options = {
-    body,
-    icon: 'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg',
-  };
-  event.waitUntil(
-    self.registration.showNotification(`푸시이벤트: ${title}`, options)
+  console.log(
+    '[firebase-messaging-sw.js] Received background message ',
+    payload
   );
+
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: `onBackgroundMessage: ${payload.notification.body}`,
+    icon,
+  };
+
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
 self.addEventListener('notificationclick', function (event) {
