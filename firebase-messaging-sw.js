@@ -33,28 +33,42 @@ self.addEventListener('activate', (e) => {
   );
 });
 
-messaging.onBackgroundMessage(messaging, (payload) => {
-  const icon =
-    'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
+// messaging.onBackgroundMessage(messaging, (payload) => {
+//   const icon =
+//     'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg';
 
-  console.log(
-    '[firebase-messaging-sw.js] Received background message ',
-    payload
-  );
+//   console.log(
+//     '[firebase-messaging-sw.js] Received background message ',
+//     payload
+//   );
 
-  const notificationTitle = payload.notification.title;
-  const notificationOptions = {
-    body: `onBackgroundMessage: ${payload.notification.body}`,
-    icon,
+//   const notificationTitle = payload.notification.title;
+//   const notificationOptions = {
+//     body: `onBackgroundMessage: ${payload.notification.body}`,
+//     icon,
+//   };
+
+//   self.registration.showNotification(notificationTitle, notificationOptions);
+// });
+
+self.addEventListener('push', (event) => {
+  const eventData = event.data.json();
+
+  const { notification } = eventData;
+
+  const options = {
+    body: notification.body,
+    icon: 'https://talentforest.github.io/han-bookclub-app/hanpage_shortcut_logo.jpeg',
   };
-
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  event.waitUntil(
+    self.registration.showNotification(notification.title, options)
+  );
 });
 
-self.addEventListener('notificationclick', function (e) {
-  e.notification.close();
+self.addEventListener('notificationclick', function (event) {
+  event.notification.close();
 
-  const link = e.notification.data.link;
+  const link = event.notification.data.link;
 
   e.waitUntil(
     clients.matchAll({ type: 'window' }).then((clientList) => {
