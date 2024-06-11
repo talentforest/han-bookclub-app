@@ -1,5 +1,4 @@
-import { gender, bookFields } from 'constants/index';
-import { createAccountSteps } from 'constants/createAccountSteps';
+import { gender, bookFields, createAccountSteps } from 'constants/index';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import useCreateAccount from 'hooks/useCreateAccount';

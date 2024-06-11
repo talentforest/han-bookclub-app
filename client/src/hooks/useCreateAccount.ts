@@ -4,8 +4,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { USER_DATA } from 'constants/index';
-import { createAccountSteps } from 'constants/createAccountSteps';
+import { USER_DATA, createAccountSteps } from 'constants/index';
 
 const useCreateAccount = () => {
   const [currentStep, setCurrentStep] = useState(createAccountSteps[0]);
