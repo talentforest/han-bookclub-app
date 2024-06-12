@@ -34,9 +34,6 @@ self.addEventListener('activate', (e) => {
 });
 
 messaging.onBackgroundMessage(messaging, (payload) => {
-  const icon =
-    'https://talentforest.github.io/han-bookclub-app/hanpage_logo.png';
-
   console.log(
     '[firebase-messaging-sw.js] Received background message ',
     payload
@@ -45,7 +42,6 @@ messaging.onBackgroundMessage(messaging, (payload) => {
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: `onBackgroundMessage: ${payload.notification.body}`,
-    icon,
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
