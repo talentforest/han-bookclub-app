@@ -51,22 +51,22 @@ messaging.onBackgroundMessage(messaging, (payload) => {
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
-self.addEventListener('notificationclick', function (event) {
-  event.notification.close();
+// self.addEventListener('notificationclick', function (event) {
+//   event.notification.close();
 
-  const link = event.notification.data.link;
+//   const link = event.notification.data.link;
 
-  e.waitUntil(
-    clients.matchAll({ type: 'window' }).then((clientList) => {
-      for (const client of clientList) {
-        if (client.url === link && 'focus' in client) {
-          return client.focus();
-        }
-      }
-      if (clients.openWindow) {
-        return clients.openWindow(link);
-      }
-    })
-  );
-  return;
-});
+//   e.waitUntil(
+//     clients.matchAll({ type: 'window' }).then((clientList) => {
+//       for (const client of clientList) {
+//         if (client.url === link && 'focus' in client) {
+//           return client.focus();
+//         }
+//       }
+//       if (clients.openWindow) {
+//         return clients.openWindow(link);
+//       }
+//     })
+//   );
+//   return;
+// });
