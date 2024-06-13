@@ -1,5 +1,5 @@
 import { todayWithHyphen } from 'util/index';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FiUsers } from 'react-icons/fi';
 import { BOOK_VOTE, VOTE } from 'constants/index';
 import useHandleVoting from 'hooks/useHandleVoting';
@@ -16,18 +16,28 @@ import VoteBookItemBtn from 'components/atoms/button/VoteBookItemBtn';
 import VoteItemReasonBox from 'components/molecules/VoteItemReasonBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
+import { useEffect } from 'react';
 
 type LocationState = {
   state: {
-    collName: string;
+    collName: 'BookVote' | 'Vote';
     docId: string;
   };
 };
 
 const VoteDetail = () => {
-  const {
-    state: { collName, docId },
-  } = useLocation() as LocationState;
+  const location = useLocation() as LocationState;
+
+  const collName = location.state?.collName;
+  const docId = location.state?.docId;
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!collName || !docId) {
+      navigate('/vote');
+    }
+  }, []);
 
   const {
     bookVote,
