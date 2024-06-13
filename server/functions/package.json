@@ -20,7 +20,6 @@
     "firebase-functions": "^5.0.0"
   },
   "devDependencies": {
-    "@types/node-cron": "^3.0.11",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
     "eslint": "^8.9.0",

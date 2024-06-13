@@ -108,7 +108,7 @@ export function getThirdSunday(
   return date;
 }
 
-// ✅ 발제문 작성 기한: 모임 전주 금요일 자정까지
+// ✅ 발제문 작성 기한: 모임 전주 목요일 자정까지
 export function getSubmitSubjectDate(
   year = +thisYear,
   month = +thisMonth
