@@ -16,19 +16,9 @@ import AbsenceMemberTable from 'components/organisms/AbsenceMemberTable';
 import AllowNotificationModalBox from 'components/organisms/modal/AllowNotificationModalBox';
 import PenaltyBox from 'components/molecules/PenaltyBox';
 import useHandlePenalty from 'hooks/useHandlePenalty';
-import useSendPushNotification from 'hooks/useSendPushNotification';
 
 const Home = () => {
   const { thisMonthSubjectDutyUsers, penaltyCostList } = useHandlePenalty({});
-
-  const { sendNotificationToCurrentUser } = useSendPushNotification();
-
-  const onClick = () => {
-    sendNotificationToCurrentUser({
-      title: '포그라운드 테스트🔥',
-      body: '테스트합니다.',
-    });
-  };
 
   return (
     <>
@@ -84,10 +74,8 @@ const Home = () => {
         </Section>
       </main>
 
-      <button onClick={onClick}>버튼</button>
-
       <Footer />
-      {/* <AllowNotificationModalBox /> */}
+      <AllowNotificationModalBox />
     </>
   );
 };

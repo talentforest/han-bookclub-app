@@ -1,6 +1,6 @@
 import { currentUserState } from 'data/userAtom';
 import { dbService } from 'fbase';
-import { addDoc, collection } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { formatHyphenDate } from 'util/index';
@@ -13,6 +13,7 @@ import {
 } from 'data/voteAtom';
 import { BOOK_VOTE } from 'constants/index';
 import useAlertAskJoin from './useAlertAskJoin';
+import useSendPushNotification from './useSendPushNotification';
 
 interface Props {
   onToggleModal: () => void;
@@ -45,8 +46,11 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('register');
 
-  const addDocVote = async () => {
-    await addDoc(collection(dbService, BOOK_VOTE), newVote);
+  const { sendVotePushNotification } = useSendPushNotification();
+
+  const setDocVote = async () => {
+    const document = doc(dbService, BOOK_VOTE, `VoteId_${newVote.voteId}`);
+    await setDoc(document, newVote);
   };
 
   const onNewVoteSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -62,9 +66,14 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
     if (findNoBookInfo) return alert('투표 항목이 모두 작성되지 않았습니다!');
 
     try {
-      addDocVote();
+      setDocVote();
       window.alert('투표가 성공적으로 등록되었습니다!');
       onToggleModal();
+      // 모든 유저에게 알림 보내기
+      sendVotePushNotification({
+        voteTitle: newVote.title,
+        subPath: `/vote/${newVote.voteId}`,
+      });
     } catch (error) {
       console.error('Error adding document:', error);
     }
