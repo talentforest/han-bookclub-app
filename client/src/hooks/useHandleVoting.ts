@@ -48,7 +48,9 @@ const useHandleVoting = ({ collName, docId }: Props) => {
 
   useEffect(() => {
     getCollection(VoteItemsColl, setVotedItemsByMember);
-    getDocument(collName, docId, setCurrentVote);
+    if (docId) {
+      getDocument(collName, docId, setCurrentVote);
+    }
   }, [collName, docId, setCurrentVote, setVotedItemsByMember]);
 
   const onVoteDeleteClick = async () => {

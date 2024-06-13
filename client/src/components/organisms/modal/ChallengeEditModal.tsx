@@ -11,6 +11,7 @@ import SquareBtn from 'components/atoms/button/SquareBtn';
 import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
 import RefInput from 'components/atoms/input/RefInput';
 import styled from 'styled-components';
+import useSendPushNotification from 'hooks/useSendPushNotification';
 
 interface Props {
   challenge: IChallenge;
@@ -31,6 +32,8 @@ export default function ChallengeEditModal({
   const userData = useRecoilValue(currentUserState);
 
   const currPageRef = useRef<HTMLInputElement>();
+
+  const { sendCompleteChallengePushNotification } = useSendPushNotification();
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -61,6 +64,9 @@ export default function ChallengeEditModal({
 
     if (currentPage === currChallengeBook.wholePage) {
       alert('축하합니다! 챌린지 하나를 완주하셨군요!👏👏👏');
+      sendCompleteChallengePushNotification({
+        bookTitle: currChallengeBook.title,
+      });
     } else {
       alert('현재 페이지가 수정되었어요!');
     }
