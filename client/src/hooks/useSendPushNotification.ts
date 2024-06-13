@@ -2,6 +2,7 @@ import { allUsersState, currentUserState } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 import { getDeviceToken, sendMulticast, sendUnicast } from 'fbase';
 import { PostType } from 'components/molecules/PostHandleBtns';
+import { DOMAIN } from 'constants/index';
 
 const useSendPushNotification = () => {
   const allUsers = useRecoilValue(allUsersState);
@@ -24,16 +25,16 @@ const useSendPushNotification = () => {
 
     const subPath =
       type === '발제문'
-        ? 'bookclub/subjects'
+        ? '/bookclub/subjects'
         : type === '정리 기록'
-        ? 'bookclub/host-review'
+        ? '/bookclub/host-review'
         : type === '모임 후기' || type === '추천책'
-        ? 'bookclub'
+        ? '/bookclub'
         : type === '공유하고 싶은 문구'
-        ? 'challenge'
-        : process.env.PUBLIC_URL;
+        ? '/challenge'
+        : '';
 
-    const link = `${process.env.PUBLIC_URL}/${subPath}`;
+    const link = `${DOMAIN}${process.env.PUBLIC_URL}${subPath}`;
 
     sendMulticast({ title, body, link, uid: currentUser.uid }) //
       .catch((err) => console.log(err));
@@ -43,17 +44,16 @@ const useSendPushNotification = () => {
   const sendNotificationToCurrentUser = async (notificationData: {
     title: string;
     body: string;
-    link: string;
   }) => {
-    const { title, body, link } = notificationData;
+    const { title, body } = notificationData;
+
+    const link = `${DOMAIN}${process.env.PUBLIC_URL}`;
 
     getDeviceToken()
       .then((token) => {
         sendUnicast({ title, body, token, link });
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
   };
 
   return {

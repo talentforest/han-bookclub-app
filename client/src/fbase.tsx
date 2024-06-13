@@ -2,12 +2,13 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, reauthenticateWithCredential } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
-import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import { getMessaging, getToken } from 'firebase/messaging';
 import {
   connectFunctionsEmulator,
   getFunctions,
   httpsCallable,
 } from 'firebase/functions';
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 
 interface NotificationData {
   title: string;
@@ -39,6 +40,12 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
+
+const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider(process.env.REACT_APP_APP_CHECK_SITE_KEY),
+  isTokenAutoRefreshEnabled: true,
+});
+
 export const authService = getAuth();
 export const reauth = reauthenticateWithCredential;
 export const dbService = getFirestore();
@@ -49,12 +56,6 @@ const functions = getFunctions();
 if (process.env.NODE_ENV === 'development') {
   connectFunctionsEmulator(functions, 'localhost', 5001);
 }
-
-onMessage(messaging, (payload) => {
-  new Notification(payload.notification.title, {
-    body: payload.notification.body,
-  });
-});
 
 export const getDeviceToken = async () => {
   return getToken(messaging, {
