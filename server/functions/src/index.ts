@@ -69,28 +69,22 @@ export const sendMulticast = onCall(
     }
 
     const message = {
-      notification: {
+      data: {
         title,
         body,
-      },
-      data: {
         link,
       },
       tokens,
-      webpush: {
-        fcmOptions: {
-          link,
-        },
-      },
     };
 
     try {
       const response = await admin.messaging().sendEachForMulticast(message);
 
-      // 유효하지 않은 토큰 삭제
-      const invalidTokens = tokens.filter(
-        (_, index) => response.responses[index].error?.code !== ''
-      );
+      // 유효하지 않은 토큰 배열
+      const invalidTokens = tokens.filter((_, index) => {
+        const errorCode = response.responses[index].error?.code;
+        return errorCode === 'messaging/registration-token-not-registered';
+      });
 
       if (invalidTokens.length > 0) {
         const deletePromises = invalidTokens.map(async (invalidToken) => {
@@ -100,14 +94,14 @@ export const sendMulticast = onCall(
             .where('tokens', 'array-contains', invalidToken)
             .get();
 
-          snapshot.forEach(async (doc) => {
+          const updatePromises = snapshot.docs.map(async (doc) => {
             const docData = doc.data();
             const updatedTokens = docData.tokens.filter(
-              (token: string) => token === invalidToken
+              (token: string) => token !== invalidToken
             );
-
             await doc.ref.update({ tokens: updatedTokens });
           });
+          await Promise.all(updatePromises);
         });
         await Promise.all(deletePromises);
       }
