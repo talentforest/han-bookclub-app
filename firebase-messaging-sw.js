@@ -19,50 +19,56 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const messaging = firebase.messaging();
-
 /* eslint-disable no-restricted-globals */
 self.addEventListener('install', function () {
   self.skipWaiting();
 });
 
 // 서비스 워커 활성화 이벤트 리스너
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
     clients.claim() // 클라이언트 제어 권한 획득
   );
 });
 
-messaging.onBackgroundMessage(messaging, (payload) => {
-  console.log(
-    '[firebase-messaging-sw.js] Received background message ',
-    payload
-  );
+self.addEventListener('push', function (event) {
+  if (event.data) {
+    const icon =
+      'https://talentforest.github.io/han-bookclub-app/hanpage_logo.png';
 
-  const notificationTitle = payload.notification.title;
-  const notificationOptions = {
-    body: `onBackgroundMessage: ${payload.notification.body}`,
-  };
+    const {
+      data: { title, body, link },
+    } = event.data.json();
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+    const options = {
+      body,
+      icon,
+      data: {
+        link,
+      },
+    };
+
+    event.waitUntil(self.registration.showNotification(title, options));
+  } else {
+    console.log('푸시 이벤트 데이터가 없습니다.');
+  }
 });
 
-// self.addEventListener('notificationclick', function (event) {
-//   event.notification.close();
+self.addEventListener('notificationclick', function (event) {
+  event.notification.close();
 
-//   const link = event.notification.data.link;
+  const { link } = event.notification.data;
 
-//   e.waitUntil(
-//     clients.matchAll({ type: 'window' }).then((clientList) => {
-//       for (const client of clientList) {
-//         if (client.url === link && 'focus' in client) {
-//           return client.focus();
-//         }
-//       }
-//       if (clients.openWindow) {
-//         return clients.openWindow(link);
-//       }
-//     })
-//   );
-//   return;
-// });
+  event.waitUntil(
+    clients.matchAll({ type: 'window' }).then((clientList) => {
+      for (const client of clientList) {
+        if (client.url === link && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(link);
+      }
+    })
+  );
+});
