@@ -20,7 +20,7 @@ export default function AllowNotificationModalBox() {
   const toggleModal = () => setShowModal((prev) => !prev);
 
   const handleLocalStorage = (type: 'get' | 'set', notification?: boolean) => {
-    const storeKey = 'notification';
+    const storeKey = 'notification'; // 유저가 알림 허용 여부를 이미 설정했을 때
 
     if (type === 'set') {
       return localStorage.setItem(storeKey, JSON.stringify(notification));
@@ -36,10 +36,11 @@ export default function AllowNotificationModalBox() {
 
     const document = doc(dbService, FCM_NOTIFICATION, uid);
     // 다른 기기에서 허용한 적이 있는 경우
-    if (fcmDoc?.notification === true && fcmDoc?.tokens?.length !== 0) {
+    if (fcmDoc?.notification === true) {
       const fcmData = {
         createdAt: Date.now(),
-        tokens: [...fcmDoc?.tokens, token],
+        tokens:
+          fcmDoc?.tokens?.length !== 0 ? [...fcmDoc?.tokens, token] : [token],
       };
       await updateDoc(document, fcmData);
     } else {
@@ -68,12 +69,12 @@ export default function AllowNotificationModalBox() {
       sendNotificationToCurrentUser(notificationData);
       saveFcmDataInDB();
     } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission().then(async (permission) => {
-        if (permission === 'granted') {
-          sendNotificationToCurrentUser(notificationData);
-          saveFcmDataInDB();
-        }
-      });
+      const permission = await Notification.requestPermission();
+
+      if (permission === 'granted') {
+        sendNotificationToCurrentUser(notificationData);
+        saveFcmDataInDB();
+      }
     }
     handleLocalStorage('set', true);
     toggleModal();

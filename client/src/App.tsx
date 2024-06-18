@@ -36,7 +36,7 @@ function App() {
   }, [userData?.uid]);
 
   useEffect(() => {
-    if (fcmDoc?.tokens && fcmDoc?.tokens?.length !== 0) {
+    if (fcmDoc?.notification === true) {
       const compareToken = async () => {
         if (Notification.permission === 'granted') {
           const token = await getDeviceToken();
@@ -51,12 +51,16 @@ function App() {
             const document = doc(dbService, FCM_NOTIFICATION, userData.uid);
             const fcmData = {
               createdAt: Date.now(),
-              tokens: [...fcmDoc.tokens, token],
+              tokens:
+                fcmDoc?.tokens?.length !== 0
+                  ? [...fcmDoc?.tokens, token]
+                  : [token],
             };
             await updateDoc(document, fcmData);
           }
         }
       };
+
       compareToken();
     }
   }, [fcmDoc]);
