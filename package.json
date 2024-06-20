@@ -1,7 +1,7 @@
 {
   "name": "han-bookclub",
-  "version": "1.0.0",
-  "description": "독서모임 한페이지 기록앱",
+  "version": "2.0.0",
+  "description": "독서모임 한페이지",
   "private": true,
   "scripts": {
     "client": "cd client && npm start",
