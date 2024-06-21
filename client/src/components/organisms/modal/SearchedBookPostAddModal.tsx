@@ -95,6 +95,10 @@ export default function SearchedBookPostAddModal({
 const StepBox = styled.div`
   position: relative;
   margin-top: 5px;
+  min-height: 55vh;
+  @media ${device.tablet} {
+    min-height: 30vh;
+  }
 `;
 
 const SearchBox = styled.div`

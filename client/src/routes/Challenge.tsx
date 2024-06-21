@@ -21,6 +21,21 @@ import DDay from 'components/atoms/DDay';
 import Tag from 'components/atoms/Tag';
 import SwiperContainer from 'components/molecules/SwiperContainer';
 
+const swiperOptions = {
+  slidesPerView: 'auto' as 'auto',
+  breakpoints: {
+    900: {
+      slidesPerView: 3,
+    },
+    520: {
+      slidesPerView: 2,
+    },
+    320: {
+      slidesPerView: 1,
+    },
+  },
+};
+
 export default function Challenge() {
   const [showChallengeModal, setShowChallengeModal] = useState(false);
   const [userChallenges, setUserChallenges] = useRecoilState(challengeState);
@@ -46,7 +61,7 @@ export default function Challenge() {
 
           <SentenceListBox>
             {sentences?.length !== 0 ? (
-              <SwiperContainer>
+              <SwiperContainer options={swiperOptions}>
                 {sentences?.slice(0, 4).map((sentence) => (
                   <SwiperSlide key={sentence.id}>
                     <SentenceSlideBox
@@ -76,7 +91,7 @@ export default function Challenge() {
           </AddBtnBox>
 
           <Tag color='purple'>
-            <DDay hyphenDate={'2024-12-31'} />
+            <DDay hyphenDate={`${thisYear}-12-31`} />
           </Tag>
 
           <ChallengeList>

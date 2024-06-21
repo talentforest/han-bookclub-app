@@ -33,9 +33,7 @@ const BookResults = styled.section`
   display: flex;
   flex-direction: column;
   background-color: #fff;
-  min-height: 200px;
   height: 300px;
-  transition: height 0.5s ease;
   overflow: scroll;
   .no_search {
     display: flex;

@@ -22,7 +22,7 @@ export default function Modal({
     <>
       <OverlayBox onClick={onToggleClick} />
 
-      <BoxModal $width={width}>
+      <BoxModal $width={width} $title={title}>
         <ModalHeaderBox>
           <h3>{title}</h3>
           <button type='button' onClick={onToggleClick}>
@@ -37,7 +37,7 @@ export default function Modal({
   );
 }
 
-const BoxModal = styled.section<{ $width: string }>`
+const BoxModal = styled.section<{ $width: string; $title: string }>`
   z-index: 10;
   width: ${({ $width }) => $width};
   min-height: 180px;
@@ -55,11 +55,16 @@ const BoxModal = styled.section<{ $width: string }>`
   border-radius: 15px;
   background-color: ${({ theme }) => theme.container.default};
   @media ${device.tablet} {
-    max-width: 60vw;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
+    max-width: ${({ $title }) =>
+      $title === '발제문 작성하기' || $title === '정리 기록 작성하기'
+        ? '80vw'
+        : '60vw'};
+  }
+  @media ${device.desktop} {
+    max-width: ${({ $title }) =>
+      $title === '발제문 작성하기' || $title === '정리 기록 작성하기'
+        ? '60vw'
+        : '36vw'};
   }
 `;
 

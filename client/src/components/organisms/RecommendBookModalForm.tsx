@@ -84,9 +84,6 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  @media ${device.tablet} {
-    padding: 15px 20px;
-  }
 `;
 
 const Textarea = styled.textarea`
