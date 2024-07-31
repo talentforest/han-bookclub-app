@@ -36,11 +36,10 @@ function Router({ isLoggedIn }: PropsType) {
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <ScrollToTop />
 
-      {isLoggedIn && <TopNavigation />}
-
-      <Routes>
-        {isLoggedIn ? (
-          <>
+      {isLoggedIn ? (
+        <>
+          <TopNavigation />
+          <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/monthlyinfo' element={<BookClubInformation />} />
 
@@ -80,18 +79,17 @@ function Router({ isLoggedIn }: PropsType) {
                 <Route path='/create_account' element={<CreateAccount />} />
               </>
             )}
-          </>
-        ) : (
-          <>
-            <Route path='/' element={<LogIn isLoggedIn={isLoggedIn} />} />
-            <Route path='/find_pw' element={<ResetPasswordEmail />} />
-            <Route path='/*' element={<LogIn isLoggedIn={isLoggedIn} />} />
-            <Route path='/create_account' element={<CreateAccount />} />
-          </>
-        )}
-      </Routes>
-
-      {isLoggedIn && <BottomNavigation />}
+          </Routes>
+          <BottomNavigation />
+        </>
+      ) : (
+        <Routes>
+          <Route path='/' element={<LogIn isLoggedIn={isLoggedIn} />} />
+          <Route path='/find_pw' element={<ResetPasswordEmail />} />
+          <Route path='/*' element={<LogIn isLoggedIn={isLoggedIn} />} />
+          <Route path='/create_account' element={<CreateAccount />} />
+        </Routes>
+      )}
     </BrowserRouter>
   );
 }
