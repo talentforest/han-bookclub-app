@@ -1,6 +1,6 @@
 import { FCM_NOTIFICATION } from 'constants/index';
 import { currentUserState } from 'data/userAtom';
-import { dbService, getDeviceToken } from 'fbase';
+import { authService, dbService, getDeviceToken } from 'fbase';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -14,6 +14,8 @@ export default function AllowNotificationModalBox() {
   const [showModal, setShowModal] = useState(false);
   const fcmDoc = useRecoilValue(fcmState);
   const { uid } = useRecoilValue(currentUserState);
+
+  const anonymous = authService.currentUser?.isAnonymous;
 
   const { sendNotificationToCurrentUser } = useSendPushNotification();
 
@@ -56,7 +58,13 @@ export default function AllowNotificationModalBox() {
 
   const onPermitClick = async () => {
     if (!('Notification' in window)) {
-      return alert('현재 브라우저에서는 알림을 지원하지 않습니다.');
+      alert('현재 브라우저에서는 알림을 지원하지 않습니다.');
+      return toggleModal();
+    }
+
+    if (anonymous) {
+      alert('익명의 방문자는 알림을 받을 수 없습니다.');
+      return toggleModal();
     }
 
     const notificationData = {
@@ -76,11 +84,14 @@ export default function AllowNotificationModalBox() {
         saveFcmDataInDB();
       }
     }
+
     handleLocalStorage('set', true);
     toggleModal();
   };
 
   const onRefuseClick = async () => {
+    if (anonymous) return toggleModal();
+
     const document = doc(dbService, FCM_NOTIFICATION, uid);
 
     const fcm_data = {
