@@ -33,8 +33,8 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('push', function (event) {
   if (event.data) {
-    const icon =
-      'https://talentforest.github.io/han-bookclub-app/hanpage_logo.png';
+    const baseUrl = 'https://talentforest.github.io/han-bookclub-app';
+    const icon = `${baseUrl}/hanpage_logo.png`;
 
     const {
       data: { title, body, link },
@@ -44,7 +44,7 @@ self.addEventListener('push', function (event) {
       body,
       icon,
       data: {
-        link,
+        link: link || baseUrl,
       },
     };
 
