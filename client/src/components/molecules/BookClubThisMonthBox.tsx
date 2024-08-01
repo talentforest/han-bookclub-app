@@ -55,7 +55,7 @@ const Box = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 140px;
+  min-height: 140px;
   grid-column: span 2;
   > div {
     display: flex;
@@ -69,11 +69,12 @@ const BookTextInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-top: 5px;
   flex: 1;
+  margin-top: 10px;
   padding-left: 4px;
   > h1 {
-    font-size: 20px;
+    line-height: 1.3;
+    font-size: 18px;
   }
   > div {
     display: flex;
