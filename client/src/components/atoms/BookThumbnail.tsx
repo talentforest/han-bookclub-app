@@ -23,12 +23,12 @@ const ThumnailImg = styled.img`
   justify-content: center;
   align-items: center;
   aspect-ratio: 0.68/1;
-  max-width: 100px;
+  max-width: 90px;
   height: 100%;
   box-shadow: ${({ theme }) => theme.boxShadow};
   background-color: ${({ theme }) => theme.container.default};
   @media ${device.tablet} {
-    max-width: 140px;
+    max-width: 100px;
   }
 `;
 

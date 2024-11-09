@@ -88,7 +88,7 @@ const Header = styled.div`
   border-top-left-radius: 10px;
   display: flex;
   justify-content: center;
-  padding: 8px 0px;
+  padding: 10px 0px;
   background-color: ${({ theme }) => theme.container.blue1};
   > h2 {
     font-size: 14px;

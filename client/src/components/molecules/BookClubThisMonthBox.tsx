@@ -48,20 +48,23 @@ export default function BookClubThisMonthBox({ book }: Props) {
 }
 
 const Box = styled.div`
-  padding: 12px 15px;
+  padding: 15px 20px;
   border-radius: 10px;
   background-color: #fff;
   box-shadow: ${({ theme }) => theme.boxShadow};
   display: flex;
+  gap: 10px;
   align-items: center;
   justify-content: space-between;
-  min-height: 140px;
+  min-height: 120px;
   grid-column: span 2;
   > div {
     display: flex;
     flex-direction: column;
     align-items: start;
     justify-content: space-between;
+    height: 100%;
+    flex: 1;
   }
 `;
 
@@ -75,11 +78,12 @@ const BookTextInfo = styled.div`
   > h1 {
     line-height: 1.3;
     font-size: 18px;
+    margin-top: 5px;
   }
   > div {
     display: flex;
-    align-items: center;
-    margin-bottom: 6px;
+    margin: 4px 0 6px;
+    flex: 1;
     span {
       font-size: 15px;
       color: #666;
