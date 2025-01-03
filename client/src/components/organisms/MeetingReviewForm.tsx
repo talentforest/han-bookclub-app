@@ -42,9 +42,9 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
     thumbnail,
   };
 
-  const { isOverdueEndOfThisMonth, updatePenaltyMonth } = useHandlePenalty({
-    createdAt: docData.createdAt,
-  });
+  const { isOverdueEndOfThisMonth, updatePenaltyMonth } = useHandlePenalty(
+    docData.createdAt
+  );
 
   const { onAddDocSubmit, onChange } = useAddDoc({
     setText,

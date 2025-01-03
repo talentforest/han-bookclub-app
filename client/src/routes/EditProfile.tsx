@@ -11,7 +11,7 @@ import Loading from 'components/atoms/Loading';
 import GuideLine from 'components/atoms/GuideLine';
 import RefInput from 'components/atoms/input/RefInput';
 import MobileHeader from 'layout/mobile/MobileHeader';
-import UserImg from 'components/atoms/UserImg';
+import UserImg from 'components/atoms/user/UserImg';
 import device from 'theme/mediaQueries';
 
 const EditProfile = () => {

@@ -6,11 +6,11 @@ import { getDocument } from 'api/getFbDoc';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import BookThumbnail from 'components/atoms/BookThumbnail';
+import BookThumbnail from 'components/atoms/book/BookThumbnail';
 import Modal from 'components/atoms/Modal';
 import PostFooter from 'components/molecules/PostFooter';
 import PostHandleBtns, { PostType } from '../molecules/PostHandleBtns';
-import EditorContent from 'components/atoms/EditorContent';
+import EditorContent from 'components/atoms/editor/EditorContent';
 
 interface PropsType {
   postId: IUserPostDocId;

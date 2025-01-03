@@ -1,10 +1,10 @@
 import { cutLetter, getLocaleDate } from 'util/index';
 import { ISentence } from 'data/bookAtom';
 import { BiSolidQuoteLeft, BiSolidQuoteRight } from 'react-icons/bi';
-import BookThumbnail from 'components/atoms/BookThumbnail';
-import UserName from 'components/atoms/UserName';
+import BookThumbnail from 'components/atoms/book/BookThumbnail';
+import UserName from 'components/atoms/user/UserName';
 import styled from 'styled-components';
-import EditorContent from 'components/atoms/EditorContent';
+import EditorContent from 'components/atoms/editor/EditorContent';
 import LikeBtnInfoBox from 'components/molecules/LikeBtnInfoBox';
 
 interface Props {

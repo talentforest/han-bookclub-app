@@ -3,9 +3,9 @@ import { IBookClub } from 'data/bookClubAtom';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import BookThumbnail from 'components/atoms/BookThumbnail';
+import BookThumbnail from 'components/atoms/book/BookThumbnail';
 import Tag from 'components/atoms/Tag';
-import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
+import BookAuthorPublisher from 'components/atoms/book/BookAuthorPublisher';
 
 interface PropsType {
   document: IBookClub;

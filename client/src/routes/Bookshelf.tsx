@@ -1,7 +1,6 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { IUserDataDoc, allUsersState, currentUserState } from 'data/userAtom';
 import { useEffect } from 'react';
-import { Section } from './Home';
 import { useLocation } from 'react-router-dom';
 import {
   ABSENCE_MEMBERS,
@@ -26,6 +25,7 @@ import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 import Loading from 'components/atoms/Loading';
 import PenaltyCostReceipt from 'components/molecules/PenaltyCostReceipt';
+import Section from 'components/atoms/container/Section';
 
 const Bookshelf = () => {
   const [penaltyDoc, setPenaltyDoc] = useRecoilState(penaltyDocState);
@@ -98,8 +98,7 @@ const Bookshelf = () => {
           </AttendanceBox>
         </Section>
 
-        <Section>
-          <Subtitle title={`${userName}의 독서 분야 취향`} />
+        <Section title={`${userName}의 독서 분야 취향`}>
           <FavBookFieldList>
             {favoriteBookField && favoriteBookField?.length !== 0 ? (
               favoriteBookField.map((field) => (
@@ -113,8 +112,7 @@ const Bookshelf = () => {
           </FavBookFieldList>
         </Section>
 
-        <Section>
-          <Subtitle title={`${userName}의 페널티 현황`} />
+        <Section title={`${userName}의 페널티 현황`}>
           {myPenalty && (
             <PenaltyContainer>
               <PenaltyBox

@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { FiChevronRight, FiPlusCircle } from 'react-icons/fi';
 import { getCollection } from 'api/getFbDoc';
 import { CHALLENGE, SENTENCES2024 } from 'constants/index';
-import { Section } from './Home';
 import { EmptyBox } from './BookClubHistory';
 import { Link } from 'react-router-dom';
 import { SwiperSlide } from 'swiper/react';
@@ -20,6 +19,7 @@ import GuideLine from 'components/atoms/GuideLine';
 import DDay from 'components/atoms/DDay';
 import Tag from 'components/atoms/Tag';
 import SwiperContainer from 'components/molecules/SwiperContainer';
+import Section from 'components/atoms/container/Section';
 
 const swiperOptions = {
   slidesPerView: 'auto' as 'auto',
@@ -55,8 +55,7 @@ export default function Challenge() {
       <MobileHeader title={`${thisYear}년 개인별 챌린지`} backBtn />
 
       <main>
-        <Section>
-          <Subtitle title='공유하고 싶은 문구들' />
+        <Section title='공유하고 싶은 문구들'>
           <GuideLine text='아래 개인별 챌린지 박스에서 추가할 수 있어요' />
 
           <SentenceListBox>

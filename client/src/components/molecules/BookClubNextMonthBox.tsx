@@ -3,11 +3,11 @@ import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { bookClubByYearState } from 'data/bookClubAtom';
 import { getCollection } from 'api/getFbDoc';
-import BookThumbnail from 'components/atoms/BookThumbnail';
+import BookThumbnail from 'components/atoms/book/BookThumbnail';
 import Tag from 'components/atoms/Tag';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
-import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
+import BookAuthorPublisher from 'components/atoms/book/BookAuthorPublisher';
 
 export default function BookClubNextMonthBox() {
   const [thisYearBookClubInfos, setThisYearBookClubInfos] =

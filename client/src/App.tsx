@@ -36,7 +36,6 @@ function App() {
   }, [userData?.uid]);
 
   useEffect(() => {
-    console.log(fcmDoc?.notification);
     if (fcmDoc?.notification === true) {
       const compareToken = async () => {
         if (Notification.permission === 'granted') {

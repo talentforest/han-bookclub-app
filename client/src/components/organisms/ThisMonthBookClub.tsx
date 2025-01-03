@@ -17,13 +17,13 @@ export default function ThisMonthBookClub() {
 
   const { book, meeting } = thisMonthBookClub;
 
+  const { pathname } = useLocation();
+
   useEffect(() => {
     if (thisYearMonthId) {
       getDocument(THIS_YEAR_BOOKCLUB, thisYearMonthId, setThisMonthBookClub);
     }
   }, []);
-
-  const { pathname } = useLocation();
 
   return (
     <BoxesContainer>

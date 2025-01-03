@@ -1,8 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { IBookClub } from 'data/bookClubAtom';
 import { formatKRMarkDate } from 'util/index';
-import { Section } from './Home';
-import Subtitle from 'components/atoms/Subtitle';
 import BookClubHistoryBox from 'components/molecules/BookClubHistoryBox';
 import PostTabBox from 'components/organisms/PostTabBox';
 import RecommendedBookScrollList from 'components/organisms/RecommendedBookScrollList';
@@ -10,6 +8,7 @@ import MeetingReviewList from 'components/organisms/MeetingReviewList';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
+import Section from 'components/atoms/container/Section';
 
 type LocationState = { state: { document: IBookClub } };
 
@@ -36,18 +35,15 @@ const BookClubHistoryDetail = () => {
           <BookClubHistoryBox document={document} />
         </Section>
 
-        <Section>
-          <Subtitle title='발제문과 모임 정리 기록' />
+        <Section title='발제문과 모임 정리 기록'>
           <PostTabBox yearMonthId={id} />
         </Section>
 
-        <Section>
-          <Subtitle title='멤버들이 소개한 책' />
+        <Section title='멤버들이 소개한 책'>
           <RecommendedBookScrollList yearMonthId={id} />
         </Section>
 
-        <Section>
-          <Subtitle title='모임 후기' />
+        <Section title='모임 후기'>
           <MeetingReviewList yearMonthId={id} />
         </Section>
       </main>

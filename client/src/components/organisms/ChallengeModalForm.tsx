@@ -7,11 +7,11 @@ import { dbService } from 'fbase';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { CHALLENGE } from 'constants/index';
 import styled from 'styled-components';
-import BookThumbnail from '../atoms/BookThumbnail';
+import BookThumbnail from '../atoms/book/BookThumbnail';
 import Input from '../atoms/input/Input';
 import SquareBtn from '../atoms/button/SquareBtn';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
-import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
+import BookAuthorPublisher from 'components/atoms/book/BookAuthorPublisher';
 
 interface Props {
   onModalClose: () => void;

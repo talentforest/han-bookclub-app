@@ -3,7 +3,7 @@ import { FiEdit3 } from 'react-icons/fi';
 import { useLocation } from 'react-router-dom';
 import { getPercentage } from 'util/index';
 import styled from 'styled-components';
-import PageWithPercent from 'components/atoms/PageWithPercent';
+import PageWithPercent from 'components/atoms/book/PageWithPercent';
 
 interface Props {
   currentPage: number;

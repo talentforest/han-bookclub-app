@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import { getCollection } from 'api/getFbDoc';
 import { SENTENCES2024 } from 'constants/index';
 import { EmptyBox } from './BookClubHistory';
-import { Section } from './Home';
 import { formatKRMarkDate } from 'util/index';
 import { FiCalendar } from 'react-icons/fi';
 import { SwiperSlide } from 'swiper/react';
@@ -13,8 +12,9 @@ import MobileHeader from 'layout/mobile/MobileHeader';
 import Tag from 'components/atoms/Tag';
 import Subtitle from 'components/atoms/Subtitle';
 import SwiperContainer from 'components/molecules/SwiperContainer';
-import BookThumbnail from 'components/atoms/BookThumbnail';
+import BookThumbnail from 'components/atoms/book/BookThumbnail';
 import styled from 'styled-components';
+import Section from 'components/atoms/container/Section';
 
 const swiperOptions = {
   slidesPerView: 'auto' as 'auto',
@@ -71,8 +71,7 @@ export default function Sentence() {
       <MobileHeader title='공유하고 싶은 문구들' backBtn />
 
       <main>
-        <Section>
-          <Subtitle title='문구가 등록된 책' />
+        <Section title='문구가 등록된 책'>
           {titleKeys?.length !== 0 ? (
             <Container>
               <SwiperContainer options={swiperOptions}>

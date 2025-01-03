@@ -2,7 +2,7 @@ import { IDocument } from 'data/documentsAtom';
 import styled from 'styled-components';
 import PostHeader from './PostHeader';
 import PostFooter from './PostFooter';
-import EditorContent from '../atoms/EditorContent';
+import EditorContent from '../atoms/editor/EditorContent';
 import { PostType } from 'components/molecules/PostHandleBtns';
 
 interface Props {

@@ -1,4 +1,4 @@
-import UserName from 'components/atoms/UserName';
+import UserName from 'components/atoms/user/UserName';
 import { Month } from 'data/penaltyAtom';
 import { ReactNode, useState } from 'react';
 import { FiInfo } from 'react-icons/fi';

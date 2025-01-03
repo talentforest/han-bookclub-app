@@ -4,7 +4,6 @@ import { thisMonthBookClubState } from 'data/bookClubAtom';
 import { thisYearMonthId, thisYear, existDocObj } from 'util/index';
 import { getDocument } from 'api/getFbDoc';
 import { fieldHostDocState } from 'data/bookFieldHostAtom';
-import { Section } from './Home';
 import { BOOK_FIELD_HOST, THIS_YEAR_BOOKCLUB } from 'constants/index';
 import Loading from 'components/atoms/Loading';
 import Subtitle from 'components/atoms/Subtitle';
@@ -16,8 +15,9 @@ import MeetingReviewForm from 'components/organisms/MeetingReviewForm';
 import SearchBookBtn from 'components/atoms/button/SearchBookBtn';
 import RecommendedBookScrollList from 'components/organisms/RecommendedBookScrollList';
 import MobileHeader from 'layout/mobile/MobileHeader';
-import TextWithIconLink from 'components/atoms/TextWithIconLink';
+
 import AbsenceMemberTable from 'components/organisms/AbsenceMemberTable';
+import Section from 'components/atoms/container/Section';
 
 const BookClubOfThisMonth = () => {
   const [thisMonthClub, setThisMonthClub] = useRecoilState(
@@ -45,8 +45,6 @@ const BookClubOfThisMonth = () => {
         <main>
           <Section>
             <ThisMonthClub />
-
-            <TextWithIconLink name='다음 모임책 등록' to='/search' />
           </Section>
 
           <Section>

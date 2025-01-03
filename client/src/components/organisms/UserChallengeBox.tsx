@@ -9,12 +9,12 @@ import { dbService } from 'fbase';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { CHALLENGE } from 'constants/index';
 import { TbBlockquote } from 'react-icons/tb';
-import BookThumbnail from '../atoms/BookThumbnail';
-import UserName from 'components/atoms/UserName';
+import BookThumbnail from '../atoms/book/BookThumbnail';
+import UserName from 'components/atoms/user/UserName';
 import ChallengeEditModal from 'components/organisms/modal/ChallengeEditModal';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
+import BookAuthorPublisher from 'components/atoms/book/BookAuthorPublisher';
 import PagePosition from '../molecules/PagePosition';
 import SentenceAddModal from 'components/organisms/modal/SentenceAddModal';
 

@@ -3,9 +3,9 @@ import { FiChevronRight, FiExternalLink } from 'react-icons/fi';
 import { ReactNode, useState } from 'react';
 import { cutLetter } from 'util/index';
 import PostHeader from '../molecules/PostHeader';
-import BookThumbnail from '../atoms/BookThumbnail';
+import BookThumbnail from '../atoms/book/BookThumbnail';
 import Modal from '../atoms/Modal';
-import UserName from 'components/atoms/UserName';
+import UserName from 'components/atoms/user/UserName';
 import device from 'theme/mediaQueries';
 import styled from 'styled-components';
 

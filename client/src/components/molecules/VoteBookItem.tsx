@@ -3,7 +3,7 @@ import { FiExternalLink } from 'react-icons/fi';
 import { IBookVoteItem, IVoteCountById } from 'data/voteAtom';
 import { cutLetter } from 'util/index';
 import { useLocation } from 'react-router-dom';
-import BookThumbnail from '../atoms/BookThumbnail';
+import BookThumbnail from '../atoms/book/BookThumbnail';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 

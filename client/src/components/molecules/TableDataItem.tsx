@@ -1,4 +1,4 @@
-import UserName from 'components/atoms/UserName';
+import UserName from 'components/atoms/user/UserName';
 
 export type Label =
   | '월'

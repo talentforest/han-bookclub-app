@@ -6,7 +6,7 @@ import useHandleVoting from 'hooks/useHandleVoting';
 import MobileHeader from 'layout/mobile/MobileHeader';
 import SquareBtn from 'components/atoms/button/SquareBtn';
 import DDay from 'components/atoms/DDay';
-import UserName from 'components/atoms/UserName';
+import UserName from 'components/atoms/user/UserName';
 import VoteDetailHeader from 'components/organisms/VoteDetailHeader';
 import VoteBarItem from 'components/molecules/VoteBarItem';
 import VoteBookItem from 'components/molecules/VoteBookItem';

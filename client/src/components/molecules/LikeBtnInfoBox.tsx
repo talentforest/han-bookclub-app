@@ -3,7 +3,7 @@ import { currentUserState } from 'data/userAtom';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
-import UserName from 'components/atoms/UserName';
+import UserName from 'components/atoms/user/UserName';
 import useHandleLike from 'hooks/useHandleLike';
 import styled from 'styled-components';
 import LikeBtn from 'components/atoms/button/LikeBtn';

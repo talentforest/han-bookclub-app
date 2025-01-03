@@ -5,11 +5,11 @@ import { getFbRoute } from 'util/index';
 import { thisMonthBookClubState } from 'data/bookClubAtom';
 import { PostType } from 'components/molecules/PostHandleBtns';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
-import QuillEditor from 'components/atoms/QuillEditor';
+import QuillEditor from 'components/atoms/editor/QuillEditor';
 import Modal from 'components/atoms/Modal';
 import SquareBtn from 'components/atoms/button/SquareBtn';
 import useSendPushNotification from 'hooks/useSendPushNotification';
-import useHandlePenalty from 'hooks/useHandlePenalty';
+import useHandlePenalty, { PenaltyPost } from 'hooks/useHandlePenalty';
 
 interface Props {
   toggleModal: () => void;
@@ -43,9 +43,7 @@ const PostAddModal = ({ toggleModal, postType }: Props) => {
   };
 
   const { isOverdueSubject, isOverdueEndOfThisMonth, updatePenaltyMonth } =
-    useHandlePenalty({
-      createdAt: docData.createdAt,
-    });
+    useHandlePenalty(docData.createdAt);
 
   const { onAddDocSubmit } = useAddDoc({
     setText,
@@ -59,7 +57,7 @@ const PostAddModal = ({ toggleModal, postType }: Props) => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     onAddDocSubmit(event);
     if (isOverdue) {
-      updatePenaltyMonth(postType);
+      updatePenaltyMonth(postType as keyof PenaltyPost);
     }
 
     if (docData.text !== '') {

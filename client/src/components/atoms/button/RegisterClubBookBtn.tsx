@@ -41,11 +41,9 @@ const RegisterClubBookBtn = ({ searchedBook }: PropsType) => {
         <SquareBtn name='등록 완료' disabled width='fit-content' />
       ) : (
         <SquareBtn
-          name={
-            !registeredBook && existNextBookClubDoc
-              ? `다음 ${nextMonth}월 모임책으로 변경`
-              : `다음 ${nextMonth}월 모임책 등록`
-          }
+          name={`다음 ${nextMonth}월 모임책으로 ${
+            !registeredBook && existNextBookClubDoc ? '변경' : '등록'
+          }`}
           type='button'
           handleClick={setNextMonthBookClubDoc}
           color='purple'

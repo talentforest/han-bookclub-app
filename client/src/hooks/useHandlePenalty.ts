@@ -1,5 +1,4 @@
 import { getDocument } from 'api/getFbDoc';
-import { PostType } from 'components/molecules/PostHandleBtns';
 import { PENALTY } from 'constants/index';
 import { Month, OverduePenaltyMonths, penaltyDocState } from 'data/penaltyAtom';
 import { currentUserState } from 'data/userAtom';
@@ -15,8 +14,15 @@ import {
   thisYear,
 } from 'util/index';
 
-const useHandlePenalty = ({ createdAt }: { createdAt?: number }) => {
+export type PenaltyPost = {
+  발제문: 'overdueSubjectMonths';
+  '정리 기록': 'overdueHostReviewMonths';
+  '불참 후기': 'overdueAbsenceMonths';
+};
+
+const useHandlePenalty = (createdAt?: number) => {
   const [penaltyDoc, setPenaltyDoc] = useRecoilState(penaltyDocState);
+
   const currentUser = useRecoilValue(currentUserState);
 
   useEffect(() => {
@@ -25,19 +31,28 @@ const useHandlePenalty = ({ createdAt }: { createdAt?: number }) => {
     }
   }, []);
 
+  // 발제문을 기한 내(목요일 자정)에 업로드하지 않을 시 페널티로 모임비(7,000원)이 부과
   const isOverdueSubject = createdAt > getSubmitSubjectDate().getTime();
+
+  // 발제자 - 모임 정리를 기한 내(월말)에 올리지 않을 시 페널티로 다음 책의 추가 발제에 무조건 참여(최소 4개)해야 한다.
+  // 불참 멤버 - 월말까지 작성하지 않았을 시 페널티로 모임비 7,000원이 부과된다.
   const isOverdueEndOfThisMonth = createdAt > getLastDayOfMonth().getTime();
 
-  const updatePenaltyMonth = async (postType: PostType) => {
-    const penaltyTypeKeys: { [key: string]: keyof OverduePenaltyMonths } = {
-      발제문: 'overdueSubjectMonths',
-      '정리 기록': 'overdueHostReviewMonths',
-      '불참 후기': 'overdueAbsenceMonths',
-    };
+  const penaltyPostKeyObj: PenaltyPost = {
+    발제문: 'overdueSubjectMonths',
+    '정리 기록': 'overdueHostReviewMonths',
+    '불참 후기': 'overdueAbsenceMonths',
+  };
 
-    const previousPenalty = penaltyDoc[currentUser.uid] as OverduePenaltyMonths;
-    const penaltyType = penaltyTypeKeys[postType];
-    const penaltyMonthList = previousPenalty[penaltyType];
+  // 페널티 적용 달 업데이트
+  const updatePenaltyMonth = async (post: keyof PenaltyPost) => {
+    const prevPenaltyByUser = penaltyDoc[
+      currentUser.uid
+    ] as OverduePenaltyMonths;
+
+    const penaltyType = penaltyPostKeyObj[post];
+
+    const penaltyMonthList = prevPenaltyByUser[penaltyType];
 
     const hasMonthInList = penaltyMonthList.find(
       (month) => month === `${+thisMonth}월`
@@ -52,7 +67,7 @@ const useHandlePenalty = ({ createdAt }: { createdAt?: number }) => {
 
     const document = doc(dbService, PENALTY, thisYear);
     await updateDoc(document, {
-      [currentUser.uid]: { ...previousPenalty, ...updateData },
+      [currentUser.uid]: { ...prevPenaltyByUser, ...updateData },
     });
   };
 
@@ -79,6 +94,7 @@ const useHandlePenalty = ({ createdAt }: { createdAt?: number }) => {
     { overdueHostReviewMonths: {} as { [key: string]: Month[] } }
   );
 
+  // 다음달 발제문 의무
   const thisMonthSubjectDuty = {
     overdueHostReviewMonths: Object.entries(
       penaltySubjectDutyUsers.overdueHostReviewMonths

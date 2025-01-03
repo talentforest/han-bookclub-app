@@ -3,8 +3,8 @@ import { cutLetter } from 'util/index';
 import { Link } from 'react-router-dom';
 import { FiCheckCircle } from 'react-icons/fi';
 import styled from 'styled-components';
-import BookThumbnail from 'components/atoms/BookThumbnail';
-import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
+import BookThumbnail from 'components/atoms/book/BookThumbnail';
+import BookAuthorPublisher from 'components/atoms/book/BookAuthorPublisher';
 
 interface PropsType {
   searchedBook: ISearchedBook;

@@ -4,7 +4,7 @@ import { ISchedule } from 'data/bookClubAtom';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
 import MeetingInfoModal from 'components/organisms/modal/MeetingInfoModal';
-import UserName from 'components/atoms/UserName';
+import UserName from 'components/atoms/user/UserName';
 
 interface Props {
   labelOnTop: '이달의 발제자' | '모임 시간' | '모임 장소';
@@ -89,7 +89,7 @@ const Header = styled.div`
   display: flex;
   justify-content: center;
   padding: 10px 0px;
-  background-color: ${({ theme }) => theme.container.blue1};
+  background-color: ${({ theme }) => theme.container.blue2};
   > h2 {
     font-size: 14px;
     color: ${({ theme }) => theme.text.gray3};

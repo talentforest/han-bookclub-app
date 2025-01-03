@@ -18,7 +18,7 @@ export default function BookThumbnail({ title, thumbnail }: Props) {
 }
 
 const ThumnailImg = styled.img`
-  border-radius: 8px;
+  border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;

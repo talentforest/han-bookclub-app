@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 import { getLocaleDate } from 'util/index';
 import { HiMiniArrowUpRight } from 'react-icons/hi2';
 import PostRecommendedBookBox from './PostRecommendedBookBox';
-import BookThumbnail from 'components/atoms/BookThumbnail';
-import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
+import BookThumbnail from 'components/atoms/book/BookThumbnail';
+import BookAuthorPublisher from 'components/atoms/book/BookAuthorPublisher';
 import styled from 'styled-components';
 
 interface Props {

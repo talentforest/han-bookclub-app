@@ -5,11 +5,11 @@ import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
 import { thisMonthBookClubState } from 'data/bookClubAtom';
 import device from 'theme/mediaQueries';
-import BookThumbnail from '../atoms/BookThumbnail';
+import BookThumbnail from '../atoms/book/BookThumbnail';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import styled from 'styled-components';
 import SquareBtn from '../atoms/button/SquareBtn';
-import BookAuthorPublisher from 'components/atoms/BookAuthorPublisher';
+import BookAuthorPublisher from 'components/atoms/book/BookAuthorPublisher';
 import useSendPushNotification from 'hooks/useSendPushNotification';
 
 interface Props {

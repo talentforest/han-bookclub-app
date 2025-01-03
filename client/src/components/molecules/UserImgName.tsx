@@ -1,4 +1,4 @@
-import { CircleImg, ImgBox } from 'components/atoms/UserImg';
+import { CircleImg, ImgBox } from 'components/atoms/user/UserImg';
 import { MouseEvent } from 'react';
 import { FiUser } from 'react-icons/fi';
 import styled from 'styled-components';

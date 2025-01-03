@@ -2,7 +2,7 @@ import { IDocument } from 'data/documentsAtom';
 import { PostType } from '../../molecules/PostHandleBtns';
 import { FormEvent } from 'react';
 import Modal from 'components/atoms/Modal';
-import QuillEditor from 'components/atoms/QuillEditor';
+import QuillEditor from 'components/atoms/editor/QuillEditor';
 import useEditDoc from 'hooks/handleFbDoc/useEditDoc';
 import SquareBtn from 'components/atoms/button/SquareBtn';
 

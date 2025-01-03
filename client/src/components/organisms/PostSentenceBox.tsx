@@ -3,10 +3,10 @@ import { SENTENCES2024 } from 'constants/index';
 import { BiSolidQuoteLeft, BiSolidQuoteRight } from 'react-icons/bi';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from 'data/userAtom';
-import BookThumbnail from 'components/atoms/BookThumbnail';
-import UserName from 'components/atoms/UserName';
+import BookThumbnail from 'components/atoms/book/BookThumbnail';
+import UserName from 'components/atoms/user/UserName';
 import styled from 'styled-components';
-import EditorContent from 'components/atoms/EditorContent';
+import EditorContent from 'components/atoms/editor/EditorContent';
 import LikeBtnInfoBox from '../molecules/LikeBtnInfoBox';
 import PostHandleBtns from 'components/molecules/PostHandleBtns';
 
