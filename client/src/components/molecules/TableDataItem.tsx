@@ -22,14 +22,18 @@ export default function TableDataItem({ isMulti = false, data, label }: Props) {
         <td className='members'>
           <ul>
             {!!(data as string[])?.length ? (
-              (data as string[]).map((item) => (
-                <UserName
-                  key={item}
-                  userId={item as string}
-                  tag
-                  fontSize={13}
-                />
-              ))
+              (data as string[]).map((item) =>
+                item === 'no_host' ? (
+                  '발제자 없음'
+                ) : (
+                  <UserName
+                    key={item}
+                    userId={item as string}
+                    tag
+                    fontSize={13}
+                  />
+                )
+              )
             ) : (
               <span className='no_info'>없음</span>
             )}
@@ -42,7 +46,7 @@ export default function TableDataItem({ isMulti = false, data, label }: Props) {
           {data ? label === '모임정지' ? '🔴' : '🟠' : <></>}
         </td>
       ) : (
-        <td>{data}</td>
+        <td>{data || <span className='no_info'>없음</span>}</td>
       )}
     </>
   );

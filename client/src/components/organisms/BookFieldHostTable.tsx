@@ -10,6 +10,10 @@ import Loading from 'components/atoms/Loading';
 import BookFieldHostEditForm from 'components/organisms/BookFieldHostEditForm';
 import Modal from 'components/atoms/Modal';
 import Table from '../molecules/Table';
+import EmptyContainer from 'components/atoms/container/EmptyContainer';
+import { doc, setDoc } from 'firebase/firestore';
+import { dbService } from 'fbase';
+import { initialBookFieldAndHostData } from 'constants/initialData';
 
 interface Props {
   isMonth?: boolean;
@@ -43,6 +47,13 @@ const BookFieldHostTable = ({
     ? ['월', '독서분야', '발제자']
     : ['독서분야', '발제자'];
 
+  const setInitialBookFieldHostInFb = async () => {
+    await setDoc(
+      doc(dbService, BOOK_FIELD_HOST, thisYear),
+      initialBookFieldAndHostData
+    );
+  };
+
   return (
     <>
       {!!bookFieldHostDoc.info ? (
@@ -54,7 +65,12 @@ const BookFieldHostTable = ({
           isEditable={isEditable}
         />
       ) : (
-        <Loading height='10vh' />
+        <EmptyContainer
+          createBtnTitle={`${thisYear} 새로운 월별 독서분야와 발제자 정보 생성하기`}
+          onCreateClick={setInitialBookFieldHostInFb}
+        >
+          <span> 아직 월별 독서분야와 발제자 정보가 없습니다.</span>
+        </EmptyContainer>
       )}
 
       {editingMonthInfo.isEditing && (
