@@ -1,18 +1,26 @@
-import { useRecoilValue } from 'recoil';
-import { currentUserState } from 'data/userAtom';
-import { authService } from 'fbase';
-import { existDocObj } from 'util/index';
-import { bookFields } from 'constants/index';
-import { useEffect } from 'react';
-import { FiCheck, FiEdit2 } from 'react-icons/fi';
 import styled from 'styled-components';
-import useHandleProfile from 'hooks/useHandleProfile';
-import Loading from 'components/atoms/Loading';
-import GuideLine from 'components/atoms/GuideLine';
-import RefInput from 'components/atoms/input/RefInput';
-import MobileHeader from 'layout/mobile/MobileHeader';
-import UserImg from 'components/atoms/user/UserImg';
 import device from 'theme/mediaQueries';
+
+import { useEffect } from 'react';
+
+import { bookFields } from 'constants/index';
+
+import { existDocObj } from 'util/index';
+
+import useHandleProfile from 'hooks/useHandleProfile';
+
+import { currentUserState } from 'data/userAtom';
+import { useRecoilValue } from 'recoil';
+
+import { authService } from 'fbase';
+import { FiCheck, FiEdit2 } from 'react-icons/fi';
+
+import MobileHeader from 'layout/mobile/MobileHeader';
+
+import GuideLine from 'components/atoms/GuideLine';
+import Loading from 'components/atoms/Loading';
+import RefInput from 'components/atoms/input/RefInput';
+import UserImg from 'components/atoms/user/UserImg';
 
 const EditProfile = () => {
   const userData = useRecoilValue(currentUserState);
@@ -41,7 +49,7 @@ const EditProfile = () => {
     <Loading />
   ) : (
     <>
-      <MobileHeader title='프로필 정보' backBtn />
+      <MobileHeader title="프로필 정보" backBtn />
       <main>
         <UserImg
           editing={editing}
@@ -51,13 +59,13 @@ const EditProfile = () => {
         {!editing ? (
           <>
             {!anonymous && (
-              <EditBtn type='button' onClick={onToggleEditClick}>
-                <FiEdit2 fontSize={14} stroke='#aaa' />
+              <EditBtn type="button" onClick={onToggleEditClick}>
+                <FiEdit2 fontSize={14} stroke="#aaa" />
                 <span>프로필 수정</span>
               </EditBtn>
             )}
 
-            <GuideLine text='이메일은 변경할 수 없습니다.' />
+            <GuideLine text="이메일은 변경할 수 없습니다." />
 
             <List>
               <Item>
@@ -73,7 +81,7 @@ const EditProfile = () => {
               <Item>
                 <Title>좋아하는 분야</Title>
                 <FavBookFieldList>
-                  {extraUserData?.favoriteBookField?.map((item) => (
+                  {extraUserData?.favoriteBookField?.map(item => (
                     <FavFieldItem key={item.id}>{item.name}</FavFieldItem>
                   ))}
                 </FavBookFieldList>
@@ -82,8 +90,8 @@ const EditProfile = () => {
           </>
         ) : (
           <Form onSubmit={onProfileSubmit}>
-            <EditBtn type='submit'>
-              <FiCheck fontSize={15} stroke='#6397ff' />
+            <EditBtn type="submit">
+              <FiCheck fontSize={15} stroke="#6397ff" />
               <span>수정완료</span>
             </EditBtn>
 
@@ -97,7 +105,7 @@ const EditProfile = () => {
                 <Title>닉네임</Title>
                 <RefInput
                   onChange={onDisplayNameChange}
-                  placeholder='닉네임을 입력해주세요'
+                  placeholder="닉네임을 입력해주세요"
                   value={newDisplayName || ''}
                 />
               </Item>
@@ -105,13 +113,13 @@ const EditProfile = () => {
               <Item>
                 <Title>좋아하는 분야</Title>
                 <FieldList>
-                  {bookFields.map((item) => (
+                  {bookFields.map(item => (
                     <FieldBtn
                       key={item.id}
-                      type='button'
+                      type="button"
                       name={item.name}
                       $active={isSelected(item.id)}
-                      onClick={(event) => onHandleFieldClick(item.id, event)}
+                      onClick={event => onHandleFieldClick(item.id, event)}
                     >
                       {item.name}
                     </FieldBtn>

@@ -1,18 +1,26 @@
+import styled from 'styled-components';
+
 import { Fragment, useEffect, useState } from 'react';
-import { hostReviewState, subjectsState } from 'data/documentsAtom';
-import { bookClubByYearState } from 'data/bookClubAtom';
+
 import { useLocation } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { getFbRoute, thisYearMonthId, formatKRMarkDate } from 'util/index';
+
+import { formatKRMarkDate, getFbRoute, thisYearMonthId } from 'util/index';
+
+import useAlertAskJoin from 'hooks/useAlertAskJoin';
+
 import { getCollection } from 'api/getFbDoc';
+
+import { bookClubByYearState } from 'data/bookClubAtom';
+import { hostReviewState, subjectsState } from 'data/documentsAtom';
+import { useRecoilState } from 'recoil';
+
+import MobileHeader from 'layout/mobile/MobileHeader';
+
+import DottedDividingLine from 'components/atoms/DottedDividingLine';
+import Loading from 'components/atoms/Loading';
 import BookClubHistoryBox from 'components/molecules/BookClubHistoryBox';
 import Post from 'components/molecules/Post';
 import PostAddModal from 'components/organisms/modal/PostAddModal';
-import styled from 'styled-components';
-import useAlertAskJoin from 'hooks/useAlertAskJoin';
-import MobileHeader from 'layout/mobile/MobileHeader';
-import DottedDividingLine from 'components/atoms/DottedDividingLine';
-import Loading from 'components/atoms/Loading';
 
 interface LocationState {
   pathname: string;
@@ -45,13 +53,13 @@ export default function PostDetail() {
     getCollection(getFbRoute(id).SUBJECTS, setSubjects);
   }, []);
 
-  const document = clubInfoDocs?.find((doc) => doc.id === id);
+  const document = clubInfoDocs?.find(doc => doc.id === id);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('write');
 
   const toggleAddPostModal = () => {
     if (anonymous) return alertAskJoinMember();
-    setOpenAddPostModal((prev) => !prev);
+    setOpenAddPostModal(prev => !prev);
   };
 
   const headerYearMonth =
@@ -70,13 +78,13 @@ export default function PostDetail() {
         {document && <BookClubHistoryBox document={document} />}
 
         {pathname.includes('bookclub') && (
-          <AddPostBtn onClick={toggleAddPostModal} type='button'>
+          <AddPostBtn onClick={toggleAddPostModal} type="button">
             {postType} 작성하기
           </AddPostBtn>
         )}
 
         {!posts ? (
-          <Loading height='25vh' />
+          <Loading height="25vh" />
         ) : (
           posts &&
           posts?.length !== 0 &&

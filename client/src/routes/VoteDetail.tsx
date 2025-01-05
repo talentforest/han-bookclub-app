@@ -1,22 +1,30 @@
-import { todayWithHyphen } from 'util/index';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { FiUsers } from 'react-icons/fi';
-import { BOOK_VOTE, VOTE } from 'constants/index';
-import useHandleVoting from 'hooks/useHandleVoting';
-import MobileHeader from 'layout/mobile/MobileHeader';
-import SquareBtn from 'components/atoms/button/SquareBtn';
-import DDay from 'components/atoms/DDay';
-import UserName from 'components/atoms/user/UserName';
-import VoteDetailHeader from 'components/organisms/VoteDetailHeader';
-import VoteBarItem from 'components/molecules/VoteBarItem';
-import VoteBookItem from 'components/molecules/VoteBookItem';
-import GuideLine from 'components/atoms/GuideLine';
-import VoteGaugeBarBox from 'components/molecules/VoteGaugeBarBox';
-import VoteBookItemBtn from 'components/atoms/button/VoteBookItemBtn';
-import VoteItemReasonBox from 'components/molecules/VoteItemReasonBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
+
 import { useEffect } from 'react';
+
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import { BOOK_VOTE, VOTE } from 'constants/index';
+
+import { todayWithHyphen } from 'util/index';
+
+import useHandleVoting from 'hooks/useHandleVoting';
+
+import { FiUsers } from 'react-icons/fi';
+
+import MobileHeader from 'layout/mobile/MobileHeader';
+
+import DDay from 'components/atoms/DDay';
+import GuideLine from 'components/atoms/GuideLine';
+import SquareBtn from 'components/atoms/button/SquareBtn';
+import VoteBookItemBtn from 'components/atoms/button/VoteBookItemBtn';
+import UserName from 'components/atoms/user/UserName';
+import VoteBarItem from 'components/molecules/VoteBarItem';
+import VoteBookItem from 'components/molecules/VoteBookItem';
+import VoteGaugeBarBox from 'components/molecules/VoteGaugeBarBox';
+import VoteItemReasonBox from 'components/molecules/VoteItemReasonBox';
+import VoteDetailHeader from 'components/organisms/VoteDetailHeader';
 
 type LocationState = {
   state: {
@@ -72,7 +80,7 @@ const VoteDetail = () => {
 
           <VoteItemReasonBox voteItems={bookVote.voteItems} />
 
-          <GuideLine text='중복 투표도 가능해요' />
+          <GuideLine text="중복 투표도 가능해요" />
 
           {/* 투표를 완료했거나 만료된 이후 결과 화면 */}
           {isExpiredVote || (myVotedItems && !isRevote) ? (
@@ -80,7 +88,7 @@ const VoteDetail = () => {
               {/* 일반 투표 */}
               {collName === VOTE && (
                 <BarItemList $disabled>
-                  {bookVote.voteItems.map((voteItem) => (
+                  {bookVote.voteItems.map(voteItem => (
                     <VoteBarItem
                       key={voteItem.id}
                       selected={isMyVotedItems(voteItem.id)}
@@ -96,7 +104,7 @@ const VoteDetail = () => {
               {collName === BOOK_VOTE && (
                 <>
                   <BookItemList>
-                    {bookVote.voteItems.map((voteItem) => (
+                    {bookVote.voteItems.map(voteItem => (
                       <VoteBookItem
                         key={voteItem.id}
                         voteItem={voteItem}
@@ -114,12 +122,12 @@ const VoteDetail = () => {
                 </>
               )}
 
-              <SquareBtn name='투표 완료' disabled />
+              <SquareBtn name="투표 완료" disabled />
 
               <SquareBtn
                 disabled={isExpiredVote}
-                type='button'
-                name='다시 투표하기'
+                type="button"
+                name="다시 투표하기"
                 handleClick={onToggleRevoteClick}
               />
             </CurrentVoteItems>
@@ -127,7 +135,7 @@ const VoteDetail = () => {
             // 투표 화면
             <Form onSubmit={onVotingSubmit}>
               <BookItemList>
-                {bookVote.voteItems.map((voteItem) => (
+                {bookVote.voteItems.map(voteItem => (
                   <VoteBookItem
                     key={voteItem.id}
                     selected={!!selectedItem(voteItem.id)}
@@ -141,7 +149,7 @@ const VoteDetail = () => {
                 ))}
               </BookItemList>
 
-              <SquareBtn type='submit' name='투표하기' />
+              <SquareBtn type="submit" name="투표하기" />
             </Form>
           )}
 
@@ -153,7 +161,7 @@ const VoteDetail = () => {
               {`투표인원: ${votedItemsByMember?.length}명`}
             </h4>
             <MemberList>
-              {votedItemsByMember.map((member) => (
+              {votedItemsByMember.map(member => (
                 <UserName tag key={member.id} userId={member.id} />
               ))}
             </MemberList>

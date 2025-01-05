@@ -6,13 +6,13 @@ import { thisYear } from 'util/index';
 export interface IBookClub {
   id?: string;
   creatorId: string;
-  createdAt: number;
+  createdAt: string;
   book: ISearchedBook;
   meeting: ISchedule;
 }
 
 export interface ISchedule {
-  time: number;
+  time: string;
   place: string;
 }
 

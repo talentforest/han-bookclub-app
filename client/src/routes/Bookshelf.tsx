@@ -1,31 +1,40 @@
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { IUserDataDoc, allUsersState, currentUserState } from 'data/userAtom';
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+
 import { useEffect } from 'react';
+
 import { useLocation } from 'react-router-dom';
+
 import {
   ABSENCE_MEMBERS,
   PENALTY,
   THIS_YEAR_BOOKCLUB,
   USER_DATA,
 } from 'constants/index';
-import { getCollection, getDocument } from 'api/getFbDoc';
-import { PostType } from 'components/molecules/PostHandleBtns';
-import { EmptyBox } from './BookClubHistory';
+
 import { existDocObj, thisMonth, thisYear } from 'util/index';
+
+import { getCollection, getDocument } from 'api/getFbDoc';
+
 import { absenceListState } from 'data/absenceAtom';
 import { OverduePenaltyMonths, penaltyDocState } from 'data/penaltyAtom';
+import { IUserDataDoc, allUsersState, currentUserState } from 'data/userAtom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+
+import { EmptyBox } from './BookClubHistory';
+
+import MobileHeader from 'layout/mobile/MobileHeader';
+
+import GuideLine from 'components/atoms/GuideLine';
+import Loading from 'components/atoms/Loading';
 import Subtitle from 'components/atoms/Subtitle';
 import Tag from 'components/atoms/Tag';
-import MobileHeader from 'layout/mobile/MobileHeader';
-import GuideLine from 'components/atoms/GuideLine';
+import Section from 'components/atoms/container/Section';
+import PenaltyBox from 'components/molecules/PenaltyBox';
+import PenaltyCostReceipt from 'components/molecules/PenaltyCostReceipt';
+import { PostType } from 'components/molecules/PostHandleBtns';
 import UserImgName from 'components/molecules/UserImgName';
 import BookshelfPostList from 'components/organisms/BookshelfPostList';
-import PenaltyBox from 'components/molecules/PenaltyBox';
-import device from 'theme/mediaQueries';
-import styled from 'styled-components';
-import Loading from 'components/atoms/Loading';
-import PenaltyCostReceipt from 'components/molecules/PenaltyCostReceipt';
-import Section from 'components/atoms/container/Section';
 
 const Bookshelf = () => {
   const [penaltyDoc, setPenaltyDoc] = useRecoilState(penaltyDocState);
@@ -35,7 +44,7 @@ const Bookshelf = () => {
 
   const { state } = useLocation();
   const userId = state ? state.userId : currentUser;
-  const userData = allUserDocs.find((user) => user.id === userId);
+  const userData = allUserDocs.find(user => user.id === userId);
 
   useEffect(() => {
     if (allUserDocs.length === 0) {
@@ -52,11 +61,11 @@ const Bookshelf = () => {
   const isAbsenceThisMonth = () => {
     if (absenceList.absenceMembers) {
       const thisMonthAbsence = absenceList.absenceMembers.find(
-        (absence) => absence.month === +thisMonth
+        absence => absence.month === +thisMonth,
       );
       const isBreak = thisMonthAbsence.breakMembers.includes(state?.userId);
       const onceAbsence = thisMonthAbsence.onceAbsenceMembers.includes(
-        state?.userId
+        state?.userId,
       );
       return isBreak || onceAbsence;
     }
@@ -87,11 +96,11 @@ const Bookshelf = () => {
           <UserImgName photoURL={photoURL} displayName={displayName} />
           <AttendanceBox>
             {isAbsenceThisMonth() ? (
-              <Tag color='red' roundedFull={false}>
+              <Tag color="red" roundedFull={false}>
                 <span>🔴 이번달 불참</span>
               </Tag>
             ) : (
-              <Tag color='green' roundedFull={false}>
+              <Tag color="green" roundedFull={false}>
                 <span>✅ 이번달 출석</span>
               </Tag>
             )}
@@ -101,13 +110,13 @@ const Bookshelf = () => {
         <Section title={`${userName}의 독서 분야 취향`}>
           <FavBookFieldList>
             {favoriteBookField && favoriteBookField?.length !== 0 ? (
-              favoriteBookField.map((field) => (
-                <Tag key={field.id} color='purple'>
+              favoriteBookField.map(field => (
+                <Tag key={field.id} color="purple">
                   <span>{field.name}</span>
                 </Tag>
               ))
             ) : (
-              <Loading height='12vh' />
+              <Loading height="12vh" />
             )}
           </FavBookFieldList>
         </Section>
@@ -116,11 +125,11 @@ const Bookshelf = () => {
           {myPenalty && (
             <PenaltyContainer>
               <PenaltyBox
-                title='의무 발제달'
+                title="의무 발제달"
                 subjectDutyMonths={myPenalty.overdueHostReviewMonths}
               />
               <PenaltyBox
-                title='총 페널티비'
+                title="총 페널티비"
                 totalCost={
                   (myPenalty.overdueSubjectMonths?.length +
                     myPenalty.overdueAbsenceMonths?.length) *
@@ -136,18 +145,13 @@ const Bookshelf = () => {
           )}
         </Section>
 
-        {(['정리 기록', '발제문', '모임 후기'] as PostType[]).map(
-          (postType) => (
-            <Section key={postType}>
-              <Subtitle title={`${userName}의 ${postType}`} />
-              <GuideLine text='2022년 6월 이후의 기록이 제공됩니다.' />
-              <BookshelfPostList
-                userRecords={userRecords}
-                postType={postType}
-              />
-            </Section>
-          )
-        )}
+        {(['정리 기록', '발제문', '모임 후기'] as PostType[]).map(postType => (
+          <Section key={postType}>
+            <Subtitle title={`${userName}의 ${postType}`} />
+            <GuideLine text="2022년 6월 이후의 기록이 제공됩니다." />
+            <BookshelfPostList userRecords={userRecords} postType={postType} />
+          </Section>
+        ))}
       </main>
     </>
   );

@@ -1,12 +1,16 @@
-import { useState } from 'react';
-import { authService } from 'fbase';
-import { sendPasswordResetEmail } from 'firebase/auth';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
+
+import { useState } from 'react';
+
+import { authService } from 'fbase';
+import { sendPasswordResetEmail } from 'firebase/auth';
+
+import MobileHeader from 'layout/mobile/MobileHeader';
+
 import Subtitle from 'components/atoms/Subtitle';
 import SquareBtn from 'components/atoms/button/SquareBtn';
 import Input from 'components/atoms/input/Input';
-import MobileHeader from 'layout/mobile/MobileHeader';
 
 const ResetPasswordEmail = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +18,7 @@ const ResetPasswordEmail = () => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    sendPasswordResetEmail(authService, email).catch((error) => {
+    sendPasswordResetEmail(authService, email).catch(error => {
       console.log(error);
     });
     setSubmitSuccess(true);
@@ -28,21 +32,21 @@ const ResetPasswordEmail = () => {
 
   return (
     <>
-      <MobileHeader showDesktop title='비밀번호 찾기' backBtn />
+      <MobileHeader showDesktop title="비밀번호 찾기" backBtn />
 
       <main>
-        <Subtitle title='비밀번호가 생각나지 않으세요?' />
+        <Subtitle title="비밀번호가 생각나지 않으세요?" />
         <Detail>가입할 때 사용하신 계정 이메일을 적어주세요.</Detail>
 
         <InputForm onSubmit={onSubmit}>
           <Input
-            name='email'
-            type='email'
+            name="email"
+            type="email"
             value={email}
-            placeholder='계정 이메일을 적어주세요.'
+            placeholder="계정 이메일을 적어주세요."
             onChange={onChange}
           />
-          <SquareBtn type='submit' name='전송하기' />
+          <SquareBtn type="submit" name="전송하기" />
         </InputForm>
 
         {submitSuccess ? (

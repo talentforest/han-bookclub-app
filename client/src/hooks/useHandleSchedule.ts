@@ -29,7 +29,7 @@ const useHandleSchedule = (
   const onTimeSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (meeting.time === time.getTime()) {
+    if (meeting.time === time.toLocaleString()) {
       return setIsEditing(false);
     }
 
@@ -37,7 +37,7 @@ const useHandleSchedule = (
 
     try {
       const editInfo = {
-        meeting: { ...meeting, time: time.getTime() },
+        meeting: { ...meeting, time: time.toISOString() },
       };
       await updateDoc(document, editInfo);
       setThisMonthBookClub({ ...thisMonthBookClub, ...editInfo });

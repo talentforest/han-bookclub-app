@@ -1,9 +1,13 @@
-import { Link } from 'react-router-dom';
-import { authService } from 'fbase';
-import device from 'theme/mediaQueries';
-import useLogIn from 'hooks/useLogIn';
-import SquareBtn, { Btn } from 'components/atoms/button/SquareBtn';
 import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+
+import { Link } from 'react-router-dom';
+
+import useLogIn from 'hooks/useLogIn';
+
+import { authService } from 'fbase';
+
+import SquareBtn, { Btn } from 'components/atoms/button/SquareBtn';
 import Input from 'components/atoms/input/Input';
 
 interface ILoginProps {
@@ -30,49 +34,49 @@ const LogIn = ({ isLoggedIn }: ILoginProps) => {
         <LogoBox>
           <img
             src={`${process.env.PUBLIC_URL}/hanpage_logo.png`}
-            alt='독서모임 한페이지 로고'
+            alt="독서모임 한페이지 로고"
           />
           <h1>독서모임 한페이지</h1>
         </LogoBox>
 
         <Form onSubmit={onSubmit}>
           <Input
-            name='email'
-            type='email'
+            name="email"
+            type="email"
             value={email}
-            placeholder='이메일 계정을 입력해주세요.'
+            placeholder="이메일 계정을 입력해주세요."
             onChange={onChange}
           />
           <Input
-            name='password'
-            type='password'
-            placeholder='비밀번호를 입력해주세요.'
+            name="password"
+            type="password"
+            placeholder="비밀번호를 입력해주세요."
             value={password}
             onChange={onChange}
           />
           <ErrorMsg>{error}</ErrorMsg>
 
           <BtnBox>
-            <SquareBtn type='submit' name='로그인' />
+            <SquareBtn type="submit" name="로그인" />
             <Btn
-              $color='purple'
+              $color="purple"
               as={Link}
-              to='/create_account'
+              to="/create_account"
               $disabled={false}
             >
               <span>회원가입</span>
             </Btn>
             {!anonymous && (
               <SquareBtn
-                type='button'
-                name='익명으로 로그인'
+                type="button"
+                name="익명으로 로그인"
                 handleClick={onAnonymousLoginClick}
               />
             )}
           </BtnBox>
         </Form>
 
-        <FindPasswordLink to='/find_pw'>비밀번호 찾기</FindPasswordLink>
+        <FindPasswordLink to="/find_pw">비밀번호 찾기</FindPasswordLink>
       </Main>
     </>
   );

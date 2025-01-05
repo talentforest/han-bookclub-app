@@ -1,10 +1,14 @@
-import { useLocation } from 'react-router-dom';
-import { ISearchedBook } from 'data/bookAtom';
-import SearchedBookDesc from 'components/organisms/SearchedBookDesc';
-import RegisterClubBookBtn from 'components/atoms/button/RegisterClubBookBtn';
-import BookThumbnail from 'components/atoms/book/BookThumbnail';
 import styled from 'styled-components';
+
+import { useLocation } from 'react-router-dom';
+
+import { ISearchedBook } from 'data/bookAtom';
+
 import MobileHeader from 'layout/mobile/MobileHeader';
+
+import BookThumbnail from 'components/atoms/book/BookThumbnail';
+import RegisterClubBookBtn from 'components/atoms/button/RegisterClubBookBtn';
+import SearchedBookDesc from 'components/organisms/SearchedBookDesc';
 
 type LocationState = { state: { searchedBook: ISearchedBook } };
 
@@ -17,9 +21,9 @@ const SearchedBookInfo = () => {
 
   return (
     <>
-      <MobileHeader title='도서 정보' backBtn />
+      <MobileHeader title="도서 정보" backBtn />
       <Main>
-        <div className='thumbnailBox'>
+        <div className="thumbnailBox">
           <BookThumbnail title={title} thumbnail={thumbnail} />
         </div>
 

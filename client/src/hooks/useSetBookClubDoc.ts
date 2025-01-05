@@ -35,6 +35,9 @@ const useSetBookClubDoc = ({ searchedBook }: PropsType) => {
 
   const meetingTime = getThirdSunday(+thisYear, +thisMonth + 1, 13, 0);
 
+  console.log(meetingTime);
+  console.log(new Date().toISOString()); // date-fns로 처리하기
+
   const bookClubInfo = {
     book: {
       thumbnail,
@@ -47,7 +50,7 @@ const useSetBookClubDoc = ({ searchedBook }: PropsType) => {
       datetime,
       url,
     },
-    meeting: { place: '카페 느티', time: meetingTime.getTime() },
+    meeting: { place: '카페 느티', time: meetingTime },
     createdAt: Date.now(),
     creatorId: userData.uid,
   };

@@ -1,20 +1,28 @@
-import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { todayWithHyphen } from 'util/index';
-import { getCollection } from 'api/getFbDoc';
-import { FiPlusCircle } from 'react-icons/fi';
-import { EmptyBox } from './BookClubHistory';
-import { bookVotesState } from 'data/voteAtom';
-import { BOOK_VOTE } from 'constants/index';
-import VoteCreateModal from 'components/organisms/modal/VoteCreateModal';
-import Subtitle from 'components/atoms/Subtitle';
-import Loading from 'components/atoms/Loading';
-import MobileHeader from 'layout/mobile/MobileHeader';
-import VoteProgressBox from 'components/molecules/VoteProgressBox';
-import PreviousVoteBoxes from 'components/organisms/PreviousVoteBoxes';
-import VoteExpiredBox from 'components/molecules/VoteExpiredBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
+
+import { useEffect, useState } from 'react';
+
+import { BOOK_VOTE } from 'constants/index';
+
+import { todayWithHyphen } from 'util/index';
+
+import { getCollection } from 'api/getFbDoc';
+
+import { bookVotesState } from 'data/voteAtom';
+import { useRecoilState } from 'recoil';
+
+import { EmptyBox } from './BookClubHistory';
+import { FiPlusCircle } from 'react-icons/fi';
+
+import MobileHeader from 'layout/mobile/MobileHeader';
+
+import Loading from 'components/atoms/Loading';
+import Subtitle from 'components/atoms/Subtitle';
+import VoteExpiredBox from 'components/molecules/VoteExpiredBox';
+import VoteProgressBox from 'components/molecules/VoteProgressBox';
+import PreviousVoteBoxes from 'components/organisms/PreviousVoteBoxes';
+import VoteCreateModal from 'components/organisms/modal/VoteCreateModal';
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -27,30 +35,30 @@ const Vote = () => {
   }, []);
 
   const progressVotes = bookVotes?.filter(
-    (item) => item.deadline >= todayWithHyphen
+    item => item.deadline >= todayWithHyphen,
   );
 
   const expiredVote = bookVotes?.filter(
-    (item) => item.deadline < todayWithHyphen
+    item => item.deadline < todayWithHyphen,
   );
 
-  const onToggleModal = () => setModalOpen((prev) => !prev);
+  const onToggleModal = () => setModalOpen(prev => !prev);
 
   return (
     <>
-      <MobileHeader title='한페이지의 투표함' />
+      <MobileHeader title="한페이지의 투표함" />
 
       <main>
         <HeaderBox>
-          <Subtitle title='진행중인 투표함' />
-          <button type='button' onClick={onToggleModal}>
+          <Subtitle title="진행중인 투표함" />
+          <button type="button" onClick={onToggleModal}>
             <FiPlusCircle />
           </button>
         </HeaderBox>
         {bookVotes ? (
           <VoteList>
             {progressVotes?.length !== 0 ? (
-              progressVotes?.map((voteDetail) => (
+              progressVotes?.map(voteDetail => (
                 <VoteProgressBox key={voteDetail.id} voteDetail={voteDetail} />
               ))
             ) : (
@@ -61,10 +69,10 @@ const Vote = () => {
           <Loading />
         )}
 
-        <Subtitle title='기한이 만료된 투표함' />
+        <Subtitle title="기한이 만료된 투표함" />
         <VoteList>
           {expiredVote?.length !== 0 &&
-            expiredVote?.map((vote) => (
+            expiredVote?.map(vote => (
               <VoteExpiredBox key={vote.id} vote={vote} collName={BOOK_VOTE} />
             ))}
 

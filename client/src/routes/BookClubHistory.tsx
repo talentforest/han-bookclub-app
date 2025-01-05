@@ -1,17 +1,26 @@
+import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+
 import { useEffect } from 'react';
+
+import { Link } from 'react-router-dom';
+
+import { yearOfBookClub } from 'constants/yearOfBookClub';
+
 import { thisYearMonthId } from 'util/index';
+
 import { getCollection } from 'api/getFbDoc';
+
 import { bookClubByYearState, selectedYearState } from 'data/bookClubAtom';
 import { useRecoilState } from 'recoil';
-import { Link } from 'react-router-dom';
+
 import { HiMiniArrowUpRight } from 'react-icons/hi2';
-import { yearOfBookClub } from 'constants/yearOfBookClub';
-import BookClubHistoryBox from 'components/molecules/BookClubHistoryBox';
-import device from 'theme/mediaQueries';
-import styled from 'styled-components';
+
 import MobileHeader from 'layout/mobile/MobileHeader';
 
-const BookClubHistory = () => {
+import BookClubHistoryBox from 'components/molecules/BookClubHistoryBox';
+
+function BookClubHistory() {
   const [selectedYear, setSelectedYear] = useRecoilState(selectedYearState);
   const [clubInfoDocs, setClubInfoDocs] = useRecoilState(bookClubByYearState);
 
@@ -19,17 +28,17 @@ const BookClubHistory = () => {
     getCollection(`BookClub-${selectedYear}`, setClubInfoDocs);
   }, [setClubInfoDocs, selectedYear]);
 
-  const clubHistory = clubInfoDocs?.filter((doc) => doc?.id < thisYearMonthId);
+  const clubHistory = clubInfoDocs?.filter(doc => doc?.id < thisYearMonthId);
 
   return (
     <>
-      <MobileHeader title='지난 독서모임 한페이지' />
+      <MobileHeader title="지난 독서모임 한페이지" />
 
       <main>
         <YearTagList>
-          {yearOfBookClub.map((year) => (
+          {yearOfBookClub.map(year => (
             <YearTag key={year} $active={year === selectedYear}>
-              <button type='button' onClick={() => setSelectedYear(year)}>
+              <button type="button" onClick={() => setSelectedYear(year)}>
                 {year}년
               </button>
             </YearTag>
@@ -37,14 +46,14 @@ const BookClubHistory = () => {
         </YearTagList>
 
         <HistoryList>
-          {!!clubHistory?.length ? (
-            clubHistory?.map((document) => (
+          {clubHistory?.length ? (
+            clubHistory?.map(document => (
               <li key={document.id}>
                 <Link to={document.id} state={{ document }}>
                   {document && <BookClubHistoryBox document={document} />}
 
                   <HiMiniArrowUpRight
-                    fill='#aaa'
+                    fill="#aaa"
                     style={{
                       position: 'absolute',
                       bottom: '10px',
@@ -61,7 +70,7 @@ const BookClubHistory = () => {
       </main>
     </>
   );
-};
+}
 
 const YearTagList = styled.ul`
   display: flex;

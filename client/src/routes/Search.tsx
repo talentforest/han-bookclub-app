@@ -1,12 +1,16 @@
-import { useEffect, useRef } from 'react';
-import SearchedBookBox from 'components/molecules/SearchedBookBox';
-import RefInput from 'components/atoms/input/RefInput';
-import useSearchBook from 'hooks/useSearchBook';
-import device from 'theme/mediaQueries';
-import MobileHeader from 'layout/mobile/MobileHeader';
 import styled from 'styled-components';
+import device from 'theme/mediaQueries';
+
+import { useEffect, useRef } from 'react';
+
+import useSearchBook from 'hooks/useSearchBook';
+
+import MobileHeader from 'layout/mobile/MobileHeader';
+
 import SquareBtn from 'components/atoms/button/SquareBtn';
+import RefInput from 'components/atoms/input/RefInput';
 import BookClubNextMonthBox from 'components/molecules/BookClubNextMonthBox';
+import SearchedBookBox from 'components/molecules/SearchedBookBox';
 
 const Search = () => {
   const {
@@ -24,16 +28,16 @@ const Search = () => {
 
   return (
     <>
-      <MobileHeader title='도서 검색' backBtn />
+      <MobileHeader title="도서 검색" backBtn />
       <main>
         <BookClubNextMonthBox />
         <Form>
           <RefInput
             ref={inputRef}
-            placeholder='등록하실 책을 검색해주세요.'
+            placeholder="등록하실 책을 검색해주세요."
             onChange={onBookQueryChange}
           />
-          <SquareBtn name='검색' />
+          <SquareBtn name="검색" />
         </Form>
 
         <BookResults>

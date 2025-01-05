@@ -1,20 +1,28 @@
+import styled from 'styled-components';
+
+import { useEffect } from 'react';
+
+import { SENTENCES2024 } from 'constants/index';
+
+import { formatKRMarkDate } from 'util/index';
+
+import { getCollection } from 'api/getFbDoc';
+
 import { ISentence, sentencesState } from 'data/bookAtom';
 import { useRecoilState } from 'recoil';
-import { useEffect } from 'react';
-import { getCollection } from 'api/getFbDoc';
-import { SENTENCES2024 } from 'constants/index';
+
 import { EmptyBox } from './BookClubHistory';
-import { formatKRMarkDate } from 'util/index';
 import { FiCalendar } from 'react-icons/fi';
 import { SwiperSlide } from 'swiper/react';
-import PostSentenceBox from 'components/organisms/PostSentenceBox';
+
 import MobileHeader from 'layout/mobile/MobileHeader';
-import Tag from 'components/atoms/Tag';
+
 import Subtitle from 'components/atoms/Subtitle';
-import SwiperContainer from 'components/molecules/SwiperContainer';
+import Tag from 'components/atoms/Tag';
 import BookThumbnail from 'components/atoms/book/BookThumbnail';
-import styled from 'styled-components';
 import Section from 'components/atoms/container/Section';
+import SwiperContainer from 'components/molecules/SwiperContainer';
+import PostSentenceBox from 'components/organisms/PostSentenceBox';
 
 const swiperOptions = {
   slidesPerView: 'auto' as 'auto',
@@ -68,14 +76,14 @@ export default function Sentence() {
 
   return (
     <>
-      <MobileHeader title='공유하고 싶은 문구들' backBtn />
+      <MobileHeader title="공유하고 싶은 문구들" backBtn />
 
       <main>
-        <Section title='문구가 등록된 책'>
+        <Section title="문구가 등록된 책">
           {titleKeys?.length !== 0 ? (
             <Container>
               <SwiperContainer options={swiperOptions}>
-                {titleKeys?.map((titleKey) => (
+                {titleKeys?.map(titleKey => (
                   <SwiperSlide key={titleKey}>
                     <BookItem>
                       <BookThumbnail
@@ -96,11 +104,11 @@ export default function Sentence() {
         </Section>
 
         <Section>
-          <Subtitle title='날짜별로 전체 문구 보기' />
+          <Subtitle title="날짜별로 전체 문구 보기" />
           {dateKeys?.length !== 0 ? (
-            dateKeys?.map((dateKey) => (
+            dateKeys?.map(dateKey => (
               <SentenceListByDate key={dateKey}>
-                <Tag color='purple'>
+                <Tag color="purple">
                   <FiCalendar fontSize={15} />
                   <h3>{dateKey}</h3>
                 </Tag>

@@ -1,9 +1,13 @@
-import { Link } from 'react-router-dom';
-import LogOutBtn from 'components/atoms/button/LogOutBtn';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import MobileHeader from 'layout/mobile/MobileHeader';
+
+import { Link } from 'react-router-dom';
+
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
+
+import MobileHeader from 'layout/mobile/MobileHeader';
+
+import LogOutBtn from 'components/atoms/button/LogOutBtn';
 
 const Setting = () => {
   const { blockLinkAndAlertJoinMember } = useAlertAskJoin('see');
@@ -21,7 +25,7 @@ const Setting = () => {
 
   return (
     <>
-      <MobileHeader title='설정' backBtn showDesktop={false} />
+      <MobileHeader title="설정" backBtn showDesktop={false} />
       <main>
         <SettingTitle>사용자 설정</SettingTitle>
         <List>

@@ -1,25 +1,34 @@
-import { challengeState, sentencesState } from 'data/bookAtom';
-import { useRecoilState } from 'recoil';
-import { thisYear } from 'util/index';
-import { useEffect, useState } from 'react';
-import { FiChevronRight, FiPlusCircle } from 'react-icons/fi';
-import { getCollection } from 'api/getFbDoc';
-import { CHALLENGE, SENTENCES2024 } from 'constants/index';
-import { EmptyBox } from './BookClubHistory';
-import { Link } from 'react-router-dom';
-import { SwiperSlide } from 'swiper/react';
-import MobileHeader from 'layout/mobile/MobileHeader';
-import UserChallengeBox from 'components/organisms/UserChallengeBox';
-import Subtitle from 'components/atoms/Subtitle';
-import SearchedBookPostAddModal from 'components/organisms/modal/SearchedBookPostAddModal';
-import SentenceSlideBox from 'components/organisms/SentenceSlideBox';
 import styled from 'styled-components';
 import device from 'theme/mediaQueries';
-import GuideLine from 'components/atoms/GuideLine';
+
+import { useEffect, useState } from 'react';
+
+import { Link } from 'react-router-dom';
+
+import { CHALLENGE, SENTENCES2024 } from 'constants/index';
+
+import { thisYear } from 'util/index';
+
+import { getCollection } from 'api/getFbDoc';
+
+import { challengeState, sentencesState } from 'data/bookAtom';
+import { useRecoilState } from 'recoil';
+
+import { EmptyBox } from './BookClubHistory';
+import { FiChevronRight, FiPlusCircle } from 'react-icons/fi';
+import { SwiperSlide } from 'swiper/react';
+
+import MobileHeader from 'layout/mobile/MobileHeader';
+
 import DDay from 'components/atoms/DDay';
+import GuideLine from 'components/atoms/GuideLine';
+import Subtitle from 'components/atoms/Subtitle';
 import Tag from 'components/atoms/Tag';
-import SwiperContainer from 'components/molecules/SwiperContainer';
 import Section from 'components/atoms/container/Section';
+import SwiperContainer from 'components/molecules/SwiperContainer';
+import SentenceSlideBox from 'components/organisms/SentenceSlideBox';
+import UserChallengeBox from 'components/organisms/UserChallengeBox';
+import SearchedBookPostAddModal from 'components/organisms/modal/SearchedBookPostAddModal';
 
 const swiperOptions = {
   slidesPerView: 'auto' as 'auto',
@@ -48,20 +57,20 @@ export default function Challenge() {
     getCollection(SENTENCES2024, setSentences);
   }, []);
 
-  const onChallengeModalClick = () => setShowChallengeModal((prev) => !prev);
+  const onChallengeModalClick = () => setShowChallengeModal(prev => !prev);
 
   return (
     <>
       <MobileHeader title={`${thisYear}년 개인별 챌린지`} backBtn />
 
       <main>
-        <Section title='공유하고 싶은 문구들'>
-          <GuideLine text='아래 개인별 챌린지 박스에서 추가할 수 있어요' />
+        <Section title="공유하고 싶은 문구들">
+          <GuideLine text="아래 개인별 챌린지 박스에서 추가할 수 있어요" />
 
           <SentenceListBox>
             {sentences?.length !== 0 ? (
               <SwiperContainer options={swiperOptions}>
-                {sentences?.slice(0, 4).map((sentence) => (
+                {sentences?.slice(0, 4).map(sentence => (
                   <SwiperSlide key={sentence.id}>
                     <SentenceSlideBox
                       key={sentence.createdAt}
@@ -75,7 +84,7 @@ export default function Challenge() {
             )}
           </SentenceListBox>
 
-          <SentenceLink to='/sentence'>
+          <SentenceLink to="/sentence">
             <span>문구 더보기</span>
             <FiChevronRight />
           </SentenceLink>
@@ -83,19 +92,19 @@ export default function Challenge() {
 
         <Section>
           <AddBtnBox>
-            <Subtitle title='개인별 챌린지 현황' />
-            <button type='button' onClick={onChallengeModalClick}>
+            <Subtitle title="개인별 챌린지 현황" />
+            <button type="button" onClick={onChallengeModalClick}>
               <FiPlusCircle />
             </button>
           </AddBtnBox>
 
-          <Tag color='purple'>
+          <Tag color="purple">
             <DDay hyphenDate={`${thisYear}-12-31`} />
           </Tag>
 
           <ChallengeList>
             {userChallenges?.length !== 0 &&
-              userChallenges?.map((challenge) => (
+              userChallenges?.map(challenge => (
                 <UserChallengeBox key={challenge.id} challenge={challenge} />
               ))}
           </ChallengeList>
@@ -103,7 +112,7 @@ export default function Challenge() {
 
         {showChallengeModal && (
           <SearchedBookPostAddModal
-            title='챌린지 등록하기'
+            title="챌린지 등록하기"
             onToggleClick={onChallengeModalClick}
           />
         )}

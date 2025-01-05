@@ -1,8 +1,11 @@
 import styled from 'styled-components';
-import useDeleteAccount from 'hooks/useDeleteAccount';
-import MobileHeader from 'layout/mobile/MobileHeader';
-import GuideLine from 'components/atoms/GuideLine';
 import device from 'theme/mediaQueries';
+
+import useDeleteAccount from 'hooks/useDeleteAccount';
+
+import MobileHeader from 'layout/mobile/MobileHeader';
+
+import GuideLine from 'components/atoms/GuideLine';
 import SquareBtn from 'components/atoms/button/SquareBtn';
 import Input from 'components/atoms/input/Input';
 
@@ -16,7 +19,7 @@ const DeleteAccount = () => {
 
   return (
     <>
-      <MobileHeader title='탈퇴' backBtn />
+      <MobileHeader title="탈퇴" backBtn />
       <main>
         <Form onSubmit={onDeleteSubmit}>
           {showMessage && <Msg>비밀번호가 맞지 않습니다.</Msg>}
@@ -25,20 +28,20 @@ const DeleteAccount = () => {
 
             <div>
               <Input
-                name='password'
-                type='password'
-                placeholder='현재 비밀번호를 입력해주세요.'
+                name="password"
+                type="password"
+                placeholder="현재 비밀번호를 입력해주세요."
                 value={password}
                 onChange={onChange}
-                autoComplete='current-password'
+                autoComplete="current-password"
               />
 
-              <SquareBtn width='fit-content' type='submit' name='탈퇴하기' />
+              <SquareBtn width="fit-content" type="submit" name="탈퇴하기" />
             </div>
           </LabelInputBtnBox>
         </Form>
 
-        <GuideLine text=' 탈퇴할 시 회원님의 데이터는 즉시 모두 삭제되며, 데이터는 복구 불가능합니다.' />
+        <GuideLine text=" 탈퇴할 시 회원님의 데이터는 즉시 모두 삭제되며, 데이터는 복구 불가능합니다." />
       </main>
     </>
   );
