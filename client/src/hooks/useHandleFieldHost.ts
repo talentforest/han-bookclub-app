@@ -1,11 +1,13 @@
+import { useState } from 'react';
+
 import { fieldHostDocState } from 'data/bookFieldHostAtom';
+import { useRecoilState } from 'recoil';
+
+import useAlertAskJoin from './useAlertAskJoin';
+import { BOOK_FIELD_AND_HOST } from 'appConstants';
 import { dbService } from 'fbase';
 import { doc, updateDoc } from 'firebase/firestore';
-import { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { thisYear } from 'util/index';
-import { BOOK_FIELD_HOST } from 'constants/index';
-import useAlertAskJoin from './useAlertAskJoin';
+import { thisYear } from 'utils';
 
 export interface ChangeSelectValue {
   label: string;
@@ -31,12 +33,14 @@ const useHandleFieldHost = () => {
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
 
-  const fbDoc = doc(dbService, BOOK_FIELD_HOST, thisYear);
+  const fbDoc = doc(dbService, `BookClub-${thisYear}`, BOOK_FIELD_AND_HOST);
 
   const onEditClick = (month?: number) => {
     if (anonymous) return alertAskJoinMember();
     if (month) {
-      const doc = fieldHostDoc.info.find((item) => item.month === month);
+      const doc = fieldHostDoc.bookFieldAndHostList.find(
+        item => item.month === month,
+      );
       setSelectedValues(doc);
     }
     setEditingMonthInfo({ isEditing: !editingMonthInfo.isEditing, month });
@@ -44,11 +48,11 @@ const useHandleFieldHost = () => {
 
   const onSubmit = async (
     event: React.FormEvent<HTMLFormElement>,
-    month: number
+    month: number,
   ) => {
     event.preventDefault();
 
-    const editedList = fieldHostDoc.info.map((fieldHost) => {
+    const editedList = fieldHostDoc.bookFieldAndHostList.map(fieldHost => {
       const editedObj = { ...fieldHost, ...selectedValues };
       return fieldHost.month === month ? editedObj : fieldHost;
     });

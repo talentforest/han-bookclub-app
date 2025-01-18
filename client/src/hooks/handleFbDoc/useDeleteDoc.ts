@@ -1,11 +1,14 @@
-import { getDocument } from 'api/getFbDoc';
+import { useEffect } from 'react';
+
+import { getDocument } from 'api/firebase/getFbDoc';
+
 import { currentUserState, userExtraInfoState } from 'data/userAtom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+
+import { USER } from 'appConstants';
 import { dbService } from 'fbase';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { existDocObj } from 'util/index';
-import { USER_DATA } from 'constants/index';
+import { existDocObj } from 'utils';
 
 interface PropsType {
   docId: string;
@@ -17,11 +20,11 @@ const useDeleteDoc = ({ docId, collName }: PropsType) => {
   const userData = useRecoilValue(currentUserState);
 
   const docRef = doc(dbService, collName, docId);
-  const userDataRef = doc(dbService, USER_DATA, userData.uid);
+  const userDataRef = doc(dbService, USER, userData.uid);
 
   useEffect(() => {
     if (userData.uid && !existDocObj(userExtraData)) {
-      getDocument(USER_DATA, userData.uid, setUserExtraData);
+      getDocument(USER, userData.uid, setUserExtraData);
     }
   }, [userData.uid]);
 
@@ -37,36 +40,34 @@ const useDeleteDoc = ({ docId, collName }: PropsType) => {
       userExtraData.userRecords;
 
     if (collName.includes('Reviews')) {
-      const filteredArr = reviews.filter((item) => item.docId !== docRef.id);
+      const filteredArr = reviews.filter(item => item.docId !== docRef.id);
       await updateDoc(userDataRef, {
         'userRecords.reviews': filteredArr,
       });
     }
     if (collName.includes('Subjects')) {
-      const filteredArr = subjects.filter((item) => item.docId !== docRef.id);
+      const filteredArr = subjects.filter(item => item.docId !== docRef.id);
       await updateDoc(userDataRef, {
         'userRecords.subjects': filteredArr,
       });
     }
     if (collName.includes('Recommended')) {
       const filteredArr = recommendedBooks.filter(
-        (item) => item.docId !== docRef.id
+        item => item.docId !== docRef.id,
       );
       await updateDoc(userDataRef, {
         'userRecords.recommendedBooks': filteredArr,
       });
     }
     if (collName.includes('HostReview')) {
-      const filteredArr = hostReviews.filter(
-        (item) => item.docId !== docRef.id
-      );
+      const filteredArr = hostReviews.filter(item => item.docId !== docRef.id);
       await updateDoc(userDataRef, {
         'userRecords.hostReviews': filteredArr,
       });
     }
 
     if (collName.includes('Sentence-2024')) {
-      const filteredArr = sentences.filter((item) => item.docId !== docRef.id);
+      const filteredArr = sentences.filter(item => item.docId !== docRef.id);
       await updateDoc(userDataRef, {
         'userRecords.sentences': filteredArr,
       });

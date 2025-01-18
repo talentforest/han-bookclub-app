@@ -1,24 +1,22 @@
-import styled from 'styled-components';
-import device from 'theme/mediaQueries';
-
 import { useEffect } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { yearOfBookClub } from 'constants/yearOfBookClub';
-
-import { thisYearMonthId } from 'util/index';
-
-import { getCollection } from 'api/getFbDoc';
+import { getCollection } from 'api/firebase/getFbDoc';
 
 import { bookClubByYearState, selectedYearState } from 'data/bookClubAtom';
 import { useRecoilState } from 'recoil';
 
+import { bookClubYearList } from 'appConstants';
 import { HiMiniArrowUpRight } from 'react-icons/hi2';
+import { thisYearMonthId } from 'utils';
 
 import MobileHeader from 'layout/mobile/MobileHeader';
 
-import BookClubHistoryBox from 'components/molecules/BookClubHistoryBox';
+import HistoryBookCard from 'components/bookCard/HistoryBookCard';
+import Subtitle from 'components/common/Subtitle';
+import SquareBtn from 'components/common/button/SquareBtn';
+import EmptyCard from 'components/common/container/EmptyCard';
 
 function BookClubHistory() {
   const [selectedYear, setSelectedYear] = useRecoilState(selectedYearState);
@@ -35,22 +33,27 @@ function BookClubHistory() {
       <MobileHeader title="지난 독서모임 한페이지" />
 
       <main>
-        <YearTagList>
-          {yearOfBookClub.map(year => (
-            <YearTag key={year} $active={year === selectedYear}>
-              <button type="button" onClick={() => setSelectedYear(year)}>
-                {year}년
-              </button>
-            </YearTag>
+        <ul className="mb-10 flex flex-wrap gap-3 sm:gap-2">
+          {bookClubYearList.map(year => (
+            <li key={year}>
+              <SquareBtn
+                color={year === selectedYear ? 'purple' : 'gray'}
+                name={`${year}년`}
+                type="button"
+                handleClick={() => setSelectedYear(year)}
+              />
+            </li>
           ))}
-        </YearTagList>
+        </ul>
 
-        <HistoryList>
+        <Subtitle title={`${selectedYear}년의 한페이지`} />
+
+        <ul className="grid grid-cols-4 gap-5 sm:flex sm:flex-col md:grid-cols-3 [&>div]:col-span-4">
           {clubHistory?.length ? (
             clubHistory?.map(document => (
               <li key={document.id}>
                 <Link to={document.id} state={{ document }}>
-                  {document && <BookClubHistoryBox document={document} />}
+                  {document && <HistoryBookCard document={document} />}
 
                   <HiMiniArrowUpRight
                     fill="#aaa"
@@ -64,64 +67,12 @@ function BookClubHistory() {
               </li>
             ))
           ) : (
-            <EmptyBox>독서모임에 아직 등록된 책이 없습니다.</EmptyBox>
+            <EmptyCard text="독서모임에 아직 등록된 책이 없습니다." />
           )}
-        </HistoryList>
+        </ul>
       </main>
     </>
   );
 }
-
-const YearTagList = styled.ul`
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-`;
-
-const YearTag = styled.li<{ $active: boolean }>`
-  border-radius: 8px;
-  box-shadow: ${({ theme }) => theme.boxShadow};
-  > button {
-    background-color: ${({ $active, theme }) =>
-      $active ? theme.container.blue3 : '#eee'};
-    color: ${({ $active, theme }) => ($active ? '#fff' : theme.text.gray2)};
-    padding: 10px 8px;
-    border-radius: 8px;
-    font-size: 15px;
-  }
-  @media ${device.tablet} {
-  }
-`;
-
-const HistoryList = styled.ul`
-  width: 100%;
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  li {
-    position: relative;
-  }
-  @media ${device.tablet} {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
-`;
-
-export const EmptyBox = styled.div`
-  width: 100%;
-  height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  color: ${({ theme }) => theme.text.gray2};
-  border-radius: 15px;
-  background-color: ${({ theme }) => theme.container.default};
-  box-shadow: ${({ theme }) => theme.boxShadow};
-  @media ${device.tablet} {
-    height: 180px;
-  }
-`;
 
 export default BookClubHistory;

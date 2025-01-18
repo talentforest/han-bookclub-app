@@ -1,7 +1,6 @@
-import { FiChevronLeft, FiSettings } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import device from 'theme/mediaQueries';
+
+import { FiChevronLeft, FiSettings } from 'react-icons/fi';
 
 type PageHeaderTitle =
   | '독서모임 한페이지'
@@ -36,22 +35,25 @@ interface Props {
   showDesktop?: boolean;
 }
 
-const MobileHeader = ({
+export default function MobileHeader({
   title,
   backBtn,
   settingBtn,
-  showDesktop = false,
-}: Props) => {
+  showDesktop,
+}: Props) {
   const navigate = useNavigate();
 
   const onBackClick = () => navigate(-1);
 
   return (
-    <Header $showDesktop={showDesktop}>
+    <header
+      className={`hidden items-center gap-2 p-4 ${showDesktop ? 'flex' : 'sm:flex'}`}
+    >
       {title === '독서모임 한페이지' && (
         <img
           src={`${process.env.PUBLIC_URL}/hanpage_logo.png`}
-          alt='독서모임 한페이지 로고'
+          alt="독서모임 한페이지 로고"
+          className="size-[22px]"
         />
       )}
 
@@ -60,60 +62,13 @@ const MobileHeader = ({
           <FiChevronLeft fontSize={22} />
         </button>
       )}
-      <span>{title}</span>
+      <span className="text-base font-medium">{title}</span>
 
       {settingBtn && (
-        <Link to='/setting'>
+        <Link to="/setting">
           <FiSettings fontSize={18} />
         </Link>
       )}
-    </Header>
+    </header>
   );
-};
-
-//
-
-const Header = styled.header<{ $showDesktop: boolean }>`
-  padding: 15px 20px 5px;
-  height: 45px;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  img {
-    width: 22px;
-    height: 22px;
-    margin-bottom: 4px;
-  }
-  span {
-    font-weight: 600;
-    color: ${({ theme }) => theme.text.gray4};
-    font-size: 18px;
-    flex: 1;
-  }
-  svg {
-    stroke: ${({ theme }) => theme.text.gray4};
-  }
-  @media ${device.tablet} {
-    height: 45px;
-    margin-top: 10px;
-    position: relative;
-    display: ${({ $showDesktop }) => ($showDesktop ? 'flex' : 'none')};
-    align-items: center;
-    gap: 3px;
-    padding: 20px 80px;
-    h1 {
-      color: ${({ theme }) => theme.text.gray4};
-    }
-    h1 {
-      font-size: 20px;
-    }
-  }
-  @media ${device.desktop} {
-    padding: 0;
-    padding-top: 15px 0;
-    width: 70%;
-    margin: 10px auto;
-  }
-`;
-
-export default MobileHeader;
+}

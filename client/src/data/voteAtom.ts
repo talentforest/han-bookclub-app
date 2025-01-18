@@ -1,4 +1,6 @@
 import { atom } from 'recoil';
+
+import { formatDate } from 'utils';
 import { v4 } from 'uuid';
 
 export interface IVoteItem {
@@ -42,21 +44,19 @@ export interface IVoteItemsByMember {
 }
 
 export interface IBookVote {
-  id?: string;
-  voteId: number;
+  id: string;
   title: string;
   creatorId: string;
-  createdAt: number;
+  createdAt: string;
   deadline: string;
   voteItems: IBookVoteItem[];
 }
 
 export const initialBookVote: IBookVote = {
   id: '',
-  voteId: 1,
   title: '',
   creatorId: '',
-  createdAt: Date.now(),
+  createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
   deadline: '',
   voteItems: [],
 };
@@ -73,11 +73,6 @@ export const initialBookVoteItem: IBookVoteItem = {
 
 export const bookVotesState = atom<IBookVote[]>({
   key: `bookVoteDocs/${v4()}`,
-  default: null,
-});
-
-export const votesState = atom<IVote[]>({
-  key: `voteDocs/${v4()}`,
   default: null,
 });
 

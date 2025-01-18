@@ -1,13 +1,18 @@
-import { thisYear } from 'util/index';
+import { currentUserState } from 'data/userAtom';
+import { useRecoilValue } from 'recoil';
+
+import { thisYear } from 'utils';
 
 import MobileHeader from 'layout/mobile/MobileHeader';
 
-import LinkChevronRightBtn from 'components/atoms/button/LinkChevronRightBtn';
-import Section from 'components/atoms/container/Section';
-import AbsenceMemberTable from 'components/organisms/AbsenceMemberTable';
-import BookFieldHostTable from 'components/organisms/BookFieldHostTable';
+import AbsenceMemberTable from 'components/absence/AbsenceMemberTable';
+import BookFieldHostTable from 'components/bookClub/BookFieldHostTable';
+import ChevronRightLinkBtn from 'components/common/button/ChevronRightLinkBtn';
+import Section from 'components/common/container/Section';
 
 export default function BookClubInformation() {
+  const currUser = useRecoilValue(currentUserState);
+
   return (
     <>
       <MobileHeader title={`${thisYear}년 독서모임 한페이지 정보`} backBtn />
@@ -15,10 +20,10 @@ export default function BookClubInformation() {
       <main>
         <Section title="월별 불참 멤버">
           <AbsenceMemberTable isFoldable isMonth />
-          <LinkChevronRightBtn
+          <ChevronRightLinkBtn
             title="나의 불참 설정하러 가기"
             to="/setting/absence"
-            userState
+            state={{ userId: currUser.uid }}
           />
         </Section>
 

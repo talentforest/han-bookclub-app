@@ -1,13 +1,15 @@
-import { getDocument } from 'api/getFbDoc';
-import { BookFieldType } from 'components/molecules/BookFieldCheckBox';
-import { currentUserState, IUserDataDoc } from 'data/userAtom';
+import { useEffect, useState } from 'react';
+
+import { getDocument } from 'api/firebase/getFbDoc';
+
+import { IUserDataDoc, currentUserState } from 'data/userAtom';
+import { useRecoilState } from 'recoil';
+
+import { BookField, USER } from 'appConstants';
 import { authService, dbService, storageService } from 'fbase';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
-import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { USER_DATA } from 'constants/index';
 
 const useHandleProfile = () => {
   const [userData, setUserData] = useRecoilState(currentUserState);
@@ -15,11 +17,11 @@ const useHandleProfile = () => {
   const [editing, setEditing] = useState(false);
   const [newUserImgUrl, setNewUserImgUrl] = useState('');
   const [newDisplayName, setNewDisplayName] = useState(userData.displayName);
-  const userDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
+  const userDataRef = doc(dbService, USER, `${userData.uid}`);
 
   useEffect(() => {
     if (userData.uid) {
-      getDocument(USER_DATA, userData.uid, setExtraUserData);
+      getDocument(USER, userData.uid, setExtraUserData);
     }
   }, [userData.uid]);
 
@@ -81,28 +83,28 @@ const useHandleProfile = () => {
 
   const onHandleFieldClick = (
     id: number,
-    event: React.FormEvent<HTMLButtonElement>
+    event: React.FormEvent<HTMLButtonElement>,
   ) => {
     const { name } = event.currentTarget;
     const selectedField = { id, name };
     const alreadySelected = extraUserData.favoriteBookField.some(
-      (item: BookFieldType) => item.id === id
+      (item: BookField) => item.id === id,
     );
     if (!alreadySelected) {
       const totalArray = [...extraUserData.favoriteBookField, selectedField];
       const removeDeduplicationArr = totalArray.filter(
         (arr, index, callback) =>
-          index === callback.findIndex((t) => t.id === arr.id)
+          index === callback.findIndex(t => t.id === arr.id),
       );
-      return setExtraUserData((prevArr) => ({
+      return setExtraUserData(prevArr => ({
         ...prevArr,
         favoriteBookField: removeDeduplicationArr,
       }));
     }
-    setExtraUserData((prevArr) => ({
+    setExtraUserData(prevArr => ({
       ...prevArr,
       favoriteBookField: prevArr.favoriteBookField.filter(
-        (ele: BookFieldType) => ele.id !== id
+        (ele: BookField) => ele.id !== id,
       ),
     }));
   };
@@ -114,7 +116,7 @@ const useHandleProfile = () => {
   };
 
   const isSelected = (id: number) => {
-    return extraUserData?.favoriteBookField.some((item) => item.id === id);
+    return extraUserData?.favoriteBookField.some(item => item.id === id);
   };
 
   return {

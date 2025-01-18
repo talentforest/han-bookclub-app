@@ -1,31 +1,26 @@
-import styled from 'styled-components';
-import device from 'theme/mediaQueries';
-
 import { useEffect, useState } from 'react';
 
-import { BOOK_VOTE } from 'constants/index';
-
-import { todayWithHyphen } from 'util/index';
-
-import { getCollection } from 'api/getFbDoc';
+import { getCollection } from 'api/firebase/getFbDoc';
 
 import { bookVotesState } from 'data/voteAtom';
 import { useRecoilState } from 'recoil';
 
-import { EmptyBox } from './BookClubHistory';
+import { BOOK_VOTE } from 'appConstants';
 import { FiPlusCircle } from 'react-icons/fi';
+import { todayWithHyphen } from 'utils';
 
 import MobileHeader from 'layout/mobile/MobileHeader';
 
-import Loading from 'components/atoms/Loading';
-import Subtitle from 'components/atoms/Subtitle';
-import VoteExpiredBox from 'components/molecules/VoteExpiredBox';
-import VoteProgressBox from 'components/molecules/VoteProgressBox';
-import PreviousVoteBoxes from 'components/organisms/PreviousVoteBoxes';
-import VoteCreateModal from 'components/organisms/modal/VoteCreateModal';
+import VoteCreateModal from 'components/bookVote/VoteCreateModal';
+import VoteExpiredCard from 'components/bookVote/VoteExpiredCard';
+import VoteProgressBox from 'components/bookVote/VoteProgressBox';
+import Subtitle from 'components/common/Subtitle';
+import EmptyCard from 'components/common/container/EmptyCard';
+import Section from 'components/common/container/Section';
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);
+
   const [bookVotes, setBookVotes] = useRecoilState(bookVotesState);
 
   useEffect(() => {
@@ -49,70 +44,44 @@ const Vote = () => {
       <MobileHeader title="한페이지의 투표함" />
 
       <main>
-        <HeaderBox>
-          <Subtitle title="진행중인 투표함" />
-          <button type="button" onClick={onToggleModal}>
-            <FiPlusCircle />
-          </button>
-        </HeaderBox>
-        {bookVotes ? (
-          <VoteList>
-            {progressVotes?.length !== 0 ? (
-              progressVotes?.map(voteDetail => (
+        <Section>
+          <div className="flex items-center gap-1">
+            <Subtitle title="진행중인 투표함" />
+            <button type="button" onClick={onToggleModal} className="mb-2">
+              <FiPlusCircle className="text-blue1" />
+            </button>
+          </div>
+
+          {progressVotes?.length !== 0 ? (
+            <ul>
+              {progressVotes?.map(voteDetail => (
                 <VoteProgressBox key={voteDetail.id} voteDetail={voteDetail} />
-              ))
-            ) : (
-              <EmptyBox>아직 등록된 투표가 없습니다.</EmptyBox>
-            )}
-          </VoteList>
-        ) : (
-          <Loading />
-        )}
+              ))}
+            </ul>
+          ) : (
+            <EmptyCard text="아직 등록된 투표가 없습니다." />
+          )}
+        </Section>
 
-        <Subtitle title="기한이 만료된 투표함" />
-        <VoteList>
-          {expiredVote?.length !== 0 &&
-            expiredVote?.map(vote => (
-              <VoteExpiredBox key={vote.id} vote={vote} collName={BOOK_VOTE} />
-            ))}
-
-          <PreviousVoteBoxes />
-        </VoteList>
+        <Section>
+          <Subtitle title="기한이 만료된 투표함" />
+          {expiredVote?.length !== 0 && (
+            <ul className="grid grid-cols-3 gap-4 sm:flex sm:flex-col">
+              {expiredVote?.map(vote => (
+                <VoteExpiredCard
+                  key={vote.id}
+                  vote={vote}
+                  collName={BOOK_VOTE}
+                />
+              ))}
+            </ul>
+          )}
+        </Section>
 
         {modalOpen && <VoteCreateModal onToggleModal={onToggleModal} />}
       </main>
     </>
   );
 };
-
-export const HeaderBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  button {
-    svg {
-      font-size: 20px;
-      margin-bottom: 5px;
-      stroke: ${({ theme }) => theme.text.blue2};
-    }
-  }
-  @media ${device.tablet} {
-    gap: 5px;
-  }
-`;
-
-const VoteList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 10px auto 40px;
-  width: 100%;
-  @media ${device.tablet} {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    margin-top: 20px;
-  }
-`;
 
 export default Vote;

@@ -1,13 +1,11 @@
-import styled from 'styled-components';
-
 import useChangePw from 'hooks/useChangePw';
 
 import { authService } from 'fbase';
 
 import MobileHeader from 'layout/mobile/MobileHeader';
 
-import SquareBtn from 'components/atoms/button/SquareBtn';
-import Input from 'components/atoms/input/Input';
+import SquareBtn from 'components/common/button/SquareBtn';
+import Input from 'components/common/input/Input';
 
 const ChangePassword = () => {
   const user = authService?.currentUser;
@@ -25,7 +23,7 @@ const ChangePassword = () => {
     <>
       <MobileHeader title="비밀번호 변경" backBtn />
       <main>
-        <InputForm onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="flex flex-col gap-y-2.5">
           <input
             hidden
             type="text"
@@ -57,16 +55,10 @@ const ChangePassword = () => {
             autoComplete="new-password"
           />
           <SquareBtn type="submit" name="변경하기" />
-        </InputForm>
+        </form>
       </main>
     </>
   );
 };
-
-const InputForm = styled.form`
-  input {
-    margin-bottom: 10px;
-  }
-`;
 
 export default ChangePassword;

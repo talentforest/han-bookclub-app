@@ -1,14 +1,14 @@
 import { initializeApp } from 'firebase/app';
+// import { ReCaptchaV3Provider, initializeAppCheck } from 'firebase/app-check';
 import { getAuth, reauthenticateWithCredential } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
-import { getMessaging, getToken } from 'firebase/messaging';
 import {
   connectFunctionsEmulator,
   getFunctions,
   httpsCallable,
 } from 'firebase/functions';
-import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
+import { getMessaging, getToken } from 'firebase/messaging';
+import { getStorage } from 'firebase/storage';
 
 interface NotificationData {
   title: string;
@@ -41,10 +41,10 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 
-const appCheck = initializeAppCheck(app, {
-  provider: new ReCaptchaV3Provider(process.env.REACT_APP_APP_CHECK_SITE_KEY),
-  isTokenAutoRefreshEnabled: true,
-});
+// const appCheck = initializeAppCheck(app, {
+//   provider: new ReCaptchaV3Provider(process.env.REACT_APP_APP_CHECK_SITE_KEY),
+//   isTokenAutoRefreshEnabled: true,
+// });
 
 export const authService = getAuth();
 export const reauth = reauthenticateWithCredential;
@@ -61,17 +61,17 @@ export const getDeviceToken = async () => {
   return getToken(messaging, {
     vapidKey: process.env.REACT_APP_MESSAGING_TOKEN,
     serviceWorkerRegistration: await navigator.serviceWorker.register(
-      '/han-bookclub-app/firebase-messaging-sw.js'
+      '/han-bookclub-app/firebase-messaging-sw.js',
     ),
   });
 };
 
 export const sendUnicast = httpsCallable<FcmUnicastData, CallableResult>(
   functions,
-  'sendUnicast'
+  'sendUnicast',
 );
 
 export const sendMulticast = httpsCallable<FcmMulticastData, CallableResult>(
   functions,
-  'sendMulticast'
+  'sendMulticast',
 );

@@ -1,40 +1,32 @@
-import styled from 'styled-components';
-import device from 'theme/mediaQueries';
-
 import { useEffect } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import {
-  ABSENCE_MEMBERS,
-  PENALTY,
-  THIS_YEAR_BOOKCLUB,
-  USER_DATA,
-} from 'constants/index';
-
-import { existDocObj, thisMonth, thisYear } from 'util/index';
-
-import { getCollection, getDocument } from 'api/getFbDoc';
+import { getCollection, getDocument } from 'api/firebase/getFbDoc';
 
 import { absenceListState } from 'data/absenceAtom';
-import { OverduePenaltyMonths, penaltyDocState } from 'data/penaltyAtom';
+import { penaltyDocState } from 'data/penaltyAtom';
 import { IUserDataDoc, allUsersState, currentUserState } from 'data/userAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { EmptyBox } from './BookClubHistory';
+import {
+  ABSENCE_MEMBERS,
+  BOOKCLUB_THIS_YEAR,
+  PENALTY,
+  USER,
+} from 'appConstants';
+import { existDocObj, thisMonth, thisYear } from 'utils';
 
 import MobileHeader from 'layout/mobile/MobileHeader';
 
-import GuideLine from 'components/atoms/GuideLine';
-import Loading from 'components/atoms/Loading';
-import Subtitle from 'components/atoms/Subtitle';
-import Tag from 'components/atoms/Tag';
-import Section from 'components/atoms/container/Section';
-import PenaltyBox from 'components/molecules/PenaltyBox';
-import PenaltyCostReceipt from 'components/molecules/PenaltyCostReceipt';
-import { PostType } from 'components/molecules/PostHandleBtns';
-import UserImgName from 'components/molecules/UserImgName';
-import BookshelfPostList from 'components/organisms/BookshelfPostList';
+import BookshelfPostList from 'components/bookshelf/BookshelfPostList';
+import GuideLine from 'components/common/GuideLine';
+import Loading from 'components/common/Loading';
+import Subtitle from 'components/common/Subtitle';
+import Tag from 'components/common/Tag';
+import Section from 'components/common/container/Section';
+import UserImgName from 'components/common/user/UserImgName';
+import { PostType } from 'components/post/PostHandleBtns';
 
 const Bookshelf = () => {
   const [penaltyDoc, setPenaltyDoc] = useRecoilState(penaltyDocState);
@@ -48,10 +40,10 @@ const Bookshelf = () => {
 
   useEffect(() => {
     if (allUserDocs.length === 0) {
-      getCollection(USER_DATA, setAllUserDocs);
+      getCollection(USER, setAllUserDocs);
     }
     if (!existDocObj(absenceList)) {
-      getDocument(THIS_YEAR_BOOKCLUB, ABSENCE_MEMBERS, setAbsenceList);
+      getDocument(BOOKCLUB_THIS_YEAR, ABSENCE_MEMBERS, setAbsenceList);
     }
     if (!existDocObj(penaltyDoc)) {
       getDocument(PENALTY, thisYear, setPenaltyDoc);
@@ -81,7 +73,6 @@ const Bookshelf = () => {
 
   const isCurrentUser = currentUser.uid === id;
   const userName = !userData || isCurrentUser ? '나' : displayName;
-  const myPenalty = penaltyDoc[id] as OverduePenaltyMonths;
 
   return (
     <>
@@ -94,36 +85,30 @@ const Bookshelf = () => {
       <main>
         <Section>
           <UserImgName photoURL={photoURL} displayName={displayName} />
-          <AttendanceBox>
+          <div className="mt-2.5 flex flex-col items-center gap-1">
             {isAbsenceThisMonth() ? (
-              <Tag color="red" roundedFull={false}>
-                <span>🔴 이번달 불참</span>
-              </Tag>
+              <Tag text="🔴 이번달 불참" color="red" shape="square" />
             ) : (
-              <Tag color="green" roundedFull={false}>
-                <span>✅ 이번달 출석</span>
-              </Tag>
+              <Tag text="✅ 이번달 출석" color="green" shape="square" />
             )}
-          </AttendanceBox>
+          </div>
         </Section>
 
         <Section title={`${userName}의 독서 분야 취향`}>
-          <FavBookFieldList>
+          <ul className="flex min-h-14 flex-wrap gap-2">
             {favoriteBookField && favoriteBookField?.length !== 0 ? (
-              favoriteBookField.map(field => (
-                <Tag key={field.id} color="purple">
-                  <span>{field.name}</span>
-                </Tag>
+              favoriteBookField.map(({ id, name }) => (
+                <Tag text={name} key={id} color="purple" />
               ))
             ) : (
-              <Loading height="12vh" />
+              <Loading className="h-[12vh]" />
             )}
-          </FavBookFieldList>
+          </ul>
         </Section>
 
-        <Section title={`${userName}의 페널티 현황`}>
+        {/* <Section title={`${userName}의 페널티 현황`}>
           {myPenalty && (
-            <PenaltyContainer>
+            <div className="lg:w-1/2">
               <PenaltyBox
                 title="의무 발제달"
                 subjectDutyMonths={myPenalty.overdueHostReviewMonths}
@@ -141,11 +126,11 @@ const Bookshelf = () => {
                   overdueAbsenceMonths={myPenalty.overdueAbsenceMonths}
                 />
               </PenaltyBox>
-            </PenaltyContainer>
+            </div>
           )}
-        </Section>
+        </Section> */}
 
-        {(['정리 기록', '발제문', '모임 후기'] as PostType[]).map(postType => (
+        {(['정리 기록', '발제문'] as PostType[]).map(postType => (
           <Section key={postType}>
             <Subtitle title={`${userName}의 ${postType}`} />
             <GuideLine text="2022년 6월 이후의 기록이 제공됩니다." />
@@ -156,55 +141,5 @@ const Bookshelf = () => {
     </>
   );
 };
-
-export const FavBookFieldList = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  min-height: 60px;
-`;
-
-export const AttendanceBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  margin-top: 10px;
-  > button {
-  }
-`;
-
-export const PostList = styled.ul`
-  min-height: 15vh;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  justify-content: space-between;
-  gap: 12px 10px;
-  margin-top: 10px;
-  @media ${device.tablet} {
-    gap: 20px 15px;
-    grid-template-columns: repeat(6, 1fr);
-  }
-  @media ${device.desktop} {
-    grid-template-columns: repeat(7, 1fr);
-  }
-`;
-
-export const EmptyBookShelfBox = styled(EmptyBox)`
-  grid-column: 1 / span 4;
-  @media ${device.tablet} {
-    height: 200px;
-    grid-column: 1 / span 6;
-  }
-  @media ${device.desktop} {
-    grid-column: 1 / span 7;
-  }
-`;
-
-export const PenaltyContainer = styled.div`
-  @media ${device.desktop} {
-    width: 50%;
-  }
-`;
 
 export default Bookshelf;

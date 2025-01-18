@@ -1,9 +1,11 @@
-import { currentUserState } from 'data/userAtom';
 import { Link, useLocation } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
-import styled from 'styled-components';
-import device from 'theme/mediaQueries';
+
+import { currentUserState } from 'data/userAtom';
+import { useRecoilValue } from 'recoil';
+
+import LogoImg from 'components/common/LogoImg';
 
 const TopNavigation = () => {
   const currentUser = useRecoilValue(currentUserState);
@@ -12,101 +14,67 @@ const TopNavigation = () => {
 
   const { blockLinkAndAlertJoinMember } = useAlertAskJoin('see');
 
+  const navigationList = [
+    {
+      name: '지난 한페이지',
+      to: '/history',
+    },
+    {
+      name: '이달의 한페이지',
+      to: '/bookclub',
+    },
+    {
+      name: '투표하기',
+      to: '/vote',
+    },
+    {
+      name: '나의 책장',
+      to: '/bookshelf',
+    },
+    {
+      name: '설정',
+      to: '/setting',
+    },
+  ];
+
   return (
-    !pathname.includes('create_account') &&
-    pathname !== '/login' && (
-      <Nav>
-        <Link to='/'>
-          <Logo $active={pathname === '/'}>
-            <img
-              src={`${process.env.PUBLIC_URL}/hanpage_logo.png`}
-              alt='독서모임 한페이지 로고'
-            />
-            <span>독서모임 한페이지</span>
-          </Logo>
-        </Link>
-        <List>
-          <Item $active={pathname.includes('/history')}>
-            <Link to='/history'>지난 한페이지</Link>
-          </Item>
-          <Item $active={pathname.includes('/bookclub')}>
-            <Link to='/bookclub'>이달의 한페이지</Link>
-          </Item>
-          <Item $active={pathname.includes('/vote')}>
-            <Link to='/vote'>투표하기</Link>
-          </Item>
-          <Item $active={pathname.includes('/bookshelf')}>
-            <Link
-              to='/bookshelf'
-              onClick={blockLinkAndAlertJoinMember}
-              state={{ userId: currentUser?.uid }}
-            >
-              나의 책장
-            </Link>
-          </Item>
-          <Item $active={pathname.includes('/setting')}>
-            <Link to='/setting'>설정</Link>
-          </Item>
-        </List>
-      </Nav>
-    )
+    <>
+      {!pathname.includes('create_account') && pathname !== '/login' && (
+        <nav className="mx-auto flex h-20 w-[70%] items-center justify-between py-4 sm:hidden md:w-[90%]">
+          <Link to="/" className="flex items-center gap-1">
+            <LogoImg className="size-5" />
+            <span className="font-medium">독서모임 한페이지</span>
+          </Link>
+
+          <ul className="flex gap-x-6">
+            {navigationList.map(({ name, to }) => (
+              <li key={to}>
+                <Link
+                  to={to}
+                  state={
+                    to === '/bookshelf'
+                      ? { userId: currentUser.uid }
+                      : undefined
+                  }
+                  onClick={
+                    to === '/bookshelf'
+                      ? blockLinkAndAlertJoinMember
+                      : undefined
+                  }
+                >
+                  <span
+                    className={`${pathname.includes(to) ? 'font-semibold text-text' : 'text-gray1'}`}
+                  >
+                    {name}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+    </>
   );
 };
-
-const Nav = styled.nav`
-  display: none;
-  @media ${device.tablet} {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 80px;
-    padding: 20px 80px;
-  }
-  @media ${device.desktop} {
-    padding: 0;
-    width: 70%;
-    height: 100px;
-    margin: 0 auto;
-  }
-`;
-
-const Logo = styled.div<{ $active: boolean }>`
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  img {
-    width: auto;
-    height: 21px;
-    margin-bottom: 1px;
-  }
-  span {
-    font-weight: 700;
-    font-size: 18px;
-    color: ${({ $active, theme }) =>
-      $active ? theme.text.blue2 : theme.text.default};
-  }
-`;
-
-const List = styled.ul`
-  display: flex;
-  justify-content: flex-end;
-  gap: 0 15px;
-  font-size: 15px;
-  @media ${device.desktop} {
-    gap: 0 20px;
-  }
-`;
-
-const Item = styled.li<{ $active: boolean }>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  a {
-    font-weight: 500;
-    color: ${({ $active, theme }) =>
-      $active ? theme.text.blue2 : theme.text.default};
-  }
-`;
 
 export default TopNavigation;

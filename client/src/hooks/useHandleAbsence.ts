@@ -1,11 +1,13 @@
+import { useState } from 'react';
+
 import { absenceListState } from 'data/absenceAtom';
+import { currentUserState } from 'data/userAtom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+
+import useAlertAskJoin from './useAlertAskJoin';
+import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from 'appConstants';
 import { dbService } from 'fbase';
 import { doc, updateDoc } from 'firebase/firestore';
-import { useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { ABSENCE_MEMBERS, THIS_YEAR_BOOKCLUB } from 'constants/index';
-import { currentUserState } from 'data/userAtom';
-import useAlertAskJoin from './useAlertAskJoin';
 
 export interface AbsenceSelectValue {
   month: number;
@@ -32,23 +34,21 @@ const useHandleAbsence = () => {
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
 
-  const fbDoc = doc(dbService, THIS_YEAR_BOOKCLUB, ABSENCE_MEMBERS);
+  const fbDoc = doc(dbService, BOOKCLUB_THIS_YEAR, ABSENCE_MEMBERS);
 
   const onEditClick = async (month?: number) => {
     if (anonymous) return alertAskJoinMember();
 
     if (month) {
       const monthInfo = absenceList.absenceMembers?.find(
-        (item) => item.month === month
+        item => item.month === month,
       );
       const isBreakMonth = monthInfo?.breakMembers?.find(
-        (member) => member === currentUser.uid
+        member => member === currentUser.uid,
       );
-      const isOnceAbsenceMonth = monthInfo?.onceAbsenceMembers?.find(
-        (member) => {
-          return member === currentUser.uid;
-        }
-      );
+      const isOnceAbsenceMonth = monthInfo?.onceAbsenceMembers?.find(member => {
+        return member === currentUser.uid;
+      });
       setSelectedValues({
         month,
         breakMonth: !!isBreakMonth,
@@ -63,20 +63,19 @@ const useHandleAbsence = () => {
       return member.includes(currentUser.uid)
         ? member
         : [...member, currentUser.uid];
-    } else {
-      return member.filter((member) => member !== currentUser.uid);
     }
+    return member.filter(member => member !== currentUser.uid);
   };
 
   const onSubmit = async (
     event: React.FormEvent<HTMLFormElement>,
-    month: number
+    month: number,
   ) => {
     event.preventDefault();
 
     const { onceAbsenceMonth, breakMonth } = selectedValues;
 
-    const editedList = absenceList.absenceMembers.map((absence) => {
+    const editedList = absenceList.absenceMembers.map(absence => {
       const { breakMembers, onceAbsenceMembers } = absence;
 
       const editedObj = {

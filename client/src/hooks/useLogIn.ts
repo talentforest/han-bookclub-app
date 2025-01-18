@@ -1,8 +1,13 @@
-import { authService } from 'fbase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
-import { onAuthStateChanged, signInAnonymously } from 'firebase/auth';
+
+import { authService } from 'fbase';
+import {
+  onAuthStateChanged,
+  signInAnonymously,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 
 const useLogIn = (isLoggedIn: boolean) => {
   const [email, setEmail] = useState('');
@@ -18,7 +23,7 @@ const useLogIn = (isLoggedIn: boolean) => {
     } catch (error) {
       if ((error as Error).message.includes('user-not-found'))
         return setError(
-          '유저 정보를 찾을 수 없습니다. 이메일을 다시 한번 확인해주세요.'
+          '유저 정보를 찾을 수 없습니다. 이메일을 다시 한번 확인해주세요.',
         );
       if ((error as Error).message.includes('password'))
         return setError('비밀번호가 일치하지 않습니다.');
@@ -40,7 +45,7 @@ const useLogIn = (isLoggedIn: boolean) => {
     if (!isLoggedIn) {
       try {
         signInAnonymously(authService);
-        onAuthStateChanged(authService, (user) => {
+        onAuthStateChanged(authService, user => {
           if (user) {
             navigator('/');
           }

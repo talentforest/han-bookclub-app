@@ -1,8 +1,10 @@
 import { allUsersState, currentUserState } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
+
+import { DOMAIN } from 'appConstants';
 import { getDeviceToken, sendMulticast, sendUnicast } from 'fbase';
-import { PostType } from 'components/molecules/PostHandleBtns';
-import { DOMAIN } from 'constants/index';
+
+import { PostType } from 'components/post/PostHandleBtns';
 
 const useSendPushNotification = () => {
   const allUsers = useRecoilValue(allUsersState);
@@ -10,7 +12,7 @@ const useSendPushNotification = () => {
 
   // 상대방 알림 설정 여부값 가져오기
   const checkPermittedNotificationByUser = (uid: string) => {
-    const user = allUsers.find((user) => user.id === uid);
+    const user = allUsers.find(user => user.id === uid);
     return user.notification;
   };
 
@@ -27,7 +29,7 @@ const useSendPushNotification = () => {
     const link = `${DOMAIN}${process.env.PUBLIC_URL}${subPath}`;
 
     sendMulticast({ title, body, link, uid: currentUser.uid }) //
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   };
 
   // 전체 유저에게 챌린지 완주 알림
@@ -42,7 +44,7 @@ const useSendPushNotification = () => {
     const link = `${DOMAIN}${process.env.PUBLIC_URL}${subPath}`;
 
     sendMulticast({ title, body, link, uid: currentUser.uid }) //
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   };
 
   // 전체 유저에게 장소 / 시간 변경 알림
@@ -61,7 +63,7 @@ const useSendPushNotification = () => {
     const link = `${process.env.PUBLIC_URL}`;
 
     sendMulticast({ title, body, link, uid: currentUser.uid }) //
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   };
 
   // 전체 유저에게 게시물 등록 알림 보내기
@@ -77,17 +79,17 @@ const useSendPushNotification = () => {
       type === '발제문'
         ? '/bookclub/subjects'
         : type === '정리 기록'
-        ? '/bookclub/host-review'
-        : type === '모임 후기' || type === '추천책'
-        ? '/bookclub'
-        : type === '공유하고 싶은 문구'
-        ? '/challenge'
-        : '';
+          ? '/bookclub/host-review'
+          : type === '모임 후기' || type === '추천책'
+            ? '/bookclub'
+            : type === '공유하고 싶은 문구'
+              ? '/challenge'
+              : '';
 
     const link = `${DOMAIN}${process.env.PUBLIC_URL}${subPath}`;
 
     sendMulticast({ title, body, link, uid: currentUser.uid }) //
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   };
 
   // 현재 유저에게만 알림 보내기
@@ -100,10 +102,10 @@ const useSendPushNotification = () => {
     const link = `${DOMAIN}${process.env.PUBLIC_URL}`;
 
     getDeviceToken()
-      .then((token) => {
+      .then(token => {
         sendUnicast({ title, body, token, link });
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   };
 
   return {

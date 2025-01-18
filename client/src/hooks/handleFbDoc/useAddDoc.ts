@@ -1,18 +1,21 @@
-import { getDocument } from 'api/getFbDoc';
+import { useEffect } from 'react';
+
+import { getDocument } from 'api/firebase/getFbDoc';
+
 import { recommendBookState } from 'data/bookAtom';
 import { IDocument } from 'data/documentsAtom';
 import {
-  currentUserState,
   IUserPostDocId,
+  currentUserState,
   userExtraInfoState,
 } from 'data/userAtom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+
+import useAlertAskJoin from '../useAlertAskJoin';
+import { USER } from 'appConstants';
 import { authService, dbService } from 'fbase';
 import { collection, doc, setDoc, updateDoc } from 'firebase/firestore';
-import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { thisYearMonthId, existDocObj } from 'util/index';
-import { USER_DATA } from 'constants/index';
-import useAlertAskJoin from '../useAlertAskJoin';
+import { existDocObj, thisYearMonthId } from 'utils';
 
 interface PropsType {
   setText: (text: string) => void;
@@ -26,13 +29,13 @@ const useAddDoc = ({ setText, collName, docData }: PropsType) => {
   const userData = useRecoilValue(currentUserState);
 
   const docRef = doc(collection(dbService, collName));
-  const userDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
+  const userDataRef = doc(dbService, USER, `${userData.uid}`);
 
   const { alertAskJoinMember } = useAlertAskJoin('write');
 
   useEffect(() => {
     if (userData.uid && !existDocObj(userExtraData)) {
-      getDocument(USER_DATA, userData.uid, setUserExtraData);
+      getDocument(USER, userData.uid, setUserExtraData);
     }
   }, [userData.uid]);
 

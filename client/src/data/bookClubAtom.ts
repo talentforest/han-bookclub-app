@@ -1,7 +1,8 @@
 import { atom } from 'recoil';
-import { v4 } from 'uuid';
+
 import { ISearchedBook } from './bookAtom';
-import { thisYear } from 'util/index';
+import { thisYear } from 'utils';
+import { v4 } from 'uuid';
 
 export interface IBookClub {
   id?: string;

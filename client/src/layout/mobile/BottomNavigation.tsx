@@ -1,12 +1,12 @@
 import { Link, useLocation, useMatch } from 'react-router-dom';
-import { FiHome, FiArchive, FiCoffee, FiUser } from 'react-icons/fi';
-import { MdOutlineHowToVote } from 'react-icons/md';
-import { useRecoilValue } from 'recoil';
-import { currentUserState } from 'data/userAtom';
 
-import styled from 'styled-components';
-import device from 'theme/mediaQueries';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
+
+import { currentUserState } from 'data/userAtom';
+import { useRecoilValue } from 'recoil';
+
+import { FiArchive, FiCoffee, FiHome, FiUser } from 'react-icons/fi';
+import { MdOutlineHowToVote } from 'react-icons/md';
 
 const BottomNavigation = () => {
   const currentUser = useRecoilValue(currentUserState);
@@ -15,103 +15,67 @@ const BottomNavigation = () => {
 
   const { blockLinkAndAlertJoinMember } = useAlertAskJoin('see');
 
-  const bookShelfMatch = useMatch('bookshelf/:id');
+  const bookShelfMatch = useMatch('/bookshelf/:id');
+
+  const navigationList = [
+    {
+      name: '홈',
+      to: '/',
+      icon: <FiHome className="text-sm" />,
+    },
+    {
+      name: '지난 모임',
+      to: '/history',
+      icon: <FiArchive className="text-sm" />,
+    },
+    {
+      name: '이달의 모임',
+      to: '/bookclub',
+      icon: <FiCoffee className="text-sm" />,
+    },
+    {
+      name: '투표하기',
+      to: '/vote',
+      icon: <MdOutlineHowToVote className="text-sm" />,
+    },
+    {
+      name: '나의 책장',
+      to: '/bookshelf',
+      icon: <FiUser className="text-sm" />,
+    },
+  ];
 
   return (
     pathname !== '/login' &&
     !bookShelfMatch &&
     !pathname.includes('setting') &&
     !pathname.includes('userInfo') && (
-      <Nav>
-        <List>
-          <Item $active={pathname === '/'}>
-            <Link to='/'>
-              <FiHome style={{ color: 'red' }} />
-              <span>홈</span>
-            </Link>
-          </Item>
-          <Item $active={pathname.includes('/history')}>
-            <Link to='/history'>
-              <FiArchive />
-              <span>지난 모임</span>
-            </Link>
-          </Item>
-          <Item $active={pathname.includes('/bookclub')}>
-            <Link to='/bookclub'>
-              <FiCoffee />
-              <span>이달의 모임</span>
-            </Link>
-          </Item>
-          <Item className='vote' $active={pathname.includes('vote')}>
-            <Link to='/vote'>
-              <MdOutlineHowToVote />
-              <span>투표하기</span>
-            </Link>
-          </Item>
-          <Item $active={pathname === '/bookshelf'}>
-            <Link
-              onClick={blockLinkAndAlertJoinMember}
-              to={`/bookshelf`}
-              state={{ userId: currentUser.uid }}
+      <nav className="fixed bottom-0 left-0 z-10 hidden w-full bg-white pb-1 pt-2 sm:block">
+        <ul className="flex justify-evenly">
+          {navigationList.map(({ to, name, icon }) => (
+            <li
+              key={to}
+              className={`flex w-[20%] cursor-pointer flex-col items-center justify-center text-[10px] ${pathname === to ? 'text-text' : 'text-gray2'}`}
             >
-              <FiUser />
-              <span>나의 책장</span>
-            </Link>
-          </Item>
-        </List>
-      </Nav>
+              <Link
+                to={to}
+                state={
+                  to === '/bookshelf' ? { userId: currentUser.uid } : undefined
+                }
+                onClick={
+                  to === '/bookshelf' ? blockLinkAndAlertJoinMember : undefined
+                }
+                className="flex flex-col items-center justify-center gap-1"
+              >
+                {icon}
+                <span>{name}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
     )
   );
 };
-
-const Nav = styled.nav`
-  position: fixed;
-  z-index: 1;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 10px 0 5px;
-  background-color: ${({ theme }) => theme.bgColor};
-  @media ${device.tablet} {
-    display: none;
-  }
-`;
-
-const List = styled.ul`
-  display: flex;
-  justify-content: space-evenly;
-`;
-
-const Item = styled.li<{ $active: boolean }>`
-  width: 20%;
-  font-size: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  &.vote {
-    > a {
-      > svg {
-        fill: ${({ $active }) => ($active ? '#333' : '#aaa')};
-      }
-    }
-  }
-  > a {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    svg {
-      width: 18px;
-      height: 18px;
-      margin-bottom: 6px;
-      stroke: ${({ $active }) => ($active ? '#333' : '#aaa')};
-    }
-    span {
-      color: ${({ $active, theme }) =>
-        $active ? theme.text.default : theme.text.gray4};
-    }
-  }
-`;
 
 export default BottomNavigation;

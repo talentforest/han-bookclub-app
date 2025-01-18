@@ -1,18 +1,21 @@
-import { getDocument } from 'api/getFbDoc';
-import { PENALTY } from 'constants/index';
+import { useEffect } from 'react';
+
+import { getDocument } from 'api/firebase/getFbDoc';
+
 import { Month, OverduePenaltyMonths, penaltyDocState } from 'data/penaltyAtom';
 import { currentUserState } from 'data/userAtom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+
+import { PENALTY } from 'appConstants';
 import { dbService } from 'fbase';
 import { doc, updateDoc } from 'firebase/firestore';
-import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   existDocObj,
   getLastDayOfMonth,
   getSubmitSubjectDate,
   thisMonth,
   thisYear,
-} from 'util/index';
+} from 'utils';
 
 export type PenaltyPost = {
   발제문: 'overdueSubjectMonths';
@@ -55,7 +58,7 @@ const useHandlePenalty = (createdAt?: number) => {
     const penaltyMonthList = prevPenaltyByUser[penaltyType];
 
     const hasMonthInList = penaltyMonthList.find(
-      (month) => month === `${+thisMonth}월`
+      month => month === `${+thisMonth}월`,
     );
     if (hasMonthInList) {
       console.log('이미 해당월이 추가되어 있습니다!');
@@ -72,8 +75,8 @@ const useHandlePenalty = (createdAt?: number) => {
   };
 
   const penaltyArrList = Object.keys(penaltyDoc)
-    .filter((key) => key !== 'id' && key !== 'createdAt')
-    .map((key) => {
+    .filter(key => key !== 'id' && key !== 'createdAt')
+    .map(key => {
       return { [key]: penaltyDoc[key] };
     }) as { [key: string]: OverduePenaltyMonths }[];
 
@@ -91,13 +94,13 @@ const useHandlePenalty = (createdAt?: number) => {
       }
       return acc;
     },
-    { overdueHostReviewMonths: {} as { [key: string]: Month[] } }
+    { overdueHostReviewMonths: {} as { [key: string]: Month[] } },
   );
 
   // 다음달 발제문 의무
   const thisMonthSubjectDuty = {
     overdueHostReviewMonths: Object.entries(
-      penaltySubjectDutyUsers.overdueHostReviewMonths
+      penaltySubjectDutyUsers.overdueHostReviewMonths,
     ).reduce((acc: { [key: string]: Month[] }, [key, values]) => {
       if (values.includes(`${+thisMonth - 1}월` as Month)) {
         acc[key] = values;
@@ -107,27 +110,27 @@ const useHandlePenalty = (createdAt?: number) => {
   };
 
   const thisMonthSubjectDutyUsers = Object.keys(
-    thisMonthSubjectDuty.overdueHostReviewMonths
+    thisMonthSubjectDuty.overdueHostReviewMonths,
   );
 
   const penaltyValueList = Object.values(penaltyDoc).filter(
-    (value) => typeof value === 'object'
+    value => typeof value === 'object',
   ) as OverduePenaltyMonths[];
 
   const penaltyCostList = penaltyValueList.reduce(
     (acc, current) => {
       acc.overdueAbsenceMonths = acc.overdueAbsenceMonths.concat(
-        current.overdueAbsenceMonths
+        current.overdueAbsenceMonths,
       );
       acc.overdueSubjectMonths = acc.overdueSubjectMonths.concat(
-        current.overdueSubjectMonths
+        current.overdueSubjectMonths,
       );
       return acc;
     },
     {
       overdueAbsenceMonths: [],
       overdueSubjectMonths: [],
-    }
+    },
   );
 
   return {

@@ -1,17 +1,18 @@
-import { useState, useEffect } from 'react';
-import { getAuth } from 'firebase/auth';
-import { ResetStyle } from 'theme/resetStyle';
-import { theme } from 'theme/theme';
-import { ThemeProvider } from 'styled-components';
+import { useEffect, useState } from 'react';
+
+import { getDocument } from 'api/firebase/getFbDoc';
+
+import { fcmState } from 'data/fcmAtom';
 import { currentUserState } from 'data/userAtom';
 import { useRecoilState } from 'recoil';
-import { dbService, getDeviceToken } from 'fbase';
-import { getDocument } from 'api/getFbDoc';
-import { FCM_NOTIFICATION } from 'constants/index';
-import { fcmState } from 'data/fcmAtom';
-import { doc, updateDoc } from 'firebase/firestore';
+
 import Router from './Router';
-import Loading from './components/atoms/Loading';
+import Loading from './components/common/Loading';
+import './index.css';
+import { FCM_NOTIFICATION } from 'appConstants';
+import { dbService, getDeviceToken } from 'fbase';
+import { getAuth } from 'firebase/auth';
+import { doc, updateDoc } from 'firebase/firestore';
 
 function App() {
   const [init, setInit] = useState(false); // user가 null이 되지 않기 위해 초기화
@@ -42,12 +43,11 @@ function App() {
           const token = await getDeviceToken();
 
           const isExistTokenInDB = fcmDoc?.tokens?.find(
-            (fcmToken) => fcmToken === token
+            fcmToken => fcmToken === token,
           );
 
-          if (isExistTokenInDB) {
-            return;
-          } else if (!isExistTokenInDB && userData?.uid) {
+          if (isExistTokenInDB) return;
+          if (!isExistTokenInDB && userData?.uid) {
             const document = doc(dbService, FCM_NOTIFICATION, userData.uid);
             const fcmData = {
               createdAt: Date.now(),
@@ -65,12 +65,7 @@ function App() {
     }
   }, [fcmDoc]);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <ResetStyle />
-      {init ? <Router isLoggedIn={Boolean(userData)} /> : <Loading />}
-    </ThemeProvider>
-  );
+  return init ? <Router isLoggedIn={Boolean(userData)} /> : <Loading />;
 }
 
 export default App;

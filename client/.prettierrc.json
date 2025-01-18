@@ -6,14 +6,16 @@
   "printWidth": 80,
   "endOfLine": "lf",
   "arrowParens": "avoid",
-  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ],
   "importOrder": [
-    "^(styled-components|theme/(.*))$",
     "^react(/.*)?$",
     "^react-router-dom(/.*)?$",
     "^react-dom(/.*)?$",
-    "^constants/(.*)$",
-    "^util/(.*)$",
+    "^appConstants/(.*)$",
+    "^utils/(.*)$",
     "^hooks/(.*)$",
     "^api/(.*)$",
     "^(recoil|data)(/.*)?$",

@@ -1,18 +1,15 @@
-import styled from 'styled-components';
-import device from 'theme/mediaQueries';
-
-import { bookFields, createAccountSteps, gender } from 'constants/index';
-
 import useCreateAccount from 'hooks/useCreateAccount';
+
+import { bookFields, createAccountSteps, gender } from 'appConstants';
 
 import MobileHeader from 'layout/mobile/MobileHeader';
 
-import GuideLine from 'components/atoms/GuideLine';
-import Subtitle from 'components/atoms/Subtitle';
-import Tag from 'components/atoms/Tag';
-import SquareBtn from 'components/atoms/button/SquareBtn';
-import Input from 'components/atoms/input/Input';
-import BookFieldCheckBox from 'components/molecules/BookFieldCheckBox';
+import GuideLine from 'components/common/GuideLine';
+import Subtitle from 'components/common/Subtitle';
+import Tag from 'components/common/Tag';
+import SquareBtn from 'components/common/button/SquareBtn';
+import Input from 'components/common/input/Input';
+import BookFieldCheckBox from 'components/signup/BookFieldCheckBox';
 
 const CreateAccount = () => {
   const {
@@ -37,17 +34,17 @@ const CreateAccount = () => {
       <MobileHeader showDesktop title="계정 생성" backBtn />
 
       <main>
-        <MainHeader>
+        <header>
           <Tag>
             <span>
               {currentStep.step} / {createAccountSteps.length}
             </span>
           </Tag>
           <Subtitle title={currentStep.stepName} />
-        </MainHeader>
+        </header>
 
         {currentStep.step === 1 && (
-          <Form onSubmit={onFirstStepSubmit}>
+          <form onSubmit={onFirstStepSubmit}>
             <GuideLine text="한페이지 멤버들에게 제공된 키워드를 입력해 주세요." />
             <Input
               id="키워드"
@@ -59,11 +56,11 @@ const CreateAccount = () => {
               required
             />
             <SquareBtn type="submit" name="완료" />
-          </Form>
+          </form>
         )}
 
         {currentStep.step === 2 && (
-          <Form onSubmit={onSecondStepSubmit}>
+          <form onSubmit={onSecondStepSubmit}>
             <GuideLine text="사용하실 계정 정보를 입력해 주세요." />
             {email && (
               <GuideLine text="유효한 이메일을 작성하셔야 비밀번호 찾기 등 다른 기능을 제대로 이용할 수 있어요. 이메일이 맞는지 다시 한번 확인해주세요." />
@@ -89,15 +86,15 @@ const CreateAccount = () => {
               value={checkPassword}
               onChange={onSecondStepChange}
             />
-            {showErrorMsg && <Msg>{showErrorMsg}</Msg>}
+            {showErrorMsg && <span>{showErrorMsg}</span>}
 
             <SquareBtn type="submit" name="계정 생성하기" />
-          </Form>
+          </form>
         )}
 
         {currentStep.step === 3 && (
-          <Form onSubmit={onThirdStepSubmit}>
-            <label>이름</label>
+          <form onSubmit={onThirdStepSubmit}>
+            <label htmlFor="username">이름</label>
             <Input
               name="username"
               value={username}
@@ -105,10 +102,10 @@ const CreateAccount = () => {
               onChange={onThirdStepChange}
             />
 
-            <label>성별</label>
-            <Fieldset>
+            <label htmlFor="gender">성별</label>
+            <fieldset>
               {gender.map(item => (
-                <GenderBox key={item}>
+                <div key={item}>
                   <label htmlFor={item}>{item}</label>
                   <input
                     id={item}
@@ -118,102 +115,30 @@ const CreateAccount = () => {
                     onChange={onThirdStepChange}
                     required
                   />
-                </GenderBox>
+                </div>
               ))}
-            </Fieldset>
+            </fieldset>
 
-            <label>관심 분야</label>
-            <Fieldset className="bookfield">
-              {bookFields.map((item, index) => (
+            <label htmlFor="bookFields">관심 분야</label>
+            <fieldset className="bookfield">
+              {bookFields.map(item => (
                 <BookFieldCheckBox
-                  key={index}
+                  key={item.id}
                   bookFieldName={item.name}
                   bookFields={item}
                   checkedBoxHandler={checkedBoxHandler}
                 />
               ))}
-            </Fieldset>
+            </fieldset>
 
-            {showErrorMsg && <Msg>{showErrorMsg}</Msg>}
+            {showErrorMsg && <span>{showErrorMsg}</span>}
 
             <SquareBtn type="submit" name="등록하기" />
-          </Form>
+          </form>
         )}
       </main>
     </>
   );
 };
-
-const MainHeader = styled.header`
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 10px;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  > label {
-    font-size: 14px;
-    margin: 20px 5px 0;
-    color: ${({ theme }) => theme.text.blue1};
-    &:first-child {
-      margin-top: 0;
-    }
-  }
-  @media ${device.tablet} {
-    > label {
-      font-size: 14px;
-    }
-  }
-`;
-
-const Fieldset = styled.fieldset`
-  display: flex;
-  flex-wrap: wrap;
-  padding: 10px;
-  gap: 15px 20px;
-  border-radius: 10px;
-  border: 1px solid ${({ theme }) => theme.text.gray1};
-  background-color: #fff;
-  box-shadow: ${({ theme }) => theme.boxShadow};
-  &.bookfield {
-    margin-bottom: 30px;
-  }
-  @media ${device.tablet} {
-    padding: 10px;
-  }
-`;
-
-const GenderBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  > label {
-    min-width: 34px;
-    padding-top: 3px;
-  }
-  > input {
-    margin-bottom: 3px;
-  }
-  @media ${device.tablet} {
-    margin-right: 3px;
-    > label {
-      min-width: 30px;
-    }
-  }
-`;
-
-const Msg = styled.p`
-  font-size: 14px;
-  width: 100%;
-  text-align: center;
-  color: ${({ theme }) => theme.text.blue3};
-  @media ${device.tablet} {
-    font-size: 16px;
-  }
-`;
 
 export default CreateAccount;
