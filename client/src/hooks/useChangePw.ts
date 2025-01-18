@@ -1,11 +1,13 @@
+import { useState } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
 import { authService } from 'fbase';
 import {
   EmailAuthProvider,
   reauthenticateWithCredential,
   updatePassword,
 } from 'firebase/auth';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const useChangePw = () => {
   const [originPassword, setOriginPassword] = useState('');
@@ -17,10 +19,10 @@ const useChangePw = () => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    checkEmptyInput();
+    if (!originPassword || !newPassword || !checkNewPassword) return;
     const credential = EmailAuthProvider.credential(
       user?.email,
-      originPassword
+      originPassword,
     );
     reauthenticateWithCredential(user, credential)
       .then(() => {
@@ -30,7 +32,7 @@ const useChangePw = () => {
         }
         successUpdatePassword();
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         if ((error as Error).message.includes('auth/missing-email'))
           return window.alert('익명의 방문자입니다.');
@@ -49,9 +51,6 @@ const useChangePw = () => {
     if (anonymous) return alert('익명의 방문자입니다!');
     setCheckNewPassword(event.currentTarget.value);
   };
-  function checkEmptyInput() {
-    if (!originPassword || !newPassword || !checkNewPassword) return;
-  }
   function alertNotSameNewPassword() {
     window.alert('새로운 비밀번호가 똑같지 않습니다. 다시 한번 확인해주세요.');
   }
@@ -65,7 +64,7 @@ const useChangePw = () => {
         setCheckNewPassword('');
         navigate(-1);
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
       });
   }

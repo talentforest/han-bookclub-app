@@ -1,19 +1,18 @@
+import { useEffect, useState } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
+import { getCollection, getDocument } from 'api/firebase/getFbDoc';
+
+import { currentUserState } from 'data/userAtom';
+import { IBookVote, IVoteItemsByMember, initialBookVote } from 'data/voteAtom';
+import { useRecoilValue } from 'recoil';
+
+import useAlertAskJoin from './useAlertAskJoin';
+import { BOOK_VOTE, VOTED_ITEMS } from 'appConstants';
 import { dbService } from 'fbase';
 import { deleteDoc, doc, setDoc } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { getCollection, getDocument } from 'api/getFbDoc';
-import {
-  IBookVote,
-  IVoteItemsByMember,
-  IVote,
-  initialBookVote,
-} from 'data/voteAtom';
-import { getVoteCountsById, turnVoteToBookVote } from 'util/index';
-import { useRecoilValue } from 'recoil';
-import { currentUserState } from 'data/userAtom';
-import { BOOK_VOTE, VOTEDITEMS_BY_MEMBER, VOTED_ITEMS } from 'constants/index';
-import { useNavigate } from 'react-router-dom';
-import useAlertAskJoin from './useAlertAskJoin';
+import { formatDate, getVoteCountsById } from 'utils';
 
 interface Props {
   collName: string;
@@ -23,41 +22,34 @@ interface Props {
 const useHandleVoting = ({ collName, docId }: Props) => {
   const { uid } = useRecoilValue(currentUserState);
 
-  const { anonymous, alertAskJoinMember } = useAlertAskJoin('see');
-
   const [currentVote, setCurrentVote] = useState<IBookVote>(initialBookVote);
-
   const [selectedVoteItems, setSelectedVoteItems] = useState([]);
-
   const [votedItemsByMember, setVotedItemsByMember] = useState([]);
-
   const [isRevote, setIsRevoting] = useState(false);
 
-  const onToggleRevoteClick = () => setIsRevoting((prev) => !prev);
+  const onToggleRevoteClick = () => setIsRevoting(prev => !prev);
 
   const navigate = useNavigate();
 
-  const bookVote: IBookVote =
-    collName === BOOK_VOTE
-      ? currentVote
-      : turnVoteToBookVote(currentVote as unknown as IVote);
-
-  const VoteItemsColl = `${collName}/${docId}/${
-    collName === BOOK_VOTE ? VOTEDITEMS_BY_MEMBER : VOTED_ITEMS
-  }`;
+  const { anonymous, alertAskJoinMember } = useAlertAskJoin('see');
 
   useEffect(() => {
-    getCollection(VoteItemsColl, setVotedItemsByMember);
-    if (docId) {
-      getDocument(collName, docId, setCurrentVote);
+    if (docId && currentVote.id === '') {
+      getDocument(collName, `VoteId-${docId}`, setCurrentVote);
     }
-  }, [collName, docId, setCurrentVote, setVotedItemsByMember]);
+    if (currentVote.id) {
+      getCollection(
+        `${BOOK_VOTE}/VoteId-${currentVote.id}/${VOTED_ITEMS}`,
+        setVotedItemsByMember,
+      );
+    }
+  }, [collName, docId, currentVote.id, setVotedItemsByMember]);
 
   const onVoteDeleteClick = async () => {
     const confirm = window.confirm('정말로 삭제하시겠어요?');
 
     if (confirm) {
-      const currentVoteRef = doc(dbService, collName, docId);
+      const currentVoteRef = doc(dbService, collName, `VoteId-${docId}`);
       await deleteDoc(currentVoteRef);
       navigate(-1);
     }
@@ -72,10 +64,14 @@ const useHandleVoting = ({ collName, docId }: Props) => {
       return window.alert('투표할 항목이 선택되지 않았습니다.');
 
     try {
-      const personalVoteRef = doc(dbService, VoteItemsColl, uid);
+      const personalVoteRef = doc(
+        dbService,
+        `${collName}/VoteId-${currentVote.id}/${VOTED_ITEMS}`,
+        uid,
+      );
 
       await setDoc(personalVoteRef, {
-        createdAt: Date.now(),
+        createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
         votedItem: selectedVoteItems,
       });
 
@@ -107,7 +103,7 @@ const useHandleVoting = ({ collName, docId }: Props) => {
 
   // 내가 투표완료한 항목
   const myVotedItems: IVoteItemsByMember | undefined = votedItemsByMember?.find(
-    ({ id }) => id === uid
+    ({ id }) => id === uid,
   );
 
   const isMyVotedItems = (voteId: number) => {
@@ -116,17 +112,17 @@ const useHandleVoting = ({ collName, docId }: Props) => {
 
   // 항목별 투표수
   const voteCountsById = getVoteCountsById(
-    bookVote.voteItems,
-    votedItemsByMember
+    currentVote.voteItems,
+    votedItemsByMember,
   );
 
   // 총 투표수
   const totalVoteCount = voteCountsById
-    ?.map((item) => item.voteCount)
+    ?.map(item => item.voteCount)
     ?.reduce((acc, curr) => acc + curr, 0);
 
   return {
-    bookVote,
+    currentVote,
     votedItemsByMember,
     voteCountsById,
     totalVoteCount,

@@ -1,10 +1,11 @@
-import { BookFieldType } from 'components/molecules/BookFieldCheckBox';
+import { useState } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
+import { BookField, USER, createAccountSteps } from 'appConstants';
 import { authService, dbService } from 'fbase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { USER_DATA, createAccountSteps } from 'constants/index';
 
 const useCreateAccount = () => {
   const [currentStep, setCurrentStep] = useState(createAccountSteps[0]);
@@ -41,7 +42,7 @@ const useCreateAccount = () => {
   };
 
   const onSecondStepSubmit = async (
-    event: React.FormEvent<HTMLFormElement>
+    event: React.FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
 
@@ -53,14 +54,14 @@ const useCreateAccount = () => {
         return setShowErrorMsg('비밀번호가 일치하지 않아요.');
 
       window.alert(
-        '다음 단계에서 간단한 정보를 작성하시면 회원가입이 완료됩니다!'
+        '다음 단계에서 간단한 정보를 작성하시면 회원가입이 완료됩니다!',
       );
 
       setCurrentStep({ step: 3, stepName: '멤버 정보' });
     } catch (error) {
       if ((error as Error).message.includes('email-already-in-use'))
         return setShowErrorMsg(
-          '이미 사용되고 있는 이메일 계정입니다. 다른 이메일을 사용해주세요.'
+          '이미 사용되고 있는 이메일 계정입니다. 다른 이메일을 사용해주세요.',
         );
     }
   };
@@ -91,18 +92,15 @@ const useCreateAccount = () => {
     try {
       await createUserWithEmailAndPassword(authService, email, password);
       if (username && userGender && checkedBookField.size !== 0) {
-        await setDoc(
-          doc(dbService, USER_DATA, `${authService.currentUser?.uid}`),
-          {
-            favoriteBookField: Array.from(checkedBookField),
-            gender: userGender,
-            name: username,
-            displayName: '한 페이지 멤버',
-            photoURL: '',
-          }
-        );
+        await setDoc(doc(dbService, USER, `${authService.currentUser?.uid}`), {
+          favoriteBookField: Array.from(checkedBookField),
+          gender: userGender,
+          name: username,
+          displayName: '한 페이지 멤버',
+          photoURL: '',
+        });
         window.alert(
-          '회원가입이 성공적으로 완료되었습니다. 독서모임 한페이지의 멤버가 되신 것을 환영해요!'
+          '회원가입이 성공적으로 완료되었습니다. 독서모임 한페이지의 멤버가 되신 것을 환영해요!',
         );
         navigate('/');
       } else {
@@ -116,7 +114,7 @@ const useCreateAccount = () => {
   };
 
   const onThirdStepChange = async (
-    event: React.FormEvent<HTMLInputElement>
+    event: React.FormEvent<HTMLInputElement>,
   ) => {
     const {
       currentTarget: { name, value },
@@ -134,7 +132,7 @@ const useCreateAccount = () => {
     }
   };
 
-  const checkedBoxHandler = (bookFields: BookFieldType, checked: boolean) => {
+  const checkedBoxHandler = (bookFields: BookField, checked: boolean) => {
     if (checked) {
       checkedBookField.add(bookFields);
       setCheckedBookField(checkedBookField);

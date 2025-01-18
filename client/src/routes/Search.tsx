@@ -1,12 +1,13 @@
 import { useEffect, useRef } from 'react';
-import SearchedBookBox from 'components/molecules/SearchedBookBox';
-import RefInput from 'components/atoms/input/RefInput';
+
 import useSearchBook from 'hooks/useSearchBook';
-import device from 'theme/mediaQueries';
+
 import MobileHeader from 'layout/mobile/MobileHeader';
-import styled from 'styled-components';
-import SquareBtn from 'components/atoms/button/SquareBtn';
-import BookClubNextMonthBox from 'components/molecules/BookClubNextMonthBox';
+
+import Subtitle from 'components/common/Subtitle';
+import SquareBtn from 'components/common/button/SquareBtn';
+import RefInput from 'components/common/input/RefInput';
+import SearchedBookCard from 'components/search/SearchedBookCard';
 
 const Search = () => {
   const {
@@ -24,68 +25,37 @@ const Search = () => {
 
   return (
     <>
-      <MobileHeader title='도서 검색' backBtn />
+      <MobileHeader title="도서 검색" backBtn />
+
       <main>
-        <BookClubNextMonthBox />
-        <Form>
+        <Subtitle title="책 검색하기" />
+        <form className="mb-8 flex w-1/2 gap-3">
           <RefInput
             ref={inputRef}
-            placeholder='등록하실 책을 검색해주세요.'
+            placeholder="등록하실 책을 검색해주세요."
             onChange={onBookQueryChange}
           />
-          <SquareBtn name='검색' />
-        </Form>
+          <SquareBtn name="검색하기" />
+        </form>
 
-        <BookResults>
-          <span>검색결과 {searchList.length}건</span>
-          <p>최대 10건이 검색됩니다.</p>
+        <span>
+          검색결과 {searchList.length}건{' '}
+          <span className="text-gray1">(최대 10건이 검색됩니다.)</span>
+        </span>
 
-          {searchList.map((searchedBook, index) => (
-            <SearchedBookBox
-              key={`${searchedBook.isbn}-${index}`}
-              searchedBook={searchedBook}
-            />
+        <ul className="mt-4 columns-2 gap-x-4">
+          {searchList.map(searchedBook => (
+            <li
+              key={`${searchedBook.isbn}-${searchedBook.publisher}`}
+              className="mb-4 w-full items-center justify-between"
+            >
+              <SearchedBookCard searchedBook={searchedBook} />
+            </li>
           ))}
-        </BookResults>
+        </ul>
       </main>
     </>
   );
 };
-
-const BookResults = styled.section`
-  padding: 10px 0;
-  > span {
-    display: block;
-    padding-bottom: 5px;
-    font-size: 16px;
-  }
-  > p {
-    display: block;
-    padding-bottom: 10px;
-    font-size: 14px;
-    color: ${({ theme }) => theme.text.blue1};
-  }
-`;
-
-const Form = styled.form`
-  display: flex;
-  justify-content: space-between;
-  height: 50px;
-  gap: 5px;
-  margin-top: 10px;
-  input {
-    height: inherit;
-    min-width: 150px;
-    width: 100%;
-  }
-  button {
-    width: 90px;
-  }
-  @media ${device.tablet} {
-    button {
-      width: 150px;
-    }
-  }
-`;
 
 export default Search;

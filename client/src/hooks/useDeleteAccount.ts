@@ -1,15 +1,18 @@
+import { useState } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
 import { currentUserState } from 'data/userAtom';
+import { useRecoilValue } from 'recoil';
+
+import { USER } from 'appConstants';
 import { authService, dbService } from 'fbase';
 import {
-  deleteUser,
   EmailAuthProvider,
+  deleteUser,
   reauthenticateWithCredential,
 } from 'firebase/auth';
 import { deleteDoc, doc } from 'firebase/firestore';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { USER_DATA } from 'constants/index';
 
 const useDeleteAccount = () => {
   const [password, setPassword] = useState('');
@@ -28,12 +31,12 @@ const useDeleteAccount = () => {
       if (checkDeleteAccount === true) {
         reauthenticateWithCredential(user, credential)
           .then(() => {
-            const UserDataRef = doc(dbService, USER_DATA, `${userData.uid}`);
+            const UserDataRef = doc(dbService, USER, `${userData.uid}`);
             deleteDoc(UserDataRef);
             deleteUser(user);
             navigate('/');
           })
-          .catch((error) => {
+          .catch(error => {
             if (error.message.includes('wrong-password')) {
               setShowMessage(true);
             }

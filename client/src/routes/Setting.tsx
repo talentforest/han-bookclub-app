@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import LogOutBtn from 'components/atoms/button/LogOutBtn';
-import styled from 'styled-components';
-import device from 'theme/mediaQueries';
-import MobileHeader from 'layout/mobile/MobileHeader';
+
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
+
+import MobileHeader from 'layout/mobile/MobileHeader';
+
+import LogOutBtn from 'components/common/button/LogOutBtn';
 
 const Setting = () => {
   const { blockLinkAndAlertJoinMember } = useAlertAskJoin('see');
@@ -21,23 +22,25 @@ const Setting = () => {
 
   return (
     <>
-      <MobileHeader title='설정' backBtn showDesktop={false} />
+      <MobileHeader title="설정" backBtn showDesktop={false} />
       <main>
-        <SettingTitle>사용자 설정</SettingTitle>
-        <List>
+        <h4 className="block pb-1 text-sm text-blue1 md:text-sm">
+          사용자 설정
+        </h4>
+        <ul className="mb-8 divide-y">
           {useSettings.map(({ to, name }) => (
-            <Item key={to}>
+            <li key={to} className="mb-2 pb-1 pt-3">
               <Link to={to} onClick={blockLinkAndAlertJoinMember}>
                 {name}
               </Link>
-            </Item>
+            </li>
           ))}
-        </List>
+        </ul>
 
-        <SettingTitle>기타</SettingTitle>
-        <List>
+        <h4 className="block pb-1 text-sm text-blue1 md:text-sm">기타</h4>
+        <ul className="mb-8 divide-y">
           {etcSettings.map(({ to, name }) => (
-            <Item key={to}>
+            <li key={to} className="mb-2 pb-1 pt-3">
               {to === '' ? (
                 <LogOutBtn />
               ) : (
@@ -45,48 +48,12 @@ const Setting = () => {
                   {name}
                 </Link>
               )}
-            </Item>
+            </li>
           ))}
-        </List>
+        </ul>
       </main>
     </>
   );
 };
-
-const SettingTitle = styled.h4`
-  display: block;
-  font-size: 14px;
-  color: ${({ theme }) => theme.text.blue2};
-  padding-bottom: 3px;
-  @media ${device.tablet} {
-    font-size: 14px;
-  }
-`;
-
-const List = styled.ul`
-  margin-bottom: 35px;
-`;
-
-const Item = styled.li`
-  border-bottom: 1px solid ${({ theme }) => theme.text.gray1};
-  padding: 12px 0;
-  > button {
-    font-size: 15px;
-    padding: 0;
-    cursor: pointer;
-  }
-  > a {
-    font-size: 15px;
-  }
-  @media ${device.tablet} {
-    padding: 15px 0;
-    > button {
-      font-size: 16px;
-    }
-    > a {
-      font-size: 16px;
-    }
-  }
-`;
 
 export default Setting;

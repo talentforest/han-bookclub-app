@@ -1,13 +1,10 @@
 import { atom } from 'recoil';
+
 import { v4 } from 'uuid';
 
-interface Object {
-  [name: string]: any;
-}
-
-export interface IBookFieldHostDoc extends Object {
-  id: string;
-  info: IBookFieldHost[];
+export interface IBookFieldHostDoc {
+  id?: string;
+  bookFieldAndHostList: IBookFieldHost[];
 }
 
 export interface IBookFieldHost {

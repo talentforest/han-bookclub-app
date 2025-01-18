@@ -1,19 +1,20 @@
-import { currentUserState } from 'data/userAtom';
-import { dbService } from 'fbase';
-import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { formatHyphenDate } from 'util/index';
+
+import { currentUserState } from 'data/userAtom';
 import {
   IBookVote,
   IBookVoteItem,
   bookVotesState,
   initialBookVoteItem,
-  votesState,
 } from 'data/voteAtom';
-import { BOOK_VOTE } from 'constants/index';
+import { useRecoilValue } from 'recoil';
+
 import useAlertAskJoin from './useAlertAskJoin';
-import useSendPushNotification from './useSendPushNotification';
+// import useSendPushNotification from './useSendPushNotification';
+import { BOOK_VOTE } from 'appConstants';
+import { dbService } from 'fbase';
+import { doc, setDoc } from 'firebase/firestore';
+import { formatDate } from 'utils';
 
 interface Props {
   onToggleModal: () => void;
@@ -21,24 +22,23 @@ interface Props {
 
 const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
   const userData = useRecoilValue(currentUserState);
-  const previousVotes = useRecoilValue(votesState);
+
   const bookVotes = useRecoilValue(bookVotesState);
+
+  const allVotesLength = bookVotes.length;
 
   const initialVoteItem = {
     id: 1,
     book: { title: '', thumbnail: '', url: '' },
-    voteCount: 0,
     selectReason: '',
   };
 
-  const allVotesLength = previousVotes?.length + bookVotes.length;
-
   const initialVote: IBookVote = {
-    voteId: allVotesLength + 1,
+    id: `${(allVotesLength + 1).toString().padStart(3, '0')}`,
     title: '',
-    createdAt: Date.now(),
+    createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
     creatorId: userData.uid,
-    deadline: formatHyphenDate(new Date()),
+    deadline: formatDate(new Date(), 'yyyy-MM-dd'),
     voteItems: [initialVoteItem, { ...initialVoteItem, id: 2 }],
   };
 
@@ -46,10 +46,10 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('register');
 
-  const { sendVotePushNotification } = useSendPushNotification();
+  // const { sendVotePushNotification } = useSendPushNotification();
 
   const setDocVote = async () => {
-    const document = doc(dbService, BOOK_VOTE, `VoteId_${newVote.voteId}`);
+    const document = doc(dbService, BOOK_VOTE, `VoteId-${newVote.id}`);
     await setDoc(document, newVote);
   };
 
@@ -57,12 +57,12 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
     event.preventDefault();
 
     if (anonymous) return alertAskJoinMember();
+
     if (newVote.title === '') return;
 
     const findNoBookInfo = newVote.voteItems.find(
-      (voteItem) => voteItem.book.title === ''
+      voteItem => voteItem.book.title === '',
     );
-
     if (findNoBookInfo) return alert('투표 항목이 모두 작성되지 않았습니다!');
 
     try {
@@ -70,10 +70,10 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
       window.alert('투표가 성공적으로 등록되었습니다!');
       onToggleModal();
       // 모든 유저에게 알림 보내기
-      sendVotePushNotification({
-        voteTitle: newVote.title,
-        subPath: `/vote/${newVote.voteId}`,
-      });
+      // sendVotePushNotification({
+      //   voteTitle: newVote.title,
+      //   subPath: `/vote/${newVote.id}`,
+      // });
     } catch (error) {
       console.error('Error adding document:', error);
     }
@@ -85,7 +85,7 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
   };
 
   const onDateChange = (date: Date) => {
-    const vote = { ...newVote, deadline: formatHyphenDate(date) };
+    const vote = { ...newVote, deadline: formatDate(date, 'yyyy-MM-dd') };
     setNewVote(vote);
   };
 
@@ -99,25 +99,24 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
         },
       ],
     };
-
-    setNewVote((prev) => {
+    setNewVote(prev => {
       return { ...prev, ...newVoteItems };
     });
   };
 
   const onDeleteVoteItemClick = (voteId: number) => {
     const filteredVoteItems: IBookVoteItem[] = newVote.voteItems.filter(
-      ({ id }) => id !== voteId
+      ({ id }) => id !== voteId,
     );
 
     const a =
       voteId === 3 && newVote.voteItems.length === 4
-        ? filteredVoteItems.map((voteItem) =>
-            voteItem.id === 4 ? { ...voteItem, id: 3 } : voteItem
+        ? filteredVoteItems.map(voteItem =>
+            voteItem.id === 4 ? { ...voteItem, id: 3 } : voteItem,
           )
         : filteredVoteItems;
 
-    setNewVote((prev) => {
+    setNewVote(prev => {
       return { ...prev, voteItems: a };
     });
   };

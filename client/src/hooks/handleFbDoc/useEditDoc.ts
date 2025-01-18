@@ -1,8 +1,11 @@
-import { IDocument } from 'data/documentsAtom';
-import { dbService } from 'fbase';
 import { useState } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
+
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
+
+import { IDocument } from 'data/documentsAtom';
+
+import { dbService } from 'fbase';
+import { doc, updateDoc } from 'firebase/firestore';
 
 interface PropsType {
   post: IDocument;
@@ -25,7 +28,7 @@ const useEditDoc = ({ post, collName }: PropsType) => {
 
   const onEditedSubmit = async (
     event: React.FormEvent<HTMLFormElement>,
-    onToggleClick: () => void
+    onToggleClick: () => void,
   ) => {
     event.preventDefault();
 

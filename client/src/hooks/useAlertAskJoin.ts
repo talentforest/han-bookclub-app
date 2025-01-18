@@ -1,6 +1,8 @@
-import { authService } from 'fbase';
 import { FormEvent } from 'react';
+
 import { useNavigate } from 'react-router-dom';
+
+import { authService } from 'fbase';
 
 type Text = 'see' | 'edit' | 'register' | 'write';
 
@@ -26,7 +28,7 @@ const useAlertAskJoin = (text: Text) => {
   function alertAskJoinMember() {
     if (authService.currentUser.isAnonymous) {
       const confirm = window.confirm(
-        `한페이지 멤버만 ${setText()}. 로그인을 해주세요.`
+        `한페이지 멤버만 ${setText()}. 로그인을 해주세요.`,
       );
       if (confirm) return navigate('/login');
     }

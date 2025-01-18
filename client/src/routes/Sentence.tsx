@@ -1,20 +1,23 @@
+import { useEffect } from 'react';
+
+import { getCollection } from 'api/firebase/getFbDoc';
+
 import { ISentence, sentencesState } from 'data/bookAtom';
 import { useRecoilState } from 'recoil';
-import { useEffect } from 'react';
-import { getCollection } from 'api/getFbDoc';
-import { SENTENCES2024 } from 'constants/index';
-import { EmptyBox } from './BookClubHistory';
-import { Section } from './Home';
-import { formatKRMarkDate } from 'util/index';
+
+import { SENTENCES2024 } from 'appConstants';
 import { FiCalendar } from 'react-icons/fi';
 import { SwiperSlide } from 'swiper/react';
-import PostSentenceBox from 'components/organisms/PostSentenceBox';
+import { formatDate } from 'utils';
+
 import MobileHeader from 'layout/mobile/MobileHeader';
-import Tag from 'components/atoms/Tag';
-import Subtitle from 'components/atoms/Subtitle';
-import SwiperContainer from 'components/molecules/SwiperContainer';
-import BookThumbnail from 'components/atoms/BookThumbnail';
-import styled from 'styled-components';
+
+import Subtitle from 'components/common/Subtitle';
+import Tag from 'components/common/Tag';
+import BookThumbnail from 'components/common/book/BookThumbnail';
+import Section from 'components/common/container/Section';
+import SwiperContainer from 'components/common/container/SwiperContainer';
+import PostSentenceBox from 'components/post/PostSentenceBox';
 
 const swiperOptions = {
   slidesPerView: 'auto' as 'auto',
@@ -48,7 +51,7 @@ export default function Sentence() {
     return sentences?.reduce((accByBook: any, sentence) => {
       const key =
         by === 'createdAt'
-          ? formatKRMarkDate(sentence[by], 'YYYY년 MM월 DD일')
+          ? formatDate(sentence[by], 'yyyy년 MM월 dd일')
           : sentence[by];
 
       return {
@@ -68,17 +71,16 @@ export default function Sentence() {
 
   return (
     <>
-      <MobileHeader title='공유하고 싶은 문구들' backBtn />
+      <MobileHeader title="공유하고 싶은 문구들" backBtn />
 
       <main>
-        <Section>
-          <Subtitle title='문구가 등록된 책' />
+        <Section title="문구가 등록된 책">
           {titleKeys?.length !== 0 ? (
-            <Container>
+            <div>
               <SwiperContainer options={swiperOptions}>
-                {titleKeys?.map((titleKey) => (
+                {titleKeys?.map(titleKey => (
                   <SwiperSlide key={titleKey}>
-                    <BookItem>
+                    <div>
                       <BookThumbnail
                         title={titleKey}
                         thumbnail={groupedByTitle[titleKey][0].thumbnail}
@@ -86,64 +88,35 @@ export default function Sentence() {
                       <span>
                         {groupedByTitle[titleKey].length}개의 문구 등록
                       </span>
-                    </BookItem>
+                    </div>
                   </SwiperSlide>
                 ))}
               </SwiperContainer>
-            </Container>
+            </div>
           ) : (
-            <EmptyBox>아직 문구가 등록된 책이 없습니다.</EmptyBox>
+            <span>아직 문구가 등록된 책이 없습니다.</span>
           )}
         </Section>
 
         <Section>
-          <Subtitle title='날짜별로 전체 문구 보기' />
+          <Subtitle title="날짜별로 전체 문구 보기" />
           {dateKeys?.length !== 0 ? (
-            dateKeys?.map((dateKey) => (
-              <SentenceListByDate key={dateKey}>
-                <Tag color='purple'>
+            dateKeys?.map(dateKey => (
+              <div key={dateKey}>
+                <Tag color="purple">
                   <FiCalendar fontSize={15} />
                   <h3>{dateKey}</h3>
                 </Tag>
                 {groupedByDate[dateKey]?.map((sentence: ISentence) => (
                   <PostSentenceBox key={sentence.id} sentence={sentence} />
                 ))}
-              </SentenceListByDate>
+              </div>
             ))
           ) : (
-            <EmptyBox>아직 공유된 문구가 없습니다.</EmptyBox>
+            <span>아직 공유된 문구가 없습니다.</span>
           )}
         </Section>
       </main>
     </>
   );
 }
-
-const SentenceListByDate = styled.ul`
-  margin-bottom: 40px;
-`;
-
-const Container = styled.div`
-  background-color: ${({ theme }) => theme.container.default};
-  box-shadow: ${({ theme }) => theme.boxShadow};
-  border-radius: 10px;
-  padding: 20px 5px 0 5px;
-`;
-
-const BookItem = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  justify-content: space-between;
-  img {
-    height: 100px;
-    border-radius: 6px;
-  }
-  span {
-    margin-top: 3px;
-    font-size: 14px;
-    color: ${({ theme }) => theme.text.gray3};
-  }
-`;

@@ -1,8 +1,10 @@
+import { useState } from 'react';
+
 import { currentUserState } from 'data/userAtom';
+import { useRecoilValue } from 'recoil';
+
 import { authService, dbService } from 'fbase';
 import { doc, updateDoc } from 'firebase/firestore';
-import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
 
 interface IHandleLikeProps {
   likes: number;
@@ -31,7 +33,7 @@ const useHandleLike = ({
       setShowLikeUsers(false);
       await updateDoc(docRef, {
         likes: likes - 1,
-        likeUsers: likeUsers.filter((uid) => uid !== currentUser.uid),
+        likeUsers: likeUsers.filter(uid => uid !== currentUser.uid),
       });
     } else {
       await updateDoc(docRef, {
@@ -40,10 +42,10 @@ const useHandleLike = ({
       });
     }
 
-    setLike((prev) => !prev);
+    setLike(prev => !prev);
   };
 
-  const toggleShowLikeUsers = () => setShowLikeUsers((prev) => !prev);
+  const toggleShowLikeUsers = () => setShowLikeUsers(prev => !prev);
 
   return {
     like,

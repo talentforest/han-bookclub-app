@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
-import { v4 } from 'uuid';
+
 import { IRecommendedBook } from './bookAtom';
+import { v4 } from 'uuid';
 
 export interface IDocument {
   id?: string;

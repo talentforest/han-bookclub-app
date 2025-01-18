@@ -1,9 +1,11 @@
-import { authService } from 'fbase';
-import styled from 'styled-components';
 import useChangePw from 'hooks/useChangePw';
+
+import { authService } from 'fbase';
+
 import MobileHeader from 'layout/mobile/MobileHeader';
-import SquareBtn from 'components/atoms/button/SquareBtn';
-import Input from 'components/atoms/input/Input';
+
+import SquareBtn from 'components/common/button/SquareBtn';
+import Input from 'components/common/input/Input';
 
 const ChangePassword = () => {
   const user = authService?.currentUser;
@@ -19,50 +21,44 @@ const ChangePassword = () => {
 
   return (
     <>
-      <MobileHeader title='비밀번호 변경' backBtn />
+      <MobileHeader title="비밀번호 변경" backBtn />
       <main>
-        <InputForm onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="flex flex-col gap-y-2.5">
           <input
             hidden
-            type='text'
-            autoComplete='username'
+            type="text"
+            autoComplete="username"
             defaultValue={user?.email}
           />
           <Input
-            name='password'
-            type='password'
+            name="password"
+            type="password"
             value={originPassword}
-            placeholder='기존 비밀번호를 작성해주세요.'
+            placeholder="기존 비밀번호를 작성해주세요."
             onChange={onOriginChange}
-            autoComplete='current-password'
+            autoComplete="current-password"
           />
           <Input
-            name='password'
-            type='password'
+            name="password"
+            type="password"
             value={newPassword}
-            placeholder='새로운 비밀번호를 작성해주세요.'
+            placeholder="새로운 비밀번호를 작성해주세요."
             onChange={onNewChange}
-            autoComplete='new-password'
+            autoComplete="new-password"
           />
           <Input
-            name='password'
-            type='password'
+            name="password"
+            type="password"
             value={checkNewPassword}
-            placeholder='새로운 비밀번호를 다시 한번 작성해주세요.'
+            placeholder="새로운 비밀번호를 다시 한번 작성해주세요."
             onChange={onCheckNewChange}
-            autoComplete='new-password'
+            autoComplete="new-password"
           />
-          <SquareBtn type='submit' name='변경하기' />
-        </InputForm>
+          <SquareBtn type="submit" name="변경하기" />
+        </form>
       </main>
     </>
   );
 };
-
-const InputForm = styled.form`
-  input {
-    margin-bottom: 10px;
-  }
-`;
 
 export default ChangePassword;

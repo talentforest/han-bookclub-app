@@ -1,35 +1,34 @@
-import { todayWithHyphen } from 'util/index';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { FiUsers } from 'react-icons/fi';
-import { BOOK_VOTE, VOTE } from 'constants/index';
-import useHandleVoting from 'hooks/useHandleVoting';
-import MobileHeader from 'layout/mobile/MobileHeader';
-import SquareBtn from 'components/atoms/button/SquareBtn';
-import DDay from 'components/atoms/DDay';
-import UserName from 'components/atoms/UserName';
-import VoteDetailHeader from 'components/organisms/VoteDetailHeader';
-import VoteBarItem from 'components/molecules/VoteBarItem';
-import VoteBookItem from 'components/molecules/VoteBookItem';
-import GuideLine from 'components/atoms/GuideLine';
-import VoteGaugeBarBox from 'components/molecules/VoteGaugeBarBox';
-import VoteBookItemBtn from 'components/atoms/button/VoteBookItemBtn';
-import VoteItemReasonBox from 'components/molecules/VoteItemReasonBox';
-import styled from 'styled-components';
-import device from 'theme/mediaQueries';
 import { useEffect } from 'react';
+
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import useHandleVoting from 'hooks/useHandleVoting';
+
+import { FiUsers } from 'react-icons/fi';
+import { getPercentage, todayWithHyphen } from 'utils';
+
+import MobileHeader from 'layout/mobile/MobileHeader';
+
+import VoteBookItem from 'components/bookVote/VoteBookItem';
+import VoteDetailHeader from 'components/bookVote/VoteDetailHeader';
+import VoteItemReasonBox from 'components/bookVote/VoteItemReasonBox';
+import DDay from 'components/common/DDay';
+import GuideLine from 'components/common/GuideLine';
+import SquareBtn from 'components/common/button/SquareBtn';
+import VoteBookItemBtn from 'components/common/button/VoteBookItemBtn';
+import UserName from 'components/common/user/UserName';
 
 type LocationState = {
   state: {
-    collName: 'BookVote' | 'Vote';
+    collName: 'BookVote';
     docId: string;
   };
 };
 
 const VoteDetail = () => {
-  const location = useLocation() as LocationState;
-
-  const collName = location.state?.collName;
-  const docId = location.state?.docId;
+  const {
+    state: { collName, docId },
+  } = useLocation() as LocationState;
 
   const navigate = useNavigate();
 
@@ -40,7 +39,7 @@ const VoteDetail = () => {
   }, []);
 
   const {
-    bookVote,
+    currentVote,
     votedItemsByMember,
     voteCountsById,
     totalVoteCount,
@@ -48,13 +47,17 @@ const VoteDetail = () => {
     onVotingSubmit,
     onVoteItemClick,
     myVotedItems,
-    isMyVotedItems,
+    // isMyVotedItems,
     onVoteDeleteClick,
     isRevote,
     onToggleRevoteClick,
   } = useHandleVoting({ collName, docId });
 
-  const isExpiredVote = bookVote?.deadline < todayWithHyphen;
+  const isExpiredVote = currentVote?.deadline < todayWithHyphen;
+
+  const highestVoteItem = voteCountsById?.find((book, _, arr) => {
+    return book.voteCount === Math.max(...arr.map(book => book.voteCount));
+  });
 
   return (
     <>
@@ -63,174 +66,117 @@ const VoteDetail = () => {
         backBtn
       />
 
-      {bookVote?.voteItems && (
+      {currentVote?.voteItems && (
         <main>
           <VoteDetailHeader
-            vote={bookVote}
+            vote={currentVote}
             onVoteDeleteClick={onVoteDeleteClick}
           />
-
-          <VoteItemReasonBox voteItems={bookVote.voteItems} />
-
-          <GuideLine text='중복 투표도 가능해요' />
-
+          <VoteItemReasonBox voteItems={currentVote.voteItems} />
           {/* 투표를 완료했거나 만료된 이후 결과 화면 */}
           {isExpiredVote || (myVotedItems && !isRevote) ? (
-            <CurrentVoteItems>
-              {/* 일반 투표 */}
-              {collName === VOTE && (
-                <BarItemList $disabled>
-                  {bookVote.voteItems.map((voteItem) => (
-                    <VoteBarItem
-                      key={voteItem.id}
-                      selected={isMyVotedItems(voteItem.id)}
-                      voteCountsById={voteCountsById}
-                      totalVoteCount={totalVoteCount}
-                      voteItem={voteItem}
-                    />
-                  ))}
-                </BarItemList>
-              )}
-
-              {/* 책투표 */}
-              {collName === BOOK_VOTE && (
-                <>
-                  <BookItemList>
-                    {bookVote.voteItems.map((voteItem) => (
-                      <VoteBookItem
-                        key={voteItem.id}
-                        voteItem={voteItem}
-                        voteCountsById={
-                          isExpiredVote ? voteCountsById : undefined
-                        }
-                      />
-                    ))}
-                  </BookItemList>
-
-                  <VoteGaugeBarBox
-                    voteCountsById={voteCountsById}
-                    totalVoteCount={totalVoteCount}
-                  />
-                </>
-              )}
-
-              <SquareBtn name='투표 완료' disabled />
-
-              <SquareBtn
-                disabled={isExpiredVote}
-                type='button'
-                name='다시 투표하기'
-                handleClick={onToggleRevoteClick}
-              />
-            </CurrentVoteItems>
-          ) : (
-            // 투표 화면
-            <Form onSubmit={onVotingSubmit}>
-              <BookItemList>
-                {bookVote.voteItems.map((voteItem) => (
+            <>
+              <ul className="mb-4 mt-2 flex h-full items-center justify-center gap-4">
+                {currentVote.voteItems.map(voteItem => (
                   <VoteBookItem
                     key={voteItem.id}
-                    selected={!!selectedItem(voteItem.id)}
                     voteItem={voteItem}
-                  >
-                    <VoteBookItemBtn
-                      selected={!!selectedItem(voteItem.id)}
-                      onVoteItemClick={() => onVoteItemClick(voteItem.id)}
-                    />
-                  </VoteBookItem>
+                    selected={highestVoteItem.title === voteItem.book.title}
+                  />
                 ))}
-              </BookItemList>
+              </ul>
 
-              <SquareBtn type='submit' name='투표하기' />
-            </Form>
+              {voteCountsById.map(({ id, title, voteCount }) => (
+                <div
+                  key={id}
+                  className="relative mx-auto mt-2 flex w-2/3 overflow-hidden rounded-xl border bg-white px-3 py-1 shadow-sm sm:w-full"
+                >
+                  <div
+                    style={{
+                      width: `${getPercentage(voteCount, totalVoteCount)}%`,
+                      backgroundColor:
+                        title === highestVoteItem.title ? '#aaffbf' : '#dcdcdc',
+                    }}
+                    className="absolute inset-y-0 left-0 z-0 rounded-r-lg"
+                  />
+                  <span
+                    className={`z-10 inline-block w-full pt-[1px] text-[15px] ${title === highestVoteItem.title ? 'font-medium text-green-700' : 'text-gray2'}`}
+                  >
+                    {title}
+                  </span>
+                  <span
+                    className={`pt-[1px] text-sm ${title === highestVoteItem.title ? 'font-medium text-green-700' : 'text-gray2'}`}
+                  >
+                    {getPercentage(voteCount, totalVoteCount)}%
+                  </span>
+                </div>
+              ))}
+
+              <div className="mt-14 flex items-center justify-center gap-4 sm:mb-12">
+                <SquareBtn
+                  name="투표 완료"
+                  disabled
+                  color="gray"
+                  className="px-8"
+                />
+                {!isExpiredVote && (
+                  <SquareBtn
+                    disabled={isExpiredVote}
+                    type="button"
+                    name="다시 투표하기"
+                    handleClick={onToggleRevoteClick}
+                  />
+                )}
+              </div>
+            </>
+          ) : (
+            // 투표 화면
+            <>
+              <GuideLine text="중복 투표도 가능해요" />
+              <form
+                onSubmit={onVotingSubmit}
+                className="mb-10 flex flex-col items-center"
+              >
+                <ul className="mb-8 flex flex-wrap items-center gap-4 sm:justify-center">
+                  {currentVote.voteItems.map(voteItem => (
+                    <VoteBookItem
+                      key={voteItem.id}
+                      selected={!!selectedItem(voteItem.id)}
+                      voteItem={voteItem}
+                    >
+                      <VoteBookItemBtn
+                        selected={!!selectedItem(voteItem.id)}
+                        onVoteItemClick={() => onVoteItemClick(voteItem.id)}
+                      />
+                    </VoteBookItem>
+                  ))}
+                </ul>
+                <SquareBtn
+                  type="submit"
+                  name="투표하기"
+                  className="px-5 py-2 sm:px-6"
+                />
+              </form>
+            </>
           )}
 
-          {!isExpiredVote && <DDay hyphenDate={bookVote.deadline} />}
+          {!isExpiredVote && <DDay hyphenDate={currentVote.deadline} />}
 
-          <VoteMemberBox>
-            <h4>
+          <div className="mt-10">
+            <h4 className="flex items-center gap-2">
               <FiUsers />
               {`투표인원: ${votedItemsByMember?.length}명`}
             </h4>
-            <MemberList>
-              {votedItemsByMember.map((member) => (
+            <div className="mt-2 flex flex-wrap gap-2">
+              {votedItemsByMember.map(member => (
                 <UserName tag key={member.id} userId={member.id} />
               ))}
-            </MemberList>
-          </VoteMemberBox>
+            </div>
+          </div>
         </main>
       )}
     </>
   );
 };
-
-const Form = styled.form`
-  margin-bottom: 20px;
-  > button {
-    margin-bottom: 5px;
-  }
-`;
-
-const CurrentVoteItems = styled.div`
-  margin-bottom: 40px;
-  > button {
-    margin-top: 12px;
-    font-weight: 500;
-  }
-`;
-
-const BookItemList = styled.ul`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin: 20px 0;
-  flex-wrap: wrap;
-  li {
-    width: 138px;
-  }
-  @media ${device.tablet} {
-    gap: 30px;
-    li {
-      width: 150px;
-    }
-  }
-`;
-
-const BarItemList = styled.ul<{ $disabled?: boolean }>`
-  position: relative;
-  margin: 4px 0 30px;
-  pointer-events: ${({ $disabled }) => ($disabled ? 'none' : 'all')};
-  @media ${device.tablet} {
-    margin-bottom: 30px;
-  }
-`;
-
-const VoteMemberBox = styled.div`
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  h4 {
-    font-weight: 500;
-    color: ${({ theme }) => theme.text.gray4};
-    svg {
-      font-size: 14px;
-      margin-right: 4px;
-      stroke: ${({ theme }) => theme.text.gray3};
-    }
-  }
-`;
-
-const MemberList = styled.div`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  list-style: none;
-  @media ${device.tablet} {
-    font-size: 18px;
-  }
-`;
 
 export default VoteDetail;

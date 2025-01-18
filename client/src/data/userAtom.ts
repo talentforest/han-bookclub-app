@@ -1,7 +1,8 @@
-import { BookFieldType } from 'components/molecules/BookFieldCheckBox';
-import { authService } from 'fbase';
-import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import { atom } from 'recoil';
+
+import { BookField } from 'appConstants';
+import { authService } from 'fbase';
+import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
 import { v4 } from 'uuid';
 
 export interface IUserData {
@@ -26,7 +27,7 @@ export interface IUserPostDocs {
 
 export interface IUserDataDoc {
   name: string;
-  favoriteBookField: BookFieldType[];
+  favoriteBookField: BookField[];
   email: string;
   displayName: string;
   photoURL: string;
@@ -57,16 +58,16 @@ export const currentUserState = atom<IUserData | null>({
   key: `userData/${v4}`,
   default: null,
   effects: [
-    ({ setSelf, onSet }) => {
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
+    ({ setSelf }) => {
+      const unsubscribe = onAuthStateChanged(auth, user => {
         if (user) {
           const { uid, email, displayName, photoURL } = user;
 
           const authUser = {
-            uid: uid ? uid : '',
-            email: email ? email : '',
-            displayName: displayName ? displayName : '익명의 방문자',
-            photoURL: photoURL ? photoURL : '',
+            uid: uid ?? '',
+            email: email ?? '',
+            displayName: displayName ?? '익명의 방문자',
+            photoURL: photoURL ?? '',
           };
 
           setSelf(authUser as User);
