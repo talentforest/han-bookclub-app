@@ -2,7 +2,15 @@ import { ReactNode } from 'react';
 
 interface Props {
   text?: string;
-  color?: 'green' | 'purple' | 'blue' | 'yellow' | 'red';
+  color?:
+    | 'green'
+    | 'lightGreen'
+    | 'purple'
+    | 'blue'
+    | 'yellow'
+    | 'red'
+    | 'lightBlue'
+    | 'lightGray';
   children?: ReactNode;
   shape?: 'rounded' | 'square';
   className?: string;
@@ -12,23 +20,18 @@ export default function Tag({
   text,
   color = 'blue',
   children,
-  shape = 'rounded',
+  shape = 'square',
   className,
 }: Props) {
-  const textColor = {
-    blue: 'text-[#3d70a0]',
-    yellow: 'text-[#9f8116]',
-    purple: 'text-[#695ac8]',
-    green: 'text-[#379a32]',
-    red: 'text-[#ea4f4f]',
-  };
-
   const bgColor = {
-    blue: 'bg-[#d1e9ff]',
-    yellow: 'bg-[#ffe69d]',
-    purple: 'bg-[#e3defd]',
-    green: 'bg-[#bcf5d5]',
-    red: 'bg-[#ffdfdf]',
+    blue: 'bg-blue1 text-white',
+    lightBlue: 'bg-blue-200 text-text',
+    yellow: 'bg-pointYellow text-white',
+    purple: 'bg-purple3 text-text',
+    lightGreen: 'bg-green3 text-text',
+    green: 'bg-pointGreen text-text',
+    red: 'bg-pointCoral text-white',
+    lightGray: 'bg-white text-gray1',
   };
 
   const shapeStyle = {
@@ -38,9 +41,9 @@ export default function Tag({
 
   return (
     <div
-      className={`text-sm sm:text-[13px] ${shapeStyle[shape]} ${bgColor[color]} flex h-fit w-fit min-w-fit items-center gap-1 rounded-2xl px-3.5 py-1.5 shadow-card ${className}`}
+      className={`text-sm ${shapeStyle[shape]} ${bgColor[color]} flex h-fit min-h-6 w-fit min-w-6 items-center gap-1 rounded-2xl px-3.5 py-1.5 shadow-card ${className}`}
     >
-      <span className={`${textColor[color]}`}>{text && text}</span>
+      <span>{text && text}</span>
       {children && children}
     </div>
   );

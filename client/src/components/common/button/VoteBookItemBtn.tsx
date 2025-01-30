@@ -1,4 +1,4 @@
-import { FiCheckCircle, FiCircle } from 'react-icons/fi';
+import { FaCheckCircle, FaCircle } from 'react-icons/fa';
 
 interface Props {
   selected: boolean;
@@ -10,12 +10,12 @@ export default function VoteBookItemBtn({ selected, onVoteItemClick }: Props) {
     <button
       type="button"
       onClick={onVoteItemClick}
-      className="flex w-full flex-col items-center justify-center border bg-green-200 py-5"
+      className="flex w-full flex-col items-center justify-center border bg-green1 py-4 text-white"
     >
       {selected ? (
-        <FiCheckCircle className="size-4 text-green-700" />
+        <FaCheckCircle className="size-5" />
       ) : (
-        <FiCircle className="size-4 text-green-500" />
+        <FaCircle className="size-5" />
       )}
     </button>
   );

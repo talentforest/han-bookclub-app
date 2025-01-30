@@ -23,10 +23,12 @@ export const thisMonthBookClubState = atom<IBookClub>({
   effects: [
     ({ setSelf, onSet }) => {
       const storeKey = 'thisMonthBookClub';
+
       const savedValue = localStorage.getItem(storeKey);
       if (savedValue != null) {
         setSelf(JSON.parse(savedValue));
       }
+
       onSet((newValue, _, isReset) => {
         isReset
           ? localStorage.removeItem(storeKey)

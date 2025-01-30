@@ -1,26 +1,35 @@
-import { FaPeopleRoof } from 'react-icons/fa6';
 import { FiBook } from 'react-icons/fi';
+import { MdEventAvailable } from 'react-icons/md';
 
 interface Props {
   title: string;
   thumbnail: string;
+  className?: string;
 }
 
-export default function BookThumbnail({ title, thumbnail }: Props) {
+export default function BookThumbnail({
+  title,
+  thumbnail,
+  className = '',
+}: Props) {
   return (
     <>
-      {thumbnail !== '' ? (
+      {thumbnail !== '' && (
         <img
-          className="flex aspect-[0.68/1] h-full items-center justify-center rounded-md bg-gray1 shadow-card"
+          className={`flex aspect-[0.68/1] h-full max-h-40 items-center justify-center rounded-md bg-gray1 shadow-card ${className}`}
           src={thumbnail}
           alt={`${title} 북커버`}
         />
-      ) : (
-        <div className="flex aspect-[0.68/1] h-full items-center justify-center rounded-md bg-white shadow-card">
-          {thumbnail === '' ? (
-            <FaPeopleRoof className="size-full max-h-[34px] max-w-[34px] text-green2" />
+      )}
+
+      {thumbnail === '' && (
+        <div
+          className={`flex aspect-[0.68/1] h-full max-h-40 items-center justify-center rounded-md border bg-white shadow-card ${className}`}
+        >
+          {title.includes('이벤트') ? (
+            <MdEventAvailable className="size-full max-h-[40px] max-w-[40px] text-gray2 max-sm:w-1/2" />
           ) : (
-            <FiBook className="size-full max-h-[40px] max-w-[40px] text-gray2" />
+            <FiBook className="size-full max-h-[40px] max-w-[40px] text-gray2 max-sm:w-2/3" />
           )}
         </div>
       )}

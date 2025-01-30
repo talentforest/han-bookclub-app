@@ -51,7 +51,7 @@ const UserName = ({
           className="flex cursor-pointer items-center justify-center"
         >
           {user?.displayName && (
-            <span className="pt-1 leading-4 text-gray2">
+            <span className="pt-1 leading-4 text-gray1">
               {user.displayName}
             </span>
           )}
@@ -63,7 +63,7 @@ const UserName = ({
           <Link
             to={to}
             state={{ userId: user.id }}
-            className={`cursor-pointer ${tag ? `rounded-md px-1.5 py-0.5 text-sm` : ''} ${className}`}
+            className={`cursor-pointer ${tag ? `rounded-md px-1.5 py-0.5 text-sm text-gray1` : ''} ${className}`}
             style={{ backgroundColor: tag ? user.tagColor : undefined }}
           >
             {user?.displayName && (
@@ -72,11 +72,13 @@ const UserName = ({
           </Link>
         ) : (
           <div
-            className={`cursor-pointer ${tag ? `rounded-md px-1.5 py-0.5 text-sm` : ''} ${className}`}
+            className={`${tag ? `rounded-md py-0.5 pl-1.5 pr-2 text-sm text-text` : ''} ${className}`}
             style={{ backgroundColor: tag ? user.tagColor : undefined }}
           >
             {user?.displayName && (
-              <span className="pt-1 leading-4">{user.displayName}</span>
+              <span className="pt-1 leading-4 text-text">
+                {user.displayName}
+              </span>
             )}
           </div>
         ))}

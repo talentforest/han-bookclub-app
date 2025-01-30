@@ -18,10 +18,12 @@ export default function VoteBookItem({ voteItem, children, selected }: Props) {
   } = voteItem;
 
   return (
-    <div className="flex h-full min-h-40 w-60 flex-col items-center gap-3 overflow-hidden rounded-xl pt-4 shadow-card sm:w-[47%] sm:gap-2">
-      <div className="relative">
+    <div
+      className={`flex h-full min-h-40 w-60 flex-col items-center gap-3 overflow-hidden rounded-xl bg-white shadow-card max-sm:w-[45%] max-sm:gap-2 ${children ? 'pt-4' : 'py-4'}`}
+    >
+      <div className="relative flex w-full justify-center max-sm:px-3">
         {selected && (
-          <BiSolidBadgeCheck className="absolute -right-2 -top-2 size-9 rounded-full bg-white text-[#80df98]" />
+          <BiSolidBadgeCheck className="absolute -top-2 right-0 size-9 rounded-full bg-white text-green2" />
         )}
         <BookThumbnail thumbnail={thumbnail} title={title} />
       </div>

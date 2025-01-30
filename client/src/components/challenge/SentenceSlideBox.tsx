@@ -3,7 +3,7 @@ import { ISentence } from 'data/bookAtom';
 import { BiSolidQuoteLeft, BiSolidQuoteRight } from 'react-icons/bi';
 import { cutLetter, formatDate } from 'utils';
 
-import LikeBtnInfoBox from 'components/common/LikeBtnInfoBox';
+import LikeBtnWithPeopleInfo from 'components/common/LikeBtnWithPeopleInfo';
 import BookThumbnail from 'components/common/book/BookThumbnail';
 import EditorContent from 'components/common/editor/EditorContent';
 import UserName from 'components/common/user/UserName';
@@ -36,7 +36,7 @@ export default function SentenceSlideBox({ sentence }: Props) {
 
       <div>
         <span>{formatDate(createdAt)}</span>
-        <LikeBtnInfoBox post={sentence} />
+        <LikeBtnWithPeopleInfo post={sentence} />
       </div>
     </div>
   );

@@ -8,12 +8,9 @@ interface Props {
 
 export default function CreatorBox({ creatorId }: Props) {
   return (
-    <div className="flex items-center gap-0.5">
-      <FiUserCheck
-        fontSize={14}
-        style={{ stroke: '#888', marginBottom: '3px' }}
-      />
-      <span className="text-sm text-gray2">작성자</span>
+    <div className="flex items-center gap-0.5 text-gray1">
+      <FiUserCheck fontSize={14} />
+      <span className="text-sm">작성자</span>
       <UserName tag userId={creatorId} />
     </div>
   );

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { IBookVoteItem } from 'data/voteAtom';
 
-import { FiChevronsDown, FiChevronsUp, FiExternalLink } from 'react-icons/fi';
+import { FiChevronsDown, FiChevronsUp } from 'react-icons/fi';
 
 interface Props {
   voteItems: IBookVoteItem[];
@@ -14,7 +14,7 @@ export default function VoteItemReasonBox({ voteItems }: Props) {
   const toggleDetails = () => setIsOpen(prev => !prev);
 
   return (
-    <div className="mb-10 mt-3 rounded-xl border bg-white p-4 shadow-card sm:py-2.5">
+    <div className="mb-10 mt-3 rounded-xl border bg-white p-4 shadow-card max-sm:py-2.5">
       <button
         type="button"
         onClick={toggleDetails}
@@ -31,16 +31,16 @@ export default function VoteItemReasonBox({ voteItems }: Props) {
       </button>
 
       <ul
-        className={`flex gap-4 overflow-hidden transition-[max-height] duration-500 ease-in-out sm:flex-col ${
+        className={`flex gap-4 overflow-hidden transition-[max-height] duration-500 ease-in-out max-sm:flex-col ${
           isOpen ? 'max-h-[5000px]' : 'max-h-0'
         }`}
       >
         {voteItems.map(({ selectReason, id, book }) => (
           <li
             key={id}
-            className="mt-2 flex w-full flex-col gap-2 px-2 pt-2 sm:px-0"
+            className="mt-2 flex w-full flex-col gap-2 px-2 pt-2 max-sm:px-0"
           >
-            <span className="bg-green-300 py-0.5 font-medium">
+            <span className="bg-green2 py-0.5 font-medium">
               📚 {book.title}
             </span>
 
@@ -49,16 +49,6 @@ export default function VoteItemReasonBox({ voteItems }: Props) {
             ) : (
               <span>정보가 없습니다.</span>
             )}
-
-            <a
-              href={book.url}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-3 flex gap-1 self-end text-sm text-gray1"
-            >
-              다음 책정보 보러가기
-              <FiExternalLink />
-            </a>
           </li>
         ))}
       </ul>

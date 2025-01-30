@@ -29,7 +29,7 @@ const Search = () => {
 
       <main>
         <Subtitle title="책 검색하기" />
-        <form className="mb-8 flex w-1/2 gap-3">
+        <form className="mb-8 flex w-1/2 gap-3 max-sm:mb-4 max-sm:w-full">
           <RefInput
             ref={inputRef}
             placeholder="등록하실 책을 검색해주세요."
@@ -43,7 +43,7 @@ const Search = () => {
           <span className="text-gray1">(최대 10건이 검색됩니다.)</span>
         </span>
 
-        <ul className="mt-4 columns-2 gap-x-4">
+        <ul className="mt-4 columns-2 gap-x-4 max-sm:mt-2 max-sm:columns-1 max-sm:gap-x-0">
           {searchList.map(searchedBook => (
             <li
               key={`${searchedBook.isbn}-${searchedBook.publisher}`}

@@ -36,13 +36,17 @@ export default function BookFieldHostEditForm({
   ].filter(user => user.displayName !== '한 페이지 멤버');
 
   const hostOptions = hostNames.map(host => {
-    return { id: host.id, name: host.displayName };
+    return { value: host.id, label: host.displayName };
   });
 
-  const fieldOptions = [...bookFields, { id: 'no_field', name: '분야 없음' }];
+  const fieldList = [...bookFields, { id: 'no_field', name: '분야 없음' }];
 
-  const currentField = fieldOptions.find(({ name }) => name === field);
-  const currentHost = hostOptions.filter(({ name }) => hosts?.includes(name));
+  const fieldOptions = fieldList.map(field => {
+    return { value: field.id, label: field.name };
+  });
+
+  const currentField = fieldOptions.find(({ label }) => label === field);
+  const currentHost = hostOptions.filter(({ value }) => hosts?.includes(value));
 
   const onBookFieldChange = (value: ChangeSelectValue) => {
     const field = value.label;
@@ -54,8 +58,10 @@ export default function BookFieldHostEditForm({
     setSelectedValues({ ...selectedValues, hosts });
   };
 
+  console.log(selectedValues);
+
   return (
-    <form onSubmit={event => onSubmit(event, month)} className="mt-4">
+    <form onSubmit={event => onSubmit(event, month)} className="flex flex-col">
       <label htmlFor="독서분야" className="text-sm">
         독서분야
       </label>
@@ -65,12 +71,9 @@ export default function BookFieldHostEditForm({
         options={fieldOptions}
         isSearchable={false}
         defaultValue={currentField || fieldOptions[12]}
-        onChange={value =>
-          onBookFieldChange({
-            value: value.id,
-            label: value.name,
-          } as ChangeSelectValue)
-        }
+        onChange={value => {
+          onBookFieldChange(value as ChangeSelectValue);
+        }}
       />
 
       <label htmlFor="발제자" className="text-sm">
@@ -86,14 +89,10 @@ export default function BookFieldHostEditForm({
         options={hostOptions}
         isClearable={false}
         isSearchable={false}
-        onChange={value =>
-          onHostChange(
-            value.map(item => ({
-              value: item.id,
-              label: item.name,
-            })) as ChangeSelectValue[],
-          )
-        }
+        onChange={value => {
+          console.log(value);
+          onHostChange(value as ChangeSelectValue[]);
+        }}
       />
 
       <SquareBtn type="submit" name="변경하기" className="self-end" />

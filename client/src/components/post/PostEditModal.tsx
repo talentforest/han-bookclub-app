@@ -39,7 +39,7 @@ export default function PostEditModal({
           text={editedText}
           setText={setEditedText}
         />
-        <SquareBtn name="수정하기" type="submit" />
+        <SquareBtn name="수정하기" type="submit" className="ml-auto" />
       </form>
     </Modal>
   );

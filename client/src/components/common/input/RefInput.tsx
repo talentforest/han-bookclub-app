@@ -23,7 +23,7 @@ const RefInput = React.forwardRef(function RefInput(
       value={props.value}
       onChange={props.onChange}
       required
-      className={`h-11 w-full rounded-xl pl-4 shadow-card placeholder:text-gray3 focus:outline-none ${props.className}`}
+      className={`h-12 w-full rounded-xl border border-gray2 pl-4 shadow-card placeholder:text-gray3 focus:outline-none ${props.className}`}
     />
   );
 });

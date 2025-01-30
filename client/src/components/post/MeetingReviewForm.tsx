@@ -2,7 +2,8 @@ import { useState } from 'react';
 
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import useHandlePenalty from 'hooks/useHandlePenalty';
-import useSendPushNotification from 'hooks/useSendPushNotification';
+
+// import useSendPushNotification from 'hooks/useSendPushNotification';
 
 import { absenceListState } from 'data/absenceAtom';
 import { thisMonthBookClubState } from 'data/bookClubAtom';
@@ -24,7 +25,7 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
   const userData = useRecoilValue(currentUserState);
   const absenceList = useRecoilValue(absenceListState);
 
-  const { sendPostNotification } = useSendPushNotification();
+  // const { sendPostNotification } = useSendPushNotification();
 
   const isOnceAbsenceThisMonth = absenceList.absenceMembers
     ?.find(item => item.month === +thisMonth)
@@ -63,15 +64,15 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
     }
     onAddDocSubmit(event);
 
-    if (docData.text !== '') {
-      sendPostNotification('모임 후기');
-    }
+    // if (docData.text !== '') {
+    //   sendPostNotification('모임 후기');
+    // }
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="mb-5 rounded-xl border bg-blue-50 p-4 shadow-card sm:p-2.5"
+      className="mb-5 rounded-xl border bg-green3 p-4 shadow-card max-sm:p-4"
     >
       <textarea
         placeholder="모임 후기나 기록하고 싶은 이야기를 작성해주세요(한 문장도 좋아요!)."
@@ -79,7 +80,12 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
         onChange={onChange}
         className="mb-1 min-h-40 w-full resize-none rounded-xl border bg-white p-2.5 outline-none"
       />
-      <SquareBtn name="남기기" type="submit" className="ml-auto px-6" />
+      <SquareBtn
+        name="남기기"
+        type="submit"
+        color="blue"
+        className="ml-auto !px-5"
+      />
     </form>
   );
 };

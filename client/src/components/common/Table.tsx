@@ -18,7 +18,7 @@ type LabelColor = 'yellow' | 'blue';
 interface Props {
   color?: LabelColor;
   labels: Label[];
-  records: TableRecord[];
+  recordsOfYear: TableRecord[];
   onEditClick?: (month: number) => void;
   isEditable: boolean;
   isFoldable: boolean;
@@ -27,7 +27,7 @@ interface Props {
 export default function Table({
   color = 'yellow',
   labels,
-  records,
+  recordsOfYear,
   onEditClick,
   isEditable,
   isFoldable,
@@ -36,11 +36,11 @@ export default function Table({
 
   const toggleTable = () => setOpenTable(prev => !prev);
 
-  const thisMonthRecord: TableRecord[] = records?.filter(
-    doc => doc.month === +thisMonth,
+  const threeMonthRecord: TableRecord[] = recordsOfYear?.filter(
+    doc => doc.month < +thisMonth + 3,
   );
 
-  const showingRecords = openTable ? records : thisMonthRecord;
+  const showingRecords = openTable ? recordsOfYear : threeMonthRecord;
 
   const { pathname } = useLocation();
 
@@ -52,11 +52,11 @@ export default function Table({
 
   const tableStyle = {
     blue: 'bg-blue2',
-    yellow: 'bg-yellow3',
+    yellow: 'bg-blue2',
   };
 
   return (
-    <div className="relative overflow-hidden rounded-xl shadow-card">
+    <div className="relative overflow-hidden rounded-xl bg-white shadow-card">
       {isFoldable && (
         <button
           className="absolute right-4 top-4"
@@ -70,6 +70,7 @@ export default function Table({
           )}
         </button>
       )}
+
       <table className="w-full">
         <colgroup>
           {labels.includes('월') && <col width="18%" />}
@@ -79,9 +80,9 @@ export default function Table({
         </colgroup>
 
         <thead>
-          <tr className={`${tableStyle[color]} rounded-t-xl`}>
+          <tr className={`${tableStyle[color]} relative rounded-t-xl`}>
             {labels.map(label => (
-              <th key={label} className="py-3 font-medium">
+              <th key={label} className="py-3 font-medium text-blue1">
                 {label}
               </th>
             ))}
@@ -102,7 +103,6 @@ export default function Table({
                 {'hosts' in record && (
                   <TableDataItem isMulti label="발제자" data={record.hosts} />
                 )}
-
                 {'onceAbsenceMembers' in record && (
                   <TableDataItem
                     isMulti
@@ -117,7 +117,6 @@ export default function Table({
                     data={record.breakMembers}
                   />
                 )}
-
                 {'onceAbsenceMonth' in record && (
                   <TableDataItem
                     label="일회불참"

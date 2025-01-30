@@ -36,27 +36,27 @@ export default function VoteExpiredCard({ vote, collName }: Props) {
   }, []);
 
   return (
-    <div className="group relative flex flex-col justify-between rounded-xl border bg-white p-4 shadow-card">
-      <div className="flex items-center justify-between">
-        <MdOutlineHowToVote className="text-base text-gray2" />
-        <h4 className="ml-1 flex flex-1 items-center gap-1 truncate font-medium">
+    <div className="group relative flex w-full flex-col justify-between rounded-xl border bg-white p-4 shadow-card">
+      <div className="mb-2 flex w-full items-center justify-between gap-4">
+        <h4 className="line-clamp-1 w-4/5 flex-1 gap-1 truncate font-medium">
+          <MdOutlineHowToVote className="mb-1 inline size-5 pr-0.5 text-base text-gray1" />
           {cutLetter(title, 40)}
         </h4>
 
-        <UserName userId={creatorId} tag />
+        <span className="text-end text-sm text-gray1">
+          {new Date(createdAt).toLocaleDateString()}
+        </span>
       </div>
 
-      <ul className="my-5 flex items-center justify-center gap-x-5">
+      <UserName userId={creatorId} tag />
+
+      <ul className="mb-3 mt-5 flex items-center justify-center gap-x-5">
         {voteItems.map(({ book: { title, thumbnail }, id }) => (
           <li key={id} className="relative h-28">
             <BookThumbnail title={title} thumbnail={thumbnail} />
           </li>
         ))}
       </ul>
-
-      <span className="text-end text-sm text-gray2">
-        {new Date(createdAt).toLocaleDateString()}
-      </span>
 
       <Link
         to={`/vote/${id}`}

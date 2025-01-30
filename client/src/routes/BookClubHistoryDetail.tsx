@@ -24,13 +24,13 @@ function BookClubHistoryDetail() {
   return (
     <>
       <MobileHeader
-        title={`${formatDate(id, 'yyyy년 MM월')}의 독서모임 한페이지`}
+        title={`${formatDate(id, 'yyyy년 M월')}의 독서모임 한페이지`}
         backBtn
       />
 
       <main>
-        <h1 className="mb-2 block pt-3 text-lg md:hidden">
-          {formatDate(id, 'yyyy년 MM월')}의 독서모임 한페이지
+        <h1 className="mb-2 block pt-3 text-lg max-md:hidden">
+          {formatDate(id, 'yyyy년 M월')}의 독서모임 한페이지
         </h1>
         <BasicBookCard bookClub={document} className="mb-14 w-full" />
 
@@ -43,7 +43,7 @@ function BookClubHistoryDetail() {
         </Section>
 
         <Section title="모임 후기">
-          <div className="columns-2">
+          <div className="columns-2 max-sm:columns-1">
             <MeetingReviewList yearMonthId={id} />
           </div>
         </Section>

@@ -51,7 +51,11 @@ const PostBookThumbnailBox = ({ postId, postType }: PropsType) => {
   return (
     <>
       {existDocObj(post) && (
-        <button type="button" onClick={handleModal} className="h-">
+        <button
+          type="button"
+          onClick={handleModal}
+          className="h-fit w-full overflow-hidden rounded-md shadow-card"
+        >
           <BookThumbnail thumbnail={thumbnail} title={title} />
         </button>
       )}
@@ -61,7 +65,7 @@ const PostBookThumbnailBox = ({ postId, postType }: PropsType) => {
           <div className="overflow-scroll">
             <EditorContent text={text} />
 
-            <div>
+            <div className="mb-4 mt-10 flex justify-end">
               {currentUser.uid === creatorId && (
                 <PostHandleBtns
                   post={post}

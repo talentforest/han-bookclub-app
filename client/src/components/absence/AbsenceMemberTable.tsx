@@ -13,9 +13,8 @@ import {
 } from 'appConstants';
 import { dbService } from 'fbase';
 import { doc, setDoc } from 'firebase/firestore';
-import { existDocObj, thisMonth, thisYear } from 'utils';
+import { existDocObj, thisYear } from 'utils';
 
-import MemberListCard from 'components/absence/MemberListCard';
 import { Label } from 'components/common/TableDataItem';
 import EmptyCard from 'components/common/container/EmptyCard';
 
@@ -49,36 +48,17 @@ export default function AbsenceMemberTable({
     );
   };
 
-  const thisMonthAbsentee = absenceList?.absenceMembers?.find(
-    ({ month }) => month === +thisMonth,
-  );
+  // const thisMonthAbsentee = absenceList?.absenceMembers?.find(
+  //   ({ month }) => month === +thisMonth,
+  // );
 
   return (
     <>
-      <div className="flex gap-4">
-        <div className="h-40 w-full rounded-xl border p-4 shadow-card">
-          <h4>참석멤버</h4>
-          {}
-        </div>
-        <div className="h-40 w-full rounded-xl border p-4 shadow-card">
-          <h4>불참멤버</h4>
-          {thisMonthAbsentee && (
-            <MemberListCard
-              title="불참 멤버"
-              memberList={[
-                ...thisMonthAbsentee?.onceAbsenceMembers,
-                ...thisMonthAbsentee?.breakMembers,
-              ]}
-            />
-          )}
-        </div>
-      </div>
-
       {!!absenceList?.absenceMembers ? (
         <Table
           color="blue"
           labels={labels}
-          records={absenceList?.absenceMembers}
+          recordsOfYear={absenceList?.absenceMembers}
           isFoldable={isFoldable}
           isEditable={isEditable}
         />

@@ -21,32 +21,32 @@ import Loading from 'components/common/Loading';
 import SquareBtn from 'components/common/button/SquareBtn';
 import Post from 'components/post/Post';
 import PostAddModal from 'components/post/PostAddModal';
-
-// import PostFooter from 'components/post/PostFooter';
+import PostFooter from 'components/post/PostFooter';
 
 interface LocationState {
   pathname: string;
   state: {
     id: string;
     postType: '발제문' | '정리 기록';
+    postId: string;
   };
 }
 
-export default function PostDetail() {
+export default function PostListDetail() {
   const [clubInfoDocs, setClubInfoDocs] = useRecoilState(bookClubByYearState);
+
   const [hostReviews, setHostReviews] = useRecoilState(hostReviewState);
   const [subjects, setSubjects] = useRecoilState(subjectsState);
 
   const [openAddPostModal, setOpenAddPostModal] = useState(false);
 
-  const { pathname, state } = useLocation() as LocationState;
-
-  const { id, postType } = state;
-
-  const year = id.slice(0, 4);
+  const {
+    pathname,
+    state: { id, postType, postId },
+  } = useLocation() as LocationState;
 
   useEffect(() => {
-    getCollection(`BookClub-${year}`, setClubInfoDocs);
+    getCollection(`BookClub-${id.slice(0, 4)}`, setClubInfoDocs);
     getCollection(getFbRouteOfPost(id, HOST_REVIEW), setHostReviews);
     getCollection(getFbRouteOfPost(id, SUBJECTS), setSubjects);
   }, []);
@@ -60,15 +60,27 @@ export default function PostDetail() {
     setOpenAddPostModal(prev => !prev);
   };
 
-  const headerYearMonth =
-    id === thisYearMonthId ? '이달' : formatDate(id, 'yy년 MM월');
+  const postInfo = {
+    발제문: {
+      postList: subjects,
+      collName: getFbRouteOfPost(id, SUBJECTS),
+    },
+    '정리 기록': {
+      postList: hostReviews,
+      collName: getFbRouteOfPost(id, HOST_REVIEW),
+    },
+  };
 
-  const posts = postType === '발제문' ? subjects : hostReviews;
+  const { postList, collName } = postInfo[postType];
+
+  const currPostList = postId
+    ? postList.filter(post => post.id === postId)
+    : postList;
 
   return (
     <>
       <MobileHeader
-        title={`${headerYearMonth}의 한페이지 ${postType}`}
+        title={`${id === thisYearMonthId ? '이달' : formatDate(id, 'yy년 MM월')}의 한페이지 ${postType}`}
         backBtn
       />
 
@@ -78,35 +90,33 @@ export default function PostDetail() {
         {pathname.includes('bookclub') && (
           <SquareBtn
             type="button"
-            color="blue"
+            color="darkBlue"
             name={`${postType} 작성하기`}
             handleClick={toggleAddPostModal}
-            className="mt-5 w-full py-3"
+            className="mt-5 w-full !py-3"
           />
         )}
 
-        {!posts ? (
+        {!postInfo[postType]?.postList ? (
           <Loading className="h-[25vh]" />
         ) : (
-          posts?.length !== 0 &&
-          posts.map((post, index) => (
+          currPostList?.length !== 0 &&
+          currPostList.map((post, index) => (
             <Fragment key={post.id}>
               <Post
                 type={postType}
                 post={post}
-                collName={getFbRouteOfPost(
-                  id,
-                  postType === '발제문' ? SUBJECTS : HOST_REVIEW,
-                )}
-                className="mt-4 p-4 sm:p-0"
+                collName={collName}
+                className="relative mt-4 p-4 max-sm:p-1 max-sm:pb-4"
               >
-                {/* <PostFooter
+                <PostFooter
                   createdAt={post.createdAt}
                   footerType="likes"
                   post={post}
-                /> */}
+                  collName={collName}
+                />
               </Post>
-              {posts.length - 1 !== index && <DottedDividingLine />}
+              {currPostList.length - 1 !== index && <DottedDividingLine />}
             </Fragment>
           ))
         )}

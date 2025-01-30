@@ -6,7 +6,7 @@ interface Props {
   children?: ReactNode;
   disabled?: boolean;
   handleClick?: () => void;
-  color?: 'gray' | 'purple' | 'blue' | 'orange';
+  color?: 'gray' | 'purple' | 'blue' | 'darkBlue';
   className?: string;
 }
 
@@ -22,8 +22,8 @@ export default function SquareBtn({
   const colorStyleObj = {
     gray: 'text-gray1 bg-gray4',
     blue: 'text-blue1 bg-blue2',
+    darkBlue: 'text-white bg-darkBlue2',
     purple: 'text-purple1 bg-purple3',
-    orange: 'text-orange1 bg-orange3',
   };
 
   return (
@@ -31,11 +31,11 @@ export default function SquareBtn({
       type={type}
       onClick={handleClick}
       disabled={disabled}
-      className={`flex min-h-8 w-fit min-w-max items-center justify-center rounded-lg px-4 shadow-card sm:px-3 sm:py-2 ${colorStyleObj[color]} ${className}`}
+      className={`flex h-12 min-h-12 w-fit min-w-max items-center justify-center rounded-lg px-4 text-[15px] shadow-card max-sm:px-4 ${colorStyleObj[color]} ${className}`}
     >
       {children}
 
-      <span className="text-[15px] font-medium">{name}</span>
+      <span className="font-medium tracking-tight">{name}</span>
     </button>
   );
 }

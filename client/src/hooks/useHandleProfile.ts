@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { getDocument } from 'api/firebase/getFbDoc';
 
-import { IUserDataDoc, currentUserState } from 'data/userAtom';
+import { currentUserState, userExtraInfoState } from 'data/userAtom';
 import { useRecoilState } from 'recoil';
 
 import { BookField, USER } from 'appConstants';
@@ -12,11 +12,14 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 
 const useHandleProfile = () => {
+  const [isEditing, setIsEditing] = useState(false);
+
   const [userData, setUserData] = useRecoilState(currentUserState);
-  const [extraUserData, setExtraUserData] = useState({} as IUserDataDoc);
-  const [editing, setEditing] = useState(false);
+  const [extraUserData, setExtraUserData] = useRecoilState(userExtraInfoState);
+
   const [newUserImgUrl, setNewUserImgUrl] = useState('');
   const [newDisplayName, setNewDisplayName] = useState(userData.displayName);
+
   const userDataRef = doc(dbService, USER, `${userData.uid}`);
 
   useEffect(() => {
@@ -75,7 +78,7 @@ const useHandleProfile = () => {
         updateDisplayName();
       }
       updateFavBookField();
-      setEditing(false);
+      setIsEditing(false);
     } catch (error) {
       console.error('Error adding document:', error);
     }
@@ -109,18 +112,18 @@ const useHandleProfile = () => {
     }));
   };
 
-  const onToggleEditClick = () => setEditing(true);
+  const onToggleEditClick = () => setIsEditing(true);
 
   const onDisplayNameChange = (event: React.FormEvent<HTMLInputElement>) => {
     setNewDisplayName(event.currentTarget.value);
   };
 
   const isSelected = (id: number) => {
-    return extraUserData?.favoriteBookField.some(item => item.id === id);
+    return extraUserData?.favoriteBookField?.some(item => item.id === id);
   };
 
   return {
-    editing,
+    isEditing,
     onToggleEditClick,
     onHandleFieldClick,
     onProfileSubmit,

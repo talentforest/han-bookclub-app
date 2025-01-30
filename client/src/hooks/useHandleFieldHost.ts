@@ -24,11 +24,13 @@ const initialModalState = {
   month: 1,
 };
 
-const initialfFieldHost: SelectValue = { field: '', hosts: [''] };
+const initialFieldHost: SelectValue = { field: '', hosts: [''] };
 
 const useHandleFieldHost = () => {
   const [editingMonthInfo, setEditingMonthInfo] = useState(initialModalState);
-  const [selectedValues, setSelectedValues] = useState(initialfFieldHost);
+
+  const [selectedValues, setSelectedValues] = useState(initialFieldHost);
+
   const [fieldHostDoc, setFieldHostDoc] = useRecoilState(fieldHostDocState);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
@@ -57,8 +59,7 @@ const useHandleFieldHost = () => {
       return fieldHost.month === month ? editedObj : fieldHost;
     });
 
-    const newList = { ...fieldHostDoc, info: editedList };
-
+    const newList = { ...fieldHostDoc, bookFieldAndHostList: editedList };
     setFieldHostDoc(newList);
     await updateDoc(fbDoc, newList);
     onEditClick(month);

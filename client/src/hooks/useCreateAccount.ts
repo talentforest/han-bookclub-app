@@ -47,11 +47,14 @@ const useCreateAccount = () => {
     event.preventDefault();
 
     try {
+      if (email.length === 0)
+        return setShowErrorMsg('이메일이 작성되지 않았습니다!');
+
       if (password.length < 8)
-        return setShowErrorMsg('비밀번호가 8자리 이하에요.');
+        return setShowErrorMsg('비밀번호가 8자리 이하입니다.');
 
       if (password !== checkPassword)
-        return setShowErrorMsg('비밀번호가 일치하지 않아요.');
+        return setShowErrorMsg('비밀번호가 일치하지 않습니다.');
 
       window.alert(
         '다음 단계에서 간단한 정보를 작성하시면 회원가입이 완료됩니다!',

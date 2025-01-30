@@ -4,16 +4,21 @@ export default {
   theme: {
     extend: {
       screens: {
-        lg: { max: '4000px' },
-        md: { max: '1023px' },
-        sm: { max: '700px' },
+        sm: '640px',
+        md: '1024px',
       },
       fontFamily: {
         SUITE: ['SUITE', 'sans-serif'],
       },
       colors: {
-        bg: '#F5F5F7',
+        bg: '#f2f8ff',
         text: '#333',
+
+        pointCoral: '#E94F37',
+        pointBlue: '#1D3557',
+        pointNavy: '#18206F',
+        pointGreen: '#97EAD2',
+        pointPurple: '#9381FF',
 
         gray1: '#6d6d6d',
         gray2: '#b5b5b5',
@@ -21,37 +26,20 @@ export default {
         gray4: '#e9e9e9',
         gray5: '#d9d9d9',
 
-        white: '#fff',
+        darkBlue: '#272635',
+        darkBlue2: '#18206F',
 
         blue1: '#5D8AFE',
         blue2: '#d1e9ff',
         blue3: '#e8eeff',
 
-        textBlue1: '#3d70a0',
-        textBlue2: '#5162FF',
-        textBlue3: '#0043EF',
-
-        skyBlue1: '#00b2e3',
-        skyBlue2: '#7bd2ec',
-
-        yellow1: '#9f8116',
-        yellow2: '#ffe69d',
-        yellow3: '#ffeb88',
-        yellow4: '#fcfac5',
-
-        purple1: '#695ac8',
-        purple2: '#B6C2FF',
+        purple1: '#9381FF',
+        purple2: '#B8B8FF',
         purple3: '#e3defd',
 
-        green1: '#379a32',
-        green2: '#80E37E',
+        green1: '#8CC7A1',
+        green2: '#97EAD2',
         green3: '#bcf5d5',
-
-        red: '#e3463b',
-
-        orange: '#ffbc6b',
-
-        pink: '#FFC3F2',
       },
       boxShadow: {
         card: '2px 4px 12px 0px rgba(0, 0, 0, 0.08)',

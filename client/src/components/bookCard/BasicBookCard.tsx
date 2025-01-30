@@ -1,8 +1,8 @@
 import { IBookClub } from 'data/bookClubAtom';
 
-import { FiLink } from 'react-icons/fi';
 import { formatDate } from 'utils';
 
+import ExternalLinkBtn from 'components/common/ExternalLinkBtn';
 import BookAuthorPublisher from 'components/common/book/BookAuthorPublisher';
 import BookThumbnail from 'components/common/book/BookThumbnail';
 
@@ -22,36 +22,24 @@ export default function BasicBookCard({
 
   return (
     <div
-      className={`flex h-40 items-center rounded-xl border bg-white p-4 shadow-card ${className}`}
+      className={`rounded-xl border bg-white p-4 shadow-card ${thumbnail === '' ? '[&>div:first-child]:float-left [&>div:first-child]:mr-3 [&>div:first-child]:h-20' : '[&>img]:float-left [&>img]:mr-3 [&>img]:h-28'} ${className}`}
     >
       <BookThumbnail thumbnail={thumbnail} title={title} />
 
-      <div className="ml-4 flex h-full flex-col">
-        <h1 className="my-2 line-clamp-1 text-lg font-medium leading-4">
-          {title !== '' ? title : '이벤트'}
+      <div>
+        <h1 className="line-clamp-1 text-lg font-medium">
+          <span className="pr-1">{title}</span>
+          {url && <ExternalLinkBtn url={url} />}
         </h1>
+
         {authors && (
           <BookAuthorPublisher authors={authors} publisher={publisher} />
         )}
 
-        <span className="mt-2 text-sm">
+        <span className="mt-1.5 block">
           {formatDate(time, 'yyyy.MM.dd a h시 mm분')}
         </span>
-        <span className="mt-1 text-sm">{place}</span>
-
-        {url && (
-          <a
-            href={url}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-auto flex items-center gap-0.5"
-          >
-            <FiLink fontSize={12} stroke="#888" />
-            <span className="text-sm leading-3 text-gray2">
-              Daum 책정보 보러가기
-            </span>
-          </a>
-        )}
+        <span className="mb-2 mt-1">{place}</span>
       </div>
     </div>
   );

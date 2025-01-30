@@ -7,7 +7,7 @@ import { getCollection } from 'api/firebase/getFbDoc';
 import { bookVotesState } from 'data/voteAtom';
 import { useRecoilState } from 'recoil';
 
-import VoteProgressBox from './VoteProgressBox';
+import VoteProgressCard from './VoteProgressCard';
 import { BOOK_VOTE } from 'appConstants';
 import { todayWithHyphen } from 'utils';
 
@@ -33,7 +33,7 @@ const VoteSlider = () => {
       {progressVotes?.length ? (
         <div className={`${progressVotes?.length}`}>
           {progressVotes?.map(voteDetail => (
-            <VoteProgressBox key={voteDetail.id} voteDetail={voteDetail} />
+            <VoteProgressCard key={voteDetail.id} voteDetail={voteDetail} />
           ))}
         </div>
       ) : (

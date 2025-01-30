@@ -1,20 +1,30 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
-import { currentUserState } from 'data/userAtom';
+import { currentUserState, userExtraInfoState } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
-import { FiImage, FiUser } from 'react-icons/fi';
+import { FiUser } from 'react-icons/fi';
+
+import ImageInput from 'components/common/input/ImageInput';
 
 interface ProfileType {
-  editing: boolean;
+  isEditing: boolean;
   newUserImgUrl: string;
   setNewUserImgUrl: (newUserImgUrl: string) => void;
 }
 
-const UserImg = ({ editing, newUserImgUrl, setNewUserImgUrl }: ProfileType) => {
-  const fileInput = useRef(null);
+const UserImg = ({
+  isEditing,
+  newUserImgUrl,
+  setNewUserImgUrl,
+}: ProfileType) => {
   const userData = useRecoilValue(currentUserState);
+  const extraUserData = useRecoilValue(userExtraInfoState);
+
   const [beforeOnChange, setBeforeOnChange] = useState(true);
+
+  const commonImgStyle =
+    'size-52 rounded-full bg-white  shadow-card max-sm:size-40';
 
   const onProfileImgChange = (event: React.FormEvent<HTMLInputElement>) => {
     const {
@@ -34,38 +44,19 @@ const UserImg = ({ editing, newUserImgUrl, setNewUserImgUrl }: ProfileType) => {
 
   return (
     <div className="relative m-3 mx-auto flex w-fit items-center justify-center">
-      {!userData.photoURL ? (
-        <div>
-          <FiUser fontSize={30} stroke="#aaa" />
-        </div>
-      ) : (
+      {userData.photoURL ? (
         <img
-          src={beforeOnChange ? userData.photoURL : newUserImgUrl}
-          alt="profileimg"
-          // onClick={() => fileInput.current?.click()} // NOTE:
+          src={beforeOnChange ? extraUserData.photoURL : newUserImgUrl}
+          alt="나의 프로필 이미지"
           onContextMenu={event => event.preventDefault()}
+          className={`object-cover ${commonImgStyle}`}
         />
+      ) : (
+        <div className={`flex items-center justify-center ${commonImgStyle}`}>
+          <FiUser className="size-1/2 text-gray3" />
+        </div>
       )}
-      {editing && (
-        <>
-          <button
-            type="button"
-            onClick={() => fileInput.current?.click()}
-            className="bottom-2 right-3 flex size-[30px] cursor-pointer items-center justify-center rounded-[50%] border-0 bg-orange md:size-10"
-          >
-            <FiImage fontSize={13} className="size-4 md:size-5" />
-          </button>
-
-          <input
-            type="file"
-            style={{ display: 'none' }}
-            accept="image/jpg,image/png,image/jpeg"
-            name="profile_img"
-            onChange={onProfileImgChange}
-            ref={fileInput}
-          />
-        </>
-      )}
+      {isEditing && <ImageInput onImageChange={onProfileImgChange} />}
     </div>
   );
 };

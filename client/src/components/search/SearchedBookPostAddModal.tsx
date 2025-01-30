@@ -59,7 +59,7 @@ export default function SearchedBookPostAddModal({
   return (
     <Modal title={title} onToggleClick={onModalToggleClick}>
       {currStep === 1 && (
-        <div className="relative mt-3 min-h-64 sm:mt-0">
+        <div className="relative mt-3 min-h-64 max-sm:mt-0">
           <div className="flex items-center gap-2">
             <FiSearch className="absolute left-3 top-4 text-lg text-gray2" />
             <RefInput

@@ -11,6 +11,7 @@ import { formatDate, thisMonth, thisYearMonthId } from 'utils';
 
 import MonthBookCard from 'components/bookCard/MonthBookCard';
 import LabelOnTopCard from 'components/common/LabelOnTopCard';
+import EmptyCard from 'components/common/container/EmptyCard';
 
 export default function ThisMonthBookClub() {
   const [thisMonthBookClub, setThisMonthBookClub] = useRecoilState(
@@ -22,9 +23,7 @@ export default function ThisMonthBookClub() {
   const { book, meeting, id } = thisMonthBookClub;
 
   useEffect(() => {
-    if (!thisMonthBookClub) {
-      getDocument(BOOKCLUB_THIS_YEAR, thisYearMonthId, setThisMonthBookClub);
-    }
+    getDocument(BOOKCLUB_THIS_YEAR, thisYearMonthId, setThisMonthBookClub);
     getDocument(BOOKCLUB_THIS_YEAR, BOOK_FIELD_AND_HOST, setThisYearHost);
   }, []);
 
@@ -32,33 +31,45 @@ export default function ThisMonthBookClub() {
     item => item.month === +thisMonth,
   );
 
+  const thisMonthClubInfoList = [
+    {
+      label: '모임장소',
+      value: meeting?.place,
+    },
+    {
+      label: '모임시간',
+      value: meeting?.time
+        ? formatDate(meeting?.time, 'yyyy.MM.dd a h시 mm분')
+        : '',
+    },
+    {
+      label: '발제자',
+      value: thisMonthBookFieldAndHost?.hosts,
+    },
+  ];
+
   return (
-    <div className="mt-2 grid grid-cols-5 gap-2.5 sm:flex sm:flex-col">
-      {book && (
+    <div className="grid grid-cols-5 gap-2.5 max-sm:flex max-sm:flex-col">
+      {book ? (
         <MonthBookCard
           month={formatDate(id, 'M')}
           book={book}
           bookFields={thisMonthBookFieldAndHost?.field}
-          className="col-span-3 h-48"
+          className="col-span-3"
         />
+      ) : (
+        <EmptyCard text="아직 등록된 모임책이 없어요." />
       )}
 
       <div className="col-span-2 flex flex-col gap-2.5">
-        <LabelOnTopCard
-          label="모임장소"
-          content={meeting.place}
-          meeting={meeting}
-        />
-        <LabelOnTopCard
-          label="모임시간"
-          content={formatDate(meeting.time, 'yyyy.MM.dd a h시 mm분') ?? ''}
-          meeting={meeting}
-        />
-        <LabelOnTopCard
-          label="발제자"
-          content={thisMonthBookFieldAndHost?.hosts}
-          meeting={meeting}
-        />
+        {thisMonthClubInfoList.map(({ label, value }) => (
+          <LabelOnTopCard
+            key={label}
+            label={label}
+            content={value}
+            meeting={meeting}
+          />
+        ))}
       </div>
     </div>
   );

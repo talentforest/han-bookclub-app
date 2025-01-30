@@ -24,12 +24,12 @@ const Setting = () => {
     <>
       <MobileHeader title="설정" backBtn showDesktop={false} />
       <main>
-        <h4 className="block pb-1 text-sm text-blue1 md:text-sm">
+        <h4 className="block pb-1 text-sm text-blue1 max-md:text-sm">
           사용자 설정
         </h4>
-        <ul className="mb-8 divide-y">
+        <ul className="mb-10 divide-y">
           {useSettings.map(({ to, name }) => (
-            <li key={to} className="mb-2 pb-1 pt-3">
+            <li key={to} className="mb-1 pb-1 pt-2">
               <Link to={to} onClick={blockLinkAndAlertJoinMember}>
                 {name}
               </Link>
@@ -37,10 +37,10 @@ const Setting = () => {
           ))}
         </ul>
 
-        <h4 className="block pb-1 text-sm text-blue1 md:text-sm">기타</h4>
-        <ul className="mb-8 divide-y">
+        <h4 className="block pb-1 text-sm text-blue1 max-md:text-sm">기타</h4>
+        <ul className="mb-10 divide-y">
           {etcSettings.map(({ to, name }) => (
-            <li key={to} className="mb-2 pb-1 pt-3">
+            <li key={to} className="mb-1 pb-1 pt-2">
               {to === '' ? (
                 <LogOutBtn />
               ) : (

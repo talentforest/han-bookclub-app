@@ -32,5 +32,9 @@ export default function SwiperContainer({ children, options }: Props) {
     ...options,
   };
 
-  return <Swiper {...swiperOptions}>{children}</Swiper>;
+  return (
+    <Swiper className="h-full" {...swiperOptions}>
+      {children}
+    </Swiper>
+  );
 }

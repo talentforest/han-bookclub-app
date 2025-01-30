@@ -31,7 +31,7 @@ export default function LabeledCheckBox({
         id={label}
         checked={checked}
         onChange={checkHandler}
-        className="size-[15px]"
+        className="mt-1 size-[15px]"
       />
       <div className="flex-1">
         <label

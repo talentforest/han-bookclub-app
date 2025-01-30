@@ -18,18 +18,23 @@ const VoteDetailHeader = ({ vote, onVoteDeleteClick }: PropsType) => {
   const { uid } = useRecoilValue(currentUserState);
 
   return (
-    <header className="flex items-center justify-between pb-3 sm:flex-col sm:pb-0">
-      <div className="flex w-full items-end gap-4 sm:mb-2 sm:justify-between">
-        {title && <h3 className="text-xl font-medium sm:text-base">{title}</h3>}
-        <span className="text-gray1 sm:text-sm">{formatDate(createdAt)}</span>
-      </div>
-      <div className="flex w-full gap-2">
-        <CreatorBox creatorId={creatorId} />
+    <header className="flex flex-col items-center justify-between pb-3 max-sm:pb-0 max-sm:pt-3">
+      <div className="mb-2 flex w-full items-center justify-between gap-4">
+        {title && (
+          <h3 className="text-xl font-medium max-sm:text-lg">{title}</h3>
+        )}
         {uid === creatorId && (
           <button type="button" onClick={onVoteDeleteClick}>
             <FiTrash2 />
           </button>
         )}
+      </div>
+
+      <div className="flex w-full justify-between gap-2">
+        <CreatorBox creatorId={creatorId} />
+        <span className="text-gray1 max-sm:text-sm">
+          {formatDate(createdAt)}
+        </span>
       </div>
     </header>
   );

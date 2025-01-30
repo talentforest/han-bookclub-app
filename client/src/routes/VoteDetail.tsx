@@ -47,7 +47,6 @@ const VoteDetail = () => {
     onVotingSubmit,
     onVoteItemClick,
     myVotedItems,
-    // isMyVotedItems,
     onVoteDeleteClick,
     isRevote,
     onToggleRevoteClick,
@@ -76,7 +75,7 @@ const VoteDetail = () => {
           {/* 투표를 완료했거나 만료된 이후 결과 화면 */}
           {isExpiredVote || (myVotedItems && !isRevote) ? (
             <>
-              <ul className="mb-4 mt-2 flex h-full items-center justify-center gap-4">
+              <ul className="mb-6 mt-2 flex h-full flex-wrap items-center justify-center gap-5 max-sm:mb-10">
                 {currentVote.voteItems.map(voteItem => (
                   <VoteBookItem
                     key={voteItem.id}
@@ -89,15 +88,13 @@ const VoteDetail = () => {
               {voteCountsById.map(({ id, title, voteCount }) => (
                 <div
                   key={id}
-                  className="relative mx-auto mt-2 flex w-2/3 overflow-hidden rounded-xl border bg-white px-3 py-1 shadow-sm sm:w-full"
+                  className="relative mx-auto mt-2 flex w-2/3 overflow-hidden rounded-xl border bg-white px-3 py-1 shadow-sm max-sm:w-full"
                 >
                   <div
                     style={{
                       width: `${getPercentage(voteCount, totalVoteCount)}%`,
-                      backgroundColor:
-                        title === highestVoteItem.title ? '#aaffbf' : '#dcdcdc',
                     }}
-                    className="absolute inset-y-0 left-0 z-0 rounded-r-lg"
+                    className={`absolute inset-y-0 left-0 z-0 rounded-r-lg ${title === highestVoteItem.title ? 'bg-green2' : 'bg-gray3'}`}
                   />
                   <span
                     className={`z-10 inline-block w-full pt-[1px] text-[15px] ${title === highestVoteItem.title ? 'font-medium text-green-700' : 'text-gray2'}`}
@@ -105,14 +102,14 @@ const VoteDetail = () => {
                     {title}
                   </span>
                   <span
-                    className={`pt-[1px] text-sm ${title === highestVoteItem.title ? 'font-medium text-green-700' : 'text-gray2'}`}
+                    className={`z-10 pt-[1px] text-sm ${title === highestVoteItem.title ? 'font-medium text-green-700' : 'text-gray2'}`}
                   >
                     {getPercentage(voteCount, totalVoteCount)}%
                   </span>
                 </div>
               ))}
 
-              <div className="mt-14 flex items-center justify-center gap-4 sm:mb-12">
+              <div className="mt-14 flex items-center justify-center gap-4 max-sm:mb-12">
                 <SquareBtn
                   name="투표 완료"
                   disabled
@@ -137,13 +134,9 @@ const VoteDetail = () => {
                 onSubmit={onVotingSubmit}
                 className="mb-10 flex flex-col items-center"
               >
-                <ul className="mb-8 flex flex-wrap items-center gap-4 sm:justify-center">
+                <ul className="mb-8 flex flex-wrap items-center gap-4 max-sm:justify-center">
                   {currentVote.voteItems.map(voteItem => (
-                    <VoteBookItem
-                      key={voteItem.id}
-                      selected={!!selectedItem(voteItem.id)}
-                      voteItem={voteItem}
-                    >
+                    <VoteBookItem key={voteItem.id} voteItem={voteItem}>
                       <VoteBookItemBtn
                         selected={!!selectedItem(voteItem.id)}
                         onVoteItemClick={() => onVoteItemClick(voteItem.id)}
@@ -154,7 +147,7 @@ const VoteDetail = () => {
                 <SquareBtn
                   type="submit"
                   name="투표하기"
-                  className="px-5 py-2 sm:px-6"
+                  className="px-5 py-2 max-sm:px-6"
                 />
               </form>
             </>

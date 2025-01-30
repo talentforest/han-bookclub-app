@@ -8,15 +8,14 @@ import { bookClubByYearState, selectedYearState } from 'data/bookClubAtom';
 import { useRecoilState } from 'recoil';
 
 import { bookClubYearList } from 'appConstants';
-import { HiMiniArrowUpRight } from 'react-icons/hi2';
 import { thisYearMonthId } from 'utils';
 
 import MobileHeader from 'layout/mobile/MobileHeader';
 
 import HistoryBookCard from 'components/bookCard/HistoryBookCard';
-import Subtitle from 'components/common/Subtitle';
 import SquareBtn from 'components/common/button/SquareBtn';
 import EmptyCard from 'components/common/container/EmptyCard';
+import Section from 'components/common/container/Section';
 
 function BookClubHistory() {
   const [selectedYear, setSelectedYear] = useRecoilState(selectedYearState);
@@ -30,46 +29,36 @@ function BookClubHistory() {
 
   return (
     <>
-      <MobileHeader title="지난 독서모임 한페이지" />
+      <MobileHeader title="지난 한페이지" />
 
       <main>
-        <ul className="mb-10 flex flex-wrap gap-3 sm:gap-2">
+        <ul className="mb-10 mt-1 flex flex-wrap gap-3 max-sm:mb-10 max-sm:gap-2">
           {bookClubYearList.map(year => (
             <li key={year}>
               <SquareBtn
-                color={year === selectedYear ? 'purple' : 'gray'}
+                color={year === selectedYear ? 'blue' : 'gray'}
                 name={`${year}년`}
                 type="button"
                 handleClick={() => setSelectedYear(year)}
+                className="border py-0"
               />
             </li>
           ))}
         </ul>
 
-        <Subtitle title={`${selectedYear}년의 한페이지`} />
-
-        <ul className="grid grid-cols-4 gap-5 sm:flex sm:flex-col md:grid-cols-3 [&>div]:col-span-4">
-          {clubHistory?.length ? (
-            clubHistory?.map(document => (
-              <li key={document.id}>
-                <Link to={document.id} state={{ document }}>
-                  {document && <HistoryBookCard document={document} />}
-
-                  <HiMiniArrowUpRight
-                    fill="#aaa"
-                    style={{
-                      position: 'absolute',
-                      bottom: '10px',
-                      right: '10px',
-                    }}
-                  />
+        <Section title={`${selectedYear}년의 한페이지`}>
+          <ul className="grid grid-cols-4 gap-5 max-md:grid-cols-3 max-sm:mt-2 max-sm:flex max-sm:flex-col [&>div]:col-span-4">
+            {clubHistory?.length ? (
+              clubHistory?.map(document => (
+                <Link key={document.id} to={document.id} state={{ document }}>
+                  <HistoryBookCard document={document} />
                 </Link>
-              </li>
-            ))
-          ) : (
-            <EmptyCard text="독서모임에 아직 등록된 책이 없습니다." />
-          )}
-        </ul>
+              ))
+            ) : (
+              <EmptyCard text="독서모임에 아직 등록된 책이 없습니다." />
+            )}
+          </ul>
+        </Section>
       </main>
     </>
   );

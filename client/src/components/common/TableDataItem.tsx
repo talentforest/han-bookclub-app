@@ -19,7 +19,7 @@ export default function TableDataItem({ isMulti = false, data, label }: Props) {
   return (
     <>
       {isMulti ? (
-        <td className="py-3 text-center">
+        <td className="py-3 text-center text-[15px]">
           <ul className="flex flex-wrap items-center justify-center gap-2">
             {!!(data as string[])?.length ? (
               (data as string[]).map(item =>
@@ -32,19 +32,21 @@ export default function TableDataItem({ isMulti = false, data, label }: Props) {
                 ),
               )
             ) : (
-              <span className="text-gray2">없음</span>
+              <span className="text-sm text-gray2">없음</span>
             )}
           </ul>
         </td>
       ) : label === '월' ? (
-        <td className="py-3 text-center">{data}월</td>
+        <td className="py-3 text-center text-[15px] text-gray2">{data}월</td>
       ) : label === '모임정지' || label === '일회불참' ? (
-        <td className={`py-3 text-center ${data ? 'absence' : 'attendance'} `}>
+        <td
+          className={`py-3 text-center text-[15px] ${data ? 'absence' : 'attendance'} `}
+        >
           {data ? label === '모임정지' ? '🔴' : '🟠' : <></>}
         </td>
       ) : (
         <td className="py-3 text-center">
-          {data || <span className="text-gray2">없음</span>}
+          {data || <span className="text-sm text-gray2">없음</span>}
         </td>
       )}
     </>

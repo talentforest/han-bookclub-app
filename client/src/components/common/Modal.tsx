@@ -28,7 +28,7 @@ export default function Modal({
       />
 
       <section
-        className={`fixed inset-0 z-10 m-auto flex h-fit max-h-[80vh] w-[55vw] flex-col rounded-2xl bg-white p-5 sm:w-[90%] sm:px-4 ${className}`}
+        className={`fixed inset-0 z-10 m-auto flex h-fit max-h-[80vh] w-[55vw] flex-col rounded-2xl bg-white p-5 max-sm:w-[90%] max-sm:px-4 ${className}`}
       >
         <header className="mb-3 flex items-center justify-between">
           <h3 className="text-lg font-medium">{title}</h3>
@@ -37,7 +37,9 @@ export default function Modal({
           </button>
         </header>
 
-        {children}
+        <div className="flex flex-col overflow-scroll scrollbar-hide">
+          {children}
+        </div>
       </section>
     </>,
     el,

@@ -23,7 +23,7 @@ const ChangePassword = () => {
     <>
       <MobileHeader title="비밀번호 변경" backBtn />
       <main>
-        <form onSubmit={onSubmit} className="flex flex-col gap-y-2.5">
+        <form onSubmit={onSubmit} className="flex flex-col gap-y-4">
           <input
             hidden
             type="text"
@@ -54,7 +54,7 @@ const ChangePassword = () => {
             onChange={onCheckNewChange}
             autoComplete="new-password"
           />
-          <SquareBtn type="submit" name="변경하기" />
+          <SquareBtn type="submit" name="변경하기" className="mx-auto mt-10" />
         </form>
       </main>
     </>

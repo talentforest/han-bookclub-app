@@ -91,7 +91,7 @@ const RegisterClubBookBtn = ({ searchedBook }: PropsType) => {
   return (
     <>
       {submitted ? (
-        <SquareBtn name="등록 완료" disabled className="ml-auto" />
+        <SquareBtn name="등록 완료" disabled className="ml-auto py-2" />
       ) : (
         <SquareBtn
           name={`다음 ${nextMonth}월 모임책으로 ${
@@ -100,7 +100,7 @@ const RegisterClubBookBtn = ({ searchedBook }: PropsType) => {
           type="button"
           handleClick={onNextMonthBookClubDocSubmit}
           color="purple"
-          className="ml-auto"
+          className="ml-auto py-2"
         />
       )}
     </>

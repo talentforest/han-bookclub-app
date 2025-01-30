@@ -33,11 +33,11 @@
 
 @layer base {
   body {
-    font-family: 'SUITE';
+    @apply bg-[#f8f8f8] font-SUITE;
     > div {
-      @apply pb-14;
+      @apply mx-auto w-[70%] px-4 pb-14 max-sm:w-full max-sm:px-5;
       > main {
-        @apply relative mx-auto w-[70%] pb-10 pt-3 sm:p-0 md:w-[90%];
+        @apply relative;
       }
     }
     /* ql-editor */
@@ -130,42 +130,41 @@
     }
     /* 날짜 캘린더 */
     .react-datepicker {
-      @apply overflow-hidden rounded-xl border border-gray2 pb-10 text-sm;
+      @apply rounded-b-none rounded-t-xl border border-b-0 border-gray2 text-sm;
     }
     .react-datepicker__input-container {
       @apply flex flex-1 border-0;
     }
+
+    /* 헤더 */
+    .react-datepicker__header {
+      @apply mx-0 rounded-t-xl border-0 bg-green1;
+    }
+    .react-datepicker-popper[data-placement^='bottom']
+      .react-datepicker__triangle::after {
+      @apply border-b-green1;
+    }
+    .react-datepicker__current-month {
+      @apply my-1 font-SUITE text-darkBlue;
+    }
+    /* 헤더 날짜 네비게이션 */
     .react-datepicker__navigation {
       @apply absolute flex size-[40px] items-center justify-center rounded-2xl;
     }
     .react-datepicker__navigation-icon::before {
-      @apply border-r-2 border-t-2 border-blue1;
+      @apply border-r-2 border-t-2 border-darkBlue;
     }
-    .react-datepicker__header {
-      @apply rounded-t-xl;
-    }
-    .react-datepicker__current-month {
-      @apply my-1 font-SUITE text-blue1;
-    }
-    .react-datepicker__day-names {
-      @apply text-xs font-medium;
-    }
+
+    /* 날짜가 모여있는 달력 */
     .react-datepicker__month {
       @apply my-1;
     }
-    .react-datepicker-popper[data-placement^='bottom']
-      .react-datepicker__triangle::after {
-      @apply border-b-blue3;
-    }
-    .react-datepicker__header {
-      @apply mx-0 border-0 bg-blue3;
-    }
     .react-datepicker__month-container {
-      float: none;
+      @apply float-none;
     }
     /* 요일들 */
     .react-datepicker__day-name {
-      @apply mx-0.5 font-SUITE text-[12px] text-gray1;
+      @apply mx-0.5 font-SUITE text-[12px] text-green3;
     }
     .react-datepicker__day {
       @apply m-0.5 font-SUITE text-[13px];
@@ -173,26 +172,31 @@
     /* day: 주말 날짜 */
     .react-datepicker__day:nth-child(1):not(
         .react-datepicker__day--outside-month
-      ) {
-      color: #ff4b4b; /* 일요일 날짜*/
+      ):not(.react-datepicker__day--disabled) {
+      /* 일요일 날짜*/
+      @apply text-pointCoral;
     }
     /* 선택된 날짜 */
     .react-datepicker__day--selected {
-      @apply bg-blue3 font-semibold text-blue1;
+      @apply bg-green2 font-semibold text-darkBlue;
     }
     /* 날짜에 마우스를 올릴 때 */
     .react-datepicker__day:hover {
-      @apply cursor-pointer border-0 bg-blue1 text-blue3;
+      @apply cursor-pointer border-0 bg-green3 text-darkBlue;
     }
     .react-datepicker__day:not([aria-disabled='true']):hover,
     .react-datepicker__month-text:not([aria-disabled='true']):hover,
     .react-datepicker__quarter-text:not([aria-disabled='true']):hover,
     .react-datepicker__year-text:not([aria-disabled='true']):hover {
-      @apply cursor-pointer border-0 bg-blue1 text-blue3;
+      @apply cursor-pointer border-0 bg-green2 text-darkBlue;
+    }
+    .react-datepicker__day--keyboard-selected {
+      @apply bg-transparent;
     }
     .react-datepicker__day--outside-month {
       @apply text-gray3;
     }
+
     /* 시간 Input */
     .react-datepicker__input-time-container {
       @apply mx-2 mb-4 mt-0 flex w-[94%] items-center rounded-xl border bg-white px-4 shadow-card;
@@ -212,36 +216,35 @@
       > input {
       @apply ml-0 w-full flex-1 bg-transparent py-2 text-gray1 outline-none;
     }
-    /* 완료 버튼 */
-    .react-datepicker___submit_btn {
-      @apply absolute bottom-2 right-2 h-9 w-16 rounded-xl bg-green3 p-[5px] font-SUITE font-medium text-green1;
-    }
+
+    /* Swiper */
     .swiper {
-      @apply w-full px-4 py-5;
-      .swiper-slide {
-        @apply flex items-center justify-center px-1;
-      }
-      /* 네비게이션 아이콘 스타일 */
-      .swiper-button-prev {
-        @apply left-0 top-[42%] size-10 rounded-full border bg-gray1 text-white;
-      }
-      .swiper-button-next {
-        @apply right-0 top-[42%] size-10 rounded-full border bg-gray1 text-white;
-      }
-      .swiper-button-prev:after,
-      .swiper-button-next:after {
-        font-size: 14px;
-      }
-      /* 스크롤바 드래그 */
-      .swiper-scrollbar.swiper-scrollbar-horizontal {
-        cursor: pointer;
-      }
-      .swiper-pagination {
-        margin-top: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+      @apply min-h-fit w-full;
+    }
+    .swiper-slide {
+      @apply flex h-44 items-center justify-center px-1;
+    }
+    /* 네비게이션 아이콘 스타일 */
+    .swiper-button-prev {
+      @apply left-0 top-[42%] size-10 rounded-full border bg-gray1 text-white;
+    }
+    .swiper-button-next {
+      @apply right-0 top-[42%] size-10 rounded-full border bg-gray1 text-white;
+    }
+    .swiper-button-prev:after,
+    .swiper-button-next:after {
+      font-size: 14px;
+    }
+    /* 스크롤바 드래그 */
+    .swiper-scrollbar.swiper-scrollbar-horizontal {
+      cursor: pointer;
+    }
+    .swiper-pagination {
+      margin: 20px 0;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 }

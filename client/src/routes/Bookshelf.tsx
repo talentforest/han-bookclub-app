@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { getCollection, getDocument } from 'api/firebase/getFbDoc';
 
@@ -15,6 +15,7 @@ import {
   PENALTY,
   USER,
 } from 'appConstants';
+import { FiSettings } from 'react-icons/fi';
 import { existDocObj, thisMonth, thisYear } from 'utils';
 
 import MobileHeader from 'layout/mobile/MobileHeader';
@@ -76,11 +77,13 @@ const Bookshelf = () => {
 
   return (
     <>
-      <MobileHeader
-        title={`${userName}의 책장`}
-        settingBtn={isCurrentUser}
-        backBtn={!isCurrentUser}
-      />
+      <MobileHeader title={`${userName}의 책장`} backBtn={!isCurrentUser}>
+        {isCurrentUser && (
+          <Link to="/setting">
+            <FiSettings fontSize={18} />
+          </Link>
+        )}
+      </MobileHeader>
 
       <main>
         <Section>
@@ -98,7 +101,7 @@ const Bookshelf = () => {
           <ul className="flex min-h-14 flex-wrap gap-2">
             {favoriteBookField && favoriteBookField?.length !== 0 ? (
               favoriteBookField.map(({ id, name }) => (
-                <Tag text={name} key={id} color="purple" />
+                <Tag text={name} key={id} color="lightBlue" shape="rounded" />
               ))
             ) : (
               <Loading className="h-[12vh]" />
@@ -130,7 +133,7 @@ const Bookshelf = () => {
           )}
         </Section> */}
 
-        {(['정리 기록', '발제문'] as PostType[]).map(postType => (
+        {(['발제문', '정리 기록', '모임 후기'] as PostType[]).map(postType => (
           <Section key={postType}>
             <Subtitle title={`${userName}의 ${postType}`} />
             <GuideLine text="2022년 6월 이후의 기록이 제공됩니다." />

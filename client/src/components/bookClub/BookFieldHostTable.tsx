@@ -68,7 +68,7 @@ const BookFieldHostTable = ({
       {!!bookFieldAndHostList ? (
         <Table
           labels={labels}
-          records={bookFieldAndHostList}
+          recordsOfYear={bookFieldAndHostList}
           onEditClick={onEditClick}
           isFoldable={isFoldable}
           isEditable={isEditable}

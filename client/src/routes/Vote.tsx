@@ -13,7 +13,7 @@ import MobileHeader from 'layout/mobile/MobileHeader';
 
 import VoteCreateModal from 'components/bookVote/VoteCreateModal';
 import VoteExpiredCard from 'components/bookVote/VoteExpiredCard';
-import VoteProgressBox from 'components/bookVote/VoteProgressBox';
+import VoteProgressCard from 'components/bookVote/VoteProgressCard';
 import Subtitle from 'components/common/Subtitle';
 import EmptyCard from 'components/common/container/EmptyCard';
 import Section from 'components/common/container/Section';
@@ -41,21 +41,21 @@ const Vote = () => {
 
   return (
     <>
-      <MobileHeader title="한페이지의 투표함" />
+      <MobileHeader title="한페이지 투표함" />
 
       <main>
         <Section>
           <div className="flex items-center gap-1">
             <Subtitle title="진행중인 투표함" />
             <button type="button" onClick={onToggleModal} className="mb-2">
-              <FiPlusCircle className="text-blue1" />
+              <FiPlusCircle className="text-lg text-pointBlue" />
             </button>
           </div>
 
           {progressVotes?.length !== 0 ? (
             <ul>
               {progressVotes?.map(voteDetail => (
-                <VoteProgressBox key={voteDetail.id} voteDetail={voteDetail} />
+                <VoteProgressCard key={voteDetail.id} voteDetail={voteDetail} />
               ))}
             </ul>
           ) : (
@@ -66,7 +66,7 @@ const Vote = () => {
         <Section>
           <Subtitle title="기한이 만료된 투표함" />
           {expiredVote?.length !== 0 && (
-            <ul className="grid grid-cols-3 gap-4 sm:flex sm:flex-col">
+            <ul className="grid grid-cols-3 gap-4 max-sm:flex max-sm:flex-col">
               {expiredVote?.map(vote => (
                 <VoteExpiredCard
                   key={vote.id}

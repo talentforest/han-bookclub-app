@@ -19,7 +19,7 @@ interface Props {
 
 const PostHandleBtns = ({ collName, post, postType }: Props) => {
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-3">
       <PostEditBtn collName={collName} post={post} postType={postType} />
       <PostDeleteBtn docId={post.id} collName={collName} />
     </div>

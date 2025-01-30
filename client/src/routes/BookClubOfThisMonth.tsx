@@ -17,7 +17,6 @@ import { existDocObj, thisMonth, thisYear, thisYearMonthId } from 'utils';
 
 import MobileHeader from 'layout/mobile/MobileHeader';
 
-// import AbsenceMemberTable from 'components/absence/AbsenceMemberTable';
 import MemberListCard from 'components/absence/MemberListCard';
 import ThisMonthBookClub from 'components/bookClub/ThisMonthBookClub';
 import GuideLine from 'components/common/GuideLine';
@@ -79,15 +78,15 @@ const BookClubOfThisMonth = () => {
   ) : (
     thisMonthClub && (
       <>
-        <MobileHeader title="이달의 독서모임 한페이지" />
+        <MobileHeader title="이달의 한페이지" />
         <main>
-          <Section title="이달의 한페이지">
+          <Section title="모임책과 모임정보">
             <ThisMonthBookClub />
           </Section>
 
-          <div className="grid grid-cols-5 gap-x-6 sm:flex sm:flex-col [&>section:first-child]:col-span-2 [&>section:last-child]:col-span-3">
+          <div className="grid grid-cols-5 gap-x-6 max-sm:flex max-sm:flex-col [&>section:first-child]:col-span-2 [&>section:last-child]:col-span-3">
             <Section>
-              <Subtitle title="이달의 참석 현황" />
+              <Subtitle title="참석 현황" />
               {thisMonthAbsentee && (
                 <div className="flex flex-col gap-4">
                   <MemberListCard
@@ -117,7 +116,7 @@ const BookClubOfThisMonth = () => {
 
           <Section>
             <Subtitle title="모임 후기" />
-            <div className="columns-2 sm:columns-1">
+            <div className="columns-2 max-sm:columns-1">
               <MeetingReviewForm docMonth={thisYearMonthId} />
               <MeetingReviewList />
             </div>

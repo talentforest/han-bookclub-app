@@ -1,6 +1,6 @@
 import { IDocument } from 'data/documentsAtom';
 
-import LikeBtnInfoBox from '../common/LikeBtnInfoBox';
+import LikeBtnWithPeopleInfo from '../common/LikeBtnWithPeopleInfo';
 import { formatDate } from 'utils';
 
 interface Props {
@@ -18,10 +18,10 @@ export default function PostFooter({
 }: Props) {
   return (
     <footer className="mt-4 flex items-center justify-between">
-      <span className="text-sm text-gray2">{formatDate(createdAt)}</span>
+      <span className="text-sm text-gray1">{formatDate(createdAt)}</span>
 
       {footerType === 'likes' && (
-        <LikeBtnInfoBox collName={collName} post={post} />
+        <LikeBtnWithPeopleInfo collName={collName} post={post} />
       )}
     </footer>
   );

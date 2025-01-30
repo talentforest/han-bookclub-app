@@ -34,7 +34,7 @@ const Input = ({
       onChange={onChange}
       autoComplete={autoComplete}
       required={required}
-      className="h-11 w-full rounded-xl px-3 shadow-card"
+      className="h-12 w-full rounded-xl border border-gray2 px-4 py-3 shadow-card focus:outline-none"
     />
   );
 };

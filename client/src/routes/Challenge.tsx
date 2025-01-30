@@ -37,7 +37,7 @@ export default function Challenge() {
         <Section>
           <DDay
             hyphenDate={`${thisYear}-12-21`}
-            className="mx-auto flex size-60 flex-col items-center justify-center rounded-full border bg-green-400 p-3 text-2xl font-bold shadow-card"
+            className="mx-auto flex size-60 flex-col items-center justify-center rounded-full border bg-pointGreen p-3 text-2xl font-bold shadow-card"
           />
 
           <div className="mb-3 mt-16 flex items-start">

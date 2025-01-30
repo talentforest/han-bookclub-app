@@ -1,6 +1,6 @@
 import { IUserPostDocs } from 'data/userAtom';
 
-import BookThumbnailPostBox from 'components/post/PostBookThumbnailBox';
+import PostBookThumbnailBox from 'components/post/PostBookThumbnailBox';
 import { PostType } from 'components/post/PostHandleBtns';
 
 interface Props {
@@ -23,10 +23,10 @@ export default function BookshelfPostList({ userRecords, postType }: Props) {
           : [];
 
   return (
-    <ul className="flex h-40 gap-4">
+    <ul className="grid grid-cols-7 gap-4 max-md:grid-cols-5 max-sm:grid-cols-4">
       {postIds.length !== 0 ? (
         postIds.map(postId => (
-          <BookThumbnailPostBox
+          <PostBookThumbnailBox
             key={postId.docId}
             postId={postId}
             postType={postType}

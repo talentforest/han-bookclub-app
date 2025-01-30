@@ -40,7 +40,7 @@ const TopNavigation = () => {
   return (
     <>
       {!pathname.includes('create_account') && pathname !== '/login' && (
-        <nav className="mx-auto flex h-20 w-[70%] items-center justify-between py-4 sm:hidden md:w-[90%]">
+        <nav className="flex items-center justify-between py-5 max-sm:hidden">
           <Link to="/" className="flex items-center gap-1">
             <LogoImg className="size-5" />
             <span className="font-medium">독서모임 한페이지</span>

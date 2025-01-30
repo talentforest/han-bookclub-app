@@ -1,9 +1,9 @@
 import { IDocument } from 'data/documentsAtom';
 
-import { FiExternalLink } from 'react-icons/fi';
 import { formatDate } from 'utils';
 
-// import FooterBookCard from 'components/bookCard/FooterBookCard';
+import FooterBookCard from 'components/bookCard/FooterBookCard';
+import ExternalLinkBtn from 'components/common/ExternalLinkBtn';
 import Modal from 'components/common/Modal';
 import BookAuthorPublisher from 'components/common/book/BookAuthorPublisher';
 import BookThumbnail from 'components/common/book/BookThumbnail';
@@ -25,6 +25,8 @@ export default function RecommendedBookModal({
     creatorId,
     createdAt,
     text,
+    title,
+    thumbnail,
     recommendedBook: {
       url,
       authors,
@@ -42,39 +44,35 @@ export default function RecommendedBookModal({
         postType="추천책"
       />
 
-      <div className="my-4 gap-2 [&>img]:float-left [&>img]:mb-2 [&>img]:mr-4 [&>img]:h-36">
+      <div className="my-4 gap-2 overflow-scroll scrollbar-hide [&>img]:float-left [&>img]:mb-2 [&>img]:mr-4 [&>img]:h-36">
         <BookThumbnail
           title={recommendedBookTitle}
           thumbnail={recommendedBookThumbnail}
         />
-        <a
-          href={url}
-          target="_blank"
-          rel="noreferrer"
-          className="mb-1 flex items-center gap-1"
-        >
-          <span className="font-medium">{recommendedBookTitle}</span>
-          <FiExternalLink className="stroke-blue1" fontSize={16} />
-        </a>
+
+        <h4 className="text-lg">
+          <span className="pr-1">{recommendedBookTitle}</span>
+          {url && <ExternalLinkBtn url={url} />}
+        </h4>
+
         <BookAuthorPublisher authors={authors} publisher={publisher} />
 
-        <h3 className="mt-2 flex items-center border-t-2 border-dotted pt-2">
+        <h3 className="mt-1 flex items-center border-t-2 border-dotted border-gray3 pt-2">
           <UserName userId={creatorId} />의 추천 이유
         </h3>
-        <p dangerouslySetInnerHTML={{ __html: text }} className="mt-2" />
+        <p
+          dangerouslySetInnerHTML={{ __html: text }}
+          className="mt-2 whitespace-pre-wrap break-all"
+        />
         <span className="ml-auto mt-4 block w-full text-end text-sm text-gray1">
           {formatDate(createdAt)}
         </span>
-      </div>
 
-      {/* <h3 className="text-sm">추천책이 나왔던 모임책</h3>
-      {recommendedBookDetail.recommendedBook && (
-        // NOTE: 모임책 데이터로 변경
-        <FooterBookCard
-          book={recommendedBookDetail.recommendedBook}
-          className="h-14"
-        />
-      )} */}
+        <h3 className="text-sm text-gray1">추천책이 나왔던 모임책</h3>
+        {recommendedBookDetail.recommendedBook && (
+          <FooterBookCard book={{ title, thumbnail }} className="h-14" />
+        )}
+      </div>
     </Modal>
   );
 }

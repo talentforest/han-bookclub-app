@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
-import useSendPushNotification from 'hooks/useSendPushNotification';
+
+// import useSendPushNotification from 'hooks/useSendPushNotification';
 
 import { recommendBookState } from 'data/bookAtom';
 import { thisMonthBookClubState } from 'data/bookClubAtom';
@@ -23,7 +24,7 @@ export default function RecommendBookModalForm({ onModalClose }: Props) {
   const thisMonthClub = useRecoilValue(thisMonthBookClubState);
   const recommendBook = useRecoilValue(recommendBookState);
 
-  const { sendPostNotification } = useSendPushNotification();
+  // const { sendPostNotification } = useSendPushNotification();
 
   const { book } = thisMonthClub;
 
@@ -54,21 +55,21 @@ export default function RecommendBookModalForm({ onModalClose }: Props) {
     }
     onAddDocSubmit(event);
     if (title !== '' && docData.text !== '') {
-      sendPostNotification('추천책');
+      // sendPostNotification('추천책');
     }
     onModalClose();
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-2 sm:mt-0">
+    <form onSubmit={handleSubmit}>
       <textarea
         placeholder="추천하고 싶은 이유를 작성해주세요."
         onChange={onChange}
         value={text}
-        className="h-32 w-full resize-none rounded-xl border p-3 outline-none"
+        className="h-32 w-full resize-none rounded-xl border border-gray2 p-3 outline-none"
       />
 
-      <div className="flex items-end justify-between gap-4">
+      <div className="mt-3 flex items-end justify-between gap-3">
         {thumbnail && <FooterBookCard book={recommendBook} className="h-14" />}
         <SquareBtn
           name="추천하기"

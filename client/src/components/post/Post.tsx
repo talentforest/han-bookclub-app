@@ -25,7 +25,9 @@ export default function Post({
   const { text } = post;
 
   return (
-    <article className={`flex min-h-[80px] flex-col gap-2.5 ${className}`}>
+    <article
+      className={`flex min-h-[80px] w-full flex-col gap-2.5 ${className}`}
+    >
       <PostHeader collName={collName} post={post} postType={type} />
       <EditorContent text={text} />
       {children}

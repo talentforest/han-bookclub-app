@@ -7,7 +7,7 @@ import useAlertAskJoin from './useAlertAskJoin';
 import { BOOKCLUB_THIS_YEAR } from 'appConstants';
 import { dbService } from 'fbase';
 import { doc, updateDoc } from 'firebase/firestore';
-import { thisYearMonthId } from 'utils';
+import { formatDate, thisYearMonthId } from 'utils';
 
 const useHandleSchedule = (
   meeting: ISchedule,
@@ -34,7 +34,10 @@ const useHandleSchedule = (
 
     try {
       const editInfo = {
-        meeting: { ...meeting, time: time.toISOString() },
+        meeting: {
+          ...meeting,
+          time: formatDate(time, "yyyy-MM-dd'T'HH:mm:ss"),
+        },
       };
       await updateDoc(document, editInfo);
       setThisMonthBookClub({ ...thisMonthBookClub, ...editInfo });

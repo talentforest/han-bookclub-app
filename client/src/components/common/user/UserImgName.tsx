@@ -21,7 +21,7 @@ export default function UserImgName({ photoURL, displayName }: Props) {
           onContextMenu={onContextMenu}
           src={photoURL}
           alt={`${displayName}의 프로필 이미지`}
-          className="size-48 rounded-full object-cover"
+          className="size-48 rounded-full bg-white object-cover shadow-card"
         />
       ) : (
         <div className="rounded-full border bg-white">

@@ -65,7 +65,7 @@ export default function AbsenceMonthTable({
         <Table
           color="blue"
           labels={['월', '일회불참', '모임정지']}
-          records={absenceMonths}
+          recordsOfYear={absenceMonths}
           onEditClick={onEditClick}
           isFoldable={isFoldable}
           isEditable={isEditable}

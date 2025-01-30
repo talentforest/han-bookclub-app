@@ -20,8 +20,10 @@ const MeetingReviewList = ({ yearMonthId = thisYearMonthId }: Props) => {
   const [meetingReviews, setMeetingReviews] =
     useRecoilState(meetingReviewsState);
 
+  const collName = getFbRouteOfPost(yearMonthId, REVIEW);
+
   useEffect(() => {
-    getCollection(getFbRouteOfPost(yearMonthId, REVIEW), setMeetingReviews);
+    getCollection(collName, setMeetingReviews);
   }, []);
 
   return meetingReviews?.length !== 0 ? (
@@ -32,15 +34,16 @@ const MeetingReviewList = ({ yearMonthId = thisYearMonthId }: Props) => {
           key={meetingReview.id}
         >
           <Post
-            post={meetingReview}
             type="모임 후기"
-            collName={getFbRouteOfPost(yearMonthId, REVIEW)}
+            post={meetingReview}
+            collName={collName}
             className="rounded-xl border bg-white p-4 shadow-card"
           >
             <PostFooter
               createdAt={meetingReview.createdAt}
               footerType="likes"
               post={meetingReview}
+              collName={collName}
             />
           </Post>
         </li>

@@ -106,10 +106,6 @@ const useHandleVoting = ({ collName, docId }: Props) => {
     ({ id }) => id === uid,
   );
 
-  const isMyVotedItems = (voteId: number) => {
-    return !!myVotedItems?.votedItem?.find(({ id }) => id === voteId);
-  };
-
   // 항목별 투표수
   const voteCountsById = getVoteCountsById(
     currentVote.voteItems,
@@ -130,7 +126,6 @@ const useHandleVoting = ({ collName, docId }: Props) => {
     onVotingSubmit,
     onVoteItemClick,
     myVotedItems,
-    isMyVotedItems,
     onVoteDeleteClick,
     isRevote,
     onToggleRevoteClick,

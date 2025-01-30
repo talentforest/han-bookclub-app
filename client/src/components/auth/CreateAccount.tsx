@@ -4,12 +4,12 @@ import { bookFields, createAccountSteps, gender } from 'appConstants';
 
 import MobileHeader from 'layout/mobile/MobileHeader';
 
+import BookFieldCheckBox from 'components/auth/BookFieldCheckBox';
 import GuideLine from 'components/common/GuideLine';
 import Subtitle from 'components/common/Subtitle';
 import Tag from 'components/common/Tag';
 import SquareBtn from 'components/common/button/SquareBtn';
 import Input from 'components/common/input/Input';
-import BookFieldCheckBox from 'components/signup/BookFieldCheckBox';
 
 const CreateAccount = () => {
   const {
@@ -35,11 +35,12 @@ const CreateAccount = () => {
 
       <main>
         <header>
-          <Tag>
-            <span>
-              {currentStep.step} / {createAccountSteps.length}
-            </span>
-          </Tag>
+          <Tag
+            color="lightBlue"
+            shape="rounded"
+            text={`${currentStep.step} / ${createAccountSteps.length}`}
+            className="mb-2"
+          />
           <Subtitle title={currentStep.stepName} />
         </header>
 
@@ -55,16 +56,22 @@ const CreateAccount = () => {
               onChange={onFirstStepChange}
               required
             />
-            <SquareBtn type="submit" name="완료" />
+            <SquareBtn
+              type="submit"
+              name="다음"
+              className="mx-auto mt-10 !px-6"
+            />
           </form>
         )}
 
         {currentStep.step === 2 && (
-          <form onSubmit={onSecondStepSubmit}>
-            <GuideLine text="사용하실 계정 정보를 입력해 주세요." />
-            {email && (
-              <GuideLine text="유효한 이메일을 작성하셔야 비밀번호 찾기 등 다른 기능을 제대로 이용할 수 있어요. 이메일이 맞는지 다시 한번 확인해주세요." />
-            )}
+          <form onSubmit={onSecondStepSubmit} className="flex flex-col gap-3">
+            <div>
+              <GuideLine text="사용하실 계정 정보를 입력해 주세요." />
+              {email && (
+                <GuideLine text="유효한 이메일을 작성하셔야 비밀번호 찾기 등 다른 기능을 제대로 이용할 수 있어요. 이메일이 맞는지 다시 한번 확인해주세요." />
+              )}
+            </div>
             <Input
               name="email"
               type="email"
@@ -86,9 +93,15 @@ const CreateAccount = () => {
               value={checkPassword}
               onChange={onSecondStepChange}
             />
-            {showErrorMsg && <span>{showErrorMsg}</span>}
+            {showErrorMsg && (
+              <span className="text-sm text-pointCoral">{showErrorMsg}</span>
+            )}
 
-            <SquareBtn type="submit" name="계정 생성하기" />
+            <SquareBtn
+              type="submit"
+              name="계정 생성하기"
+              className="mx-auto mt-4"
+            />
           </form>
         )}
 

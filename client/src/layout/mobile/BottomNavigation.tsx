@@ -17,31 +17,33 @@ const BottomNavigation = () => {
 
   const bookShelfMatch = useMatch('/bookshelf/:id');
 
+  const iconClassName = 'text-[15px]';
+
   const navigationList = [
     {
       name: '홈',
       to: '/',
-      icon: <FiHome className="text-sm" />,
+      icon: <FiHome className={`${iconClassName}`} />,
     },
     {
       name: '지난 모임',
       to: '/history',
-      icon: <FiArchive className="text-sm" />,
+      icon: <FiArchive className={`${iconClassName}`} />,
     },
     {
       name: '이달의 모임',
       to: '/bookclub',
-      icon: <FiCoffee className="text-sm" />,
+      icon: <FiCoffee className={`${iconClassName}`} />,
     },
     {
       name: '투표하기',
       to: '/vote',
-      icon: <MdOutlineHowToVote className="text-sm" />,
+      icon: <MdOutlineHowToVote className={`${iconClassName}`} />,
     },
     {
       name: '나의 책장',
       to: '/bookshelf',
-      icon: <FiUser className="text-sm" />,
+      icon: <FiUser className={`${iconClassName}`} />,
     },
   ];
 
@@ -50,12 +52,12 @@ const BottomNavigation = () => {
     !bookShelfMatch &&
     !pathname.includes('setting') &&
     !pathname.includes('userInfo') && (
-      <nav className="fixed bottom-0 left-0 z-10 hidden w-full bg-white pb-1 pt-2 sm:block">
+      <nav className="fixed bottom-0 left-0 z-10 hidden w-full rounded-t-2xl bg-white py-3.5 shadow-card max-sm:block">
         <ul className="flex justify-evenly">
           {navigationList.map(({ to, name, icon }) => (
             <li
               key={to}
-              className={`flex w-[20%] cursor-pointer flex-col items-center justify-center text-[10px] ${pathname === to ? 'text-text' : 'text-gray2'}`}
+              className={`flex w-[20%] cursor-pointer flex-col items-center justify-center text-[10px] ${(to === '/' ? to === pathname : pathname.includes(to)) ? 'text-text' : 'text-gray2'}`}
             >
               <Link
                 to={to}
@@ -65,7 +67,7 @@ const BottomNavigation = () => {
                 onClick={
                   to === '/bookshelf' ? blockLinkAndAlertJoinMember : undefined
                 }
-                className="flex flex-col items-center justify-center gap-1"
+                className="flex w-full flex-col items-center justify-center gap-1"
               >
                 {icon}
                 <span>{name}</span>

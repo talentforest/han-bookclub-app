@@ -2,7 +2,7 @@ import { ISentence } from 'data/bookAtom';
 import { currentUserState } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
-import LikeBtnInfoBox from '../common/LikeBtnInfoBox';
+import LikeBtnWithPeopleInfo from '../common/LikeBtnWithPeopleInfo';
 import { SENTENCES2024 } from 'appConstants';
 import { BiSolidQuoteLeft, BiSolidQuoteRight } from 'react-icons/bi';
 
@@ -44,7 +44,7 @@ export default function PostSentenceBox({ sentence }: Props) {
 
       <div>
         <UserName tag userId={creatorId} />
-        <LikeBtnInfoBox post={sentence} collName={SENTENCES2024} />
+        <LikeBtnWithPeopleInfo post={sentence} collName={SENTENCES2024} />
       </div>
     </div>
   );

@@ -16,18 +16,20 @@ interface Props {
   collName?: string;
 }
 
-const LikeBtnInfoBox = ({ post, collName }: Props) => {
+const LikeBtnWithPeopleInfo = ({ post, collName }: Props) => {
   const currentUser = useRecoilValue(currentUserState);
+
+  const myPost = currentUser.uid === post.creatorId;
 
   const { like, setLike, onLikeClick, showLikeUsers, toggleShowLikeUsers } =
     useHandleLike({
-      likes: post?.likes || 0,
-      likeUsers: post?.likeUsers || [],
+      likes: post.likes || 0,
+      likeUsers: post.likeUsers || [],
       docId: post.id,
       collName,
     });
 
-  const currentUserLike = post?.likeUsers?.some(uid => uid === currentUser.uid);
+  const currentUserLike = post.likeUsers?.some(uid => uid === currentUser.uid);
 
   useEffect(() => {
     if (currentUserLike) {
@@ -49,7 +51,9 @@ const LikeBtnInfoBox = ({ post, collName }: Props) => {
         {post?.likeUsers?.length || 0}명이 좋아합니다
       </span>
 
-      <LikeBtn collName={collName} like={like} onLikeClick={onLikeClick} />
+      {!myPost && (
+        <LikeBtn collName={collName} like={like} onLikeClick={onLikeClick} />
+      )}
 
       {showLikeUsers && (
         <div className="absolute bottom-7 rounded-xl border bg-white p-3">
@@ -65,4 +69,4 @@ const LikeBtnInfoBox = ({ post, collName }: Props) => {
   );
 };
 
-export default LikeBtnInfoBox;
+export default LikeBtnWithPeopleInfo;

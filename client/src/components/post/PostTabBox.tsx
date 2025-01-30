@@ -6,14 +6,16 @@ import useAlertAskJoin from 'hooks/useAlertAskJoin';
 
 import { getCollection } from 'api/firebase/getFbDoc';
 
-import { hostReviewState, subjectsState } from 'data/documentsAtom';
+import { IDocument, hostReviewState, subjectsState } from 'data/documentsAtom';
 import { useRecoilState } from 'recoil';
 
 import { HOST_REVIEW, SUBJECTS } from 'appConstants';
+import { SwiperSlide } from 'swiper/react';
 import { getFbRouteOfPost } from 'utils';
 
 import ChevronRightLinkBtn from 'components/common/button/ChevronRightLinkBtn';
 import PlusIconWithTextLink from 'components/common/button/PlusIconLinkBtn';
+import SwiperContainer from 'components/common/container/SwiperContainer';
 import Post from 'components/post/Post';
 
 interface Props {
@@ -22,11 +24,18 @@ interface Props {
 
 type PostType = '발제문' | '정리 기록';
 
+const swiperOptions = {
+  slidesPerView: 'auto' as const,
+  pagination: false,
+  spaceBetween: 8,
+  scrollbar: false,
+  navigation: false,
+  autoplay: false,
+};
+
 export default function PostTabBox({ yearMonthId }: Props) {
   const [currTab, setCurrTab] = useState<PostType>('발제문');
-
   const [hostReview, setHostReview] = useRecoilState(hostReviewState);
-
   const [subjectList, setSubjectList] = useRecoilState(subjectsState);
 
   useEffect(() => {
@@ -36,29 +45,37 @@ export default function PostTabBox({ yearMonthId }: Props) {
 
   const { pathname } = useLocation();
 
-  const post: { [key in PostType]: any } = {
+  const postsInfo: {
+    [key in PostType]: {
+      postList: IDocument[];
+      linkTo: 'subjects' | 'host-review';
+      access: '모두' | '발제자만';
+    };
+  } = {
     발제문: {
-      post: subjectList?.[0],
+      postList: subjectList,
       linkTo: 'subjects',
       access: '모두',
     },
     '정리 기록': {
-      post: hostReview?.[0],
+      postList: hostReview,
       linkTo: 'host-review',
       access: '발제자만',
     },
   };
+
+  const { postList, linkTo, access } = postsInfo[currTab];
 
   const { blockLinkAndAlertJoinMember } = useAlertAskJoin('see');
 
   return (
     <div className="w-full">
       <ul className="flex gap-1">
-        {(Object.keys(post) as PostType[]).map(tab => (
+        {(Object.keys(postsInfo) as PostType[]).map(tab => (
           <li key={tab}>
             <button
               onClick={() => setCurrTab(tab)}
-              className={`rounded-t-lg border border-b-0 px-3 py-2 ${tab === currTab ? 'bg-blue3 font-medium text-blue1' : 'bg-white text-text'}`}
+              className={`rounded-t-lg border border-b-0 px-3 py-2 ${tab === currTab ? 'bg-blue2 font-medium text-blue1' : 'bg-white text-text'}`}
             >
               {tab}
             </button>
@@ -67,21 +84,46 @@ export default function PostTabBox({ yearMonthId }: Props) {
       </ul>
 
       <div
-        className={`flex min-h-48 flex-col items-center justify-center rounded-b-xl rounded-tr-xl border p-5 shadow-card ${currTab ? 'bg-blue3' : ''}`}
+        className={`flex min-h-48 w-full flex-col items-center justify-center rounded-b-xl rounded-tr-xl p-3 shadow-card ${currTab ? 'bg-blue2' : ''}`}
       >
-        {post[currTab].post ? (
+        {postList?.length !== 0 ? (
           <>
-            <Post
-              type={currTab}
-              post={post[currTab].post}
-              className="[&>p]:line-clamp-[8]"
-            />
+            <SwiperContainer options={swiperOptions}>
+              {postList?.map((post, index) => (
+                <SwiperSlide
+                  key={post.id}
+                  className={`min-h-fit ${postList.length === 1 ? 'w-full' : 'max-w-[70vw]'}`}
+                >
+                  <div className="mx-auto flex w-full flex-col rounded-xl bg-white p-3">
+                    <Post
+                      type={currTab}
+                      post={post}
+                      className="relative [&>p]:line-clamp-[6]"
+                    />
+                    <span className="absolute right-4 top-3 text-sm text-gray1">
+                      {index + 1} / {postList.length}
+                    </span>
+                    <ChevronRightLinkBtn
+                      title="더보기"
+                      state={{
+                        id: yearMonthId,
+                        postType: currTab,
+                        postId: post.id,
+                      }}
+                      to={linkTo}
+                      onClick={blockLinkAndAlertJoinMember}
+                      className="w-fit self-end rounded-xl bg-purple3 px-4 py-3 !text-[15px] text-purple1 shadow-card"
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </SwiperContainer>
             <ChevronRightLinkBtn
-              title="더보기"
+              title={`전체 ${currTab} 보기`}
               state={{ id: yearMonthId, postType: currTab }}
-              to={post[currTab].linkTo}
+              to={linkTo}
               onClick={blockLinkAndAlertJoinMember}
-              className="self-end rounded-xl border bg-green3 px-4 py-3 text-text"
+              className="w-fit self-end px-3 py-1 !text-[15px] text-darkBlue"
             />
           </>
         ) : (
@@ -89,16 +131,18 @@ export default function PostTabBox({ yearMonthId }: Props) {
             {!pathname.includes('history') ? (
               <>
                 <PlusIconWithTextLink
-                  to={post[currTab].linkTo}
+                  to={linkTo}
                   state={{ id: yearMonthId, postType: currTab }}
                   name={`${currTab} 추가하러 가기`}
                 />
                 <span className="text-sm text-gray1">
-                  {post[currTab].access} 작성할 수 있어요
+                  {access} 작성할 수 있어요
                 </span>
               </>
             ) : (
-              <span>기록된 {currTab}이 없습니다</span>
+              <span className="text-sm text-blue1">
+                기록된 {currTab}이 없습니다
+              </span>
             )}
           </>
         )}

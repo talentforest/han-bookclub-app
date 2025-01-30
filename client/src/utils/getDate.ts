@@ -21,6 +21,7 @@ export const formatDate = (
     | 'yyyy-MM-dd HH:mm:ss'
     | 'HH:mm'
     | 'yyyy년 MM월'
+    | 'yyyy년 M월'
     | 'yy년 MM월'
     | "yyyy-MM-dd'T'HH:mm:ss" = 'yyyy.MM.dd',
 ): string => {

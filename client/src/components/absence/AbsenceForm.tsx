@@ -63,7 +63,11 @@ export default function AbsenceForm({
         />
       ))}
 
-      <SquareBtn type="submit" name="변경하기" />
+      <SquareBtn
+        type="submit"
+        name="변경하기"
+        className="!ml-auto border !py-0"
+      />
     </form>
   );
 }

@@ -18,7 +18,7 @@ export default function Absence() {
 
       <main>
         <Section title={`${thisYear}년 나의 모임 불참`}>
-          <GuideLine text="모임에 일회불참하거나 모임정지하는 모든 달을 체크해주세요" />
+          <GuideLine text="모임에 일회불참하거나 모임정지하는 모든 달에 체크해주세요" />
           <AbsenceMonthTable userId={currentUser.uid} isEditable />
         </Section>
       </main>
