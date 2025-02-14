@@ -18,7 +18,7 @@ type DetailPageHeaderTitle =
   | `${string}년 개인별 챌린지`
   | `${string}년 독서모임 한페이지 정보`
   | `${string}년 ${string} 정보`
-  | `${string}의 독서모임 한페이지`
+  | `${string}의 한페이지`
   | `${string}의 한페이지 발제문`
   | `${string}의 한페이지 정리 기록`
   | '한페이지 정리 기록'

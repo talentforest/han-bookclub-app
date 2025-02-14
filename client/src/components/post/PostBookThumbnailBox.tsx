@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { getDocument } from 'api/firebase/getFbDoc';
 
 import { IDocument } from 'data/documentsAtom';
-import { IUserPostDocId, allUsersState, currentUserState } from 'data/userAtom';
+import { IUserPostDocId, allUsersAtom, currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import PostHandleBtns, { PostType } from './PostHandleBtns';
@@ -21,8 +21,8 @@ interface PropsType {
 }
 
 const PostBookThumbnailBox = ({ postId, postType }: PropsType) => {
-  const currentUser = useRecoilValue(currentUserState);
-  const allUsers = useRecoilValue(allUsersState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
+  const allUsers = useRecoilValue(allUsersAtom);
   const [post, setPost] = useState({} as IDocument);
   const [openPostDetailModal, setOpenPostDetailModal] = useState(false);
 
@@ -44,7 +44,7 @@ const PostBookThumbnailBox = ({ postId, postType }: PropsType) => {
 
   const { thumbnail, title, createdAt, creatorId, text } = post;
 
-  const isCurrentUser = currentUser.uid === creatorId;
+  const isCurrentUser = uid === creatorId;
   const findUser = allUsers?.find(user => user.id === creatorId);
   const userName = isCurrentUser ? '나' : findUser?.displayName;
 
@@ -66,7 +66,7 @@ const PostBookThumbnailBox = ({ postId, postType }: PropsType) => {
             <EditorContent text={text} />
 
             <div className="mb-4 mt-10 flex justify-end">
-              {currentUser.uid === creatorId && (
+              {uid === creatorId && (
                 <PostHandleBtns
                   post={post}
                   collName={getPostRoute()}

@@ -1,4 +1,4 @@
-import { allUsersState } from 'data/userAtom';
+import { allUsersAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { SwiperSlide } from 'swiper/react';
@@ -33,7 +33,7 @@ const swiperOptions = {
 export default function RecommendedBookSwiperContainer({
   yearMonthId,
 }: RecommendedBookSwiperContainerProps) {
-  const usersData = useRecoilValue(allUsersState);
+  const usersData = useRecoilValue(allUsersAtom);
 
   const allRecommendedBookIds = usersData
     .map(item => item?.userRecords?.recommendedBooks)

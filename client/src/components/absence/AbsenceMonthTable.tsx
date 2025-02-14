@@ -4,7 +4,7 @@ import useHandleAbsence from 'hooks/useHandleAbsence';
 
 import { getDocument } from 'api/firebase/getFbDoc';
 
-import { absenceListState } from 'data/absenceAtom';
+import { absenceAtom } from 'data/absenceAtom';
 import { useRecoilState } from 'recoil';
 
 import AbsenceForm from './AbsenceForm';
@@ -32,7 +32,7 @@ export default function AbsenceMonthTable({
   isFoldable = false,
   isEditable = false,
 }: Props) {
-  const [absenceList, setAbsenceList] = useRecoilState(absenceListState);
+  const [absenceList, setAbsenceList] = useRecoilState(absenceAtom);
 
   const {
     editingMonthInfo,

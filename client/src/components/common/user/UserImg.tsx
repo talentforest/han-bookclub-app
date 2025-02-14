@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { currentUserState, userExtraInfoState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { FiUser } from 'react-icons/fi';
@@ -18,8 +18,7 @@ const UserImg = ({
   newUserImgUrl,
   setNewUserImgUrl,
 }: ProfileType) => {
-  const userData = useRecoilValue(currentUserState);
-  const extraUserData = useRecoilValue(userExtraInfoState);
+  const { photoURL } = useRecoilValue(currAuthUserAtom);
 
   const [beforeOnChange, setBeforeOnChange] = useState(true);
 
@@ -44,9 +43,9 @@ const UserImg = ({
 
   return (
     <div className="relative m-3 mx-auto flex w-fit items-center justify-center">
-      {userData.photoURL ? (
+      {photoURL ? (
         <img
-          src={beforeOnChange ? extraUserData.photoURL : newUserImgUrl}
+          src={beforeOnChange ? photoURL : newUserImgUrl}
           alt="나의 프로필 이미지"
           onContextMenu={event => event.preventDefault()}
           className={`object-cover ${commonImgStyle}`}

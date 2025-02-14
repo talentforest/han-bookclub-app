@@ -6,7 +6,7 @@ import useAlertAskJoin from 'hooks/useAlertAskJoin';
 
 import { getCollection } from 'api/firebase/getFbDoc';
 
-import { allUsersState, currentUserState } from 'data/userAtom';
+import { allUsersAtom, currAuthUserAtom } from 'data/userAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { USER } from 'appConstants';
@@ -24,9 +24,9 @@ const UserName = ({
   className = '',
   isLink = false,
 }: PropsType) => {
-  const currentUser = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersState);
+  const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersAtom);
 
   const user = allUserDocs.find(({ id }) => id === userId);
 
@@ -38,7 +38,7 @@ const UserName = ({
     }
   }, [userId, allUserDocs, setAllUserDocs]);
 
-  const isCurrentUser = currentUser.uid === user?.id;
+  const isCurrentUser = uid === user?.id;
 
   const to = `/bookshelf${isCurrentUser ? '' : `/${user?.displayName}`}`;
 

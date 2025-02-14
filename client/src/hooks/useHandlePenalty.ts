@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { getDocument } from 'api/firebase/getFbDoc';
 
 import { Month, OverduePenaltyMonths, penaltyDocState } from 'data/penaltyAtom';
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { PENALTY } from 'appConstants';
@@ -26,7 +26,7 @@ export type PenaltyPost = {
 const useHandlePenalty = (createdAt?: number) => {
   const [penaltyDoc, setPenaltyDoc] = useRecoilState(penaltyDocState);
 
-  const currentUser = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
 
   useEffect(() => {
     if (!existDocObj(penaltyDoc)) {
@@ -49,9 +49,7 @@ const useHandlePenalty = (createdAt?: number) => {
 
   // 페널티 적용 달 업데이트
   const updatePenaltyMonth = async (post: keyof PenaltyPost) => {
-    const prevPenaltyByUser = penaltyDoc[
-      currentUser.uid
-    ] as OverduePenaltyMonths;
+    const prevPenaltyByUser = penaltyDoc[uid] as OverduePenaltyMonths;
 
     const penaltyType = penaltyPostKeyObj[post];
 
@@ -70,7 +68,7 @@ const useHandlePenalty = (createdAt?: number) => {
 
     const document = doc(dbService, PENALTY, thisYear);
     await updateDoc(document, {
-      [currentUser.uid]: { ...prevPenaltyByUser, ...updateData },
+      [uid]: { ...prevPenaltyByUser, ...updateData },
     });
   };
 

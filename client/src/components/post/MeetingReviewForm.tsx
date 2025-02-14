@@ -1,17 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import useHandlePenalty from 'hooks/useHandlePenalty';
 
-// import useSendPushNotification from 'hooks/useSendPushNotification';
+import { getDocument } from 'api/firebase/getFbDoc';
 
-import { absenceListState } from 'data/absenceAtom';
-import { thisMonthBookClubState } from 'data/bookClubAtom';
-import { currentUserState } from 'data/userAtom';
-import { useRecoilValue } from 'recoil';
+import { absenceAtom } from 'data/absenceAtom';
+import { thisMonthClubAtom } from 'data/clubAtom';
+import { currAuthUserAtom } from 'data/userAtom';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { REVIEW } from 'appConstants';
-import { getFbRouteOfPost, thisMonth } from 'utils';
+import { BOOKCLUB_THIS_YEAR, REVIEW } from 'appConstants';
+import { BiCheckCircle } from 'react-icons/bi';
+import { getFbRouteOfPost, thisMonth, thisYearMonthId } from 'utils';
 
 import SquareBtn from 'components/common/button/SquareBtn';
 
@@ -21,30 +22,32 @@ interface PropsType {
 
 const MeetingReviewForm = ({ docMonth }: PropsType) => {
   const [text, setText] = useState('');
-  const clubInfo = useRecoilValue(thisMonthBookClubState);
-  const userData = useRecoilValue(currentUserState);
-  const absenceList = useRecoilValue(absenceListState);
+  const [isAnonymous, setIsAnonymous] = useState(false);
 
-  // const { sendPostNotification } = useSendPushNotification();
+  const [clubInfo, setThisMonthClub] = useRecoilState(thisMonthClubAtom);
+  const { uid } = useRecoilValue(currAuthUserAtom);
+  const absenceList = useRecoilValue(absenceAtom);
 
   const isOnceAbsenceThisMonth = absenceList.absenceMembers
     ?.find(item => item.month === +thisMonth)
     .onceAbsenceMembers //
-    .includes(userData.uid);
+    .includes(uid);
 
   const collName = getFbRouteOfPost(docMonth, REVIEW);
 
-  const {
-    book: { title, thumbnail },
-  } = clubInfo;
-
+  console.log(clubInfo);
   const docData = {
     createdAt: Date.now(),
-    creatorId: userData.uid,
+    creatorId: uid,
     text,
-    title,
-    thumbnail,
+    title: clubInfo?.book?.title,
+    thumbnail: clubInfo?.book?.thumbnail,
+    isAnonymous,
   };
+
+  useEffect(() => {
+    getDocument(BOOKCLUB_THIS_YEAR, thisYearMonthId, setThisMonthClub);
+  }, []);
 
   const { isOverdueEndOfThisMonth, updatePenaltyMonth } = useHandlePenalty(
     docData.createdAt,
@@ -63,10 +66,6 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
       updatePenaltyMonth('불참 후기');
     }
     onAddDocSubmit(event);
-
-    // if (docData.text !== '') {
-    //   sendPostNotification('모임 후기');
-    // }
   };
 
   return (
@@ -80,12 +79,22 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
         onChange={onChange}
         className="mb-1 min-h-40 w-full resize-none rounded-xl border bg-white p-2.5 outline-none"
       />
-      <SquareBtn
-        name="남기기"
-        type="submit"
-        color="blue"
-        className="ml-auto !px-5"
-      />
+      <div className="flex items-end">
+        <button
+          type="button"
+          className={`flex items-center ${isAnonymous ? 'text-blue1' : 'text-gray2'} py-1`}
+          onClick={() => setIsAnonymous(prev => !prev)}
+        >
+          <BiCheckCircle />
+          <span className="pl-1">익명으로 작성하기</span>
+        </button>
+        <SquareBtn
+          name="남기기"
+          type="submit"
+          color="blue"
+          className="ml-auto !px-5"
+        />
+      </div>
     </form>
   );
 };

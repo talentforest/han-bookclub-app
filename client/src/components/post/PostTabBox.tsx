@@ -41,7 +41,7 @@ export default function PostTabBox({ yearMonthId }: Props) {
   useEffect(() => {
     getCollection(getFbRouteOfPost(yearMonthId, HOST_REVIEW), setHostReview);
     getCollection(getFbRouteOfPost(yearMonthId, SUBJECTS), setSubjectList);
-  }, [subjectList?.length]);
+  }, [yearMonthId, subjectList?.length]);
 
   const { pathname } = useLocation();
 
@@ -128,7 +128,7 @@ export default function PostTabBox({ yearMonthId }: Props) {
           </>
         ) : (
           <>
-            {!pathname.includes('history') ? (
+            {!pathname.includes('previous-club') ? (
               <>
                 <PlusIconWithTextLink
                   to={linkTo}

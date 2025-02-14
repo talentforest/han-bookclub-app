@@ -2,8 +2,8 @@ import { FormEvent } from 'react';
 
 import { ChangeSelectValue, SelectValue } from 'hooks/useHandleFieldHost';
 
-import { IBookFieldHost } from 'data/bookFieldHostAtom';
-import { allUsersState } from 'data/userAtom';
+import { IFieldAndHost } from 'data/fieldAndHostAtom';
+import { allUsersAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { bookFields } from 'appConstants';
@@ -13,20 +13,20 @@ import SquareBtn from 'components/common/button/SquareBtn';
 
 interface Props {
   month: number;
-  bookFieldHost: IBookFieldHost;
+  bookFieldHost: IFieldAndHost;
   onSubmit: (event: FormEvent<HTMLFormElement>, month: number) => void;
   selectedValues: SelectValue;
   setSelectedValues: React.Dispatch<React.SetStateAction<SelectValue>>;
 }
 
-export default function BookFieldHostEditForm({
+export default function FieldHostEditForm({
   bookFieldHost,
   onSubmit,
   selectedValues,
   setSelectedValues,
   month,
 }: Props) {
-  const usersDoc = useRecoilValue(allUsersState);
+  const usersDoc = useRecoilValue(allUsersAtom);
 
   const { field, hosts } = bookFieldHost;
 
@@ -58,8 +58,6 @@ export default function BookFieldHostEditForm({
     setSelectedValues({ ...selectedValues, hosts });
   };
 
-  console.log(selectedValues);
-
   return (
     <form onSubmit={event => onSubmit(event, month)} className="flex flex-col">
       <label htmlFor="독서분야" className="text-sm">
@@ -89,10 +87,7 @@ export default function BookFieldHostEditForm({
         options={hostOptions}
         isClearable={false}
         isSearchable={false}
-        onChange={value => {
-          console.log(value);
-          onHostChange(value as ChangeSelectValue[]);
-        }}
+        onChange={value => onHostChange(value as ChangeSelectValue[])}
       />
 
       <SquareBtn type="submit" name="변경하기" className="self-end" />

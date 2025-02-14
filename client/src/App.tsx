@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { getDocument } from 'api/firebase/getFbDoc';
 
 import { fcmState } from 'data/fcmAtom';
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilState } from 'recoil';
 
 import Router from './Router';
@@ -16,12 +16,12 @@ import { doc, updateDoc } from 'firebase/firestore';
 
 function App() {
   const [init, setInit] = useState(false); // user가 null이 되지 않기 위해 초기화
-  const [userData, setUserData] = useRecoilState(currentUserState);
+  const [currUser, setCurrUser] = useRecoilState(currAuthUserAtom);
   const [fcmDoc, setFcmDoc] = useRecoilState(fcmState);
 
   useEffect(() => {
     const user = getAuth().currentUser;
-    setUserData({
+    setCurrUser({
       uid: user?.uid,
       displayName: user?.displayName,
       email: user?.email,
@@ -31,10 +31,10 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (userData?.uid) {
-      getDocument(FCM_NOTIFICATION, userData.uid, setFcmDoc);
+    if (currUser?.uid) {
+      getDocument(FCM_NOTIFICATION, currUser.uid, setFcmDoc);
     }
-  }, [userData?.uid]);
+  }, [currUser?.uid]);
 
   useEffect(() => {
     if (fcmDoc?.notification === true) {
@@ -47,8 +47,8 @@ function App() {
           );
 
           if (isExistTokenInDB) return;
-          if (!isExistTokenInDB && userData?.uid) {
-            const document = doc(dbService, FCM_NOTIFICATION, userData.uid);
+          if (!isExistTokenInDB && currUser?.uid) {
+            const document = doc(dbService, FCM_NOTIFICATION, currUser.uid);
             const fcmData = {
               createdAt: Date.now(),
               tokens:
@@ -65,7 +65,7 @@ function App() {
     }
   }, [fcmDoc]);
 
-  return init ? <Router isLoggedIn={Boolean(userData)} /> : <Loading />;
+  return init ? <Router isLoggedIn={Boolean(currUser)} /> : <Loading />;
 }
 
 export default App;

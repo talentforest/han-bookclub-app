@@ -2,11 +2,12 @@ import { useEffect } from 'react';
 
 import useHandleProfile from 'hooks/useHandleProfile';
 
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { bookFields } from 'appConstants';
-import { existDocObj } from 'utils';
+
+// import { existDocObj } from 'utils';
 
 import MobileHeader from 'layout/mobile/MobileHeader';
 
@@ -18,12 +19,12 @@ import RefInput from 'components/common/input/RefInput';
 import UserImg from 'components/common/user/UserImg';
 
 const EditProfile = () => {
-  const userData = useRecoilValue(currentUserState);
+  const { displayName, email } = useRecoilValue(currAuthUserAtom);
 
   const {
     isEditing,
     onToggleEditClick,
-    extraUserData,
+    userDoc,
     newUserImgUrl,
     setNewUserImgUrl,
     newDisplayName,
@@ -36,19 +37,19 @@ const EditProfile = () => {
 
   useEffect(() => {
     if (!newDisplayName) {
-      setNewDisplayName(userData.displayName);
+      setNewDisplayName(displayName);
     }
   }, []);
 
   const profile = [
     {
       name: '이메일',
-      data: <span className="w-full">{userData.email}</span>,
-      form: <span className="w-full text-gray1">{userData.email}</span>,
+      data: <span className="w-full">{email}</span>,
+      form: <span className="w-full text-gray1">{email}</span>,
     },
     {
       name: '닉네임',
-      data: <span>{userData.displayName}</span>,
+      data: <span>{displayName}</span>,
       form: (
         <RefInput
           onChange={onDisplayNameChange}
@@ -61,7 +62,7 @@ const EditProfile = () => {
       name: '좋아하는 분야',
       data: (
         <ul className="flex flex-wrap gap-2">
-          {extraUserData?.favoriteBookField?.map(item => (
+          {userDoc?.favoriteBookField?.map(item => (
             <Tag key={item.id} text={item.name} color="green" />
           ))}
         </ul>
@@ -82,7 +83,7 @@ const EditProfile = () => {
               />
             </button>
           ))}
-          {extraUserData?.favoriteBookField?.length === 0 && (
+          {userDoc?.favoriteBookField?.length === 0 && (
             <span className="block w-full text-end text-sm text-pointCoral">
               변경하실 분야를 하나 이상 선택해주세요
             </span>
@@ -92,7 +93,7 @@ const EditProfile = () => {
     },
   ];
 
-  return !existDocObj(extraUserData) ? (
+  return !userDoc?.displayName ? (
     <Loading />
   ) : (
     <>

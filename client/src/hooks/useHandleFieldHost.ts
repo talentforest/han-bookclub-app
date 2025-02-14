@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { fieldHostDocState } from 'data/bookFieldHostAtom';
+import { fieldAndHostAtom } from 'data/fieldAndHostAtom';
 import { useRecoilState } from 'recoil';
 
 import useAlertAskJoin from './useAlertAskJoin';
@@ -31,7 +31,7 @@ const useHandleFieldHost = () => {
 
   const [selectedValues, setSelectedValues] = useState(initialFieldHost);
 
-  const [fieldHostDoc, setFieldHostDoc] = useRecoilState(fieldHostDocState);
+  const [fieldHostDoc, setFieldHostDoc] = useRecoilState(fieldAndHostAtom);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
 

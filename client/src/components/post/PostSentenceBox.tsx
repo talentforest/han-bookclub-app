@@ -1,5 +1,5 @@
 import { ISentence } from 'data/bookAtom';
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import LikeBtnWithPeopleInfo from '../common/LikeBtnWithPeopleInfo';
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export default function PostSentenceBox({ sentence }: Props) {
-  const currentUser = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
 
   const { text, thumbnail, title, creatorId, page } = sentence;
 
@@ -26,7 +26,7 @@ export default function PostSentenceBox({ sentence }: Props) {
         <BookThumbnail thumbnail={thumbnail} title={title} />
         <div>
           <h4>{title}</h4>
-          {creatorId === currentUser.uid && (
+          {creatorId === uid && (
             <PostHandleBtns
               collName={SENTENCES2024}
               postType="공유하고 싶은 문구"

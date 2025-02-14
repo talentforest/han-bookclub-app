@@ -3,7 +3,7 @@ import { FormEvent, useRef } from 'react';
 import useSendPushNotification from 'hooks/useSendPushNotification';
 
 import { IChallenge, IChallengeBook } from 'data/bookAtom';
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { CHALLENGE } from 'appConstants';
@@ -32,7 +32,7 @@ export default function ChallengeEditModal({
   setCurrentPageNum,
 }: Props) {
   const { books } = challenge;
-  const userData = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
 
   const currPageRef = useRef<HTMLInputElement>();
 
@@ -61,7 +61,7 @@ export default function ChallengeEditModal({
       books: editedPageBooks,
     };
 
-    await setDoc(doc(dbService, CHALLENGE, userData.uid), editedChallengeDoc);
+    await setDoc(doc(dbService, CHALLENGE, uid), editedChallengeDoc);
     onModalClose();
     setCurrentPageNum(currentPage);
 

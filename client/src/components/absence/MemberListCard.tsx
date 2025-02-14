@@ -23,11 +23,15 @@ export default function MemberListCard({
         </span>
       </div>
 
-      <ul className="mt-4 flex flex-wrap items-center gap-3">
-        {memberList.map(member => (
-          <UserName key={member} userId={member} tag isLink />
-        ))}
-      </ul>
+      {memberList.length !== 0 ? (
+        <ul className="mt-4 flex flex-wrap items-center gap-3">
+          {memberList.map(member => (
+            <UserName key={member} userId={member} tag isLink />
+          ))}
+        </ul>
+      ) : (
+        <span className="mt-4 block text-gray1">불참 멤버가 없어요!🚀</span>
+      )}
     </div>
   );
 }

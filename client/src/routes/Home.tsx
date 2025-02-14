@@ -5,8 +5,8 @@ import { thisYear } from 'utils';
 import Footer from 'layout/Footer';
 import MobileHeader from 'layout/mobile/MobileHeader';
 
-import NextMonthBookClub from 'components/bookClub/NextMonthBookClub';
-import ThisMonthBookClub from 'components/bookClub/ThisMonthBookClub';
+import NextMonthClub from 'components/bookClub/NextMonthClub';
+import ThisMonthBookClub from 'components/bookClub/ThisMonthClub';
 import VoteSlider from 'components/bookVote/VoteSlider';
 import GuideLine from 'components/common/GuideLine';
 import SquareBtn from 'components/common/button/SquareBtn';
@@ -32,7 +32,7 @@ const Home = () => {
         </Section>
 
         <Section title="다음달 모임책">
-          <NextMonthBookClub />
+          <NextMonthClub />
         </Section>
 
         <div className="mb-16 grid w-full grid-cols-2 gap-4 max-sm:gap-2.5">
@@ -41,7 +41,7 @@ const Home = () => {
             className="w-full !px-0"
             color="darkBlue"
             handleClick={() =>
-              navigate('/monthlyinfo', { state: 'bookFieldAndHost' })
+              navigate('/monthlyinfo', { state: 'fieldAndHost' })
             }
           />
           <SquareBtn

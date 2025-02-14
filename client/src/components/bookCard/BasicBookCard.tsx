@@ -1,4 +1,4 @@
-import { IBookClub } from 'data/bookClubAtom';
+import { IBookClub } from 'data/clubAtom';
 
 import { formatDate } from 'utils';
 

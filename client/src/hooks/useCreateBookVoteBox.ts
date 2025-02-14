@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import {
   IBookVote,
   IBookVoteItem,
@@ -21,7 +21,7 @@ interface Props {
 }
 
 const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
-  const userData = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
 
   const bookVotes = useRecoilValue(bookVotesState);
 
@@ -37,7 +37,7 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
     id: `${(allVotesLength + 1).toString().padStart(3, '0')}`,
     title: '',
     createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
-    creatorId: userData.uid,
+    creatorId: uid,
     deadline: formatDate(new Date(), 'yyyy-MM-dd'),
     voteItems: [initialVoteItem, { ...initialVoteItem, id: 2 }],
   };
@@ -99,25 +99,15 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
         },
       ],
     };
-    setNewVote(prev => {
-      return { ...prev, ...newVoteItems };
-    });
+    setNewVote(prev => ({ ...prev, ...newVoteItems }));
   };
 
   const onDeleteVoteItemClick = (voteId: number) => {
     const filteredVoteItems: IBookVoteItem[] = newVote.voteItems.filter(
       ({ id }) => id !== voteId,
     );
-
-    const a =
-      voteId === 3 && newVote.voteItems.length === 4
-        ? filteredVoteItems.map(voteItem =>
-            voteItem.id === 4 ? { ...voteItem, id: 3 } : voteItem,
-          )
-        : filteredVoteItems;
-
     setNewVote(prev => {
-      return { ...prev, voteItems: a };
+      return { ...prev, voteItems: filteredVoteItems };
     });
   };
 

@@ -1,26 +1,21 @@
 import { useState } from 'react';
 
-import { useLocation } from 'react-router-dom';
-
-import { ISchedule } from 'data/bookClubAtom';
-
 import { FiEdit3 } from 'react-icons/fi';
+import { formatDate } from 'utils';
 
 import MeetingInfoModal from 'components/bookClub/MeetingInfoModal';
 import UserName from 'components/common/user/UserName';
 
 interface Props {
   label: string;
-  content: string[] | string;
-  meeting?: ISchedule;
+  value: string[] | string;
+  editable: boolean;
 }
 
-export default function LabelOnTopCard({ label, content, meeting }: Props) {
+export default function LabelWithValueCard({ label, value, editable }: Props) {
   const [openModal, setOpenModal] = useState(false);
 
   const onEditClick = () => setOpenModal(prev => !prev);
-
-  const { pathname } = useLocation();
 
   return (
     <>
@@ -28,27 +23,29 @@ export default function LabelOnTopCard({ label, content, meeting }: Props) {
         <h4 className="min-w-14 text-gray2">{label}</h4>
 
         <div className="flex w-full flex-1 flex-col justify-center py-1">
-          {content &&
-            (label === '발제자' ? (
-              <ul>
-                {(content as string[])?.map(host => (
-                  <li key={host}>
-                    <UserName userId={host} tag />
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <span>{content}</span>
-            ))}
+          {value && (
+            <>
+              {typeof value !== 'string' &&
+                value?.map(host => <UserName key={host} userId={host} tag />)}
 
-          {!content && (
+              {typeof value === 'string' && (
+                <span>
+                  {label === '모임시간'
+                    ? formatDate(value, 'yyyy.MM.dd a h시 mm분')
+                    : value}
+                </span>
+              )}
+            </>
+          )}
+
+          {!value && (
             <span className="text-center text-sm text-gray2 max-sm:text-start">
               정보가 아직 없어요
             </span>
           )}
         </div>
 
-        {label !== '발제자' && pathname !== '/' && (
+        {editable && (
           <button
             type="button"
             onClick={onEditClick}
@@ -59,10 +56,10 @@ export default function LabelOnTopCard({ label, content, meeting }: Props) {
         )}
       </div>
 
-      {openModal && pathname !== '/' && (
+      {openModal && editable && typeof value === 'string' && (
         <MeetingInfoModal
-          title={`${label}`}
-          meeting={meeting}
+          title={label}
+          value={label === '모임시간' ? { time: value } : { place: value }}
           setIsEditing={setOpenModal}
         />
       )}

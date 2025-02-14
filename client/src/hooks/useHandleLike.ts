@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { authService, dbService } from 'fbase';
@@ -21,7 +21,7 @@ const useHandleLike = ({
 }: IHandleLikeProps) => {
   const [like, setLike] = useState(false);
   const [showLikeUsers, setShowLikeUsers] = useState(false);
-  const currentUser = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
   const anonymous = authService.currentUser?.isAnonymous;
 
   const onLikeClick = async () => {
@@ -33,12 +33,12 @@ const useHandleLike = ({
       setShowLikeUsers(false);
       await updateDoc(docRef, {
         likes: likes - 1,
-        likeUsers: likeUsers.filter(uid => uid !== currentUser.uid),
+        likeUsers: likeUsers.filter(likeId => likeId !== uid),
       });
     } else {
       await updateDoc(docRef, {
         likes: likes + 1,
-        likeUsers: [...likeUsers, currentUser.uid],
+        likeUsers: [...likeUsers, uid],
       });
     }
 

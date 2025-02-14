@@ -13,6 +13,7 @@ export interface IDocument {
   recommendedBook?: IRecommendedBook;
   likes?: number;
   likeUsers?: string[];
+  isAnonymous?: boolean;
 }
 
 export const subjectsState = atom<IDocument[]>({

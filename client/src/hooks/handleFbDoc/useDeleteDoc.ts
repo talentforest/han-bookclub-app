@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { getDocument } from 'api/firebase/getFbDoc';
 
-import { currentUserState, userExtraInfoState } from 'data/userAtom';
+import { currAuthUserAtom, userDocAtomFamily } from 'data/userAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { USER } from 'appConstants';
@@ -16,17 +16,19 @@ interface PropsType {
 }
 
 const useDeleteDoc = ({ docId, collName }: PropsType) => {
-  const [userExtraData, setUserExtraData] = useRecoilState(userExtraInfoState);
-  const userData = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
+  const [userExtraData, setUserExtraData] = useRecoilState(
+    userDocAtomFamily(uid),
+  );
 
   const docRef = doc(dbService, collName, docId);
-  const userDataRef = doc(dbService, USER, userData.uid);
+  const userDataRef = doc(dbService, USER, uid);
 
   useEffect(() => {
-    if (userData.uid && !existDocObj(userExtraData)) {
-      getDocument(USER, userData.uid, setUserExtraData);
+    if (uid && !existDocObj(userExtraData)) {
+      getDocument(USER, uid, setUserExtraData);
     }
-  }, [userData.uid]);
+  }, [uid]);
 
   const onDeleteClick = async () => {
     const confirm = window.confirm('정말로 삭제하시겠어요?');

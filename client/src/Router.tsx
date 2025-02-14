@@ -2,17 +2,17 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import CreateAccount from './components/auth/CreateAccount';
 import EditProfile from './components/setting/EditProfile';
-import BookClubOfThisMonth from './routes/BookClubOfThisMonth';
 import Bookshelf from './routes/Bookshelf';
+import ClubDetail from './routes/ClubDetail';
 import Home from './routes/Home';
 import LogIn from './routes/LogIn';
 import Setting from './routes/Setting';
 import Vote from './routes/Vote';
 import { authService } from 'fbase';
 
-import BookClubHistory from 'routes/BookClubHistory';
-import BookClubHistoryDetail from 'routes/BookClubHistoryDetail';
 import Challenge from 'routes/Challenge';
+import MonthlyClubInfo from 'routes/MonthlyClubInfo';
+import PreviousClub from 'routes/PreviousClub';
 import Search from 'routes/Search';
 // import SearchDetail from 'components/search/SearchedBookCard';
 import VoteDetail from 'routes/VoteDetail';
@@ -21,7 +21,6 @@ import TopNavigation from 'layout/desktop/TopNavigation';
 import BottomNavigation from 'layout/mobile/BottomNavigation';
 
 import ResetPasswordEmail from 'components/auth/ResetPasswordEmail';
-import BookClubInformation from 'components/bookClub/BookClubInformation';
 import ScrollToTop from 'components/common/ScrollToTop';
 import PostListDetail from 'components/post/PostListDetail';
 import Absence from 'components/setting/Absence';
@@ -45,10 +44,10 @@ function Router({ isLoggedIn }: PropsType) {
 
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/monthlyinfo" element={<BookClubInformation />} />
+            <Route path="/monthlyinfo" element={<MonthlyClubInfo />} />
 
             <>
-              <Route path="/bookclub" element={<BookClubOfThisMonth />} />
+              <Route path="/bookclub" element={<ClubDetail />} />
               <Route path="/bookclub/subjects" element={<PostListDetail />} />
               <Route
                 path="/bookclub/host-review"
@@ -61,14 +60,14 @@ function Router({ isLoggedIn }: PropsType) {
             <Route path="/search" element={<Search />} />
 
             <>
-              <Route path="/history" element={<BookClubHistory />} />
-              <Route path="/history/:id" element={<BookClubHistoryDetail />} />
+              <Route path="/previous-club" element={<PreviousClub />} />
+              <Route path="/previous-club/:id" element={<ClubDetail />} />
               <Route
-                path="/history/:id/host-review"
+                path="/previous-club/:id/host-review"
                 element={<PostListDetail />}
               />
               <Route
-                path="/history/:id/subjects"
+                path="/previous-club/:id/subjects"
                 element={<PostListDetail />}
               />
             </>

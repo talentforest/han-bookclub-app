@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 
+import { LuArrowUpRight } from 'react-icons/lu';
+
 import SquareBtn from 'components/common/button/SquareBtn';
 
 interface EmptyContainerProps {
@@ -23,6 +25,7 @@ export default function EmptyCard({
           name={createBtnTitle}
           color="blue"
           handleClick={onCreateClick}
+          tailChildren={<LuArrowUpRight size={18} />}
         />
       )}
       {children}

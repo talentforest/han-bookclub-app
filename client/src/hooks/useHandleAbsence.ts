@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import { absenceListState } from 'data/absenceAtom';
-import { currentUserState } from 'data/userAtom';
+import { absenceAtom } from 'data/absenceAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import useAlertAskJoin from './useAlertAskJoin';
@@ -27,9 +27,9 @@ const initialAbsence: AbsenceSelectValue = {
 };
 
 const useHandleAbsence = () => {
-  const currentUser = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
   const [editingMonthInfo, setEditingMonthInfo] = useState(initialModalState);
-  const [absenceList, setAbsenceList] = useRecoilState(absenceListState);
+  const [absenceList, setAbsenceList] = useRecoilState(absenceAtom);
   const [selectedValues, setSelectedValues] = useState(initialAbsence);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
@@ -44,10 +44,10 @@ const useHandleAbsence = () => {
         item => item.month === month,
       );
       const isBreakMonth = monthInfo?.breakMembers?.find(
-        member => member === currentUser.uid,
+        member => member === uid,
       );
       const isOnceAbsenceMonth = monthInfo?.onceAbsenceMembers?.find(member => {
-        return member === currentUser.uid;
+        return member === uid;
       });
       setSelectedValues({
         month,
@@ -60,11 +60,9 @@ const useHandleAbsence = () => {
 
   const handleMember = (member: string[], checked: boolean) => {
     if (checked) {
-      return member.includes(currentUser.uid)
-        ? member
-        : [...member, currentUser.uid];
+      return member.includes(uid) ? member : [...member, uid];
     }
-    return member.filter(member => member !== currentUser.uid);
+    return member.filter(member => member !== uid);
   };
 
   const onSubmit = async (

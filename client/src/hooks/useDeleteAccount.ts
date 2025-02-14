@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { USER } from 'appConstants';
@@ -17,7 +17,7 @@ import { deleteDoc, doc } from 'firebase/firestore';
 const useDeleteAccount = () => {
   const [password, setPassword] = useState('');
   const [showMessage, setShowMessage] = useState(false);
-  const userData = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
   const navigate = useNavigate();
   const anonymous = authService.currentUser?.isAnonymous;
 
@@ -31,7 +31,7 @@ const useDeleteAccount = () => {
       if (checkDeleteAccount === true) {
         reauthenticateWithCredential(user, credential)
           .then(() => {
-            const UserDataRef = doc(dbService, USER, `${userData.uid}`);
+            const UserDataRef = doc(dbService, USER, `${uid}`);
             deleteDoc(UserDataRef);
             deleteUser(user);
             navigate('/');

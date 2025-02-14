@@ -1,4 +1,4 @@
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { IBookVote } from 'data/voteAtom';
 import { useRecoilValue } from 'recoil';
 
@@ -15,7 +15,7 @@ interface PropsType {
 const VoteDetailHeader = ({ vote, onVoteDeleteClick }: PropsType) => {
   const { creatorId, createdAt, title } = vote;
 
-  const { uid } = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
 
   return (
     <header className="flex flex-col items-center justify-between pb-3 max-sm:pb-0 max-sm:pt-3">

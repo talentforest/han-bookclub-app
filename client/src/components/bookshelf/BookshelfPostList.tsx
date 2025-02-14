@@ -1,10 +1,10 @@
-import { IUserPostDocs } from 'data/userAtom';
+import { IUserPosts } from 'data/userAtom';
 
 import PostBookThumbnailBox from 'components/post/PostBookThumbnailBox';
 import { PostType } from 'components/post/PostHandleBtns';
 
 interface Props {
-  userRecords: IUserPostDocs;
+  userRecords: IUserPosts;
   postType: PostType;
 }
 

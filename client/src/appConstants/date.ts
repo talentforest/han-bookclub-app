@@ -15,7 +15,7 @@ export const months = [
   '12',
 ];
 
-export const bookClubYearList = Array.from(
+export const operationYearList = Array.from(
   { length: +thisYear - 2020 },
   (_, index) => `${+thisYear - index}`,
 );

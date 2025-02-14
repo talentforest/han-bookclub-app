@@ -4,8 +4,8 @@ import { getCollection } from 'api/firebase/getFbDoc';
 import { setDocument } from 'api/firebase/setFbDoc';
 
 import { ISearchedBook } from 'data/bookAtom';
-import { bookClubByYearState } from 'data/bookClubAtom';
-import { currentUserState } from 'data/userAtom';
+import { clubByYearAtom } from 'data/clubAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { BOOKCLUB_THIS_YEAR } from 'appConstants';
@@ -26,11 +26,11 @@ interface PropsType {
 
 const RegisterClubBookBtn = ({ searchedBook }: PropsType) => {
   const [thisYearBookClubInfos, setThisYearBookClubInfos] =
-    useRecoilState(bookClubByYearState);
+    useRecoilState(clubByYearAtom);
 
   const [submitted, setSubmitted] = useState(false);
 
-  const userData = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
 
   const {
     thumbnail,
@@ -63,7 +63,7 @@ const RegisterClubBookBtn = ({ searchedBook }: PropsType) => {
       time: formatDate(meetingTime, "yyyy-MM-dd'T'HH:mm:ss"),
     },
     createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
-    creatorId: userData.uid,
+    creatorId: uid,
   };
 
   const onNextMonthBookClubDocSubmit = async () => {

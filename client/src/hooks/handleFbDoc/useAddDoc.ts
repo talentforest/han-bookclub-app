@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 
 import { getDocument } from 'api/firebase/getFbDoc';
 
-import { recommendBookState } from 'data/bookAtom';
+import { recommendedBookAtom } from 'data/bookAtom';
 import { IDocument } from 'data/documentsAtom';
 import {
   IUserPostDocId,
-  currentUserState,
-  userExtraInfoState,
+  currAuthUserAtom,
+  userDocAtomFamily,
 } from 'data/userAtom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
@@ -24,20 +24,22 @@ interface PropsType {
 }
 
 const useAddDoc = ({ setText, collName, docData }: PropsType) => {
-  const [userExtraData, setUserExtraData] = useRecoilState(userExtraInfoState);
-  const setMyRecommendBook = useSetRecoilState(recommendBookState);
-  const userData = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
+  const [userExtraData, setUserExtraData] = useRecoilState(
+    userDocAtomFamily(uid),
+  );
+  const setMyRecommendBook = useSetRecoilState(recommendedBookAtom);
 
   const docRef = doc(collection(dbService, collName));
-  const userDataRef = doc(dbService, USER, `${userData.uid}`);
+  const userDataRef = doc(dbService, USER, `${uid}`);
 
   const { alertAskJoinMember } = useAlertAskJoin('write');
 
   useEffect(() => {
-    if (userData.uid && !existDocObj(userExtraData)) {
-      getDocument(USER, userData.uid, setUserExtraData);
+    if (uid && !existDocObj(userExtraData)) {
+      getDocument(USER, uid, setUserExtraData);
     }
-  }, [userData.uid]);
+  }, [uid]);
 
   const onAddDocSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

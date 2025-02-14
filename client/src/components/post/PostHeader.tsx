@@ -1,5 +1,5 @@
 import { IDocument } from 'data/documentsAtom';
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import CreatorBox from '../common/user/CreatorBox';
@@ -13,15 +13,15 @@ interface Props {
 }
 
 export default function PostHeader({ collName, post, postType }: Props) {
-  const userData = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const { creatorId } = post;
+  const { creatorId, isAnonymous } = post;
 
   return (
     <header className="flex items-center justify-between gap-1 rounded-xl">
-      <CreatorBox creatorId={creatorId} />
+      <CreatorBox creatorId={creatorId} isAnonymous={isAnonymous} />
 
-      {userData.uid === creatorId && collName && (
+      {uid === creatorId && collName && (
         <PostHandleBtns post={post} collName={collName} postType={postType} />
       )}
     </header>

@@ -2,11 +2,9 @@ import { useState } from 'react';
 
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 
-// import useSendPushNotification from 'hooks/useSendPushNotification';
-
-import { recommendBookState } from 'data/bookAtom';
-import { thisMonthBookClubState } from 'data/bookClubAtom';
-import { currentUserState } from 'data/userAtom';
+import { recommendedBookAtom } from 'data/bookAtom';
+import { thisMonthClubAtom } from 'data/clubAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { RECOMMENDED_BOOKS } from 'appConstants';
@@ -20,9 +18,9 @@ interface Props {
 }
 export default function RecommendBookModalForm({ onModalClose }: Props) {
   const [text, setText] = useState('');
-  const userData = useRecoilValue(currentUserState);
-  const thisMonthClub = useRecoilValue(thisMonthBookClubState);
-  const recommendBook = useRecoilValue(recommendBookState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
+  const thisMonthClub = useRecoilValue(thisMonthClubAtom);
+  const recommendBook = useRecoilValue(recommendedBookAtom);
 
   // const { sendPostNotification } = useSendPushNotification();
 
@@ -35,7 +33,7 @@ export default function RecommendBookModalForm({ onModalClose }: Props) {
   const docData = {
     text,
     createdAt: Date.now(),
-    creatorId: userData.uid,
+    creatorId: uid,
     title: book.title,
     thumbnail: book.thumbnail,
     recommendedBook: { title, thumbnail, url, authors, publisher },

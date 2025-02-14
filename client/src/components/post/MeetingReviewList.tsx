@@ -24,7 +24,7 @@ const MeetingReviewList = ({ yearMonthId = thisYearMonthId }: Props) => {
 
   useEffect(() => {
     getCollection(collName, setMeetingReviews);
-  }, []);
+  }, [collName]);
 
   return meetingReviews?.length !== 0 ? (
     <ul className="gap-4">

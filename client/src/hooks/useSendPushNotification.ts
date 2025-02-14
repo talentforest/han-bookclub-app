@@ -1,4 +1,4 @@
-import { allUsersState, currentUserState } from 'data/userAtom';
+import { allUsersAtom, currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { DOMAIN } from 'appConstants';
@@ -7,8 +7,8 @@ import { getDeviceToken, sendMulticast, sendUnicast } from 'fbase';
 import { PostType } from 'components/post/PostHandleBtns';
 
 const useSendPushNotification = () => {
-  const allUsers = useRecoilValue(allUsersState);
-  const currentUser = useRecoilValue(currentUserState);
+  const allUsers = useRecoilValue(allUsersAtom);
+  const { uid, displayName } = useRecoilValue(currAuthUserAtom);
 
   // 상대방 알림 설정 여부값 가져오기
   const checkPermittedNotificationByUser = (uid: string) => {
@@ -28,8 +28,7 @@ const useSendPushNotification = () => {
     const body = `${voteTitle} 투표함이 등록되었습니다. 종료일 전에 투표를 완료해주세요!⚡️`;
     const link = `${DOMAIN}${process.env.PUBLIC_URL}${subPath}`;
 
-    sendMulticast({ title, body, link, uid: currentUser.uid }) //
-      .catch(err => console.log(err));
+    sendMulticast({ title, body, link, uid }).catch(err => console.log(err));
   };
 
   // 전체 유저에게 챌린지 완주 알림
@@ -39,11 +38,11 @@ const useSendPushNotification = () => {
     bookTitle: string;
   }) => {
     const title = `🔥챌린지 완주 성공`;
-    const body = `${currentUser.displayName}님이 📚${bookTitle} 챌린지를 완주했습니다! 같이 힘내서 끝까지 완주해봐요!`;
+    const body = `${displayName}님이 📚${bookTitle} 챌린지를 완주했습니다! 같이 힘내서 끝까지 완주해봐요!`;
     const subPath = '/challenge';
     const link = `${DOMAIN}${process.env.PUBLIC_URL}${subPath}`;
 
-    sendMulticast({ title, body, link, uid: currentUser.uid }) //
+    sendMulticast({ title, body, link, uid }) //
       .catch(err => console.log(err));
   };
 
@@ -62,7 +61,7 @@ const useSendPushNotification = () => {
 
     const link = `${process.env.PUBLIC_URL}`;
 
-    sendMulticast({ title, body, link, uid: currentUser.uid }) //
+    sendMulticast({ title, body, link, uid }) //
       .catch(err => console.log(err));
   };
 
@@ -73,7 +72,7 @@ const useSendPushNotification = () => {
     const postposition =
       type === '모임 후기' || type === '공유하고 싶은 문구' ? '를' : '을';
 
-    const body = `${currentUser.displayName}님이 ${type}${postposition} 작성하셨어요. 바로 확인해보세요!👀`;
+    const body = `${displayName}님이 ${type}${postposition} 작성하셨어요. 바로 확인해보세요!👀`;
 
     const subPath =
       type === '발제문'
@@ -88,7 +87,7 @@ const useSendPushNotification = () => {
 
     const link = `${DOMAIN}${process.env.PUBLIC_URL}${subPath}`;
 
-    sendMulticast({ title, body, link, uid: currentUser.uid }) //
+    sendMulticast({ title, body, link, uid }) //
       .catch(err => console.log(err));
   };
 

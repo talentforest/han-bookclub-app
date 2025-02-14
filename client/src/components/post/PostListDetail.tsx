@@ -6,7 +6,7 @@ import useAlertAskJoin from 'hooks/useAlertAskJoin';
 
 import { getCollection } from 'api/firebase/getFbDoc';
 
-import { bookClubByYearState } from 'data/bookClubAtom';
+import { clubByYearAtom } from 'data/clubAtom';
 import { hostReviewState, subjectsState } from 'data/documentsAtom';
 import { useRecoilState } from 'recoil';
 
@@ -33,7 +33,7 @@ interface LocationState {
 }
 
 export default function PostListDetail() {
-  const [clubInfoDocs, setClubInfoDocs] = useRecoilState(bookClubByYearState);
+  const [clubInfoDocs, setClubInfoDocs] = useRecoilState(clubByYearAtom);
 
   const [hostReviews, setHostReviews] = useRecoilState(hostReviewState);
   const [subjects, setSubjects] = useRecoilState(subjectsState);

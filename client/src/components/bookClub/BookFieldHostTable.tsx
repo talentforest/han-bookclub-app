@@ -5,14 +5,14 @@ import useHandleFieldHost from 'hooks/useHandleFieldHost';
 import { getDocument } from 'api/firebase/getFbDoc';
 import { setDocument } from 'api/firebase/setFbDoc';
 
-import { fieldHostDocState } from 'data/bookFieldHostAtom';
+import { fieldAndHostAtom } from 'data/fieldAndHostAtom';
 import { useRecoilState } from 'recoil';
 
 import Table from '../common/Table';
 import { BOOK_FIELD_AND_HOST, initialBookFieldAndHostData } from 'appConstants';
 import { existDocObj, thisYear } from 'utils';
 
-import BookFieldHostEditForm from 'components/bookClub/BookFieldHostEditForm';
+import FieldHostEditForm from 'components/bookClub/FieldHostEditForm';
 import Modal from 'components/common/Modal';
 import { Label } from 'components/common/TableDataItem';
 import EmptyCard from 'components/common/container/EmptyCard';
@@ -29,7 +29,7 @@ const BookFieldHostTable = ({
   isFoldable = false,
 }: Props) => {
   const [bookFieldHostDoc, setBookFieldHostDoc] =
-    useRecoilState(fieldHostDocState);
+    useRecoilState(fieldAndHostAtom);
 
   const {
     editingMonthInfo,
@@ -86,7 +86,7 @@ const BookFieldHostTable = ({
           title={`${editingMonthInfo.month}월 수정하기`}
           onToggleClick={onEditClick}
         >
-          <BookFieldHostEditForm
+          <FieldHostEditForm
             bookFieldHost={bookFieldAndHostList[editingMonthInfo.month - 1]}
             onSubmit={onSubmit}
             month={editingMonthInfo.month}

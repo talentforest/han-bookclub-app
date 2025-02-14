@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import useHandleLike from 'hooks/useHandleLike';
 
 import { IDocument } from 'data/documentsAtom';
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
@@ -17,9 +17,9 @@ interface Props {
 }
 
 const LikeBtnWithPeopleInfo = ({ post, collName }: Props) => {
-  const currentUser = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const myPost = currentUser.uid === post.creatorId;
+  const myPost = uid === post.creatorId;
 
   const { like, setLike, onLikeClick, showLikeUsers, toggleShowLikeUsers } =
     useHandleLike({
@@ -29,7 +29,7 @@ const LikeBtnWithPeopleInfo = ({ post, collName }: Props) => {
       collName,
     });
 
-  const currentUserLike = post.likeUsers?.some(uid => uid === currentUser.uid);
+  const currentUserLike = post.likeUsers?.some(likeUid => likeUid === uid);
 
   useEffect(() => {
     if (currentUserLike) {

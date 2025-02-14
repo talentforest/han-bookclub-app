@@ -1,4 +1,4 @@
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { thisYear } from 'utils';
@@ -10,7 +10,7 @@ import GuideLine from 'components/common/GuideLine';
 import Section from 'components/common/container/Section';
 
 export default function Absence() {
-  const currentUser = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
 
   return (
     <>
@@ -19,7 +19,7 @@ export default function Absence() {
       <main>
         <Section title={`${thisYear}년 나의 모임 불참`}>
           <GuideLine text="모임에 일회불참하거나 모임정지하는 모든 달에 체크해주세요" />
-          <AbsenceMonthTable userId={currentUser.uid} isEditable />
+          <AbsenceMonthTable userId={uid} isEditable />
         </Section>
       </main>
     </>

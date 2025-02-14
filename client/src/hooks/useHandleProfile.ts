@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { getDocument } from 'api/firebase/getFbDoc';
-
-import { currentUserState, userExtraInfoState } from 'data/userAtom';
+import { currAuthUserAtom, userDocAtomFamily } from 'data/userAtom';
 import { useRecoilState } from 'recoil';
 
 import { BookField, USER } from 'appConstants';
@@ -14,19 +12,15 @@ import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 const useHandleProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const [userData, setUserData] = useRecoilState(currentUserState);
-  const [extraUserData, setExtraUserData] = useRecoilState(userExtraInfoState);
+  const [{ uid, displayName, photoURL }, setUserData] =
+    useRecoilState(currAuthUserAtom);
+
+  const [userDoc, setUserDoc] = useRecoilState(userDocAtomFamily(uid));
 
   const [newUserImgUrl, setNewUserImgUrl] = useState('');
-  const [newDisplayName, setNewDisplayName] = useState(userData.displayName);
+  const [newDisplayName, setNewDisplayName] = useState(displayName);
 
-  const userDataRef = doc(dbService, USER, `${userData.uid}`);
-
-  useEffect(() => {
-    if (userData.uid) {
-      getDocument(USER, userData.uid, setExtraUserData);
-    }
-  }, [userData.uid]);
+  const userDataRef = doc(dbService, USER, uid);
 
   const refreshUser = () => {
     const user = getAuth().currentUser;
@@ -39,32 +33,30 @@ const useHandleProfile = () => {
   };
 
   const updateProfileImg = async () => {
-    let userImageUrl = userData.photoURL;
-    const fileRef = ref(storageService, `${userData.uid}`);
+    let userImageUrl = photoURL;
+    const fileRef = ref(storageService, `${uid}`);
     const response = await uploadString(fileRef, newUserImgUrl, 'data_url');
     userImageUrl = await getDownloadURL(response.ref);
-    await updateProfile(authService.currentUser, {
+    const updatePhotoUrl = {
       photoURL: userImageUrl,
-    });
-    await updateDoc(userDataRef, {
-      photoURL: userImageUrl,
-    });
+    };
+    await updateProfile(authService.currentUser, updatePhotoUrl);
+    await updateDoc(userDataRef, updatePhotoUrl);
     refreshUser();
   };
 
   const updateDisplayName = async () => {
-    await updateProfile(authService.currentUser, {
+    const updateData = {
       displayName: newDisplayName,
-    });
-    await updateDoc(userDataRef, {
-      displayName: newDisplayName,
-    });
+    };
+    await updateProfile(authService.currentUser, updateData);
+    await updateDoc(userDataRef, updateData);
     refreshUser();
   };
 
   const updateFavBookField = async () => {
     await updateDoc(userDataRef, {
-      favoriteBookField: Array.from(extraUserData.favoriteBookField),
+      favoriteBookField: Array.from(userDoc.favoriteBookField),
     });
   };
 
@@ -74,7 +66,7 @@ const useHandleProfile = () => {
       if (newUserImgUrl !== '') {
         updateProfileImg();
       }
-      if (userData.displayName !== newDisplayName) {
+      if (displayName !== newDisplayName) {
         updateDisplayName();
       }
       updateFavBookField();
@@ -90,21 +82,21 @@ const useHandleProfile = () => {
   ) => {
     const { name } = event.currentTarget;
     const selectedField = { id, name };
-    const alreadySelected = extraUserData.favoriteBookField.some(
+    const alreadySelected = userDoc.favoriteBookField.some(
       (item: BookField) => item.id === id,
     );
     if (!alreadySelected) {
-      const totalArray = [...extraUserData.favoriteBookField, selectedField];
+      const totalArray = [...userDoc.favoriteBookField, selectedField];
       const removeDeduplicationArr = totalArray.filter(
         (arr, index, callback) =>
           index === callback.findIndex(t => t.id === arr.id),
       );
-      return setExtraUserData(prevArr => ({
+      return setUserDoc(prevArr => ({
         ...prevArr,
         favoriteBookField: removeDeduplicationArr,
       }));
     }
-    setExtraUserData(prevArr => ({
+    setUserDoc(prevArr => ({
       ...prevArr,
       favoriteBookField: prevArr.favoriteBookField.filter(
         (ele: BookField) => ele.id !== id,
@@ -119,7 +111,7 @@ const useHandleProfile = () => {
   };
 
   const isSelected = (id: number) => {
-    return extraUserData?.favoriteBookField?.some(item => item.id === id);
+    return userDoc?.favoriteBookField?.some(item => item.id === id);
   };
 
   return {
@@ -131,7 +123,7 @@ const useHandleProfile = () => {
     setNewUserImgUrl,
     newDisplayName,
     setNewDisplayName,
-    extraUserData,
+    userDoc,
     onDisplayNameChange,
     isSelected,
   };

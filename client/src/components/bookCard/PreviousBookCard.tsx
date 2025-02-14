@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 
-import { IBookClub } from 'data/bookClubAtom';
+import { IBookClub } from 'data/clubAtom';
 
 import { cutLetter, formatDate } from 'utils';
 
@@ -12,7 +12,7 @@ interface PropsType {
   document: IBookClub;
 }
 
-const HistoryBookCard = ({ document }: PropsType) => {
+const PreviousBookCard = ({ document }: PropsType) => {
   const { pathname } = useLocation();
 
   const {
@@ -25,7 +25,7 @@ const HistoryBookCard = ({ document }: PropsType) => {
 
   return (
     <div className="relative flex h-full w-full cursor-pointer flex-col items-center justify-between gap-1 rounded-xl border bg-white px-4 py-5 shadow-card">
-      {pathname === '/history' && (
+      {pathname === '/previous-club' && (
         <Tag color="lightBlue" shape="rounded" text={`${month}월의 책`} />
       )}
 
@@ -33,7 +33,7 @@ const HistoryBookCard = ({ document }: PropsType) => {
         {title ? cutLetter(title, 40) : '이벤트'}
       </h3>
 
-      {pathname !== '/history' && !!authors?.length && publisher && (
+      {pathname !== '/previous-club' && !!authors?.length && publisher && (
         <BookAuthorPublisher authors={authors} publisher={publisher} />
       )}
 
@@ -53,4 +53,4 @@ const HistoryBookCard = ({ document }: PropsType) => {
   );
 };
 
-export default HistoryBookCard;
+export default PreviousBookCard;

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { getDocument } from 'api/firebase/getFbDoc';
 
-import { absenceListState } from 'data/absenceAtom';
+import { absenceAtom } from 'data/absenceAtom';
 import { useRecoilState } from 'recoil';
 
 import Table from '../common/Table';
@@ -29,7 +29,7 @@ export default function AbsenceMemberTable({
   isMonth,
   isEditable,
 }: Props) {
-  const [absenceList, setAbsenceList] = useRecoilState(absenceListState);
+  const [absenceList, setAbsenceList] = useRecoilState(absenceAtom);
 
   useEffect(() => {
     if (!existDocObj(absenceList)) {
@@ -47,10 +47,6 @@ export default function AbsenceMemberTable({
       initialAbsenseMembersData,
     );
   };
-
-  // const thisMonthAbsentee = absenceList?.absenceMembers?.find(
-  //   ({ month }) => month === +thisMonth,
-  // );
 
   return (
     <>

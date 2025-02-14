@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { thisYear } from 'utils';
@@ -13,22 +13,22 @@ import ChevronRightLinkBtn from 'components/common/button/ChevronRightLinkBtn';
 import Section from 'components/common/container/Section';
 
 type BookClubInfoType =
-  | 'bookFieldAndHost'
+  | 'fieldAndHost'
   | 'absence'
   | 'challenge'
   | 'yearClosing';
 
-export default function BookClubInformation() {
-  const currUser = useRecoilValue(currentUserState);
+export default function MonthlyClubInfo() {
+  const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const { state } = useLocation();
+  const { state } = useLocation() as { state: BookClubInfoType };
 
   const infoPerType: {
     [key in BookClubInfoType]: {
       name: '월별 독서분야' | '모임불참' | '챌린지' | '연말결산';
     };
   } = {
-    bookFieldAndHost: {
+    fieldAndHost: {
       name: '월별 독서분야',
     },
     absence: {
@@ -42,7 +42,7 @@ export default function BookClubInformation() {
     },
   };
 
-  const { name } = infoPerType[state as BookClubInfoType];
+  const { name } = infoPerType[state];
 
   return (
     <>
@@ -51,18 +51,18 @@ export default function BookClubInformation() {
       <main>
         {name === '모임불참' && (
           <Section>
-            <AbsenceMemberTable isMonth isFoldable />
+            <AbsenceMemberTable isMonth />
             <ChevronRightLinkBtn
               title="나의 불참 설정하러 가기"
               to="/setting/absence"
-              state={{ userId: currUser.uid }}
+              state={{ userId: uid }}
             />
           </Section>
         )}
 
         {name === '월별 독서분야' && (
           <Section title="월별 독서분야와 발제자">
-            <BookFieldHostTable isEditable isFoldable isMonth />
+            <BookFieldHostTable isEditable isMonth />
           </Section>
         )}
       </main>

@@ -5,7 +5,7 @@ import useSearchBook from 'hooks/useSearchBook';
 import {
   ISearchedBook,
   bookDescState,
-  recommendBookState,
+  recommendedBookAtom,
 } from 'data/bookAtom';
 import { useSetRecoilState } from 'recoil';
 
@@ -26,7 +26,7 @@ export default function SearchedBookPostAddModal({
   title,
   onToggleClick,
 }: Props) {
-  const setMyRecommendBook = useSetRecoilState(recommendBookState);
+  const setMyRecommendBook = useSetRecoilState(recommendedBookAtom);
   const setBookDesc = useSetRecoilState(bookDescState);
 
   const [currStep, setCurrStep] = useState(1);

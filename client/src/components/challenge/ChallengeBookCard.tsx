@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { IChallenge, IChallengeBook } from 'data/bookAtom';
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import PagePosition from './PagePosition';
@@ -27,7 +27,7 @@ interface Props {
 export default function ChallengeBookCard({ challenge }: Props) {
   const { creatorId, books, id } = challenge;
 
-  const currentUser = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
   const [openChallengeEditModal, setOpenChallengeEditModal] = useState(false);
   const [currChallengeBook, setCurrChallengeBook] = useState(books[0]);
   const [currentPageNum, setCurrentPageNum] = useState(
@@ -101,7 +101,7 @@ export default function ChallengeBookCard({ challenge }: Props) {
             </h3>
             <BookAuthorPublisher authors={authors} publisher={publisher} />
             <div className="mt-auto">
-              {pathname === '/challenge' && currentUser.uid === creatorId ? (
+              {pathname === '/challenge' && uid === creatorId ? (
                 <button
                   type="button"
                   onClick={onChallengeEditModalClick}
@@ -122,7 +122,7 @@ export default function ChallengeBookCard({ challenge }: Props) {
             </div>
           </div>
 
-          {pathname === '/challenge' && currentUser.uid === creatorId && (
+          {pathname === '/challenge' && uid === creatorId && (
             <div className="absolute right-3 top-3 flex gap-3">
               {/* <button type="button" onClick={onSentenceModalClick}>
                 <TbBlockquote fontSize={17} />

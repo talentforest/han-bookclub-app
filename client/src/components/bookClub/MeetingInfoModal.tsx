@@ -4,7 +4,8 @@ import useHandleSchedule from 'hooks/useHandleSchedule';
 
 import { getDocument } from 'api/firebase/getFbDoc';
 
-import { ISchedule } from 'data/bookClubAtom';
+import { IBookClub, thisMonthClubAtom } from 'data/clubAtom';
+import { useRecoilValue } from 'recoil';
 
 import { MEETING_PLACE, TAG_LIST } from 'appConstants';
 
@@ -16,16 +17,20 @@ import Input from 'components/common/input/Input';
 
 interface Props {
   title: string;
-  meeting: ISchedule;
+  value: Partial<IBookClub['meeting']>;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function MeetingInfoModal({
   title,
-  meeting,
+  value,
   setIsEditing,
 }: Props) {
+  const { meeting: schedule } = useRecoilValue(thisMonthClubAtom);
+
   const [placeDoc, setPlaceDoc] = useState({ id: '', place: [] });
+
+  const meeting = { ...schedule, ...value };
 
   const {
     place,

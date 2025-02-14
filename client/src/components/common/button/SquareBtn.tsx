@@ -8,6 +8,7 @@ interface Props {
   handleClick?: () => void;
   color?: 'gray' | 'purple' | 'blue' | 'darkBlue';
   className?: string;
+  tailChildren?: ReactNode;
 }
 
 export default function SquareBtn({
@@ -18,6 +19,7 @@ export default function SquareBtn({
   handleClick,
   color = 'blue',
   className = '',
+  tailChildren,
 }: Props) {
   const colorStyleObj = {
     gray: 'text-gray1 bg-gray4',
@@ -36,6 +38,8 @@ export default function SquareBtn({
       {children}
 
       <span className="font-medium tracking-tight">{name}</span>
+
+      {tailChildren}
     </button>
   );
 }

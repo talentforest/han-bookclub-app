@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { RiKakaoTalkFill } from 'react-icons/ri';
@@ -20,7 +20,7 @@ const ShareBtn = ({
   place,
   time,
 }: IShareButtonProps) => {
-  const userData = useRecoilValue(currentUserState);
+  const { uid, displayName, photoURL } = useRecoilValue(currAuthUserAtom);
 
   if (!window.Kakao.isInitialized()) {
     window.Kakao.init(process.env.REACT_APP_KAKAO_SHARE_API_KEY);
@@ -28,7 +28,7 @@ const ShareBtn = ({
 
   useEffect(() => {
     shareKakao();
-  }, [userData]);
+  }, [uid]);
 
   const shareKakao = () => {
     window.Kakao.Link.createCustomButton({
@@ -37,8 +37,8 @@ const ShareBtn = ({
       templateArgs: {
         place,
         schedule: time,
-        userId: userData?.displayName,
-        userImg: userData?.photoURL,
+        userId: displayName,
+        userImg: photoURL,
         title,
         description,
         path,

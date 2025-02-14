@@ -28,7 +28,7 @@ export default function TableDataItem({ isMulti = false, data, label }: Props) {
                     발제자 없음
                   </span>
                 ) : (
-                  <UserName key={item} userId={item as string} tag />
+                  <UserName key={item} isLink userId={item as string} tag />
                 ),
               )
             ) : (

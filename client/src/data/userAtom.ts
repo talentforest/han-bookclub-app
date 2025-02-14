@@ -1,23 +1,25 @@
-import { atom } from 'recoil';
+import { getCollection, getDocument } from 'api/firebase/getFbDoc';
 
-import { BookField } from 'appConstants';
+import { atom, atomFamily } from 'recoil';
+
+import { BookField, USER } from 'appConstants';
 import { authService } from 'fbase';
 import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
 import { v4 } from 'uuid';
 
-export interface IUserData {
+export type IAuthUser = {
   uid: string;
   email: string;
   displayName: string;
   photoURL: string;
-}
+};
 
 export interface IUserPostDocId {
   docId: string;
   monthId: string;
 }
 
-export interface IUserPostDocs {
+export interface IUserPosts {
   hostReviews: IUserPostDocId[];
   subjects: IUserPostDocId[];
   reviews: IUserPostDocId[];
@@ -25,21 +27,21 @@ export interface IUserPostDocs {
   sentences: IUserPostDocId[];
 }
 
-export interface IUserDataDoc {
-  name: string;
-  favoriteBookField: BookField[];
-  email: string;
-  displayName: string;
-  photoURL: string;
+export interface IUser {
   id?: string;
+  name: string;
+  displayName: string;
+  email: string;
+  photoURL: string;
+  favoriteBookField: BookField[];
   tagColor: string;
-  userRecords: IUserPostDocs;
   notification?: boolean;
+  userRecords: IUserPosts;
 }
 
 const auth = getAuth();
 
-export const refreshUserState = atom({
+export const refreshUserAtom = atom({
   key: `refreshUser/${v4}`,
   default: authService.currentUser,
   effects: [
@@ -49,13 +51,18 @@ export const refreshUserState = atom({
   ],
 });
 
-export const allUsersState = atom<IUserDataDoc[]>({
+export const allUsersAtom = atom<IUser[]>({
   key: `allUsers/${v4}`,
   default: [],
+  effects: [
+    ({ setSelf }) => {
+      getCollection(USER, setSelf);
+    },
+  ],
 });
 
-export const currentUserState = atom<IUserData | null>({
-  key: `userData/${v4}`,
+export const currAuthUserAtom = atom<IAuthUser | null>({
+  key: `currUser/${v4}`,
   default: null,
   effects: [
     ({ setSelf }) => {
@@ -63,14 +70,17 @@ export const currentUserState = atom<IUserData | null>({
         if (user) {
           const { uid, email, displayName, photoURL } = user;
 
-          const authUser = {
+          const authUser: Pick<
+            User,
+            'uid' | 'email' | 'displayName' | 'photoURL'
+          > = {
             uid: uid ?? '',
             email: email ?? '',
             displayName: displayName ?? '익명의 방문자',
             photoURL: photoURL ?? '',
           };
 
-          setSelf(authUser as User);
+          setSelf(authUser);
         } else {
           setSelf(null);
         }
@@ -83,7 +93,24 @@ export const currentUserState = atom<IUserData | null>({
   ],
 });
 
-export const userExtraInfoState = atom<IUserDataDoc>({
-  key: `userExtraInfo/${v4}`,
-  default: {} as IUserDataDoc,
+// 나의 문서정보
+// const currentUidSelector = selector({
+//   key: 'currentUidSelector',
+//   get: ({ get }) => {
+//     const authUser = get(currAuthUserAtom);
+//     return authUser?.uid ?? null;
+//   },
+// });
+
+// 다른 유저의 문서정보
+export const userDocAtomFamily = atomFamily<IUser | null, string>({
+  key: `user/${v4}`,
+  default: {} as IUser,
+  effects: (uid: string) => [
+    ({ setSelf }) => {
+      if (uid) {
+        getDocument(USER, uid, setSelf); // UID별 데이터 가져오기
+      }
+    },
+  ],
 });

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import useSendPushNotification from 'hooks/useSendPushNotification';
 
 import { fcmState } from 'data/fcmAtom';
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { FCM_NOTIFICATION } from 'appConstants';
@@ -15,7 +15,7 @@ import SquareBtn from 'components/common/button/SquareBtn';
 export default function AllowNotificationModalBox() {
   const [showModal, setShowModal] = useState(false);
   const fcmDoc = useRecoilValue(fcmState);
-  const { uid } = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
 
   const anonymous = authService.currentUser?.isAnonymous;
 

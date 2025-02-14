@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { ISchedule, thisMonthBookClubState } from 'data/bookClubAtom';
+import { IBookClub, thisMonthClubAtom } from 'data/clubAtom';
 import { useRecoilState } from 'recoil';
 
 import useAlertAskJoin from './useAlertAskJoin';
@@ -10,15 +10,16 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { formatDate, thisYearMonthId } from 'utils';
 
 const useHandleSchedule = (
-  meeting: ISchedule,
+  meeting: IBookClub['meeting'],
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
-  const [thisMonthBookClub, setThisMonthBookClub] = useRecoilState(
-    thisMonthBookClubState,
-  );
+  const [thisMonthBookClub, setThisMonthBookClub] =
+    useRecoilState(thisMonthClubAtom);
+
   const [time, setTime] = useState(
     !meeting?.time ? new Date() : new Date(meeting?.time),
   );
+
   const [place, setPlace] = useState(meeting?.place);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');

@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from 'react';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import useSendPushNotification from 'hooks/useSendPushNotification';
 
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { SENTENCES2024 } from 'appConstants';
@@ -21,7 +21,7 @@ export default function SentenceAddModal({ onToggleClick, book }: Props) {
   const [sentence, setSentence] = useState('');
   const [page, setPage] = useState('');
 
-  const currentUser = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
 
   const { sendPostNotification } = useSendPushNotification();
 
@@ -30,7 +30,7 @@ export default function SentenceAddModal({ onToggleClick, book }: Props) {
   const docData = {
     title,
     thumbnail,
-    creatorId: currentUser.uid,
+    creatorId: uid,
     createdAt: Date.now(),
     text: sentence,
     page: +page,

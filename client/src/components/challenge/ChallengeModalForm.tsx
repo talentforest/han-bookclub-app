@@ -3,7 +3,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import useAlertAskJoin from 'hooks/useAlertAskJoin';
 
 import { IChallenge, bookDescState, challengeState } from 'data/bookAtom';
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { CHALLENGE } from 'appConstants';
@@ -22,14 +22,14 @@ interface Props {
 export default function ChallengeModalForm({ onModalClose }: Props) {
   const userChallenges = useRecoilValue(challengeState);
   const bookDesc = useRecoilValue(bookDescState);
-  const userData = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
   const [pageNums, setPageNums] = useState({
     wholePage: 0,
     currentPage: 0,
   });
 
   const findMyChallengeBooks = userChallenges.find(
-    challenge => challenge.id === userData.uid,
+    challenge => challenge.id === uid,
   );
 
   const { title, thumbnail, authors, publisher } = bookDesc;
@@ -75,11 +75,11 @@ export default function ChallengeModalForm({ onModalClose }: Props) {
         }
       : {
           createdAt: Date.now(),
-          creatorId: userData.uid,
+          creatorId: uid,
           books: [{ ...bookDesc, ...pageNums }],
         };
 
-    await setDoc(doc(dbService, CHALLENGE, userData.uid), challengeDoc);
+    await setDoc(doc(dbService, CHALLENGE, uid), challengeDoc);
 
     onModalClose();
 

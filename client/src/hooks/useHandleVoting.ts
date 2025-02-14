@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { getCollection, getDocument } from 'api/firebase/getFbDoc';
 
-import { currentUserState } from 'data/userAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { IBookVote, IVoteItemsByMember, initialBookVote } from 'data/voteAtom';
 import { useRecoilValue } from 'recoil';
 
@@ -20,7 +20,7 @@ interface Props {
 }
 
 const useHandleVoting = ({ collName, docId }: Props) => {
-  const { uid } = useRecoilValue(currentUserState);
+  const { uid } = useRecoilValue(currAuthUserAtom);
 
   const [currentVote, setCurrentVote] = useState<IBookVote>(initialBookVote);
   const [selectedVoteItems, setSelectedVoteItems] = useState([]);

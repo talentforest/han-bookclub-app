@@ -1,22 +1,11 @@
-import { useEffect } from 'react';
-
 import { Link, useLocation } from 'react-router-dom';
 
-import { getCollection, getDocument } from 'api/firebase/getFbDoc';
+import { attendanceSelector } from 'data/absenceAtom';
+import { allUsersAtom, currAuthUserAtom } from 'data/userAtom';
+import { useRecoilValue } from 'recoil';
 
-import { absenceListState } from 'data/absenceAtom';
-import { penaltyDocState } from 'data/penaltyAtom';
-import { IUserDataDoc, allUsersState, currentUserState } from 'data/userAtom';
-import { useRecoilState, useRecoilValue } from 'recoil';
-
-import {
-  ABSENCE_MEMBERS,
-  BOOKCLUB_THIS_YEAR,
-  PENALTY,
-  USER,
-} from 'appConstants';
 import { FiSettings } from 'react-icons/fi';
-import { existDocObj, thisMonth, thisYear } from 'utils';
+import { thisMonth } from 'utils';
 
 import MobileHeader from 'layout/mobile/MobileHeader';
 
@@ -30,54 +19,29 @@ import UserImgName from 'components/common/user/UserImgName';
 import { PostType } from 'components/post/PostHandleBtns';
 
 const Bookshelf = () => {
-  const [penaltyDoc, setPenaltyDoc] = useRecoilState(penaltyDocState);
-  const [absenceList, setAbsenceList] = useRecoilState(absenceListState);
-  const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersState);
-  const currentUser = useRecoilValue(currentUserState);
-
-  const { state } = useLocation();
-  const userId = state ? state.userId : currentUser;
-  const userData = allUserDocs.find(user => user.id === userId);
-
-  useEffect(() => {
-    if (allUserDocs.length === 0) {
-      getCollection(USER, setAllUserDocs);
-    }
-    if (!existDocObj(absenceList)) {
-      getDocument(BOOKCLUB_THIS_YEAR, ABSENCE_MEMBERS, setAbsenceList);
-    }
-    if (!existDocObj(penaltyDoc)) {
-      getDocument(PENALTY, thisYear, setPenaltyDoc);
-    }
-  }, []);
-
-  const isAbsenceThisMonth = () => {
-    if (absenceList.absenceMembers) {
-      const thisMonthAbsence = absenceList.absenceMembers.find(
-        absence => absence.month === +thisMonth,
-      );
-      const isBreak = thisMonthAbsence.breakMembers.includes(state?.userId);
-      const onceAbsence = thisMonthAbsence.onceAbsenceMembers.includes(
-        state?.userId,
-      );
-      return isBreak || onceAbsence;
-    }
+  const { state } = useLocation() as {
+    state: { userId: string };
   };
 
-  const {
-    id,
-    photoURL,
-    displayName,
-    favoriteBookField,
-    userRecords, //
-  } = (userData as IUserDataDoc) || {};
+  const { absenteeList } = useRecoilValue(attendanceSelector(+thisMonth));
 
-  const isCurrentUser = currentUser.uid === id;
-  const userName = !userData || isCurrentUser ? '나' : displayName;
+  const { uid } = useRecoilValue(currAuthUserAtom);
+
+  const allUserDocs = useRecoilValue(allUsersAtom);
+
+  const userData = allUserDocs.find(user => user.id === state.userId);
+
+  const { id, photoURL, favoriteBookField, userRecords } = userData || {};
+
+  const isCurrentUser = uid === id;
+
+  const displayName = isCurrentUser ? '나' : userData?.displayName;
+
+  const isAbsentee = absenteeList.includes(state.userId);
 
   return (
     <>
-      <MobileHeader title={`${userName}의 책장`} backBtn={!isCurrentUser}>
+      <MobileHeader title={`${displayName}의 책장`} backBtn={!isCurrentUser}>
         {isCurrentUser && (
           <Link to="/setting">
             <FiSettings fontSize={18} />
@@ -89,7 +53,7 @@ const Bookshelf = () => {
         <Section>
           <UserImgName photoURL={photoURL} displayName={displayName} />
           <div className="mt-2.5 flex flex-col items-center gap-1">
-            {isAbsenceThisMonth() ? (
+            {isAbsentee ? (
               <Tag text="🔴 이번달 불참" color="red" shape="square" />
             ) : (
               <Tag text="✅ 이번달 출석" color="green" shape="square" />
@@ -97,7 +61,7 @@ const Bookshelf = () => {
           </div>
         </Section>
 
-        <Section title={`${userName}의 독서 분야 취향`}>
+        <Section title={`${displayName}의 독서 분야 취향`}>
           <ul className="flex min-h-14 flex-wrap gap-2">
             {favoriteBookField && favoriteBookField?.length !== 0 ? (
               favoriteBookField.map(({ id, name }) => (
@@ -135,7 +99,7 @@ const Bookshelf = () => {
 
         {(['발제문', '정리 기록', '모임 후기'] as PostType[]).map(postType => (
           <Section key={postType}>
-            <Subtitle title={`${userName}의 ${postType}`} />
+            <Subtitle title={`${displayName}의 ${postType}`} />
             <GuideLine text="2022년 6월 이후의 기록이 제공됩니다." />
             <BookshelfPostList userRecords={userRecords} postType={postType} />
           </Section>

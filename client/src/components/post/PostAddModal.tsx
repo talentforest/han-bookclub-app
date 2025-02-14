@@ -4,8 +4,8 @@ import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import useHandlePenalty, { PenaltyPost } from 'hooks/useHandlePenalty';
 import useSendPushNotification from 'hooks/useSendPushNotification';
 
-import { thisMonthBookClubState } from 'data/bookClubAtom';
-import { currentUserState } from 'data/userAtom';
+import { thisMonthClubAtom } from 'data/clubAtom';
+import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { HOST_REVIEW, SUBJECTS } from 'appConstants';
@@ -24,8 +24,8 @@ interface Props {
 const PostAddModal = ({ toggleModal, postType }: Props) => {
   const [text, setText] = useState('');
 
-  const thisMonthClub = useRecoilValue(thisMonthBookClubState);
-  const userData = useRecoilValue(currentUserState);
+  const thisMonthClub = useRecoilValue(thisMonthClubAtom);
+  const { uid } = useRecoilValue(currAuthUserAtom);
 
   const { sendPostNotification } = useSendPushNotification();
 
@@ -42,7 +42,7 @@ const PostAddModal = ({ toggleModal, postType }: Props) => {
   const docData = {
     text,
     createdAt: Date.now(),
-    creatorId: userData?.uid,
+    creatorId: uid,
     title: bookTitle,
     thumbnail,
   };
