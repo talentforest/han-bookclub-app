@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
+import useSendPushNotification from 'hooks/useSendPushNotification';
 
 import { recommendedBookAtom } from 'data/bookAtom';
 import { thisMonthClubAtom } from 'data/clubAtom';
@@ -22,7 +23,7 @@ export default function RecommendBookModalForm({ onModalClose }: Props) {
   const thisMonthClub = useRecoilValue(thisMonthClubAtom);
   const recommendBook = useRecoilValue(recommendedBookAtom);
 
-  // const { sendPostNotification } = useSendPushNotification();
+  const { sendPostNotification } = useSendPushNotification();
 
   const { book } = thisMonthClub;
 
@@ -53,7 +54,7 @@ export default function RecommendBookModalForm({ onModalClose }: Props) {
     }
     onAddDocSubmit(event);
     if (title !== '' && docData.text !== '') {
-      // sendPostNotification('추천책');
+      sendPostNotification('추천책');
     }
     onModalClose();
   };

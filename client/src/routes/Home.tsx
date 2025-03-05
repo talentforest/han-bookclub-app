@@ -8,15 +8,11 @@ import MobileHeader from 'layout/mobile/MobileHeader';
 import NextMonthClub from 'components/bookClub/NextMonthClub';
 import ThisMonthBookClub from 'components/bookClub/ThisMonthClub';
 import VoteSlider from 'components/bookVote/VoteSlider';
+import AllowNotificationModalBox from 'components/bookshelf/AllowNotificationModalBox';
 import GuideLine from 'components/common/GuideLine';
 import SquareBtn from 'components/common/button/SquareBtn';
 import Section from 'components/common/container/Section';
 import RecommendedBookSwiperContainer from 'components/post/recommendedBooks/RecommendedBookSwiperContainer';
-
-// 독서모임 정보
-// 1. 멤버 (+불참 정보)
-// 3. 독서모임 시작일
-// 2. 독서분야와 발제자
 
 const Home = () => {
   const navigate = useNavigate();
@@ -35,7 +31,7 @@ const Home = () => {
           <NextMonthClub />
         </Section>
 
-        <div className="mb-16 grid w-full grid-cols-2 gap-4 max-sm:gap-2.5">
+        <Section className="mb-16 grid w-full grid-cols-4 gap-4 max-sm:grid-cols-2 max-sm:gap-2.5">
           <SquareBtn
             name={`${thisYear} 월별 독서분야`}
             className="w-full !px-0"
@@ -62,7 +58,7 @@ const Home = () => {
             color="gray"
             handleClick={() => alert('아직 준비중이에요!')}
           />
-        </div>
+        </Section>
 
         <Section title="한페이지 멤버들이 소개했던 책">
           <RecommendedBookSwiperContainer />
@@ -72,6 +68,8 @@ const Home = () => {
           <VoteSlider />
         </Section>
       </main>
+
+      <AllowNotificationModalBox />
 
       <Footer />
     </>

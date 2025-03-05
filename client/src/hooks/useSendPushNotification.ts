@@ -8,11 +8,12 @@ import { PostType } from 'components/post/PostHandleBtns';
 
 const useSendPushNotification = () => {
   const allUsers = useRecoilValue(allUsersAtom);
+
   const { uid, displayName } = useRecoilValue(currAuthUserAtom);
 
   // 상대방 알림 설정 여부값 가져오기
   const checkPermittedNotificationByUser = (uid: string) => {
-    const user = allUsers.find(user => user.id === uid);
+    const user = allUsers.find(({ id }) => id === uid);
     return user.notification;
   };
 
@@ -74,19 +75,16 @@ const useSendPushNotification = () => {
 
     const body = `${displayName}님이 ${type}${postposition} 작성하셨어요. 바로 확인해보세요!👀`;
 
-    const subPath =
-      type === '발제문'
-        ? '/bookclub/subjects'
-        : type === '정리 기록'
-          ? '/bookclub/host-review'
-          : type === '모임 후기' || type === '추천책'
-            ? '/bookclub'
-            : type === '공유하고 싶은 문구'
-              ? '/challenge'
-              : '';
+    const subPath: { [key in PostType]: string } = {
+      발제문: '/bookclub/subjects',
+      '정리 기록': '/bookclub/host-review',
+      '모임 후기': '/bookclub',
+      추천책: '/bookclub',
+      '공유하고 싶은 문구': '/challenge',
+      '불참 후기': '',
+    };
 
-    const link = `${DOMAIN}${process.env.PUBLIC_URL}${subPath}`;
-
+    const link = `${DOMAIN}${process.env.PUBLIC_URL}${subPath[type]}`;
     sendMulticast({ title, body, link, uid }) //
       .catch(err => console.log(err));
   };
@@ -97,9 +95,7 @@ const useSendPushNotification = () => {
     body: string;
   }) => {
     const { title, body } = notificationData;
-
     const link = `${DOMAIN}${process.env.PUBLIC_URL}`;
-
     getDeviceToken()
       .then(token => {
         sendUnicast({ title, body, token, link });

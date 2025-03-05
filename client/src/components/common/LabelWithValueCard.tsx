@@ -20,7 +20,7 @@ export default function LabelWithValueCard({ label, value, editable }: Props) {
   return (
     <>
       <div className="relative flex h-full items-center gap-2 overflow-hidden rounded-xl border bg-white px-4 shadow-card max-sm:p-2 max-sm:px-4">
-        <h4 className="min-w-14 text-gray2">{label}</h4>
+        <h4 className="min-w-14 tracking-tight text-gray2">{label}</h4>
 
         <div className="flex w-full flex-1 flex-col justify-center py-1">
           {value && (
@@ -29,7 +29,7 @@ export default function LabelWithValueCard({ label, value, editable }: Props) {
                 value?.map(host => <UserName key={host} userId={host} tag />)}
 
               {typeof value === 'string' && (
-                <span>
+                <span className="tracking-tight">
                   {label === '모임시간'
                     ? formatDate(value, 'yyyy.MM.dd a h시 mm분')
                     : value}

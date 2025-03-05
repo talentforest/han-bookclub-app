@@ -35,7 +35,6 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
 
   const collName = getFbRouteOfPost(docMonth, REVIEW);
 
-  console.log(clubInfo);
   const docData = {
     createdAt: Date.now(),
     creatorId: uid,

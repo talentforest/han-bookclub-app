@@ -64,7 +64,6 @@ const PostAddModal = ({ toggleModal, postType }: Props) => {
     if (isOverdue) {
       updatePenaltyMonth(postType as keyof PenaltyPost);
     }
-
     if (docData.text !== '') {
       sendPostNotification(postType);
     }
@@ -82,7 +81,6 @@ const PostAddModal = ({ toggleModal, postType }: Props) => {
           text={text}
           setText={setText}
         />
-
         <SquareBtn name="작성 완료" type="submit" className="ml-auto" />
       </form>
     </Modal>

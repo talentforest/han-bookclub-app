@@ -10,7 +10,7 @@ import {
 import { useRecoilValue } from 'recoil';
 
 import useAlertAskJoin from './useAlertAskJoin';
-// import useSendPushNotification from './useSendPushNotification';
+import useSendPushNotification from './useSendPushNotification';
 import { BOOK_VOTE } from 'appConstants';
 import { dbService } from 'fbase';
 import { doc, setDoc } from 'firebase/firestore';
@@ -46,7 +46,7 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('register');
 
-  // const { sendVotePushNotification } = useSendPushNotification();
+  const { sendVotePushNotification } = useSendPushNotification();
 
   const setDocVote = async () => {
     const document = doc(dbService, BOOK_VOTE, `VoteId-${newVote.id}`);
@@ -70,10 +70,10 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
       window.alert('투표가 성공적으로 등록되었습니다!');
       onToggleModal();
       // 모든 유저에게 알림 보내기
-      // sendVotePushNotification({
-      //   voteTitle: newVote.title,
-      //   subPath: `/vote/${newVote.id}`,
-      // });
+      sendVotePushNotification({
+        voteTitle: newVote.title,
+        subPath: `/vote/${newVote.id}`,
+      });
     } catch (error) {
       console.error('Error adding document:', error);
     }

@@ -1,13 +1,12 @@
 import { IDocument } from 'data/documentsAtom';
 
-import { formatDate } from 'utils';
-
 import FooterBookCard from 'components/bookCard/FooterBookCard';
 import ExternalLinkBtn from 'components/common/ExternalLinkBtn';
 import Modal from 'components/common/Modal';
 import BookAuthorPublisher from 'components/common/book/BookAuthorPublisher';
 import BookThumbnail from 'components/common/book/BookThumbnail';
 import UserName from 'components/common/user/UserName';
+import PostFooter from 'components/post/PostFooter';
 import PostHeader from 'components/post/PostHeader';
 
 interface RecommendedBookModalProps {
@@ -64,14 +63,16 @@ export default function RecommendedBookModal({
           dangerouslySetInnerHTML={{ __html: text }}
           className="mt-2 whitespace-pre-wrap break-all"
         />
-        <span className="ml-auto mt-4 block w-full text-end text-sm text-gray1">
-          {formatDate(createdAt)}
-        </span>
-
-        <h3 className="text-sm text-gray1">추천책이 나왔던 모임책</h3>
+        <h3 className="mt-10 text-sm text-gray1">추천책이 나왔던 모임책</h3>
         {recommendedBookDetail.recommendedBook && (
-          <FooterBookCard book={{ title, thumbnail }} className="h-14" />
+          <FooterBookCard book={{ title, thumbnail }} className="mb-10 h-14" />
         )}
+        <PostFooter
+          collName={collName}
+          createdAt={createdAt}
+          post={recommendedBookDetail}
+          footerType="likes"
+        />
       </div>
     </Modal>
   );

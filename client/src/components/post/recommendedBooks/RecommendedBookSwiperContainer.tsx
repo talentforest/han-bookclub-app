@@ -9,7 +9,7 @@ import SwiperContainer from 'components/common/container/SwiperContainer';
 import PostRecommendedBookCard from 'components/post/recommendedBooks/PostRecommendedBookCard';
 
 interface RecommendedBookSwiperContainerProps {
-  yearMonthId?: string; // 이번달 모임에서의 추천책 vs 전체 추천책
+  yearMonthId?: string;
 }
 
 const swiperOptions = {

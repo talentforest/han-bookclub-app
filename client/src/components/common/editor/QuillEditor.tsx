@@ -16,7 +16,7 @@ const QuillEditor = ({ placeholder, text, setText }: QuillEditorProps) => {
         container: [
           [{ size: ['small', false, 'large'] }],
           [{ color: [] as string[] }],
-          ['italic', 'underline', 'blockquote'],
+          ['italic', 'underline', 'blockquote', 'bold'],
           [{ list: 'ordered' }, { list: 'bullet' }],
           ['link'],
         ],

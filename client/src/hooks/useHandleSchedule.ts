@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import useSendPushNotification from 'hooks/useSendPushNotification';
+
 import { IBookClub, thisMonthClubAtom } from 'data/clubAtom';
 import { useRecoilState } from 'recoil';
 
@@ -19,12 +21,13 @@ const useHandleSchedule = (
   const [time, setTime] = useState(
     !meeting?.time ? new Date() : new Date(meeting?.time),
   );
-
   const [place, setPlace] = useState(meeting?.place);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
 
   const document = doc(dbService, BOOKCLUB_THIS_YEAR, thisYearMonthId);
+
+  const { sendPlaceTimePushNotification } = useSendPushNotification();
 
   const onTimeSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -43,10 +46,10 @@ const useHandleSchedule = (
       await updateDoc(document, editInfo);
       setThisMonthBookClub({ ...thisMonthBookClub, ...editInfo });
       setIsEditing(false);
-      // sendPlaceTimePushNotification({
-      //   type: '모임 시간',
-      //   data: time.toLocaleString().slice(0, -3),
-      // });
+      sendPlaceTimePushNotification({
+        type: '모임 시간',
+        data: time.toLocaleString().slice(0, -3),
+      });
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +69,8 @@ const useHandleSchedule = (
       await updateDoc(document, editInfo);
       setThisMonthBookClub({ ...thisMonthBookClub, ...editInfo });
       setIsEditing(false);
-      // sendPlaceTimePushNotification({ type: '모임 장소', data: place });
+
+      sendPlaceTimePushNotification({ type: '모임 장소', data: place });
     } catch (error) {
       console.log(error);
     }

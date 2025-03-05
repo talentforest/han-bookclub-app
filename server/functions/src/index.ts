@@ -29,11 +29,7 @@ export const sendUnicast = onCall(async (request: { data: FcmUnicastData }) => {
   }
 
   const message = {
-    data: {
-      title,
-      body,
-      link,
-    },
+    data: { title, body, link },
     token,
   };
 
@@ -69,11 +65,7 @@ export const sendMulticast = onCall(
     }
 
     const message = {
-      data: {
-        title,
-        body,
-        link,
-      },
+      data: { title, body, link },
       tokens,
     };
 
