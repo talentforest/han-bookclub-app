@@ -1,7 +1,6 @@
 import { FormEvent, useState } from 'react';
 
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
-import useHandlePenalty, { PenaltyPost } from 'hooks/useHandlePenalty';
 import useSendPushNotification from 'hooks/useSendPushNotification';
 
 import { thisMonthClubAtom } from 'data/clubAtom';
@@ -27,7 +26,8 @@ const PostAddModal = ({ toggleModal, postType }: Props) => {
   const thisMonthClub = useRecoilValue(thisMonthClubAtom);
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const { sendPostNotification } = useSendPushNotification();
+  const { sendPostNotification, isPending, setIsPending } =
+    useSendPushNotification();
 
   const {
     id,
@@ -47,27 +47,24 @@ const PostAddModal = ({ toggleModal, postType }: Props) => {
     thumbnail,
   };
 
-  const { isOverdueSubject, isOverdueEndOfThisMonth, updatePenaltyMonth } =
-    useHandlePenalty(docData.createdAt);
-
   const { onAddDocSubmit } = useAddDoc({
     setText,
     collName,
     docData,
   });
 
-  const isOverdue =
-    postType === '발제문' ? isOverdueSubject : isOverdueEndOfThisMonth;
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    onAddDocSubmit(event);
-    if (isOverdue) {
-      updatePenaltyMonth(postType as keyof PenaltyPost);
+    if (docData.text === '') return;
+    try {
+      setIsPending(true);
+      await onAddDocSubmit(event);
+      await sendPostNotification(postType);
+    } catch (error) {
+      window.alert('등록 중 오류가 발생했습니다.');
+    } finally {
+      setIsPending(false);
+      toggleModal();
     }
-    if (docData.text !== '') {
-      sendPostNotification(postType);
-    }
-    toggleModal();
   };
 
   return (
@@ -81,7 +78,12 @@ const PostAddModal = ({ toggleModal, postType }: Props) => {
           text={text}
           setText={setText}
         />
-        <SquareBtn name="작성 완료" type="submit" className="ml-auto" />
+        <SquareBtn
+          name="작성 완료"
+          type="submit"
+          className="ml-auto"
+          disabled={isPending}
+        />
       </form>
     </Modal>
   );

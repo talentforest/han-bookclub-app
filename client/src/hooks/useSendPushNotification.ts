@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { allUsersAtom, currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
@@ -7,6 +9,8 @@ import { getDeviceToken, sendMulticast, sendUnicast } from 'fbase';
 import { PostType } from 'components/post/PostHandleBtns';
 
 const useSendPushNotification = () => {
+  const [isPending, setIsPending] = useState(false);
+
   const allUsers = useRecoilValue(allUsersAtom);
 
   const { uid, displayName } = useRecoilValue(currAuthUserAtom);
@@ -123,6 +127,8 @@ const useSendPushNotification = () => {
     sendPlaceTimePushNotification,
     sendNotificationToCurrentUser,
     sendNotificationToAllUser,
+    setIsPending,
+    isPending,
   };
 };
 
