@@ -35,7 +35,7 @@
   body {
     @apply bg-[#f8f8f8] font-SUITE;
     > div {
-      @apply mx-auto w-[70%] px-4 pb-14 max-sm:w-full max-sm:px-5;
+      @apply mx-auto w-[80%] px-4 pb-14 max-sm:w-full max-sm:px-5;
       > main {
         @apply relative;
       }

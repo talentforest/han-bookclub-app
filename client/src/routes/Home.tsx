@@ -9,7 +9,7 @@ import NextMonthClub from 'components/bookClub/NextMonthClub';
 import ThisMonthBookClub from 'components/bookClub/ThisMonthClub';
 import VoteSlider from 'components/bookVote/VoteSlider';
 import AllowNotificationModalBox from 'components/bookshelf/AllowNotificationModalBox';
-import GuideLine from 'components/common/GuideLine';
+// import GuideLine from 'components/common/GuideLine';
 import SquareBtn from 'components/common/button/SquareBtn';
 import Section from 'components/common/container/Section';
 import RecommendedBookSwiperContainer from 'components/post/recommendedBooks/RecommendedBookSwiperContainer';
@@ -22,16 +22,20 @@ const Home = () => {
       <MobileHeader title="독서모임 한페이지" />
 
       <main>
-        <Section title="이달의 모임정보">
-          <GuideLine text="매월 1일에 업데이트 됩니다" />
-          <ThisMonthBookClub />
-        </Section>
+        <div className="my-2.5 mb-16 grid grid-cols-3 gap-x-4 max-md:flex max-md:flex-col max-md:gap-y-8">
+          <Section title="이달의 모임정보" className="col-span-2 !my-0">
+            <ThisMonthBookClub />
+          </Section>
 
-        <Section title="다음달 모임책">
-          <NextMonthClub />
-        </Section>
+          <Section
+            title="다음달 모임책"
+            className="col-span-1 !my-0 h-full w-full"
+          >
+            <NextMonthClub />
+          </Section>
+        </div>
 
-        <Section className="mb-16 grid w-full grid-cols-4 gap-4 max-sm:grid-cols-2 max-sm:gap-2.5">
+        <Section className="mb-20 grid w-full grid-cols-4 gap-4 max-sm:grid-cols-2 max-sm:gap-2.5">
           <SquareBtn
             name={`${thisYear} 월별 독서분야`}
             className="w-full !px-0"

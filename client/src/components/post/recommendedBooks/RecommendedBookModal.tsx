@@ -36,7 +36,11 @@ export default function RecommendedBookModal({
   } = recommendedBookDetail;
 
   return (
-    <Modal title="추천책 보기" onToggleClick={onToggleClick}>
+    <Modal
+      title="추천책 보기"
+      onToggleClick={onToggleClick}
+      className="w-[40%]"
+    >
       <PostHeader
         collName={collName}
         post={recommendedBookDetail}

@@ -45,13 +45,13 @@ const TopNavigation = () => {
   return (
     <>
       {!pathname.includes('create_account') && pathname !== '/login' && (
-        <nav className="flex items-center justify-between py-5 max-sm:hidden">
+        <nav className="mb-4 flex items-center justify-between py-8 max-sm:hidden">
           <Link to="/" className="flex items-center gap-1">
-            <LogoImg className="size-5" />
-            <span className="font-medium">독서모임 한페이지</span>
+            <LogoImg className="size-6" />
+            <span className="text-[17px] font-medium">독서모임 한페이지</span>
           </Link>
 
-          <ul className="flex gap-x-6">
+          <ul className="flex gap-x-8">
             {navigationList.map(({ name, to, state, onClick }) => (
               <li key={to}>
                 <Link to={to} state={state} onClick={onClick}>

@@ -40,7 +40,7 @@ export default function NextMonthClub() {
           month={formatDate(nextMonthId, 'M')}
           book={nextBook}
           bookFields={field}
-          className="col-span-3"
+          className="!mb-0 h-full"
         />
       ) : (
         <EmptyCard
