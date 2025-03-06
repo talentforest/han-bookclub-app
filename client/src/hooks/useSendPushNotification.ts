@@ -60,7 +60,7 @@ const useSendPushNotification = () => {
       type === '모임 시간' ? '이' : '가'
     } ${data}로 변경되었습니다! 그럼 모임때 만나요👋`;
 
-    const link = `${process.env.PUBLIC_URL}`;
+    const link = `${DOMAIN}${process.env.PUBLIC_URL}`;
 
     sendMulticast({ title, body, link, uid }) //
       .catch(err => console.log(err));
@@ -103,13 +103,26 @@ const useSendPushNotification = () => {
       .catch(err => console.log(err));
   };
 
+  const sendNotificationToAllUser = async ({
+    title,
+    body,
+  }: {
+    title: string;
+    body: string;
+  }) => {
+    const link = `${DOMAIN}${process.env.PUBLIC_URL}`;
+    sendMulticast({ title, body, link, uid }) //
+      .catch(err => console.log(err));
+  };
+
   return {
     checkPermittedNotificationByUser,
     sendPostNotification,
     sendCompleteChallengePushNotification,
-    sendNotificationToCurrentUser,
     sendVotePushNotification,
     sendPlaceTimePushNotification,
+    sendNotificationToCurrentUser,
+    sendNotificationToAllUser,
   };
 };
 
