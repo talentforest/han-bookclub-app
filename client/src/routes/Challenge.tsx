@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { getCollection } from 'api/firebase/getFbDoc';
 
-import { challengeState } from 'data/bookAtom';
-import { useRecoilState } from 'recoil';
+import { currAuthUserAtom } from 'data/userAtom';
+import { useRecoilValue } from 'recoil';
 
 import { CHALLENGE } from 'appConstants';
 import { FiPlusCircle } from 'react-icons/fi';
@@ -11,21 +11,23 @@ import { thisYear } from 'utils';
 
 import MobileHeader from 'layout/mobile/MobileHeader';
 
-import ChallengeBookCard from 'components/challenge/ChallengeBookCard';
+// import ChallengeBookCard from 'components/challenge/ChallengeBookCard';
 import DDay from 'components/common/DDay';
 import Subtitle from 'components/common/Subtitle';
 import Section from 'components/common/container/Section';
 import SearchedBookPostAddModal from 'components/search/SearchedBookPostAddModal';
 
 export default function Challenge() {
+  const [challengeList, setChallengeList] = useState([]);
+  const { uid } = useRecoilValue(currAuthUserAtom);
   const [showChallengeModal, setShowChallengeModal] = useState(false);
-  const [userChallenges, setUserChallenges] = useRecoilState(challengeState);
+  // const [userChallenge, setUserChallenge] = useRecoilState(challengeState);
 
   useEffect(() => {
-    if (!userChallenges) {
-      getCollection(CHALLENGE, setUserChallenges);
+    if (!challengeList) {
+      getCollection(CHALLENGE, setChallengeList);
     }
-  }, []);
+  }, [uid]);
 
   const onChallengeModalClick = () => setShowChallengeModal(prev => !prev);
 
@@ -47,13 +49,13 @@ export default function Challenge() {
             </button>
           </div>
 
-          {userChallenges?.length !== 0 && (
+          {/* {challengeList?.length !== 0 && (
             <ul className="grid grid-cols-2 gap-x-6 gap-y-12">
-              {userChallenges?.map(challenge => (
+              {challengeList?.map(challenge => (
                 <ChallengeBookCard key={challenge.id} challenge={challenge} />
               ))}
             </ul>
-          )}
+          )} */}
         </Section>
 
         {showChallengeModal && (

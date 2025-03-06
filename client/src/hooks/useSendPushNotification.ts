@@ -79,13 +79,12 @@ const useSendPushNotification = () => {
 
     const body = `${displayName}님이 ${type}${postposition} 작성하셨어요. 바로 확인해보세요!👀`;
 
-    const subPath: { [key in PostType]: string } = {
+    const subPath: Partial<{ [key in PostType]: string }> = {
       발제문: '/bookclub/subjects',
       '정리 기록': '/bookclub/host-review',
       '모임 후기': '/bookclub',
       추천책: '/bookclub',
       '공유하고 싶은 문구': '/challenge',
-      '불참 후기': '',
     };
 
     const link = `${DOMAIN}${process.env.PUBLIC_URL}${subPath[type]}`;

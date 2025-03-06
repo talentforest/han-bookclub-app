@@ -68,7 +68,7 @@ export const searchListAtom = atom<ISearchedBook[]>({
   default: [],
 });
 
-export const challengeState = atom<IChallenge[]>({
+export const challengeState = atom<IChallenge>({
   key: `challenge/${v4()}`,
   default: null,
 });

@@ -61,7 +61,7 @@ export default function AbsenceMonthTable({
 
   return (
     <>
-      {absenceMonths?.length ? (
+      {absenceList ? (
         <Table
           color="blue"
           labels={['월', '일회불참', '모임정지']}

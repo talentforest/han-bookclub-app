@@ -4,6 +4,7 @@ import PostDeleteBtn from 'components/common/button/PostDeleteBtn';
 import PostEditBtn from 'components/common/button/PostEditBtn';
 
 export type PostType =
+  | '챌린지'
   | '발제문'
   | '정리 기록'
   | '불참 후기'

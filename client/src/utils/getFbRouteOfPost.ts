@@ -8,3 +8,8 @@ export const getFbRouteOfPost = (
   const collection = `BookClub-${year}`;
   return `${collection}/${yearMonthDocId}/${subCollection}`;
 };
+
+export const getFbRoute = (coll: string, docId?: string) => {
+  if (docId) return `${coll}/${docId}`;
+  return `${coll}`;
+};

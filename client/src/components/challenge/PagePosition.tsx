@@ -1,17 +1,20 @@
 import { FaRunning } from 'react-icons/fa';
 import { getPercentage } from 'utils';
 
+import Tag from 'components/common/Tag';
+
 interface Props {
   currentPage: number;
   wholePage: number;
+  isEnd: boolean;
 }
 
-export default function PagePosition({ currentPage, wholePage }: Props) {
+export default function PagePosition({ currentPage, wholePage, isEnd }: Props) {
   const widthPercent = `${getPercentage(currentPage, wholePage).toFixed(0)}%`;
 
   return (
-    <>
-      <div className="mb-1 mt-3 flex h-[14px] w-full items-center rounded-2xl border border-blue2 p-0.5">
+    <div className="mt-2 flex items-center gap-4">
+      <div className="flex h-[14px] w-full items-center rounded-2xl border border-blue2 p-0.5">
         <div
           style={{ width: widthPercent }}
           className={`relative h-full rounded-3xl ${widthPercent === '100%' ? 'w-full bg-green1' : 'bg-yellow-300'}`}
@@ -24,10 +27,20 @@ export default function PagePosition({ currentPage, wholePage }: Props) {
       </div>
 
       {widthPercent === '100%' && (
-        <span className="absolute right-2.5 top-2.5 text-sm font-medium text-green1">
-          ⭐️챌린지 달성⭐️
-        </span>
+        <Tag
+          text="🚀 챌린지 성공"
+          color="green"
+          className="ml-auto min-w-fit font-medium"
+        />
       )}
-    </>
+
+      {widthPercent !== '100%' && isEnd && (
+        <Tag
+          text="😭 챌린지 실패"
+          color="red"
+          className="ml-auto min-w-fit font-medium"
+        />
+      )}
+    </div>
   );
 }

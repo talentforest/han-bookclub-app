@@ -1,3 +1,3 @@
 export function existDocObj<T>(doc: T) {
-  return !!Object.keys(doc).length;
+  return doc ? !!Object.keys(doc).length : {};
 }

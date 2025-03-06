@@ -20,7 +20,7 @@ interface Props {
 }
 
 export default function ChallengeModalForm({ onModalClose }: Props) {
-  const userChallenges = useRecoilValue(challengeState);
+  const userChallenge = useRecoilValue(challengeState);
   const bookDesc = useRecoilValue(bookDescState);
   const { uid } = useRecoilValue(currAuthUserAtom);
   const [pageNums, setPageNums] = useState({
@@ -28,9 +28,7 @@ export default function ChallengeModalForm({ onModalClose }: Props) {
     currentPage: 0,
   });
 
-  const findMyChallengeBooks = userChallenges.find(
-    challenge => challenge.id === uid,
-  );
+  const findMyChallengeBooks = userChallenge;
 
   const { title, thumbnail, authors, publisher } = bookDesc;
 

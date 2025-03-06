@@ -54,9 +54,13 @@ const PostBookThumbnailBox = ({ postId, postType }: PropsType) => {
         <button
           type="button"
           onClick={handleModal}
-          className="h-fit w-full overflow-hidden rounded-md shadow-card"
+          className="w-full overflow-hidden rounded-md shadow-card"
         >
-          <BookThumbnail thumbnail={thumbnail} title={title} />
+          <BookThumbnail
+            thumbnail={thumbnail}
+            title={title}
+            className="max-h-60 w-full"
+          />
         </button>
       )}
 

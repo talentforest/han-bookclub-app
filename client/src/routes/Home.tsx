@@ -35,10 +35,10 @@ const Home = () => {
           </Section>
         </div>
 
-        <Section className="mb-20 grid w-full grid-cols-4 gap-4 max-sm:grid-cols-2 max-sm:gap-2.5">
+        <Section className="mb-32 mt-28 grid w-full grid-cols-2 gap-4 max-sm:mt-20 max-sm:gap-2.5">
           <SquareBtn
             name={`${thisYear} 월별 독서분야`}
-            className="w-full !px-0"
+            className="h-fit w-full !px-0 py-3"
             color="darkBlue"
             handleClick={() =>
               navigate('/monthlyinfo', { state: 'fieldAndHost' })
@@ -46,19 +46,19 @@ const Home = () => {
           />
           <SquareBtn
             name={`${thisYear} 모임불참`}
-            className="w-full"
+            className="h-fit w-full !px-0 py-3"
             color="darkBlue"
             handleClick={() => navigate('/monthlyinfo', { state: 'absence' })}
           />
           <SquareBtn
             name={`${thisYear} 챌린지`}
-            className="w-full"
+            className="h-fit w-full !px-0 py-3"
             color="gray"
             handleClick={() => alert('아직 준비중이에요!')}
           />
           <SquareBtn
             name={`${thisYear} 연말결산`}
-            className="w-full"
+            className="h-fit w-full !px-0 py-3"
             color="gray"
             handleClick={() => alert('아직 준비중이에요!')}
           />
