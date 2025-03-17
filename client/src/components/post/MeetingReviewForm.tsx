@@ -65,14 +65,14 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mb-5 rounded-xl border bg-green3 p-4 shadow-card max-sm:p-4"
+      className="mb-5 rounded-2xl bg-green3 p-4 shadow-card max-sm:p-4"
     >
       <div className="flex flex-col">
         <textarea
           placeholder="모임 후기나 기록하고 싶은 이야기를 작성해주세요(한 문장도 좋아요!)."
           value={text}
           onChange={onChange}
-          className="mb-1 min-h-40 w-full resize-none rounded-xl border bg-white p-2.5 outline-none"
+          className="mb-1 min-h-40 w-full resize-none rounded-xl bg-white p-2.5 outline-none"
         />
         <div className="flex items-end">
           <button
@@ -87,7 +87,7 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
             name="남기기"
             type="submit"
             color="blue"
-            className="ml-auto !px-5"
+            className="ml-auto mt-2 !px-5 !py-2"
             disabled={isPending}
           />
         </div>

@@ -21,7 +21,7 @@ export default function ChevronRightLinkBtn<T>({
     <Link
       to={to}
       state={state}
-      className={`mt-3 flex items-center justify-end gap-1 text-sm ${className}`}
+      className={`mt-3 flex items-center justify-end gap-1 text-sm text-gray1 ${className}`}
       onClick={onClick}
     >
       {title && <span className="font-medium">{title}</span>}

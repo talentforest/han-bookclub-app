@@ -53,7 +53,7 @@ export default function ThisMonthClub() {
   ];
 
   return (
-    <div className="grid grid-cols-5 gap-6 max-sm:flex max-sm:flex-col">
+    <div className="grid grid-cols-5 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">
       {book ? (
         <MonthBookCard
           month={formatDate(id, 'M')}
@@ -65,7 +65,7 @@ export default function ThisMonthClub() {
         <EmptyCard text="아직 등록된 모임책이 없어요." />
       )}
 
-      <div className="col-span-2 flex flex-col gap-4">
+      <div className="col-span-2 flex flex-col gap-6 max-sm:gap-4">
         {thisMonthClubInfoList.map(({ label, value, editable }) => (
           <LabelWithValueCard
             key={label}

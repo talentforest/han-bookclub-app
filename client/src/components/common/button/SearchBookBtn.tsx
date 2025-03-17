@@ -12,7 +12,7 @@ const SearchBookBtn = () => {
   return (
     <>
       <button
-        className="mb-[10px] flex w-1/2 items-center gap-1 rounded-xl border bg-white px-4 py-3 shadow-card max-sm:w-full"
+        className="mb-[10px] flex w-1/2 items-center gap-1 rounded-xl bg-white px-4 py-3 shadow-card max-sm:w-full"
         onClick={toggleRecommendPostModal}
       >
         <FiSearch fontSize={16} />

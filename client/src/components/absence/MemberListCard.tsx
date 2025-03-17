@@ -11,7 +11,7 @@ export default function MemberListCard({
   memberList,
 }: MemberListCardProps) {
   return (
-    <div className="rounded-card border bg-white p-4 shadow-card">
+    <div className="rounded-card bg-white p-4 shadow-card">
       <div className="flex items-center justify-between">
         <Tag
           text={title}

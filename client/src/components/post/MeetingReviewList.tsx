@@ -37,7 +37,7 @@ const MeetingReviewList = ({ yearMonthId = thisYearMonthId }: Props) => {
             type="모임 후기"
             post={meetingReview}
             collName={collName}
-            className="rounded-xl border bg-white p-4 shadow-card"
+            className="rounded-2xl bg-white p-4 shadow-card"
           >
             <PostFooter
               createdAt={meetingReview.createdAt}

@@ -22,7 +22,7 @@ export default function BasicBookCard({
 
   return (
     <div
-      className={`rounded-card border bg-white p-4 shadow-card ${thumbnail === '' ? '[&>div:first-child]:float-left [&>div:first-child]:mr-3 [&>div:first-child]:h-20' : '[&>img]:float-left [&>img]:mr-3 [&>img]:h-28'} ${className}`}
+      className={`rounded-card bg-white px-4 py-5 shadow-card ${thumbnail === '' ? '[&>div:first-child]:float-left [&>div:first-child]:mr-3 [&>div:first-child]:h-20' : '[&>img]:float-left [&>img]:mr-3 [&>img]:h-28'} ${className}`}
     >
       <BookThumbnail thumbnail={thumbnail} title={title} />
 
