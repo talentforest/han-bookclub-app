@@ -13,7 +13,7 @@ export default function DDay({
 }: Props) {
   return (
     <div className={`flex items-center ${className}`}>
-      <span className="mt-0.5">D-DAY</span>
+      <span className="mt-0.5 text-[15px] text-gray1">D-DAY</span>
       <span>: {getDDay(hyphenDate)}</span>
 
       {isDateMark && (

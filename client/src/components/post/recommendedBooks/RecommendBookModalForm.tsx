@@ -23,8 +23,7 @@ export default function RecommendBookModalForm({ onModalClose }: Props) {
   const thisMonthClub = useRecoilValue(thisMonthClubAtom);
   const recommendBook = useRecoilValue(recommendedBookAtom);
 
-  const { sendPostNotification, setIsPending, isPending } =
-    useSendPushNotification();
+  const { sendPostNotification, isPending } = useSendPushNotification();
 
   const { book } = thisMonthClub;
 
@@ -57,13 +56,11 @@ export default function RecommendBookModalForm({ onModalClose }: Props) {
       return window.alert('추천이유를 작성해주세요.');
     }
     try {
-      setIsPending(true);
       await onAddDocSubmit(event);
       await sendPostNotification('추천책');
     } catch (error) {
       window.alert('추천 등록 중 문제가 발생했습니다. 다시 시도해주세요.');
     } finally {
-      setIsPending(false);
       onModalClose();
     }
   };

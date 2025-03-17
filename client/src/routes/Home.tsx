@@ -8,8 +8,6 @@ import MobileHeader from 'layout/mobile/MobileHeader';
 import NextMonthClub from 'components/bookClub/NextMonthClub';
 import ThisMonthBookClub from 'components/bookClub/ThisMonthClub';
 import VoteSlider from 'components/bookVote/VoteSlider';
-import AllowNotificationModalBox from 'components/bookshelf/AllowNotificationModalBox';
-// import GuideLine from 'components/common/GuideLine';
 import SquareBtn from 'components/common/button/SquareBtn';
 import Section from 'components/common/container/Section';
 import RecommendedBookSwiperContainer from 'components/post/recommendedBooks/RecommendedBookSwiperContainer';
@@ -22,7 +20,7 @@ const Home = () => {
       <MobileHeader title="독서모임 한페이지" />
 
       <main>
-        <div className="my-2.5 mb-16 grid grid-cols-3 gap-x-4 max-md:flex max-md:flex-col max-md:gap-y-8">
+        <div className="my-2.5 mb-16 grid grid-cols-3 gap-x-6 max-md:flex max-md:flex-col max-md:gap-y-8">
           <Section title="이달의 모임정보" className="col-span-2 !my-0">
             <ThisMonthBookClub />
           </Section>
@@ -38,7 +36,7 @@ const Home = () => {
         <Section className="mb-32 mt-28 grid w-full grid-cols-2 gap-4 max-sm:mt-20 max-sm:gap-2.5">
           <SquareBtn
             name={`${thisYear} 월별 독서분야`}
-            className="h-fit w-full !px-0 py-3"
+            className="h-fit w-full !px-0 py-3.5"
             color="darkBlue"
             handleClick={() =>
               navigate('/monthlyinfo', { state: 'fieldAndHost' })
@@ -46,19 +44,19 @@ const Home = () => {
           />
           <SquareBtn
             name={`${thisYear} 모임불참`}
-            className="h-fit w-full !px-0 py-3"
+            className="py-4.5 h-fit w-full !px-0"
             color="darkBlue"
             handleClick={() => navigate('/monthlyinfo', { state: 'absence' })}
           />
           <SquareBtn
             name={`${thisYear} 챌린지`}
-            className="h-fit w-full !px-0 py-3"
+            className="h-fit w-full !px-0 py-3.5"
             color="gray"
             handleClick={() => alert('아직 준비중이에요!')}
           />
           <SquareBtn
             name={`${thisYear} 연말결산`}
-            className="h-fit w-full !px-0 py-3"
+            className="h-fit w-full !px-0 py-3.5"
             color="gray"
             handleClick={() => alert('아직 준비중이에요!')}
           />
@@ -72,8 +70,6 @@ const Home = () => {
           <VoteSlider />
         </Section>
       </main>
-
-      <AllowNotificationModalBox />
 
       <Footer />
     </>

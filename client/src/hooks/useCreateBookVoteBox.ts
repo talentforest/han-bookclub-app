@@ -46,7 +46,7 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('register');
 
-  const { sendVotePushNotification } = useSendPushNotification();
+  const { sendVotePushNotification, isPending } = useSendPushNotification();
 
   const setDocVote = async () => {
     const document = doc(dbService, BOOK_VOTE, `VoteId-${newVote.id}`);
@@ -119,6 +119,7 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
     onDateChange,
     onAddVoteItemBtn,
     onDeleteVoteItemClick,
+    isPending,
   };
 };
 

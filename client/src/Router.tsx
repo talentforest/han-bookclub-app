@@ -27,6 +27,7 @@ import Absence from 'components/setting/Absence';
 import ChangePassword from 'components/setting/ChangePassword';
 import DeleteAccount from 'components/setting/DeleteAccount';
 import Developer from 'components/setting/Developer';
+import NotificationSetting from 'components/setting/NotificationSetting';
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -87,6 +88,10 @@ function Router({ isLoggedIn }: PropsType) {
             <Route path="/setting/edit-password" element={<ChangePassword />} />
             <Route path="/setting/delete-account" element={<DeleteAccount />} />
             <Route path="/setting/developer" element={<Developer />} />
+            <Route
+              path="/setting/notification"
+              element={<NotificationSetting />}
+            />
 
             {anonymous && (
               <>

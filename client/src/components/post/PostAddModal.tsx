@@ -26,8 +26,7 @@ const PostAddModal = ({ toggleModal, postType }: Props) => {
   const thisMonthClub = useRecoilValue(thisMonthClubAtom);
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const { sendPostNotification, isPending, setIsPending } =
-    useSendPushNotification();
+  const { sendPostNotification, isPending } = useSendPushNotification();
 
   const {
     id,
@@ -56,14 +55,11 @@ const PostAddModal = ({ toggleModal, postType }: Props) => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     if (docData.text === '') return;
     try {
-      setIsPending(true);
       await onAddDocSubmit(event);
       await sendPostNotification(postType);
+      toggleModal();
     } catch (error) {
       window.alert('등록 중 오류가 발생했습니다.');
-    } finally {
-      setIsPending(false);
-      toggleModal();
     }
   };
 

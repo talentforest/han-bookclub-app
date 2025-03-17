@@ -23,7 +23,7 @@ export default function SentenceAddModal({ onToggleClick, book }: Props) {
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const { sendPostNotification } = useSendPushNotification();
+  const { sendPostNotification, isPending } = useSendPushNotification();
 
   const { title, thumbnail } = book;
 
@@ -84,7 +84,7 @@ export default function SentenceAddModal({ onToggleClick, book }: Props) {
           />
         </div>
 
-        <SquareBtn type="submit" name="등록하기" />
+        <SquareBtn type="submit" name="등록하기" disabled={isPending} />
       </form>
     </Modal>
   );

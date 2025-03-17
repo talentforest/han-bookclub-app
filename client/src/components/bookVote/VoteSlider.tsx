@@ -9,9 +9,11 @@ import { useRecoilState } from 'recoil';
 
 import VoteProgressCard from './VoteProgressCard';
 import { BOOK_VOTE } from 'appConstants';
+import { SwiperSlide } from 'swiper/react';
 import { todayWithHyphen } from 'utils';
 
 import EmptyCard from 'components/common/container/EmptyCard';
+import SwiperContainer from 'components/common/container/SwiperContainer';
 
 const VoteSlider = () => {
   const [bookVotes, setBookVotes] = useRecoilState(bookVotesState);
@@ -28,14 +30,31 @@ const VoteSlider = () => {
 
   const navigate = useNavigate();
 
+  const swiperOptions = {
+    slidesPerView: 'auto' as const,
+    breakpoints: {
+      1024: {
+        slidesPerView: 3,
+      },
+      800: {
+        slidesPerView: 2,
+      },
+      500: {
+        slidesPerView: 1,
+      },
+    },
+  };
+
   return (
     <>
       {progressVotes?.length ? (
-        <div className={`${progressVotes?.length}`}>
+        <SwiperContainer options={swiperOptions}>
           {progressVotes?.map(voteDetail => (
-            <VoteProgressCard key={voteDetail.id} voteDetail={voteDetail} />
+            <SwiperSlide key={voteDetail.id}>
+              <VoteProgressCard voteDetail={voteDetail} />
+            </SwiperSlide>
           ))}
-        </div>
+        </SwiperContainer>
       ) : (
         <EmptyCard
           text="진행중인 투표가 없어요."

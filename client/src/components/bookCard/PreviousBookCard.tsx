@@ -24,7 +24,7 @@ const PreviousBookCard = ({ document }: PropsType) => {
   const month = formatDate(id, 'M');
 
   return (
-    <div className="relative flex h-full w-full cursor-pointer flex-col items-center justify-between gap-1 rounded-xl border bg-white px-4 py-5 shadow-card">
+    <div className="rounded-card relative flex h-full w-full cursor-pointer flex-col items-center justify-between gap-1 bg-white px-4 py-5 shadow-card">
       {pathname === '/previous-club' && (
         <Tag color="lightBlue" shape="rounded" text={`${month}월의 책`} />
       )}

@@ -24,7 +24,7 @@ export default function BookThumbnail({
 
       {thumbnail === '' && (
         <div
-          className={`flex aspect-[0.68/1] h-full max-h-40 items-center justify-center rounded-md border bg-white shadow-card ${className}`}
+          className={`flex aspect-[0.68/1] h-full max-h-40 items-center justify-center rounded-md bg-white shadow-card ${className}`}
         >
           {title.includes('이벤트') ? (
             <MdEventAvailable className="size-full max-h-[40px] max-w-[40px] text-gray2 max-sm:w-1/2" />

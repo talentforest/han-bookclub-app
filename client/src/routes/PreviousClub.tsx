@@ -31,7 +31,7 @@ function PreviousClub() {
       <MobileHeader title="지난 한페이지" />
 
       <main>
-        <ul className="mb-10 mt-1 flex flex-wrap gap-3 max-sm:mb-10 max-sm:gap-2">
+        <ul className="mb-10 mt-1 flex flex-wrap gap-4 max-sm:mb-10 max-sm:gap-x-2.5 max-sm:gap-y-2">
           {operationYearList.map(year => (
             <li key={year}>
               <SquareBtn
@@ -39,7 +39,7 @@ function PreviousClub() {
                 name={`${year}년`}
                 type="button"
                 handleClick={() => setSelectedYear(year)}
-                className="border py-0 !shadow-none"
+                className="py-0"
               />
             </li>
           ))}

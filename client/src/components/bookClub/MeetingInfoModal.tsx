@@ -41,6 +41,7 @@ export default function MeetingInfoModal({
     onPlaceSubmit,
     onTagClick,
     onEditClick,
+    isPending,
   } = useHandleSchedule(meeting, setIsEditing);
 
   useEffect(() => {
@@ -60,7 +61,12 @@ export default function MeetingInfoModal({
             currentDate={time}
             onChange={date => setTime(date)}
           />
-          <SquareBtn type="submit" name="설정하기" className="ml-auto mt-5" />
+          <SquareBtn
+            type="submit"
+            name="설정하기"
+            className="ml-auto mt-5"
+            disabled={isPending}
+          />
         </form>
       )}
 

@@ -41,12 +41,15 @@ export default {
         green2: '#97EAD2',
         green3: '#bcf5d5',
       },
+      borderRadius: {
+        card: '20px',
+      },
       boxShadow: {
-        card: '2px 4px 12px 0px rgba(0, 0, 0, 0.08)',
+        card: '2px 4px 8px 0px rgba(0, 0, 0, 0.04)',
         modal: '2px 2px 16px 0px rgba(0, 0, 0, 0.25)',
       },
       borderColor: {
-        DEFAULT: '#efefef', // 기본 테두리 색상
+        DEFAULT: '#b5b5b5', // 기본 테두리 색상
       },
     },
   },

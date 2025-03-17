@@ -27,7 +27,8 @@ const useHandleSchedule = (
 
   const document = doc(dbService, BOOKCLUB_THIS_YEAR, thisYearMonthId);
 
-  const { sendPlaceTimePushNotification } = useSendPushNotification();
+  const { sendPlaceTimePushNotification, isPending } =
+    useSendPushNotification();
 
   const onTimeSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -44,14 +45,15 @@ const useHandleSchedule = (
         },
       };
       await updateDoc(document, editInfo);
-      setThisMonthBookClub({ ...thisMonthBookClub, ...editInfo });
-      setIsEditing(false);
-      sendPlaceTimePushNotification({
+      await sendPlaceTimePushNotification({
         type: '모임 시간',
         data: time.toLocaleString().slice(0, -3),
       });
+      setThisMonthBookClub({ ...thisMonthBookClub, ...editInfo });
     } catch (error) {
-      console.log(error);
+      window.alert('모임 시간 등록 중 오류가 발생했습니다.');
+    } finally {
+      setIsEditing(false);
     }
   };
 
@@ -67,12 +69,12 @@ const useHandleSchedule = (
         meeting: { ...meeting, place },
       };
       await updateDoc(document, editInfo);
+      await sendPlaceTimePushNotification({ type: '모임 장소', data: place });
       setThisMonthBookClub({ ...thisMonthBookClub, ...editInfo });
-      setIsEditing(false);
-
-      sendPlaceTimePushNotification({ type: '모임 장소', data: place });
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsEditing(false);
     }
   };
 
@@ -92,6 +94,7 @@ const useHandleSchedule = (
     setTime,
     setPlace,
     onTagClick,
+    isPending,
   };
 };
 

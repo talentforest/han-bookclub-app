@@ -47,8 +47,7 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
     docData,
   });
 
-  const { isPending, setIsPending, sendPostNotification } =
-    useSendPushNotification();
+  const { isPending, sendPostNotification } = useSendPushNotification();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -56,13 +55,10 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
     if (docData.text === '') return;
 
     try {
-      setIsPending(true);
       await onAddDocSubmit(event);
       await sendPostNotification('추천책');
     } catch (error) {
       window.alert('추천 등록 중 문제가 발생했습니다. 다시 시도해주세요.');
-    } finally {
-      setIsPending(false);
     }
   };
 

@@ -10,7 +10,7 @@ export default function VoteBookItemBtn({ selected, onVoteItemClick }: Props) {
     <button
       type="button"
       onClick={onVoteItemClick}
-      className="flex w-full flex-col items-center justify-center border bg-green1 py-4 text-white"
+      className="flex w-full flex-col items-center justify-center bg-green1 py-5 text-white"
     >
       {selected ? (
         <FaCheckCircle className="size-5" />

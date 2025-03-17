@@ -14,7 +14,7 @@ export default function VoteItemReasonBox({ voteItems }: Props) {
   const toggleDetails = () => setIsOpen(prev => !prev);
 
   return (
-    <div className="mb-10 mt-3 rounded-xl border bg-white p-4 shadow-card max-sm:py-2.5">
+    <div className="mb-10 mt-3 rounded-xl bg-white p-4 shadow-card max-sm:py-2.5">
       <button
         type="button"
         onClick={toggleDetails}

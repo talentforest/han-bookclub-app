@@ -7,6 +7,8 @@ import useAlertAskJoin from 'hooks/useAlertAskJoin';
 import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
+import { authService } from 'fbase';
+
 import MobileHeader from 'layout/mobile/MobileHeader';
 
 import LogOutBtn from 'components/common/button/LogOutBtn';
@@ -19,14 +21,15 @@ const Setting = () => {
   const userSettings = [
     { to: 'edit-profile', name: '프로필 정보' },
     { to: 'edit-password', name: '비밀번호 변경' },
-    { to: 'absence', name: '모임불참 설정' },
+    { to: 'absence', name: '모임불참' },
   ];
 
   const etcSettings = [
     { to: '', name: '로그아웃' },
     { to: 'delete-account', name: '탈퇴' },
-    // { to: 'developer', name: '개발자도구'  },
   ];
+
+  const anonymous = authService.currentUser?.isAnonymous;
 
   return (
     <>
@@ -35,21 +38,27 @@ const Setting = () => {
         <h4 className="block pb-1 text-sm text-blue1 max-md:text-sm">
           사용자 설정
         </h4>
-        <ul className="mb-10 divide-y">
+        <ul className="mb-14 divide-y">
           {userSettings.map(({ to, name }) => (
-            <li key={to} className="mb-1 pb-1 pt-2">
+            <li key={to} className="py-3">
               <Link to={to} onClick={blockLinkAndAlertJoinMember}>
                 {name}
               </Link>
             </li>
           ))}
+
+          {!anonymous && (
+            <li className="py-3">
+              <Link to="notification">알림</Link>
+            </li>
+          )}
         </ul>
 
         <h4 className="block pb-1 text-sm text-blue1 max-md:text-sm">기타</h4>
 
-        <ul className="mb-10 divide-y">
+        <ul className="divide-y">
           {etcSettings.map(({ to, name }) => (
-            <li key={to} className="mb-1 pb-1 pt-2">
+            <li key={to} className="py-3">
               {to === '' ? (
                 <LogOutBtn />
               ) : (
@@ -61,7 +70,7 @@ const Setting = () => {
           ))}
 
           {email === DEVELOPER_EMAIL && (
-            <li className="mb-1 pb-1 pt-2">
+            <li className="py-3">
               <Link to="developer">개발자도구</Link>
             </li>
           )}

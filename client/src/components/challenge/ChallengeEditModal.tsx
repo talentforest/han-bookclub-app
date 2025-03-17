@@ -36,7 +36,8 @@ export default function ChallengeEditModal({
 
   const currPageRef = useRef<HTMLInputElement>();
 
-  const { sendCompleteChallengePushNotification } = useSendPushNotification();
+  const { sendCompleteChallengePushNotification, isPending } =
+    useSendPushNotification();
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -97,7 +98,11 @@ export default function ChallengeEditModal({
           />
         </div>
 
-        <SquareBtn type="submit" name="현재 페이지 수정하기" />
+        <SquareBtn
+          type="submit"
+          name="현재 페이지 수정하기"
+          disabled={isPending}
+        />
       </form>
     </Modal>
   );

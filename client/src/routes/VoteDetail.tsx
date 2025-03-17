@@ -26,14 +26,12 @@ type LocationState = {
 };
 
 const VoteDetail = () => {
-  const {
-    state: { collName, docId },
-  } = useLocation() as LocationState;
+  const { state } = useLocation() as LocationState;
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!collName || !docId) {
+    if (!state?.collName || !state?.docId) {
       navigate('/vote');
     }
   }, []);
@@ -50,13 +48,17 @@ const VoteDetail = () => {
     onVoteDeleteClick,
     isRevote,
     onToggleRevoteClick,
-  } = useHandleVoting({ collName, docId });
+  } = useHandleVoting({ collName: state?.collName, docId: state?.docId });
 
   const isExpiredVote = currentVote?.deadline < todayWithHyphen;
 
-  const highestVoteItem = voteCountsById?.find((book, _, arr) => {
+  const highestVoteItemList = voteCountsById?.filter((book, _, arr) => {
     return book.voteCount === Math.max(...arr.map(book => book.voteCount));
   });
+
+  const findHighestVoteItem = (title: string) => {
+    return !!highestVoteItemList.find(item => item.title === title);
+  };
 
   return (
     <>
@@ -80,7 +82,7 @@ const VoteDetail = () => {
                   <VoteBookItem
                     key={voteItem.id}
                     voteItem={voteItem}
-                    selected={highestVoteItem.title === voteItem.book.title}
+                    selected={findHighestVoteItem(voteItem.book.title)}
                   />
                 ))}
               </ul>
@@ -88,21 +90,21 @@ const VoteDetail = () => {
               {voteCountsById.map(({ id, title, voteCount }) => (
                 <div
                   key={id}
-                  className="relative mx-auto mt-2 flex w-2/3 overflow-hidden rounded-xl border bg-white px-3 py-1 shadow-sm max-sm:w-full"
+                  className="relative mx-auto mt-2 flex w-2/3 overflow-hidden rounded-xl bg-white px-3 py-1 shadow-sm max-sm:w-full"
                 >
                   <div
                     style={{
                       width: `${getPercentage(voteCount, totalVoteCount)}%`,
                     }}
-                    className={`absolute inset-y-0 left-0 z-0 rounded-r-lg ${title === highestVoteItem.title ? 'bg-green2' : 'bg-gray3'}`}
+                    className={`absolute inset-y-0 left-0 z-0 rounded-r-lg ${findHighestVoteItem(title) ? 'bg-green2' : 'bg-gray3'}`}
                   />
                   <span
-                    className={`z-10 inline-block w-full pt-[1px] text-[15px] ${title === highestVoteItem.title ? 'font-medium text-green-700' : 'text-gray2'}`}
+                    className={`z-10 inline-block w-full pt-[1px] text-[15px] ${findHighestVoteItem(title) ? 'font-medium text-green-700' : 'text-gray2'}`}
                   >
                     {title}
                   </span>
                   <span
-                    className={`z-10 pt-[1px] text-sm ${title === highestVoteItem.title ? 'font-medium text-green-700' : 'text-gray2'}`}
+                    className={`z-10 pt-[1px] text-sm ${findHighestVoteItem(title) ? 'font-medium text-green-700' : 'text-gray2'}`}
                   >
                     {getPercentage(voteCount, totalVoteCount)}%
                   </span>
@@ -147,7 +149,7 @@ const VoteDetail = () => {
                 <SquareBtn
                   type="submit"
                   name="투표하기"
-                  className="px-5 py-2 max-sm:px-6"
+                  className="px-10 py-2 max-sm:px-6"
                 />
               </form>
             </>

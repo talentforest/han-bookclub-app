@@ -47,7 +47,7 @@ export default function ChallengeBookCard({
 
   return (
     <li className="relative flex">
-      <div className="relative flex-1 rounded-xl border bg-white px-4 pb-3 pt-4 opacity-80 shadow-card">
+      <div className="relative flex-1 rounded-xl bg-white px-4 pb-3 pt-4 opacity-80 shadow-card">
         <div className="flex h-32 gap-4">
           <BookThumbnail title={title} thumbnail={thumbnail} />
 

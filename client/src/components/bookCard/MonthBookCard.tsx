@@ -24,7 +24,7 @@ export default function MonthBookCard({
 
   return (
     <div
-      className={`flex flex-col justify-between rounded-xl bg-white px-6 py-5 shadow-card max-sm:gap-2 max-sm:p-4 ${className}`}
+      className={`rounded-card flex flex-col justify-between bg-white px-6 py-5 shadow-card max-sm:gap-2 max-sm:p-4 ${className}`}
     >
       <div className="flex flex-1 justify-between gap-x-4">
         <div className="flex flex-col items-start justify-between max-sm:w-[70%]">

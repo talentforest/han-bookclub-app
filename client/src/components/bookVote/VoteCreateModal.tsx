@@ -40,6 +40,7 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
     onDateChange,
     onAddVoteItemBtn,
     onDeleteVoteItemClick,
+    isPending,
   } = useCreateBookVoteBox({ onToggleModal });
 
   const {
@@ -86,17 +87,21 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
   const { title, voteItems } = newVote;
 
   return (
-    <Modal title="모임책 투표 생성하기" onToggleClick={onToggleModal}>
+    <Modal
+      title="모임책 투표 생성하기"
+      onToggleClick={onToggleModal}
+      className="max-w-[500px]"
+    >
       {!searchBook.isOpenSearchBook && (
         <form
           onSubmit={onNewVoteSubmit}
-          className="mb-8 grid grid-cols-2 gap-x-4 gap-y-8 max-sm:flex max-sm:flex-col"
+          className="my-2 flex flex-col gap-x-4 gap-y-8"
         >
           <>
             <Label title="투표 제목">
               <Input
                 type="text"
-                placeholder="1월 과학책 투표"
+                placeholder="예: 1월 과학책 투표"
                 value={title}
                 onChange={onVoteTitleChange}
                 required
@@ -113,27 +118,17 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
                 minDate={new Date()}
                 locale={ko}
                 dateFormat="yyyy년 MM월 dd일"
-                className="h-12 w-full rounded-xl border border-gray2 p-2.5 pl-4 shadow-card outline-none"
+                className="h-12 w-full rounded-xl border p-2.5 pl-4 shadow-card outline-none"
               />
             </Label>
 
-            <Label title="투표할 모임책" className="col-span-2">
-              <ul className="flex flex-wrap gap-4 border">
+            <Label title="투표할 모임책">
+              <ul className="flex flex-wrap gap-4">
                 {voteItems.map(voteItem => (
                   <div
                     key={voteItem.id}
-                    className="relative flex aspect-[0.7/1] h-44 flex-col items-center justify-between gap-1.5 rounded-xl border border-gray2 bg-white p-3 py-4 shadow-card [&>img]:h-3/4"
+                    className="relative flex aspect-[0.7/1] h-40 flex-col items-center justify-between gap-1.5 rounded-xl border bg-white pb-1 pt-2 shadow-card [&>img]:h-3/4"
                   >
-                    {voteItem.id > 2 && (
-                      <button
-                        type="button"
-                        onClick={() => onDeleteVoteItemClick(voteItem.id)}
-                        className="absolute -right-1.5 -top-1.5 p-0.5"
-                      >
-                        <FiMinusCircle className="rounded-full bg-white text-2xl text-pointCoral" />
-                      </button>
-                    )}
-
                     {voteItem.book.title === '' ? (
                       <button
                         type="button"
@@ -149,12 +144,23 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
                           thumbnail={voteItem.book.thumbnail}
                           title={title}
                         />
-                        <div className="flex h-10 items-center">
-                          <span className="line-clamp-2 text-center text-sm">
+                        <div className="flex h-9 items-center px-0.5">
+                          <span className="line-clamp-2 text-center text-sm leading-4">
                             《{voteItem.book.title}》
                           </span>
                         </div>
                       </>
+                    )}
+
+                    {/* 취소 버튼 */}
+                    {voteItem.id > 2 && (
+                      <button
+                        type="button"
+                        onClick={() => onDeleteVoteItemClick(voteItem.id)}
+                        className="absolute -right-1.5 -top-1.5 p-0.5"
+                      >
+                        <FiMinusCircle className="rounded-full bg-white text-2xl text-pointCoral" />
+                      </button>
                     )}
                   </div>
                 ))}
@@ -164,7 +170,7 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
                     type="button"
                     onClick={onAddVoteItemBtn}
                     disabled={voteItems.length >= 3}
-                    className="flex aspect-[0.7/1] h-44 items-center justify-center rounded-xl border border-gray2 bg-white px-2 py-1.5 text-blue-500 shadow-card disabled:text-gray2"
+                    className="flex aspect-[0.7/1] h-40 items-center justify-center rounded-xl border border-gray2 bg-white py-1.5 text-blue-500 shadow-card disabled:text-gray2"
                   >
                     <FiPlus />
                     <span className="text-sm">투표할 책 추가</span>
@@ -176,7 +182,8 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
             <SquareBtn
               type="submit"
               name="모임책 투표 등록"
-              className="mt-10 self-end"
+              className="mt-3 self-end"
+              disabled={isPending}
             />
           </>
         </form>
@@ -184,7 +191,7 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
 
       {searchBook.isOpenSearchBook &&
         (!isOpenSelectReason ? (
-          <Label title="책등록 1단계">
+          <Label title="책등록 1단계" className="my-2">
             <RefInput
               id="search-book"
               ref={searchInputRef}
@@ -197,7 +204,7 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
             />
           </Label>
         ) : (
-          <Label title="책등록 2단계">
+          <Label title="책등록 2단계" className="my-2">
             <textarea
               id="select-reason"
               placeholder="이 책을 투표항목으로 선정한 이유에 대해서 작성해주세요."
@@ -212,7 +219,7 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
                 toggleSelectReason();
                 toggleSearch();
               }}
-              className="mb-2 self-end"
+              className="self-end"
             />
           </Label>
         ))}

@@ -53,7 +53,7 @@ const Vote = () => {
           </div>
 
           {progressVotes?.length !== 0 ? (
-            <ul>
+            <ul className="flex gap-6 max-sm:flex-col">
               {progressVotes?.map(voteDetail => (
                 <VoteProgressCard key={voteDetail.id} voteDetail={voteDetail} />
               ))}
@@ -66,7 +66,7 @@ const Vote = () => {
         <Section>
           <Subtitle title="기한이 만료된 투표함" />
           {expiredVote?.length !== 0 && (
-            <ul className="grid grid-cols-3 gap-4 max-sm:flex max-sm:flex-col">
+            <ul className="grid grid-cols-3 gap-7 max-sm:flex max-sm:flex-col max-sm:gap-5">
               {expiredVote?.map(vote => (
                 <VoteExpiredCard
                   key={vote.id}

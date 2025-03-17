@@ -17,10 +17,9 @@ const VoteProgressCard = ({ voteDetail }: PropsType) => {
   const { id, title, voteItems, deadline } = voteDetail;
 
   return (
-    <div className="flex w-fit flex-col justify-between rounded-xl bg-white p-5 shadow-card">
-      <h4 className="mb-3 flex gap-1 border">
-        <MdOutlineHowToVote className="text-base text-pointBlue" />
-
+    <div className="rounded-card flex w-fit flex-col justify-between bg-white px-7 py-5 shadow-card max-sm:w-full">
+      <h4 className="mb-3 flex items-center gap-1 font-medium">
+        <MdOutlineHowToVote className="text-base" />
         {title}
       </h4>
 
