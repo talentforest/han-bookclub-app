@@ -75,7 +75,7 @@ export default function PostTabBox({ yearMonthId }: Props) {
           <li key={tab}>
             <button
               onClick={() => setCurrTab(tab)}
-              className={`rounded-t-lg px-3 py-2 ${tab === currTab ? 'bg-blue2 font-medium text-blue1' : 'bg-white text-text'}`}
+              className={`rounded-t-xl px-3 py-2 ${tab === currTab ? 'bg-blue2 font-medium text-blue1' : 'bg-white text-text'}`}
             >
               {tab}
             </button>
@@ -84,7 +84,7 @@ export default function PostTabBox({ yearMonthId }: Props) {
       </ul>
 
       <div
-        className={`flex min-h-48 w-full flex-col items-center justify-center rounded-b-xl rounded-tr-xl p-3 shadow-card ${currTab ? 'bg-blue2' : ''}`}
+        className={`flex min-h-48 w-full flex-col items-center justify-center rounded-b-2xl rounded-tr-2xl p-4 shadow-card ${currTab ? 'bg-blue2' : ''}`}
       >
         {postList?.length !== 0 ? (
           <>
@@ -123,7 +123,7 @@ export default function PostTabBox({ yearMonthId }: Props) {
               state={{ id: yearMonthId, postType: currTab }}
               to={linkTo}
               onClick={blockLinkAndAlertJoinMember}
-              className="w-fit self-end px-3 py-1 !text-[15px] text-blue-500"
+              className="w-fit self-end px-2 !text-[15px] text-blue-500"
             />
           </>
         ) : (

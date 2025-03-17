@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { getDocument } from 'api/firebase/getFbDoc';
 
@@ -22,7 +22,7 @@ export default function ThisMonthClub() {
 
   const { pathname } = useLocation();
 
-  const { book, meeting, id } = thisMonthClub;
+  const navigate = useNavigate();
 
   const { bookFieldAndHostList } = fieldAndHosts;
 
@@ -35,15 +35,15 @@ export default function ThisMonthClub() {
     getDocument(BOOKCLUB_THIS_YEAR, BOOK_FIELD_AND_HOST, setFieldAndHosts);
   }, []);
 
-  const thisMonthClubInfoList = [
+  const thisMonthClubInfoList = thisMonthClub && [
     {
       label: '모임장소',
-      value: meeting?.place,
+      value: thisMonthClub.meeting?.place,
       editable: true && pathname === '/bookclub',
     },
     {
       label: '모임시간',
-      value: meeting?.time,
+      value: thisMonthClub.meeting?.time,
       editable: true && pathname === '/bookclub',
     },
     {
@@ -54,27 +54,32 @@ export default function ThisMonthClub() {
 
   return (
     <div className="grid grid-cols-5 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">
-      {book ? (
-        <MonthBookCard
-          month={formatDate(id, 'M')}
-          book={book}
-          bookFields={fieldAndHost?.field}
-          className="col-span-3"
-        />
-      ) : (
-        <EmptyCard text="아직 등록된 모임책이 없어요." />
-      )}
-
-      <div className="col-span-2 flex flex-col gap-6 max-sm:gap-4">
-        {thisMonthClubInfoList.map(({ label, value, editable }) => (
-          <LabelWithValueCard
-            key={label}
-            label={label}
-            value={value}
-            editable={editable}
+      {thisMonthClub ? (
+        <>
+          <MonthBookCard
+            month={formatDate(thisMonthClub.id, 'M')}
+            book={thisMonthClub.book}
+            bookFields={fieldAndHost?.field}
+            className="col-span-3"
           />
-        ))}
-      </div>
+          <div className="col-span-2 flex flex-col gap-6 max-sm:gap-4">
+            {thisMonthClubInfoList.map(({ label, value, editable }) => (
+              <LabelWithValueCard
+                key={label}
+                label={label}
+                value={value}
+                editable={editable}
+              />
+            ))}
+          </div>
+        </>
+      ) : (
+        <EmptyCard
+          text="아직 등록된 모임책이 없어요."
+          createBtnTitle="모임책 등록하기"
+          onCreateClick={() => navigate('/search')}
+        />
+      )}
     </div>
   );
 }

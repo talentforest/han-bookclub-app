@@ -38,7 +38,7 @@ const Setting = () => {
         <h4 className="block pb-1 text-sm text-blue1 max-md:text-sm">
           사용자 설정
         </h4>
-        <ul className="mb-14 divide-y">
+        <ul className="mb-14 divide-y divide-gray3">
           {userSettings.map(({ to, name }) => (
             <li key={to} className="py-3">
               <Link to={to} onClick={blockLinkAndAlertJoinMember}>
@@ -56,7 +56,7 @@ const Setting = () => {
 
         <h4 className="block pb-1 text-sm text-blue1 max-md:text-sm">기타</h4>
 
-        <ul className="divide-y">
+        <ul className="divide-y divide-gray3">
           {etcSettings.map(({ to, name }) => (
             <li key={to} className="py-3">
               {to === '' ? (

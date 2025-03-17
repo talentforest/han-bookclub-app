@@ -36,7 +36,7 @@ const SearchedBookCard = ({ searchedBook }: SearchedBookCardProps) => {
       <button
         type="button"
         onClick={toggleAccordion}
-        className="flex w-full items-center justify-between gap-1 rounded-xl border bg-white px-3 py-2 text-text shadow-card"
+        className="flex w-full items-center justify-between gap-1 rounded-xl bg-white px-3 py-2 text-text shadow-card"
       >
         <FooterBookCard
           book={searchedBook}
@@ -56,7 +56,7 @@ const SearchedBookCard = ({ searchedBook }: SearchedBookCardProps) => {
         }`}
       >
         <div
-          className={`mb-4 mt-2 rounded-xl border bg-white p-4 shadow-card ${thumbnail === '' ? '[&>div:first-child]:float-left [&>div:first-child]:mr-3 [&>div:first-child]:w-28' : '[&>img]:float-left [&>img]:mr-3 [&>img]:w-28'}`}
+          className={`mb-4 mt-2 rounded-xl bg-white p-4 shadow-card ${thumbnail === '' ? '[&>div:first-child]:float-left [&>div:first-child]:mr-3 [&>div:first-child]:w-28' : '[&>img]:float-left [&>img]:mr-3 [&>img]:w-28'}`}
         >
           <BookThumbnail thumbnail={thumbnail} title={title} />
 
