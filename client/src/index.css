@@ -62,9 +62,29 @@
       word-break: break-all;
       font-size: 16px;
     }
+    .ql-snow {
+      h1 {
+        font-size: 17px;
+        display: inline-block;
+        padding-bottom: 7px;
+      }
+    }
     .ql-editor {
       padding: 8px 10px;
       font-family: 'SUITE';
+
+      > h1 {
+        font-size: 17px;
+        display: inline-block;
+        padding-bottom: 7px;
+      }
+      .ql-size-small {
+        font-size: 14px;
+      }
+      .ql-size-large {
+        font-size: 20px;
+      }
+
       p,
       blockquote,
       li {
@@ -73,8 +93,8 @@
 
       blockquote {
         padding-left: 8px;
-        padding-top: 2px;
         color: #666;
+        border-left: 5px solid #c0c0c0;
       }
 
       span {

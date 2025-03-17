@@ -107,7 +107,7 @@ export default function PostListDetail() {
                 type={postType}
                 post={post}
                 collName={collName}
-                className="relative mt-4 p-4 max-sm:p-1 max-sm:pb-4"
+                className="relative mt-4 max-sm:pb-4"
               >
                 <PostFooter
                   createdAt={post.createdAt}
