@@ -56,7 +56,7 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
 
     try {
       await onAddDocSubmit(event);
-      await sendPostNotification('추천책');
+      await sendPostNotification('모임 후기');
     } catch (error) {
       window.alert('추천 등록 중 문제가 발생했습니다. 다시 시도해주세요.');
     }
