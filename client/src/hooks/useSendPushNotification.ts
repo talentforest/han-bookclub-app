@@ -35,8 +35,6 @@ const useSendPushNotification = () => {
     const body = `${voteTitle} 투표함이 등록되었습니다. 종료일 전에 투표를 완료해주세요!⚡️`;
     const link = `${DOMAIN}${process.env.PUBLIC_URL}${subPath}`;
 
-    console.log(link);
-
     await sendMulticast({ title, body, link, uid });
     setIsPending(false);
   };

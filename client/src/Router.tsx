@@ -14,7 +14,6 @@ import Challenge from 'routes/Challenge';
 import MonthlyClubInfo from 'routes/MonthlyClubInfo';
 import PreviousClub from 'routes/PreviousClub';
 import Search from 'routes/Search';
-// import SearchDetail from 'components/search/SearchedBookCard';
 import VoteDetail from 'routes/VoteDetail';
 
 import TopNavigation from 'layout/desktop/TopNavigation';

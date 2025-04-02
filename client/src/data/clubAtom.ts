@@ -16,7 +16,7 @@ export type IBookClub = {
 };
 
 export const thisMonthClubAtom = atom<IBookClub>({
-  key: `thisMonthClubAtom/${v4()}`,
+  key: `thisMonthClubAtom`,
   default: {} as IBookClub,
   effects: [
     ({ setSelf, onSet }) => {

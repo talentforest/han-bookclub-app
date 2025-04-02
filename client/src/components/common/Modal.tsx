@@ -26,7 +26,7 @@ export default function Modal({
     <>
       <div
         role="presentation"
-        className="fixed inset-0 z-10 size-full cursor-pointer bg-black opacity-60"
+        className={`fixed inset-0 z-10 size-full ${onToggleClick ? 'cursor-pointer' : 'cursor-default'} bg-black opacity-60`}
         onClick={onToggleClick}
       />
       <section

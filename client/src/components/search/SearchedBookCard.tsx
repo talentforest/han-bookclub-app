@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { useLocation } from 'react-router-dom';
+
 import { ISearchedBook } from 'data/bookAtom';
 
 import { BiChevronDownCircle, BiChevronUpCircle } from 'react-icons/bi';
@@ -18,6 +20,10 @@ interface SearchedBookCardProps {
 const SearchedBookCard = ({ searchedBook }: SearchedBookCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const { state } = useLocation() as {
+    state: { registerMonth: 'thisMonth' | 'nextMonth' };
+  };
+
   const toggleAccordion = () => setIsOpen(prev => !prev);
 
   const {
@@ -30,6 +36,8 @@ const SearchedBookCard = ({ searchedBook }: SearchedBookCardProps) => {
     price,
     contents,
   } = searchedBook;
+
+  const iconStyle = 'size-5 w-[10%] text-gray1';
 
   return (
     <>
@@ -44,9 +52,9 @@ const SearchedBookCard = ({ searchedBook }: SearchedBookCardProps) => {
         />
 
         {isOpen ? (
-          <BiChevronUpCircle className="size-5 w-[10%] text-gray1" />
+          <BiChevronUpCircle className={iconStyle} />
         ) : (
-          <BiChevronDownCircle className="size-5 w-[10%] text-gray1" />
+          <BiChevronDownCircle className={iconStyle} />
         )}
       </button>
 
@@ -84,7 +92,10 @@ const SearchedBookCard = ({ searchedBook }: SearchedBookCardProps) => {
             {url && <ExternalLinkBtn title="Daum 책정보" url={url} />}
           </div>
 
-          <RegisterClubBookBtn searchedBook={searchedBook} />
+          <RegisterClubBookBtn
+            searchedBook={searchedBook}
+            registerMonthType={state.registerMonth}
+          />
         </div>
       </div>
     </>

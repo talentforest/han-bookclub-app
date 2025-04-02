@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import { getCollection } from 'api/firebase/getFbDoc';
+import { getCollection, getDocument } from 'api/firebase/getFbDoc';
 import { setDocument } from 'api/firebase/setFbDoc';
 
 import { ISearchedBook } from 'data/bookAtom';
-import { clubByYearAtom } from 'data/clubAtom';
+import { clubByYearAtom, thisMonthClubAtom } from 'data/clubAtom';
 import { currAuthUserAtom } from 'data/userAtom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { BOOKCLUB_THIS_YEAR } from 'appConstants';
 import {
@@ -16,17 +16,23 @@ import {
   nextMonth,
   thisMonth,
   thisYear,
+  thisYearMonthId,
 } from 'utils';
 
 import SquareBtn from 'components/common/button/SquareBtn';
 
 interface PropsType {
   searchedBook: ISearchedBook;
+  registerMonthType: 'thisMonth' | 'nextMonth';
 }
 
-const RegisterClubBookBtn = ({ searchedBook }: PropsType) => {
+const RegisterClubBookBtn = ({
+  searchedBook,
+  registerMonthType,
+}: PropsType) => {
   const [thisYearBookClubInfos, setThisYearBookClubInfos] =
     useRecoilState(clubByYearAtom);
+  const setThisMonthClub = useSetRecoilState(thisMonthClubAtom);
 
   const [submitted, setSubmitted] = useState(false);
 
@@ -42,9 +48,15 @@ const RegisterClubBookBtn = ({ searchedBook }: PropsType) => {
     publisher,
     datetime,
     url,
+    isbn,
   } = searchedBook;
 
-  const meetingTime = getThirdSunday(+thisYear, +thisMonth + 1, 13, 0);
+  const meetingTime = getThirdSunday(
+    +thisYear,
+    registerMonthType === 'thisMonth' ? +thisMonth : +thisMonth + 1,
+    13,
+    0,
+  );
 
   const bookClubInfo = {
     book: {
@@ -57,6 +69,7 @@ const RegisterClubBookBtn = ({ searchedBook }: PropsType) => {
       publisher,
       datetime,
       url,
+      isbn,
     },
     meeting: {
       place: '카페 느티',
@@ -66,39 +79,58 @@ const RegisterClubBookBtn = ({ searchedBook }: PropsType) => {
     creatorId: uid,
   };
 
-  const onNextMonthBookClubDocSubmit = async () => {
-    await setDocument(BOOKCLUB_THIS_YEAR, getNextMonthId(), bookClubInfo);
-    setSubmitted(true);
-    alert('다음달 독서모임 책으로 등록되었습니다!');
-  };
-
   const existNextBook = thisYearBookClubInfos.find(
     ({ id }) => id === getNextMonthId(),
   )?.book;
 
-  const registeredBook =
-    title === existNextBook?.title && publisher === existNextBook?.publisher;
+  const nextBookState = existNextBook ? '변경' : '등록';
+
+  const existThisMonthBook = thisYearBookClubInfos.find(
+    ({ id }) => id === thisYearMonthId,
+  )?.book;
+
+  const thisBookState = existThisMonthBook ? '변경' : '등록';
 
   useEffect(() => {
-    if (!existNextBook) {
+    if (registerMonthType === 'nextMonth' && !existNextBook) {
       getCollection(`BookClub-${thisYear}`, setThisYearBookClubInfos);
     }
-    if (existNextBook && registeredBook) {
+    if (registerMonthType === 'thisMonth' && !existThisMonthBook) {
+      getDocument(BOOKCLUB_THIS_YEAR, thisYearMonthId, setThisMonthClub);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (registerMonthType === 'nextMonth' && existNextBook) {
       setSubmitted(true);
     }
-  }, [submitted, existNextBook]);
+  }, [submitted]);
+
+  const registerMonth = {
+    id: registerMonthType === 'nextMonth' ? getNextMonthId() : thisYearMonthId,
+    monthNum: registerMonthType === 'nextMonth' ? +nextMonth : +thisMonth,
+    name: registerMonthType === 'nextMonth' ? '다음달' : '이번달',
+    state: registerMonthType === 'nextMonth' ? nextBookState : thisBookState,
+  };
+
+  const onSubmit = async () => {
+    await setDocument(BOOKCLUB_THIS_YEAR, registerMonth.id, bookClubInfo);
+    setSubmitted(true);
+    if (registerMonthType === 'thisMonth') {
+      setThisMonthClub(bookClubInfo);
+    }
+    alert(`${registerMonth.name} 독서모임 책으로 등록되었습니다!`);
+  };
 
   return (
     <>
-      {submitted ? (
+      {submitted && existNextBook?.title === searchedBook?.title ? (
         <SquareBtn name="등록 완료" disabled className="ml-auto py-2" />
       ) : (
         <SquareBtn
-          name={`다음 ${nextMonth}월 모임책으로 ${
-            !registeredBook && existNextBook ? '변경' : '등록'
-          }`}
+          name={`${registerMonth.monthNum}월 모임책으로 ${registerMonth.state}`}
           type="button"
-          handleClick={onNextMonthBookClubDocSubmit}
+          handleClick={onSubmit}
           color="purple"
           className="ml-auto py-2"
         />

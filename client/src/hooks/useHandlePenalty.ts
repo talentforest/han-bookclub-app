@@ -58,10 +58,9 @@ const useHandlePenalty = (createdAt?: number) => {
     const hasMonthInList = penaltyMonthList.find(
       month => month === `${+thisMonth}월`,
     );
-    if (hasMonthInList) {
-      console.log('이미 해당월이 추가되어 있습니다!');
-      return;
-    }
+
+    if (hasMonthInList) return;
+
     const updateData = {
       [penaltyType]: [...penaltyMonthList, `${+thisMonth}월`],
     };

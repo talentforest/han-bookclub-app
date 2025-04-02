@@ -31,8 +31,12 @@ export default function ThisMonthClub() {
   );
 
   useEffect(() => {
-    getDocument(BOOKCLUB_THIS_YEAR, thisYearMonthId, setThisMonthClub);
-    getDocument(BOOKCLUB_THIS_YEAR, BOOK_FIELD_AND_HOST, setFieldAndHosts);
+    if (!thisMonthClub.book) {
+      getDocument(BOOKCLUB_THIS_YEAR, thisYearMonthId, setThisMonthClub);
+    }
+    if (fieldAndHosts.bookFieldAndHostList.length === 0) {
+      getDocument(BOOKCLUB_THIS_YEAR, BOOK_FIELD_AND_HOST, setFieldAndHosts);
+    }
   }, []);
 
   const thisMonthClubInfoList = thisMonthClub && [
@@ -53,11 +57,11 @@ export default function ThisMonthClub() {
   ];
 
   return (
-    <div className="grid grid-cols-5 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">
-      {thisMonthClub ? (
-        <>
+    <>
+      {thisMonthClub.book ? (
+        <div className="grid grid-cols-5 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">
           <MonthBookCard
-            month={formatDate(thisMonthClub.id, 'M')}
+            month={formatDate(thisMonth, 'M')}
             book={thisMonthClub.book}
             bookFields={fieldAndHost?.field}
             className="col-span-3"
@@ -72,14 +76,16 @@ export default function ThisMonthClub() {
               />
             ))}
           </div>
-        </>
+        </div>
       ) : (
         <EmptyCard
-          text="아직 등록된 모임책이 없어요."
-          createBtnTitle="모임책 등록하기"
-          onCreateClick={() => navigate('/search')}
+          text="아직 등록된 이번달 모임책이 없어요."
+          createBtnTitle="이번달 모임책 등록하기"
+          onCreateClick={() =>
+            navigate('/search', { state: { registerMonth: 'thisMonth' } })
+          }
         />
       )}
-    </div>
+    </>
   );
 }

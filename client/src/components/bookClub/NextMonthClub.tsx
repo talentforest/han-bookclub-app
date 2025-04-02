@@ -44,9 +44,11 @@ export default function NextMonthClub() {
         />
       ) : (
         <EmptyCard
-          text="아직 등록된 모임책이 없어요."
-          createBtnTitle="모임책 등록하기"
-          onCreateClick={() => navigate('/search')}
+          text="아직 등록된 다음달 모임책이 없어요."
+          createBtnTitle="다음달 모임책 등록하기"
+          onCreateClick={() =>
+            navigate('/search', { state: { registerMonth: 'nextMonth' } })
+          }
         />
       )}
     </>
