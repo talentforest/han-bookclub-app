@@ -150,7 +150,7 @@
     }
     /* 날짜 캘린더 */
     .react-datepicker {
-      @apply rounded-b-none rounded-t-xl border border-b-0 border-gray2 text-sm;
+      @apply rounded-xl border border-b-0 border-gray2 text-sm;
     }
     .react-datepicker__input-container {
       @apply flex flex-1 border-0;
@@ -161,7 +161,10 @@
       @apply mx-0 rounded-t-xl border-0 bg-green1;
     }
     .react-datepicker-popper[data-placement^='bottom']
-      .react-datepicker__triangle::after {
+      .react-datepicker__triangle {
+      @apply -z-10 border-b-green1 fill-green1;
+    }
+    .react-datepicker__triangle::after {
       @apply border-b-green1;
     }
     .react-datepicker__current-month {
@@ -219,7 +222,7 @@
 
     /* 시간 Input */
     .react-datepicker__input-time-container {
-      @apply mx-2 mb-4 mt-0 flex w-[94%] items-center rounded-xl border bg-white px-4 shadow-card;
+      @apply mx-2 mb-5 mt-3 flex w-[94%] items-center rounded-xl border bg-white px-4 shadow-card;
     }
     .react-datepicker-time__input-container {
       @apply flex flex-1 bg-transparent;
