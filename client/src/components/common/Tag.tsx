@@ -26,7 +26,7 @@ export default function Tag({
   const bgColor = {
     blue: 'bg-blue1 text-white',
     lightBlue: 'bg-blue-200 text-text',
-    yellow: 'bg-pointYellow text-white',
+    yellow: 'bg-yellow-200 text-white',
     purple: 'bg-purple3 text-text',
     lightGreen: 'bg-green3 text-text',
     green: 'bg-pointGreen text-text',
@@ -41,7 +41,7 @@ export default function Tag({
 
   return (
     <div
-      className={`text-sm ${shapeStyle[shape]} ${bgColor[color]} flex h-fit min-h-6 w-fit min-w-6 items-center gap-1 rounded-2xl px-3.5 py-1.5 shadow-card ${className}`}
+      className={`text-sm ${shapeStyle[shape]} ${bgColor[color]} flex h-fit min-h-6 w-fit min-w-6 items-center gap-1 rounded-2xl px-3.5 py-2 shadow-card ${className}`}
     >
       <span>{text && text}</span>
       {children && children}

@@ -19,6 +19,7 @@ import ChallengeRereadingModal from 'components/challenge/ChallengeRereadingModa
 import DDay from 'components/common/DDay';
 import SelectYearBtnList from 'components/common/SelectYearBtnList';
 import Subtitle from 'components/common/Subtitle';
+import Tag from 'components/common/Tag';
 import BookThumbnail from 'components/common/book/BookThumbnail';
 import Section from 'components/common/container/Section';
 import SwiperContainer from 'components/common/container/SwiperContainer';
@@ -77,7 +78,7 @@ export default function Challenge() {
 
   const allChallengeList = memberList
     .map(({ id }) => {
-      const matched = challengeList.find(({ creatorId }) => creatorId === id);
+      const matched = challengeList?.find(({ creatorId }) => creatorId === id);
       return matched || { creatorId: id };
     })
     .sort((a, b) => getTotalCounts(b) - getTotalCounts(a));
@@ -139,32 +140,32 @@ export default function Challenge() {
       isModalOpen: !prev.isModalOpen,
     }));
 
-  // 챌린지에서 모든 유저의 챌린지 도서 정보를 가져와서 각각 합하면 되네.
   const challengBookListByUser = challengeList.map(item => {
     const { creatorId, id, ...rest } = item;
     return rest;
   });
 
-  const reduced = challengBookListByUser.reduce((acc, entry) => {
-    Object.entries(entry as ChallengeRereading).forEach(([title, value]) => {
-      if (!acc[title]) {
-        acc[title] = {
-          book: value.book,
-          readers: 1,
-          counts: value.counts || 0,
-        };
-      } else {
-        acc[title].readers += 1;
-        acc[title].counts += value.counts || 0;
-      }
-    });
-    return acc;
-  }, {});
-
-  const sorted = Object.entries(
-    reduced as {
+  const sortedChallengeByCounts = Object.entries(
+    challengBookListByUser.reduce((acc, entry) => {
+      Object.entries(entry as ChallengeRereading).forEach(([title, value]) => {
+        if (!acc[title]) {
+          acc[title] = {
+            book: value.book,
+            readers: 1,
+            counts: value.counts || 0,
+          };
+        } else {
+          acc[title].readers += 1;
+          acc[title].counts += value.counts || 0;
+        }
+      });
+      return acc;
+    }, {}) as {
       [title in string]: {
-        books: ISearchedBook;
+        book: Pick<
+          ISearchedBook,
+          'authors' | 'publisher' | 'thumbnail' | 'title'
+        >;
         readers: number;
         counts: number;
       };
@@ -177,59 +178,75 @@ export default function Challenge() {
     })
     .map(([title, info]) => ({ [title]: info }));
 
-  console.log(sorted);
+  const selectedBook = sortedChallengeByCounts?.find(item => {
+    const [title] = Object.entries(item)[0];
+    return title === rereadingBook.rereadingBook?.title;
+  });
 
   return (
     <>
       <MobileHeader title={`${thisYear}년 개인별 챌린지`} backBtn />
 
       <main>
-        <DDay
-          hyphenDate={`${thisYear}-12-21`}
-          className="mx-auto mb-10 mt-4 flex size-52 flex-col items-center justify-center rounded-full bg-pointCoral p-3 text-3xl font-bold shadow-xl max-sm:bg-red-400"
-        />
+        <div className="mb-10 mt-2 flex gap-x-3">
+          <div className="rounded-xl border bg-white p-4">
+            <h4 className="mb-3.5 flex items-center gap-2">
+              📚✨2025년 챌린지{' '}
+              <div className="flex-1 border-t-2 border-dotted border-gray3" />
+            </h4>
+            <span className="font-bold">지난 독서모임 책 재독하기!</span>
+          </div>
 
-        <div className="rounded-xl bg-white p-4">
-          <h4 className="mb-1 mt-0.5 flex items-center gap-2">
-            📚✨2025년 챌린지{' '}
-            <div className="flex-1 border-t-2 border-dotted border-gray3" />
-          </h4>
-          <span className="font-bold">지난 독서모임 책 재독하기!</span>
+          <DDay
+            hyphenDate={`${thisYear}-12-21`}
+            className="flex flex-1 flex-col items-center justify-center rounded-xl border bg-indigo-200 p-2 text-xl font-bold text-indigo-700"
+          />
         </div>
 
-        <Section className="!mt-10">
+        <Section className="!mb-20 !mt-16">
           <h4 className="mb-4 text-lg font-bold italic">
-            🔥현재 가장 많이 읽히고 있는 도서는?
+            🔥현재 가장 많이 재독하고 있는 도서는?
           </h4>
           <SwiperContainer options={swiperOptions}>
-            {clubBookList.map(({ book }) => (
-              <SwiperSlide key={`${book.publisher}-${book.isbn}`}>
-                <li
-                  key={book.datetime}
-                  className="mb-10 flex w-[300px] justify-between rounded-xl bg-white p-4 shadow-card"
-                >
-                  <BookThumbnail
-                    title={book.title}
-                    thumbnail={book.thumbnail}
-                    className="mr-3 w-20 rounded-md"
-                  />
+            {sortedChallengeByCounts.map((item, index) => {
+              const [title, data] = Object.entries(item)[0];
+              const { book, readers, counts } = data;
 
-                  <div className="flex flex-1 flex-col justify-between">
-                    <span className="mr-1 text-xl font-bold">
-                      🏆 1<span className="pr-2 text-lg font-bold">위</span>
-                      <span className="line-clamp-2 text-base font-normal text-gray1">
-                        {book.title}
+              return (
+                <SwiperSlide key={title}>
+                  <li className="mb-7 flex w-[300px] justify-between rounded-xl bg-white p-4 shadow-card max-sm:w-full">
+                    <BookThumbnail
+                      title={book.title}
+                      thumbnail={book.thumbnail}
+                      className="mr-3 w-20 rounded-md"
+                    />
+
+                    <div className="flex flex-1 flex-col justify-between">
+                      <span className="mr-1 text-xl font-bold">
+                        🏆 {index + 1}
+                        <span className="pr-2 text-lg font-bold">위</span>
+                        <span className="line-clamp-2 text-base font-normal leading-5">
+                          {book.title}
+                        </span>
                       </span>
-                    </span>
 
-                    <div className="mt-1 flex flex-col gap-0.5">
-                      <span className="block text-sm">재독 횟수</span>
-                      <span className="block text-sm">재독한 멤버</span>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        <Tag
+                          text={`🙋🏻${counts}명의 멤버가 재독한 책`}
+                          color="lightBlue"
+                          className="!py-1.5 text-sm !text-blue-600"
+                        />
+                        <Tag
+                          text={`👀총 ${readers}번 재독된 책`}
+                          color="yellow"
+                          className="!py-1.5 text-sm !text-green-600"
+                        />
+                      </div>
                     </div>
-                  </div>
-                </li>
-              </SwiperSlide>
-            ))}
+                  </li>
+                </SwiperSlide>
+              );
+            })}
           </SwiperContainer>
         </Section>
 
@@ -241,10 +258,10 @@ export default function Challenge() {
             buttonClassName="!px-3 h-9 min-h-9"
           />
           <p className="mt-4 text-sm text-gray1">
-            아래 독서모임 도서들의 썸네일을 클릭한 후 재독 소감을 작성하면
+            아래 재독할 독서모임 책의 썸네일을 클릭한 후 재독 소감을 작성하면
             재독수가 증가합니다!
           </p>
-          <ul className="mt-5 grid grid-cols-11 gap-5 rounded-xl bg-white p-3 shadow-card max-md:grid-cols-7 max-sm:grid-cols-4 max-sm:gap-5">
+          <ul className="mt-5 grid grid-cols-11 max-md:grid-cols-7 max-sm:grid-cols-4 max-sm:gap-5">
             {clubBookList.map(({ book }) => (
               <li key={book.datetime}>
                 <button
@@ -255,7 +272,7 @@ export default function Challenge() {
                   <BookThumbnail
                     title={book.title}
                     thumbnail={book.thumbnail}
-                    className="w-full rounded-md"
+                    className="w-full rounded-md shadow-card"
                   />
                 </button>
               </li>
@@ -291,9 +308,9 @@ export default function Challenge() {
           )}
         </Section>
 
-        {rereadingBook.isModalOpen && (
+        {rereadingBook.isModalOpen && selectedBook && (
           <ChallengeRereadingModal
-            rereadingBook={rereadingBook.rereadingBook}
+            selectedBook={selectedBook}
             toggleOpen={toggleModalOpen}
           />
         )}

@@ -19,15 +19,29 @@ import BookThumbnail from 'components/common/book/BookThumbnail';
 import SquareBtn from 'components/common/button/SquareBtn';
 
 interface ChallengeRereadingModalProps {
-  rereadingBook: ISearchedBook;
+  selectedBook: {
+    [x: string]: {
+      book: Pick<
+        ISearchedBook,
+        'authors' | 'publisher' | 'thumbnail' | 'title'
+      >;
+      readers: number;
+      counts: number;
+    };
+  };
   toggleOpen: () => void;
 }
 
 export default function ChallengeRereadingModal({
-  rereadingBook,
+  selectedBook,
   toggleOpen,
 }: ChallengeRereadingModalProps) {
-  const { title: bookTitle, thumbnail, authors, publisher } = rereadingBook;
+  const [title, data] = Object.entries(selectedBook)[0];
+  const {
+    book: { thumbnail, authors, publisher },
+    counts,
+    readers,
+  } = data;
 
   const ref = useRef<HTMLTextAreaElement>();
 
@@ -48,7 +62,7 @@ export default function ChallengeRereadingModal({
       return window.alert('소감이 작성되지 않았습니다.');
 
     const existChallengeDoc = userChallenge?.creatorId;
-    const existRereadingBook = userChallenge[bookTitle];
+    const existRereadingBook = userChallenge[title];
     const docRef = doc(dbService, CHALLENGE, `${thisYear}-${uid}`);
 
     const newImpression = {
@@ -57,8 +71,8 @@ export default function ChallengeRereadingModal({
     };
 
     const newRereadingBook = {
-      [bookTitle]: {
-        book: { title: bookTitle, thumbnail, authors, publisher },
+      [title]: {
+        book: { title, thumbnail, authors, publisher },
         counts: 1,
         impressionList: [{ id: 1, ...newImpression }],
       },
@@ -69,7 +83,7 @@ export default function ChallengeRereadingModal({
         docRef,
         existRereadingBook
           ? {
-              [bookTitle]: {
+              [title]: {
                 ...existRereadingBook,
                 counts: existRereadingBook.counts + 1,
                 impressionList: [
@@ -94,29 +108,23 @@ export default function ChallengeRereadingModal({
   return (
     <Modal title="재독 챌린지" onToggleClick={toggleOpen}>
       <div className="flex items-center gap-3">
-        <BookThumbnail
-          title={bookTitle}
-          thumbnail={thumbnail}
-          className="w-8"
-        />
+        <BookThumbnail title={title} thumbnail={thumbnail} className="w-8" />
         <div className="">
-          <h2 className="mb-0.5 line-clamp-1 w-full">{bookTitle}</h2>
+          <h2 className="mb-0.5 line-clamp-1 w-full">{title}</h2>
           <BookAuthorPublisher authors={authors} publisher={publisher} />
         </div>
       </div>
 
-      <div className="mt-2 flex gap-2">
+      <div className="mt-4 flex flex-wrap gap-2">
         <Tag
-          text="재독한 멤버 2명"
+          text={`🙋🏻 ${counts}명의 멤버가 재독한 책`}
           color="lightBlue"
-          shape="rounded"
-          className="!py-1 text-xs !text-blue-600"
+          className="!py-1.5 text-sm !text-blue-600"
         />
         <Tag
-          text="재독된 횟수 총 3번"
-          color="lightGreen"
-          shape="rounded"
-          className="!py-1 text-xs !text-green-600"
+          text={`👀 총 ${readers}번 재독된 책`}
+          color="yellow"
+          className="!py-1.5 text-sm !text-green-600"
         />
       </div>
 

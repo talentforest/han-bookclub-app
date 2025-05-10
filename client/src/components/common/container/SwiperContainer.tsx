@@ -20,8 +20,9 @@ export default function SwiperContainer({ children, options }: Props) {
     modules: [Autoplay, Pagination, Navigation, Scrollbar],
     spaceBetween: 15,
     slidesPerView: 1,
+    speed: 3000,
     autoplay: {
-      delay: 20000,
+      delay: 2000,
       disableOnInteraction: true,
     },
     navigation: true,
