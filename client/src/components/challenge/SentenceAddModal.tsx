@@ -7,6 +7,7 @@ import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { SENTENCES2024 } from 'appConstants';
+import { formatDate } from 'utils';
 
 import Modal from 'components/common/Modal';
 import SquareBtn from 'components/common/button/SquareBtn';
@@ -31,7 +32,7 @@ export default function SentenceAddModal({ onToggleClick, book }: Props) {
     title,
     thumbnail,
     creatorId: uid,
-    createdAt: Date.now(),
+    createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
     text: sentence,
     page: +page,
   };

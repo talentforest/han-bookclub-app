@@ -4,9 +4,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { getDocument } from 'api/firebase/getFbDoc';
 
-import { thisMonthClubAtom } from 'data/clubAtom';
+import { clubByMonthSelector } from 'data/clubAtom';
 import { fieldAndHostAtom } from 'data/fieldAndHostAtom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { BOOKCLUB_THIS_YEAR, BOOK_FIELD_AND_HOST } from 'appConstants';
 import { formatDate, thisMonth, thisYearMonthId } from 'utils';
@@ -16,7 +16,7 @@ import LabelWithValueCard from 'components/common/LabelWithValueCard';
 import EmptyCard from 'components/common/container/EmptyCard';
 
 export default function ThisMonthClub() {
-  const [thisMonthClub, setThisMonthClub] = useRecoilState(thisMonthClubAtom);
+  const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
 
   const [fieldAndHosts, setFieldAndHosts] = useRecoilState(fieldAndHostAtom);
 
@@ -31,9 +31,6 @@ export default function ThisMonthClub() {
   );
 
   useEffect(() => {
-    if (!thisMonthClub.book) {
-      getDocument(BOOKCLUB_THIS_YEAR, thisYearMonthId, setThisMonthClub);
-    }
     if (fieldAndHosts.bookFieldAndHostList.length === 0) {
       getDocument(BOOKCLUB_THIS_YEAR, BOOK_FIELD_AND_HOST, setFieldAndHosts);
     }
@@ -58,7 +55,7 @@ export default function ThisMonthClub() {
 
   return (
     <>
-      {thisMonthClub.book ? (
+      {thisMonthClub && thisMonthClub?.book ? (
         <div className="grid grid-cols-5 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">
           <MonthBookCard
             month={formatDate(thisMonth, 'M')}

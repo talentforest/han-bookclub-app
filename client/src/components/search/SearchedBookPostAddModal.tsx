@@ -12,7 +12,7 @@ import { useSetRecoilState } from 'recoil';
 import SearchedBookList from './SearchedBookList';
 import { FiSearch } from 'react-icons/fi';
 
-import ChallengeModalForm from 'components/challenge/ChallengeModalForm';
+import ChallengeBookForm from 'components/challenge/ChallengeBookForm';
 import Modal from 'components/common/Modal';
 import RefInput from 'components/common/input/RefInput';
 import RecommendBookModalForm from 'components/post/recommendedBooks/RecommendBookModalForm';
@@ -85,7 +85,7 @@ export default function SearchedBookPostAddModal({
         (title === '추천책 작성하기' ? (
           <RecommendBookModalForm onModalClose={onModalToggleClick} />
         ) : (
-          <ChallengeModalForm onModalClose={onModalToggleClick} />
+          <ChallengeBookForm onModalClose={onModalToggleClick} />
         ))}
     </Modal>
   );

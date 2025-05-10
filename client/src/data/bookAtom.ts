@@ -30,7 +30,7 @@ export type IChallengeBook = {
 
 export type IChallenge = {
   id?: string;
-  createdAt: number;
+  createdAt: string;
   creatorId: string;
   books: IChallengeBook[];
 };
@@ -39,7 +39,7 @@ export interface ISentence {
   id: string;
   title: string;
   thumbnail: string;
-  createdAt: number;
+  createdAt: string;
   creatorId: string;
   text: string;
   page: number;

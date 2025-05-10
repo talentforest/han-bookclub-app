@@ -28,12 +28,12 @@ export default function ChallengeBookCard({
   creatorId,
   challengeBook,
 }: Props) {
-  const { uid } = useRecoilValue(currAuthUserAtom);
-
   const { title, thumbnail, authors, publisher, wholePage, currentPage } =
     challengeBook;
 
   const [currentPageNum] = useState(currentPage);
+
+  const { uid } = useRecoilValue(currAuthUserAtom);
 
   const { pathname } = useLocation();
 

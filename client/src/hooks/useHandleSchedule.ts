@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 import useSendPushNotification from 'hooks/useSendPushNotification';
 
-import { IBookClub, thisMonthClubAtom } from 'data/clubAtom';
-import { useRecoilState } from 'recoil';
+import { IBookClub, clubByMonthSelector, clubByYearAtom } from 'data/clubAtom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import useAlertAskJoin from './useAlertAskJoin';
 import { BOOKCLUB_THIS_YEAR } from 'appConstants';
@@ -15,13 +15,14 @@ const useHandleSchedule = (
   meeting: IBookClub['meeting'],
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
-  const [thisMonthBookClub, setThisMonthBookClub] =
-    useRecoilState(thisMonthClubAtom);
-
   const [time, setTime] = useState(
     !meeting?.time ? new Date() : new Date(meeting?.time),
   );
   const [place, setPlace] = useState(meeting?.place);
+
+  const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
+
+  const setThisYearClub = useSetRecoilState(clubByYearAtom);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
 
@@ -34,24 +35,30 @@ const useHandleSchedule = (
     event.preventDefault();
 
     if (meeting.time === time.toLocaleString()) return setIsEditing(false);
-
     if (!time) return alert('모임 시간을 작성해주세요.');
 
     try {
-      const editInfo = {
-        meeting: {
-          ...meeting,
-          time: formatDate(time, "yyyy-MM-dd'T'HH:mm:ss"),
-        },
-      };
+      const updatedTime = formatDate(time, "yyyy-MM-dd'T'HH:mm:ss");
+      const editInfo = { meeting: { ...meeting, time: updatedTime } };
+
       await updateDoc(document, editInfo);
+
+      setThisYearClub(prev => {
+        return prev.map(bookclub =>
+          thisMonthClub.id === thisYearMonthId
+            ? { ...bookclub, ...editInfo }
+            : bookclub,
+        );
+      });
+
       await sendPlaceTimePushNotification({
         type: '모임 시간',
         data: time.toLocaleString().slice(0, -3),
       });
-      setThisMonthBookClub({ ...thisMonthBookClub, ...editInfo });
     } catch (error) {
-      window.alert('모임 시간 등록 중 오류가 발생했습니다.');
+      window.alert(
+        '모임 시간 등록 중 오류가 발생했습니다. 관리자에게 문의해주세요.',
+      );
     } finally {
       setIsEditing(false);
     }
@@ -61,18 +68,25 @@ const useHandleSchedule = (
     event.preventDefault();
 
     if (meeting.place === place) return setIsEditing(false);
-
     if (!place) return alert('모임 시간과 모임 장소 모두 작성해주세요.');
 
     try {
-      const editInfo = {
-        meeting: { ...meeting, place },
-      };
+      const editInfo = { meeting: { ...meeting, place } };
       await updateDoc(document, editInfo);
+
+      setThisYearClub(prev => {
+        return prev.map(bookclub =>
+          thisMonthClub.id === thisYearMonthId
+            ? { ...bookclub, ...editInfo }
+            : bookclub,
+        );
+      });
+
       await sendPlaceTimePushNotification({ type: '모임 장소', data: place });
-      setThisMonthBookClub({ ...thisMonthBookClub, ...editInfo });
     } catch (error) {
-      console.log(error);
+      window.alert(
+        '모임 장소 등록 중 오류가 발생했습니다. 관리자에게 문의해주세요.',
+      );
     } finally {
       setIsEditing(false);
     }
@@ -86,14 +100,18 @@ const useHandleSchedule = (
   const onTagClick = (place: string) => setPlace(place);
 
   return {
-    onTimeSubmit,
-    onPlaceSubmit,
+    time: {
+      time,
+      setTime,
+      onTimeSubmit,
+    },
+    place: {
+      place,
+      setPlace,
+      onPlaceSubmit,
+      onTagClick,
+    },
     onEditClick,
-    time,
-    place,
-    setTime,
-    setPlace,
-    onTagClick,
     isPending,
   };
 };

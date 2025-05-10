@@ -3,12 +3,12 @@ import { FormEvent, useState } from 'react';
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import useSendPushNotification from 'hooks/useSendPushNotification';
 
-import { thisMonthClubAtom } from 'data/clubAtom';
+import { clubByMonthSelector } from 'data/clubAtom';
 import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { HOST_REVIEW, SUBJECTS } from 'appConstants';
-import { getFbRouteOfPost } from 'utils';
+import { formatDate, getFbRouteOfPost, thisYearMonthId } from 'utils';
 
 import Modal from 'components/common/Modal';
 import SquareBtn from 'components/common/button/SquareBtn';
@@ -23,7 +23,8 @@ interface Props {
 const PostAddModal = ({ toggleModal, postType }: Props) => {
   const [text, setText] = useState('');
 
-  const thisMonthClub = useRecoilValue(thisMonthClubAtom);
+  const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
+
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const { sendPostNotification, isPending } = useSendPushNotification();
@@ -40,7 +41,7 @@ const PostAddModal = ({ toggleModal, postType }: Props) => {
 
   const docData = {
     text,
-    createdAt: Date.now(),
+    createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
     creatorId: uid,
     title: bookTitle,
     thumbnail,

@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import { getDocument } from 'api/firebase/getFbDoc';
+import { getCollection, getDocument } from 'api/firebase/getFbDoc';
 
 import { absenceAtom, attendanceSelector } from 'data/absenceAtom';
-import { IBookClub, thisMonthClubAtom } from 'data/clubAtom';
+import { IBookClub, clubByMonthSelector, clubByYearAtom } from 'data/clubAtom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { ABSENCE_MEMBERS } from 'appConstants';
+import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from 'appConstants';
 import { existDocObj, formatDate, thisYearMonthId } from 'utils';
 
 import MobileHeader from 'layout/mobile/MobileHeader';
@@ -34,7 +34,7 @@ type LocationState = {
 };
 
 const ClubDetail = () => {
-  const thisMonthClub = useRecoilValue(thisMonthClubAtom);
+  const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
 
   const {
     state: { docId, docData },
@@ -45,13 +45,18 @@ const ClubDetail = () => {
 
   const setAbsenceList = useSetRecoilState(absenceAtom);
 
-  useEffect(() => {
-    getDocument(`BookClub-${year}`, ABSENCE_MEMBERS, setAbsenceList);
-  }, [year]);
+  const setThisYearClub = useSetRecoilState(clubByYearAtom);
 
   const { absenteeList, participantList } = useRecoilValue(
     attendanceSelector(+month),
   );
+
+  useEffect(() => {
+    if (!thisMonthClub) {
+      getCollection(BOOKCLUB_THIS_YEAR, setThisYearClub);
+    }
+    getDocument(`BookClub-${year}`, ABSENCE_MEMBERS, setAbsenceList);
+  }, [year]);
 
   const thisMonthDetail = docId === thisYearMonthId;
 

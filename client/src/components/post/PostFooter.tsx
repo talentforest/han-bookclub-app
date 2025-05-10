@@ -5,7 +5,7 @@ import { formatDate } from 'utils';
 
 interface Props {
   post?: IDocument;
-  createdAt: number;
+  createdAt: string;
   footerType?: 'likes';
   collName?: string;
 }

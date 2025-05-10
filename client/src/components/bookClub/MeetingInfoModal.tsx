@@ -4,10 +4,11 @@ import useHandleSchedule from 'hooks/useHandleSchedule';
 
 import { getDocument } from 'api/firebase/getFbDoc';
 
-import { IBookClub, thisMonthClubAtom } from 'data/clubAtom';
+import { IBookClub, clubByMonthSelector } from 'data/clubAtom';
 import { useRecoilValue } from 'recoil';
 
 import { MEETING_PLACE, TAG_LIST } from 'appConstants';
+import { thisYearMonthId } from 'utils';
 
 import CustomDatePicker from 'components/common/CustomDatePicker';
 import Modal from 'components/common/Modal';
@@ -26,20 +27,17 @@ export default function MeetingInfoModal({
   value,
   setIsEditing,
 }: Props) {
-  const { meeting: schedule } = useRecoilValue(thisMonthClubAtom);
+  const { meeting: schedule } = useRecoilValue(
+    clubByMonthSelector(thisYearMonthId),
+  );
 
   const [placeDoc, setPlaceDoc] = useState({ id: '', place: [] });
 
   const meeting = { ...schedule, ...value };
 
   const {
-    place,
-    setPlace,
-    time,
-    setTime,
-    onTimeSubmit,
-    onPlaceSubmit,
-    onTagClick,
+    time: { time, setTime, onTimeSubmit },
+    place: { place, setPlace, onPlaceSubmit, onTagClick },
     onEditClick,
     isPending,
   } = useHandleSchedule(meeting, setIsEditing);

@@ -15,27 +15,6 @@ export type IBookClub = {
   };
 };
 
-export const thisMonthClubAtom = atom<IBookClub>({
-  key: `thisMonthClubAtom`,
-  default: {} as IBookClub,
-  effects: [
-    ({ setSelf, onSet }) => {
-      const storeKey = 'thisMonthClub';
-
-      const savedValue = localStorage.getItem(storeKey);
-      if (savedValue != null) {
-        setSelf(JSON.parse(savedValue));
-      }
-
-      onSet((newValue, _, isReset) => {
-        isReset
-          ? localStorage.removeItem(storeKey)
-          : localStorage.setItem(storeKey, JSON.stringify(newValue));
-      });
-    },
-  ],
-});
-
 export const selectedYearAtom = atom<string>({
   key: `selectedYearAtom/${v4()}`,
   default: thisYear,

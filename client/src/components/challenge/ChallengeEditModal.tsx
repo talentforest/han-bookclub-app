@@ -9,6 +9,7 @@ import { useRecoilValue } from 'recoil';
 import { CHALLENGE } from 'appConstants';
 import { dbService } from 'fbase';
 import { doc, setDoc } from 'firebase/firestore';
+import { formatDate } from 'utils';
 
 import Modal from 'components/common/Modal';
 import BookAuthorPublisher from 'components/common/book/BookAuthorPublisher';
@@ -58,7 +59,7 @@ export default function ChallengeEditModal({
 
     const editedChallengeDoc: IChallenge = {
       ...challenge,
-      createdAt: Date.now(),
+      createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
       books: editedPageBooks,
     };
 

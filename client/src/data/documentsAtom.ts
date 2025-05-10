@@ -7,7 +7,7 @@ export interface IDocument {
   id?: string;
   text: string;
   creatorId: string;
-  createdAt: number;
+  createdAt: string;
   title: string;
   thumbnail: string;
   recommendedBook?: IRecommendedBook;

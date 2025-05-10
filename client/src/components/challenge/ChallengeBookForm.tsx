@@ -9,6 +9,7 @@ import { useRecoilValue } from 'recoil';
 import { CHALLENGE } from 'appConstants';
 import { dbService } from 'fbase';
 import { doc, setDoc } from 'firebase/firestore';
+import { formatDate } from 'utils';
 
 import BookAuthorPublisher from 'components/common/book/BookAuthorPublisher';
 import BookThumbnail from 'components/common/book/BookThumbnail';
@@ -19,7 +20,7 @@ interface Props {
   onModalClose: () => void;
 }
 
-export default function ChallengeModalForm({ onModalClose }: Props) {
+export default function ChallengeBookForm({ onModalClose }: Props) {
   const userChallenge = useRecoilValue(challengeState);
   const bookDesc = useRecoilValue(bookDescState);
   const { uid } = useRecoilValue(currAuthUserAtom);
@@ -72,7 +73,7 @@ export default function ChallengeModalForm({ onModalClose }: Props) {
           books: [...findMyChallengeBooks.books, { ...bookDesc, ...pageNums }],
         }
       : {
-          createdAt: Date.now(),
+          createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
           creatorId: uid,
           books: [{ ...bookDesc, ...pageNums }],
         };

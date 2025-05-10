@@ -97,6 +97,20 @@ const useSendPushNotification = () => {
     setIsPending(false);
   };
 
+  // 전체 유저에게 다음달 도서 알림 보내기
+  const sendNextMonthClubBookNotification = async (
+    nextMonthBookTitle: string,
+  ) => {
+    setIsPending(true);
+
+    const title = `🔥새로운 다음달 도서 등록!`;
+    const body = `${displayName}님이 다음달 도서로 ${nextMonthBookTitle}를 등록하셨습니다! 다음달에 봐요!`;
+    const link = `${DOMAIN}${process.env.PUBLIC_URL}`;
+
+    await sendMulticast({ title, body, link, uid });
+    setIsPending(false);
+  };
+
   // 현재 유저에게만 알림 보내기
   const sendNotificationToCurrentUser = async (notificationData: {
     title: string;
@@ -135,6 +149,7 @@ const useSendPushNotification = () => {
     sendPlaceTimePushNotification,
     sendNotificationToCurrentUser,
     sendNotificationToAllUser,
+    sendNextMonthClubBookNotification,
     isPending,
   };
 };

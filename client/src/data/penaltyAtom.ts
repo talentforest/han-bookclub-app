@@ -18,7 +18,7 @@ export type Month =
 
 interface PenaltyDoc {
   id: string;
-  createdAt: number;
+  createdAt: string;
   [key: string]: OverduePenaltyMonths | string | number;
 }
 

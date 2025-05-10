@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 
-import { getCollection, getDocument } from 'api/firebase/getFbDoc';
+import useSendPushNotification from 'hooks/useSendPushNotification';
+
+import { getCollection } from 'api/firebase/getFbDoc';
 import { setDocument } from 'api/firebase/setFbDoc';
 
 import { ISearchedBook } from 'data/bookAtom';
-import { clubByYearAtom, thisMonthClubAtom } from 'data/clubAtom';
+import { clubByYearAtom } from 'data/clubAtom';
 import { currAuthUserAtom } from 'data/userAtom';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { BOOKCLUB_THIS_YEAR } from 'appConstants';
 import {
@@ -30,13 +32,12 @@ const RegisterClubBookBtn = ({
   searchedBook,
   registerMonthType,
 }: PropsType) => {
+  const { uid } = useRecoilValue(currAuthUserAtom);
+
   const [thisYearBookClubInfos, setThisYearBookClubInfos] =
     useRecoilState(clubByYearAtom);
-  const setThisMonthClub = useSetRecoilState(thisMonthClubAtom);
 
   const [submitted, setSubmitted] = useState(false);
-
-  const { uid } = useRecoilValue(currAuthUserAtom);
 
   const {
     thumbnail,
@@ -54,7 +55,7 @@ const RegisterClubBookBtn = ({
   const meetingTime = getThirdSunday(
     +thisYear,
     registerMonthType === 'thisMonth' ? +thisMonth : +thisMonth + 1,
-    13,
+    11,
     0,
   );
 
@@ -95,9 +96,6 @@ const RegisterClubBookBtn = ({
     if (registerMonthType === 'nextMonth' && !existNextBook) {
       getCollection(`BookClub-${thisYear}`, setThisYearBookClubInfos);
     }
-    if (registerMonthType === 'thisMonth' && !existThisMonthBook) {
-      getDocument(BOOKCLUB_THIS_YEAR, thisYearMonthId, setThisMonthClub);
-    }
   }, []);
 
   useEffect(() => {
@@ -113,13 +111,13 @@ const RegisterClubBookBtn = ({
     state: registerMonthType === 'nextMonth' ? nextBookState : thisBookState,
   };
 
+  const { sendNextMonthClubBookNotification } = useSendPushNotification();
+
   const onSubmit = async () => {
     await setDocument(BOOKCLUB_THIS_YEAR, registerMonth.id, bookClubInfo);
     setSubmitted(true);
-    if (registerMonthType === 'thisMonth') {
-      setThisMonthClub(bookClubInfo);
-    }
     alert(`${registerMonth.name} 독서모임 책으로 등록되었습니다!`);
+    await sendNextMonthClubBookNotification(bookClubInfo.book.title);
   };
 
   return (

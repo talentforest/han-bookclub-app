@@ -4,12 +4,12 @@ import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import useSendPushNotification from 'hooks/useSendPushNotification';
 
 import { recommendedBookAtom } from 'data/bookAtom';
-import { thisMonthClubAtom } from 'data/clubAtom';
+import { clubByMonthSelector } from 'data/clubAtom';
 import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import { RECOMMENDED_BOOKS } from 'appConstants';
-import { getFbRouteOfPost, thisYearMonthId } from 'utils';
+import { formatDate, getFbRouteOfPost, thisYearMonthId } from 'utils';
 
 import FooterBookCard from 'components/bookCard/FooterBookCard';
 import SquareBtn from 'components/common/button/SquareBtn';
@@ -20,7 +20,7 @@ interface Props {
 export default function RecommendBookModalForm({ onModalClose }: Props) {
   const [text, setText] = useState('');
   const { uid } = useRecoilValue(currAuthUserAtom);
-  const thisMonthClub = useRecoilValue(thisMonthClubAtom);
+  const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
   const recommendBook = useRecoilValue(recommendedBookAtom);
 
   const { sendPostNotification, isPending } = useSendPushNotification();
@@ -33,7 +33,7 @@ export default function RecommendBookModalForm({ onModalClose }: Props) {
 
   const docData = {
     text,
-    createdAt: Date.now(),
+    createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
     creatorId: uid,
     title: book.title,
     thumbnail: book.thumbnail,

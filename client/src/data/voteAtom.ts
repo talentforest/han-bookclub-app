@@ -15,7 +15,7 @@ export interface IVote {
     title: string;
     voteItem: IVoteItem[];
   };
-  createdAt: number;
+  createdAt: string;
   creatorId: string;
   deadline: string;
   id: string;
@@ -40,7 +40,7 @@ export interface IVoteCountById {
 
 export interface IVoteItemsByMember {
   votedItem: { id: number; title: string }[];
-  createdAt: number;
+  createdAt: string;
 }
 
 export interface IBookVote {

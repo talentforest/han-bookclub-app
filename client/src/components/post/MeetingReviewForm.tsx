@@ -1,17 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
 import useSendPushNotification from 'hooks/useSendPushNotification';
 
-import { getDocument } from 'api/firebase/getFbDoc';
-
-import { thisMonthClubAtom } from 'data/clubAtom';
+import { clubByMonthSelector } from 'data/clubAtom';
 import { currAuthUserAtom } from 'data/userAtom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
-import { BOOKCLUB_THIS_YEAR, REVIEW } from 'appConstants';
+import { REVIEW } from 'appConstants';
 import { BiCheckCircle } from 'react-icons/bi';
-import { getFbRouteOfPost, thisYearMonthId } from 'utils';
+import { formatDate, getFbRouteOfPost, thisYearMonthId } from 'utils';
 
 import SquareBtn from 'components/common/button/SquareBtn';
 
@@ -23,23 +21,20 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
   const [text, setText] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
 
-  const [clubInfo, setThisMonthClub] = useRecoilState(thisMonthClubAtom);
+  const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
+
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const collName = getFbRouteOfPost(docMonth, REVIEW);
 
   const docData = {
-    createdAt: Date.now(),
+    createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
     creatorId: uid,
     text,
-    title: clubInfo?.book?.title,
-    thumbnail: clubInfo?.book?.thumbnail,
+    title: thisMonthClub?.book?.title,
+    thumbnail: thisMonthClub?.book?.thumbnail,
     isAnonymous,
   };
-
-  useEffect(() => {
-    getDocument(BOOKCLUB_THIS_YEAR, thisYearMonthId, setThisMonthClub);
-  }, []);
 
   const { onAddDocSubmit, onChange } = useAddDoc({
     setText,

@@ -1,6 +1,14 @@
+import { useEffect } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
-import { thisYear } from 'utils';
+import { getCollection } from 'api/firebase/getFbDoc';
+
+import { clubByMonthSelector, clubByYearAtom } from 'data/clubAtom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+
+import { BOOKCLUB_THIS_YEAR } from 'appConstants';
+import { thisYear, thisYearMonthId } from 'utils';
 
 import Footer from 'layout/Footer';
 import MobileHeader from 'layout/mobile/MobileHeader';
@@ -14,6 +22,16 @@ import RecommendedBookSwiperContainer from 'components/post/recommendedBooks/Rec
 
 const Home = () => {
   const navigate = useNavigate();
+
+  const setThisYearClub = useSetRecoilState(clubByYearAtom);
+
+  const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
+
+  useEffect(() => {
+    if (!thisMonthClub) {
+      getCollection(BOOKCLUB_THIS_YEAR, setThisYearClub);
+    }
+  }, []);
 
   return (
     <>
@@ -30,7 +48,7 @@ const Home = () => {
           </Section>
         </div>
 
-        <Section className="!my-28 grid w-full grid-cols-2 gap-4 max-sm:my-20 max-sm:gap-2.5">
+        <Section className="!my-28 grid w-full grid-cols-4 gap-4 max-sm:my-20 max-sm:grid-cols-2 max-sm:gap-2.5">
           <SquareBtn
             name={`${thisYear} 월별 독서분야`}
             className="h-fit w-full !px-0 py-3.5"
@@ -48,8 +66,10 @@ const Home = () => {
           <SquareBtn
             name={`${thisYear} 챌린지`}
             className="h-fit w-full !px-0 py-3.5"
-            color="gray"
-            handleClick={() => alert('아직 준비중이에요!')}
+            color="darkBlue"
+            handleClick={() => {
+              navigate('/challenge');
+            }}
           />
           <SquareBtn
             name={`${thisYear} 연말결산`}

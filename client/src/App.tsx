@@ -13,6 +13,7 @@ import { FCM_NOTIFICATION } from 'appConstants';
 import { dbService, getDeviceToken } from 'fbase';
 import { getAuth } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
+import { formatDate } from 'utils';
 
 function App() {
   const [init, setInit] = useState(false); // user가 null이 되지 않기 위해 초기화
@@ -50,7 +51,7 @@ function App() {
           if (!isExistTokenInDB && currUser?.uid) {
             const document = doc(dbService, FCM_NOTIFICATION, currUser.uid);
             const fcmData = {
-              createdAt: Date.now(),
+              createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
               tokens:
                 fcmDoc?.tokens?.length !== 0
                   ? [...fcmDoc?.tokens, token]
