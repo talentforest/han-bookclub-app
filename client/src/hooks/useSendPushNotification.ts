@@ -93,6 +93,8 @@ const useSendPushNotification = () => {
     };
     const link = `${DOMAIN}${process.env.PUBLIC_URL}${subPath[type]}`;
 
+    console.log(link);
+
     await sendMulticast({ title, body, link, uid });
     setIsPending(false);
   };

@@ -40,18 +40,22 @@ export default function PostListDetail() {
 
   const [openAddPostModal, setOpenAddPostModal] = useState(false);
 
-  const {
-    pathname,
-    state: { id, postType, postId },
-  } = useLocation() as LocationState;
+  const { pathname, state } = useLocation() as LocationState;
+
+  const docId = state?.id ?? thisYearMonthId;
+  const postType =
+    (state?.postType ?? pathname.includes('host-review'))
+      ? '정리 기록'
+      : '발제문';
+  const postId = state?.postId ?? '';
 
   useEffect(() => {
-    getCollection(`BookClub-${id.slice(0, 4)}`, setClubInfoDocs);
-    getCollection(getFbRouteOfPost(id, HOST_REVIEW), setHostReviews);
-    getCollection(getFbRouteOfPost(id, SUBJECTS), setSubjects);
+    getCollection(`BookClub-${docId.slice(0, 4)}`, setClubInfoDocs);
+    getCollection(getFbRouteOfPost(docId, HOST_REVIEW), setHostReviews);
+    getCollection(getFbRouteOfPost(docId, SUBJECTS), setSubjects);
   }, []);
 
-  const document = clubInfoDocs?.find(doc => doc.id === id);
+  const document = clubInfoDocs?.find(doc => doc.id === docId);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('write');
 
@@ -63,11 +67,11 @@ export default function PostListDetail() {
   const postInfo = {
     발제문: {
       postList: subjects,
-      collName: getFbRouteOfPost(id, SUBJECTS),
+      collName: getFbRouteOfPost(docId, SUBJECTS),
     },
     '정리 기록': {
       postList: hostReviews,
-      collName: getFbRouteOfPost(id, HOST_REVIEW),
+      collName: getFbRouteOfPost(docId, HOST_REVIEW),
     },
   };
 
@@ -80,7 +84,7 @@ export default function PostListDetail() {
   return (
     <>
       <MobileHeader
-        title={`${id === thisYearMonthId ? '이달' : formatDate(id, 'yy년 MM월')}의 한페이지 ${postType}`}
+        title={`${docId === thisYearMonthId ? '이달' : formatDate(docId, 'yy년 MM월')}의 한페이지 ${postType}`}
         backBtn
       />
 

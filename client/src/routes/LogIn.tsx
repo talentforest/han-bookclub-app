@@ -26,7 +26,7 @@ const LogIn = ({ isLoggedIn }: ILoginProps) => {
 
   return (
     <>
-      <main className="mx-auto my-5 flex w-[90%] flex-col items-center justify-center">
+      <main className="mx-auto my-5 flex w-[50%] flex-col items-center justify-center max-sm:w-[90%]">
         <header className="flex w-full flex-col items-center">
           <img
             src={`${process.env.PUBLIC_URL}/hanpage_logo.png`}

@@ -26,7 +26,11 @@ export default function LabelWithValueCard({ label, value, editable }: Props) {
           {value && (
             <>
               {typeof value !== 'string' &&
-                value?.map(host => <UserName key={host} userId={host} tag />)}
+                (value.includes('no_host') ? (
+                  <span>발제자 없음</span>
+                ) : (
+                  value?.map(host => <UserName key={host} userId={host} tag />)
+                ))}
 
               {typeof value === 'string' && value && (
                 <span className="tracking-tight">
