@@ -1,13 +1,11 @@
 import { useEffect, useRef } from 'react';
 
-import useSearchBook from 'hooks/useSearchBook';
-
-import MobileHeader from 'layout/mobile/MobileHeader';
-
-import Subtitle from 'components/common/Subtitle';
-import SquareBtn from 'components/common/button/SquareBtn';
-import RefInput from 'components/common/input/RefInput';
-import SearchedBookCard from 'components/search/SearchedBookCard';
+import Subtitle from '@/components/common/Subtitle';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import RefInput from '@/components/common/input/RefInput';
+import SearchedBookCard from '@/components/search/SearchedBookCard';
+import useSearchBook from '@/hooks/useSearchBook';
+import MobileHeader from '@/layout/mobile/MobileHeader';
 
 const Search = () => {
   const {

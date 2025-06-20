@@ -1,4 +1,4 @@
-import { dbService } from 'fbase';
+import { dbService } from '@/fbase';
 import {
   DocumentData,
   WithFieldValue,

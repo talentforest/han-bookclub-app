@@ -1,15 +1,18 @@
 import { useState } from 'react';
 
-import useSendPushNotification from 'hooks/useSendPushNotification';
-
-import { IBookClub, clubByMonthSelector, clubByYearAtom } from 'data/clubAtom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import useAlertAskJoin from './useAlertAskJoin';
-import { BOOKCLUB_THIS_YEAR } from 'appConstants';
-import { dbService } from 'fbase';
+import { BOOKCLUB_THIS_YEAR } from '@/appConstants';
+import {
+  IBookClub,
+  clubByMonthSelector,
+  clubByYearAtom,
+} from '@/data/clubAtom';
+import { dbService } from '@/fbase';
+import useSendPushNotification from '@/hooks/useSendPushNotification';
+import { formatDate, thisYearMonthId } from '@/utils';
 import { doc, updateDoc } from 'firebase/firestore';
-import { formatDate, thisYearMonthId } from 'utils';
 
 const useHandleSchedule = (
   meeting: IBookClub['meeting'],

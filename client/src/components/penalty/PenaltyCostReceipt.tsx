@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 
-import { Month } from 'data/penaltyAtom';
+import { Month } from '@/data/penaltyAtom';
 
 interface Props {
   overdueSubjectMonths: Month[];

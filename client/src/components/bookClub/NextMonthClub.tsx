@@ -1,13 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 
-import { clubByMonthSelector } from 'data/clubAtom';
-import { nextMonthFieldAndHostSelector } from 'data/fieldAndHostAtom';
 import { useRecoilValue } from 'recoil';
 
-import { formatDate, getNextMonthId } from 'utils';
-
-import MonthBookCard from 'components/bookCard/MonthBookCard';
-import EmptyCard from 'components/common/container/EmptyCard';
+import MonthBookCard from '@/components/bookCard/MonthBookCard';
+import EmptyCard from '@/components/common/container/EmptyCard';
+import { clubByMonthSelector } from '@/data/clubAtom';
+import { nextMonthFieldAndHostSelector } from '@/data/fieldAndHostAtom';
+import { formatDate, getNextMonthId } from '@/utils';
 
 export default function NextMonthClub() {
   const nextMonthFieldAndHost = useRecoilValue(nextMonthFieldAndHostSelector);

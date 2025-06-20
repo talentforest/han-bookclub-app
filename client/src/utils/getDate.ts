@@ -94,4 +94,5 @@ export const thisMonth = formatDate(today, 'MM');
 export const nextMonth = formatDate(getNextMonthId(), 'M');
 export const thisDay = formatDate(today, 'dd');
 export const thisYearMonthId = formatDate(today, 'yyyy-MM');
+export const nextMonthId = formatDate(getNextMonthId(), 'yyyy-MM');
 export const todayWithHyphen = formatDate(today, 'yyyy-MM-dd');

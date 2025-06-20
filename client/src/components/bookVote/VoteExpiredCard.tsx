@@ -2,17 +2,14 @@ import { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { getCollection } from 'api/firebase/getFbDoc';
-
-import { IBookVote, IVoteItemsByMember } from 'data/voteAtom';
-
-import { VOTED_ITEMS } from 'appConstants';
+import { getCollection } from '@/api/firebase/getFbDoc';
+import { VOTED_ITEMS } from '@/appConstants';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import UserName from '@/components/common/user/UserName';
+import { IBookVote, IVoteItemsByMember } from '@/data/voteAtom';
+import { cutLetter } from '@/utils';
 import { FiChevronRight } from 'react-icons/fi';
 import { MdOutlineHowToVote } from 'react-icons/md';
-import { cutLetter } from 'utils';
-
-import BookThumbnail from 'components/common/book/BookThumbnail';
-import UserName from 'components/common/user/UserName';
 
 interface Props {
   vote: IBookVote;
@@ -36,7 +33,7 @@ export default function VoteExpiredCard({ vote, collName }: Props) {
   }, []);
 
   return (
-    <div className="rounded-card group relative flex w-full flex-col justify-between bg-white bg-opacity-65 p-4 opacity-80 shadow-card">
+    <div className="group relative flex w-full flex-col justify-between rounded-card bg-white bg-opacity-65 p-4 opacity-80 shadow-card">
       <div className="mb-2 flex w-full items-center justify-between gap-4">
         <h4 className="line-clamp-1 w-4/5 flex-1 gap-1 truncate font-medium text-gray1">
           <MdOutlineHowToVote className="mb-1 inline size-5 pr-0.5 text-base" />

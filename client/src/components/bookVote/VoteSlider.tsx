@@ -2,18 +2,16 @@ import { useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { getCollection } from 'api/firebase/getFbDoc';
-
-import { bookVotesState } from 'data/voteAtom';
 import { useRecoilState } from 'recoil';
 
-import VoteProgressCard from './VoteProgressCard';
-import { BOOK_VOTE } from 'appConstants';
+import { getCollection } from '@/api/firebase/getFbDoc';
+import { BOOK_VOTE } from '@/appConstants';
+import VoteProgressCard from '@/components/bookVote/VoteProgressCard';
+import EmptyCard from '@/components/common/container/EmptyCard';
+import SwiperContainer from '@/components/common/container/SwiperContainer';
+import { bookVotesState } from '@/data/voteAtom';
+import { todayWithHyphen } from '@/utils';
 import { SwiperSlide } from 'swiper/react';
-import { todayWithHyphen } from 'utils';
-
-import EmptyCard from 'components/common/container/EmptyCard';
-import SwiperContainer from 'components/common/container/SwiperContainer';
 
 const VoteSlider = () => {
   const [bookVotes, setBookVotes] = useRecoilState(bookVotesState);

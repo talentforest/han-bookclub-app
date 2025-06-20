@@ -2,14 +2,12 @@ import { useEffect } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import useAlertAskJoin from 'hooks/useAlertAskJoin';
-
-import { getCollection } from 'api/firebase/getFbDoc';
-
-import { allUsersAtom, currAuthUserAtom } from 'data/userAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { USER } from 'appConstants';
+import { getCollection } from '@/api/firebase/getFbDoc';
+import { USER } from '@/appConstants';
+import { allUsersAtom, currAuthUserAtom } from '@/data/userAtom';
+import useAlertAskJoin from '@/hooks/useAlertAskJoin';
 
 interface PropsType {
   userId: string;

@@ -1,7 +1,6 @@
-import { IDocument } from 'data/documentsAtom';
-
-import PostDeleteBtn from 'components/common/button/PostDeleteBtn';
-import PostEditBtn from 'components/common/button/PostEditBtn';
+import PostDeleteBtn from '@/components/common/button/PostDeleteBtn';
+import PostEditBtn from '@/components/common/button/PostEditBtn';
+import { IDocument } from '@/data/documentsAtom';
 
 export type PostType =
   | '챌린지'

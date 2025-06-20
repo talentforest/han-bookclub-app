@@ -1,7 +1,6 @@
-import { IRecommendedBook, ISearchedBook } from 'data/bookAtom';
-
-import BookAuthorPublisher from 'components/common/book/BookAuthorPublisher';
-import BookThumbnail from 'components/common/book/BookThumbnail';
+import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import { IRecommendedBook, ISearchedBook } from '@/data/bookAtom';
 
 interface FooterBookCardProps {
   book: ISearchedBook | Partial<IRecommendedBook>;

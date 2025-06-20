@@ -2,11 +2,11 @@ import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
-import { USER } from 'appConstants';
-import { authService, dbService } from 'fbase';
+import { USER } from '@/appConstants';
+import { currAuthUserAtom } from '@/data/userAtom';
+import { authService, dbService } from '@/fbase';
 import {
   EmailAuthProvider,
   deleteUser,

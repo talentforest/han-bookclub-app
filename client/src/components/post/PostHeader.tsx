@@ -1,10 +1,9 @@
-import { IDocument } from 'data/documentsAtom';
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
-import CreatorBox from '../common/user/CreatorBox';
-
-import PostHandleBtns, { PostType } from 'components/post/PostHandleBtns';
+import CreatorBox from '@/components/common/user/CreatorBox';
+import PostHandleBtns, { PostType } from '@/components/post/PostHandleBtns';
+import { IDocument } from '@/data/documentsAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
 
 interface Props {
   collName: string;

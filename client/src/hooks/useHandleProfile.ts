@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-import { currAuthUserAtom, userDocAtomFamily } from 'data/userAtom';
 import { useRecoilState } from 'recoil';
 
-import { BookField, USER } from 'appConstants';
-import { authService, dbService, storageService } from 'fbase';
+import { BookField, USER } from '@/appConstants';
+import { currAuthUserAtom, userDocAtomFamily } from '@/data/userAtom';
+import { authService, dbService, storageService } from '@/fbase';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';

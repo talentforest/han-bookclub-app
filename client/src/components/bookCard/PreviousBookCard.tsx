@@ -1,12 +1,10 @@
 import { useLocation } from 'react-router-dom';
 
-import { IBookClub } from 'data/clubAtom';
-
-import { cutLetter, formatDate } from 'utils';
-
-import Tag from 'components/common/Tag';
-import BookAuthorPublisher from 'components/common/book/BookAuthorPublisher';
-import BookThumbnail from 'components/common/book/BookThumbnail';
+import Tag from '@/components/common/Tag';
+import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import { IBookClub } from '@/data/clubAtom';
+import { cutLetter, formatDate } from '@/utils';
 
 interface PropsType {
   document: IBookClub;
@@ -24,7 +22,7 @@ const PreviousBookCard = ({ document }: PropsType) => {
   const month = formatDate(id, 'M');
 
   return (
-    <div className="rounded-card relative flex h-full w-full cursor-pointer flex-col items-center justify-between gap-1 bg-white px-4 py-5 shadow-card">
+    <div className="relative flex h-full w-full cursor-pointer flex-col items-center justify-between gap-1 rounded-card bg-white px-4 py-5 shadow-card">
       {pathname === '/previous-club' && (
         <Tag color="lightBlue" shape="rounded" text={`${month}월의 책`} />
       )}

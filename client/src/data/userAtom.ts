@@ -1,9 +1,8 @@
-import { getCollection, getDocument } from 'api/firebase/getFbDoc';
-
 import { atom, atomFamily } from 'recoil';
 
-import { BookField, USER } from 'appConstants';
-import { authService } from 'fbase';
+import { getCollection, getDocument } from '@/api/firebase/getFbDoc';
+import { BookField, USER } from '@/appConstants';
+import { authService } from '@/fbase';
 import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
 import { v4 } from 'uuid';
 

@@ -1,21 +1,19 @@
 import { FormEvent, useRef } from 'react';
 
-import useSendPushNotification from 'hooks/useSendPushNotification';
-
-import { IChallenge, IChallengeBook } from 'data/bookAtom';
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
-import { CHALLENGE } from 'appConstants';
-import { dbService } from 'fbase';
+import { CHALLENGE } from '@/appConstants';
+import Modal from '@/components/common/Modal';
+import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import RefInput from '@/components/common/input/RefInput';
+import { IChallenge, IChallengeBook } from '@/data/bookAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
+import { dbService } from '@/fbase';
+import useSendPushNotification from '@/hooks/useSendPushNotification';
+import { formatDate } from '@/utils';
 import { doc, setDoc } from 'firebase/firestore';
-import { formatDate } from 'utils';
-
-import Modal from 'components/common/Modal';
-import BookAuthorPublisher from 'components/common/book/BookAuthorPublisher';
-import BookThumbnail from 'components/common/book/BookThumbnail';
-import SquareBtn from 'components/common/button/SquareBtn';
-import RefInput from 'components/common/input/RefInput';
 
 interface Props {
   challenge: IChallenge;

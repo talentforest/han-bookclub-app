@@ -2,18 +2,16 @@ import { useEffect } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { getDocument } from 'api/firebase/getFbDoc';
-
-import { clubByMonthSelector } from 'data/clubAtom';
-import { fieldAndHostAtom } from 'data/fieldAndHostAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { BOOKCLUB_THIS_YEAR, BOOK_FIELD_AND_HOST } from 'appConstants';
-import { formatDate, thisMonth, thisYearMonthId } from 'utils';
-
-import MonthBookCard from 'components/bookCard/MonthBookCard';
-import LabelWithValueCard from 'components/common/LabelWithValueCard';
-import EmptyCard from 'components/common/container/EmptyCard';
+import { getDocument } from '@/api/firebase/getFbDoc';
+import { BOOKCLUB_THIS_YEAR, BOOK_FIELD_AND_HOST } from '@/appConstants';
+import MonthBookCard from '@/components/bookCard/MonthBookCard';
+import LabelWithValueCard from '@/components/common/LabelWithValueCard';
+import EmptyCard from '@/components/common/container/EmptyCard';
+import { clubByMonthSelector } from '@/data/clubAtom';
+import { fieldAndHostAtom } from '@/data/fieldAndHostAtom';
+import { formatDate, thisMonth, thisYearMonthId } from '@/utils';
 
 export default function ThisMonthClub() {
   const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));

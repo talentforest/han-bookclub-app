@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react';
 
-import useSendPushNotification from 'hooks/useSendPushNotification';
-
-import { fcmState } from 'data/fcmAtom';
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
-import { FCM_NOTIFICATION } from 'appConstants';
-import { authService, dbService, getDeviceToken } from 'fbase';
+import { FCM_NOTIFICATION } from '@/appConstants';
+import { fcmState } from '@/data/fcmAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
+import { authService, dbService, getDeviceToken } from '@/fbase';
+import useSendPushNotification from '@/hooks/useSendPushNotification';
+import MobileHeader from '@/layout/mobile/MobileHeader';
+import { formatDate } from '@/utils';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
-import { formatDate } from 'utils';
-
-import MobileHeader from 'layout/mobile/MobileHeader';
 
 export default function NotificationSetting() {
   const [isActive, setIsActive] = useState(false);
@@ -61,7 +59,7 @@ export default function NotificationSetting() {
     const notificationData = {
       title: '💌알림 시작 안내',
       body: '이제부터 독서모임 한페이지에서 유용한 알림들을 보내드릴게요❣️',
-      link: process.env.PUBLIC_URL,
+      link: import.meta.env.VITE_PUBLIC_URL,
     };
 
     // 만약 off했다가 다시 on하면??

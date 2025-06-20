@@ -1,15 +1,14 @@
-import { ISentence } from 'data/bookAtom';
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
-import LikeBtnWithPeopleInfo from '../common/LikeBtnWithPeopleInfo';
-import { SENTENCES2024 } from 'appConstants';
+import { SENTENCES2024 } from '@/appConstants';
+import LikeBtnWithPeopleInfo from '@/components/common/LikeBtnWithPeopleInfo';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import EditorContent from '@/components/common/editor/EditorContent';
+import UserName from '@/components/common/user/UserName';
+import PostHandleBtns from '@/components/post/PostHandleBtns';
+import { ISentence } from '@/data/bookAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
 import { BiSolidQuoteLeft, BiSolidQuoteRight } from 'react-icons/bi';
-
-import BookThumbnail from 'components/common/book/BookThumbnail';
-import EditorContent from 'components/common/editor/EditorContent';
-import UserName from 'components/common/user/UserName';
-import PostHandleBtns from 'components/post/PostHandleBtns';
 
 interface Props {
   sentence: ISentence;

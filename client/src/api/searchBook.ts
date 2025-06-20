@@ -1,5 +1,4 @@
-import { ISearchedBook } from 'data/bookAtom';
-
+import { ISearchedBook } from '@/data/bookAtom';
 import axios from 'axios';
 
 interface BookQuery {
@@ -13,7 +12,7 @@ interface BookQuery {
 const Kakao = axios.create({
   baseURL: 'https://dapi.kakao.com',
   headers: {
-    Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_BOOK_API_KEY}`,
+    Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_BOOK_API_KEY}`,
   },
 });
 

@@ -2,29 +2,30 @@ import { useEffect } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import { getCollection, getDocument } from 'api/firebase/getFbDoc';
-
-import { absenceAtom, attendanceSelector } from 'data/absenceAtom';
-import { IBookClub, clubByMonthSelector, clubByYearAtom } from 'data/clubAtom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from 'appConstants';
-import { existDocObj, formatDate, thisYearMonthId } from 'utils';
-
-import MobileHeader from 'layout/mobile/MobileHeader';
-
-import MemberListCard from 'components/absence/MemberListCard';
-import BasicBookCard from 'components/bookCard/BasicBookCard';
-import ThisMonthBookClub from 'components/bookClub/ThisMonthClub';
-import GuideLine from 'components/common/GuideLine';
-import Loading from 'components/common/Loading';
-import Subtitle from 'components/common/Subtitle';
-import SearchBookBtn from 'components/common/button/SearchBookBtn';
-import Section from 'components/common/container/Section';
-import MeetingReviewForm from 'components/post/MeetingReviewForm';
-import MeetingReviewList from 'components/post/MeetingReviewList';
-import PostTabBox from 'components/post/PostTabBox';
-import RecommendedBookSwiperContainer from 'components/post/recommendedBooks/RecommendedBookSwiperContainer';
+import { getCollection, getDocument } from '@/api/firebase/getFbDoc';
+import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
+import MemberListCard from '@/components/absence/MemberListCard';
+import BasicBookCard from '@/components/bookCard/BasicBookCard';
+import ThisMonthBookClub from '@/components/bookClub/ThisMonthClub';
+import GuideLine from '@/components/common/GuideLine';
+import Loading from '@/components/common/Loading';
+import Subtitle from '@/components/common/Subtitle';
+import SearchBookBtn from '@/components/common/button/SearchBookBtn';
+import Section from '@/components/common/container/Section';
+import MeetingReviewForm from '@/components/post/MeetingReviewForm';
+import MeetingReviewList from '@/components/post/MeetingReviewList';
+import PostTabBox from '@/components/post/PostTabBox';
+import RecommendedBookSwiperContainer from '@/components/post/recommendedBooks/RecommendedBookSwiperContainer';
+import { absenceAtom, attendanceSelector } from '@/data/absenceAtom';
+import {
+  IBookClub,
+  clubByMonthSelector,
+  clubByYearAtom,
+} from '@/data/clubAtom';
+import MobileHeader from '@/layout/mobile/MobileHeader';
+import { existDocObj, formatDate, thisYearMonthId } from '@/utils';
 
 type LocationState = {
   state: {

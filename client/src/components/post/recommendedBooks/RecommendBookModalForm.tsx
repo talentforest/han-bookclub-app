@@ -1,18 +1,16 @@
 import { useState } from 'react';
 
-import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
-import useSendPushNotification from 'hooks/useSendPushNotification';
-
-import { recommendedBookAtom } from 'data/bookAtom';
-import { clubByMonthSelector } from 'data/clubAtom';
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
-import { RECOMMENDED_BOOKS } from 'appConstants';
-import { formatDate, getFbRouteOfPost, thisYearMonthId } from 'utils';
-
-import FooterBookCard from 'components/bookCard/FooterBookCard';
-import SquareBtn from 'components/common/button/SquareBtn';
+import { RECOMMENDED_BOOKS } from '@/appConstants';
+import FooterBookCard from '@/components/bookCard/FooterBookCard';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import { recommendedBookAtom } from '@/data/bookAtom';
+import { clubByMonthSelector } from '@/data/clubAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
+import useAddDoc from '@/hooks/handleFbDoc/useAddDoc';
+import useSendPushNotification from '@/hooks/useSendPushNotification';
+import { formatDate, getFbRouteOfPost, thisYearMonthId } from '@/utils';
 
 interface Props {
   onModalClose: () => void;

@@ -1,9 +1,8 @@
-import { getDocument } from 'api/firebase/getFbDoc';
-
-import { allUsersAtom } from 'data/userAtom';
 import { atom, selectorFamily } from 'recoil';
 
-import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from 'appConstants';
+import { getDocument } from '@/api/firebase/getFbDoc';
+import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
+import { allUsersAtom } from '@/data/userAtom';
 import { v4 } from 'uuid';
 
 export interface Absence {

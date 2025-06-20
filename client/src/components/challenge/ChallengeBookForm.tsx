@@ -1,20 +1,18 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 
-import useAlertAskJoin from 'hooks/useAlertAskJoin';
-
-import { IChallenge, bookDescState, challengeState } from 'data/bookAtom';
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
-import { CHALLENGE } from 'appConstants';
-import { dbService } from 'fbase';
+import { CHALLENGE } from '@/appConstants';
+import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import Input from '@/components/common/input/Input';
+import { IChallenge, bookDescState, challengeState } from '@/data/bookAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
+import { dbService } from '@/fbase';
+import useAlertAskJoin from '@/hooks/useAlertAskJoin';
+import { formatDate } from '@/utils';
 import { doc, setDoc } from 'firebase/firestore';
-import { formatDate } from 'utils';
-
-import BookAuthorPublisher from 'components/common/book/BookAuthorPublisher';
-import BookThumbnail from 'components/common/book/BookThumbnail';
-import SquareBtn from 'components/common/button/SquareBtn';
-import Input from 'components/common/input/Input';
 
 interface Props {
   onModalClose: () => void;

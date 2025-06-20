@@ -1,16 +1,14 @@
 import { useLocation } from 'react-router-dom';
 
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
-import { thisYear } from 'utils';
-
-import MobileHeader from 'layout/mobile/MobileHeader';
-
-import AbsenceMemberTable from 'components/absence/AbsenceMemberTable';
-import BookFieldHostTable from 'components/bookClub/BookFieldHostTable';
-import ChevronRightLinkBtn from 'components/common/button/ChevronRightLinkBtn';
-import Section from 'components/common/container/Section';
+import AbsenceMemberTable from '@/components/absence/AbsenceMemberTable';
+import BookFieldHostTable from '@/components/bookClub/BookFieldHostTable';
+import ChevronRightLinkBtn from '@/components/common/button/ChevronRightLinkBtn';
+import Section from '@/components/common/container/Section';
+import { currAuthUserAtom } from '@/data/userAtom';
+import MobileHeader from '@/layout/mobile/MobileHeader';
+import { thisYear } from '@/utils';
 
 type BookClubInfoType =
   | 'fieldAndHost'

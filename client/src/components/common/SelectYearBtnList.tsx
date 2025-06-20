@@ -1,6 +1,5 @@
-import { operationYearList } from 'appConstants';
-
-import SquareBtn from 'components/common/button/SquareBtn';
+import { operationYearList } from '@/appConstants';
+import SquareBtn from '@/components/common/button/SquareBtn';
 
 interface SelectedYearBtnListProps {
   selectedYear: string;

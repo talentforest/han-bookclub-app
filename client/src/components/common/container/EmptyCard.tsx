@@ -1,8 +1,7 @@
 import { ReactNode } from 'react';
 
+import SquareBtn from '@/components/common/button/SquareBtn';
 import { LuArrowUpRight } from 'react-icons/lu';
-
-import SquareBtn from 'components/common/button/SquareBtn';
 
 interface EmptyContainerProps {
   text: string;

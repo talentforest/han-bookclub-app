@@ -1,22 +1,19 @@
 import { useEffect, useState } from 'react';
 
-import { getCollection } from 'api/firebase/getFbDoc';
-
-import { bookVotesState } from 'data/voteAtom';
 import { useRecoilState } from 'recoil';
 
-import { BOOK_VOTE } from 'appConstants';
+import { getCollection } from '@/api/firebase/getFbDoc';
+import { BOOK_VOTE } from '@/appConstants';
+import VoteCreateModal from '@/components/bookVote/VoteCreateModal';
+import VoteExpiredCard from '@/components/bookVote/VoteExpiredCard';
+import VoteProgressCard from '@/components/bookVote/VoteProgressCard';
+import Subtitle from '@/components/common/Subtitle';
+import EmptyCard from '@/components/common/container/EmptyCard';
+import Section from '@/components/common/container/Section';
+import { bookVotesState } from '@/data/voteAtom';
+import MobileHeader from '@/layout/mobile/MobileHeader';
+import { todayWithHyphen } from '@/utils';
 import { FiPlusCircle } from 'react-icons/fi';
-import { todayWithHyphen } from 'utils';
-
-import MobileHeader from 'layout/mobile/MobileHeader';
-
-import VoteCreateModal from 'components/bookVote/VoteCreateModal';
-import VoteExpiredCard from 'components/bookVote/VoteExpiredCard';
-import VoteProgressCard from 'components/bookVote/VoteProgressCard';
-import Subtitle from 'components/common/Subtitle';
-import EmptyCard from 'components/common/container/EmptyCard';
-import Section from 'components/common/container/Section';
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);

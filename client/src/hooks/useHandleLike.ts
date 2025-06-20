@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
-import { authService, dbService } from 'fbase';
+import { currAuthUserAtom } from '@/data/userAtom';
+import { authService, dbService } from '@/fbase';
 import { doc, updateDoc } from 'firebase/firestore';
 
 interface IHandleLikeProps {

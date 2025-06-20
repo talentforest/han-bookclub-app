@@ -1,11 +1,10 @@
 import { useState } from 'react';
 
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
+import ImageInput from '@/components/common/input/ImageInput';
+import { currAuthUserAtom } from '@/data/userAtom';
 import { FiUser } from 'react-icons/fi';
-
-import ImageInput from 'components/common/input/ImageInput';
 
 interface ProfileType {
   isEditing: boolean;

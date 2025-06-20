@@ -1,15 +1,12 @@
-import useCreateAccount from 'hooks/useCreateAccount';
-
-import { bookFields, createAccountSteps, gender } from 'appConstants';
-
-import MobileHeader from 'layout/mobile/MobileHeader';
-
-import BookFieldCheckBox from 'components/auth/BookFieldCheckBox';
-import GuideLine from 'components/common/GuideLine';
-import Subtitle from 'components/common/Subtitle';
-import Tag from 'components/common/Tag';
-import SquareBtn from 'components/common/button/SquareBtn';
-import Input from 'components/common/input/Input';
+import { bookFields, createAccountSteps, gender } from '@/appConstants';
+import BookFieldCheckBox from '@/components/auth/BookFieldCheckBox';
+import GuideLine from '@/components/common/GuideLine';
+import Subtitle from '@/components/common/Subtitle';
+import Tag from '@/components/common/Tag';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import Input from '@/components/common/input/Input';
+import useCreateAccount from '@/hooks/useCreateAccount';
+import MobileHeader from '@/layout/mobile/MobileHeader';
 
 const CreateAccount = () => {
   const {

@@ -1,5 +1,6 @@
-import { CHALLENGE, USER } from 'appConstants';
-import { authService, dbService } from 'fbase';
+import { CHALLENGE, USER } from '@/appConstants';
+import { authService, dbService } from '@/fbase';
+import { thisYear } from '@/utils';
 import { onAuthStateChanged } from 'firebase/auth';
 import {
   collection,
@@ -9,7 +10,6 @@ import {
   query,
   where,
 } from 'firebase/firestore';
-import { thisYear } from 'utils';
 
 export function getDocument<T>(
   coll: string,

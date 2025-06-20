@@ -1,20 +1,17 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import useHandleSchedule from 'hooks/useHandleSchedule';
-
-import { getDocument } from 'api/firebase/getFbDoc';
-
-import { IBookClub, clubByMonthSelector } from 'data/clubAtom';
 import { useRecoilValue } from 'recoil';
 
-import { MEETING_PLACE, TAG_LIST } from 'appConstants';
-import { thisYearMonthId } from 'utils';
-
-import CustomDatePicker from 'components/common/CustomDatePicker';
-import Modal from 'components/common/Modal';
-import Tag from 'components/common/Tag';
-import SquareBtn from 'components/common/button/SquareBtn';
-import Input from 'components/common/input/Input';
+import { getDocument } from '@/api/firebase/getFbDoc';
+import { MEETING_PLACE, TAG_LIST } from '@/appConstants';
+import CustomDatePicker from '@/components/common/CustomDatePicker';
+import Modal from '@/components/common/Modal';
+import Tag from '@/components/common/Tag';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import Input from '@/components/common/input/Input';
+import { IBookClub, clubByMonthSelector } from '@/data/clubAtom';
+import useHandleSchedule from '@/hooks/useHandleSchedule';
+import { thisYearMonthId } from '@/utils';
 
 interface Props {
   title: string;

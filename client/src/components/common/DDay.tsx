@@ -1,4 +1,4 @@
-import { formatDate, getDDay } from 'utils';
+import { formatDate, getDDay } from '@/utils';
 
 interface Props {
   hyphenDate: string;

@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 
+import { PostType } from '@/components/post/PostHandleBtns';
 import { FiPlus } from 'react-icons/fi';
-
-import { PostType } from 'components/post/PostHandleBtns';
 
 interface Props {
   to: string;

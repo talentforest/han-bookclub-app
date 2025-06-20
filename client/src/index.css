@@ -27,9 +27,9 @@
   font-style: bold;
 }
 
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
-@tailwind base;
 
 @layer base {
   body {

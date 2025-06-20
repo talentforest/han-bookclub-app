@@ -1,27 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ko">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" />
     <!-- 안드로이드 바로가기 아이콘 -->
-    <link rel="shortcut icon" href="%PUBLIC_URL%/hanpage_shortcut_logo.jpeg" />
+    <link rel="shortcut icon" href="/hanpage_shortcut_logo.jpeg" />
     <!-- 아이폰 바로가기 아이콘 -->
-    <link
-      rel="apple-touch-icon"
-      href="%PUBLIC_URL%/hanpage_shortcut_logo.jpeg"
-    />
+    <link rel="apple-touch-icon" href="/hanpage_shortcut_logo.jpeg" />
+
     <meta name="mobile-web-app-capable" content="yes" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="manifest" href="/manifest.json" />
+
     <meta
       name="viewport"
       content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"
     />
     <meta name="theme-color" content="#FEFEFE" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
+    <meta name="description" content="독서모임 한페이지" />
+
     <title>독서모임 한페이지</title>
+
+    <!-- service worker -->
     <script type="text/javascript">
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker
@@ -32,20 +31,26 @@
             function (registration) {
               console.log(
                 '✅ServiceWorker registration successful with scope: ',
-                registration.scope
+                registration.scope,
               );
             },
             function (err) {
               console.log('❌ServiceWorker registration failed: ', err);
-            }
+            },
           );
       }
     </script>
+
+    <!-- Kakao SDK -->
     <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
   </head>
+
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <div id="modal"></div>
+
+    <!-- Vite 엔트리 파일 -->
+    <script type="module" src="/src/index.tsx"></script>
   </body>
 </html>

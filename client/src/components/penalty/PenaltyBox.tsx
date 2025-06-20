@@ -1,10 +1,8 @@
 import { ReactNode, useState } from 'react';
 
-import { Month } from 'data/penaltyAtom';
-
+import UserName from '@/components/common/user/UserName';
+import { Month } from '@/data/penaltyAtom';
 import { FiInfo } from 'react-icons/fi';
-
-import UserName from 'components/common/user/UserName';
 
 interface Props {
   title:

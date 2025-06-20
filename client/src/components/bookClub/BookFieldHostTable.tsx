@@ -1,21 +1,21 @@
 import { useEffect } from 'react';
 
-import useHandleFieldHost from 'hooks/useHandleFieldHost';
-
-import { getDocument } from 'api/firebase/getFbDoc';
-import { setDocument } from 'api/firebase/setFbDoc';
-
-import { fieldAndHostAtom } from 'data/fieldAndHostAtom';
 import { useRecoilState } from 'recoil';
 
-import Table from '../common/Table';
-import { BOOK_FIELD_AND_HOST, initialBookFieldAndHostData } from 'appConstants';
-import { existDocObj, thisYear } from 'utils';
-
-import FieldHostEditForm from 'components/bookClub/FieldHostEditForm';
-import Modal from 'components/common/Modal';
-import { Label } from 'components/common/TableDataItem';
-import EmptyCard from 'components/common/container/EmptyCard';
+import { getDocument } from '@/api/firebase/getFbDoc';
+import { setDocument } from '@/api/firebase/setFbDoc';
+import {
+  BOOK_FIELD_AND_HOST,
+  initialBookFieldAndHostData,
+} from '@/appConstants';
+import FieldHostEditForm from '@/components/bookClub/FieldHostEditForm';
+import Modal from '@/components/common/Modal';
+import Table from '@/components/common/Table';
+import { Label } from '@/components/common/TableDataItem';
+import EmptyCard from '@/components/common/container/EmptyCard';
+import { fieldAndHostAtom } from '@/data/fieldAndHostAtom';
+import useHandleFieldHost from '@/hooks/useHandleFieldHost';
+import { existDocObj, thisYear } from '@/utils';
 
 interface Props {
   isMonth?: boolean;

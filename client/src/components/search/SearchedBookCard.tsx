@@ -2,16 +2,14 @@ import { useState } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import { ISearchedBook } from 'data/bookAtom';
-
+import FooterBookCard from '@/components/bookCard/FooterBookCard';
+import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
+import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import RegisterClubBookBtn from '@/components/common/button/RegisterClubBookBtn';
+import { ISearchedBook } from '@/data/bookAtom';
+import { formatDate } from '@/utils';
 import { BiChevronDownCircle, BiChevronUpCircle } from 'react-icons/bi';
-import { formatDate } from 'utils';
-
-import FooterBookCard from 'components/bookCard/FooterBookCard';
-import ExternalLinkBtn from 'components/common/ExternalLinkBtn';
-import BookAuthorPublisher from 'components/common/book/BookAuthorPublisher';
-import BookThumbnail from 'components/common/book/BookThumbnail';
-import RegisterClubBookBtn from 'components/common/button/RegisterClubBookBtn';
 
 interface SearchedBookCardProps {
   searchedBook: ISearchedBook;

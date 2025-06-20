@@ -1,13 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
 
-import useAlertAskJoin from 'hooks/useAlertAskJoin';
-
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
-import { thisYearMonthId } from 'utils';
-
-import LogoImg from 'components/common/LogoImg';
+import LogoImg from '@/components/common/LogoImg';
+import { currAuthUserAtom } from '@/data/userAtom';
+import useAlertAskJoin from '@/hooks/useAlertAskJoin';
+import { thisYearMonthId } from '@/utils';
 
 const TopNavigation = () => {
   const { uid } = useRecoilValue(currAuthUserAtom);

@@ -1,32 +1,29 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import CreateAccount from './components/auth/CreateAccount';
-import EditProfile from './components/setting/EditProfile';
-import Bookshelf from './routes/Bookshelf';
-import ClubDetail from './routes/ClubDetail';
-import Home from './routes/Home';
-import LogIn from './routes/LogIn';
-import Setting from './routes/Setting';
-import Vote from './routes/Vote';
-import { authService } from 'fbase';
-
-import Challenge from 'routes/Challenge';
-import MonthlyClubInfo from 'routes/MonthlyClubInfo';
-import PreviousClub from 'routes/PreviousClub';
-import Search from 'routes/Search';
-import VoteDetail from 'routes/VoteDetail';
-
-import TopNavigation from 'layout/desktop/TopNavigation';
-import BottomNavigation from 'layout/mobile/BottomNavigation';
-
-import ResetPasswordEmail from 'components/auth/ResetPasswordEmail';
-import ScrollToTop from 'components/common/ScrollToTop';
-import PostListDetail from 'components/post/PostListDetail';
-import Absence from 'components/setting/Absence';
-import ChangePassword from 'components/setting/ChangePassword';
-import DeleteAccount from 'components/setting/DeleteAccount';
-import Developer from 'components/setting/Developer';
-import NotificationSetting from 'components/setting/NotificationSetting';
+import CreateAccount from '@/components/auth/CreateAccount';
+import ResetPasswordEmail from '@/components/auth/ResetPasswordEmail';
+import ScrollToTop from '@/components/common/ScrollToTop';
+import PostListDetail from '@/components/post/PostListDetail';
+import Absence from '@/components/setting/Absence';
+import ChangePassword from '@/components/setting/ChangePassword';
+import DeleteAccount from '@/components/setting/DeleteAccount';
+import Developer from '@/components/setting/Developer';
+import EditProfile from '@/components/setting/EditProfile';
+import NotificationSetting from '@/components/setting/NotificationSetting';
+import { authService } from '@/fbase';
+import TopNavigation from '@/layout/desktop/TopNavigation';
+import BottomNavigation from '@/layout/mobile/BottomNavigation';
+import Bookshelf from '@/routes/Bookshelf';
+import Challenge from '@/routes/Challenge';
+import ClubDetail from '@/routes/ClubDetail';
+import Home from '@/routes/Home';
+import LogIn from '@/routes/LogIn';
+import MonthlyClubInfo from '@/routes/MonthlyClubInfo';
+import PreviousClub from '@/routes/PreviousClub';
+import Search from '@/routes/Search';
+import Setting from '@/routes/Setting';
+import Vote from '@/routes/Vote';
+import VoteDetail from '@/routes/VoteDetail';
 
 interface PropsType {
   isLoggedIn: boolean;
@@ -36,7 +33,7 @@ function Router({ isLoggedIn }: PropsType) {
   const anonymous = authService.currentUser?.isAnonymous;
 
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <BrowserRouter basename="/han-bookclub-app">
       <ScrollToTop />
 
       {isLoggedIn ? (

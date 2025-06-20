@@ -1,11 +1,9 @@
 import { Fragment } from 'react';
 
-import { ISearchedBook } from 'data/bookAtom';
-
+import FooterBookCard from '@/components/bookCard/FooterBookCard';
+import DottedDividingLine from '@/components/common/DottedDividingLine';
+import { ISearchedBook } from '@/data/bookAtom';
 import { FiCheckCircle } from 'react-icons/fi';
-
-import FooterBookCard from 'components/bookCard/FooterBookCard';
-import DottedDividingLine from 'components/common/DottedDividingLine';
 
 interface Props {
   searchList: ISearchedBook[];

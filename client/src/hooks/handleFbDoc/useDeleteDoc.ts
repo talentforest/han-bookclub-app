@@ -1,14 +1,13 @@
 import { useEffect } from 'react';
 
-import { getDocument } from 'api/firebase/getFbDoc';
-
-import { currAuthUserAtom, userDocAtomFamily } from 'data/userAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { USER } from 'appConstants';
-import { dbService } from 'fbase';
+import { getDocument } from '@/api/firebase/getFbDoc';
+import { USER } from '@/appConstants';
+import { currAuthUserAtom, userDocAtomFamily } from '@/data/userAtom';
+import { dbService } from '@/fbase';
+import { existDocObj } from '@/utils';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { existDocObj } from 'utils';
 
 interface PropsType {
   docId: string;

@@ -1,19 +1,21 @@
 import { useEffect, useState } from 'react';
 
-import { getDocument } from 'api/firebase/getFbDoc';
-
-import { IDocument } from 'data/documentsAtom';
-import { IUserPostDocId, allUsersAtom, currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import PostHandleBtns, { PostType } from './PostHandleBtns';
-import { HOST_REVIEW, REVIEW, SUBJECTS } from 'appConstants';
-import { existDocObj, getFbRouteOfPost } from 'utils';
-
-import Modal from 'components/common/Modal';
-import BookThumbnail from 'components/common/book/BookThumbnail';
-import EditorContent from 'components/common/editor/EditorContent';
-import PostFooter from 'components/post/PostFooter';
+import { getDocument } from '@/api/firebase/getFbDoc';
+import { HOST_REVIEW, REVIEW, SUBJECTS } from '@/appConstants';
+import Modal from '@/components/common/Modal';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import EditorContent from '@/components/common/editor/EditorContent';
+import PostFooter from '@/components/post/PostFooter';
+import { IDocument } from '@/data/documentsAtom';
+import {
+  IUserPostDocId,
+  allUsersAtom,
+  currAuthUserAtom,
+} from '@/data/userAtom';
+import { existDocObj, getFbRouteOfPost } from '@/utils';
 
 interface PropsType {
   postId: IUserPostDocId;

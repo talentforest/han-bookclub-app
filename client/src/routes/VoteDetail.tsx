@@ -2,21 +2,18 @@ import { useEffect } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import useHandleVoting from 'hooks/useHandleVoting';
-
+import VoteBookItem from '@/components/bookVote/VoteBookItem';
+import VoteDetailHeader from '@/components/bookVote/VoteDetailHeader';
+import VoteItemReasonBox from '@/components/bookVote/VoteItemReasonBox';
+import DDay from '@/components/common/DDay';
+import GuideLine from '@/components/common/GuideLine';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import VoteBookItemBtn from '@/components/common/button/VoteBookItemBtn';
+import UserName from '@/components/common/user/UserName';
+import useHandleVoting from '@/hooks/useHandleVoting';
+import MobileHeader from '@/layout/mobile/MobileHeader';
+import { getPercentage, todayWithHyphen } from '@/utils';
 import { FiUsers } from 'react-icons/fi';
-import { getPercentage, todayWithHyphen } from 'utils';
-
-import MobileHeader from 'layout/mobile/MobileHeader';
-
-import VoteBookItem from 'components/bookVote/VoteBookItem';
-import VoteDetailHeader from 'components/bookVote/VoteDetailHeader';
-import VoteItemReasonBox from 'components/bookVote/VoteItemReasonBox';
-import DDay from 'components/common/DDay';
-import GuideLine from 'components/common/GuideLine';
-import SquareBtn from 'components/common/button/SquareBtn';
-import VoteBookItemBtn from 'components/common/button/VoteBookItemBtn';
-import UserName from 'components/common/user/UserName';
 
 type LocationState = {
   state: {

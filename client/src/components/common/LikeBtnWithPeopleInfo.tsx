@@ -1,15 +1,13 @@
 import { useEffect } from 'react';
 
-import useHandleLike from 'hooks/useHandleLike';
-
-import { IDocument } from 'data/documentsAtom';
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
+import LikeBtn from '@/components/common/button/LikeBtn';
+import UserName from '@/components/common/user/UserName';
+import { IDocument } from '@/data/documentsAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
+import useHandleLike from '@/hooks/useHandleLike';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
-
-import LikeBtn from 'components/common/button/LikeBtn';
-import UserName from 'components/common/user/UserName';
 
 interface Props {
   post: IDocument;

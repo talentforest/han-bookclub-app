@@ -1,13 +1,11 @@
 import { useState } from 'react';
 
-import { authService } from 'fbase';
+import Subtitle from '@/components/common/Subtitle';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import Input from '@/components/common/input/Input';
+import { authService } from '@/fbase';
+import MobileHeader from '@/layout/mobile/MobileHeader';
 import { sendPasswordResetEmail } from 'firebase/auth';
-
-import MobileHeader from 'layout/mobile/MobileHeader';
-
-import Subtitle from 'components/common/Subtitle';
-import SquareBtn from 'components/common/button/SquareBtn';
-import Input from 'components/common/input/Input';
 
 const ResetPasswordEmail = () => {
   const [email, setEmail] = useState('');

@@ -2,21 +2,22 @@ import { useEffect, useState } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import useAlertAskJoin from 'hooks/useAlertAskJoin';
-
-import { getCollection } from 'api/firebase/getFbDoc';
-
-import { IDocument, hostReviewState, subjectsState } from 'data/documentsAtom';
 import { useRecoilState } from 'recoil';
 
-import { HOST_REVIEW, SUBJECTS } from 'appConstants';
+import { getCollection } from '@/api/firebase/getFbDoc';
+import { HOST_REVIEW, SUBJECTS } from '@/appConstants';
+import ChevronRightLinkBtn from '@/components/common/button/ChevronRightLinkBtn';
+import PlusIconWithTextLink from '@/components/common/button/PlusIconLinkBtn';
+import SwiperContainer from '@/components/common/container/SwiperContainer';
+import Post from '@/components/post/Post';
+import {
+  IDocument,
+  hostReviewState,
+  subjectsState,
+} from '@/data/documentsAtom';
+import useAlertAskJoin from '@/hooks/useAlertAskJoin';
+import { getFbRouteOfPost } from '@/utils';
 import { SwiperSlide } from 'swiper/react';
-import { getFbRouteOfPost } from 'utils';
-
-import ChevronRightLinkBtn from 'components/common/button/ChevronRightLinkBtn';
-import PlusIconWithTextLink from 'components/common/button/PlusIconLinkBtn';
-import SwiperContainer from 'components/common/container/SwiperContainer';
-import Post from 'components/post/Post';
 
 interface Props {
   yearMonthId: string;

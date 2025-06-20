@@ -1,6 +1,5 @@
-import { ChallengeRank } from 'data/challengeAtom';
-
-import UserName from 'components/common/user/UserName';
+import UserName from '@/components/common/user/UserName';
+import { ChallengeRank } from '@/data/challengeAtom';
 
 interface ChallengeRereadingCardProps {
   userChallenge: ChallengeRank;

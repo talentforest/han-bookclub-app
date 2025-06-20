@@ -1,10 +1,8 @@
 import { useState } from 'react';
 
-import useAlertAskJoin from 'hooks/useAlertAskJoin';
-
-import { IDocument } from 'data/documentsAtom';
-
-import { dbService } from 'fbase';
+import { IDocument } from '@/data/documentsAtom';
+import { dbService } from '@/fbase';
+import useAlertAskJoin from '@/hooks/useAlertAskJoin';
 import { doc, updateDoc } from 'firebase/firestore';
 
 interface PropsType {

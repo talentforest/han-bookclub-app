@@ -2,17 +2,20 @@ import { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { getCollection, getDocument } from 'api/firebase/getFbDoc';
-
-import { currAuthUserAtom } from 'data/userAtom';
-import { IBookVote, IVoteItemsByMember, initialBookVote } from 'data/voteAtom';
 import { useRecoilValue } from 'recoil';
 
 import useAlertAskJoin from './useAlertAskJoin';
-import { BOOK_VOTE, VOTED_ITEMS } from 'appConstants';
-import { dbService } from 'fbase';
+import { getCollection, getDocument } from '@/api/firebase/getFbDoc';
+import { BOOK_VOTE, VOTED_ITEMS } from '@/appConstants';
+import { currAuthUserAtom } from '@/data/userAtom';
+import {
+  IBookVote,
+  IVoteItemsByMember,
+  initialBookVote,
+} from '@/data/voteAtom';
+import { dbService } from '@/fbase';
+import { formatDate, getVoteCountsById } from '@/utils';
 import { deleteDoc, doc, setDoc } from 'firebase/firestore';
-import { formatDate, getVoteCountsById } from 'utils';
 
 interface Props {
   collName: string;

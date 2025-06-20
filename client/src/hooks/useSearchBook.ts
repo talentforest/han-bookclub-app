@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 
-import { searchBookHandler } from 'api/searchBook';
-
-import { searchListAtom } from 'data/bookAtom';
 import { useRecoilState } from 'recoil';
+
+import { searchBookHandler } from '@/api/searchBook';
+import { searchListAtom } from '@/data/bookAtom';
 
 const useSearchBook = () => {
   const [searchList, setSearchList] = useRecoilState(searchListAtom);

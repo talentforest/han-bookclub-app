@@ -2,17 +2,14 @@ import { useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { DEVELOPER_EMAIL } from 'appConstants/account';
-
-import useSendPushNotification from 'hooks/useSendPushNotification';
-
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
-import MobileHeader from 'layout/mobile/MobileHeader';
-
-import SquareBtn from 'components/common/button/SquareBtn';
-import Section from 'components/common/container/Section';
+import { DEVELOPER_EMAIL } from '@/appConstants/account';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import Section from '@/components/common/container/Section';
+import { currAuthUserAtom } from '@/data/userAtom';
+import useSendPushNotification from '@/hooks/useSendPushNotification';
+import MobileHeader from '@/layout/mobile/MobileHeader';
 
 export default function Developer() {
   const { email } = useRecoilValue(currAuthUserAtom);

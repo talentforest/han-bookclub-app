@@ -1,4 +1,4 @@
-import { thisYear } from 'utils';
+import { thisYear } from '@/utils';
 
 interface AbsenceMembersData {
   absenceMembers: AbsenceMembersMyMonth[];
