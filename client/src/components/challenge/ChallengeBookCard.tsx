@@ -2,20 +2,19 @@ import { useState } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import { IChallengeBook } from 'data/bookAtom';
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
 import PagePosition from './PagePosition';
-import { CHALLENGE } from 'appConstants';
-import { dbService } from 'fbase';
+import { CHALLENGE } from '@/appConstants';
+import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import PageWithPercent from '@/components/common/book/PageWithPercent';
+import UserName from '@/components/common/user/UserName';
+import { IChallengeBook } from '@/data/bookAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
+import { dbService } from '@/fbase';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { FiTrash2 } from 'react-icons/fi';
-
-import BookAuthorPublisher from 'components/common/book/BookAuthorPublisher';
-import BookThumbnail from 'components/common/book/BookThumbnail';
-import PageWithPercent from 'components/common/book/PageWithPercent';
-import UserName from 'components/common/user/UserName';
 
 interface Props {
   docId: string;

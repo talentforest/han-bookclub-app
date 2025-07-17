@@ -1,11 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
 
-import useLogIn from 'hooks/useLogIn';
-
-import { authService } from 'fbase';
-
-import SquareBtn from 'components/common/button/SquareBtn';
-import Input from 'components/common/input/Input';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import Input from '@/components/common/input/Input';
+import { authService } from '@/fbase';
+import useLogIn from '@/hooks/useLogIn';
 
 interface ILoginProps {
   isLoggedIn: boolean;
@@ -29,7 +27,7 @@ const LogIn = ({ isLoggedIn }: ILoginProps) => {
       <main className="mx-auto my-5 flex w-[50%] flex-col items-center justify-center max-sm:w-[90%]">
         <header className="flex w-full flex-col items-center">
           <img
-            src={`${process.env.PUBLIC_URL}/hanpage_logo.png`}
+            src={`${import.meta.env.VITE_PUBLIC_URL}/hanpage_logo.png`}
             alt="독서모임 한페이지 로고"
             className="size-1/2"
           />

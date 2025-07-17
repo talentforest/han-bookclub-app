@@ -2,7 +2,7 @@ import { FormEvent } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { authService } from 'fbase';
+import { authService } from '@/fbase';
 
 type Text = 'see' | 'edit' | 'register' | 'write';
 

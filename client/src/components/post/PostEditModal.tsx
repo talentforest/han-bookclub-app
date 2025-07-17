@@ -1,14 +1,11 @@
 import { FormEvent } from 'react';
 
-import useEditDoc from 'hooks/handleFbDoc/useEditDoc';
-
-import { IDocument } from 'data/documentsAtom';
-
 import { PostType } from './PostHandleBtns';
-
-import Modal from 'components/common/Modal';
-import SquareBtn from 'components/common/button/SquareBtn';
-import QuillEditor from 'components/common/editor/QuillEditor';
+import Modal from '@/components/common/Modal';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import QuillEditor from '@/components/common/editor/QuillEditor';
+import { IDocument } from '@/data/documentsAtom';
+import useEditDoc from '@/hooks/handleFbDoc/useEditDoc';
 
 interface Props {
   postType: PostType;

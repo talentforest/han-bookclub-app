@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-import { formatDate } from 'utils';
+import { formatDate } from '@/utils';
 import { v4 } from 'uuid';
 
 export interface IVoteItem {

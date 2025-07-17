@@ -1,12 +1,11 @@
-import { allUsersAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
+import EmptyCard from '@/components/common/container/EmptyCard';
+import SwiperContainer from '@/components/common/container/SwiperContainer';
+import PostRecommendedBookCard from '@/components/post/recommendedBooks/PostRecommendedBookCard';
+import { allUsersAtom } from '@/data/userAtom';
+import { compareYearMonth } from '@/utils';
 import { SwiperSlide } from 'swiper/react';
-import { compareYearMonth } from 'utils';
-
-import EmptyCard from 'components/common/container/EmptyCard';
-import SwiperContainer from 'components/common/container/SwiperContainer';
-import PostRecommendedBookCard from 'components/post/recommendedBooks/PostRecommendedBookCard';
 
 interface RecommendedBookSwiperContainerProps {
   yearMonthId?: string;

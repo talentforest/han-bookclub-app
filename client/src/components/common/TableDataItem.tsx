@@ -1,4 +1,4 @@
-import UserName from 'components/common/user/UserName';
+import UserName from '@/components/common/user/UserName';
 
 export type Label =
   | '월'

@@ -1,11 +1,9 @@
 import { useState } from 'react';
 
-import { IDocument } from 'data/documentsAtom';
-
+import PostEditModal from '@/components/post/PostEditModal';
+import { PostType } from '@/components/post/PostHandleBtns';
+import { IDocument } from '@/data/documentsAtom';
 import { FiEdit } from 'react-icons/fi';
-
-import PostEditModal from 'components/post/PostEditModal';
-import { PostType } from 'components/post/PostHandleBtns';
 
 interface Props {
   collName: string;

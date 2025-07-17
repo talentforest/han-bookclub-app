@@ -1,10 +1,8 @@
 import { ReactNode } from 'react';
 
-import { IBookVoteItem } from 'data/voteAtom';
-
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import { IBookVoteItem } from '@/data/voteAtom';
 import { BiSolidBadgeCheck } from 'react-icons/bi';
-
-import BookThumbnail from 'components/common/book/BookThumbnail';
 
 interface Props {
   voteItem: IBookVoteItem;
@@ -19,7 +17,7 @@ export default function VoteBookItem({ voteItem, children, selected }: Props) {
 
   return (
     <div
-      className={`rounded-card flex h-full min-h-40 w-60 flex-col items-center gap-3 overflow-hidden bg-white shadow-card max-sm:w-[45%] max-sm:gap-2 ${children ? 'pt-4' : 'py-5'}`}
+      className={`flex h-full min-h-40 w-60 flex-col items-center gap-3 overflow-hidden rounded-card bg-white shadow-card max-sm:w-[45%] max-sm:gap-2 ${children ? 'pt-4' : 'py-5'}`}
     >
       <div className="relative flex w-full justify-center max-sm:px-3">
         {selected && (

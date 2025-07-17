@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
 
-import { getDocument } from 'api/firebase/getFbDoc';
-
-import { IDocument } from 'data/documentsAtom';
-
-import BookThumbnail from 'components/common/book/BookThumbnail';
-import RecommendedBookModal from 'components/post/recommendedBooks/RecommendedBookModal';
+import { getDocument } from '@/api/firebase/getFbDoc';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import RecommendedBookModal from '@/components/post/recommendedBooks/RecommendedBookModal';
+import { IDocument } from '@/data/documentsAtom';
 
 interface Props {
   docIds: { docId: string; monthId: string };

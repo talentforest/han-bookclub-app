@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
 
-import { getDocument } from 'api/firebase/getFbDoc';
-
-import { fcmState } from 'data/fcmAtom';
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilState } from 'recoil';
 
-import Router from './Router';
-import Loading from './components/common/Loading';
 import './index.css';
-import { FCM_NOTIFICATION } from 'appConstants';
-import { dbService, getDeviceToken } from 'fbase';
+import Router from '@/Router';
+import { getDocument } from '@/api/firebase/getFbDoc';
+import { FCM_NOTIFICATION } from '@/appConstants';
+import Loading from '@/components/common/Loading';
+import { fcmState } from '@/data/fcmAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
+import { dbService, getDeviceToken } from '@/fbase';
+import { formatDate } from '@/utils';
 import { getAuth } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
-import { formatDate } from 'utils';
 
 function App() {
   const [init, setInit] = useState(false); // user가 null이 되지 않기 위해 초기화

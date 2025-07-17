@@ -1,4 +1,4 @@
-import { SubCollection } from 'appConstants';
+import { SubCollection } from '@/appConstants';
 
 export const getFbRouteOfPost = (
   yearMonthDocId: string,

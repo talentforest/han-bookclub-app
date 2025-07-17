@@ -1,5 +1,5 @@
-import Tag from 'components/common/Tag';
-import UserName from 'components/common/user/UserName';
+import Tag from '@/components/common/Tag';
+import UserName from '@/components/common/user/UserName';
 
 interface MemberListCardProps {
   title: string;

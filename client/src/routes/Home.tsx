@@ -2,23 +2,20 @@ import { useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { getCollection } from 'api/firebase/getFbDoc';
-
-import { clubByMonthSelector, clubByYearAtom } from 'data/clubAtom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { BOOKCLUB_THIS_YEAR } from 'appConstants';
-import { thisYear, thisYearMonthId } from 'utils';
-
-import Footer from 'layout/Footer';
-import MobileHeader from 'layout/mobile/MobileHeader';
-
-import NextMonthClub from 'components/bookClub/NextMonthClub';
-import ThisMonthBookClub from 'components/bookClub/ThisMonthClub';
-import VoteSlider from 'components/bookVote/VoteSlider';
-import SquareBtn from 'components/common/button/SquareBtn';
-import Section from 'components/common/container/Section';
-import RecommendedBookSwiperContainer from 'components/post/recommendedBooks/RecommendedBookSwiperContainer';
+import { getCollection } from '@/api/firebase/getFbDoc';
+import { BOOKCLUB_THIS_YEAR } from '@/appConstants';
+import NextMonthClub from '@/components/bookClub/NextMonthClub';
+import ThisMonthBookClub from '@/components/bookClub/ThisMonthClub';
+import VoteSlider from '@/components/bookVote/VoteSlider';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import Section from '@/components/common/container/Section';
+import RecommendedBookSwiperContainer from '@/components/post/recommendedBooks/RecommendedBookSwiperContainer';
+import { clubByMonthSelector, clubByYearAtom } from '@/data/clubAtom';
+import Footer from '@/layout/Footer';
+import MobileHeader from '@/layout/mobile/MobileHeader';
+import { nextMonthId, thisYear, thisYearMonthId } from '@/utils';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -26,9 +23,10 @@ const Home = () => {
   const setThisYearClub = useSetRecoilState(clubByYearAtom);
 
   const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
+  const nextMonthClub = useRecoilValue(clubByMonthSelector(nextMonthId));
 
   useEffect(() => {
-    if (!thisMonthClub) {
+    if (!thisMonthClub || !nextMonthClub) {
       getCollection(BOOKCLUB_THIS_YEAR, setThisYearClub);
     }
   }, []);

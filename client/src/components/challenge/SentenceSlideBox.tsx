@@ -1,12 +1,10 @@
-import { ISentence } from 'data/bookAtom';
-
+import LikeBtnWithPeopleInfo from '@/components/common/LikeBtnWithPeopleInfo';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import EditorContent from '@/components/common/editor/EditorContent';
+import UserName from '@/components/common/user/UserName';
+import { ISentence } from '@/data/bookAtom';
+import { cutLetter, formatDate } from '@/utils';
 import { BiSolidQuoteLeft, BiSolidQuoteRight } from 'react-icons/bi';
-import { cutLetter, formatDate } from 'utils';
-
-import LikeBtnWithPeopleInfo from 'components/common/LikeBtnWithPeopleInfo';
-import BookThumbnail from 'components/common/book/BookThumbnail';
-import EditorContent from 'components/common/editor/EditorContent';
-import UserName from 'components/common/user/UserName';
 
 interface Props {
   sentence: ISentence;

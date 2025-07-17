@@ -2,26 +2,22 @@ import { Fragment, useEffect, useState } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import useAlertAskJoin from 'hooks/useAlertAskJoin';
-
-import { getCollection } from 'api/firebase/getFbDoc';
-
-import { clubByYearAtom } from 'data/clubAtom';
-import { hostReviewState, subjectsState } from 'data/documentsAtom';
 import { useRecoilState } from 'recoil';
 
-import { HOST_REVIEW, SUBJECTS } from 'appConstants';
-import { formatDate, getFbRouteOfPost, thisYearMonthId } from 'utils';
-
-import MobileHeader from 'layout/mobile/MobileHeader';
-
-import BasicBookCard from 'components/bookCard/BasicBookCard';
-import DottedDividingLine from 'components/common/DottedDividingLine';
-import Loading from 'components/common/Loading';
-import SquareBtn from 'components/common/button/SquareBtn';
-import Post from 'components/post/Post';
-import PostAddModal from 'components/post/PostAddModal';
-import PostFooter from 'components/post/PostFooter';
+import { getCollection } from '@/api/firebase/getFbDoc';
+import { HOST_REVIEW, SUBJECTS } from '@/appConstants';
+import BasicBookCard from '@/components/bookCard/BasicBookCard';
+import DottedDividingLine from '@/components/common/DottedDividingLine';
+import Loading from '@/components/common/Loading';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import Post from '@/components/post/Post';
+import PostAddModal from '@/components/post/PostAddModal';
+import PostFooter from '@/components/post/PostFooter';
+import { clubByYearAtom } from '@/data/clubAtom';
+import { hostReviewState, subjectsState } from '@/data/documentsAtom';
+import useAlertAskJoin from '@/hooks/useAlertAskJoin';
+import MobileHeader from '@/layout/mobile/MobileHeader';
+import { formatDate, getFbRouteOfPost, thisYearMonthId } from '@/utils';
 
 interface LocationState {
   pathname: string;
@@ -43,10 +39,7 @@ export default function PostListDetail() {
   const { pathname, state } = useLocation() as LocationState;
 
   const docId = state?.id ?? thisYearMonthId;
-  const postType =
-    (state?.postType ?? pathname.includes('host-review'))
-      ? '정리 기록'
-      : '발제문';
+  const postType = pathname.includes('host-review') ? '정리 기록' : '발제문';
   const postId = state?.postId ?? '';
 
   useEffect(() => {

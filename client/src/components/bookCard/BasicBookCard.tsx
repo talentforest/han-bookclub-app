@@ -1,10 +1,8 @@
-import { IBookClub } from 'data/clubAtom';
-
-import { formatDate } from 'utils';
-
-import ExternalLinkBtn from 'components/common/ExternalLinkBtn';
-import BookAuthorPublisher from 'components/common/book/BookAuthorPublisher';
-import BookThumbnail from 'components/common/book/BookThumbnail';
+import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
+import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import { IBookClub } from '@/data/clubAtom';
+import { formatDate } from '@/utils';
 
 interface BasicBookCardProps {
   bookClub: IBookClub;

@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
+import { currAuthUserAtom } from '@/data/userAtom';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 
 interface IShareButtonProps {
@@ -23,7 +23,7 @@ const ShareBtn = ({
   const { uid, displayName, photoURL } = useRecoilValue(currAuthUserAtom);
 
   if (!window.Kakao.isInitialized()) {
-    window.Kakao.init(process.env.REACT_APP_KAKAO_SHARE_API_KEY);
+    window.Kakao.init(import.meta.env.VITE_KAKAO_SHARE_API_KEY);
   }
 
   useEffect(() => {

@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { BookField, USER, createAccountSteps } from 'appConstants';
-import { authService, dbService } from 'fbase';
+import { BookField, USER, createAccountSteps } from '@/appConstants';
+import { authService, dbService } from '@/fbase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
@@ -34,7 +34,7 @@ const useCreateAccount = () => {
   const onFirstStepSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (keyword === process.env.REACT_APP_AUTH_MEMBER) {
+    if (keyword === import.meta.env.VITE_AUTH_MEMBER) {
       setCurrentStep({ step: 2, stepName: '계정 정보' });
     } else {
       alert('키워드가 일치하지 않습니다!');

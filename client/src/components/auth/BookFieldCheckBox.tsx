@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { BookField } from 'appConstants';
+import { BookField } from '@/appConstants';
 
 interface PropsType {
   bookFieldName: string;

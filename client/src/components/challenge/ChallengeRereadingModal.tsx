@@ -1,22 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { getDocument } from 'api/firebase/getFbDoc';
-
-import { ISearchedBook } from 'data/bookAtom';
-import { ChallengeRereading } from 'data/challengeAtom';
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
-import { CHALLENGE } from 'appConstants';
-import { dbService } from 'fbase';
+import { getDocument } from '@/api/firebase/getFbDoc';
+import { CHALLENGE } from '@/appConstants';
+import Modal from '@/components/common/Modal';
+import Tag from '@/components/common/Tag';
+import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import { ISearchedBook } from '@/data/bookAtom';
+import { ChallengeRereading } from '@/data/challengeAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
+import { dbService } from '@/fbase';
+import { formatDate, thisYear } from '@/utils';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
-import { formatDate, thisYear } from 'utils';
-
-import Modal from 'components/common/Modal';
-import Tag from 'components/common/Tag';
-import BookAuthorPublisher from 'components/common/book/BookAuthorPublisher';
-import BookThumbnail from 'components/common/book/BookThumbnail';
-import SquareBtn from 'components/common/button/SquareBtn';
 
 interface ChallengeRereadingModalProps {
   selectedBook: {

@@ -1,28 +1,25 @@
 import { useEffect, useState } from 'react';
 
-import { getCollection } from 'api/firebase/getFbDoc';
-
-import { ISearchedBook } from 'data/bookAtom';
-import { ChallengeRereading } from 'data/challengeAtom';
-import { clubByYearAtom } from 'data/clubAtom';
-import { allUsersAtom } from 'data/userAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { CHALLENGE } from 'appConstants';
+import { getCollection } from '@/api/firebase/getFbDoc';
+import { CHALLENGE } from '@/appConstants';
+import ChallengeRereadingCard from '@/components/challenge/ChallengeRereadingCard';
+import ChallengeRereadingModal from '@/components/challenge/ChallengeRereadingModal';
+import DDay from '@/components/common/DDay';
+import SelectYearBtnList from '@/components/common/SelectYearBtnList';
+import Subtitle from '@/components/common/Subtitle';
+import Tag from '@/components/common/Tag';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import Section from '@/components/common/container/Section';
+import SwiperContainer from '@/components/common/container/SwiperContainer';
+import { ISearchedBook } from '@/data/bookAtom';
+import { ChallengeRereading } from '@/data/challengeAtom';
+import { clubByYearAtom } from '@/data/clubAtom';
+import { allUsersAtom } from '@/data/userAtom';
+import MobileHeader from '@/layout/mobile/MobileHeader';
+import { thisYear } from '@/utils';
 import { SwiperSlide } from 'swiper/react';
-import { thisYear } from 'utils';
-
-import MobileHeader from 'layout/mobile/MobileHeader';
-
-import ChallengeRereadingCard from 'components/challenge/ChallengeRereadingCard';
-import ChallengeRereadingModal from 'components/challenge/ChallengeRereadingModal';
-import DDay from 'components/common/DDay';
-import SelectYearBtnList from 'components/common/SelectYearBtnList';
-import Subtitle from 'components/common/Subtitle';
-import Tag from 'components/common/Tag';
-import BookThumbnail from 'components/common/book/BookThumbnail';
-import Section from 'components/common/container/Section';
-import SwiperContainer from 'components/common/container/SwiperContainer';
 
 const swiperOptions = {
   slidesPerView: 'auto' as const,

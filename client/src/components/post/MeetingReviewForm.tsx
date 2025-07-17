@@ -1,17 +1,15 @@
 import { useState } from 'react';
 
-import useAddDoc from 'hooks/handleFbDoc/useAddDoc';
-import useSendPushNotification from 'hooks/useSendPushNotification';
-
-import { clubByMonthSelector } from 'data/clubAtom';
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
-import { REVIEW } from 'appConstants';
+import { REVIEW } from '@/appConstants';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import { clubByMonthSelector } from '@/data/clubAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
+import useAddDoc from '@/hooks/handleFbDoc/useAddDoc';
+import useSendPushNotification from '@/hooks/useSendPushNotification';
+import { formatDate, getFbRouteOfPost, thisYearMonthId } from '@/utils';
 import { BiCheckCircle } from 'react-icons/bi';
-import { formatDate, getFbRouteOfPost, thisYearMonthId } from 'utils';
-
-import SquareBtn from 'components/common/button/SquareBtn';
 
 interface PropsType {
   docMonth: string;

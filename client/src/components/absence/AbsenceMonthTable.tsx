@@ -1,19 +1,16 @@
 import { useEffect } from 'react';
 
-import useHandleAbsence from 'hooks/useHandleAbsence';
-
-import { getDocument } from 'api/firebase/getFbDoc';
-
-import { absenceAtom } from 'data/absenceAtom';
 import { useRecoilState } from 'recoil';
 
-import AbsenceForm from './AbsenceForm';
-import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from 'appConstants';
-import { existDocObj } from 'utils';
-
-import Loading from 'components/common/Loading';
-import Modal from 'components/common/Modal';
-import Table from 'components/common/Table';
+import { getDocument } from '@/api/firebase/getFbDoc';
+import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
+import AbsenceForm from '@/components/absence/AbsenceForm';
+import Loading from '@/components/common/Loading';
+import Modal from '@/components/common/Modal';
+import Table from '@/components/common/Table';
+import { absenceAtom } from '@/data/absenceAtom';
+import useHandleAbsence from '@/hooks/useHandleAbsence';
+import { existDocObj } from '@/utils';
 
 export type AbsenceMonthByPersonal = {
   month: number;

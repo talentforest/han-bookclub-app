@@ -1,11 +1,9 @@
 import { ReactNode } from 'react';
 
-import { IDocument } from 'data/documentsAtom';
-
 import PostHeader from './PostHeader';
-
-import EditorContent from 'components/common/editor/EditorContent';
-import { PostType } from 'components/post/PostHandleBtns';
+import EditorContent from '@/components/common/editor/EditorContent';
+import { PostType } from '@/components/post/PostHandleBtns';
+import { IDocument } from '@/data/documentsAtom';
 
 interface Props {
   type: PostType;

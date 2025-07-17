@@ -1,13 +1,12 @@
 import { Link, useLocation, useMatch } from 'react-router-dom';
 
-import useAlertAskJoin from 'hooks/useAlertAskJoin';
-
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
+import { currAuthUserAtom } from '@/data/userAtom';
+import useAlertAskJoin from '@/hooks/useAlertAskJoin';
+import { thisYearMonthId } from '@/utils';
 import { FiArchive, FiCoffee, FiHome, FiUser } from 'react-icons/fi';
 import { MdOutlineHowToVote } from 'react-icons/md';
-import { thisYearMonthId } from 'utils';
 
 const BottomNavigation = () => {
   const { uid } = useRecoilValue(currAuthUserAtom);

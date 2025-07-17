@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-import { IBookVoteItem } from 'data/voteAtom';
-
+import { IBookVoteItem } from '@/data/voteAtom';
 import { FiChevronsDown, FiChevronsUp } from 'react-icons/fi';
 
 interface Props {

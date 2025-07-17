@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import Subtitle from 'components/common/Subtitle';
+import Subtitle from '@/components/common/Subtitle';
 
 interface SectionProps {
   children: ReactNode;

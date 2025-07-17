@@ -1,11 +1,9 @@
-import { ISearchedBook } from 'data/bookAtom';
-
-import { thisMonth } from 'utils';
-
-import ExternalLinkBtn from 'components/common/ExternalLinkBtn';
-import Tag from 'components/common/Tag';
-import BookAuthorPublisher from 'components/common/book/BookAuthorPublisher';
-import BookThumbnail from 'components/common/book/BookThumbnail';
+import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
+import Tag from '@/components/common/Tag';
+import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import { ISearchedBook } from '@/data/bookAtom';
+import { thisMonth } from '@/utils';
 
 interface MonthBookCardProps {
   month: string;
@@ -24,7 +22,7 @@ export default function MonthBookCard({
 
   return (
     <div
-      className={`rounded-card flex flex-col justify-between bg-white px-6 py-5 shadow-card max-sm:gap-2 max-sm:p-4 ${className}`}
+      className={`flex flex-col justify-between rounded-card bg-white px-6 py-5 shadow-card max-sm:gap-2 max-sm:p-4 ${className}`}
     >
       <div className="flex flex-1 justify-between gap-x-4">
         <div className="flex flex-col items-start justify-between max-sm:w-[70%]">

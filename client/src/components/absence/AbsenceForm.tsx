@@ -1,9 +1,8 @@
 import { FormEvent } from 'react';
 
-import { AbsenceSelectValue } from 'hooks/useHandleAbsence';
-
-import SquareBtn from 'components/common/button/SquareBtn';
-import LabeledCheckBox from 'components/common/input/LabeledCheckBox';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import LabeledCheckBox from '@/components/common/input/LabeledCheckBox';
+import { AbsenceSelectValue } from '@/hooks/useHandleAbsence';
 
 interface Props {
   month: number;

@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil';
 
-import { thisMonth } from 'utils';
+import { thisMonth } from '@/utils';
 import { v4 } from 'uuid';
 
 export type IFieldAndHost = {

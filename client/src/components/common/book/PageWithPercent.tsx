@@ -1,4 +1,4 @@
-import { getPercentage } from 'utils';
+import { getPercentage } from '@/utils';
 
 interface Props {
   currentPage: number;

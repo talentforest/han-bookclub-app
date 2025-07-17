@@ -1,20 +1,20 @@
 import { useState } from 'react';
 
-import { currAuthUserAtom } from 'data/userAtom';
+import { useRecoilValue } from 'recoil';
+
+import useAlertAskJoin from './useAlertAskJoin';
+import useSendPushNotification from './useSendPushNotification';
+import { BOOK_VOTE } from '@/appConstants';
+import { currAuthUserAtom } from '@/data/userAtom';
 import {
   IBookVote,
   IBookVoteItem,
   bookVotesState,
   initialBookVoteItem,
-} from 'data/voteAtom';
-import { useRecoilValue } from 'recoil';
-
-import useAlertAskJoin from './useAlertAskJoin';
-import useSendPushNotification from './useSendPushNotification';
-import { BOOK_VOTE } from 'appConstants';
-import { dbService } from 'fbase';
+} from '@/data/voteAtom';
+import { dbService } from '@/fbase';
+import { formatDate } from '@/utils';
 import { doc, setDoc } from 'firebase/firestore';
-import { formatDate } from 'utils';
 
 interface Props {
   onToggleModal: () => void;

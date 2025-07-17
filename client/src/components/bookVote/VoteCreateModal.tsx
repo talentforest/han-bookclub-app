@@ -1,22 +1,19 @@
 import { useState } from 'react';
 
-import useCreateBookVoteBox from 'hooks/useCreateBookVoteBox';
-import useSearchBook from 'hooks/useSearchBook';
-
-import { ISearchedBook } from 'data/bookAtom';
-
 import SearchedBookList from '../search/SearchedBookList';
+import Modal from '@/components/common/Modal';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import Input from '@/components/common/input/Input';
+import Label from '@/components/common/input/Label';
+import RefInput from '@/components/common/input/RefInput';
+import { ISearchedBook } from '@/data/bookAtom';
+import useCreateBookVoteBox from '@/hooks/useCreateBookVoteBox';
+import useSearchBook from '@/hooks/useSearchBook';
 import { ko } from 'date-fns/locale';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FiMinusCircle, FiPlus, FiSearch } from 'react-icons/fi';
-
-import Modal from 'components/common/Modal';
-import BookThumbnail from 'components/common/book/BookThumbnail';
-import SquareBtn from 'components/common/button/SquareBtn';
-import Input from 'components/common/input/Input';
-import Label from 'components/common/input/Label';
-import RefInput from 'components/common/input/RefInput';
 
 interface PropsType {
   onToggleModal: () => void;

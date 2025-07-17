@@ -1,13 +1,12 @@
-import { IDocument } from 'data/documentsAtom';
-
-import FooterBookCard from 'components/bookCard/FooterBookCard';
-import ExternalLinkBtn from 'components/common/ExternalLinkBtn';
-import Modal from 'components/common/Modal';
-import BookAuthorPublisher from 'components/common/book/BookAuthorPublisher';
-import BookThumbnail from 'components/common/book/BookThumbnail';
-import UserName from 'components/common/user/UserName';
-import PostFooter from 'components/post/PostFooter';
-import PostHeader from 'components/post/PostHeader';
+import FooterBookCard from '@/components/bookCard/FooterBookCard';
+import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
+import Modal from '@/components/common/Modal';
+import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import UserName from '@/components/common/user/UserName';
+import PostFooter from '@/components/post/PostFooter';
+import PostHeader from '@/components/post/PostHeader';
+import { IDocument } from '@/data/documentsAtom';
 
 interface RecommendedBookModalProps {
   collName: string;

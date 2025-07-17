@@ -1,21 +1,19 @@
 import { useEffect, useState } from 'react';
 
-import useSearchBook from 'hooks/useSearchBook';
+import { useSetRecoilState } from 'recoil';
 
+import ChallengeBookForm from '@/components/challenge/ChallengeBookForm';
+import Modal from '@/components/common/Modal';
+import RefInput from '@/components/common/input/RefInput';
+import RecommendBookModalForm from '@/components/post/recommendedBooks/RecommendBookModalForm';
+import SearchedBookList from '@/components/search/SearchedBookList';
 import {
   ISearchedBook,
   bookDescState,
   recommendedBookAtom,
-} from 'data/bookAtom';
-import { useSetRecoilState } from 'recoil';
-
-import SearchedBookList from './SearchedBookList';
+} from '@/data/bookAtom';
+import useSearchBook from '@/hooks/useSearchBook';
 import { FiSearch } from 'react-icons/fi';
-
-import ChallengeBookForm from 'components/challenge/ChallengeBookForm';
-import Modal from 'components/common/Modal';
-import RefInput from 'components/common/input/RefInput';
-import RecommendBookModalForm from 'components/post/recommendedBooks/RecommendBookModalForm';
 
 interface Props {
   title: '챌린지 등록하기' | '추천책 작성하기';

@@ -1,11 +1,8 @@
-import useChangePw from 'hooks/useChangePw';
-
-import { authService } from 'fbase';
-
-import MobileHeader from 'layout/mobile/MobileHeader';
-
-import SquareBtn from 'components/common/button/SquareBtn';
-import Input from 'components/common/input/Input';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import Input from '@/components/common/input/Input';
+import { authService } from '@/fbase';
+import useChangePw from '@/hooks/useChangePw';
+import MobileHeader from '@/layout/mobile/MobileHeader';
 
 const ChangePassword = () => {
   const user = authService?.currentUser;

@@ -1,22 +1,17 @@
 import { useEffect } from 'react';
 
-import useHandleProfile from 'hooks/useHandleProfile';
-
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilValue } from 'recoil';
 
-import { bookFields } from 'appConstants';
-
-// import { existDocObj } from 'utils';
-
-import MobileHeader from 'layout/mobile/MobileHeader';
-
-import Loading from 'components/common/Loading';
-import Tag from 'components/common/Tag';
-import EditBtn from 'components/common/button/EditBtn';
-import SquareBtn from 'components/common/button/SquareBtn';
-import RefInput from 'components/common/input/RefInput';
-import UserImg from 'components/common/user/UserImg';
+import { bookFields } from '@/appConstants';
+import Loading from '@/components/common/Loading';
+import Tag from '@/components/common/Tag';
+import EditBtn from '@/components/common/button/EditBtn';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import RefInput from '@/components/common/input/RefInput';
+import UserImg from '@/components/common/user/UserImg';
+import { currAuthUserAtom } from '@/data/userAtom';
+import useHandleProfile from '@/hooks/useHandleProfile';
+import MobileHeader from '@/layout/mobile/MobileHeader';
 
 const EditProfile = () => {
   const { displayName, email } = useRecoilValue(currAuthUserAtom);

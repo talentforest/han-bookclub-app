@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-import { absenceAtom } from 'data/absenceAtom';
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import useAlertAskJoin from './useAlertAskJoin';
-import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from 'appConstants';
-import { dbService } from 'fbase';
+import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
+import { absenceAtom } from '@/data/absenceAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
+import { dbService } from '@/fbase';
 import { doc, updateDoc } from 'firebase/firestore';
 
 export interface AbsenceSelectValue {

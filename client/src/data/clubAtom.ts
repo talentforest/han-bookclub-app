@@ -1,7 +1,7 @@
 import { atom, selectorFamily } from 'recoil';
 
 import { ISearchedBook } from './bookAtom';
-import { thisYear } from 'utils';
+import { thisYear } from '@/utils';
 import { v4 } from 'uuid';
 
 export type IBookClub = {

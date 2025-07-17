@@ -1,5 +1,4 @@
-import useDeleteDoc from 'hooks/handleFbDoc/useDeleteDoc';
-
+import useDeleteDoc from '@/hooks/handleFbDoc/useDeleteDoc';
 import { FiTrash2 } from 'react-icons/fi';
 
 interface Props {

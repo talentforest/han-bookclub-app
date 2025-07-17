@@ -1,11 +1,10 @@
-import { currAuthUserAtom } from 'data/userAtom';
-import { IBookVote } from 'data/voteAtom';
 import { useRecoilValue } from 'recoil';
 
+import CreatorBox from '@/components/common/user/CreatorBox';
+import { currAuthUserAtom } from '@/data/userAtom';
+import { IBookVote } from '@/data/voteAtom';
+import { formatDate } from '@/utils';
 import { FiTrash2 } from 'react-icons/fi';
-import { formatDate } from 'utils';
-
-import CreatorBox from 'components/common/user/CreatorBox';
 
 interface PropsType {
   vote: IBookVote;

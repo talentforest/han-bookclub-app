@@ -1,13 +1,11 @@
 import { Link } from 'react-router-dom';
 
-import { IBookVote } from 'data/voteAtom';
-
-import { BOOK_VOTE } from 'appConstants';
+import { BOOK_VOTE } from '@/appConstants';
+import DDay from '@/components/common/DDay';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import { IBookVote } from '@/data/voteAtom';
 import { FiChevronRight } from 'react-icons/fi';
 import { MdOutlineHowToVote } from 'react-icons/md';
-
-import DDay from 'components/common/DDay';
-import BookThumbnail from 'components/common/book/BookThumbnail';
 
 interface PropsType {
   voteDetail: IBookVote;
@@ -17,7 +15,7 @@ const VoteProgressCard = ({ voteDetail }: PropsType) => {
   const { id, title, voteItems, deadline } = voteDetail;
 
   return (
-    <div className="rounded-card flex w-fit flex-col justify-between bg-white px-7 py-5 shadow-card max-sm:w-full">
+    <div className="flex w-fit flex-col justify-between rounded-card bg-white px-7 py-5 shadow-card max-sm:w-full">
       <h4 className="mb-3 flex items-center gap-1 font-medium">
         <MdOutlineHowToVote className="text-base" />
         {title}

@@ -1,23 +1,20 @@
 import { useEffect } from 'react';
 
-import { getCollection } from 'api/firebase/getFbDoc';
-
-import { ISentence, sentencesState } from 'data/bookAtom';
 import { useRecoilState } from 'recoil';
 
-import { SENTENCES2024 } from 'appConstants';
+import { getCollection } from '@/api/firebase/getFbDoc';
+import { SENTENCES2024 } from '@/appConstants';
+import Subtitle from '@/components/common/Subtitle';
+import Tag from '@/components/common/Tag';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import Section from '@/components/common/container/Section';
+import SwiperContainer from '@/components/common/container/SwiperContainer';
+import PostSentenceBox from '@/components/post/PostSentenceBox';
+import { ISentence, sentencesState } from '@/data/bookAtom';
+import MobileHeader from '@/layout/mobile/MobileHeader';
+import { formatDate } from '@/utils';
 import { FiCalendar } from 'react-icons/fi';
 import { SwiperSlide } from 'swiper/react';
-import { formatDate } from 'utils';
-
-import MobileHeader from 'layout/mobile/MobileHeader';
-
-import Subtitle from 'components/common/Subtitle';
-import Tag from 'components/common/Tag';
-import BookThumbnail from 'components/common/book/BookThumbnail';
-import Section from 'components/common/container/Section';
-import SwiperContainer from 'components/common/container/SwiperContainer';
-import PostSentenceBox from 'components/post/PostSentenceBox';
 
 const swiperOptions = {
   slidesPerView: 'auto' as 'auto',

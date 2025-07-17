@@ -77,6 +77,12 @@
       "rules": {
         "import/prefer-default-export": "off"
       }
+    },
+    {
+      "files": ["vite.config.js", "vite-env.d.ts", "postcss.config.js"],
+      "parserOptions": {
+        "project": null
+      }
     }
   ],
   "ignorePatterns": ["build"]

@@ -2,28 +2,25 @@ import { useEffect } from 'react';
 
 import { Link, useLocation } from 'react-router-dom';
 
-import { getDocument } from 'api/firebase/getFbDoc';
-
-import { attendanceSelector } from 'data/absenceAtom';
-import { challengeState } from 'data/bookAtom';
-import { allUsersAtom, currAuthUserAtom } from 'data/userAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { CHALLENGE } from 'appConstants';
+import { getDocument } from '@/api/firebase/getFbDoc';
+import { CHALLENGE } from '@/appConstants';
+import BookshelfPostList from '@/components/bookshelf/BookshelfPostList';
+import ChallengeBookCard from '@/components/challenge/ChallengeBookCard';
+import GuideLine from '@/components/common/GuideLine';
+import Loading from '@/components/common/Loading';
+import Subtitle from '@/components/common/Subtitle';
+import Tag from '@/components/common/Tag';
+import Section from '@/components/common/container/Section';
+import UserImgName from '@/components/common/user/UserImgName';
+import { PostType } from '@/components/post/PostHandleBtns';
+import { attendanceSelector } from '@/data/absenceAtom';
+import { challengeState } from '@/data/bookAtom';
+import { allUsersAtom, currAuthUserAtom } from '@/data/userAtom';
+import MobileHeader from '@/layout/mobile/MobileHeader';
+import { thisMonth } from '@/utils';
 import { FiSettings } from 'react-icons/fi';
-import { thisMonth } from 'utils';
-
-import MobileHeader from 'layout/mobile/MobileHeader';
-
-import BookshelfPostList from 'components/bookshelf/BookshelfPostList';
-import ChallengeBookCard from 'components/challenge/ChallengeBookCard';
-import GuideLine from 'components/common/GuideLine';
-import Loading from 'components/common/Loading';
-import Subtitle from 'components/common/Subtitle';
-import Tag from 'components/common/Tag';
-import Section from 'components/common/container/Section';
-import UserImgName from 'components/common/user/UserImgName';
-import { PostType } from 'components/post/PostHandleBtns';
 
 const Bookshelf = () => {
   const [challenge, setChallenge] = useRecoilState(challengeState);

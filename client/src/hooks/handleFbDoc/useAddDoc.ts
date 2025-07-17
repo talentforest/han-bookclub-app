@@ -1,21 +1,20 @@
 import { useEffect } from 'react';
 
-import { getDocument } from 'api/firebase/getFbDoc';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { recommendedBookAtom } from 'data/bookAtom';
-import { IDocument } from 'data/documentsAtom';
+import useAlertAskJoin from '../useAlertAskJoin';
+import { getDocument } from '@/api/firebase/getFbDoc';
+import { USER } from '@/appConstants';
+import { recommendedBookAtom } from '@/data/bookAtom';
+import { IDocument } from '@/data/documentsAtom';
 import {
   IUserPostDocId,
   currAuthUserAtom,
   userDocAtomFamily,
-} from 'data/userAtom';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-
-import useAlertAskJoin from '../useAlertAskJoin';
-import { USER } from 'appConstants';
-import { authService, dbService } from 'fbase';
+} from '@/data/userAtom';
+import { authService, dbService } from '@/fbase';
+import { existDocObj, thisYearMonthId } from '@/utils';
 import { collection, doc, setDoc, updateDoc } from 'firebase/firestore';
-import { existDocObj, thisYearMonthId } from 'utils';
 
 interface PropsType {
   setText: (text: string) => void;

@@ -1,21 +1,24 @@
 import { useEffect } from 'react';
 
-import { getDocument } from 'api/firebase/getFbDoc';
-
-import { Month, OverduePenaltyMonths, penaltyDocState } from 'data/penaltyAtom';
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { PENALTY } from 'appConstants';
-import { dbService } from 'fbase';
-import { doc, updateDoc } from 'firebase/firestore';
+import { getDocument } from '@/api/firebase/getFbDoc';
+import { PENALTY } from '@/appConstants';
+import {
+  Month,
+  OverduePenaltyMonths,
+  penaltyDocState,
+} from '@/data/penaltyAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
+import { dbService } from '@/fbase';
 import {
   existDocObj,
   getLastDayOfMonth,
   getSubmitSubjectDate,
   thisMonth,
   thisYear,
-} from 'utils';
+} from '@/utils';
+import { doc, updateDoc } from 'firebase/firestore';
 
 export type PenaltyPost = {
   발제문: 'overdueSubjectMonths';

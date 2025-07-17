@@ -1,7 +1,6 @@
-import { IDocument } from 'data/documentsAtom';
-
-import LikeBtnWithPeopleInfo from '../common/LikeBtnWithPeopleInfo';
-import { formatDate } from 'utils';
+import LikeBtnWithPeopleInfo from '@/components/common/LikeBtnWithPeopleInfo';
+import { IDocument } from '@/data/documentsAtom';
+import { formatDate } from '@/utils';
 
 interface Props {
   post?: IDocument;

@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
 
-import useSendPushNotification from 'hooks/useSendPushNotification';
-
-import { getCollection } from 'api/firebase/getFbDoc';
-import { setDocument } from 'api/firebase/setFbDoc';
-
-import { ISearchedBook } from 'data/bookAtom';
-import { clubByYearAtom } from 'data/clubAtom';
-import { currAuthUserAtom } from 'data/userAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { BOOKCLUB_THIS_YEAR } from 'appConstants';
+import { getCollection } from '@/api/firebase/getFbDoc';
+import { setDocument } from '@/api/firebase/setFbDoc';
+import { BOOKCLUB_THIS_YEAR } from '@/appConstants';
+import SquareBtn from '@/components/common/button/SquareBtn';
+import { ISearchedBook } from '@/data/bookAtom';
+import { clubByYearAtom } from '@/data/clubAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
+import useSendPushNotification from '@/hooks/useSendPushNotification';
 import {
   formatDate,
   getNextMonthId,
@@ -19,9 +18,7 @@ import {
   thisMonth,
   thisYear,
   thisYearMonthId,
-} from 'utils';
-
-import SquareBtn from 'components/common/button/SquareBtn';
+} from '@/utils';
 
 interface PropsType {
   searchedBook: ISearchedBook;
