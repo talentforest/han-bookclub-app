@@ -39,10 +39,7 @@ export default function PostListDetail() {
   const { pathname, state } = useLocation() as LocationState;
 
   const docId = state?.id ?? thisYearMonthId;
-  const postType =
-    (state?.postType ?? pathname.includes('host-review'))
-      ? '정리 기록'
-      : '발제문';
+  const postType = pathname.includes('host-review') ? '정리 기록' : '발제문';
   const postId = state?.postId ?? '';
 
   useEffect(() => {
