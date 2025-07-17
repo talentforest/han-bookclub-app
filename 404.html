@@ -1,1 +1,57 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="icon" href="/han-bookclub-app/favicon.ico"/><link rel="shortcut icon" href="/han-bookclub-app/hanpage_shortcut_logo.jpeg"/><link rel="apple-touch-icon" href="/han-bookclub-app/hanpage_shortcut_logo.jpeg"/><meta name="mobile-web-app-capable" content="yes"/><link rel="manifest" href="/han-bookclub-app/manifest.json"/><meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width"/><meta name="theme-color" content="#FEFEFE"/><meta name="description" content="Web site created using create-react-app"/><title>독서모임 한페이지</title><script type="text/javascript">"serviceWorker"in navigator&&navigator.serviceWorker.register("/han-bookclub-app/firebase-messaging-sw.js",{scope:"/han-bookclub-app/"}).then((function(e){console.log("✅ServiceWorker registration successful with scope: ",e.scope)}),(function(e){console.log("❌ServiceWorker registration failed: ",e)}))</script><script src="//developers.kakao.com/sdk/js/kakao.min.js"></script><script defer="defer" src="/han-bookclub-app/static/js/main.72d8d8aa.js"></script><link href="/han-bookclub-app/static/css/main.d67cb13e.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div><div id="modal"></div></body></html>
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/han-bookclub-app/favicon.ico" />
+    <!-- 안드로이드 바로가기 아이콘 -->
+    <link rel="shortcut icon" href="/han-bookclub-app/hanpage_shortcut_logo.jpeg" />
+    <!-- 아이폰 바로가기 아이콘 -->
+    <link rel="apple-touch-icon" href="/han-bookclub-app/hanpage_shortcut_logo.jpeg" />
+
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href="/han-bookclub-app/manifest.json" />
+
+    <meta
+      name="viewport"
+      content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"
+    />
+    <meta name="theme-color" content="#FEFEFE" />
+    <meta name="description" content="독서모임 한페이지" />
+
+    <title>독서모임 한페이지</title>
+
+    <!-- service worker -->
+    <script type="text/javascript">
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .register('/han-bookclub-app/firebase-messaging-sw.js', {
+            scope: '/han-bookclub-app/',
+          })
+          .then(
+            function (registration) {
+              console.log(
+                '✅ServiceWorker registration successful with scope: ',
+                registration.scope,
+              );
+            },
+            function (err) {
+              console.log('❌ServiceWorker registration failed: ', err);
+            },
+          );
+      }
+    </script>
+
+    <!-- Kakao SDK -->
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script type="module" crossorigin src="/han-bookclub-app/assets/index-D5ew_QNw.js"></script>
+    <link rel="stylesheet" crossorigin href="/han-bookclub-app/assets/index-VonHJIRO.css">
+  </head>
+
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <div id="modal"></div>
+
+    <!-- Vite 엔트리 파일 -->
+  </body>
+</html>

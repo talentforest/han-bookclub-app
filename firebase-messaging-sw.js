@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 importScripts(
-  'https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js'
+  'https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js',
 );
 
 importScripts(
-  'https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compat.js'
+  'https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compat.js',
 );
 
 const firebaseConfig = {
@@ -25,9 +25,9 @@ self.addEventListener('install', function () {
 });
 
 // 서비스 워커 활성화 이벤트 리스너
-self.addEventListener('activate', (event) => {
+self.addEventListener('activate', event => {
   event.waitUntil(
-    clients.claim() // 클라이언트 제어 권한 획득
+    clients.claim(), // 클라이언트 제어 권한 획득
   );
 });
 
@@ -60,7 +60,7 @@ self.addEventListener('notificationclick', function (event) {
   const { link } = event.notification.data;
 
   event.waitUntil(
-    clients.matchAll({ type: 'window' }).then((clientList) => {
+    clients.matchAll({ type: 'window' }).then(clientList => {
       for (const client of clientList) {
         if (client.url === link && 'focus' in client) {
           return client.focus();
@@ -69,6 +69,6 @@ self.addEventListener('notificationclick', function (event) {
       if (clients.openWindow) {
         return clients.openWindow(link);
       }
-    })
+    }),
   );
 });
