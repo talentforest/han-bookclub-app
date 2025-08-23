@@ -16,7 +16,7 @@ export default function BookThumbnail({
     <>
       {thumbnail !== '' && (
         <img
-          className={`flex aspect-[0.68/1] h-full max-h-40 items-center justify-center rounded-md bg-gray1 shadow-card ${className}`}
+          className={`shadow-book flex aspect-[0.68/1] h-full max-h-40 items-center justify-center rounded-md bg-gray1 ${className}`}
           src={thumbnail}
           alt={`${title} 북커버`}
         />
@@ -24,7 +24,7 @@ export default function BookThumbnail({
 
       {thumbnail === '' && (
         <div
-          className={`flex aspect-[0.68/1] h-full max-h-40 items-center justify-center rounded-md bg-white shadow-card ${className}`}
+          className={`shadow-book flex aspect-[0.68/1] h-full max-h-40 items-center justify-center rounded-md bg-white ${className}`}
         >
           {title.includes('이벤트') ? (
             <MdEventAvailable className="size-full max-h-[40px] max-w-[40px] text-gray2 max-sm:w-1/2" />
