@@ -54,6 +54,7 @@ export default function MonthlyClubInfo() {
               title="나의 불참 설정하러 가기"
               to="/setting/absence"
               state={{ userId: uid }}
+              className="pt-3"
             />
           </Section>
         )}
