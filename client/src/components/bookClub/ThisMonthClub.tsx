@@ -11,7 +11,7 @@ import LabelWithValueCard from '@/components/common/LabelWithValueCard';
 import EmptyCard from '@/components/common/container/EmptyCard';
 import { clubByMonthSelector } from '@/data/clubAtom';
 import { fieldAndHostAtom } from '@/data/fieldAndHostAtom';
-import { formatDate, thisMonth, thisYearMonthId } from '@/utils';
+import { thisMonth, thisYearMonthId } from '@/utils';
 
 export default function ThisMonthClub() {
   const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
@@ -56,7 +56,7 @@ export default function ThisMonthClub() {
       {thisMonthClub && thisMonthClub?.book ? (
         <div className="grid grid-cols-5 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">
           <MonthBookCard
-            month={formatDate(thisMonth, 'M')}
+            month={`${+thisMonth}`}
             book={thisMonthClub.book}
             bookFields={fieldAndHost?.field}
             className="col-span-3"
