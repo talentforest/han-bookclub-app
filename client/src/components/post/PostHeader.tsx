@@ -1,17 +1,21 @@
 import { useRecoilValue } from 'recoil';
 
 import CreatorBox from '@/components/common/user/CreatorBox';
-import PostHandleBtns, { PostType } from '@/components/post/PostHandleBtns';
-import { IDocument } from '@/data/documentsAtom';
+import PostHandleBtns from '@/components/post/PostHandleBtns';
 import { currAuthUserAtom } from '@/data/userAtom';
+import { PostTypeName, UserPost } from '@/types';
 
-interface Props {
+interface PostHeaderProps {
   collName: string;
-  post: IDocument;
-  postType?: PostType;
+  post: UserPost;
+  postType?: PostTypeName;
 }
 
-export default function PostHeader({ collName, post, postType }: Props) {
+export default function PostHeader({
+  collName,
+  post,
+  postType,
+}: PostHeaderProps) {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const { creatorId, isAnonymous } = post;

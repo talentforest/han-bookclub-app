@@ -3,15 +3,14 @@ import { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { authService } from '@/fbase';
+import { PostPermission } from '@/types';
 
-type Text = 'see' | 'edit' | 'register' | 'write';
-
-const useAlertAskJoin = (text: Text) => {
+const useAlertAskJoin = (permission: PostPermission) => {
   const navigate = useNavigate();
   const anonymous = authService.currentUser?.isAnonymous;
 
   const setText = () => {
-    switch (text) {
+    switch (permission) {
       case 'see':
         return '볼 수 있습니다';
       case 'edit':

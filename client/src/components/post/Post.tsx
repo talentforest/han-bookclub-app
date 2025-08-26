@@ -2,12 +2,11 @@ import { ReactNode } from 'react';
 
 import PostHeader from './PostHeader';
 import EditorContent from '@/components/common/editor/EditorContent';
-import { PostType } from '@/components/post/PostHandleBtns';
-import { IDocument } from '@/data/documentsAtom';
+import { PostTypeName, UserPost } from '@/types';
 
-interface Props {
-  type: PostType;
-  post: IDocument;
+interface PostProps {
+  type: PostTypeName;
+  post: UserPost;
   collName?: string;
   className?: string;
   children?: ReactNode;
@@ -19,7 +18,7 @@ export default function Post({
   collName,
   className,
   children,
-}: Props) {
+}: PostProps) {
   const { text } = post;
 
   return (

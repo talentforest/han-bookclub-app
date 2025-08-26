@@ -2,16 +2,19 @@ import { useRecoilValue } from 'recoil';
 
 import CreatorBox from '@/components/common/user/CreatorBox';
 import { currAuthUserAtom } from '@/data/userAtom';
-import { IBookVote } from '@/data/voteAtom';
+import { BookVote } from '@/types';
 import { formatDate } from '@/utils';
 import { FiTrash2 } from 'react-icons/fi';
 
-interface PropsType {
-  vote: IBookVote;
+interface VoteDetailHeaderProps {
+  vote: BookVote;
   onVoteDeleteClick: () => void;
 }
 
-const VoteDetailHeader = ({ vote, onVoteDeleteClick }: PropsType) => {
+const VoteDetailHeader = ({
+  vote,
+  onVoteDeleteClick,
+}: VoteDetailHeaderProps) => {
   const { creatorId, createdAt, title } = vote;
 
   const { uid } = useRecoilValue(currAuthUserAtom);

@@ -7,11 +7,12 @@ import Modal from '@/components/common/Modal';
 import RefInput from '@/components/common/input/RefInput';
 import RecommendBookModalForm from '@/components/post/recommendedBooks/RecommendBookModalForm';
 import SearchedBookList from '@/components/search/SearchedBookList';
-import { Book, bookDescState, recommendedBookAtom } from '@/data/bookAtom';
+import { bookDescState, recommendedBookAtom } from '@/data/bookAtom';
 import useSearchBook from '@/hooks/useSearchBook';
+import { BookData } from '@/types';
 import { FiSearch } from 'react-icons/fi';
 
-interface Props {
+interface SearchedBookPostAddModalProps {
   title: '챌린지 등록하기' | '추천책 작성하기';
   onToggleClick: () => void;
 }
@@ -19,7 +20,7 @@ interface Props {
 export default function SearchedBookPostAddModal({
   title,
   onToggleClick,
-}: Props) {
+}: SearchedBookPostAddModalProps) {
   const setMyRecommendBook = useSetRecoilState(recommendedBookAtom);
   const setBookDesc = useSetRecoilState(bookDescState);
 
@@ -43,7 +44,7 @@ export default function SearchedBookPostAddModal({
     resetSearchList();
   };
 
-  const onSelectBtnClick = (book: Book) => {
+  const onSelectBtnClick = (book: BookData) => {
     changeStep(2);
     title === '추천책 작성하기' ? setMyRecommendBook(book) : setBookDesc(book);
   };

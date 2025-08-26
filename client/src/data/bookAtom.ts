@@ -1,50 +1,9 @@
 import { atom } from 'recoil';
 
+import { BaseBookData, BookData } from '@/types';
 import { v4 } from 'uuid';
 
-export type Book = {
-  title: string;
-  contents: string;
-  url: string;
-  isbn: string;
-  datetime: string;
-  authors: string[];
-  publisher: string;
-  translators: string[];
-  price: number;
-  thumbnail: string;
-};
-
-export type IRecommendedBook = Pick<
-  Book,
-  'title' | 'thumbnail' | 'authors' | 'url' | 'publisher'
->;
-
-export type IChallengeBook = {
-  currentPage: number;
-  wholePage: number;
-} & Book;
-
-export type IChallenge = {
-  id?: string;
-  createdAt: string;
-  creatorId: string;
-  books: IChallengeBook[];
-};
-
-export interface ISentence {
-  id: string;
-  title: string;
-  thumbnail: string;
-  createdAt: string;
-  creatorId: string;
-  text: string;
-  page: number;
-  likeUsers?: string[];
-  likes?: number;
-}
-
-export const recommendedBookAtom = atom<IRecommendedBook>({
+export const recommendedBookAtom = atom<BaseBookData>({
   key: `recommendedBook/${v4()}`,
   default: {
     thumbnail: '',
@@ -55,22 +14,12 @@ export const recommendedBookAtom = atom<IRecommendedBook>({
   },
 });
 
-export const bookDescState = atom<Book>({
+export const bookDescState = atom<BookData>({
   key: `bookDesc${v4()}`,
   default: null,
 });
 
-export const searchListAtom = atom<Book[]>({
+export const searchListAtom = atom<BookData[]>({
   key: `searchList${v4()}`,
   default: [],
-});
-
-export const challengeState = atom<IChallenge>({
-  key: `challenge/${v4()}`,
-  default: null,
-});
-
-export const sentencesState = atom<ISentence[]>({
-  key: `sentences/${v4()}`,
-  default: null,
 });

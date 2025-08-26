@@ -1,13 +1,15 @@
 import { useState } from 'react';
 
-import { IBookVoteItem } from '@/data/voteAtom';
+import { BookVoteItem } from '@/types';
 import { FiChevronsDown, FiChevronsUp } from 'react-icons/fi';
 
-interface Props {
-  voteItems: IBookVoteItem[];
+interface VoteItemReasonBoxProps {
+  voteItems: BookVoteItem[];
 }
 
-export default function VoteItemReasonBox({ voteItems }: Props) {
+export default function VoteItemReasonBox({
+  voteItems,
+}: VoteItemReasonBoxProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDetails = () => setIsOpen(prev => !prev);

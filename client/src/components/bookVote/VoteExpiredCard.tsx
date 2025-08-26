@@ -6,19 +6,22 @@ import { getCollection } from '@/api/firebase/getFbDoc';
 import { VOTED_ITEMS } from '@/appConstants';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import UserName from '@/components/common/user/UserName';
-import { IBookVote, IVoteItemsByMember } from '@/data/voteAtom';
+import { BookVote, BookVoteItemsByMember } from '@/types';
 import { cutLetter } from '@/utils';
 import { FiChevronRight } from 'react-icons/fi';
 import { MdOutlineHowToVote } from 'react-icons/md';
 
-interface Props {
-  vote: IBookVote;
+interface VoteExpiredCardProps {
+  vote: BookVote;
   collName: string;
 }
 
-export default function VoteExpiredCard({ vote, collName }: Props) {
+export default function VoteExpiredCard({
+  vote,
+  collName,
+}: VoteExpiredCardProps) {
   const [votedItemsByMember, setVotedItemsMyMember] = useState<
-    IVoteItemsByMember[]
+    BookVoteItemsByMember[]
   >([]);
 
   const { voteItems, title, id, createdAt, creatorId } = vote;

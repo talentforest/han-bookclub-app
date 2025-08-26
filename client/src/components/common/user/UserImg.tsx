@@ -6,7 +6,7 @@ import ImageInput from '@/components/common/input/ImageInput';
 import { currAuthUserAtom } from '@/data/userAtom';
 import { FiUser } from 'react-icons/fi';
 
-interface ProfileType {
+interface UserImgProps {
   isEditing: boolean;
   newUserImgUrl: string;
   setNewUserImgUrl: (newUserImgUrl: string) => void;
@@ -16,7 +16,7 @@ const UserImg = ({
   isEditing,
   newUserImgUrl,
   setNewUserImgUrl,
-}: ProfileType) => {
+}: UserImgProps) => {
   const { photoURL } = useRecoilValue(currAuthUserAtom);
 
   const [beforeOnChange, setBeforeOnChange] = useState(true);

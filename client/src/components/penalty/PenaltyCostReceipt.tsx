@@ -1,16 +1,16 @@
 import { Fragment } from 'react';
 
-import { Month } from '@/data/penaltyAtom';
+import { ClubMonth } from '@/types';
 
-interface Props {
-  overdueSubjectMonths: Month[];
-  overdueAbsenceMonths: Month[];
+interface PenaltyCostReceiptProps {
+  overdueSubjectMonths: ClubMonth[];
+  overdueAbsenceMonths: ClubMonth[];
 }
 
 export default function PenaltyCostReceipt({
   overdueSubjectMonths,
   overdueAbsenceMonths,
-}: Props) {
+}: PenaltyCostReceiptProps) {
   const penaltyCostList = [
     {
       title: '❗️발제문 기한 넘김 x ￦7,000',

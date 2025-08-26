@@ -9,7 +9,7 @@ import { USER } from '@/appConstants';
 import { allUsersAtom, currAuthUserAtom } from '@/data/userAtom';
 import useAlertAskJoin from '@/hooks/useAlertAskJoin';
 
-interface PropsType {
+interface UserNameProps {
   userId: string;
   tag?: boolean;
   className?: string;
@@ -21,7 +21,7 @@ const UserName = ({
   tag,
   className = '',
   isLink = false,
-}: PropsType) => {
+}: UserNameProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersAtom);

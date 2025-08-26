@@ -7,15 +7,15 @@ import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
 import Label from '@/components/common/input/Label';
 import RefInput from '@/components/common/input/RefInput';
-import { Book } from '@/data/bookAtom';
 import useCreateBookVoteBox from '@/hooks/useCreateBookVoteBox';
 import useSearchBook from '@/hooks/useSearchBook';
+import { BookData } from '@/types';
 import { ko } from 'date-fns/locale';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FiMinusCircle, FiPlus, FiSearch } from 'react-icons/fi';
 
-interface PropsType {
+interface VoteCreateModalProps {
   onToggleModal: () => void;
 }
 
@@ -24,7 +24,7 @@ const initialSearchBook = {
   itemId: 1,
 };
 
-const VoteCreateModal = ({ onToggleModal }: PropsType) => {
+const VoteCreateModal = ({ onToggleModal }: VoteCreateModalProps) => {
   const [searchBook, setSearchBook] = useState(initialSearchBook);
 
   const [isOpenSelectReason, setIsOpenSelectReason] = useState(false);
@@ -56,7 +56,7 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
 
   const toggleSelectReason = () => setIsOpenSelectReason(prev => !prev);
 
-  const onSelectBookBtnClick = (book: Book) => {
+  const onSelectBookBtnClick = (book: BookData) => {
     const { title, url, thumbnail } = book;
     const newBookItem = { title, url, thumbnail };
     const voteItems = newVote.voteItems.map(voteItem => {

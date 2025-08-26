@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { FiChevronRight } from 'react-icons/fi';
 
-interface Props<T> {
+interface ChevronRightLinkBtnProps<T> {
   to: string;
   title?: string;
   state?: T | null;
@@ -16,7 +16,7 @@ export default function ChevronRightLinkBtn<T>({
   state,
   className = '',
   onClick,
-}: Props<T>) {
+}: ChevronRightLinkBtnProps<T>) {
   return (
     <Link
       to={to}

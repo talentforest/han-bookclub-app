@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-interface Props {
+interface SquareBtnProps {
   name: string;
   type?: 'button' | 'submit';
   children?: ReactNode;
@@ -20,7 +20,7 @@ export default function SquareBtn({
   color = 'blue',
   className = '',
   tailChildren,
-}: Props) {
+}: SquareBtnProps) {
   const colorStyleObj = {
     gray: 'text-gray1 bg-gray4',
     blue: 'text-blue1 bg-blue2',

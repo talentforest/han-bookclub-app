@@ -1,6 +1,6 @@
 import { formatDate, getDDay } from '@/utils';
 
-interface Props {
+interface DDayProps {
   hyphenDate: string;
   isDateMark?: boolean;
   className?: string;
@@ -10,7 +10,7 @@ export default function DDay({
   hyphenDate,
   isDateMark = true,
   className,
-}: Props) {
+}: DDayProps) {
   return (
     <div className={`flex items-center ${className}`}>
       <span className="mt-0.5 text-[15px] text-gray1">D-DAY</span>

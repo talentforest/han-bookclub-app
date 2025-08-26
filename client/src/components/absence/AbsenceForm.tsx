@@ -2,13 +2,13 @@ import { FormEvent } from 'react';
 
 import SquareBtn from '@/components/common/button/SquareBtn';
 import LabeledCheckBox from '@/components/common/input/LabeledCheckBox';
-import { AbsenceSelectValue } from '@/hooks/useHandleAbsence';
+import { UserAbsence } from '@/types';
 
-interface Props {
+interface AbsenceFormProps {
   month: number;
   onSubmit: (event: FormEvent<HTMLFormElement>, index: number) => void;
-  selectedValues: AbsenceSelectValue;
-  setSelectedValues: React.Dispatch<React.SetStateAction<AbsenceSelectValue>>;
+  selectedValues: UserAbsence;
+  setSelectedValues: React.Dispatch<React.SetStateAction<UserAbsence>>;
 }
 
 export default function AbsenceForm({
@@ -16,7 +16,7 @@ export default function AbsenceForm({
   onSubmit,
   selectedValues,
   setSelectedValues,
-}: Props) {
+}: AbsenceFormProps) {
   const checkedBoxHandler = (label: string, checked: boolean) => {
     const otherBoxChecked =
       (label === '모임 일회 불참' && checked && selectedValues.breakMonth) ||

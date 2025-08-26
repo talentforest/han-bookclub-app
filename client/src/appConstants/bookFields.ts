@@ -1,9 +1,6 @@
-export interface BookField {
-  id: number;
-  name: string;
-}
+import { ClubBookField } from '@/types';
 
-export const bookFields: BookField[] = [
+export const bookFields: ClubBookField[] = [
   { id: 1, name: '과학' },
   { id: 2, name: '국내문학' },
   { id: 3, name: '시/에세이' },

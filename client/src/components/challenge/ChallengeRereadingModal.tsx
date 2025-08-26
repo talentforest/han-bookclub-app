@@ -9,10 +9,9 @@ import Tag from '@/components/common/Tag';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import SquareBtn from '@/components/common/button/SquareBtn';
-import { Book } from '@/data/bookAtom';
-import { ChallengeRereading } from '@/data/challengeAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 import { dbService } from '@/fbase';
+import { BookData, RereadingChallenge } from '@/types';
 import { formatDate, thisYear } from '@/utils';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
 
@@ -20,12 +19,12 @@ interface ChallengeRereadingModalProps {
   selectedBook:
     | {
         [x: string]: {
-          book: Pick<Book, 'authors' | 'publisher' | 'thumbnail' | 'title'>;
+          book: Pick<BookData, 'authors' | 'publisher' | 'thumbnail' | 'title'>;
           readers: number;
           counts: number;
         };
       }
-    | Book;
+    | BookData;
   toggleOpen: () => void;
 }
 
@@ -44,7 +43,7 @@ export default function ChallengeRereadingModal({
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const [userChallenge, setUserChallenge] = useState<ChallengeRereading | null>(
+  const [userChallenge, setUserChallenge] = useState<RereadingChallenge | null>(
     null,
   );
 

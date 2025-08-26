@@ -2,37 +2,36 @@ import { useEffect, useState } from 'react';
 
 import { useRecoilValue } from 'recoil';
 
-import PostHandleBtns, { PostType } from './PostHandleBtns';
+import PostHandleBtns from './PostHandleBtns';
 import { getDocument } from '@/api/firebase/getFbDoc';
-import { HOST_REVIEW, REVIEW, SUBJECTS } from '@/appConstants';
+import { HOST_REVIEW, REVIEWS, SUBJECTS } from '@/appConstants';
 import Modal from '@/components/common/Modal';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import EditorContent from '@/components/common/editor/EditorContent';
 import PostFooter from '@/components/post/PostFooter';
-import { IDocument } from '@/data/documentsAtom';
-import {
-  IUserPostDocId,
-  allUsersAtom,
-  currAuthUserAtom,
-} from '@/data/userAtom';
+import { allUsersAtom, currAuthUserAtom } from '@/data/userAtom';
+import { PostTypeName, UserPost, UserPostDocId } from '@/types';
 import { existDocObj, getFbRouteOfPost } from '@/utils';
 
-interface PropsType {
-  postId: IUserPostDocId;
-  postType?: PostType;
+interface PostBookThumbnailBoxProps {
+  postId: UserPostDocId;
+  postType?: PostTypeName;
 }
 
-const PostBookThumbnailBox = ({ postId, postType }: PropsType) => {
+const PostBookThumbnailBox = ({
+  postId,
+  postType,
+}: PostBookThumbnailBoxProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
   const allUsers = useRecoilValue(allUsersAtom);
-  const [post, setPost] = useState({} as IDocument);
+  const [post, setPost] = useState({} as UserPost);
   const [openPostDetailModal, setOpenPostDetailModal] = useState(false);
 
   const { docId, monthId } = postId;
 
   const getPostRoute = () => {
     if (postType === '발제문') return getFbRouteOfPost(monthId, SUBJECTS);
-    if (postType === '모임 후기') return getFbRouteOfPost(monthId, REVIEW);
+    if (postType === '모임 후기') return getFbRouteOfPost(monthId, REVIEWS);
     if (postType === '정리 기록') return getFbRouteOfPost(monthId, HOST_REVIEW);
   };
 

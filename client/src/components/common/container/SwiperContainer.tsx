@@ -13,22 +13,23 @@ type AppSwiperOptions = SwiperOptions & {
   };
 };
 
-interface Props {
+interface SwiperContainerProps {
   children: ReactNode;
   options?: AppSwiperOptions;
 }
 
-export default function SwiperContainer({ children, options }: Props) {
+export default function SwiperContainer({
+  children,
+  options,
+}: SwiperContainerProps) {
   const initialSwiperOptions: AppSwiperOptions = {
     modules: [Autoplay, Pagination, Navigation, Scrollbar],
     spaceBetween: 15,
     slidesPerView: 'auto' as const,
-    speed: 2000,
+    speed: 800,
     autoplay: {
-      delay: 1000,
       disableOnInteraction: true,
     },
-    loop: true,
     navigation: true,
     pagination: {
       type: 'bullets',

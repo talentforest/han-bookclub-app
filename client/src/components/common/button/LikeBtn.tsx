@@ -1,12 +1,12 @@
 import { FiHeart } from 'react-icons/fi';
 
-interface Props {
+interface LikeBtnProps {
   collName: string;
   like: boolean;
   onLikeClick: () => void;
 }
 
-export default function LikeBtn({ collName, like, onLikeClick }: Props) {
+export default function LikeBtn({ collName, like, onLikeClick }: LikeBtnProps) {
   return (
     <button
       type="button"

@@ -3,18 +3,18 @@ import { useEffect, useState } from 'react';
 import { getDocument } from '@/api/firebase/getFbDoc';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import RecommendedBookModal from '@/components/post/recommendedBooks/RecommendedBookModal';
-import { IDocument } from '@/data/documentsAtom';
+import { UserPost } from '@/types';
 
-interface Props {
+interface PostRecommendedBookCardProps {
   docIds: { docId: string; monthId: string };
 }
 
 export default function PostRecommendedBookCard({
   docIds: { docId, monthId },
-}: Props) {
+}: PostRecommendedBookCardProps) {
   const [openModal, setOpenModal] = useState(false);
 
-  const [recommendedBookDoc, setRecommendedBookDoc] = useState<IDocument>();
+  const [recommendedBookDoc, setRecommendedBookDoc] = useState<UserPost>();
 
   const year = monthId.slice(0, 4);
   const collection = `BookClub-${year}/${monthId}/RecommendedBooks/`;

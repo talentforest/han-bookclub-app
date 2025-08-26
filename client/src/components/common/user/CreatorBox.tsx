@@ -1,12 +1,15 @@
 import UserName from '@/components/common/user/UserName';
 import { FiUserCheck } from 'react-icons/fi';
 
-interface Props {
+interface CreatorBoxProps {
   creatorId: string;
   isAnonymous?: boolean;
 }
 
-export default function CreatorBox({ creatorId, isAnonymous }: Props) {
+export default function CreatorBox({
+  creatorId,
+  isAnonymous,
+}: CreatorBoxProps) {
   return (
     <div className="flex items-center gap-0.5 text-gray1">
       <FiUserCheck fontSize={14} />

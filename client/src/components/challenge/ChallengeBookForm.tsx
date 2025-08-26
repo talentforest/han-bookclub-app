@@ -7,19 +7,23 @@ import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
-import { IChallenge, bookDescState, challengeState } from '@/data/bookAtom';
+import { bookDescState } from '@/data/bookAtom';
+import { completeReadingChallengeState } from '@/data/challengeAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 import { dbService } from '@/fbase';
 import useAlertAskJoin from '@/hooks/useAlertAskJoin';
+import { CompleteReadingChallenge } from '@/types';
 import { formatDate } from '@/utils';
 import { doc, setDoc } from 'firebase/firestore';
 
-interface Props {
+interface ChallengeBookFormProps {
   onModalClose: () => void;
 }
 
-export default function ChallengeBookForm({ onModalClose }: Props) {
-  const userChallenge = useRecoilValue(challengeState);
+export default function ChallengeBookForm({
+  onModalClose,
+}: ChallengeBookFormProps) {
+  const userChallenge = useRecoilValue(completeReadingChallengeState);
   const bookDesc = useRecoilValue(bookDescState);
   const { uid } = useRecoilValue(currAuthUserAtom);
   const [pageNums, setPageNums] = useState({
@@ -65,7 +69,7 @@ export default function ChallengeBookForm({ onModalClose }: Props) {
       return alert('이미 똑같은 책이 존재하고 있어요.');
     }
 
-    const challengeDoc: IChallenge = findMyChallengeBooks
+    const challengeDoc: CompleteReadingChallenge = findMyChallengeBooks
       ? {
           ...findMyChallengeBooks,
           books: [...findMyChallengeBooks.books, { ...bookDesc, ...pageNums }],

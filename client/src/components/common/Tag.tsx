@@ -1,19 +1,21 @@
 import { ReactNode } from 'react';
 
-interface Props {
+type tagColor =
+  | 'green'
+  | 'lightGreen'
+  | 'purple'
+  | 'blue'
+  | 'yellow'
+  | 'red'
+  | 'lightBlue'
+  | 'lightGray';
+
+interface TagProps {
   text?: string;
-  color?:
-    | 'green'
-    | 'lightGreen'
-    | 'purple'
-    | 'blue'
-    | 'yellow'
-    | 'red'
-    | 'lightBlue'
-    | 'lightGray';
-  children?: ReactNode;
+  color?: tagColor;
   shape?: 'rounded' | 'square';
   className?: string;
+  children?: ReactNode;
 }
 
 export default function Tag({
@@ -22,7 +24,7 @@ export default function Tag({
   children,
   shape = 'square',
   className,
-}: Props) {
+}: TagProps) {
   const bgColor = {
     blue: 'bg-blue1 text-white',
     lightBlue: 'bg-blue-200 text-text',

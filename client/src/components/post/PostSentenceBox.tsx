@@ -6,15 +6,15 @@ import BookThumbnail from '@/components/common/book/BookThumbnail';
 import EditorContent from '@/components/common/editor/EditorContent';
 import UserName from '@/components/common/user/UserName';
 import PostHandleBtns from '@/components/post/PostHandleBtns';
-import { ISentence } from '@/data/bookAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
+import { ChallengeSentence } from '@/types';
 import { BiSolidQuoteLeft, BiSolidQuoteRight } from 'react-icons/bi';
 
-interface Props {
-  sentence: ISentence;
+interface PostSentenceBoxProps {
+  sentence: ChallengeSentence;
 }
 
-export default function PostSentenceBox({ sentence }: Props) {
+export default function PostSentenceBox({ sentence }: PostSentenceBoxProps) {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const { text, thumbnail, title, creatorId, page } = sentence;

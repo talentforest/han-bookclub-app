@@ -11,12 +11,15 @@ import useAddDoc from '@/hooks/handleFbDoc/useAddDoc';
 import useSendPushNotification from '@/hooks/useSendPushNotification';
 import { formatDate } from '@/utils';
 
-interface Props {
+interface SentenceAddModalProps {
   onToggleClick: () => void;
   book: { title: string; thumbnail: string };
 }
 
-export default function SentenceAddModal({ onToggleClick, book }: Props) {
+export default function SentenceAddModal({
+  onToggleClick,
+  book,
+}: SentenceAddModalProps) {
   const [sentence, setSentence] = useState('');
   const [page, setPage] = useState('');
 

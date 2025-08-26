@@ -10,8 +10,9 @@ import BookThumbnail from '@/components/common/book/BookThumbnail';
 import Section from '@/components/common/container/Section';
 import SwiperContainer from '@/components/common/container/SwiperContainer';
 import PostSentenceBox from '@/components/post/PostSentenceBox';
-import { ISentence, sentencesState } from '@/data/bookAtom';
+import { sentencesState } from '@/data/challengeAtom';
 import MobileHeader from '@/layout/mobile/MobileHeader';
+import { ChallengeSentence } from '@/types';
 import { formatDate } from '@/utils';
 import { FiCalendar } from 'react-icons/fi';
 import { SwiperSlide } from 'swiper/react';
@@ -103,7 +104,7 @@ export default function Sentence() {
                   <FiCalendar fontSize={15} />
                   <h3>{dateKey}</h3>
                 </Tag>
-                {groupedByDate[dateKey]?.map((sentence: ISentence) => (
+                {groupedByDate[dateKey]?.map((sentence: ChallengeSentence) => (
                   <PostSentenceBox key={sentence.id} sentence={sentence} />
                 ))}
               </div>

@@ -4,13 +4,10 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { getDocument } from '@/api/firebase/getFbDoc';
 import { PENALTY } from '@/appConstants';
-import {
-  Month,
-  OverduePenaltyMonths,
-  penaltyDocState,
-} from '@/data/penaltyAtom';
+import { penaltyDocState } from '@/data/penaltyAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 import { dbService } from '@/fbase';
+import { ClubMonth, OverduePenaltyMonths, PenaltyPostType } from '@/types';
 import {
   existDocObj,
   getLastDayOfMonth,
@@ -19,12 +16,6 @@ import {
   thisYear,
 } from '@/utils';
 import { doc, updateDoc } from 'firebase/firestore';
-
-export type PenaltyPost = {
-  발제문: 'overdueSubjectMonths';
-  '정리 기록': 'overdueHostReviewMonths';
-  '불참 후기': 'overdueAbsenceMonths';
-};
 
 const useHandlePenalty = (createdAt?: number) => {
   const [penaltyDoc, setPenaltyDoc] = useRecoilState(penaltyDocState);
@@ -44,14 +35,14 @@ const useHandlePenalty = (createdAt?: number) => {
   // 불참 멤버 - 월말까지 작성하지 않았을 시 페널티로 모임비 7,000원이 부과된다.
   const isOverdueEndOfThisMonth = createdAt > getLastDayOfMonth().getTime();
 
-  const penaltyPostKeyObj: PenaltyPost = {
+  const penaltyPostKeyObj: PenaltyPostType = {
     발제문: 'overdueSubjectMonths',
     '정리 기록': 'overdueHostReviewMonths',
     '불참 후기': 'overdueAbsenceMonths',
   };
 
   // 페널티 적용 달 업데이트
-  const updatePenaltyMonth = async (post: keyof PenaltyPost) => {
+  const updatePenaltyMonth = async (post: keyof PenaltyPostType) => {
     const prevPenaltyByUser = penaltyDoc[uid] as OverduePenaltyMonths;
 
     const penaltyType = penaltyPostKeyObj[post];
@@ -94,15 +85,15 @@ const useHandlePenalty = (createdAt?: number) => {
       }
       return acc;
     },
-    { overdueHostReviewMonths: {} as { [key: string]: Month[] } },
+    { overdueHostReviewMonths: {} as { [key: string]: ClubMonth[] } },
   );
 
   // 다음달 발제문 의무
   const thisMonthSubjectDuty = {
     overdueHostReviewMonths: Object.entries(
       penaltySubjectDutyUsers.overdueHostReviewMonths,
-    ).reduce((acc: { [key: string]: Month[] }, [key, values]) => {
-      if (values.includes(`${+thisMonth - 1}월` as Month)) {
+    ).reduce((acc: { [key: string]: ClubMonth[] }, [key, values]) => {
+      if (values.includes(`${+thisMonth - 1}월` as ClubMonth)) {
         acc[key] = values;
       }
       return acc;

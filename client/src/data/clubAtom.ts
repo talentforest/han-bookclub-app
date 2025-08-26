@@ -1,26 +1,15 @@
 import { atom, selectorFamily } from 'recoil';
 
-import { Book } from './bookAtom';
+import { MonthlyBookClub } from '@/types';
 import { thisYear } from '@/utils';
 import { v4 } from 'uuid';
-
-export type IBookClub = {
-  id?: string;
-  creatorId: string;
-  createdAt: string;
-  book: Book;
-  meeting: {
-    time: string;
-    place: string;
-  };
-};
 
 export const selectedYearAtom = atom<string>({
   key: `selectedYearAtom/${v4()}`,
   default: thisYear,
 });
 
-export const clubByYearAtom = atom<IBookClub[]>({
+export const clubByYearAtom = atom<MonthlyBookClub[]>({
   key: `clubByYearAtom/${v4()}`,
   default: [],
   effects: [

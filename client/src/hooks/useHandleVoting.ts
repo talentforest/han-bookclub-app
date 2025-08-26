@@ -8,24 +8,21 @@ import useAlertAskJoin from './useAlertAskJoin';
 import { getCollection, getDocument } from '@/api/firebase/getFbDoc';
 import { BOOK_VOTE, VOTED_ITEMS } from '@/appConstants';
 import { currAuthUserAtom } from '@/data/userAtom';
-import {
-  IBookVote,
-  IVoteItemsByMember,
-  initialBookVote,
-} from '@/data/voteAtom';
+import { initialBookVote } from '@/data/voteAtom';
 import { dbService } from '@/fbase';
+import { BookVote, BookVoteItemsByMember } from '@/types';
 import { formatDate, getVoteCountsById } from '@/utils';
 import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 
-interface Props {
+interface UseHandleVotingProps {
   collName: string;
   docId: string;
 }
 
-const useHandleVoting = ({ collName, docId }: Props) => {
+const useHandleVoting = ({ collName, docId }: UseHandleVotingProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const [currentVote, setCurrentVote] = useState<IBookVote>(initialBookVote);
+  const [currentVote, setCurrentVote] = useState<BookVote>(initialBookVote);
   const [selectedVoteItems, setSelectedVoteItems] = useState([]);
   const [votedItemsByMember, setVotedItemsByMember] = useState([]);
   const [isRevote, setIsRevoting] = useState(false);
@@ -105,9 +102,8 @@ const useHandleVoting = ({ collName, docId }: Props) => {
   };
 
   // 내가 투표완료한 항목
-  const myVotedItems: IVoteItemsByMember | undefined = votedItemsByMember?.find(
-    ({ id }) => id === uid,
-  );
+  const myVotedItems: BookVoteItemsByMember | undefined =
+    votedItemsByMember?.find(({ id }) => id === uid);
 
   // 항목별 투표수
   const voteCountsById = getVoteCountsById(

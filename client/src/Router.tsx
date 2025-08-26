@@ -25,11 +25,11 @@ import Setting from '@/routes/Setting';
 import Vote from '@/routes/Vote';
 import VoteDetail from '@/routes/VoteDetail';
 
-interface PropsType {
+interface RouterProps {
   isLoggedIn: boolean;
 }
 
-function Router({ isLoggedIn }: PropsType) {
+function Router({ isLoggedIn }: RouterProps) {
   const anonymous = authService.currentUser?.isAnonymous;
 
   return (

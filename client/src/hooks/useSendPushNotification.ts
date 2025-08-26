@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { DOMAIN } from '@/appConstants';
-import { PostType } from '@/components/post/PostHandleBtns';
 import { allUsersAtom, currAuthUserAtom } from '@/data/userAtom';
 import { getDeviceToken, sendMulticast, sendUnicast } from '@/fbase';
+import { PostTypeName } from '@/types';
 
 const useSendPushNotification = () => {
   const [isPending, setIsPending] = useState(false);
@@ -76,14 +76,14 @@ const useSendPushNotification = () => {
   };
 
   // 전체 유저에게 게시물 등록 알림 보내기
-  const sendPostNotification = async (type: PostType) => {
+  const sendPostNotification = async (type: PostTypeName) => {
     setIsPending(true);
 
     const title = `🔥새로운 ${type} 등록`;
     const postposition =
       type === '모임 후기' || type === '공유하고 싶은 문구' ? '를' : '을';
     const body = `${displayName}님이 ${type}${postposition} 작성하셨어요. 바로 확인해보세요!👀`;
-    const subPath: Partial<{ [key in PostType]: string }> = {
+    const subPath: Partial<{ [key in PostTypeName]: string }> = {
       발제문: '/bookclub/subjects',
       '정리 기록': '/bookclub/host-review',
       '모임 후기': '/bookclub',

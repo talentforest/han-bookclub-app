@@ -1,18 +1,12 @@
 import { atom, selector } from 'recoil';
 
+import { MonthlyFieldAndHost } from '@/types';
 import { thisMonth } from '@/utils';
 import { v4 } from 'uuid';
 
-export type IFieldAndHost = {
-  detail: string;
-  field: string;
-  month: number;
-  hosts: string[];
-};
-
 interface IFieldAndHostDoc {
   id?: string;
-  bookFieldAndHostList: IFieldAndHost[];
+  bookFieldAndHostList: MonthlyFieldAndHost[];
 }
 
 export const fieldAndHostAtom = atom<IFieldAndHostDoc>({
@@ -20,7 +14,7 @@ export const fieldAndHostAtom = atom<IFieldAndHostDoc>({
   default: { id: '', bookFieldAndHostList: [] },
 });
 
-export const nextMonthFieldAndHostSelector = selector<IFieldAndHost>({
+export const nextMonthFieldAndHostSelector = selector<MonthlyFieldAndHost>({
   key: 'clubByMonthSelector',
   get: ({ get }) => {
     const fieldAndHost = get(fieldAndHostAtom);

@@ -6,12 +6,12 @@ import BookThumbnail from '@/components/common/book/BookThumbnail';
 import UserName from '@/components/common/user/UserName';
 import PostFooter from '@/components/post/PostFooter';
 import PostHeader from '@/components/post/PostHeader';
-import { IDocument } from '@/data/documentsAtom';
+import { UserPost } from '@/types';
 
 interface RecommendedBookModalProps {
   collName: string;
   onToggleClick: () => void;
-  recommendedBookDetail: IDocument;
+  recommendedBookDetail: UserPost;
 }
 
 export default function RecommendedBookModal({

@@ -1,15 +1,14 @@
 import { FormEvent } from 'react';
 
-import { PostType } from './PostHandleBtns';
 import Modal from '@/components/common/Modal';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import QuillEditor from '@/components/common/editor/QuillEditor';
-import { IDocument } from '@/data/documentsAtom';
 import useEditDoc from '@/hooks/handleFbDoc/useEditDoc';
+import { PostTypeName, UserPost } from '@/types';
 
-interface Props {
-  postType: PostType;
-  post: IDocument;
+interface PostEditModalProps {
+  postType: PostTypeName;
+  post: UserPost;
   collName: string;
   onToggleClick: () => void;
 }
@@ -19,7 +18,7 @@ export default function PostEditModal({
   post,
   collName,
   onToggleClick,
-}: Props) {
+}: PostEditModalProps) {
   const { onEditedSubmit, editedText, setEditedText } = useEditDoc({
     post,
     collName,

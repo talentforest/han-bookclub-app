@@ -12,11 +12,10 @@ import Subtitle from '@/components/common/Subtitle';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import Section from '@/components/common/container/Section';
 import SwiperContainer from '@/components/common/container/SwiperContainer';
-import { Book } from '@/data/bookAtom';
-import { ChallengeRereading } from '@/data/challengeAtom';
 import { clubByYearAtom } from '@/data/clubAtom';
 import { allUsersAtom } from '@/data/userAtom';
 import MobileHeader from '@/layout/mobile/MobileHeader';
+import { BaseBookData, BookData, RereadingChallenge } from '@/types';
 import { thisYear } from '@/utils';
 import { PiShootingStarFill } from 'react-icons/pi';
 import { SwiperSlide } from 'swiper/react';
@@ -45,7 +44,7 @@ export default function Challenge() {
 
   const [challengeList, setChallengeList] = useState([]);
 
-  const [rereadingBook, setRereadingBook] = useState<Book | null>(null);
+  const [rereadingBook, setRereadingBook] = useState<BookData | null>(null);
 
   const [isChallengeModalOpen, setIsChallengeModalOpen] = useState(false);
 
@@ -127,7 +126,7 @@ export default function Challenge() {
 
   const clubBookList = clubByYear.filter(({ book }) => book.thumbnail !== '');
 
-  const toggleModalOpen = (book?: Book) => {
+  const toggleModalOpen = (book?: BookData) => {
     setIsChallengeModalOpen(prev => !prev);
     setRereadingBook(prevBook => book || prevBook);
   };
@@ -139,7 +138,7 @@ export default function Challenge() {
 
   const sortedChallengeByCounts = Object.entries(
     challengBookListByUser.reduce((acc, entry) => {
-      Object.entries(entry as ChallengeRereading).forEach(([title, value]) => {
+      Object.entries(entry as RereadingChallenge).forEach(([title, value]) => {
         if (!acc[title]) {
           acc[title] = {
             book: value.book,
@@ -154,7 +153,7 @@ export default function Challenge() {
       return acc;
     }, {}) as {
       [title in string]: {
-        book: Pick<Book, 'authors' | 'publisher' | 'thumbnail' | 'title'>;
+        book: BaseBookData;
         readers: number;
         counts: number;
       };

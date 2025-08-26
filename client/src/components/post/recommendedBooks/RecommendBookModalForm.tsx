@@ -12,10 +12,12 @@ import useAddDoc from '@/hooks/handleFbDoc/useAddDoc';
 import useSendPushNotification from '@/hooks/useSendPushNotification';
 import { formatDate, getFbRouteOfPost, thisYearMonthId } from '@/utils';
 
-interface Props {
+interface RecommendBookModalFormProps {
   onModalClose: () => void;
 }
-export default function RecommendBookModalForm({ onModalClose }: Props) {
+export default function RecommendBookModalForm({
+  onModalClose,
+}: RecommendBookModalFormProps) {
   const [text, setText] = useState('');
   const { uid } = useRecoilValue(currAuthUserAtom);
   const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));

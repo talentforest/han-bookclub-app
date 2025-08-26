@@ -1,15 +1,19 @@
 import { Link } from 'react-router-dom';
 
-import { PostType } from '@/components/post/PostHandleBtns';
+import { PostTypeName } from '@/types';
 import { FiPlus } from 'react-icons/fi';
 
-interface Props {
+interface PlusIconWithTextLinkProps {
   to: string;
   name: string;
-  state?: { id?: string; postType?: PostType; voteDocId?: number };
+  state?: { id?: string; postType?: PostTypeName; voteDocId?: number };
 }
 
-export default function PlusIconWithTextLink({ to, name, state }: Props) {
+export default function PlusIconWithTextLink({
+  to,
+  name,
+  state,
+}: PlusIconWithTextLinkProps) {
   return (
     <Link
       to={to}

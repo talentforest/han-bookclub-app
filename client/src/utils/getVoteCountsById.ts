@@ -1,8 +1,8 @@
-import { IBookVoteItem, IVoteItemsByMember } from 'data/voteAtom';
+import { BookVoteItem, BookVoteItemsByMember } from '@/types';
 
 export const getVoteCountsById = (
-  voteItems: IBookVoteItem[],
-  votedItemsByMember: IVoteItemsByMember[],
+  voteItems: BookVoteItem[],
+  votedItemsByMember: BookVoteItemsByMember[],
 ) => {
   const voteCountById = voteItems?.map(({ id, book: { title } }) => {
     const allVoteItems = votedItemsByMember

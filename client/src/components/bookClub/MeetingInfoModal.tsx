@@ -9,13 +9,14 @@ import Modal from '@/components/common/Modal';
 import Tag from '@/components/common/Tag';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
-import { IBookClub, clubByMonthSelector } from '@/data/clubAtom';
+import { clubByMonthSelector } from '@/data/clubAtom';
 import useHandleSchedule from '@/hooks/useHandleSchedule';
+import { MonthlyBookClub } from '@/types';
 import { thisYearMonthId } from '@/utils';
 
-interface Props {
+interface MeetingInfoModalProps {
   title: string;
-  value: Partial<IBookClub['meeting']>;
+  value: Partial<MonthlyBookClub['meeting']>;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -23,7 +24,7 @@ export default function MeetingInfoModal({
   title,
   value,
   setIsEditing,
-}: Props) {
+}: MeetingInfoModalProps) {
   const { meeting: schedule } = useRecoilValue(
     clubByMonthSelector(thisYearMonthId),
   );

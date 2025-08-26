@@ -9,12 +9,12 @@ import { dbService } from '@/fbase';
 import { existDocObj } from '@/utils';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 
-interface PropsType {
+interface UseDeleteDocProps {
   docId: string;
   collName: string;
 }
 
-const useDeleteDoc = ({ docId, collName }: PropsType) => {
+const useDeleteDoc = ({ docId, collName }: UseDeleteDocProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
   const [userExtraData, setUserExtraData] = useRecoilState(
     userDocAtomFamily(uid),

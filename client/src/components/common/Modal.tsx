@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 
 import { FiX } from 'react-icons/fi';
 
-interface Props {
+interface ModalProps {
   onToggleClick?: () => void;
   width?: string;
   title: string;
@@ -19,7 +19,7 @@ export default function Modal({
   children,
   className,
   headerType = 'normal',
-}: Props) {
+}: ModalProps) {
   const el = document.getElementById('modal');
 
   return ReactDOM.createPortal(

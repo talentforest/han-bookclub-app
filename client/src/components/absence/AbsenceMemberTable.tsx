@@ -16,7 +16,7 @@ import { dbService } from '@/fbase';
 import { existDocObj, thisYear } from '@/utils';
 import { doc, setDoc } from 'firebase/firestore';
 
-interface Props {
+interface AbsenceMemberTableProps {
   isMonth?: boolean;
   isFoldable?: boolean;
   isEditable?: boolean;
@@ -26,7 +26,7 @@ export default function AbsenceMemberTable({
   isFoldable,
   isMonth,
   isEditable,
-}: Props) {
+}: AbsenceMemberTableProps) {
   const [absenceList, setAbsenceList] = useRecoilState(absenceAtom);
 
   useEffect(() => {

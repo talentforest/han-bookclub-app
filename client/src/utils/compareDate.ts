@@ -1,6 +1,6 @@
-interface MonthData {
+type MonthData = {
   monthId: string;
-}
+};
 
 export function compareYearMonth(
   a: MonthData,

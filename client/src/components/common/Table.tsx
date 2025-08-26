@@ -2,18 +2,20 @@ import { Fragment, useEffect, useState } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import { AbsenceMonthByPersonal } from '@/components/absence/AbsenceMonthTable';
 import TableDataItem, { Label } from '@/components/common/TableDataItem';
-import { Absence } from '@/data/absenceAtom';
-import { IFieldAndHost } from '@/data/fieldAndHostAtom';
+import {
+  MonthlyAbsenceMembers,
+  MonthlyFieldAndHost,
+  UserAbsence,
+} from '@/types';
 import { thisMonth } from '@/utils';
 import { FiChevronDown, FiChevronUp, FiEdit } from 'react-icons/fi';
 
-type TableRecord = IFieldAndHost | Absence | AbsenceMonthByPersonal;
+type TableRecord = MonthlyFieldAndHost | MonthlyAbsenceMembers | UserAbsence;
 
 type LabelColor = 'yellow' | 'blue';
 
-interface Props {
+interface TableProps {
   color?: LabelColor;
   labels: Label[];
   recordsOfYear: TableRecord[];
@@ -29,7 +31,7 @@ export default function Table({
   onEditClick,
   isEditable,
   isFoldable,
-}: Props) {
+}: TableProps) {
   const [openTable, setOpenTable] = useState(false);
 
   const toggleTable = () => setOpenTable(prev => !prev);

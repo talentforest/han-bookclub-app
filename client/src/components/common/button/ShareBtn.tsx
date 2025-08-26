@@ -5,7 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { currAuthUserAtom } from '@/data/userAtom';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 
-interface IShareButtonProps {
+interface ShareBtnProps {
   title: string;
   description: string;
   path: string;
@@ -13,13 +13,7 @@ interface IShareButtonProps {
   time?: string;
 }
 
-const ShareBtn = ({
-  title,
-  description,
-  path,
-  place,
-  time,
-}: IShareButtonProps) => {
+const ShareBtn = ({ title, description, path, place, time }: ShareBtnProps) => {
   const { uid, displayName, photoURL } = useRecoilValue(currAuthUserAtom);
 
   if (!window.Kakao.isInitialized()) {

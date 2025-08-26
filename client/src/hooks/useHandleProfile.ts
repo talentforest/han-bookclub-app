@@ -2,9 +2,10 @@ import { useState } from 'react';
 
 import { useRecoilState } from 'recoil';
 
-import { BookField, USER } from '@/appConstants';
+import { USER } from '@/appConstants';
 import { currAuthUserAtom, userDocAtomFamily } from '@/data/userAtom';
 import { authService, dbService, storageService } from '@/fbase';
+import { ClubBookField } from '@/types';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
@@ -83,7 +84,7 @@ const useHandleProfile = () => {
     const { name } = event.currentTarget;
     const selectedField = { id, name };
     const alreadySelected = userDoc.favoriteBookField.some(
-      (item: BookField) => item.id === id,
+      (item: ClubBookField) => item.id === id,
     );
     if (!alreadySelected) {
       const totalArray = [...userDoc.favoriteBookField, selectedField];
@@ -99,7 +100,7 @@ const useHandleProfile = () => {
     setUserDoc(prevArr => ({
       ...prevArr,
       favoriteBookField: prevArr.favoriteBookField.filter(
-        (ele: BookField) => ele.id !== id,
+        (ele: ClubBookField) => ele.id !== id,
       ),
     }));
   };

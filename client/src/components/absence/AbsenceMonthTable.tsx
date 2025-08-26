@@ -10,15 +10,10 @@ import Modal from '@/components/common/Modal';
 import Table from '@/components/common/Table';
 import { absenceAtom } from '@/data/absenceAtom';
 import useHandleAbsence from '@/hooks/useHandleAbsence';
+import { UserAbsence } from '@/types';
 import { existDocObj } from '@/utils';
 
-export type AbsenceMonthByPersonal = {
-  month: number;
-  onceAbsenceMonth: boolean;
-  breakMonth: boolean;
-};
-
-interface Props {
+interface AbsenceMonthTableProps {
   userId: string;
   isFoldable?: boolean;
   isEditable?: boolean;
@@ -28,7 +23,7 @@ export default function AbsenceMonthTable({
   userId,
   isFoldable = false,
   isEditable = false,
-}: Props) {
+}: AbsenceMonthTableProps) {
   const [absenceList, setAbsenceList] = useRecoilState(absenceAtom);
 
   const {
@@ -45,16 +40,15 @@ export default function AbsenceMonthTable({
     }
   }, [absenceList]);
 
-  const absenceMonths: AbsenceMonthByPersonal[] =
-    absenceList.absenceMembers?.map(
-      ({ month, onceAbsenceMembers, breakMembers }) => {
-        return {
-          month,
-          onceAbsenceMonth: onceAbsenceMembers.includes(userId),
-          breakMonth: breakMembers.includes(userId),
-        };
-      },
-    );
+  const absenceMonths: UserAbsence[] = absenceList.absenceMembers?.map(
+    ({ month, onceAbsenceMembers, breakMembers }) => {
+      return {
+        month,
+        onceAbsenceMonth: onceAbsenceMembers.includes(userId),
+        breakMonth: breakMembers.includes(userId),
+      };
+    },
+  );
 
   return (
     <>

@@ -1,16 +1,20 @@
 import { ReactNode } from 'react';
 
 import BookThumbnail from '@/components/common/book/BookThumbnail';
-import { IBookVoteItem } from '@/data/voteAtom';
+import { BookVoteItem } from '@/types';
 import { BiSolidBadgeCheck } from 'react-icons/bi';
 
-interface Props {
-  voteItem: IBookVoteItem;
+interface VoteBookItemProps {
+  voteItem: BookVoteItem;
   selected?: boolean;
   children?: ReactNode;
 }
 
-export default function VoteBookItem({ voteItem, children, selected }: Props) {
+export default function VoteBookItem({
+  voteItem,
+  children,
+  selected,
+}: VoteBookItemProps) {
   const {
     book: { title, thumbnail },
   } = voteItem;

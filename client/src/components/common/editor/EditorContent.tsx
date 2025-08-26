@@ -1,9 +1,9 @@
-interface Props {
+interface EditorContentProps {
   text: string;
   lineClamp?: number;
 }
 
-export default function EditorContent({ text, lineClamp }: Props) {
+export default function EditorContent({ text, lineClamp }: EditorContentProps) {
   const lineClampStyle = `line-clamp-[${lineClamp}]`;
 
   return (

@@ -2,18 +2,18 @@ import { Fragment } from 'react';
 
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
 import DottedDividingLine from '@/components/common/DottedDividingLine';
-import { Book } from '@/data/bookAtom';
+import { BookData } from '@/types';
 import { FiCheckCircle } from 'react-icons/fi';
 
-interface Props {
-  searchList: Book[];
-  onSelectBtnClick: (book: Book) => void;
+interface SearchedBookListProps {
+  searchList: BookData[];
+  onSelectBtnClick: (book: BookData) => void;
 }
 
 export default function SearchedBookList({
   searchList,
   onSelectBtnClick,
-}: Props) {
+}: SearchedBookListProps) {
   return (
     <ul className="mt-4 h-64 overflow-scroll">
       {searchList.map((book, index) => (

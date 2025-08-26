@@ -1,11 +1,14 @@
 import { FaCheckCircle, FaCircle } from 'react-icons/fa';
 
-interface Props {
+interface VoteBookItemBtnProps {
   selected: boolean;
   onVoteItemClick: () => void;
 }
 
-export default function VoteBookItemBtn({ selected, onVoteItemClick }: Props) {
+export default function VoteBookItemBtn({
+  selected,
+  onVoteItemClick,
+}: VoteBookItemBtnProps) {
   return (
     <button
       type="button"

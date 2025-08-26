@@ -1,16 +1,16 @@
 import { useState } from 'react';
 
-import { IDocument } from '@/data/documentsAtom';
 import { dbService } from '@/fbase';
 import useAlertAskJoin from '@/hooks/useAlertAskJoin';
+import { UserPost } from '@/types';
 import { doc, updateDoc } from 'firebase/firestore';
 
-interface PropsType {
-  post: IDocument;
+interface UseEditDocProps {
+  post: UserPost;
   collName: string;
 }
 
-const useEditDoc = ({ post, collName }: PropsType) => {
+const useEditDoc = ({ post, collName }: UseEditDocProps) => {
   const [editedText, setEditedText] = useState(post.text);
 
   const docRef = doc(dbService, collName, post.id);

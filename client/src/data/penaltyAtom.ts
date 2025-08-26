@@ -1,36 +1,11 @@
 import { atom, selector } from 'recoil';
 
+import { UserPenalty } from '@/types';
 import { v4 } from 'uuid';
 
-export type Month =
-  | '1월'
-  | '2월'
-  | '3월'
-  | '4월'
-  | '5월'
-  | '6월'
-  | '7월'
-  | '8월'
-  | '9월'
-  | '10월'
-  | '11월'
-  | '12월';
-
-interface PenaltyDoc {
-  id: string;
-  createdAt: string;
-  [key: string]: OverduePenaltyMonths | string | number;
-}
-
-export interface OverduePenaltyMonths {
-  overdueSubjectMonths: Month[];
-  overdueHostReviewMonths: Month[];
-  overdueAbsenceMonths: Month[];
-}
-
-export const penaltyDocState = atom<PenaltyDoc>({
+export const penaltyDocState = atom<UserPenalty>({
   key: `penaltyDoc/${v4()}`,
-  default: {} as PenaltyDoc,
+  default: {} as UserPenalty,
 });
 
 export const usersPenaltyList = selector({

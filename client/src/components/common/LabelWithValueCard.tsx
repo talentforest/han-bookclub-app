@@ -5,13 +5,17 @@ import UserName from '@/components/common/user/UserName';
 import { formatDate } from '@/utils';
 import { FiEdit3 } from 'react-icons/fi';
 
-interface Props {
+interface LabelWithValueCardProps {
   label: string;
   value: string[] | string;
   editable: boolean;
 }
 
-export default function LabelWithValueCard({ label, value, editable }: Props) {
+export default function LabelWithValueCard({
+  label,
+  value,
+  editable,
+}: LabelWithValueCardProps) {
   const [openModal, setOpenModal] = useState(false);
 
   const onEditClick = () => setOpenModal(prev => !prev);

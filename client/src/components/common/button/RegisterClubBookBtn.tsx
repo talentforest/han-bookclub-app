@@ -6,10 +6,10 @@ import { getCollection } from '@/api/firebase/getFbDoc';
 import { setDocument } from '@/api/firebase/setFbDoc';
 import { BOOKCLUB_THIS_YEAR } from '@/appConstants';
 import SquareBtn from '@/components/common/button/SquareBtn';
-import { Book } from '@/data/bookAtom';
 import { clubByYearAtom } from '@/data/clubAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 import useSendPushNotification from '@/hooks/useSendPushNotification';
+import { BookData } from '@/types';
 import {
   formatDate,
   getNextMonthId,
@@ -20,15 +20,15 @@ import {
   thisYearMonthId,
 } from '@/utils';
 
-interface PropsType {
-  searchedBook: Book;
+interface RegisterClubBookBtnProps {
+  searchedBook: BookData;
   registerMonthType: 'thisMonth' | 'nextMonth';
 }
 
 const RegisterClubBookBtn = ({
   searchedBook,
   registerMonthType,
-}: PropsType) => {
+}: RegisterClubBookBtnProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const [thisYearBookClubInfos, setThisYearBookClubInfos] =

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useRecoilValue } from 'recoil';
 
-import { REVIEW } from '@/appConstants';
+import { REVIEWS } from '@/appConstants';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import { clubByMonthSelector } from '@/data/clubAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
@@ -11,11 +11,11 @@ import useSendPushNotification from '@/hooks/useSendPushNotification';
 import { formatDate, getFbRouteOfPost, thisYearMonthId } from '@/utils';
 import { BiCheckCircle } from 'react-icons/bi';
 
-interface PropsType {
+interface MeetingReviewFormProps {
   docMonth: string;
 }
 
-const MeetingReviewForm = ({ docMonth }: PropsType) => {
+const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
   const [text, setText] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
 
@@ -23,7 +23,7 @@ const MeetingReviewForm = ({ docMonth }: PropsType) => {
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const collName = getFbRouteOfPost(docMonth, REVIEW);
+  const collName = getFbRouteOfPost(docMonth, REVIEWS);
 
   const docData = {
     createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),

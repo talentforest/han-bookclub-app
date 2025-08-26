@@ -1,10 +1,6 @@
 import GuideLine from '../GuideLine';
 
-export interface AbsenceType {
-  type: string;
-}
-
-interface Props {
+interface LabeledCheckBoxProps {
   label: string;
   checked: boolean;
   checkedBoxHandler: (label: string, checked: boolean) => void;
@@ -16,7 +12,7 @@ export default function LabeledCheckBox({
   checked,
   checkedBoxHandler,
   detail,
-}: Props) {
+}: LabeledCheckBoxProps) {
   const checkHandler = async (event: React.FormEvent<HTMLInputElement>) => {
     const {
       currentTarget: { checked },

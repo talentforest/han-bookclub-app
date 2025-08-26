@@ -6,21 +6,17 @@ import useAlertAskJoin from './useAlertAskJoin';
 import useSendPushNotification from './useSendPushNotification';
 import { BOOK_VOTE } from '@/appConstants';
 import { currAuthUserAtom } from '@/data/userAtom';
-import {
-  IBookVote,
-  IBookVoteItem,
-  bookVotesState,
-  initialBookVoteItem,
-} from '@/data/voteAtom';
+import { bookVotesState, initialBookVoteItem } from '@/data/voteAtom';
 import { dbService } from '@/fbase';
+import { BookVote, BookVoteItem } from '@/types';
 import { formatDate } from '@/utils';
 import { doc, setDoc } from 'firebase/firestore';
 
-interface Props {
+interface UseCreateBookVoteBoxProps {
   onToggleModal: () => void;
 }
 
-const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
+const useCreateBookVoteBox = ({ onToggleModal }: UseCreateBookVoteBoxProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const bookVotes = useRecoilValue(bookVotesState);
@@ -33,7 +29,7 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
     selectReason: '',
   };
 
-  const initialVote: IBookVote = {
+  const initialVote: BookVote = {
     id: `${(allVotesLength + 1).toString().padStart(3, '0')}`,
     title: '',
     createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
@@ -90,7 +86,7 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
   };
 
   const onAddVoteItemBtn = () => {
-    const newVoteItems: { voteItems: IBookVoteItem[] } = {
+    const newVoteItems: { voteItems: BookVoteItem[] } = {
       voteItems: [
         ...newVote.voteItems,
         {
@@ -103,7 +99,7 @@ const useCreateBookVoteBox = ({ onToggleModal }: Props) => {
   };
 
   const onDeleteVoteItemClick = (voteId: number) => {
-    const filteredVoteItems: IBookVoteItem[] = newVote.voteItems.filter(
+    const filteredVoteItems: BookVoteItem[] = newVote.voteItems.filter(
       ({ id }) => id !== voteId,
     );
     setNewVote(prev => {

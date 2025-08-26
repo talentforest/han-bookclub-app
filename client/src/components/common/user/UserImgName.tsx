@@ -2,12 +2,15 @@ import { MouseEvent } from 'react';
 
 import { FiUser } from 'react-icons/fi';
 
-interface Props {
+interface UserImgNameProps {
   photoURL: string;
   displayName: string;
 }
 
-export default function UserImgName({ photoURL, displayName }: Props) {
+export default function UserImgName({
+  photoURL,
+  displayName,
+}: UserImgNameProps) {
   const onContextMenu = (e: MouseEvent<HTMLImageElement>) => {
     e.preventDefault();
     e.stopPropagation();

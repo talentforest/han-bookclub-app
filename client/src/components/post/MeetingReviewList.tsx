@@ -3,22 +3,24 @@ import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { getCollection } from '@/api/firebase/getFbDoc';
-import { REVIEW } from '@/appConstants';
+import { REVIEWS } from '@/appConstants';
 import EmptyCard from '@/components/common/container/EmptyCard';
 import Post from '@/components/post/Post';
 import PostFooter from '@/components/post/PostFooter';
 import { meetingReviewsState } from '@/data/documentsAtom';
 import { getFbRouteOfPost, thisYearMonthId } from '@/utils';
 
-interface Props {
+interface MeetingReviewListProps {
   yearMonthId?: string;
 }
 
-const MeetingReviewList = ({ yearMonthId = thisYearMonthId }: Props) => {
+const MeetingReviewList = ({
+  yearMonthId = thisYearMonthId,
+}: MeetingReviewListProps) => {
   const [meetingReviews, setMeetingReviews] =
     useRecoilState(meetingReviewsState);
 
-  const collName = getFbRouteOfPost(yearMonthId, REVIEW);
+  const collName = getFbRouteOfPost(yearMonthId, REVIEWS);
 
   useEffect(() => {
     getCollection(collName, setMeetingReviews);

@@ -1,9 +1,9 @@
 import LikeBtnWithPeopleInfo from '@/components/common/LikeBtnWithPeopleInfo';
-import { IDocument } from '@/data/documentsAtom';
+import { UserPost } from '@/types';
 import { formatDate } from '@/utils';
 
-interface Props {
-  post?: IDocument;
+interface PostFooterProps {
+  post?: UserPost;
   createdAt: string;
   footerType?: 'likes';
   collName?: string;
@@ -14,7 +14,7 @@ export default function PostFooter({
   createdAt,
   footerType,
   collName,
-}: Props) {
+}: PostFooterProps) {
   return (
     <footer className="mt-4 flex items-center justify-between">
       <span className="text-sm text-gray1">{formatDate(createdAt)}</span>

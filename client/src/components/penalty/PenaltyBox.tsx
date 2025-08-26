@@ -1,17 +1,17 @@
 import { ReactNode, useState } from 'react';
 
 import UserName from '@/components/common/user/UserName';
-import { Month } from '@/data/penaltyAtom';
+import { ClubMonth } from '@/types';
 import { FiInfo } from 'react-icons/fi';
 
-interface Props {
+interface PenaltyBoxProps {
   title:
     | `${string} 의무 발제 부과`
     | '의무 발제달'
     | '누적 페널티비'
     | '총 페널티비';
   dutySubjectUsers?: string[];
-  subjectDutyMonths?: Month[];
+  subjectDutyMonths?: ClubMonth[];
   totalCost?: number;
   children?: ReactNode;
 }
@@ -22,7 +22,7 @@ export default function PenaltyBox({
   subjectDutyMonths,
   totalCost,
   children,
-}: Props) {
+}: PenaltyBoxProps) {
   const [isOpenInfo, setIsOpenInfo] = useState(false);
 
   const onInfoClick = () => setIsOpenInfo(prev => !prev);

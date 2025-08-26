@@ -1,58 +1,10 @@
 import { atom } from 'recoil';
 
+import { BookVote, BookVoteItem } from '@/types';
 import { formatDate } from '@/utils';
 import { v4 } from 'uuid';
 
-export interface IVoteItem {
-  id: number;
-  item: string;
-  voteCount: number;
-  selectReason: string;
-}
-
-export interface IVote {
-  vote: {
-    title: string;
-    voteItem: IVoteItem[];
-  };
-  createdAt: string;
-  creatorId: string;
-  deadline: string;
-  id: string;
-  voteId: number;
-}
-
-export interface IBookVoteItem {
-  id: number;
-  selectReason: string;
-  book: {
-    title: string;
-    thumbnail: string;
-    url: string;
-  };
-}
-
-export interface IVoteCountById {
-  id: number;
-  voteCount: number;
-  title: string;
-}
-
-export interface IVoteItemsByMember {
-  votedItem: { id: number; title: string }[];
-  createdAt: string;
-}
-
-export interface IBookVote {
-  id: string;
-  title: string;
-  creatorId: string;
-  createdAt: string;
-  deadline: string;
-  voteItems: IBookVoteItem[];
-}
-
-export const initialBookVote: IBookVote = {
+export const initialBookVote: BookVote = {
   id: '',
   title: '',
   creatorId: '',
@@ -61,7 +13,7 @@ export const initialBookVote: IBookVote = {
   voteItems: [],
 };
 
-export const initialBookVoteItem: IBookVoteItem = {
+export const initialBookVoteItem: BookVoteItem = {
   id: 0,
   selectReason: '',
   book: {
@@ -71,12 +23,12 @@ export const initialBookVoteItem: IBookVoteItem = {
   },
 };
 
-export const bookVotesState = atom<IBookVote[]>({
+export const bookVotesState = atom<BookVote[]>({
   key: `bookVoteDocs/${v4()}`,
   default: null,
 });
 
-export const voteItemState = atom<IVoteItem[]>({
+export const voteItemState = atom<BookVoteItem[]>({
   key: `voteItem${v4()}`,
   default: [],
 });

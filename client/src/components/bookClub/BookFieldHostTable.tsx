@@ -17,7 +17,7 @@ import { fieldAndHostAtom } from '@/data/fieldAndHostAtom';
 import useHandleFieldHost from '@/hooks/useHandleFieldHost';
 import { existDocObj, thisYear } from '@/utils';
 
-interface Props {
+interface BookFieldHostTableProps {
   isMonth?: boolean;
   isFoldable?: boolean;
   isEditable?: boolean;
@@ -27,7 +27,7 @@ const BookFieldHostTable = ({
   isMonth = false,
   isEditable = false,
   isFoldable = false,
-}: Props) => {
+}: BookFieldHostTableProps) => {
   const [bookFieldHostDoc, setBookFieldHostDoc] =
     useRecoilState(fieldAndHostAtom);
 

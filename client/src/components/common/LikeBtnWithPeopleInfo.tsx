@@ -4,17 +4,20 @@ import { useRecoilValue } from 'recoil';
 
 import LikeBtn from '@/components/common/button/LikeBtn';
 import UserName from '@/components/common/user/UserName';
-import { IDocument } from '@/data/documentsAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 import useHandleLike from '@/hooks/useHandleLike';
+import { UserPost } from '@/types';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 
-interface Props {
-  post: IDocument;
+interface LikeBtnWithPeopleInfoProps {
+  post: UserPost;
   collName?: string;
 }
 
-const LikeBtnWithPeopleInfo = ({ post, collName }: Props) => {
+const LikeBtnWithPeopleInfo = ({
+  post,
+  collName,
+}: LikeBtnWithPeopleInfoProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const myPost = uid === post.creatorId;

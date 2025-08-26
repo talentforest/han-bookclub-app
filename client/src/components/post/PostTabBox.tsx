@@ -10,20 +10,17 @@ import ChevronRightLinkBtn from '@/components/common/button/ChevronRightLinkBtn'
 import PlusIconWithTextLink from '@/components/common/button/PlusIconLinkBtn';
 import SwiperContainer from '@/components/common/container/SwiperContainer';
 import Post from '@/components/post/Post';
-import {
-  IDocument,
-  hostReviewState,
-  subjectsState,
-} from '@/data/documentsAtom';
+import { hostReviewState, subjectsState } from '@/data/documentsAtom';
 import useAlertAskJoin from '@/hooks/useAlertAskJoin';
+import { PostTypeName, UserPost } from '@/types';
 import { getFbRouteOfPost } from '@/utils';
 import { SwiperSlide } from 'swiper/react';
 
-interface Props {
+interface PostTabBoxProps {
   yearMonthId: string;
 }
 
-type PostType = '발제문' | '정리 기록';
+type TabPostTypeValue = Extract<PostTypeName, '발제문' | '정리 기록'>;
 
 const swiperOptions = {
   spaceBetween: 8,
@@ -33,21 +30,24 @@ const swiperOptions = {
   autoplay: false,
 };
 
-export default function PostTabBox({ yearMonthId }: Props) {
-  const [currTab, setCurrTab] = useState<PostType>('발제문');
-  const [hostReview, setHostReview] = useRecoilState(hostReviewState);
+export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
+  const [currTab, setCurrTab] = useState<TabPostTypeValue>('발제문');
+  const [hostReviewList, setHostReviewList] = useRecoilState(hostReviewState);
   const [subjectList, setSubjectList] = useRecoilState(subjectsState);
 
   useEffect(() => {
-    getCollection(getFbRouteOfPost(yearMonthId, HOST_REVIEW), setHostReview);
+    getCollection(
+      getFbRouteOfPost(yearMonthId, HOST_REVIEW),
+      setHostReviewList,
+    );
     getCollection(getFbRouteOfPost(yearMonthId, SUBJECTS), setSubjectList);
   }, [yearMonthId, subjectList?.length]);
 
   const { pathname } = useLocation();
 
   const postsInfo: {
-    [key in PostType]: {
-      postList: IDocument[];
+    [key in TabPostTypeValue]: {
+      postList: UserPost[];
       linkTo: 'subjects' | 'host-review';
       access: '모두' | '발제자만';
     };
@@ -58,7 +58,7 @@ export default function PostTabBox({ yearMonthId }: Props) {
       access: '모두',
     },
     '정리 기록': {
-      postList: hostReview,
+      postList: hostReviewList,
       linkTo: 'host-review',
       access: '발제자만',
     },
@@ -71,7 +71,7 @@ export default function PostTabBox({ yearMonthId }: Props) {
   return (
     <div className="w-full">
       <ul className="flex gap-1">
-        {(Object.keys(postsInfo) as PostType[]).map(tab => (
+        {(Object.keys(postsInfo) as TabPostTypeValue[]).map(tab => (
           <li key={tab}>
             <button
               onClick={() => setCurrTab(tab)}

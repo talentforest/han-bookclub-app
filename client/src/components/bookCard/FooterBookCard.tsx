@@ -1,9 +1,9 @@
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
-import { Book, IRecommendedBook } from '@/data/bookAtom';
+import { BaseBookData, BookData } from '@/types';
 
 interface FooterBookCardProps {
-  book: Book | Partial<IRecommendedBook>;
+  book: BookData | Partial<BaseBookData>;
   className?: string;
 }
 
@@ -12,6 +12,8 @@ export default function FooterBookCard({
   className,
 }: FooterBookCardProps) {
   const { authors, publisher, thumbnail, title } = book;
+
+  console.log(authors, publisher);
 
   return (
     <div className={`flex w-full items-center gap-3 py-1 ${className}`}>

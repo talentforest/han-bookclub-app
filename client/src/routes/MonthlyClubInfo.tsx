@@ -8,21 +8,16 @@ import ChevronRightLinkBtn from '@/components/common/button/ChevronRightLinkBtn'
 import Section from '@/components/common/container/Section';
 import { currAuthUserAtom } from '@/data/userAtom';
 import MobileHeader from '@/layout/mobile/MobileHeader';
+import { BookClubInfo } from '@/types';
 import { thisYear } from '@/utils';
-
-type BookClubInfoType =
-  | 'fieldAndHost'
-  | 'absence'
-  | 'challenge'
-  | 'yearClosing';
 
 export default function MonthlyClubInfo() {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const { state } = useLocation() as { state: BookClubInfoType };
+  const { state } = useLocation() as { state: BookClubInfo };
 
   const infoPerType: {
-    [key in BookClubInfoType]: {
+    [key in BookClubInfo]: {
       name: '월별 독서분야' | '모임불참' | '챌린지' | '연말결산';
     };
   } = {

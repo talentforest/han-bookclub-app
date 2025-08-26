@@ -1,42 +1,11 @@
 import { atom, atomFamily } from 'recoil';
 
 import { getCollection, getDocument } from '@/api/firebase/getFbDoc';
-import { BookField, USER } from '@/appConstants';
+import { USER } from '@/appConstants';
 import { authService } from '@/fbase';
+import { FirebaseAuthUser, UserProfile } from '@/types';
 import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
 import { v4 } from 'uuid';
-
-export type IAuthUser = {
-  uid: string;
-  email: string;
-  displayName: string;
-  photoURL: string;
-};
-
-export interface IUserPostDocId {
-  docId: string;
-  monthId: string;
-}
-
-export interface IUserPosts {
-  hostReviews: IUserPostDocId[];
-  subjects: IUserPostDocId[];
-  reviews: IUserPostDocId[];
-  recommendedBooks: IUserPostDocId[];
-  sentences: IUserPostDocId[];
-}
-
-export interface IUser {
-  id?: string;
-  name: string;
-  displayName: string;
-  email: string;
-  photoURL: string;
-  favoriteBookField: BookField[];
-  tagColor: string;
-  notification?: boolean;
-  userRecords: IUserPosts;
-}
 
 const auth = getAuth();
 
@@ -50,7 +19,7 @@ export const refreshUserAtom = atom({
   ],
 });
 
-export const allUsersAtom = atom<IUser[]>({
+export const allUsersAtom = atom<UserProfile[]>({
   key: `allUsers/${v4}`,
   default: [],
   effects: [
@@ -60,7 +29,7 @@ export const allUsersAtom = atom<IUser[]>({
   ],
 });
 
-export const currAuthUserAtom = atom<IAuthUser | null>({
+export const currAuthUserAtom = atom<FirebaseAuthUser | null>({
   key: `currUser/${v4}`,
   default: null,
   effects: [
@@ -102,9 +71,9 @@ export const currAuthUserAtom = atom<IAuthUser | null>({
 // });
 
 // 다른 유저의 문서정보
-export const userDocAtomFamily = atomFamily<IUser | null, string>({
+export const userDocAtomFamily = atomFamily<UserProfile | null, string>({
   key: `user/${v4}`,
-  default: {} as IUser,
+  default: {} as UserProfile,
   effects: (uid: string) => [
     ({ setSelf }) => {
       if (uid) {

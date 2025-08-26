@@ -3,14 +3,14 @@ import { useLocation } from 'react-router-dom';
 import Tag from '@/components/common/Tag';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
-import { IBookClub } from '@/data/clubAtom';
+import { MonthlyBookClub } from '@/types';
 import { cutLetter, formatDate } from '@/utils';
 
-interface PropsType {
-  document: IBookClub;
+interface PreviousBookCardProps {
+  document: MonthlyBookClub;
 }
 
-const PreviousBookCard = ({ document }: PropsType) => {
+const PreviousBookCard = ({ document }: PreviousBookCardProps) => {
   const { pathname } = useLocation();
 
   const {

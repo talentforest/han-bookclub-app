@@ -19,18 +19,15 @@ import MeetingReviewList from '@/components/post/MeetingReviewList';
 import PostTabBox from '@/components/post/PostTabBox';
 import RecommendedBookSwiperContainer from '@/components/post/recommendedBooks/RecommendedBookSwiperContainer';
 import { absenceAtom, attendanceSelector } from '@/data/absenceAtom';
-import {
-  IBookClub,
-  clubByMonthSelector,
-  clubByYearAtom,
-} from '@/data/clubAtom';
+import { clubByMonthSelector, clubByYearAtom } from '@/data/clubAtom';
 import MobileHeader from '@/layout/mobile/MobileHeader';
+import { MonthlyBookClub } from '@/types';
 import { existDocObj, formatDate, thisYearMonthId } from '@/utils';
 
 type LocationState = {
   state: {
     docId: string;
-    docData?: IBookClub;
+    docData?: MonthlyBookClub;
   };
 };
 

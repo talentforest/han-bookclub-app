@@ -10,13 +10,17 @@ export type Label =
   | '일회불참'
   | '모임정지';
 
-interface Props {
+interface TableDataItemProps {
   data: string | number | boolean | string[];
   isMulti?: boolean;
   label?: Label;
 }
 
-export default function TableDataItem({ isMulti = false, data, label }: Props) {
+export default function TableDataItem({
+  isMulti = false,
+  data,
+  label,
+}: TableDataItemProps) {
   const className = `py-3.5 text-center text-sm ${data ? 'absence' : 'attendance'}`;
 
   return (

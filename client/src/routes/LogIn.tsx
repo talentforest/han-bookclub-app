@@ -5,11 +5,11 @@ import Input from '@/components/common/input/Input';
 import { authService } from '@/fbase';
 import useLogIn from '@/hooks/useLogIn';
 
-interface ILoginProps {
+interface LoginProps {
   isLoggedIn: boolean;
 }
 
-const LogIn = ({ isLoggedIn }: ILoginProps) => {
+const LogIn = ({ isLoggedIn }: LoginProps) => {
   const anonymous = authService.currentUser?.isAnonymous;
   const {
     email,

@@ -1,28 +1,23 @@
 import { atom } from 'recoil';
 
+import {
+  ChallengeSentence,
+  CompleteReadingChallenge,
+  RereadingChallenge,
+} from '@/types';
 import { v4 } from 'uuid';
 
-export type ChallengeRereading = {
-  [key: string]: {
-    book: {
-      title: string;
-      thumbnail: string;
-      publisher: string;
-      authors: string[];
-    };
-    impressionList: { id: number; text: string; createdAt: string }[];
-    counts: number;
-  };
-};
+export const rereadingChallengeState = atom<RereadingChallenge>({
+  key: `rereadingChallenge/${v4()}`,
+  default: null,
+});
 
-export type ChallengeRank = {
-  creatorId: string;
-  id: string;
-  rank: number;
-  totalCounts: number;
-};
+export const completeReadingChallengeState = atom<CompleteReadingChallenge>({
+  key: `completeReadingChallenge/${v4()}`,
+  default: null,
+});
 
-export const challengeRereadingState = atom<ChallengeRereading>({
-  key: `challengeRereading${v4()}`,
+export const sentencesState = atom<ChallengeSentence[]>({
+  key: `sentences/${v4()}`,
   default: null,
 });

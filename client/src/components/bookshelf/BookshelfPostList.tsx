@@ -1,18 +1,22 @@
 import PostBookThumbnailBox from '@/components/post/PostBookThumbnailBox';
-import { PostType } from '@/components/post/PostHandleBtns';
-import { IUserPostDocId, IUserPosts } from '@/data/userAtom';
+import { PostTypeName, UserPostDocId, UserRecords } from '@/types';
 
-interface Props {
-  userRecords: IUserPosts;
-  postType: PostType;
+interface BookshelfPostListProps {
+  userRecords: UserRecords;
+  postType: PostTypeName;
 }
 
-export default function BookshelfPostList({ userRecords, postType }: Props) {
+export default function BookshelfPostList({
+  userRecords,
+  postType,
+}: BookshelfPostListProps) {
   const userSubjects = userRecords?.subjects || [];
   const userHostReviews = userRecords?.hostReviews || [];
   const userReviews = userRecords?.reviews || [];
 
-  const postList: Partial<{ [key in PostType]: IUserPostDocId[] }> = {
+  const postList: Partial<{
+    [key in PostTypeName]: UserPostDocId[];
+  }> = {
     발제문: userSubjects,
     '모임 후기': userReviews,
     '정리 기록': userHostReviews,

@@ -10,23 +10,23 @@ import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import PageWithPercent from '@/components/common/book/PageWithPercent';
 import UserName from '@/components/common/user/UserName';
-import { IChallengeBook } from '@/data/bookAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 import { dbService } from '@/fbase';
+import { CompleteReadingChallengeBook } from '@/types';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { FiTrash2 } from 'react-icons/fi';
 
-interface Props {
+interface ChallengeBookCardProps {
   docId: string;
   creatorId: string;
-  challengeBook: IChallengeBook;
+  challengeBook: CompleteReadingChallengeBook;
 }
 
 export default function ChallengeBookCard({
   docId,
   creatorId,
   challengeBook,
-}: Props) {
+}: ChallengeBookCardProps) {
   const { title, thumbnail, authors, publisher, wholePage, currentPage } =
     challengeBook;
 

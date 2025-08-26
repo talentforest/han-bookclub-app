@@ -1,8 +1,8 @@
-interface ILoadingProps {
+interface LoadingProps {
   className?: string;
 }
 
-const Loading = ({ className }: ILoadingProps) => {
+const Loading = ({ className }: LoadingProps) => {
   return (
     <div
       className={`col-span-full flex w-[70vh] items-center justify-center ${className}`}

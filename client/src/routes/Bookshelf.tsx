@@ -14,16 +14,18 @@ import Subtitle from '@/components/common/Subtitle';
 import Tag from '@/components/common/Tag';
 import Section from '@/components/common/container/Section';
 import UserImgName from '@/components/common/user/UserImgName';
-import { PostType } from '@/components/post/PostHandleBtns';
 import { attendanceSelector } from '@/data/absenceAtom';
-import { challengeState } from '@/data/bookAtom';
+import { completeReadingChallengeState } from '@/data/challengeAtom';
 import { allUsersAtom, currAuthUserAtom } from '@/data/userAtom';
 import MobileHeader from '@/layout/mobile/MobileHeader';
+import { PostTypeName } from '@/types';
 import { thisMonth } from '@/utils';
 import { FiSettings } from 'react-icons/fi';
 
 const Bookshelf = () => {
-  const [challenge, setChallenge] = useRecoilState(challengeState);
+  const [challenge, setChallenge] = useRecoilState(
+    completeReadingChallengeState,
+  );
 
   const { state } = useLocation() as {
     state: { userId: string };
@@ -108,7 +110,7 @@ const Bookshelf = () => {
             </Section>
           )}
 
-          {(['발제문', '정리 기록', '모임 후기'] as PostType[])?.map(
+          {(['발제문', '정리 기록', '모임 후기'] as PostTypeName[])?.map(
             postType => (
               <Section key={postType}>
                 <Subtitle title={`${displayName}의 ${postType}`} />

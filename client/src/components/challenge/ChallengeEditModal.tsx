@@ -8,16 +8,19 @@ import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import RefInput from '@/components/common/input/RefInput';
-import { IChallenge, IChallengeBook } from '@/data/bookAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 import { dbService } from '@/fbase';
 import useSendPushNotification from '@/hooks/useSendPushNotification';
+import {
+  CompleteReadingChallenge,
+  CompleteReadingChallengeBook,
+} from '@/types';
 import { formatDate } from '@/utils';
 import { doc, setDoc } from 'firebase/firestore';
 
-interface Props {
-  challenge: IChallenge;
-  currChallengeBook: IChallengeBook;
+interface ChallengeEditModalProps {
+  challenge: CompleteReadingChallenge;
+  currChallengeBook: CompleteReadingChallengeBook;
   onModalClose: () => void;
   currentPageNum: number;
   setCurrentPageNum: React.Dispatch<React.SetStateAction<number>>;
@@ -29,7 +32,7 @@ export default function ChallengeEditModal({
   onModalClose,
   currentPageNum,
   setCurrentPageNum,
-}: Props) {
+}: ChallengeEditModalProps) {
   const { books } = challenge;
   const { uid } = useRecoilValue(currAuthUserAtom);
 
@@ -55,7 +58,7 @@ export default function ChallengeEditModal({
       book.title === currChallengeBook.title ? { ...book, currentPage } : book,
     );
 
-    const editedChallengeDoc: IChallenge = {
+    const editedChallengeDoc: CompleteReadingChallenge = {
       ...challenge,
       createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
       books: editedPageBooks,

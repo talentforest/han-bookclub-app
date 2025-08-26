@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom';
 import { BOOK_VOTE } from '@/appConstants';
 import DDay from '@/components/common/DDay';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
-import { IBookVote } from '@/data/voteAtom';
+import { BookVote } from '@/types';
 import { FiChevronRight } from 'react-icons/fi';
 import { MdOutlineHowToVote } from 'react-icons/md';
 
-interface PropsType {
-  voteDetail: IBookVote;
+interface VoteProgressCardProps {
+  voteDetail: BookVote;
 }
 
-const VoteProgressCard = ({ voteDetail }: PropsType) => {
+const VoteProgressCard = ({ voteDetail }: VoteProgressCardProps) => {
   const { id, title, voteItems, deadline } = voteDetail;
 
   return (

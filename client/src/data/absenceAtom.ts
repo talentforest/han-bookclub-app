@@ -3,18 +3,8 @@ import { atom, selectorFamily } from 'recoil';
 import { getDocument } from '@/api/firebase/getFbDoc';
 import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
 import { allUsersAtom } from '@/data/userAtom';
+import { AbsenceObj } from '@/types';
 import { v4 } from 'uuid';
-
-export interface Absence {
-  month: number;
-  breakMembers: string[];
-  onceAbsenceMembers: string[];
-}
-
-export interface AbsenceObj {
-  id: string;
-  absenceMembers: Absence[];
-}
 
 export const absenceAtom = atom<AbsenceObj>({
   key: `absence/${v4()}`,

@@ -4,17 +4,23 @@ import { useRecoilValue } from 'recoil';
 
 import { bookFields } from '@/appConstants';
 import SquareBtn from '@/components/common/button/SquareBtn';
-import { IFieldAndHost } from '@/data/fieldAndHostAtom';
 import { allUsersAtom } from '@/data/userAtom';
-import { ChangeSelectValue, SelectValue } from '@/hooks/useHandleFieldHost';
+import { MonthlyFieldAndHost } from '@/types';
 import Select from 'react-select';
 
-interface Props {
+type ChangeSelectValue = {
+  label: string;
+  value: string;
+};
+
+interface FieldHostEditFormProps {
   month: number;
-  bookFieldHost: IFieldAndHost;
+  bookFieldHost: MonthlyFieldAndHost;
   onSubmit: (event: FormEvent<HTMLFormElement>, month: number) => void;
-  selectedValues: SelectValue;
-  setSelectedValues: React.Dispatch<React.SetStateAction<SelectValue>>;
+  selectedValues: Pick<MonthlyFieldAndHost, 'field' | 'hosts'>;
+  setSelectedValues: React.Dispatch<
+    React.SetStateAction<Pick<MonthlyFieldAndHost, 'field' | 'hosts'>>
+  >;
 }
 
 export default function FieldHostEditForm({
@@ -23,7 +29,7 @@ export default function FieldHostEditForm({
   selectedValues,
   setSelectedValues,
   month,
-}: Props) {
+}: FieldHostEditFormProps) {
   const usersDoc = useRecoilValue(allUsersAtom);
 
   const { field, hosts } = bookFieldHost;

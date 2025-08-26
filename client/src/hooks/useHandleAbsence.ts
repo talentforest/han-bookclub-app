@@ -7,20 +7,15 @@ import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
 import { absenceAtom } from '@/data/absenceAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 import { dbService } from '@/fbase';
+import { UserAbsence } from '@/types';
 import { doc, updateDoc } from 'firebase/firestore';
-
-export interface AbsenceSelectValue {
-  month: number;
-  breakMonth: boolean;
-  onceAbsenceMonth: boolean;
-}
 
 const initialModalState = {
   isEditing: false,
   month: 1,
 };
 
-const initialAbsence: AbsenceSelectValue = {
+const initialAbsence: UserAbsence = {
   month: 1,
   breakMonth: false,
   onceAbsenceMonth: false,

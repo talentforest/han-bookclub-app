@@ -6,23 +6,19 @@ import useAlertAskJoin from '../useAlertAskJoin';
 import { getDocument } from '@/api/firebase/getFbDoc';
 import { USER } from '@/appConstants';
 import { recommendedBookAtom } from '@/data/bookAtom';
-import { IDocument } from '@/data/documentsAtom';
-import {
-  IUserPostDocId,
-  currAuthUserAtom,
-  userDocAtomFamily,
-} from '@/data/userAtom';
+import { currAuthUserAtom, userDocAtomFamily } from '@/data/userAtom';
 import { authService, dbService } from '@/fbase';
+import { UserPost, UserPostDocId } from '@/types';
 import { existDocObj, thisYearMonthId } from '@/utils';
 import { collection, doc, setDoc, updateDoc } from 'firebase/firestore';
 
-interface PropsType {
+interface UseAddDocProps {
   setText: (text: string) => void;
   collName: string;
-  docData: IDocument;
+  docData: UserPost;
 }
 
-const useAddDoc = ({ setText, collName, docData }: PropsType) => {
+const useAddDoc = ({ setText, collName, docData }: UseAddDocProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
   const [userExtraData, setUserExtraData] = useRecoilState(
     userDocAtomFamily(uid),
@@ -70,7 +66,7 @@ const useAddDoc = ({ setText, collName, docData }: PropsType) => {
     setText('');
   };
 
-  const updateUserData = async (newUserDocId: IUserPostDocId) => {
+  const updateUserData = async (newUserDocId: UserPostDocId) => {
     if (collName.includes('Sentence')) {
       await updateDoc(userDataRef, {
         'userRecords.sentences': [

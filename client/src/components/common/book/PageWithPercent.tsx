@@ -1,11 +1,14 @@
 import { getPercentage } from '@/utils';
 
-interface Props {
+interface PageWithPercentProps {
   currentPage: number;
   wholePage: number;
 }
 
-export default function PageWithPercent({ currentPage, wholePage }: Props) {
+export default function PageWithPercent({
+  currentPage,
+  wholePage,
+}: PageWithPercentProps) {
   const percentNum = getPercentage(currentPage, wholePage);
 
   return (

@@ -1,18 +1,18 @@
 import { useState } from 'react';
 
-import { BookField } from '@/appConstants';
+import { ClubBookField } from '@/types';
 
-interface PropsType {
+interface BookFieldCheckBoxProps {
   bookFieldName: string;
-  checkedBoxHandler: (bookFields: BookField, checked: boolean) => void;
-  bookFields: BookField;
+  checkedBoxHandler: (bookFields: ClubBookField, checked: boolean) => void;
+  bookFields: ClubBookField;
 }
 
 const BookFieldCheckBox = ({
   bookFieldName,
   checkedBoxHandler,
   bookFields,
-}: PropsType) => {
+}: BookFieldCheckBoxProps) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const checkHandler = async (event: React.FormEvent<HTMLInputElement>) => {

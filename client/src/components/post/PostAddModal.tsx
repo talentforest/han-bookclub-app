@@ -6,19 +6,19 @@ import { HOST_REVIEW, SUBJECTS } from '@/appConstants';
 import Modal from '@/components/common/Modal';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import QuillEditor from '@/components/common/editor/QuillEditor';
-import { PostType } from '@/components/post/PostHandleBtns';
 import { clubByMonthSelector } from '@/data/clubAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 import useAddDoc from '@/hooks/handleFbDoc/useAddDoc';
 import useSendPushNotification from '@/hooks/useSendPushNotification';
+import { PostTypeName } from '@/types';
 import { formatDate, getFbRouteOfPost, thisYearMonthId } from '@/utils';
 
-interface Props {
+interface PostAddModalProps {
   toggleModal: () => void;
-  postType: PostType;
+  postType: PostTypeName;
 }
 
-const PostAddModal = ({ toggleModal, postType }: Props) => {
+const PostAddModal = ({ toggleModal, postType }: PostAddModalProps) => {
   const [text, setText] = useState('');
 
   const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));

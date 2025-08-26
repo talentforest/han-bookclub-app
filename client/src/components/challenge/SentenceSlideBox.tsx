@@ -2,15 +2,15 @@ import LikeBtnWithPeopleInfo from '@/components/common/LikeBtnWithPeopleInfo';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import EditorContent from '@/components/common/editor/EditorContent';
 import UserName from '@/components/common/user/UserName';
-import { ISentence } from '@/data/bookAtom';
+import { ChallengeSentence } from '@/types';
 import { cutLetter, formatDate } from '@/utils';
 import { BiSolidQuoteLeft, BiSolidQuoteRight } from 'react-icons/bi';
 
-interface Props {
-  sentence: ISentence;
+interface SentenceSlideBoxProps {
+  sentence: ChallengeSentence;
 }
 
-export default function SentenceSlideBox({ sentence }: Props) {
+export default function SentenceSlideBox({ sentence }: SentenceSlideBoxProps) {
   const { text, createdAt, thumbnail, title, creatorId, page } = sentence;
 
   return (

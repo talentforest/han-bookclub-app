@@ -2,13 +2,17 @@ import Tag from '@/components/common/Tag';
 import { getPercentage } from '@/utils';
 import { FaRunning } from 'react-icons/fa';
 
-interface Props {
+interface PagePositionProps {
   currentPage: number;
   wholePage: number;
   isEnd: boolean;
 }
 
-export default function PagePosition({ currentPage, wholePage, isEnd }: Props) {
+export default function PagePosition({
+  currentPage,
+  wholePage,
+  isEnd,
+}: PagePositionProps) {
   const widthPercent = `${getPercentage(currentPage, wholePage).toFixed(0)}%`;
 
   return (

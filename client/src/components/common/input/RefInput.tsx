@@ -1,6 +1,6 @@
 import React, { ForwardedRef } from 'react';
 
-interface ITextInputProps {
+interface RefInputProps {
   id?: string;
   name?: string;
   value?: string;
@@ -10,7 +10,7 @@ interface ITextInputProps {
 }
 
 const RefInput = React.forwardRef(function RefInput(
-  props: ITextInputProps,
+  props: RefInputProps,
   ref: ForwardedRef<HTMLInputElement>,
 ) {
   return (

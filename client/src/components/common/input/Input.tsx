@@ -1,6 +1,6 @@
 import { MutableRefObject } from 'react';
 
-interface IInputProps {
+interface InputProps {
   id?: string;
   type?: 'password' | 'email' | 'text';
   name?: string;
@@ -22,7 +22,7 @@ const Input = ({
   autoComplete,
   required,
   ref,
-}: IInputProps) => {
+}: InputProps) => {
   return (
     <input
       id={id}

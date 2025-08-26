@@ -6,25 +6,19 @@ import useAlertAskJoin from './useAlertAskJoin';
 import { BOOK_FIELD_AND_HOST } from '@/appConstants';
 import { fieldAndHostAtom } from '@/data/fieldAndHostAtom';
 import { dbService } from '@/fbase';
+import { MonthlyFieldAndHost } from '@/types';
 import { thisYear } from '@/utils';
 import { doc, updateDoc } from 'firebase/firestore';
-
-export interface ChangeSelectValue {
-  label: string;
-  value: string;
-}
-
-export interface SelectValue {
-  field: string;
-  hosts: string[];
-}
 
 const initialModalState = {
   isEditing: false,
   month: 1,
 };
 
-const initialFieldHost: SelectValue = { field: '', hosts: [''] };
+const initialFieldHost: Pick<MonthlyFieldAndHost, 'field' | 'hosts'> = {
+  field: '',
+  hosts: [''],
+};
 
 const useHandleFieldHost = () => {
   const [editingMonthInfo, setEditingMonthInfo] = useState(initialModalState);

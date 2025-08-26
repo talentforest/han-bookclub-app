@@ -2,8 +2,9 @@ import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { BookField, USER, createAccountSteps } from '@/appConstants';
+import { USER, createAccountSteps } from '@/appConstants';
 import { authService, dbService } from '@/fbase';
+import { ClubBookField } from '@/types';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
@@ -135,7 +136,7 @@ const useCreateAccount = () => {
     }
   };
 
-  const checkedBoxHandler = (bookFields: BookField, checked: boolean) => {
+  const checkedBoxHandler = (bookFields: ClubBookField, checked: boolean) => {
     if (checked) {
       checkedBookField.add(bookFields);
       setCheckedBookField(checkedBookField);
