@@ -2,12 +2,12 @@ import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
 import Tag from '@/components/common/Tag';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
-import { ISearchedBook } from '@/data/bookAtom';
+import { Book } from '@/data/bookAtom';
 import { thisMonth } from '@/utils';
 
 interface MonthBookCardProps {
   month: string;
-  book: ISearchedBook;
+  book: Book;
   bookFields: string;
   className?: string;
 }

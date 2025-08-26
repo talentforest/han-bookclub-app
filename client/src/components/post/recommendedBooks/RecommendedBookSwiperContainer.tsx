@@ -12,7 +12,6 @@ interface RecommendedBookSwiperContainerProps {
 }
 
 const swiperOptions = {
-  slidesPerView: 'auto' as const,
   breakpoints: {
     1024: {
       slidesPerView: 6,
@@ -27,6 +26,7 @@ const swiperOptions = {
       slidesPerView: 2,
     },
   },
+  pagination: false,
 };
 
 export default function RecommendedBookSwiperContainer({

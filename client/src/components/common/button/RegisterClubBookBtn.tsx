@@ -6,7 +6,7 @@ import { getCollection } from '@/api/firebase/getFbDoc';
 import { setDocument } from '@/api/firebase/setFbDoc';
 import { BOOKCLUB_THIS_YEAR } from '@/appConstants';
 import SquareBtn from '@/components/common/button/SquareBtn';
-import { ISearchedBook } from '@/data/bookAtom';
+import { Book } from '@/data/bookAtom';
 import { clubByYearAtom } from '@/data/clubAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 import useSendPushNotification from '@/hooks/useSendPushNotification';
@@ -21,7 +21,7 @@ import {
 } from '@/utils';
 
 interface PropsType {
-  searchedBook: ISearchedBook;
+  searchedBook: Book;
   registerMonthType: 'thisMonth' | 'nextMonth';
 }
 

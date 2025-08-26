@@ -7,11 +7,7 @@ import Modal from '@/components/common/Modal';
 import RefInput from '@/components/common/input/RefInput';
 import RecommendBookModalForm from '@/components/post/recommendedBooks/RecommendBookModalForm';
 import SearchedBookList from '@/components/search/SearchedBookList';
-import {
-  ISearchedBook,
-  bookDescState,
-  recommendedBookAtom,
-} from '@/data/bookAtom';
+import { Book, bookDescState, recommendedBookAtom } from '@/data/bookAtom';
 import useSearchBook from '@/hooks/useSearchBook';
 import { FiSearch } from 'react-icons/fi';
 
@@ -47,7 +43,7 @@ export default function SearchedBookPostAddModal({
     resetSearchList();
   };
 
-  const onSelectBtnClick = (book: ISearchedBook) => {
+  const onSelectBtnClick = (book: Book) => {
     changeStep(2);
     title === '추천책 작성하기' ? setMyRecommendBook(book) : setBookDesc(book);
   };

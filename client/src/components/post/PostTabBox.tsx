@@ -26,9 +26,8 @@ interface Props {
 type PostType = '발제문' | '정리 기록';
 
 const swiperOptions = {
-  slidesPerView: 'auto' as const,
-  pagination: false,
   spaceBetween: 8,
+  pagination: false,
   scrollbar: false,
   navigation: false,
   autoplay: false,

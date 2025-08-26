@@ -5,36 +5,40 @@ import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import { Autoplay, Navigation, Pagination, Scrollbar } from 'swiper/modules';
 import { Swiper } from 'swiper/react';
+import { SwiperOptions } from 'swiper/types';
+
+type AppSwiperOptions = SwiperOptions & {
+  breakpoints?: {
+    [key in '1024' | '800' | '320']: { slidesPerView: number };
+  };
+};
 
 interface Props {
   children: ReactNode;
-  options?: {
-    spaceBetween?: number;
-    breakpoints?: { [key: number]: { slidesPerView: number } };
-    slidesPerView?: number | 'auto';
-  };
+  options?: AppSwiperOptions;
 }
 
 export default function SwiperContainer({ children, options }: Props) {
-  const swiperOptions = {
+  const initialSwiperOptions: AppSwiperOptions = {
     modules: [Autoplay, Pagination, Navigation, Scrollbar],
     spaceBetween: 15,
-    slidesPerView: 1,
-    speed: 3000,
+    slidesPerView: 'auto' as const,
+    speed: 2000,
     autoplay: {
-      delay: 2000,
+      delay: 1000,
       disableOnInteraction: true,
     },
+    loop: true,
     navigation: true,
     pagination: {
-      type: 'fraction' as 'fraction' | 'bullets' | 'progressbar' | 'custom',
+      type: 'bullets',
     },
     scrollbar: { draggable: true },
     ...options,
   };
 
   return (
-    <Swiper className="h-full" {...swiperOptions}>
+    <Swiper className="h-full" {...initialSwiperOptions}>
       {children}
     </Swiper>
   );

@@ -17,7 +17,6 @@ import { FiCalendar } from 'react-icons/fi';
 import { SwiperSlide } from 'swiper/react';
 
 const swiperOptions = {
-  slidesPerView: 'auto' as 'auto',
   pagination: false,
   breakpoints: {
     1024: {

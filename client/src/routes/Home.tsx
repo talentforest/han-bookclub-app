@@ -64,11 +64,8 @@ const Home = () => {
           <SquareBtn
             name={`${thisYear} 챌린지`}
             className="h-fit w-full !px-0 py-3.5"
-            color="gray"
-            handleClick={() => {
-              return alert('아직 준비중이에요!');
-              // navigate('/challenge');
-            }}
+            color="darkBlue"
+            handleClick={() => navigate('/challenge')}
           />
           <SquareBtn
             name={`${thisYear} 연말결산`}

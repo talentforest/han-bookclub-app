@@ -258,16 +258,26 @@
     .swiper-button-next:after {
       font-size: 14px;
     }
-    /* 스크롤바 드래그 */
+    /* 하단 스크롤바 드래그 */
     .swiper-scrollbar.swiper-scrollbar-horizontal {
       cursor: pointer;
+      margin: 20px 0 0 0;
     }
+
+    /* 페이지네이션 도트 */
     .swiper-pagination {
       margin: 20px 0;
       height: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 10px;
+    }
+    .swiper-pagination-bullet {
+      height: 7px;
+      aspect-ratio: 1 / 1;
+      background-color: #aaa;
+      border-radius: 50%;
     }
   }
 }

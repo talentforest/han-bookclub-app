@@ -2,7 +2,7 @@ import { atom } from 'recoil';
 
 import { v4 } from 'uuid';
 
-export type ISearchedBook = {
+export type Book = {
   title: string;
   contents: string;
   url: string;
@@ -15,18 +15,15 @@ export type ISearchedBook = {
   thumbnail: string;
 };
 
-export type IRecommendedBook = {
-  thumbnail: string;
-  title: string;
-  authors: string[];
-  url: string;
-  publisher: string;
-};
+export type IRecommendedBook = Pick<
+  Book,
+  'title' | 'thumbnail' | 'authors' | 'url' | 'publisher'
+>;
 
 export type IChallengeBook = {
   currentPage: number;
   wholePage: number;
-} & ISearchedBook;
+} & Book;
 
 export type IChallenge = {
   id?: string;
@@ -58,12 +55,12 @@ export const recommendedBookAtom = atom<IRecommendedBook>({
   },
 });
 
-export const bookDescState = atom<ISearchedBook>({
+export const bookDescState = atom<Book>({
   key: `bookDesc${v4()}`,
   default: null,
 });
 
-export const searchListAtom = atom<ISearchedBook[]>({
+export const searchListAtom = atom<Book[]>({
   key: `searchList${v4()}`,
   default: [],
 });

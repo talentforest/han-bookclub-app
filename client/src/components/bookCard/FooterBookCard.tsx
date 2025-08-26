@@ -1,9 +1,9 @@
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
-import { IRecommendedBook, ISearchedBook } from '@/data/bookAtom';
+import { Book, IRecommendedBook } from '@/data/bookAtom';
 
 interface FooterBookCardProps {
-  book: ISearchedBook | Partial<IRecommendedBook>;
+  book: Book | Partial<IRecommendedBook>;
   className?: string;
 }
 

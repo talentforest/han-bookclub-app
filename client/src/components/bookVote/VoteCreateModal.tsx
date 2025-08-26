@@ -7,7 +7,7 @@ import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
 import Label from '@/components/common/input/Label';
 import RefInput from '@/components/common/input/RefInput';
-import { ISearchedBook } from '@/data/bookAtom';
+import { Book } from '@/data/bookAtom';
 import useCreateBookVoteBox from '@/hooks/useCreateBookVoteBox';
 import useSearchBook from '@/hooks/useSearchBook';
 import { ko } from 'date-fns/locale';
@@ -56,7 +56,7 @@ const VoteCreateModal = ({ onToggleModal }: PropsType) => {
 
   const toggleSelectReason = () => setIsOpenSelectReason(prev => !prev);
 
-  const onSelectBookBtnClick = (book: ISearchedBook) => {
+  const onSelectBookBtnClick = (book: Book) => {
     const { title, url, thumbnail } = book;
     const newBookItem = { title, url, thumbnail };
     const voteItems = newVote.voteItems.map(voteItem => {

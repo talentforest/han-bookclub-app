@@ -7,12 +7,12 @@ import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import RegisterClubBookBtn from '@/components/common/button/RegisterClubBookBtn';
-import { ISearchedBook } from '@/data/bookAtom';
+import { Book } from '@/data/bookAtom';
 import { formatDate } from '@/utils';
 import { BiChevronDownCircle, BiChevronUpCircle } from 'react-icons/bi';
 
 interface SearchedBookCardProps {
-  searchedBook: ISearchedBook;
+  searchedBook: Book;
 }
 
 const SearchedBookCard = ({ searchedBook }: SearchedBookCardProps) => {

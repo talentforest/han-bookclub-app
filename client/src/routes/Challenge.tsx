@@ -9,20 +9,19 @@ import ChallengeRereadingModal from '@/components/challenge/ChallengeRereadingMo
 import DDay from '@/components/common/DDay';
 import SelectYearBtnList from '@/components/common/SelectYearBtnList';
 import Subtitle from '@/components/common/Subtitle';
-import Tag from '@/components/common/Tag';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import Section from '@/components/common/container/Section';
 import SwiperContainer from '@/components/common/container/SwiperContainer';
-import { ISearchedBook } from '@/data/bookAtom';
+import { Book } from '@/data/bookAtom';
 import { ChallengeRereading } from '@/data/challengeAtom';
 import { clubByYearAtom } from '@/data/clubAtom';
 import { allUsersAtom } from '@/data/userAtom';
 import MobileHeader from '@/layout/mobile/MobileHeader';
 import { thisYear } from '@/utils';
+import { PiShootingStarFill } from 'react-icons/pi';
 import { SwiperSlide } from 'swiper/react';
 
 const swiperOptions = {
-  slidesPerView: 'auto' as const,
   breakpoints: {
     1024: {
       slidesPerView: 3,
@@ -31,27 +30,24 @@ const swiperOptions = {
       slidesPerView: 2,
     },
     320: {
-      slidesPerView: 1,
+      slidesPerView: 2,
     },
   },
-  pagination: false,
-  spaceBetween: 8,
-  scrollbar: true,
+  pagination: true,
   navigation: false,
-  autoplay: true,
+  scrollbar: false,
+  spaceBetween: 8,
 };
 
 export default function Challenge() {
   const [selectedYear, setSelectedYear] = useState(thisYear);
-
   const [clubByYear, setClubByYear] = useRecoilState(clubByYearAtom);
 
   const [challengeList, setChallengeList] = useState([]);
 
-  const [rereadingBook, setRereadingBook] = useState({
-    isModalOpen: false,
-    rereadingBook: null,
-  });
+  const [rereadingBook, setRereadingBook] = useState<Book | null>(null);
+
+  const [isChallengeModalOpen, setIsChallengeModalOpen] = useState(false);
 
   const [showAllChallengeUser, setShowAllChallengeUser] = useState(false);
 
@@ -131,11 +127,10 @@ export default function Challenge() {
 
   const clubBookList = clubByYear.filter(({ book }) => book.thumbnail !== '');
 
-  const toggleModalOpen = (book?: ISearchedBook) =>
-    setRereadingBook(prev => ({
-      rereadingBook: book || prev.rereadingBook,
-      isModalOpen: !prev.isModalOpen,
-    }));
+  const toggleModalOpen = (book?: Book) => {
+    setIsChallengeModalOpen(prev => !prev);
+    setRereadingBook(prevBook => book || prevBook);
+  };
 
   const challengBookListByUser = challengeList.map(item => {
     const { creatorId, id, ...rest } = item;
@@ -159,10 +154,7 @@ export default function Challenge() {
       return acc;
     }, {}) as {
       [title in string]: {
-        book: Pick<
-          ISearchedBook,
-          'authors' | 'publisher' | 'thumbnail' | 'title'
-        >;
+        book: Pick<Book, 'authors' | 'publisher' | 'thumbnail' | 'title'>;
         readers: number;
         counts: number;
       };
@@ -175,77 +167,92 @@ export default function Challenge() {
     })
     .map(([title, info]) => ({ [title]: info }));
 
-  const selectedBook = sortedChallengeByCounts?.find(item => {
-    const [title] = Object.entries(item)[0];
-    return title === rereadingBook.rereadingBook?.title;
-  });
+  const intialChallengeBook = rereadingBook && {
+    [rereadingBook.title]: {
+      book: {
+        authors: rereadingBook.authors,
+        publisher: rereadingBook.publisher,
+        thumbnail: rereadingBook.thumbnail,
+        title: rereadingBook.title,
+      },
+      readers: 0,
+      counts: 0,
+    },
+  };
+
+  const selectedChallengeBook =
+    sortedChallengeByCounts?.find(item => {
+      const [title] = Object.entries(item)[0];
+      return title === rereadingBook?.title;
+    }) || intialChallengeBook;
 
   return (
     <>
       <MobileHeader title={`${thisYear}년 개인별 챌린지`} backBtn />
 
       <main>
-        <div className="mb-10 mt-2 flex gap-x-3">
-          <div className="rounded-xl border bg-white p-4">
+        <header className="mb-10 mt-2 flex gap-x-3">
+          <div className="rounded-xl bg-white p-4 shadow-card">
             <h4 className="mb-3.5 flex items-center gap-2">
               📚✨2025년 챌린지{' '}
               <div className="flex-1 border-t-2 border-dotted border-gray3" />
             </h4>
-            <span className="font-bold">지난 독서모임 책 재독하기!</span>
+            <span className="font-bold">독서모임의 책들 재독하기!</span>
           </div>
 
           <DDay
             hyphenDate={`${thisYear}-12-21`}
-            className="flex flex-1 flex-col items-center justify-center rounded-xl border bg-indigo-200 p-2 text-xl font-bold text-indigo-700"
+            className="flex flex-1 flex-col items-center justify-center rounded-xl bg-indigo-200 p-2 text-xl font-bold text-indigo-700 shadow-card"
           />
-        </div>
+        </header>
 
-        <Section className="!mb-20 !mt-16">
-          <h4 className="mb-4 text-lg font-bold italic">
-            🔥현재 가장 많이 재독하고 있는 도서는?
-          </h4>
-          <SwiperContainer options={swiperOptions}>
-            {sortedChallengeByCounts.map((item, index) => {
-              const [title, data] = Object.entries(item)[0];
-              const { book, readers, counts } = data;
+        {sortedChallengeByCounts.length > 0 && (
+          <Section className="!mb-20 !mt-16">
+            <h4 className="mb-4 text-lg font-bold italic">
+              🔥현재 가장 많이 재독한 도서는?
+            </h4>
+            <SwiperContainer options={swiperOptions}>
+              {sortedChallengeByCounts.map((item, index) => {
+                const [title, data] = Object.entries(item)[0];
+                const { book, readers, counts } = data;
 
-              return (
-                <SwiperSlide key={title}>
-                  <li className="mb-7 flex w-[300px] justify-between rounded-xl bg-white p-4 shadow-card max-sm:w-full">
-                    <BookThumbnail
-                      title={book.title}
-                      thumbnail={book.thumbnail}
-                      className="mr-3 w-20 rounded-md"
-                    />
+                return (
+                  <SwiperSlide key={title}>
+                    <li className="relative min-h-fit w-full pb-3">
+                      <BookThumbnail
+                        title={book.title}
+                        thumbnail={book.thumbnail}
+                        className="mx-auto w-full rounded-md max-sm:w-3/4"
+                      />
 
-                    <div className="flex flex-1 flex-col justify-between">
-                      <span className="mr-1 text-xl font-bold">
-                        🏆 {index + 1}
-                        <span className="pr-2 text-lg font-bold">위</span>
-                        <span className="line-clamp-2 text-base font-normal leading-5">
-                          {book.title}
+                      <div className="absolute bottom-0 right-0">
+                        <PiShootingStarFill className="size-[72px] fill-yellow-500" />
+                        <span className="absolute bottom-8 right-[20px] font-mono text-lg font-bold text-darkBlue2">
+                          {index + 1}
                         </span>
-                      </span>
-
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        <Tag
-                          text={`🙋🏻${counts}명의 멤버가 재독한 책`}
-                          color="lightBlue"
-                          className="!py-1.5 text-sm !text-blue-600"
-                        />
-                        <Tag
-                          text={`👀총 ${readers}번 재독된 책`}
-                          color="yellow"
-                          className="!py-1.5 text-sm !text-green-600"
-                        />
                       </div>
-                    </div>
-                  </li>
-                </SwiperSlide>
-              );
-            })}
-          </SwiperContainer>
-        </Section>
+
+                      {/* <div className="mt-4 flex flex-wrap gap-2">
+                      <Tag
+                        text={`🙋🏻${readers}명의 멤버가 재독`}
+                        color="lightBlue"
+                        shape="rounded"
+                        className="!py-1.5 text-sm !text-blue-600"
+                      />
+                      <Tag
+                        text={`👀총 ${counts}번 재독`}
+                        color="yellow"
+                        shape="rounded"
+                        className="!py-1.5 text-sm !text-green-600"
+                      />
+                    </div> */}
+                    </li>
+                  </SwiperSlide>
+                );
+              })}
+            </SwiperContainer>
+          </Section>
+        )}
 
         <Section>
           <Subtitle title="독서모임의 도서들" />
@@ -255,8 +262,8 @@ export default function Challenge() {
             buttonClassName="!px-3 h-9 min-h-9"
           />
           <p className="mt-4 text-sm text-gray1">
-            아래 재독할 독서모임 책의 썸네일을 클릭한 후 재독 소감을 작성하면
-            재독수가 증가합니다!
+            책의 썸네일을 클릭한 후 재독 소감을 작성하면 재독수가 증가합니다!
+            과연 누구의 재독 수가 가장 많을까요?!
           </p>
           <ul className="mt-5 grid grid-cols-11 max-md:grid-cols-7 max-sm:grid-cols-4 max-sm:gap-5">
             {clubBookList.map(({ book }) => (
@@ -305,9 +312,9 @@ export default function Challenge() {
           )}
         </Section>
 
-        {rereadingBook.isModalOpen && selectedBook && (
+        {isChallengeModalOpen && (
           <ChallengeRereadingModal
-            selectedBook={selectedBook}
+            selectedBook={selectedChallengeBook}
             toggleOpen={toggleModalOpen}
           />
         )}

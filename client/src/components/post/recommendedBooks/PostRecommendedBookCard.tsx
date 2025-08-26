@@ -32,7 +32,7 @@ export default function PostRecommendedBookCard({
   return (
     <>
       {recommendedBookDoc && (
-        <button type="button" onClick={onToggleClick} className="h-full">
+        <button type="button" onClick={onToggleClick} className="mb-10 h-full">
           <BookThumbnail title={title} thumbnail={thumbnail} />
         </button>
       )}

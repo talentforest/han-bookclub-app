@@ -1,6 +1,6 @@
 import { atom, selectorFamily } from 'recoil';
 
-import { ISearchedBook } from './bookAtom';
+import { Book } from './bookAtom';
 import { thisYear } from '@/utils';
 import { v4 } from 'uuid';
 
@@ -8,7 +8,7 @@ export type IBookClub = {
   id?: string;
   creatorId: string;
   createdAt: string;
-  book: ISearchedBook;
+  book: Book;
   meeting: {
     time: string;
     place: string;

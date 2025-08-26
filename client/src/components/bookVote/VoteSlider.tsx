@@ -29,7 +29,6 @@ const VoteSlider = () => {
   const navigate = useNavigate();
 
   const swiperOptions = {
-    slidesPerView: 'auto' as const,
     breakpoints: {
       1024: {
         slidesPerView: 3,
@@ -37,7 +36,7 @@ const VoteSlider = () => {
       800: {
         slidesPerView: 2,
       },
-      500: {
+      320: {
         slidesPerView: 1,
       },
     },

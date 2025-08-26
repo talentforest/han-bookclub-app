@@ -2,12 +2,12 @@ import { Fragment } from 'react';
 
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
 import DottedDividingLine from '@/components/common/DottedDividingLine';
-import { ISearchedBook } from '@/data/bookAtom';
+import { Book } from '@/data/bookAtom';
 import { FiCheckCircle } from 'react-icons/fi';
 
 interface Props {
-  searchList: ISearchedBook[];
-  onSelectBtnClick: (book: ISearchedBook) => void;
+  searchList: Book[];
+  onSelectBtnClick: (book: Book) => void;
 }
 
 export default function SearchedBookList({
