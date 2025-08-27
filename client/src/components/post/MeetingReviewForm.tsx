@@ -55,7 +55,7 @@ const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
       await onAddDocSubmit(event);
       await sendPostNotification('모임 후기');
     } catch (error) {
-      window.alert('추천 등록 중 문제가 발생했습니다. 다시 시도해주세요.');
+      window.alert('모임 후기 등록 중 문제가 발생했습니다. 다시 시도해주세요.');
     }
   };
 

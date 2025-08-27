@@ -27,9 +27,8 @@ export default function PostRecommendedBookCard({
 
   const onToggleClick = () => setOpenModal(prev => !prev);
 
-  const {
-    recommendedBook: { title, thumbnail },
-  } = recommendedBookDoc || { recommendedBook: { title: '', thumbnail: '' } };
+  const title = recommendedBookDoc?.recommendedBook?.title || '';
+  const thumbnail = recommendedBookDoc?.recommendedBook?.thumbnail || '';
 
   return (
     <>
@@ -39,7 +38,7 @@ export default function PostRecommendedBookCard({
         </button>
       )}
 
-      {openModal && (
+      {openModal && recommendedBookDoc && (
         <RecommendedBookModal
           onToggleClick={onToggleClick}
           recommendedBookDetail={recommendedBookDoc}

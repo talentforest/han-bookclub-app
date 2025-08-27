@@ -29,8 +29,3 @@ export const bookVotesState = atom<BookVote[]>({
   key: `bookVoteDocs/${v4()}`,
   default: null,
 });
-
-export const voteItemState = atom<BookVoteItem[]>({
-  key: `voteItem${v4()}`,
-  default: [],
-});

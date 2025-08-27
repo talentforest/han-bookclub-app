@@ -12,10 +12,10 @@ export type UserProfile = {
 } & Pick<FirebaseAuthUser, 'photoURL' | 'email' | 'displayName'>;
 
 export type UserRecords = {
-  [K in Exclude<keyof typeof postTypeObj, 'challenge'>]: UserPostDocId[];
+  [K in Exclude<keyof typeof postTypeObj, 'challenge'>]: UserRecordId[];
 };
 
-export type UserPostDocId = {
+export type UserRecordId = {
   docId: string;
   monthId: string;
 };
@@ -24,15 +24,4 @@ export type UserAbsence = {
   month: number;
   breakMonth: boolean;
   onceAbsenceMonth: boolean;
-};
-
-export type MonthlyAbsenceMembers = {
-  month: number;
-  breakMembers: string[];
-  onceAbsenceMembers: string[];
-};
-
-export type AbsenceObj = {
-  id: string;
-  absenceMembers: MonthlyAbsenceMembers[];
 };

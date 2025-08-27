@@ -10,7 +10,7 @@ import { HOST_REVIEW, REVIEWS, SUBJECTS } from '@/appConstants';
 
 import { existDocObj, getFbRouteOfPost } from '@/utils';
 
-import { PostTypeName, UserPost, UserPostDocId } from '@/types';
+import { PostTypeName, UserPost, UserRecordId } from '@/types';
 
 import Modal from '@/components/common/Modal';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
@@ -19,7 +19,7 @@ import PostFooter from '@/components/post/PostFooter';
 import PostHandleBtns from '@/components/post/PostHandleBtns';
 
 interface PostBookThumbnailBoxProps {
-  postId: UserPostDocId;
+  postId: UserRecordId;
   postType?: PostTypeName;
 }
 

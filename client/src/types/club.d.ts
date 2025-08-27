@@ -11,11 +11,22 @@ export type MonthlyBookClub = {
   };
 };
 
+export type MonthlyAbsenceMembers = {
+  month: number;
+  breakMembers: string[];
+  onceAbsenceMembers: string[];
+};
+
 export type MonthlyFieldAndHost = {
   month: number;
   field: string;
   hosts: string[];
   detail: string;
+};
+
+export type ClubBookField = {
+  id: number;
+  name: string;
 };
 
 export type ClubMonth =
@@ -31,11 +42,6 @@ export type ClubMonth =
   | '10월'
   | '11월'
   | '12월';
-
-export type ClubBookField = {
-  id: number;
-  name: string;
-};
 
 export type PageHeaderTitle =
   | '독서모임 한페이지'

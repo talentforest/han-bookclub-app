@@ -1,4 +1,4 @@
-import { PostTypeName, UserPostDocId, UserRecords } from '@/types';
+import { PostTypeName, UserRecordId, UserRecords } from '@/types';
 
 import PostBookThumbnailBox from '@/components/post/PostBookThumbnailBox';
 
@@ -16,7 +16,7 @@ export default function BookshelfPostList({
   const userReviews = userRecords?.reviews || [];
 
   const postList: Partial<{
-    [key in PostTypeName]: UserPostDocId[];
+    [key in PostTypeName]: UserRecordId[];
   }> = {
     발제문: userSubjects,
     '모임 후기': userReviews,

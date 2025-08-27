@@ -62,27 +62,27 @@ const ClubDetail = () => {
     getDocument(`BookClub-${year}`, ABSENCE_MEMBERS, setAbsenceList);
   }, [year]);
 
-  const thisMonthDetail = docId === thisYearMonthId;
+  const isThisMonthDetail = docId === thisYearMonthId;
 
   return !existDocObj(docId) ? (
     <Loading />
   ) : (
     <>
       <MobileHeader
-        title={`${thisMonthDetail ? '이달' : formatDate(docId, 'yyyy년 M월')}의 한페이지`}
-        backBtn={!thisMonthDetail}
+        title={`${isThisMonthDetail ? '이달' : formatDate(docId, 'yyyy년 M월')}의 한페이지`}
+        backBtn={!isThisMonthDetail}
       />
 
       <main>
         <Section title="모임책과 모임정보">
-          {thisMonthDetail ? (
+          {isThisMonthDetail ? (
             <ThisMonthBookClub />
           ) : (
             <BasicBookCard bookClub={docData} className="w-full" />
           )}
         </Section>
 
-        {((thisMonthDetail && thisMonthClub) || !thisMonthDetail) && (
+        {((isThisMonthDetail && thisMonthClub) || !isThisMonthDetail) && (
           <>
             <div className="grid grid-cols-5 gap-x-6 max-sm:flex max-sm:flex-col [&>section:first-child]:col-span-2 [&>section:last-child]:col-span-3">
               {absenteeList && (
@@ -104,7 +104,7 @@ const ClubDetail = () => {
 
               <Section>
                 <Subtitle title="발제문과 정리 기록" />
-                {thisMonthDetail && (
+                {isThisMonthDetail && (
                   <GuideLine text="모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 수정만 가능할 뿐 새로 작성이 불가능한 점 유의해주세요." />
                 )}
                 <PostTabBox yearMonthId={docId} />
@@ -112,15 +112,15 @@ const ClubDetail = () => {
             </div>
 
             <Section>
-              <Subtitle title={thisMonthDetail ? '책 추천하기' : '추천책'} />
-              {thisMonthDetail && <SearchBookBtn />}
+              <Subtitle title={isThisMonthDetail ? '책 추천하기' : '추천책'} />
+              {isThisMonthDetail && <SearchBookBtn />}
               <RecommendedBookSwiperContainer yearMonthId={docId} />
             </Section>
 
             <Section>
               <Subtitle title="모임 후기" />
               <div className="columns-2 max-sm:columns-1">
-                {thisMonthDetail && <MeetingReviewForm docMonth={docId} />}
+                {isThisMonthDetail && <MeetingReviewForm docMonth={docId} />}
                 <MeetingReviewList yearMonthId={docId} />
               </div>
             </Section>

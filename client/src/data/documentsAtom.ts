@@ -18,8 +18,3 @@ export const meetingReviewsState = atom<UserPost[]>({
   key: `meetingReviewDocs/${v4()}`,
   default: [],
 });
-
-export const recommendsState = atom<UserPost[]>({
-  key: `recommendDocs/${v4()}`,
-  default: [],
-});

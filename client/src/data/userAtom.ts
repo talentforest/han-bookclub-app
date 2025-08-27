@@ -1,4 +1,3 @@
-import { authService } from '@/fbase';
 import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
 import { v4 } from 'uuid';
 
@@ -11,16 +10,6 @@ import { USER } from '@/appConstants';
 import { FirebaseAuthUser, UserProfile } from '@/types';
 
 const auth = getAuth();
-
-export const refreshUserAtom = atom({
-  key: `refreshUser/${v4}`,
-  default: authService.currentUser,
-  effects: [
-    ({ setSelf }) => {
-      setSelf(authService.currentUser);
-    },
-  ],
-});
 
 export const allUsersAtom = atom<UserProfile[]>({
   key: `allUsers/${v4}`,

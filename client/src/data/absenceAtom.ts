@@ -8,11 +8,14 @@ import { getDocument } from '@/api';
 
 import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
 
-import { AbsenceObj } from '@/types';
+import { MonthlyAbsenceMembers } from '@/types';
 
-export const absenceAtom = atom<AbsenceObj>({
+export const absenceAtom = atom<{
+  id: string;
+  absenceMembers: MonthlyAbsenceMembers[];
+} | null>({
   key: `absence/${v4()}`,
-  default: {} as AbsenceObj,
+  default: null,
   effects: [
     ({ setSelf }) => {
       const fetchData = async () => {

@@ -16,7 +16,7 @@ import { useAlertAskJoin } from '@/hooks';
 
 import { existDocObj, thisYearMonthId } from '@/utils';
 
-import { UserPost, UserPostDocId } from '@/types';
+import { UserPost, UserRecordId } from '@/types';
 
 interface UseAddDocProps {
   setText: (text: string) => void;
@@ -72,7 +72,7 @@ export const useAddDoc = ({ setText, collName, docData }: UseAddDocProps) => {
     setText('');
   };
 
-  const updateUserData = async (newUserDocId: UserPostDocId) => {
+  const updateUserData = async (newUserDocId: UserRecordId) => {
     if (collName.includes('Sentence')) {
       await updateDoc(userDataRef, {
         'userRecords.sentences': [

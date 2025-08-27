@@ -56,13 +56,13 @@ export default function RecommendBookModalForm({
       return window.alert('추천하는 책 정보를 찾아서 넣어주세요.');
     }
     if (docData.text === '') {
-      return window.alert('추천이유를 작성해주세요.');
+      return window.alert('추천 이유를 작성해주세요.');
     }
     try {
       await onAddDocSubmit(event);
-      await sendPostNotification('추천책');
+      // await sendPostNotification('추천책');
     } catch (error) {
-      window.alert('추천 등록 중 문제가 발생했습니다. 다시 시도해주세요.');
+      window.alert('추천책 등록 중 문제가 발생했습니다. 다시 시도해주세요.');
     } finally {
       onModalClose();
     }
