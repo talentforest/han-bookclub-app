@@ -1,4 +1,5 @@
 import { postTypeObj } from '@/appConstants';
+
 import { FirebaseAuthUser } from '@/types/firebase';
 
 export type UserProfile = {

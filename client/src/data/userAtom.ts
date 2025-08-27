@@ -1,11 +1,14 @@
-import { atom, atomFamily } from 'recoil';
-
-import { getCollection, getDocument } from '@/api/firebase/getFbDoc';
-import { USER } from '@/appConstants';
 import { authService } from '@/fbase';
-import { FirebaseAuthUser, UserProfile } from '@/types';
 import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
 import { v4 } from 'uuid';
+
+import { atom, atomFamily } from 'recoil';
+
+import { getCollection, getDocument } from '@/api';
+
+import { USER } from '@/appConstants';
+
+import { FirebaseAuthUser, UserProfile } from '@/types';
 
 const auth = getAuth();
 

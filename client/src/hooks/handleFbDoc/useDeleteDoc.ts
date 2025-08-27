@@ -1,20 +1,24 @@
 import { useEffect } from 'react';
 
+import { dbService } from '@/fbase';
+import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
+
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { getDocument } from '@/api/firebase/getFbDoc';
-import { USER } from '@/appConstants';
 import { currAuthUserAtom, userDocAtomFamily } from '@/data/userAtom';
-import { dbService } from '@/fbase';
+
+import { getDocument } from '@/api';
+
+import { USER } from '@/appConstants';
+
 import { existDocObj } from '@/utils';
-import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 
 interface UseDeleteDocProps {
   docId: string;
   collName: string;
 }
 
-const useDeleteDoc = ({ docId, collName }: UseDeleteDocProps) => {
+export const useDeleteDoc = ({ docId, collName }: UseDeleteDocProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
   const [userExtraData, setUserExtraData] = useRecoilState(
     userDocAtomFamily(uid),
@@ -79,5 +83,3 @@ const useDeleteDoc = ({ docId, collName }: UseDeleteDocProps) => {
     onDeleteClick,
   };
 };
-
-export default useDeleteDoc;

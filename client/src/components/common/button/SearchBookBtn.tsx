@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
-import SearchedBookPostAddModal from '../../search/SearchedBookPostAddModal';
 import { FiSearch } from 'react-icons/fi';
+
+import SearchedBookPostAddModal from '@/components/search/SearchedBookPostAddModal';
 
 const SearchBookBtn = () => {
   const [openRecommendPostModal, setOpenRecommendPostModal] = useState(false);

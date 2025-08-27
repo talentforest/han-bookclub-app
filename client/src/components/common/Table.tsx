@@ -2,14 +2,17 @@ import { Fragment, useEffect, useState } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import TableDataItem, { Label } from '@/components/common/TableDataItem';
+import { FiChevronDown, FiChevronUp, FiEdit } from 'react-icons/fi';
+
+import { thisMonth } from '@/utils';
+
 import {
   MonthlyAbsenceMembers,
   MonthlyFieldAndHost,
   UserAbsence,
 } from '@/types';
-import { thisMonth } from '@/utils';
-import { FiChevronDown, FiChevronUp, FiEdit } from 'react-icons/fi';
+
+import TableDataItem, { Label } from '@/components/common/TableDataItem';
 
 type TableRecord = MonthlyFieldAndHost | MonthlyAbsenceMembers | UserAbsence;
 

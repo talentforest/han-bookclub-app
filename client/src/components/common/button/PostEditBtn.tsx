@@ -1,8 +1,10 @@
 import { useState } from 'react';
 
-import PostEditModal from '@/components/post/PostEditModal';
-import { PostTypeName, UserPost } from '@/types';
 import { FiEdit } from 'react-icons/fi';
+
+import { PostTypeName, UserPost } from '@/types';
+
+import PostEditModal from '@/components/post/PostEditModal';
 
 interface PostEditBtnProps {
   collName: string;

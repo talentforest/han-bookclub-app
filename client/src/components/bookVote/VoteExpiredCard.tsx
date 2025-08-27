@@ -2,14 +2,19 @@ import { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { getCollection } from '@/api/firebase/getFbDoc';
-import { VOTED_ITEMS } from '@/appConstants';
-import BookThumbnail from '@/components/common/book/BookThumbnail';
-import UserName from '@/components/common/user/UserName';
-import { BookVote, BookVoteItemsByMember } from '@/types';
-import { cutLetter } from '@/utils';
 import { FiChevronRight } from 'react-icons/fi';
 import { MdOutlineHowToVote } from 'react-icons/md';
+
+import { getCollection } from '@/api';
+
+import { VOTED_ITEMS } from '@/appConstants';
+
+import { cutLetter } from '@/utils';
+
+import { BookVote, BookVoteItemsByMember } from '@/types';
+
+import BookThumbnail from '@/components/common/book/BookThumbnail';
+import UserName from '@/components/common/user/UserName';
 
 interface VoteExpiredCardProps {
   vote: BookVote;

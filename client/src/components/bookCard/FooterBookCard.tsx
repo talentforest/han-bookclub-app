@@ -1,6 +1,7 @@
+import { BaseBookData, BookData } from '@/types';
+
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
-import { BaseBookData, BookData } from '@/types';
 
 interface FooterBookCardProps {
   book: BookData | Partial<BaseBookData>;

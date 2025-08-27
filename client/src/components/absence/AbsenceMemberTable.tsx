@@ -1,20 +1,25 @@
 import { useEffect } from 'react';
 
+import { dbService } from '@/fbase';
+import { doc, setDoc } from 'firebase/firestore';
+
 import { useRecoilState } from 'recoil';
 
-import { getDocument } from '@/api/firebase/getFbDoc';
+import { absenceAtom } from '@/data/absenceAtom';
+
+import { getDocument } from '@/api';
+
 import {
   ABSENCE_MEMBERS,
   BOOKCLUB_THIS_YEAR,
   initialAbsenseMembersData,
 } from '@/appConstants';
+
+import { existDocObj, thisYear } from '@/utils';
+
 import Table from '@/components/common/Table';
 import { Label } from '@/components/common/TableDataItem';
 import EmptyCard from '@/components/common/container/EmptyCard';
-import { absenceAtom } from '@/data/absenceAtom';
-import { dbService } from '@/fbase';
-import { existDocObj, thisYear } from '@/utils';
-import { doc, setDoc } from 'firebase/firestore';
 
 interface AbsenceMemberTableProps {
   isMonth?: boolean;

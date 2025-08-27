@@ -1,12 +1,15 @@
-import { bookFields, createAccountSteps, gender } from '@/appConstants';
+import { clubBookFieldList, createAccountSteps, gender } from '@/appConstants';
+
+import { useCreateAccount } from '@/hooks';
+
+import MobileHeader from '@/layout/mobile/MobileHeader';
+
 import BookFieldCheckBox from '@/components/auth/BookFieldCheckBox';
 import GuideLine from '@/components/common/GuideLine';
 import Subtitle from '@/components/common/Subtitle';
 import Tag from '@/components/common/Tag';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
-import useCreateAccount from '@/hooks/useCreateAccount';
-import MobileHeader from '@/layout/mobile/MobileHeader';
 
 const CreateAccount = () => {
   const {
@@ -131,11 +134,11 @@ const CreateAccount = () => {
 
             <label htmlFor="bookFields">관심 분야</label>
             <fieldset className="bookfield">
-              {bookFields.map(item => (
+              {clubBookFieldList.map(bookField => (
                 <BookFieldCheckBox
-                  key={item.id}
-                  bookFieldName={item.name}
-                  bookFields={item}
+                  key={bookField.id}
+                  bookFieldName={bookField.name}
+                  bookFields={bookField}
                   checkedBoxHandler={checkedBoxHandler}
                 />
               ))}

@@ -1,9 +1,11 @@
 import { useState } from 'react';
 
+import { FiEdit3 } from 'react-icons/fi';
+
+import { formatDate } from '@/utils';
+
 import MeetingInfoModal from '@/components/bookClub/MeetingInfoModal';
 import UserName from '@/components/common/user/UserName';
-import { formatDate } from '@/utils';
-import { FiEdit3 } from 'react-icons/fi';
 
 interface LabelWithValueCardProps {
   label: string;

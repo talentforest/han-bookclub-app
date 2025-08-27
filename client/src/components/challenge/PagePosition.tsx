@@ -1,6 +1,8 @@
-import Tag from '@/components/common/Tag';
-import { getPercentage } from '@/utils';
 import { FaRunning } from 'react-icons/fa';
+
+import { getPercentage } from '@/utils';
+
+import Tag from '@/components/common/Tag';
 
 interface PagePositionProps {
   currentPage: number;

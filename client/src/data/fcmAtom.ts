@@ -1,6 +1,6 @@
-import { atom } from 'recoil';
-
 import { v4 } from 'uuid';
+
+import { atom } from 'recoil';
 
 interface FcmDocument {
   id: string;

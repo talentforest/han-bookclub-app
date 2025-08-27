@@ -1,13 +1,16 @@
 import { useState } from 'react';
 
+import { getDeviceToken, sendMulticast, sendUnicast } from '@/fbase';
+
 import { useRecoilValue } from 'recoil';
 
-import { DOMAIN } from '@/appConstants';
 import { allUsersAtom, currAuthUserAtom } from '@/data/userAtom';
-import { getDeviceToken, sendMulticast, sendUnicast } from '@/fbase';
+
+import { DOMAIN } from '@/appConstants';
+
 import { PostTypeName } from '@/types';
 
-const useSendPushNotification = () => {
+export const useSendPushNotification = () => {
   const [isPending, setIsPending] = useState(false);
 
   const allUsers = useRecoilValue(allUsersAtom);
@@ -154,5 +157,3 @@ const useSendPushNotification = () => {
     isPending,
   };
 };
-
-export default useSendPushNotification;

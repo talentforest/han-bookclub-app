@@ -1,11 +1,14 @@
 import { Link } from 'react-router-dom';
 
-import { BOOK_VOTE } from '@/appConstants';
-import DDay from '@/components/common/DDay';
-import BookThumbnail from '@/components/common/book/BookThumbnail';
-import { BookVote } from '@/types';
 import { FiChevronRight } from 'react-icons/fi';
 import { MdOutlineHowToVote } from 'react-icons/md';
+
+import { BOOK_VOTE } from '@/appConstants';
+
+import { BookVote } from '@/types';
+
+import DDay from '@/components/common/DDay';
+import BookThumbnail from '@/components/common/book/BookThumbnail';
 
 interface VoteProgressCardProps {
   voteDetail: BookVote;

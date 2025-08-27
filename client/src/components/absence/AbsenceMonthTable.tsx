@@ -2,16 +2,22 @@ import { useEffect } from 'react';
 
 import { useRecoilState } from 'recoil';
 
-import { getDocument } from '@/api/firebase/getFbDoc';
+import { absenceAtom } from '@/data/absenceAtom';
+
+import { getDocument } from '@/api';
+
 import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
+
+import { useHandleAbsence } from '@/hooks';
+
+import { existDocObj } from '@/utils';
+
+import { UserAbsence } from '@/types';
+
 import AbsenceForm from '@/components/absence/AbsenceForm';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/Modal';
 import Table from '@/components/common/Table';
-import { absenceAtom } from '@/data/absenceAtom';
-import useHandleAbsence from '@/hooks/useHandleAbsence';
-import { UserAbsence } from '@/types';
-import { existDocObj } from '@/utils';
 
 interface AbsenceMonthTableProps {
   userId: string;

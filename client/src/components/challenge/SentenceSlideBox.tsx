@@ -1,10 +1,13 @@
+import { BiSolidQuoteLeft, BiSolidQuoteRight } from 'react-icons/bi';
+
+import { cutLetter, formatDate } from '@/utils';
+
+import { ChallengeSentence } from '@/types';
+
 import LikeBtnWithPeopleInfo from '@/components/common/LikeBtnWithPeopleInfo';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import EditorContent from '@/components/common/editor/EditorContent';
 import UserName from '@/components/common/user/UserName';
-import { ChallengeSentence } from '@/types';
-import { cutLetter, formatDate } from '@/utils';
-import { BiSolidQuoteLeft, BiSolidQuoteRight } from 'react-icons/bi';
 
 interface SentenceSlideBoxProps {
   sentence: ChallengeSentence;

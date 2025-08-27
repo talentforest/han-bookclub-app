@@ -1,3 +1,5 @@
+import { UserPost } from '@/types';
+
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
 import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
 import Modal from '@/components/common/Modal';
@@ -6,7 +8,6 @@ import BookThumbnail from '@/components/common/book/BookThumbnail';
 import UserName from '@/components/common/user/UserName';
 import PostFooter from '@/components/post/PostFooter';
 import PostHeader from '@/components/post/PostHeader';
-import { UserPost } from '@/types';
 
 interface RecommendedBookModalProps {
   collName: string;

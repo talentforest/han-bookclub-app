@@ -1,18 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import CreateAccount from '@/components/auth/CreateAccount';
-import ResetPasswordEmail from '@/components/auth/ResetPasswordEmail';
-import ScrollToTop from '@/components/common/ScrollToTop';
-import PostListDetail from '@/components/post/PostListDetail';
-import Absence from '@/components/setting/Absence';
-import ChangePassword from '@/components/setting/ChangePassword';
-import DeleteAccount from '@/components/setting/DeleteAccount';
-import Developer from '@/components/setting/Developer';
-import EditProfile from '@/components/setting/EditProfile';
-import NotificationSetting from '@/components/setting/NotificationSetting';
 import { authService } from '@/fbase';
-import TopNavigation from '@/layout/desktop/TopNavigation';
-import BottomNavigation from '@/layout/mobile/BottomNavigation';
+
 import Bookshelf from '@/routes/Bookshelf';
 import Challenge from '@/routes/Challenge';
 import ClubDetail from '@/routes/ClubDetail';
@@ -24,6 +13,20 @@ import Search from '@/routes/Search';
 import Setting from '@/routes/Setting';
 import Vote from '@/routes/Vote';
 import VoteDetail from '@/routes/VoteDetail';
+
+import TopNavigation from '@/layout/desktop/TopNavigation';
+import BottomNavigation from '@/layout/mobile/BottomNavigation';
+
+import CreateAccount from '@/components/auth/CreateAccount';
+import ResetPasswordEmail from '@/components/auth/ResetPasswordEmail';
+import ScrollToTop from '@/components/common/ScrollToTop';
+import PostListDetail from '@/components/post/PostListDetail';
+import Absence from '@/components/setting/Absence';
+import ChangePassword from '@/components/setting/ChangePassword';
+import DeleteAccount from '@/components/setting/DeleteAccount';
+import Developer from '@/components/setting/Developer';
+import EditProfile from '@/components/setting/EditProfile';
+import NotificationSetting from '@/components/setting/NotificationSetting';
 
 interface RouterProps {
   isLoggedIn: boolean;

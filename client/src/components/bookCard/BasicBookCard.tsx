@@ -1,8 +1,10 @@
+import { formatDate } from '@/utils';
+
+import { MonthlyBookClub } from '@/types';
+
 import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
-import { MonthlyBookClub } from '@/types';
-import { formatDate } from '@/utils';
 
 interface BasicBookCardProps {
   bookClub: MonthlyBookClub;

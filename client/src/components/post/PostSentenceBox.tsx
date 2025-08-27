@@ -1,14 +1,18 @@
+import { BiSolidQuoteLeft, BiSolidQuoteRight } from 'react-icons/bi';
+
 import { useRecoilValue } from 'recoil';
 
+import { currAuthUserAtom } from '@/data/userAtom';
+
 import { SENTENCES2024 } from '@/appConstants';
+
+import { ChallengeSentence } from '@/types';
+
 import LikeBtnWithPeopleInfo from '@/components/common/LikeBtnWithPeopleInfo';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import EditorContent from '@/components/common/editor/EditorContent';
 import UserName from '@/components/common/user/UserName';
 import PostHandleBtns from '@/components/post/PostHandleBtns';
-import { currAuthUserAtom } from '@/data/userAtom';
-import { ChallengeSentence } from '@/types';
-import { BiSolidQuoteLeft, BiSolidQuoteRight } from 'react-icons/bi';
 
 interface PostSentenceBoxProps {
   sentence: ChallengeSentence;

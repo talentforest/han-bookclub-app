@@ -1,20 +1,26 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 
+import { dbService } from '@/fbase';
+import { doc, setDoc } from 'firebase/firestore';
+
 import { useRecoilValue } from 'recoil';
 
+import { bookDescState } from '@/data/bookAtom';
+import { completeReadingChallengeState } from '@/data/challengeAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
+
 import { CHALLENGE } from '@/appConstants';
+
+import { useAlertAskJoin } from '@/hooks';
+
+import { formatDate } from '@/utils';
+
+import { CompleteReadingChallenge } from '@/types';
+
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
-import { bookDescState } from '@/data/bookAtom';
-import { completeReadingChallengeState } from '@/data/challengeAtom';
-import { currAuthUserAtom } from '@/data/userAtom';
-import { dbService } from '@/fbase';
-import useAlertAskJoin from '@/hooks/useAlertAskJoin';
-import { CompleteReadingChallenge } from '@/types';
-import { formatDate } from '@/utils';
-import { doc, setDoc } from 'firebase/firestore';
 
 interface ChallengeBookFormProps {
   onModalClose: () => void;

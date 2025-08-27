@@ -4,8 +4,19 @@ import { useLocation } from 'react-router-dom';
 
 import { useRecoilState } from 'recoil';
 
-import { getCollection } from '@/api/firebase/getFbDoc';
+import { clubByYearAtom } from '@/data/clubAtom';
+import { hostReviewState, subjectsState } from '@/data/documentsAtom';
+
+import { getCollection } from '@/api';
+
 import { HOST_REVIEW, SUBJECTS } from '@/appConstants';
+
+import { useAlertAskJoin } from '@/hooks';
+
+import { formatDate, getFbRouteOfPost, thisYearMonthId } from '@/utils';
+
+import MobileHeader from '@/layout/mobile/MobileHeader';
+
 import BasicBookCard from '@/components/bookCard/BasicBookCard';
 import DottedDividingLine from '@/components/common/DottedDividingLine';
 import Loading from '@/components/common/Loading';
@@ -13,11 +24,6 @@ import SquareBtn from '@/components/common/button/SquareBtn';
 import Post from '@/components/post/Post';
 import PostAddModal from '@/components/post/PostAddModal';
 import PostFooter from '@/components/post/PostFooter';
-import { clubByYearAtom } from '@/data/clubAtom';
-import { hostReviewState, subjectsState } from '@/data/documentsAtom';
-import useAlertAskJoin from '@/hooks/useAlertAskJoin';
-import MobileHeader from '@/layout/mobile/MobileHeader';
-import { formatDate, getFbRouteOfPost, thisYearMonthId } from '@/utils';
 
 interface LocationState {
   pathname: string;

@@ -1,10 +1,12 @@
 import { FormEvent } from 'react';
 
+import { useEditDoc } from '@/hooks';
+
+import { PostTypeName, UserPost } from '@/types';
+
 import Modal from '@/components/common/Modal';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import QuillEditor from '@/components/common/editor/QuillEditor';
-import useEditDoc from '@/hooks/handleFbDoc/useEditDoc';
-import { PostTypeName, UserPost } from '@/types';
 
 interface PostEditModalProps {
   postType: PostTypeName;

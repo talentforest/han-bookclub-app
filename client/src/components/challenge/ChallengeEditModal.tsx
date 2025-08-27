@@ -1,22 +1,28 @@
 import { FormEvent, useRef } from 'react';
 
+import { dbService } from '@/fbase';
+import { doc, setDoc } from 'firebase/firestore';
+
 import { useRecoilValue } from 'recoil';
 
+import { currAuthUserAtom } from '@/data/userAtom';
+
 import { CHALLENGE } from '@/appConstants';
+
+import { useSendPushNotification } from '@/hooks';
+
+import { formatDate } from '@/utils';
+
+import {
+  CompleteReadingChallenge,
+  CompleteReadingChallengeBook,
+} from '@/types';
+
 import Modal from '@/components/common/Modal';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import RefInput from '@/components/common/input/RefInput';
-import { currAuthUserAtom } from '@/data/userAtom';
-import { dbService } from '@/fbase';
-import useSendPushNotification from '@/hooks/useSendPushNotification';
-import {
-  CompleteReadingChallenge,
-  CompleteReadingChallengeBook,
-} from '@/types';
-import { formatDate } from '@/utils';
-import { doc, setDoc } from 'firebase/firestore';
 
 interface ChallengeEditModalProps {
   challenge: CompleteReadingChallenge;

@@ -2,10 +2,6 @@ import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { useRecoilValue } from 'recoil';
-
-import { USER } from '@/appConstants';
-import { currAuthUserAtom } from '@/data/userAtom';
 import { authService, dbService } from '@/fbase';
 import {
   EmailAuthProvider,
@@ -14,7 +10,13 @@ import {
 } from 'firebase/auth';
 import { deleteDoc, doc } from 'firebase/firestore';
 
-const useDeleteAccount = () => {
+import { useRecoilValue } from 'recoil';
+
+import { currAuthUserAtom } from '@/data/userAtom';
+
+import { USER } from '@/appConstants';
+
+export const useDeleteAccount = () => {
   const [password, setPassword] = useState('');
   const [showMessage, setShowMessage] = useState(false);
   const { uid } = useRecoilValue(currAuthUserAtom);
@@ -61,5 +63,3 @@ const useDeleteAccount = () => {
     onChange,
   };
 };
-
-export default useDeleteAccount;

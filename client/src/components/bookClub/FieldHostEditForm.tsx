@@ -1,12 +1,16 @@
 import { FormEvent } from 'react';
 
+import Select from 'react-select';
+
 import { useRecoilValue } from 'recoil';
 
-import { bookFields } from '@/appConstants';
-import SquareBtn from '@/components/common/button/SquareBtn';
 import { allUsersAtom } from '@/data/userAtom';
+
+import { clubBookFieldList } from '@/appConstants';
+
 import { MonthlyFieldAndHost } from '@/types';
-import Select from 'react-select';
+
+import SquareBtn from '@/components/common/button/SquareBtn';
 
 type ChangeSelectValue = {
   label: string;
@@ -43,7 +47,10 @@ export default function FieldHostEditForm({
     return { value: host.id, label: host.displayName };
   });
 
-  const fieldList = [...bookFields, { id: 'no_field', name: '분야 없음' }];
+  const fieldList = [
+    ...clubBookFieldList,
+    { id: 'no_field', name: '분야 없음' },
+  ];
 
   const fieldOptions = fieldList.map(field => {
     return { value: field.id, label: field.name };

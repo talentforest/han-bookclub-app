@@ -14,16 +14,24 @@
     "^react(/.*)?$",
     "^react-router-dom(/.*)?$",
     "^react-dom(/.*)?$",
-    "^appConstants/(.*)$",
-    "^utils/(.*)$",
-    "^hooks/(.*)$",
-    "^api/(.*)$",
-    "^(recoil|data)(/.*)?$",
     "<THIRD_PARTY_MODULES>",
-    "^routes/(.*)$",
-    "^layout/(.*)$",
-    "^components/(.*)$"
+    "^(recoil|data)(/.*)?$",
+    "^@/data(.*)$",
+    "^@/api(.*)$",
+
+    "^@/appConstants(.*)$",
+
+    "^@/hooks(.*)$",
+
+    "^@/utils(.*)$",
+
+    "^@/types(.*)$",
+
+    "^@/routes/(.*)$",
+    "^@/layout/(.*)$",
+    "^@/components/(.*)$"
   ],
   "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  "importOrderSortSpecifiers": true,
+  "importOrderGroupNamespaceSpecifiers": true
 }

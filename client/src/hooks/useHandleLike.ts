@@ -1,10 +1,11 @@
 import { useState } from 'react';
 
+import { authService, dbService } from '@/fbase';
+import { doc, updateDoc } from 'firebase/firestore';
+
 import { useRecoilValue } from 'recoil';
 
 import { currAuthUserAtom } from '@/data/userAtom';
-import { authService, dbService } from '@/fbase';
-import { doc, updateDoc } from 'firebase/firestore';
 
 interface IHandleLikeProps {
   likes: number;
@@ -13,7 +14,7 @@ interface IHandleLikeProps {
   collName: string;
 }
 
-const useHandleLike = ({
+export const useHandleLike = ({
   likes,
   likeUsers,
   docId,
@@ -55,5 +56,3 @@ const useHandleLike = ({
     toggleShowLikeUsers,
   };
 };
-
-export default useHandleLike;

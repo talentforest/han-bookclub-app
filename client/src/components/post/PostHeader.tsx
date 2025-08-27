@@ -1,9 +1,11 @@
 import { useRecoilValue } from 'recoil';
 
+import { currAuthUserAtom } from '@/data/userAtom';
+
+import { PostTypeName, UserPost } from '@/types';
+
 import CreatorBox from '@/components/common/user/CreatorBox';
 import PostHandleBtns from '@/components/post/PostHandleBtns';
-import { currAuthUserAtom } from '@/data/userAtom';
-import { PostTypeName, UserPost } from '@/types';
 
 interface PostHeaderProps {
   collName: string;

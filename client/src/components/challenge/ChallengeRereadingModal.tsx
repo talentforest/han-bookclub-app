@@ -1,19 +1,25 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { dbService } from '@/fbase';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
+
 import { useRecoilValue } from 'recoil';
 
-import { getDocument } from '@/api/firebase/getFbDoc';
+import { currAuthUserAtom } from '@/data/userAtom';
+
+import { getDocument } from '@/api';
+
 import { CHALLENGE } from '@/appConstants';
+
+import { formatDate, thisYear } from '@/utils';
+
+import { BookData, RereadingChallenge } from '@/types';
+
 import Modal from '@/components/common/Modal';
 import Tag from '@/components/common/Tag';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import SquareBtn from '@/components/common/button/SquareBtn';
-import { currAuthUserAtom } from '@/data/userAtom';
-import { dbService } from '@/fbase';
-import { BookData, RereadingChallenge } from '@/types';
-import { formatDate, thisYear } from '@/utils';
-import { doc, setDoc, updateDoc } from 'firebase/firestore';
 
 interface ChallengeRereadingModalProps {
   selectedBook:

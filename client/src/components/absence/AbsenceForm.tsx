@@ -1,8 +1,9 @@
 import { FormEvent } from 'react';
 
+import { UserAbsence } from '@/types';
+
 import SquareBtn from '@/components/common/button/SquareBtn';
 import LabeledCheckBox from '@/components/common/input/LabeledCheckBox';
-import { UserAbsence } from '@/types';
 
 interface AbsenceFormProps {
   month: number;

@@ -1,9 +1,23 @@
 import { useEffect, useState } from 'react';
 
+import { PiShootingStarFill } from 'react-icons/pi';
+import { SwiperSlide } from 'swiper/react';
+
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { getCollection } from '@/api/firebase/getFbDoc';
+import { clubByYearAtom } from '@/data/clubAtom';
+import { allUsersAtom } from '@/data/userAtom';
+
+import { getCollection } from '@/api';
+
 import { CHALLENGE } from '@/appConstants';
+
+import { thisYear } from '@/utils';
+
+import { BaseBookData, BookData, RereadingChallenge } from '@/types';
+
+import MobileHeader from '@/layout/mobile/MobileHeader';
+
 import ChallengeRereadingCard from '@/components/challenge/ChallengeRereadingCard';
 import ChallengeRereadingModal from '@/components/challenge/ChallengeRereadingModal';
 import DDay from '@/components/common/DDay';
@@ -12,13 +26,6 @@ import Subtitle from '@/components/common/Subtitle';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import Section from '@/components/common/container/Section';
 import SwiperContainer from '@/components/common/container/SwiperContainer';
-import { clubByYearAtom } from '@/data/clubAtom';
-import { allUsersAtom } from '@/data/userAtom';
-import MobileHeader from '@/layout/mobile/MobileHeader';
-import { BaseBookData, BookData, RereadingChallenge } from '@/types';
-import { thisYear } from '@/utils';
-import { PiShootingStarFill } from 'react-icons/pi';
-import { SwiperSlide } from 'swiper/react';
 
 const swiperOptions = {
   breakpoints: {

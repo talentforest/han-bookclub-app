@@ -1,6 +1,6 @@
 import { ClubBookField } from '@/types';
 
-export const bookFields: ClubBookField[] = [
+export const clubBookFieldList: ClubBookField[] = [
   { id: 1, name: '과학' },
   { id: 2, name: '국내문학' },
   { id: 3, name: '시/에세이' },

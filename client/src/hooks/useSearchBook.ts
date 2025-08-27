@@ -2,10 +2,11 @@ import { useEffect, useRef } from 'react';
 
 import { useRecoilState } from 'recoil';
 
-import { searchBookHandler } from '@/api/searchBook';
 import { searchListAtom } from '@/data/bookAtom';
 
-const useSearchBook = () => {
+import { searchBookHandler } from '@/api';
+
+export const useSearchBook = () => {
   const [searchList, setSearchList] = useRecoilState(searchListAtom);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -38,5 +39,3 @@ const useSearchBook = () => {
     resetSearchList,
   };
 };
-
-export default useSearchBook;

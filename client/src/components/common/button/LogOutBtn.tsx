@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
 import { authService } from '@/fbase';
-import useAlertAskJoin from '@/hooks/useAlertAskJoin';
+
+import { useAlertAskJoin } from '@/hooks';
 
 const LogOutBtn = () => {
   const { anonymous } = useAlertAskJoin('see');

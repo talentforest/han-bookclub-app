@@ -1,8 +1,10 @@
+import { v4 } from 'uuid';
+
 import { atom, selector } from 'recoil';
 
-import { MonthlyFieldAndHost } from '@/types';
 import { thisMonth } from '@/utils';
-import { v4 } from 'uuid';
+
+import { MonthlyFieldAndHost } from '@/types';
 
 interface IFieldAndHostDoc {
   id?: string;

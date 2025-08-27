@@ -1,5 +1,6 @@
-import { BookData } from '@/types';
 import axios from 'axios';
+
+import { BookData } from '@/types';
 
 type SearchBookParams = {
   query: string;

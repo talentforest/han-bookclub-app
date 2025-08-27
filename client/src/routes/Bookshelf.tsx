@@ -2,10 +2,24 @@ import { useEffect } from 'react';
 
 import { Link, useLocation } from 'react-router-dom';
 
+import { FiSettings } from 'react-icons/fi';
+
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { getDocument } from '@/api/firebase/getFbDoc';
+import { attendanceSelector } from '@/data/absenceAtom';
+import { completeReadingChallengeState } from '@/data/challengeAtom';
+import { allUsersAtom, currAuthUserAtom } from '@/data/userAtom';
+
+import { getDocument } from '@/api';
+
 import { CHALLENGE } from '@/appConstants';
+
+import { thisMonth } from '@/utils';
+
+import { PostTypeName } from '@/types';
+
+import MobileHeader from '@/layout/mobile/MobileHeader';
+
 import BookshelfPostList from '@/components/bookshelf/BookshelfPostList';
 import ChallengeBookCard from '@/components/challenge/ChallengeBookCard';
 import GuideLine from '@/components/common/GuideLine';
@@ -14,13 +28,6 @@ import Subtitle from '@/components/common/Subtitle';
 import Tag from '@/components/common/Tag';
 import Section from '@/components/common/container/Section';
 import UserImgName from '@/components/common/user/UserImgName';
-import { attendanceSelector } from '@/data/absenceAtom';
-import { completeReadingChallengeState } from '@/data/challengeAtom';
-import { allUsersAtom, currAuthUserAtom } from '@/data/userAtom';
-import MobileHeader from '@/layout/mobile/MobileHeader';
-import { PostTypeName } from '@/types';
-import { thisMonth } from '@/utils';
-import { FiSettings } from 'react-icons/fi';
 
 const Bookshelf = () => {
   const [challenge, setChallenge] = useRecoilState(

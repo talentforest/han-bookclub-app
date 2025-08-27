@@ -2,19 +2,26 @@ import { useEffect, useState } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
+import { SwiperSlide } from 'swiper/react';
+
 import { useRecoilState } from 'recoil';
 
-import { getCollection } from '@/api/firebase/getFbDoc';
+import { hostReviewState, subjectsState } from '@/data/documentsAtom';
+
+import { getCollection } from '@/api';
+
 import { HOST_REVIEW, SUBJECTS } from '@/appConstants';
+
+import { useAlertAskJoin } from '@/hooks';
+
+import { getFbRouteOfPost } from '@/utils';
+
+import { PostTypeName, UserPost } from '@/types';
+
 import ChevronRightLinkBtn from '@/components/common/button/ChevronRightLinkBtn';
 import PlusIconWithTextLink from '@/components/common/button/PlusIconLinkBtn';
 import SwiperContainer from '@/components/common/container/SwiperContainer';
 import Post from '@/components/post/Post';
-import { hostReviewState, subjectsState } from '@/data/documentsAtom';
-import useAlertAskJoin from '@/hooks/useAlertAskJoin';
-import { PostTypeName, UserPost } from '@/types';
-import { getFbRouteOfPost } from '@/utils';
-import { SwiperSlide } from 'swiper/react';
 
 interface PostTabBoxProps {
   yearMonthId: string;

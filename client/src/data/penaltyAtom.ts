@@ -1,7 +1,8 @@
+import { v4 } from 'uuid';
+
 import { atom, selector } from 'recoil';
 
 import { UserPenalty } from '@/types';
-import { v4 } from 'uuid';
 
 export const penaltyDocState = atom<UserPenalty>({
   key: `penaltyDoc/${v4()}`,

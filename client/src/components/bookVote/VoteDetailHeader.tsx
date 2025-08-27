@@ -1,10 +1,14 @@
+import { FiTrash2 } from 'react-icons/fi';
+
 import { useRecoilValue } from 'recoil';
 
-import CreatorBox from '@/components/common/user/CreatorBox';
 import { currAuthUserAtom } from '@/data/userAtom';
-import { BookVote } from '@/types';
+
 import { formatDate } from '@/utils';
-import { FiTrash2 } from 'react-icons/fi';
+
+import { BookVote } from '@/types';
+
+import CreatorBox from '@/components/common/user/CreatorBox';
 
 interface VoteDetailHeaderProps {
   vote: BookVote;

@@ -3,9 +3,10 @@ import { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { authService } from '@/fbase';
+
 import { PostPermission } from '@/types';
 
-const useAlertAskJoin = (permission: PostPermission) => {
+export const useAlertAskJoin = (permission: PostPermission) => {
   const navigate = useNavigate();
   const anonymous = authService.currentUser?.isAnonymous;
 
@@ -42,5 +43,3 @@ const useAlertAskJoin = (permission: PostPermission) => {
 
   return { alertAskJoinMember, blockLinkAndAlertJoinMember, anonymous };
 };
-
-export default useAlertAskJoin;

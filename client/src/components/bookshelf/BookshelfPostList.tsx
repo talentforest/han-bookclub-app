@@ -1,5 +1,6 @@
-import PostBookThumbnailBox from '@/components/post/PostBookThumbnailBox';
 import { PostTypeName, UserPostDocId, UserRecords } from '@/types';
+
+import PostBookThumbnailBox from '@/components/post/PostBookThumbnailBox';
 
 interface BookshelfPostListProps {
   userRecords: UserRecords;

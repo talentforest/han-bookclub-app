@@ -1,4 +1,4 @@
-import GuideLine from '../GuideLine';
+import GuideLine from '@/components/common/GuideLine';
 
 interface LabeledCheckBoxProps {
   label: string;

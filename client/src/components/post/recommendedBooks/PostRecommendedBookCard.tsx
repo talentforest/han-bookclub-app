@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 
-import { getDocument } from '@/api/firebase/getFbDoc';
+import { getDocument } from '@/api';
+
+import { UserPost } from '@/types';
+
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import RecommendedBookModal from '@/components/post/recommendedBooks/RecommendedBookModal';
-import { UserPost } from '@/types';
 
 interface PostRecommendedBookCardProps {
   docIds: { docId: string; monthId: string };

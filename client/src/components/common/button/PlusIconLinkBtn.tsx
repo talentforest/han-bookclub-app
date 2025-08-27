@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 
-import { PostTypeName } from '@/types';
 import { FiPlus } from 'react-icons/fi';
+
+import { PostTypeName } from '@/types';
 
 interface PlusIconWithTextLinkProps {
   to: string;

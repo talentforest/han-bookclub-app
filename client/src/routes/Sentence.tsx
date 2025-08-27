@@ -1,21 +1,28 @@
 import { useEffect } from 'react';
 
+import { FiCalendar } from 'react-icons/fi';
+import { SwiperSlide } from 'swiper/react';
+
 import { useRecoilState } from 'recoil';
 
-import { getCollection } from '@/api/firebase/getFbDoc';
+import { sentencesState } from '@/data/challengeAtom';
+
+import { getCollection } from '@/api';
+
 import { SENTENCES2024 } from '@/appConstants';
+
+import { formatDate } from '@/utils';
+
+import { ChallengeSentence } from '@/types';
+
+import MobileHeader from '@/layout/mobile/MobileHeader';
+
 import Subtitle from '@/components/common/Subtitle';
 import Tag from '@/components/common/Tag';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import Section from '@/components/common/container/Section';
 import SwiperContainer from '@/components/common/container/SwiperContainer';
 import PostSentenceBox from '@/components/post/PostSentenceBox';
-import { sentencesState } from '@/data/challengeAtom';
-import MobileHeader from '@/layout/mobile/MobileHeader';
-import { ChallengeSentence } from '@/types';
-import { formatDate } from '@/utils';
-import { FiCalendar } from 'react-icons/fi';
-import { SwiperSlide } from 'swiper/react';
 
 const swiperOptions = {
   pagination: false,

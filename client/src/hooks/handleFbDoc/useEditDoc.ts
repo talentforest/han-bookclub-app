@@ -1,16 +1,18 @@
 import { useState } from 'react';
 
 import { dbService } from '@/fbase';
-import useAlertAskJoin from '@/hooks/useAlertAskJoin';
-import { UserPost } from '@/types';
 import { doc, updateDoc } from 'firebase/firestore';
+
+import { useAlertAskJoin } from '@/hooks';
+
+import { UserPost } from '@/types';
 
 interface UseEditDocProps {
   post: UserPost;
   collName: string;
 }
 
-const useEditDoc = ({ post, collName }: UseEditDocProps) => {
+export const useEditDoc = ({ post, collName }: UseEditDocProps) => {
   const [editedText, setEditedText] = useState(post.text);
 
   const docRef = doc(dbService, collName, post.id);
@@ -50,5 +52,3 @@ const useEditDoc = ({ post, collName }: UseEditDocProps) => {
     onEditedChange,
   };
 };
-
-export default useEditDoc;

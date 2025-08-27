@@ -2,24 +2,30 @@ import { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import { dbService } from '@/fbase';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
+
 import { useRecoilValue } from 'recoil';
 
-import useAlertAskJoin from './useAlertAskJoin';
-import { getCollection, getDocument } from '@/api/firebase/getFbDoc';
-import { BOOK_VOTE, VOTED_ITEMS } from '@/appConstants';
 import { currAuthUserAtom } from '@/data/userAtom';
 import { initialBookVote } from '@/data/voteAtom';
-import { dbService } from '@/fbase';
-import { BookVote, BookVoteItemsByMember } from '@/types';
+
+import { getCollection, getDocument } from '@/api';
+
+import { BOOK_VOTE, VOTED_ITEMS } from '@/appConstants';
+
+import { useAlertAskJoin } from '@/hooks';
+
 import { formatDate, getVoteCountsById } from '@/utils';
-import { deleteDoc, doc, setDoc } from 'firebase/firestore';
+
+import { BookVote, BookVoteItemsByMember } from '@/types';
 
 interface UseHandleVotingProps {
   collName: string;
   docId: string;
 }
 
-const useHandleVoting = ({ collName, docId }: UseHandleVotingProps) => {
+export const useHandleVoting = ({ collName, docId }: UseHandleVotingProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const [currentVote, setCurrentVote] = useState<BookVote>(initialBookVote);
@@ -130,5 +136,3 @@ const useHandleVoting = ({ collName, docId }: UseHandleVotingProps) => {
     onToggleRevoteClick,
   };
 };
-
-export default useHandleVoting;

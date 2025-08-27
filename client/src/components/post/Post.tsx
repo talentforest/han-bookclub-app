@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
 
-import PostHeader from './PostHeader';
-import EditorContent from '@/components/common/editor/EditorContent';
 import { PostTypeName, UserPost } from '@/types';
+
+import EditorContent from '@/components/common/editor/EditorContent';
+import PostHeader from '@/components/post/PostHeader';
 
 interface PostProps {
   type: PostTypeName;

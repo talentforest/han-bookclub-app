@@ -9,7 +9,7 @@ import {
   updatePassword,
 } from 'firebase/auth';
 
-const useChangePw = () => {
+export const useChangePw = () => {
   const [originPassword, setOriginPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [checkNewPassword, setCheckNewPassword] = useState('');
@@ -79,5 +79,3 @@ const useChangePw = () => {
     onCheckNewChange,
   };
 };
-
-export default useChangePw;

@@ -1,7 +1,8 @@
+import { v4 } from 'uuid';
+
 import { atom } from 'recoil';
 
 import { UserPost } from '@/types';
-import { v4 } from 'uuid';
 
 export const subjectsState = atom<UserPost[]>({
   key: `subjectDocs/${v4()}`,

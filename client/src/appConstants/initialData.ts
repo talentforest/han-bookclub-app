@@ -1,5 +1,6 @@
-import { MonthlyAbsenceMembers, MonthlyFieldAndHost } from '@/types';
 import { thisYear } from '@/utils';
+
+import { MonthlyAbsenceMembers, MonthlyFieldAndHost } from '@/types';
 
 export const initialAbsenseMembersData: {
   absenceMembers: MonthlyAbsenceMembers[];

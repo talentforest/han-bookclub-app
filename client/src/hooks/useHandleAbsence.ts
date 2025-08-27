@@ -1,14 +1,18 @@
 import { useState } from 'react';
 
+import { dbService } from '@/fbase';
+import { doc, updateDoc } from 'firebase/firestore';
+
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import useAlertAskJoin from './useAlertAskJoin';
-import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
 import { absenceAtom } from '@/data/absenceAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
-import { dbService } from '@/fbase';
+
+import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
+
+import { useAlertAskJoin } from '@/hooks';
+
 import { UserAbsence } from '@/types';
-import { doc, updateDoc } from 'firebase/firestore';
 
 const initialModalState = {
   isEditing: false,
@@ -21,7 +25,7 @@ const initialAbsence: UserAbsence = {
   onceAbsenceMonth: false,
 };
 
-const useHandleAbsence = () => {
+export const useHandleAbsence = () => {
   const { uid } = useRecoilValue(currAuthUserAtom);
   const [editingMonthInfo, setEditingMonthInfo] = useState(initialModalState);
   const [absenceList, setAbsenceList] = useRecoilState(absenceAtom);
@@ -95,5 +99,3 @@ const useHandleAbsence = () => {
     setSelectedValues,
   };
 };
-
-export default useHandleAbsence;

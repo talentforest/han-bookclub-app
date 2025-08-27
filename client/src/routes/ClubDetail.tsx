@@ -4,8 +4,19 @@ import { useLocation } from 'react-router-dom';
 
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { getCollection, getDocument } from '@/api/firebase/getFbDoc';
+import { absenceAtom, attendanceSelector } from '@/data/absenceAtom';
+import { clubByMonthSelector, clubByYearAtom } from '@/data/clubAtom';
+
+import { getCollection, getDocument } from '@/api';
+
 import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
+
+import { existDocObj, formatDate, thisYearMonthId } from '@/utils';
+
+import { MonthlyBookClub } from '@/types';
+
+import MobileHeader from '@/layout/mobile/MobileHeader';
+
 import MemberListCard from '@/components/absence/MemberListCard';
 import BasicBookCard from '@/components/bookCard/BasicBookCard';
 import ThisMonthBookClub from '@/components/bookClub/ThisMonthClub';
@@ -18,11 +29,6 @@ import MeetingReviewForm from '@/components/post/MeetingReviewForm';
 import MeetingReviewList from '@/components/post/MeetingReviewList';
 import PostTabBox from '@/components/post/PostTabBox';
 import RecommendedBookSwiperContainer from '@/components/post/recommendedBooks/RecommendedBookSwiperContainer';
-import { absenceAtom, attendanceSelector } from '@/data/absenceAtom';
-import { clubByMonthSelector, clubByYearAtom } from '@/data/clubAtom';
-import MobileHeader from '@/layout/mobile/MobileHeader';
-import { MonthlyBookClub } from '@/types';
-import { existDocObj, formatDate, thisYearMonthId } from '@/utils';
 
 type LocationState = {
   state: {

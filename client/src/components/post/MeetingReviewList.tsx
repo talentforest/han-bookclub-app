@@ -2,13 +2,17 @@ import { useEffect } from 'react';
 
 import { useRecoilState } from 'recoil';
 
-import { getCollection } from '@/api/firebase/getFbDoc';
+import { meetingReviewsState } from '@/data/documentsAtom';
+
+import { getCollection } from '@/api';
+
 import { REVIEWS } from '@/appConstants';
+
+import { getFbRouteOfPost, thisYearMonthId } from '@/utils';
+
 import EmptyCard from '@/components/common/container/EmptyCard';
 import Post from '@/components/post/Post';
 import PostFooter from '@/components/post/PostFooter';
-import { meetingReviewsState } from '@/data/documentsAtom';
-import { getFbRouteOfPost, thisYearMonthId } from '@/utils';
 
 interface MeetingReviewListProps {
   yearMonthId?: string;

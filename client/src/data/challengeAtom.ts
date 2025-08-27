@@ -1,3 +1,5 @@
+import { v4 } from 'uuid';
+
 import { atom } from 'recoil';
 
 import {
@@ -5,7 +7,6 @@ import {
   CompleteReadingChallenge,
   RereadingChallenge,
 } from '@/types';
-import { v4 } from 'uuid';
 
 export const rereadingChallengeState = atom<RereadingChallenge>({
   key: `rereadingChallenge/${v4()}`,

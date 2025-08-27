@@ -2,13 +2,15 @@ import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { USER, createAccountSteps } from '@/appConstants';
 import { authService, dbService } from '@/fbase';
-import { ClubBookField } from '@/types';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
-const useCreateAccount = () => {
+import { USER, createAccountSteps } from '@/appConstants';
+
+import { ClubBookField } from '@/types';
+
+export const useCreateAccount = () => {
   const [currentStep, setCurrentStep] = useState(createAccountSteps[0]);
 
   const [keyword, setKeyword] = useState('');
@@ -165,5 +167,3 @@ const useCreateAccount = () => {
     checkedBoxHandler,
   };
 };
-
-export default useCreateAccount;

@@ -1,4 +1,5 @@
 import { postTypeObj } from '@/appConstants';
+
 import { BaseBookData } from '@/types/book';
 
 export type PostPermission = 'see' | 'edit' | 'register' | 'write';

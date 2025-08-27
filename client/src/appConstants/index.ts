@@ -1,4 +1,4 @@
-export * from '@/appConstants/bookFields';
+export * from '@/appConstants/clubBookField';
 export * from '@/appConstants/fbRouteName';
 export * from '@/appConstants/colors';
 export * from '@/appConstants/createAccountSteps';

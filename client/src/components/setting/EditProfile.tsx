@@ -2,16 +2,20 @@ import { useEffect } from 'react';
 
 import { useRecoilValue } from 'recoil';
 
-import { bookFields } from '@/appConstants';
+import { currAuthUserAtom } from '@/data/userAtom';
+
+import { clubBookFieldList } from '@/appConstants';
+
+import { useHandleProfile } from '@/hooks';
+
+import MobileHeader from '@/layout/mobile/MobileHeader';
+
 import Loading from '@/components/common/Loading';
 import Tag from '@/components/common/Tag';
 import EditBtn from '@/components/common/button/EditBtn';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import RefInput from '@/components/common/input/RefInput';
 import UserImg from '@/components/common/user/UserImg';
-import { currAuthUserAtom } from '@/data/userAtom';
-import useHandleProfile from '@/hooks/useHandleProfile';
-import MobileHeader from '@/layout/mobile/MobileHeader';
 
 const EditProfile = () => {
   const { displayName, email } = useRecoilValue(currAuthUserAtom);
@@ -64,7 +68,7 @@ const EditProfile = () => {
       ),
       form: (
         <ul className="flex flex-wrap gap-2">
-          {bookFields?.map(({ id, name }) => (
+          {clubBookFieldList?.map(({ id, name }) => (
             <button
               key={id}
               type="button"

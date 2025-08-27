@@ -1,5 +1,6 @@
-import UserName from '@/components/common/user/UserName';
 import { thisMonth } from '@/utils';
+
+import UserName from '@/components/common/user/UserName';
 
 export type Label =
   | '월'

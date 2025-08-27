@@ -4,10 +4,13 @@ import { Link } from 'react-router-dom';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { getCollection } from '@/api/firebase/getFbDoc';
-import { USER } from '@/appConstants';
 import { allUsersAtom, currAuthUserAtom } from '@/data/userAtom';
-import useAlertAskJoin from '@/hooks/useAlertAskJoin';
+
+import { getCollection } from '@/api';
+
+import { USER } from '@/appConstants';
+
+import { useAlertAskJoin } from '@/hooks';
 
 interface UserNameProps {
   userId: string;

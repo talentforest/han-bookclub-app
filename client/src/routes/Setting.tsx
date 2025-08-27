@@ -1,13 +1,18 @@
 import { Link } from 'react-router-dom';
 
+import { authService } from '@/fbase';
+
 import { useRecoilValue } from 'recoil';
 
-import { DEVELOPER_EMAIL } from '@/appConstants';
-import LogOutBtn from '@/components/common/button/LogOutBtn';
 import { currAuthUserAtom } from '@/data/userAtom';
-import { authService } from '@/fbase';
-import useAlertAskJoin from '@/hooks/useAlertAskJoin';
+
+import { DEVELOPER_EMAIL } from '@/appConstants';
+
+import { useAlertAskJoin } from '@/hooks';
+
 import MobileHeader from '@/layout/mobile/MobileHeader';
+
+import LogOutBtn from '@/components/common/button/LogOutBtn';
 
 const Setting = () => {
   const { email } = useRecoilValue(currAuthUserAtom);

@@ -1,6 +1,8 @@
-import LikeBtnWithPeopleInfo from '@/components/common/LikeBtnWithPeopleInfo';
-import { UserPost } from '@/types';
 import { formatDate } from '@/utils';
+
+import { UserPost } from '@/types';
+
+import LikeBtnWithPeopleInfo from '@/components/common/LikeBtnWithPeopleInfo';
 
 interface PostFooterProps {
   post?: UserPost;

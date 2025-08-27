@@ -1,6 +1,7 @@
+import { PostTypeName, UserPost } from '@/types';
+
 import PostDeleteBtn from '@/components/common/button/PostDeleteBtn';
 import PostEditBtn from '@/components/common/button/PostEditBtn';
-import { PostTypeName, UserPost } from '@/types';
 
 interface PostHandleBtnsProps {
   collName: string;

@@ -9,7 +9,7 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 
-const useLogIn = (isLoggedIn: boolean) => {
+export const useLogIn = (isLoggedIn: boolean) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -65,5 +65,3 @@ const useLogIn = (isLoggedIn: boolean) => {
     onAnonymousLoginClick,
   };
 };
-
-export default useLogIn;

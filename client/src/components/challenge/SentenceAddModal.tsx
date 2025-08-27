@@ -2,14 +2,17 @@ import { ChangeEvent, useState } from 'react';
 
 import { useRecoilValue } from 'recoil';
 
+import { currAuthUserAtom } from '@/data/userAtom';
+
 import { SENTENCES2024 } from '@/appConstants';
+
+import { useAddDoc, useSendPushNotification } from '@/hooks';
+
+import { formatDate } from '@/utils';
+
 import Modal from '@/components/common/Modal';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
-import { currAuthUserAtom } from '@/data/userAtom';
-import useAddDoc from '@/hooks/handleFbDoc/useAddDoc';
-import useSendPushNotification from '@/hooks/useSendPushNotification';
-import { formatDate } from '@/utils';
 
 interface SentenceAddModalProps {
   onToggleClick: () => void;

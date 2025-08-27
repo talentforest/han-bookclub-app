@@ -1,19 +1,25 @@
 import { useEffect, useState } from 'react';
 
+import { FiPlusCircle } from 'react-icons/fi';
+
 import { useRecoilState } from 'recoil';
 
-import { getCollection } from '@/api/firebase/getFbDoc';
+import { bookVotesState } from '@/data/voteAtom';
+
+import { getCollection } from '@/api';
+
 import { BOOK_VOTE } from '@/appConstants';
+
+import { todayWithHyphen } from '@/utils';
+
+import MobileHeader from '@/layout/mobile/MobileHeader';
+
 import VoteCreateModal from '@/components/bookVote/VoteCreateModal';
 import VoteExpiredCard from '@/components/bookVote/VoteExpiredCard';
 import VoteProgressCard from '@/components/bookVote/VoteProgressCard';
 import Subtitle from '@/components/common/Subtitle';
 import EmptyCard from '@/components/common/container/EmptyCard';
 import Section from '@/components/common/container/Section';
-import { bookVotesState } from '@/data/voteAtom';
-import MobileHeader from '@/layout/mobile/MobileHeader';
-import { todayWithHyphen } from '@/utils';
-import { FiPlusCircle } from 'react-icons/fi';
 
 const Vote = () => {
   const [modalOpen, setModalOpen] = useState(false);

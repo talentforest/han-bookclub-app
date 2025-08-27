@@ -1,13 +1,17 @@
 import { useEffect } from 'react';
 
+import { dbService } from '@/fbase';
+import { doc, updateDoc } from 'firebase/firestore';
+
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { getDocument } from '@/api/firebase/getFbDoc';
-import { PENALTY } from '@/appConstants';
 import { penaltyDocState } from '@/data/penaltyAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
-import { dbService } from '@/fbase';
-import { ClubMonth, OverduePenaltyMonths, PenaltyPostType } from '@/types';
+
+import { getDocument } from '@/api';
+
+import { PENALTY } from '@/appConstants';
+
 import {
   existDocObj,
   getLastDayOfMonth,
@@ -15,9 +19,10 @@ import {
   thisMonth,
   thisYear,
 } from '@/utils';
-import { doc, updateDoc } from 'firebase/firestore';
 
-const useHandlePenalty = (createdAt?: number) => {
+import { ClubMonth, OverduePenaltyMonths, PenaltyPostType } from '@/types';
+
+export const useHandlePenalty = (createdAt?: number) => {
   const [penaltyDoc, setPenaltyDoc] = useRecoilState(penaltyDocState);
 
   const { uid } = useRecoilValue(currAuthUserAtom);
@@ -132,5 +137,3 @@ const useHandlePenalty = (createdAt?: number) => {
     penaltyCostList,
   };
 };
-
-export default useHandlePenalty;

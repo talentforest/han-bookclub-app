@@ -1,22 +1,28 @@
 import { useState } from 'react';
 
+import { dbService } from '@/fbase';
+import { doc, setDoc } from 'firebase/firestore';
+
 import { useRecoilValue } from 'recoil';
 
-import useAlertAskJoin from './useAlertAskJoin';
-import useSendPushNotification from './useSendPushNotification';
-import { BOOK_VOTE } from '@/appConstants';
 import { currAuthUserAtom } from '@/data/userAtom';
 import { bookVotesState, initialBookVoteItem } from '@/data/voteAtom';
-import { dbService } from '@/fbase';
-import { BookVote, BookVoteItem } from '@/types';
+
+import { BOOK_VOTE } from '@/appConstants';
+
+import { useAlertAskJoin, useSendPushNotification } from '@/hooks';
+
 import { formatDate } from '@/utils';
-import { doc, setDoc } from 'firebase/firestore';
+
+import { BookVote, BookVoteItem } from '@/types';
 
 interface UseCreateBookVoteBoxProps {
   onToggleModal: () => void;
 }
 
-const useCreateBookVoteBox = ({ onToggleModal }: UseCreateBookVoteBoxProps) => {
+export const useCreateBookVoteBox = ({
+  onToggleModal,
+}: UseCreateBookVoteBoxProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const bookVotes = useRecoilValue(bookVotesState);
@@ -118,5 +124,3 @@ const useCreateBookVoteBox = ({ onToggleModal }: UseCreateBookVoteBoxProps) => {
     isPending,
   };
 };
-
-export default useCreateBookVoteBox;

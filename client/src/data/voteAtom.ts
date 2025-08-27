@@ -1,8 +1,10 @@
+import { v4 } from 'uuid';
+
 import { atom } from 'recoil';
 
-import { BookVote, BookVoteItem } from '@/types';
 import { formatDate } from '@/utils';
-import { v4 } from 'uuid';
+
+import { BookVote, BookVoteItem } from '@/types';
 
 export const initialBookVote: BookVote = {
   id: '',

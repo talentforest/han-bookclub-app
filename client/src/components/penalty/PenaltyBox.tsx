@@ -1,8 +1,10 @@
 import { ReactNode, useState } from 'react';
 
-import UserName from '@/components/common/user/UserName';
-import { ClubMonth } from '@/types';
 import { FiInfo } from 'react-icons/fi';
+
+import { ClubMonth } from '@/types';
+
+import UserName from '@/components/common/user/UserName';
 
 interface PenaltyBoxProps {
   title:

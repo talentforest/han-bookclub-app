@@ -1,16 +1,19 @@
 import { useState } from 'react';
 
-import { useRecoilState } from 'recoil';
-
-import { USER } from '@/appConstants';
-import { currAuthUserAtom, userDocAtomFamily } from '@/data/userAtom';
 import { authService, dbService, storageService } from '@/fbase';
-import { ClubBookField } from '@/types';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 
-const useHandleProfile = () => {
+import { useRecoilState } from 'recoil';
+
+import { currAuthUserAtom, userDocAtomFamily } from '@/data/userAtom';
+
+import { USER } from '@/appConstants';
+
+import { ClubBookField } from '@/types';
+
+export const useHandleProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   const [{ uid, displayName, photoURL }, setUserData] =
@@ -129,5 +132,3 @@ const useHandleProfile = () => {
     isSelected,
   };
 };
-
-export default useHandleProfile;

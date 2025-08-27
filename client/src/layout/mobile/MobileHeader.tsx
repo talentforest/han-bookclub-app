@@ -2,8 +2,9 @@ import { ReactNode } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { DetailPageHeaderTitle, NotLogInPage, PageHeaderTitle } from '@/types';
 import { FiChevronLeft } from 'react-icons/fi';
+
+import { DetailPageHeaderTitle, NotLogInPage, PageHeaderTitle } from '@/types';
 
 interface MobileHeaderProps {
   title: PageHeaderTitle | DetailPageHeaderTitle | NotLogInPage;

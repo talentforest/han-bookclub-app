@@ -1,13 +1,17 @@
 import { useEffect } from 'react';
 
+import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
+
 import { useRecoilValue } from 'recoil';
+
+import { currAuthUserAtom } from '@/data/userAtom';
+
+import { useHandleLike } from '@/hooks';
+
+import { UserPost } from '@/types';
 
 import LikeBtn from '@/components/common/button/LikeBtn';
 import UserName from '@/components/common/user/UserName';
-import { currAuthUserAtom } from '@/data/userAtom';
-import useHandleLike from '@/hooks/useHandleLike';
-import { UserPost } from '@/types';
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 
 interface LikeBtnWithPeopleInfoProps {
   post: UserPost;

@@ -2,17 +2,23 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { useRecoilValue } from 'recoil';
 
-import { getDocument } from '@/api/firebase/getFbDoc';
+import { clubByMonthSelector } from '@/data/clubAtom';
+
+import { getDocument } from '@/api';
+
 import { MEETING_PLACE, TAG_LIST } from '@/appConstants';
+
+import { useHandleSchedule } from '@/hooks';
+
+import { thisYearMonthId } from '@/utils';
+
+import { MonthlyBookClub } from '@/types';
+
 import CustomDatePicker from '@/components/common/CustomDatePicker';
 import Modal from '@/components/common/Modal';
 import Tag from '@/components/common/Tag';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
-import { clubByMonthSelector } from '@/data/clubAtom';
-import useHandleSchedule from '@/hooks/useHandleSchedule';
-import { MonthlyBookClub } from '@/types';
-import { thisYearMonthId } from '@/utils';
 
 interface MeetingInfoModalProps {
   title: string;

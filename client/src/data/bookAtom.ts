@@ -1,7 +1,8 @@
+import { v4 } from 'uuid';
+
 import { atom } from 'recoil';
 
 import { BaseBookData, BookData } from '@/types';
-import { v4 } from 'uuid';
 
 export const recommendedBookAtom = atom<BaseBookData>({
   key: `recommendedBook/${v4()}`,

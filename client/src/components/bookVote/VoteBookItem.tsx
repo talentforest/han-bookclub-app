@@ -1,8 +1,10 @@
 import { ReactNode } from 'react';
 
-import BookThumbnail from '@/components/common/book/BookThumbnail';
-import { BookVoteItem } from '@/types';
 import { BiSolidBadgeCheck } from 'react-icons/bi';
+
+import { BookVoteItem } from '@/types';
+
+import BookThumbnail from '@/components/common/book/BookThumbnail';
 
 interface VoteBookItemProps {
   voteItem: BookVoteItem;

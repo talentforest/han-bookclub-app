@@ -1,10 +1,14 @@
+import { v4 } from 'uuid';
+
 import { atom, selectorFamily } from 'recoil';
 
-import { getDocument } from '@/api/firebase/getFbDoc';
-import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
 import { allUsersAtom } from '@/data/userAtom';
+
+import { getDocument } from '@/api';
+
+import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
+
 import { AbsenceObj } from '@/types';
-import { v4 } from 'uuid';
 
 export const absenceAtom = atom<AbsenceObj>({
   key: `absence/${v4()}`,

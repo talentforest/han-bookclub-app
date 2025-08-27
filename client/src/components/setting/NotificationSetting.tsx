@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react';
 
+import { authService, dbService, getDeviceToken } from '@/fbase';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
+
 import { useRecoilValue } from 'recoil';
 
-import { FCM_NOTIFICATION } from '@/appConstants';
 import { fcmState } from '@/data/fcmAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
-import { authService, dbService, getDeviceToken } from '@/fbase';
-import useSendPushNotification from '@/hooks/useSendPushNotification';
-import MobileHeader from '@/layout/mobile/MobileHeader';
+
+import { FCM_NOTIFICATION } from '@/appConstants';
+
+import { useSendPushNotification } from '@/hooks';
+
 import { formatDate } from '@/utils';
-import { doc, setDoc, updateDoc } from 'firebase/firestore';
+
+import MobileHeader from '@/layout/mobile/MobileHeader';
 
 export default function NotificationSetting() {
   const [isActive, setIsActive] = useState(false);

@@ -2,19 +2,23 @@ import { useState } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
+import { dbService } from '@/fbase';
+import { deleteDoc, doc } from 'firebase/firestore';
+import { FiTrash2 } from 'react-icons/fi';
+
 import { useRecoilValue } from 'recoil';
 
-import PagePosition from './PagePosition';
+import { currAuthUserAtom } from '@/data/userAtom';
+
 import { CHALLENGE } from '@/appConstants';
+
+import { CompleteReadingChallengeBook } from '@/types';
+
+import PagePosition from '@/components/challenge/PagePosition';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import PageWithPercent from '@/components/common/book/PageWithPercent';
 import UserName from '@/components/common/user/UserName';
-import { currAuthUserAtom } from '@/data/userAtom';
-import { dbService } from '@/fbase';
-import { CompleteReadingChallengeBook } from '@/types';
-import { deleteDoc, doc } from 'firebase/firestore';
-import { FiTrash2 } from 'react-icons/fi';
 
 interface ChallengeBookCardProps {
   docId: string;

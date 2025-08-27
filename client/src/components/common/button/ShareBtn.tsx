@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 
+import { RiKakaoTalkFill } from 'react-icons/ri';
+
 import { useRecoilValue } from 'recoil';
 
 import { currAuthUserAtom } from '@/data/userAtom';
-import { RiKakaoTalkFill } from 'react-icons/ri';
 
 interface ShareBtnProps {
   title: string;

@@ -1,10 +1,12 @@
 import { useLocation } from 'react-router-dom';
 
+import { cutLetter, formatDate } from '@/utils';
+
+import { MonthlyBookClub } from '@/types';
+
 import Tag from '@/components/common/Tag';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
-import { MonthlyBookClub } from '@/types';
-import { cutLetter, formatDate } from '@/utils';
 
 interface PreviousBookCardProps {
   document: MonthlyBookClub;

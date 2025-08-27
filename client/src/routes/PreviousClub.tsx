@@ -4,14 +4,18 @@ import { Link } from 'react-router-dom';
 
 import { useRecoilState } from 'recoil';
 
-import { getCollection } from '@/api/firebase/getFbDoc';
+import { clubByYearAtom, selectedYearAtom } from '@/data/clubAtom';
+
+import { getCollection } from '@/api';
+
+import { thisYearMonthId } from '@/utils';
+
+import MobileHeader from '@/layout/mobile/MobileHeader';
+
 import PreviousBookCard from '@/components/bookCard/PreviousBookCard';
 import SelectYearBtnList from '@/components/common/SelectYearBtnList';
 import EmptyCard from '@/components/common/container/EmptyCard';
 import Section from '@/components/common/container/Section';
-import { clubByYearAtom, selectedYearAtom } from '@/data/clubAtom';
-import MobileHeader from '@/layout/mobile/MobileHeader';
-import { thisYearMonthId } from '@/utils';
 
 function PreviousClub() {
   const [selectedYear, setSelectedYear] = useRecoilState(selectedYearAtom);

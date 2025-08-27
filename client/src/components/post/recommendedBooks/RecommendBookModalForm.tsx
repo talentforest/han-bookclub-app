@@ -2,15 +2,18 @@ import { useState } from 'react';
 
 import { useRecoilValue } from 'recoil';
 
-import { RECOMMENDED_BOOKS } from '@/appConstants';
-import FooterBookCard from '@/components/bookCard/FooterBookCard';
-import SquareBtn from '@/components/common/button/SquareBtn';
 import { recommendedBookAtom } from '@/data/bookAtom';
 import { clubByMonthSelector } from '@/data/clubAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
-import useAddDoc from '@/hooks/handleFbDoc/useAddDoc';
-import useSendPushNotification from '@/hooks/useSendPushNotification';
+
+import { RECOMMENDED_BOOKS } from '@/appConstants';
+
+import { useAddDoc, useSendPushNotification } from '@/hooks';
+
 import { formatDate, getFbRouteOfPost, thisYearMonthId } from '@/utils';
+
+import FooterBookCard from '@/components/bookCard/FooterBookCard';
+import SquareBtn from '@/components/common/button/SquareBtn';
 
 interface RecommendBookModalFormProps {
   onModalClose: () => void;

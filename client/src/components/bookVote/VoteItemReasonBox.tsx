@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
-import { BookVoteItem } from '@/types';
 import { FiChevronsDown, FiChevronsUp } from 'react-icons/fi';
+
+import { BookVoteItem } from '@/types';
 
 interface VoteItemReasonBoxProps {
   voteItems: BookVoteItem[];

@@ -1,9 +1,11 @@
+import { useDeleteAccount } from '@/hooks';
+
+import MobileHeader from '@/layout/mobile/MobileHeader';
+
 import GuideLine from '@/components/common/GuideLine';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
 import Label from '@/components/common/input/Label';
-import useDeleteAccount from '@/hooks/useDeleteAccount';
-import MobileHeader from '@/layout/mobile/MobileHeader';
 
 const DeleteAccount = () => {
   const {

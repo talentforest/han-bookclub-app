@@ -1,5 +1,6 @@
-import UserName from '@/components/common/user/UserName';
 import { FiUserCheck } from 'react-icons/fi';
+
+import UserName from '@/components/common/user/UserName';
 
 interface CreatorBoxProps {
   creatorId: string;

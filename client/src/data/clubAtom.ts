@@ -1,8 +1,10 @@
+import { v4 } from 'uuid';
+
 import { atom, selectorFamily } from 'recoil';
 
-import { MonthlyBookClub } from '@/types';
 import { thisYear } from '@/utils';
-import { v4 } from 'uuid';
+
+import { MonthlyBookClub } from '@/types';
 
 export const selectedYearAtom = atom<string>({
   key: `selectedYearAtom/${v4()}`,

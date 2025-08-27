@@ -4,12 +4,16 @@ import { useNavigate } from 'react-router-dom';
 
 import { useRecoilValue } from 'recoil';
 
+import { currAuthUserAtom } from '@/data/userAtom';
+
 import { DEVELOPER_EMAIL } from '@/appConstants/account';
+
+import { useSendPushNotification } from '@/hooks';
+
+import MobileHeader from '@/layout/mobile/MobileHeader';
+
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Section from '@/components/common/container/Section';
-import { currAuthUserAtom } from '@/data/userAtom';
-import useSendPushNotification from '@/hooks/useSendPushNotification';
-import MobileHeader from '@/layout/mobile/MobileHeader';
 
 export default function Developer() {
   const { email } = useRecoilValue(currAuthUserAtom);

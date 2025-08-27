@@ -1,16 +1,22 @@
 import { useEffect } from 'react';
 
+import { authService, dbService } from '@/fbase';
+import { collection, doc, setDoc, updateDoc } from 'firebase/firestore';
+
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import useAlertAskJoin from '../useAlertAskJoin';
-import { getDocument } from '@/api/firebase/getFbDoc';
-import { USER } from '@/appConstants';
 import { recommendedBookAtom } from '@/data/bookAtom';
 import { currAuthUserAtom, userDocAtomFamily } from '@/data/userAtom';
-import { authService, dbService } from '@/fbase';
-import { UserPost, UserPostDocId } from '@/types';
+
+import { getDocument } from '@/api';
+
+import { USER } from '@/appConstants';
+
+import { useAlertAskJoin } from '@/hooks';
+
 import { existDocObj, thisYearMonthId } from '@/utils';
-import { collection, doc, setDoc, updateDoc } from 'firebase/firestore';
+
+import { UserPost, UserPostDocId } from '@/types';
 
 interface UseAddDocProps {
   setText: (text: string) => void;
@@ -18,7 +24,7 @@ interface UseAddDocProps {
   docData: UserPost;
 }
 
-const useAddDoc = ({ setText, collName, docData }: UseAddDocProps) => {
+export const useAddDoc = ({ setText, collName, docData }: UseAddDocProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
   const [userExtraData, setUserExtraData] = useRecoilState(
     userDocAtomFamily(uid),
@@ -117,5 +123,3 @@ const useAddDoc = ({ setText, collName, docData }: UseAddDocProps) => {
 
   return { onAddDocSubmit, onChange };
 };
-
-export default useAddDoc;

@@ -1,9 +1,11 @@
+import { thisMonth } from '@/utils';
+
+import { BookData } from '@/types';
+
 import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
 import Tag from '@/components/common/Tag';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
-import { BookData } from '@/types';
-import { thisMonth } from '@/utils';
 
 interface MonthBookCardProps {
   month: string;
