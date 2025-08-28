@@ -15,26 +15,17 @@ import { thisYear } from '@/utils';
 
 import { MonthlyFieldAndHost } from '@/types';
 
-const initialModalState = {
-  isEditing: false,
-  month: 1,
-};
-
 const initialFieldHost: Pick<MonthlyFieldAndHost, 'field' | 'hosts'> = {
   field: '',
   hosts: [''],
 };
 
 export const useHandleFieldHost = () => {
-  const [editingMonthInfo, setEditingMonthInfo] = useState(initialModalState);
-
   const [selectedValues, setSelectedValues] = useState(initialFieldHost);
 
   const [fieldHostDoc, setFieldHostDoc] = useRecoilState(fieldAndHostAtom);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
-
-  const fbDoc = doc(dbService, `BookClub-${thisYear}`, BOOK_FIELD_AND_HOST);
 
   const onEditClick = (month?: number) => {
     if (anonymous) return alertAskJoinMember();
@@ -44,8 +35,11 @@ export const useHandleFieldHost = () => {
       );
       setSelectedValues(doc);
     }
-    setEditingMonthInfo({ isEditing: !editingMonthInfo.isEditing, month });
+    // showModal({ isEditing: !editingMonthInfo.isEditing, month });
+    // showModal({ element: <span>hi</span> });
   };
+
+  const fbDoc = doc(dbService, `BookClub-${thisYear}`, BOOK_FIELD_AND_HOST);
 
   const onSubmit = async (
     event: React.FormEvent<HTMLFormElement>,
@@ -65,9 +59,7 @@ export const useHandleFieldHost = () => {
   };
 
   return {
-    editingMonthInfo,
     onSubmit,
-    onEditClick,
     selectedValues,
     setSelectedValues,
   };

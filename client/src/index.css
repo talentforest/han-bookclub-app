@@ -279,5 +279,8 @@
       background-color: #aaa;
       border-radius: 50%;
     }
+    .swiper-pagination-bullet-active {
+      background-color: #646464;
+    }
   }
 }

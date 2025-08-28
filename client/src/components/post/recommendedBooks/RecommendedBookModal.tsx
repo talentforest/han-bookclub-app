@@ -11,13 +11,11 @@ import PostHeader from '@/components/post/PostHeader';
 
 interface RecommendedBookModalProps {
   collName: string;
-  onToggleClick: () => void;
   recommendedBookDetail: UserPost;
 }
 
 export default function RecommendedBookModal({
   collName,
-  onToggleClick,
   recommendedBookDetail,
 }: RecommendedBookModalProps) {
   const {
@@ -36,11 +34,7 @@ export default function RecommendedBookModal({
   } = recommendedBookDetail;
 
   return (
-    <Modal
-      title="추천책 보기"
-      onToggleClick={onToggleClick}
-      className="w-[40%]"
-    >
+    <Modal title="추천책 보기" className="w-[40%]">
       <PostHeader
         collName={collName}
         post={recommendedBookDetail}

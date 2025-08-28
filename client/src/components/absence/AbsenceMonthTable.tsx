@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { absenceAtom } from '@/data/absenceAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
 
 import { getDocument } from '@/api';
 
 import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
 
-import { useHandleAbsence } from '@/hooks';
+import { useHandleAbsence, useHandleModal } from '@/hooks';
 
 import { existDocObj } from '@/utils';
 
@@ -30,15 +31,10 @@ export default function AbsenceMonthTable({
   isFoldable = false,
   isEditable = false,
 }: AbsenceMonthTableProps) {
+  const { uid } = useRecoilValue(currAuthUserAtom);
   const [absenceList, setAbsenceList] = useRecoilState(absenceAtom);
 
-  const {
-    editingMonthInfo,
-    onEditClick,
-    onSubmit,
-    selectedValues,
-    setSelectedValues,
-  } = useHandleAbsence();
+  const { onSubmit, selectedValues, setSelectedValues } = useHandleAbsence();
 
   useEffect(() => {
     if (!existDocObj(absenceList)) {
@@ -56,6 +52,39 @@ export default function AbsenceMonthTable({
     },
   );
 
+  const { showModal } = useHandleModal();
+
+  const onEditClick = (month?: number) => {
+    if (month) {
+      const monthInfo = absenceList.absenceMembers?.find(
+        item => item.month === month,
+      );
+      const isBreakMonth = monthInfo?.breakMembers?.find(
+        member => member === uid,
+      );
+      const isOnceAbsenceMonth = monthInfo?.onceAbsenceMembers?.find(member => {
+        return member === uid;
+      });
+      setSelectedValues({
+        month,
+        breakMonth: !!isBreakMonth,
+        onceAbsenceMonth: !!isOnceAbsenceMonth,
+      });
+    }
+    showModal({
+      element: (
+        <Modal title={`${month}월 모임 불참 여부`}>
+          <AbsenceForm
+            month={month}
+            onSubmit={onSubmit}
+            selectedValues={selectedValues}
+            setSelectedValues={setSelectedValues}
+          />
+        </Modal>
+      ),
+    });
+  };
+
   return (
     <>
       {absenceList ? (
@@ -69,20 +98,6 @@ export default function AbsenceMonthTable({
         />
       ) : (
         <Loading className="h-[40vh]" />
-      )}
-
-      {editingMonthInfo.isEditing && (
-        <Modal
-          title={`${editingMonthInfo.month}월 모임 불참 여부`}
-          onToggleClick={onEditClick}
-        >
-          <AbsenceForm
-            month={editingMonthInfo.month}
-            onSubmit={onSubmit}
-            selectedValues={selectedValues}
-            setSelectedValues={setSelectedValues}
-          />
-        </Modal>
       )}
     </>
   );

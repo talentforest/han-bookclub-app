@@ -7,7 +7,7 @@ import { currAuthUserAtom } from '@/data/userAtom';
 
 import { HOST_REVIEW, SUBJECTS } from '@/appConstants';
 
-import { useAddDoc, useSendPushNotification } from '@/hooks';
+import { useAddDoc, useHandleModal, useSendPushNotification } from '@/hooks';
 
 import { formatDate, getFbRouteOfPost, thisYearMonthId } from '@/utils';
 
@@ -18,11 +18,10 @@ import SquareBtn from '@/components/common/button/SquareBtn';
 import QuillEditor from '@/components/common/editor/QuillEditor';
 
 interface PostAddModalProps {
-  toggleModal: () => void;
   postType: PostTypeName;
 }
 
-const PostAddModal = ({ toggleModal, postType }: PostAddModalProps) => {
+const PostAddModal = ({ postType }: PostAddModalProps) => {
   const [text, setText] = useState('');
 
   const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
@@ -55,19 +54,21 @@ const PostAddModal = ({ toggleModal, postType }: PostAddModalProps) => {
     docData,
   });
 
+  const { hideModal } = useHandleModal();
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     if (docData.text === '') return;
     try {
       await onAddDocSubmit(event);
       await sendPostNotification(postType);
-      toggleModal();
+      hideModal();
     } catch (error) {
       window.alert('등록 중 오류가 발생했습니다.');
     }
   };
 
   return (
-    <Modal onToggleClick={toggleModal} title={`${postType} 작성하기`}>
+    <Modal title={`${postType} 작성하기`}>
       <form
         onSubmit={handleSubmit}
         className="overflow-scroll pb-1 scrollbar-hide"

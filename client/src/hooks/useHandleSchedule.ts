@@ -9,16 +9,13 @@ import { clubByMonthSelector, clubByYearAtom } from '@/data/clubAtom';
 
 import { BOOKCLUB_THIS_YEAR } from '@/appConstants';
 
-import { useAlertAskJoin, useSendPushNotification } from '@/hooks';
+import { useHandleModal, useSendPushNotification } from '@/hooks';
 
 import { formatDate, thisYearMonthId } from '@/utils';
 
 import { MonthlyBookClub } from '@/types';
 
-export const useHandleSchedule = (
-  meeting: MonthlyBookClub['meeting'],
-  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>,
-) => {
+export const useHandleSchedule = (meeting: MonthlyBookClub['meeting']) => {
   const [time, setTime] = useState(
     !meeting?.time ? new Date() : new Date(meeting?.time),
   );
@@ -28,17 +25,17 @@ export const useHandleSchedule = (
 
   const setThisYearClub = useSetRecoilState(clubByYearAtom);
 
-  const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
-
   const document = doc(dbService, BOOKCLUB_THIS_YEAR, thisYearMonthId);
 
   const { sendPlaceTimePushNotification, isPending } =
     useSendPushNotification();
 
+  const { hideModal } = useHandleModal();
+
   const onTimeSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (meeting.time === time.toLocaleString()) return setIsEditing(false);
+    if (meeting.time === time.toLocaleString()) return hideModal();
     if (!time) return alert('모임 시간을 작성해주세요.');
 
     try {
@@ -64,14 +61,14 @@ export const useHandleSchedule = (
         '모임 시간 등록 중 오류가 발생했습니다. 관리자에게 문의해주세요.',
       );
     } finally {
-      setIsEditing(false);
+      hideModal();
     }
   };
 
   const onPlaceSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (meeting.place === place) return setIsEditing(false);
+    if (meeting.place === place) return hideModal();
     if (!place) return alert('모임 시간과 모임 장소 모두 작성해주세요.');
 
     try {
@@ -92,13 +89,8 @@ export const useHandleSchedule = (
         '모임 장소 등록 중 오류가 발생했습니다. 관리자에게 문의해주세요.',
       );
     } finally {
-      setIsEditing(false);
+      hideModal();
     }
-  };
-
-  const onEditClick = () => {
-    if (anonymous) return alertAskJoinMember();
-    setIsEditing(prev => !prev);
   };
 
   const onTagClick = (place: string) => setPlace(place);
@@ -115,7 +107,6 @@ export const useHandleSchedule = (
       onPlaceSubmit,
       onTagClick,
     },
-    onEditClick,
     isPending,
   };
 };

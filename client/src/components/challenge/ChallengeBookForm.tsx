@@ -3,15 +3,15 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { dbService } from '@/fbase';
 import { doc, setDoc } from 'firebase/firestore';
 
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { bookDescState } from '@/data/bookAtom';
+import { bookDescState, searchListAtom } from '@/data/bookAtom';
 import { completeReadingChallengeState } from '@/data/challengeAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
 import { CHALLENGE } from '@/appConstants';
 
-import { useAlertAskJoin } from '@/hooks';
+import { useAlertAskJoin, useHandleModal } from '@/hooks';
 
 import { formatDate } from '@/utils';
 
@@ -22,13 +22,8 @@ import BookThumbnail from '@/components/common/book/BookThumbnail';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
 
-interface ChallengeBookFormProps {
-  onModalClose: () => void;
-}
-
-export default function ChallengeBookForm({
-  onModalClose,
-}: ChallengeBookFormProps) {
+export default function ChallengeBookForm() {
+  const setSearchList = useSetRecoilState(searchListAtom);
   const userChallenge = useRecoilValue(completeReadingChallengeState);
   const bookDesc = useRecoilValue(bookDescState);
   const { uid } = useRecoilValue(currAuthUserAtom);
@@ -42,6 +37,8 @@ export default function ChallengeBookForm({
   const { title, thumbnail, authors, publisher } = bookDesc;
 
   const { anonymous, alertAskJoinMember } = useAlertAskJoin('write');
+
+  const { hideModal } = useHandleModal();
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -88,7 +85,9 @@ export default function ChallengeBookForm({
 
     await setDoc(doc(dbService, CHALLENGE, uid), challengeDoc);
 
-    onModalClose();
+    setSearchList([]);
+
+    hideModal();
 
     alert(
       '2024년 개인별 챌린지 책이 추가되었습니다! 챌린지 달성을 응원할게요!',

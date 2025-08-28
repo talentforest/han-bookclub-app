@@ -10,19 +10,17 @@ import { bookVotesState, initialBookVoteItem } from '@/data/voteAtom';
 
 import { BOOK_VOTE } from '@/appConstants';
 
-import { useAlertAskJoin, useSendPushNotification } from '@/hooks';
+import {
+  useAlertAskJoin,
+  useHandleModal,
+  useSendPushNotification,
+} from '@/hooks';
 
 import { formatDate } from '@/utils';
 
 import { BookVote, BookVoteItem } from '@/types';
 
-interface UseCreateBookVoteBoxProps {
-  onToggleModal: () => void;
-}
-
-export const useCreateBookVoteBox = ({
-  onToggleModal,
-}: UseCreateBookVoteBoxProps) => {
+export const useCreateBookVoteBox = () => {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const bookVotes = useRecoilValue(bookVotesState);
@@ -55,6 +53,8 @@ export const useCreateBookVoteBox = ({
     await setDoc(document, newVote);
   };
 
+  const { hideModal } = useHandleModal();
+
   const onNewVoteSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -70,7 +70,7 @@ export const useCreateBookVoteBox = ({
     try {
       setDocVote();
       window.alert('투표가 성공적으로 등록되었습니다!');
-      onToggleModal();
+      hideModal();
       // 모든 유저에게 알림 보내기
       sendVotePushNotification({
         voteTitle: newVote.title,

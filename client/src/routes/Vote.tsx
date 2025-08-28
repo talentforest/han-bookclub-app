@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { FiPlusCircle } from 'react-icons/fi';
 
@@ -9,6 +9,8 @@ import { bookVotesState } from '@/data/voteAtom';
 import { getCollection } from '@/api';
 
 import { BOOK_VOTE } from '@/appConstants';
+
+import { useHandleModal } from '@/hooks';
 
 import { todayWithHyphen } from '@/utils';
 
@@ -22,9 +24,9 @@ import EmptyCard from '@/components/common/container/EmptyCard';
 import Section from '@/components/common/container/Section';
 
 const Vote = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-
   const [bookVotes, setBookVotes] = useRecoilState(bookVotesState);
+
+  const { showModal } = useHandleModal();
 
   useEffect(() => {
     if (!bookVotes?.length) {
@@ -40,8 +42,6 @@ const Vote = () => {
     item => item.deadline < todayWithHyphen,
   );
 
-  const onToggleModal = () => setModalOpen(prev => !prev);
-
   return (
     <>
       <MobileHeader title="한페이지 투표함" />
@@ -50,7 +50,11 @@ const Vote = () => {
         <Section>
           <div className="flex items-center gap-1">
             <Subtitle title="진행중인 투표함" />
-            <button type="button" onClick={onToggleModal} className="mb-2">
+            <button
+              type="button"
+              onClick={() => showModal({ element: <VoteCreateModal /> })}
+              className="mb-2"
+            >
               <FiPlusCircle className="text-lg text-pointBlue" />
             </button>
           </div>
@@ -80,8 +84,6 @@ const Vote = () => {
             </ul>
           )}
         </Section>
-
-        {modalOpen && <VoteCreateModal onToggleModal={onToggleModal} />}
       </main>
     </>
   );

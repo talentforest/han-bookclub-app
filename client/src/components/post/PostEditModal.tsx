@@ -1,5 +1,3 @@
-import { FormEvent } from 'react';
-
 import { useEditDoc } from '@/hooks';
 
 import { PostTypeName, UserPost } from '@/types';
@@ -12,26 +10,21 @@ interface PostEditModalProps {
   postType: PostTypeName;
   post: UserPost;
   collName: string;
-  onToggleClick: () => void;
 }
 
 export default function PostEditModal({
   postType,
   post,
   collName,
-  onToggleClick,
 }: PostEditModalProps) {
   const { onEditedSubmit, editedText, setEditedText } = useEditDoc({
     post,
     collName,
   });
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) =>
-    onEditedSubmit(event, onToggleClick);
-
   return (
-    <Modal title={`${postType} 수정`} onToggleClick={onToggleClick}>
-      <form onSubmit={handleSubmit}>
+    <Modal title={`${postType} 수정`}>
+      <form onSubmit={onEditedSubmit}>
         <QuillEditor
           placeholder="수정할 텍스트를 작성해주세요."
           text={editedText}

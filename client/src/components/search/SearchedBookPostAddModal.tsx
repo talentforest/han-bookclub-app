@@ -18,35 +18,23 @@ import SearchedBookList from '@/components/search/SearchedBookList';
 
 interface SearchedBookPostAddModalProps {
   title: '챌린지 등록하기' | '추천책 작성하기';
-  onToggleClick: () => void;
 }
 
 export default function SearchedBookPostAddModal({
   title,
-  onToggleClick,
 }: SearchedBookPostAddModalProps) {
   const setMyRecommendBook = useSetRecoilState(recommendedBookAtom);
   const setBookDesc = useSetRecoilState(bookDescState);
 
   const [currStep, setCurrStep] = useState(1);
 
-  const {
-    searchInputRef,
-    onBookQueryChange,
-    searchList,
-    resetSearchList, //
-  } = useSearchBook();
+  const { searchInputRef, onBookQueryChange, searchList } = useSearchBook();
 
   useEffect(() => {
     if (searchInputRef && !searchList.length) {
       searchInputRef.current.focus();
     }
   }, []);
-
-  const onModalToggleClick = () => {
-    onToggleClick();
-    resetSearchList();
-  };
 
   const onSelectBtnClick = (book: BookData) => {
     changeStep(2);
@@ -56,7 +44,7 @@ export default function SearchedBookPostAddModal({
   const changeStep = (step: number) => setCurrStep(step);
 
   return (
-    <Modal title={title} onToggleClick={onModalToggleClick}>
+    <Modal title={title}>
       {currStep === 1 && (
         <div className="relative mt-3 min-h-64 max-sm:mt-0">
           <div className="flex items-center gap-2">
@@ -82,9 +70,9 @@ export default function SearchedBookPostAddModal({
 
       {currStep === 2 &&
         (title === '추천책 작성하기' ? (
-          <RecommendBookModalForm onModalClose={onModalToggleClick} />
+          <RecommendBookModalForm />
         ) : (
-          <ChallengeBookForm onModalClose={onModalToggleClick} />
+          <ChallengeBookForm />
         ))}
     </Modal>
   );

@@ -17,16 +17,12 @@ import Label from '@/components/common/input/Label';
 import RefInput from '@/components/common/input/RefInput';
 import SearchedBookList from '@/components/search/SearchedBookList';
 
-interface VoteCreateModalProps {
-  onToggleModal: () => void;
-}
-
 const initialSearchBook = {
   isOpenSearchBook: false,
   itemId: 1,
 };
 
-const VoteCreateModal = ({ onToggleModal }: VoteCreateModalProps) => {
+const VoteCreateModal = () => {
   const [searchBook, setSearchBook] = useState(initialSearchBook);
 
   const [isOpenSelectReason, setIsOpenSelectReason] = useState(false);
@@ -40,7 +36,7 @@ const VoteCreateModal = ({ onToggleModal }: VoteCreateModalProps) => {
     onAddVoteItemBtn,
     onDeleteVoteItemClick,
     isPending,
-  } = useCreateBookVoteBox({ onToggleModal });
+  } = useCreateBookVoteBox();
 
   const {
     searchInputRef,
@@ -86,11 +82,7 @@ const VoteCreateModal = ({ onToggleModal }: VoteCreateModalProps) => {
   const { title, voteItems } = newVote;
 
   return (
-    <Modal
-      title="모임책 투표 생성하기"
-      onToggleClick={onToggleModal}
-      className="max-w-[500px]"
-    >
+    <Modal title="모임책 투표 생성하기" className="max-w-[500px]">
       {!searchBook.isOpenSearchBook && (
         <form
           onSubmit={onNewVoteSubmit}

@@ -9,7 +9,7 @@ import { currAuthUserAtom } from '@/data/userAtom';
 
 import { CHALLENGE } from '@/appConstants';
 
-import { useSendPushNotification } from '@/hooks';
+import { useHandleModal, useSendPushNotification } from '@/hooks';
 
 import { formatDate } from '@/utils';
 
@@ -27,7 +27,6 @@ import RefInput from '@/components/common/input/RefInput';
 interface ChallengeEditModalProps {
   challenge: CompleteReadingChallenge;
   currChallengeBook: CompleteReadingChallengeBook;
-  onModalClose: () => void;
   currentPageNum: number;
   setCurrentPageNum: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -35,7 +34,6 @@ interface ChallengeEditModalProps {
 export default function ChallengeEditModal({
   challenge,
   currChallengeBook,
-  onModalClose,
   currentPageNum,
   setCurrentPageNum,
 }: ChallengeEditModalProps) {
@@ -46,6 +44,8 @@ export default function ChallengeEditModal({
 
   const { sendCompleteChallengePushNotification, isPending } =
     useSendPushNotification();
+
+  const { hideModal } = useHandleModal();
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -71,7 +71,7 @@ export default function ChallengeEditModal({
     };
 
     await setDoc(doc(dbService, CHALLENGE, uid), editedChallengeDoc);
-    onModalClose();
+    hideModal();
     setCurrentPageNum(currentPage);
 
     if (currentPage === currChallengeBook.wholePage) {
@@ -87,7 +87,7 @@ export default function ChallengeEditModal({
   const { title, thumbnail, authors, publisher } = currChallengeBook;
 
   return (
-    <Modal title="나의 챌린지 진도 수정" onToggleClick={onModalClose}>
+    <Modal title="나의 챌린지 진도 수정">
       <form onSubmit={onSubmit}>
         <div>
           <BookThumbnail title={title} thumbnail={thumbnail} />

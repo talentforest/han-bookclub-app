@@ -12,6 +12,8 @@ import { getCollection } from '@/api';
 
 import { CHALLENGE } from '@/appConstants';
 
+import { useHandleModal } from '@/hooks';
+
 import { thisYear } from '@/utils';
 
 import { BaseBookData, BookData, RereadingChallenge } from '@/types';
@@ -42,7 +44,8 @@ const swiperOptions = {
   pagination: true,
   navigation: false,
   scrollbar: false,
-  spaceBetween: 8,
+  spaceBetween: 4,
+  loop: true,
 };
 
 export default function Challenge() {
@@ -52,8 +55,6 @@ export default function Challenge() {
   const [challengeList, setChallengeList] = useState([]);
 
   const [rereadingBook, setRereadingBook] = useState<BookData | null>(null);
-
-  const [isChallengeModalOpen, setIsChallengeModalOpen] = useState(false);
 
   const [showAllChallengeUser, setShowAllChallengeUser] = useState(false);
 
@@ -133,8 +134,12 @@ export default function Challenge() {
 
   const clubBookList = clubByYear.filter(({ book }) => book.thumbnail !== '');
 
-  const toggleModalOpen = (book?: BookData) => {
-    setIsChallengeModalOpen(prev => !prev);
+  const { showModal } = useHandleModal();
+
+  const challengeModalOpen = (book?: BookData) => {
+    showModal({
+      element: <ChallengeRereadingModal selectedBook={selectedChallengeBook} />,
+    });
     setRereadingBook(prevBook => book || prevBook);
   };
 
@@ -217,6 +222,7 @@ export default function Challenge() {
             <h4 className="mb-4 text-lg font-bold italic">
               🔥현재 가장 많이 재독한 도서는?
             </h4>
+
             <SwiperContainer options={swiperOptions}>
               {sortedChallengeByCounts.map((item, index) => {
                 const [title, data] = Object.entries(item)[0];
@@ -228,12 +234,12 @@ export default function Challenge() {
                       <BookThumbnail
                         title={book.title}
                         thumbnail={book.thumbnail}
-                        className="mx-auto w-full rounded-md max-sm:w-3/4"
+                        className="mx-auto w-full rounded-md max-sm:w-4/5"
                       />
 
-                      <div className="absolute bottom-0 right-0">
-                        <PiShootingStarFill className="size-[72px] fill-yellow-500" />
-                        <span className="absolute bottom-8 right-[20px] font-mono text-lg font-bold text-darkBlue2">
+                      <div className="absolute -bottom-4 right-0">
+                        <PiShootingStarFill className="size-[90px] fill-yellow-400" />
+                        <span className="absolute bottom-[42px] right-[27px] font-sans text-xl font-bold text-indigo-600">
                           {index + 1}
                         </span>
                       </div>
@@ -276,7 +282,7 @@ export default function Challenge() {
               <li key={book.datetime}>
                 <button
                   type="button"
-                  onClick={() => toggleModalOpen(book)}
+                  onClick={() => challengeModalOpen(book)}
                   className="w-full"
                 >
                   <BookThumbnail
@@ -317,13 +323,6 @@ export default function Challenge() {
             </>
           )}
         </Section>
-
-        {isChallengeModalOpen && (
-          <ChallengeRereadingModal
-            selectedBook={selectedChallengeBook}
-            toggleOpen={toggleModalOpen}
-          />
-        )}
       </main>
     </>
   );

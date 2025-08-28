@@ -6,7 +6,7 @@ import { currAuthUserAtom } from '@/data/userAtom';
 
 import { SENTENCES2024 } from '@/appConstants';
 
-import { useAddDoc, useSendPushNotification } from '@/hooks';
+import { useAddDoc, useHandleModal, useSendPushNotification } from '@/hooks';
 
 import { formatDate } from '@/utils';
 
@@ -15,14 +15,10 @@ import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
 
 interface SentenceAddModalProps {
-  onToggleClick: () => void;
   book: { title: string; thumbnail: string };
 }
 
-export default function SentenceAddModal({
-  onToggleClick,
-  book,
-}: SentenceAddModalProps) {
+export default function SentenceAddModal({ book }: SentenceAddModalProps) {
   const [sentence, setSentence] = useState('');
   const [page, setPage] = useState('');
 
@@ -47,6 +43,8 @@ export default function SentenceAddModal({
     docData,
   });
 
+  const { hideModal } = useHandleModal();
+
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -59,7 +57,7 @@ export default function SentenceAddModal({
 
     onAddDocSubmit(event);
     sendPostNotification('공유하고 싶은 문구');
-    onToggleClick();
+    hideModal();
     alert(
       '문구가 추가되었습니다. 공유해주신 좋은 문구를 멤버들이 볼 수 있게 되었어요!',
     );
@@ -70,7 +68,7 @@ export default function SentenceAddModal({
   };
 
   return (
-    <Modal title="공유하고 싶은 문구 등록하기" onToggleClick={onToggleClick}>
+    <Modal title="공유하고 싶은 문구 등록하기">
       <form onSubmit={onSubmit}>
         <textarea
           placeholder="공유하고 싶은 문구를 작성해주세요."

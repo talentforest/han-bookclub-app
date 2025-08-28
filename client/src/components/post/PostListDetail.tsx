@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
@@ -11,7 +11,7 @@ import { getCollection } from '@/api';
 
 import { HOST_REVIEW, SUBJECTS } from '@/appConstants';
 
-import { useAlertAskJoin } from '@/hooks';
+import { useAlertAskJoin, useHandleModal } from '@/hooks';
 
 import { formatDate, getFbRouteOfPost, thisYearMonthId } from '@/utils';
 
@@ -40,7 +40,7 @@ export default function PostListDetail() {
   const [hostReviews, setHostReviews] = useRecoilState(hostReviewState);
   const [subjects, setSubjects] = useRecoilState(subjectsState);
 
-  const [openAddPostModal, setOpenAddPostModal] = useState(false);
+  const { showModal } = useHandleModal();
 
   const { pathname, state } = useLocation() as LocationState;
 
@@ -60,7 +60,7 @@ export default function PostListDetail() {
 
   const toggleAddPostModal = () => {
     if (anonymous) return alertAskJoinMember();
-    setOpenAddPostModal(prev => !prev);
+    showModal({ element: <PostAddModal postType={postType} /> });
   };
 
   const postInfo = {
@@ -122,10 +122,6 @@ export default function PostListDetail() {
               {currPostList.length - 1 !== index && <DottedDividingLine />}
             </Fragment>
           ))
-        )}
-
-        {openAddPostModal && (
-          <PostAddModal postType={postType} toggleModal={toggleAddPostModal} />
         )}
       </main>
     </>

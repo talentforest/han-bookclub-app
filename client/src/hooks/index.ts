@@ -11,6 +11,7 @@ export { useDeleteAccount } from '@/hooks/useDeleteAccount';
 export { useHandleAbsence } from '@/hooks/useHandleAbsence';
 export { useHandleFieldHost } from '@/hooks/useHandleFieldHost';
 export { useHandleLike } from '@/hooks/useHandleLike';
+export { useHandleModal } from '@/hooks/useHandleModal';
 export { useHandlePenalty } from '@/hooks/useHandlePenalty';
 export { useHandleProfile } from '@/hooks/useHandleProfile';
 export { useHandleSchedule } from '@/hooks/useHandleSchedule';

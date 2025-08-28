@@ -8,19 +8,14 @@ import { currAuthUserAtom } from '@/data/userAtom';
 
 import { RECOMMENDED_BOOKS } from '@/appConstants';
 
-import { useAddDoc, useSendPushNotification } from '@/hooks';
+import { useAddDoc, useHandleModal, useSendPushNotification } from '@/hooks';
 
 import { formatDate, getFbRouteOfPost, thisYearMonthId } from '@/utils';
 
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
 import SquareBtn from '@/components/common/button/SquareBtn';
 
-interface RecommendBookModalFormProps {
-  onModalClose: () => void;
-}
-export default function RecommendBookModalForm({
-  onModalClose,
-}: RecommendBookModalFormProps) {
+export default function RecommendBookModalForm() {
   const [text, setText] = useState('');
   const { uid } = useRecoilValue(currAuthUserAtom);
   const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
@@ -49,6 +44,8 @@ export default function RecommendBookModalForm({
     docData,
   });
 
+  const { hideModal } = useHandleModal();
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -60,11 +57,11 @@ export default function RecommendBookModalForm({
     }
     try {
       await onAddDocSubmit(event);
-      // await sendPostNotification('추천책');
+      await sendPostNotification('추천책');
     } catch (error) {
       window.alert('추천책 등록 중 문제가 발생했습니다. 다시 시도해주세요.');
     } finally {
-      onModalClose();
+      hideModal();
     }
   };
 

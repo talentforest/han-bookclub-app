@@ -1,6 +1,6 @@
-import { useState } from 'react';
-
 import { FiEdit3 } from 'react-icons/fi';
+
+import { useHandleModal } from '@/hooks';
 
 import { formatDate } from '@/utils';
 
@@ -18,9 +18,7 @@ export default function LabelWithValueCard({
   value,
   editable,
 }: LabelWithValueCardProps) {
-  const [openModal, setOpenModal] = useState(false);
-
-  const onEditClick = () => setOpenModal(prev => !prev);
+  const { showModal } = useHandleModal();
 
   return (
     <>
@@ -59,21 +57,24 @@ export default function LabelWithValueCard({
         {editable && (
           <button
             type="button"
-            onClick={onEditClick}
+            onClick={() =>
+              showModal({
+                element: typeof value === 'string' && (
+                  <MeetingInfoModal
+                    title={label}
+                    value={
+                      label === '모임시간' ? { time: value } : { place: value }
+                    }
+                  />
+                ),
+              })
+            }
             className="absolute bottom-0 right-0 p-3"
           >
             <FiEdit3 stroke="#aaa" size={16} />
           </button>
         )}
       </div>
-
-      {openModal && editable && typeof value === 'string' && (
-        <MeetingInfoModal
-          title={label}
-          value={label === '모임시간' ? { time: value } : { place: value }}
-          setIsEditing={setOpenModal}
-        />
-      )}
     </>
   );
 }

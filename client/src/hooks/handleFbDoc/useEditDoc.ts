@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { dbService } from '@/fbase';
 import { doc, updateDoc } from 'firebase/firestore';
 
-import { useAlertAskJoin } from '@/hooks';
+import { useAlertAskJoin, useHandleModal } from '@/hooks';
 
 import { UserPost } from '@/types';
 
@@ -26,10 +26,9 @@ export const useEditDoc = ({ post, collName }: UseEditDocProps) => {
     return { text: editedText };
   };
 
-  const onEditedSubmit = async (
-    event: React.FormEvent<HTMLFormElement>,
-    onToggleClick: () => void,
-  ) => {
+  const { hideModal } = useHandleModal();
+
+  const onEditedSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (anonymous) return alertAskJoinMember();
@@ -38,7 +37,7 @@ export const useEditDoc = ({ post, collName }: UseEditDocProps) => {
 
     await updateDoc(docRef, updatedData());
 
-    onToggleClick();
+    hideModal();
   };
 
   const onEditedChange = (event: React.FormEvent<HTMLTextAreaElement>) => {

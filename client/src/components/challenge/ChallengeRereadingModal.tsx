@@ -11,6 +11,8 @@ import { getDocument } from '@/api';
 
 import { CHALLENGE } from '@/appConstants';
 
+import { useHandleModal } from '@/hooks';
+
 import { formatDate, thisYear } from '@/utils';
 
 import { BookData, RereadingChallenge } from '@/types';
@@ -31,12 +33,10 @@ interface ChallengeRereadingModalProps {
         };
       }
     | BookData;
-  toggleOpen: () => void;
 }
 
 export default function ChallengeRereadingModal({
   selectedBook,
-  toggleOpen,
 }: ChallengeRereadingModalProps) {
   const [title, data] = Object.entries(selectedBook)[0];
   const {
@@ -56,6 +56,8 @@ export default function ChallengeRereadingModal({
   useEffect(() => {
     getDocument(CHALLENGE, `${thisYear}-${uid}`, setUserChallenge);
   }, [uid]);
+
+  const { hideModal } = useHandleModal();
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -103,12 +105,12 @@ export default function ChallengeRereadingModal({
       await setDoc(docRef, { creatorId: uid, ...newRereadingBook });
     }
 
-    toggleOpen();
+    hideModal();
     alert('소감이 작성 완료되었습니다. 챌린지를 추가 달성했습니다!❣️');
   };
 
   return (
-    <Modal title="재독 챌린지" onToggleClick={toggleOpen}>
+    <Modal title="재독 챌린지">
       <div className="flex items-center gap-3">
         <BookThumbnail title={title} thumbnail={thumbnail} className="w-8" />
         <div className="">

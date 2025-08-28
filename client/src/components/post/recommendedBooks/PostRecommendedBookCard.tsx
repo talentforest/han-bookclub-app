@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { getDocument } from '@/api';
 
+import { useHandleModal } from '@/hooks';
+
 import { UserPost } from '@/types';
 
 import BookThumbnail from '@/components/common/book/BookThumbnail';
@@ -14,9 +16,9 @@ interface PostRecommendedBookCardProps {
 export default function PostRecommendedBookCard({
   docIds: { docId, monthId },
 }: PostRecommendedBookCardProps) {
-  const [openModal, setOpenModal] = useState(false);
-
   const [recommendedBookDoc, setRecommendedBookDoc] = useState<UserPost>();
+
+  const { showModal } = useHandleModal();
 
   const year = monthId.slice(0, 4);
   const collection = `BookClub-${year}/${monthId}/RecommendedBooks/`;
@@ -25,25 +27,28 @@ export default function PostRecommendedBookCard({
     getDocument(collection, docId, setRecommendedBookDoc);
   }, []);
 
-  const onToggleClick = () => setOpenModal(prev => !prev);
-
   const title = recommendedBookDoc?.recommendedBook?.title || '';
   const thumbnail = recommendedBookDoc?.recommendedBook?.thumbnail || '';
 
   return (
     <>
       {recommendedBookDoc && (
-        <button type="button" onClick={onToggleClick} className="mb-10 h-full">
+        <button
+          type="button"
+          onClick={() =>
+            showModal({
+              element: (
+                <RecommendedBookModal
+                  recommendedBookDetail={recommendedBookDoc}
+                  collName={collection}
+                />
+              ),
+            })
+          }
+          className="mb-10 h-full"
+        >
           <BookThumbnail title={title} thumbnail={thumbnail} />
         </button>
-      )}
-
-      {openModal && recommendedBookDoc && (
-        <RecommendedBookModal
-          onToggleClick={onToggleClick}
-          recommendedBookDetail={recommendedBookDoc}
-          collName={collection}
-        />
       )}
     </>
   );

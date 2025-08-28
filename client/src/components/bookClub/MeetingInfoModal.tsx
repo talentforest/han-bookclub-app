@@ -23,13 +23,11 @@ import Input from '@/components/common/input/Input';
 interface MeetingInfoModalProps {
   title: string;
   value: Partial<MonthlyBookClub['meeting']>;
-  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function MeetingInfoModal({
   title,
   value,
-  setIsEditing,
 }: MeetingInfoModalProps) {
   const { meeting: schedule } = useRecoilValue(
     clubByMonthSelector(thisYearMonthId),
@@ -42,9 +40,8 @@ export default function MeetingInfoModal({
   const {
     time: { time, setTime, onTimeSubmit },
     place: { place, setPlace, onPlaceSubmit, onTagClick },
-    onEditClick,
     isPending,
-  } = useHandleSchedule(meeting, setIsEditing);
+  } = useHandleSchedule(meeting);
 
   useEffect(() => {
     getDocument(TAG_LIST, MEETING_PLACE, setPlaceDoc);
@@ -53,7 +50,6 @@ export default function MeetingInfoModal({
   return (
     <Modal
       title={title}
-      onToggleClick={onEditClick}
       className="bottom-[30%] max-w-96 [&>div]:overflow-visible"
     >
       {title === '모임시간' && (

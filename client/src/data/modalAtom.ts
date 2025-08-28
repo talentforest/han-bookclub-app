@@ -1,18 +1,16 @@
 import { ReactNode } from 'react';
 
-import { v4 } from 'uuid';
-
 import { atom } from 'recoil';
 
-type Modal = {
-  key: string;
+export type Modal = {
   isOpen: boolean;
-  element: () => ReactNode;
-  showDim?: boolean;
-  dimClickable?: boolean;
+  element: ReactNode;
+  key?: string;
+  hideDim?: boolean;
+  dimUnclickable?: boolean;
 };
 
 export const modalListState = atom<Modal[]>({
-  key: `modalList/${v4()}`,
+  key: 'modalList',
   default: [],
 });

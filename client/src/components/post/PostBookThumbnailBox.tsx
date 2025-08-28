@@ -8,6 +8,8 @@ import { getDocument } from '@/api';
 
 import { HOST_REVIEW, REVIEWS, SUBJECTS } from '@/appConstants';
 
+import { useHandleModal } from '@/hooks';
+
 import { existDocObj, getFbRouteOfPost } from '@/utils';
 
 import { PostTypeName, UserPost, UserRecordId } from '@/types';
@@ -29,10 +31,12 @@ const PostBookThumbnailBox = ({
 }: PostBookThumbnailBoxProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
   const allUsers = useRecoilValue(allUsersAtom);
+
   const [post, setPost] = useState({} as UserPost);
-  const [openPostDetailModal, setOpenPostDetailModal] = useState(false);
 
   const { docId, monthId } = postId;
+
+  const { showModal } = useHandleModal();
 
   const getPostRoute = () => {
     if (postType === '발제문') return getFbRouteOfPost(monthId, SUBJECTS);
@@ -46,8 +50,6 @@ const PostBookThumbnailBox = ({
     }
   }, []);
 
-  const handleModal = () => setOpenPostDetailModal(prev => !prev);
-
   const { thumbnail, title, createdAt, creatorId, text } = post;
 
   const isCurrentUser = uid === creatorId;
@@ -59,7 +61,33 @@ const PostBookThumbnailBox = ({
       {existDocObj(post) && (
         <button
           type="button"
-          onClick={handleModal}
+          onClick={() =>
+            showModal({
+              element: (
+                <Modal title={`${userName}의 ${postType}`}>
+                  <div className="overflow-scroll">
+                    <EditorContent text={text} />
+
+                    <div className="mb-4 mt-10 flex justify-end">
+                      {uid === creatorId && (
+                        <PostHandleBtns
+                          post={post}
+                          collName={getPostRoute()}
+                          postType={postType}
+                        />
+                      )}
+                    </div>
+
+                    <PostFooter
+                      createdAt={createdAt}
+                      footerType="likes"
+                      post={post}
+                    />
+                  </div>
+                </Modal>
+              ),
+            })
+          }
           className="w-full overflow-hidden rounded-md shadow-card"
         >
           <BookThumbnail
@@ -68,26 +96,6 @@ const PostBookThumbnailBox = ({
             className="max-h-60 w-full"
           />
         </button>
-      )}
-
-      {openPostDetailModal && (
-        <Modal title={`${userName}의 ${postType}`} onToggleClick={handleModal}>
-          <div className="overflow-scroll">
-            <EditorContent text={text} />
-
-            <div className="mb-4 mt-10 flex justify-end">
-              {uid === creatorId && (
-                <PostHandleBtns
-                  post={post}
-                  collName={getPostRoute()}
-                  postType={postType}
-                />
-              )}
-            </div>
-
-            <PostFooter createdAt={createdAt} footerType="likes" post={post} />
-          </div>
-        </Modal>
       )}
     </>
   );

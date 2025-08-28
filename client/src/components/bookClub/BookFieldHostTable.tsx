@@ -11,7 +11,7 @@ import {
   initialBookFieldAndHostData,
 } from '@/appConstants';
 
-import { useHandleFieldHost } from '@/hooks';
+import { useHandleFieldHost, useHandleModal } from '@/hooks';
 
 import { existDocObj, thisYear } from '@/utils';
 
@@ -36,12 +36,34 @@ const BookFieldHostTable = ({
     useRecoilState(fieldAndHostAtom);
 
   const {
-    editingMonthInfo,
-    onEditClick,
     onSubmit,
     selectedValues,
-    setSelectedValues,
+    setSelectedValues, //
   } = useHandleFieldHost();
+
+  const { showModal } = useHandleModal();
+
+  const onEditClick = (month?: number) => {
+    if (month) {
+      const doc = bookFieldHostDoc.bookFieldAndHostList.find(
+        item => item.month === month,
+      );
+      setSelectedValues(doc);
+    }
+    showModal({
+      element: (
+        <Modal title={`${month}월 수정하기`}>
+          <FieldHostEditForm
+            bookFieldHost={bookFieldAndHostList[month - 1]}
+            onSubmit={onSubmit}
+            month={month}
+            selectedValues={selectedValues}
+            setSelectedValues={setSelectedValues}
+          />
+        </Modal>
+      ),
+    });
+  };
 
   useEffect(() => {
     if (!existDocObj(bookFieldHostDoc)) {
@@ -83,21 +105,6 @@ const BookFieldHostTable = ({
           createBtnTitle={`${thisYear} 새로운 월별 독서분야와 발제자 정보 생성하기`}
           onCreateClick={setInitialBookFieldHostInFb}
         />
-      )}
-
-      {editingMonthInfo.isEditing && (
-        <Modal
-          title={`${editingMonthInfo.month}월 수정하기`}
-          onToggleClick={onEditClick}
-        >
-          <FieldHostEditForm
-            bookFieldHost={bookFieldAndHostList[editingMonthInfo.month - 1]}
-            onSubmit={onSubmit}
-            month={editingMonthInfo.month}
-            selectedValues={selectedValues}
-            setSelectedValues={setSelectedValues}
-          />
-        </Modal>
       )}
     </>
   );

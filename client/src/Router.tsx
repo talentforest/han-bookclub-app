@@ -1,6 +1,14 @@
+import { Fragment } from 'react';
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { authService } from '@/fbase';
+
+import { useRecoilValue } from 'recoil';
+
+import { modalListState } from '@/data/modalAtom';
+
+import { useHandleModal } from '@/hooks';
 
 import Bookshelf from '@/routes/Bookshelf';
 import Challenge from '@/routes/Challenge';
@@ -34,6 +42,11 @@ interface RouterProps {
 
 function Router({ isLoggedIn }: RouterProps) {
   const anonymous = authService.currentUser?.isAnonymous;
+  const modalList = useRecoilValue(modalListState);
+
+  console.log(modalList);
+
+  const { hideModal } = useHandleModal();
 
   return (
     <BrowserRouter basename="/han-bookclub-app">
@@ -112,6 +125,20 @@ function Router({ isLoggedIn }: RouterProps) {
           <Route path="/create_account" element={<CreateAccount />} />
         </Routes>
       )}
+
+      {modalList.length > 0 &&
+        modalList.map(({ key, element, hideDim, dimUnclickable }) => (
+          <Fragment key={key || 'modal'}>
+            {!hideDim && (
+              <div
+                role="presentation"
+                className={`fixed inset-0 z-10 size-full ${!dimUnclickable ? 'cursor-pointer' : 'cursor-default'} bg-black opacity-60`}
+                onClick={key ? () => hideModal(key) : () => hideModal()}
+              />
+            )}
+            {element}
+          </Fragment>
+        ))}
     </BrowserRouter>
   );
 }
