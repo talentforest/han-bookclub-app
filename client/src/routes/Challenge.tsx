@@ -1,27 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-import { PiShootingStarFill } from 'react-icons/pi';
 import { SwiperSlide } from 'swiper/react';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { clubByYearAtom } from '@/data/clubAtom';
+import { rereadingChallengeAtom } from '@/data/challengeAtom';
 import { allUsersAtom } from '@/data/userAtom';
 
 import { getCollection } from '@/api';
 
 import { CHALLENGE } from '@/appConstants';
 
-import { useHandleModal } from '@/hooks';
+import { useGetClubByYear, useHandleModal } from '@/hooks';
 
 import { thisYear } from '@/utils';
 
-import { BaseBookData, BookData, RereadingChallenge } from '@/types';
+import { BaseBookData, BookRank, UserRank } from '@/types';
 
 import MobileHeader from '@/layout/mobile/MobileHeader';
 
-import ChallengeRereadingCard from '@/components/challenge/ChallengeRereadingCard';
+import ChallengeBookRankCard from '@/components/challenge/ChallengeBookRankCard';
 import ChallengeRereadingModal from '@/components/challenge/ChallengeRereadingModal';
+import ChallengeUserRankCard from '@/components/challenge/ChallengeUserRankCard';
 import DDay from '@/components/common/DDay';
 import SelectYearBtnList from '@/components/common/SelectYearBtnList';
 import Subtitle from '@/components/common/Subtitle';
@@ -49,153 +49,117 @@ const swiperOptions = {
 };
 
 export default function Challenge() {
-  const [selectedYear, setSelectedYear] = useState(thisYear);
-  const [clubByYear, setClubByYear] = useRecoilState(clubByYearAtom);
-
-  const [challengeList, setChallengeList] = useState([]);
-
-  const [rereadingBook, setRereadingBook] = useState<BookData | null>(null);
-
-  const [showAllChallengeUser, setShowAllChallengeUser] = useState(false);
-
   const memberList = useRecoilValue(allUsersAtom);
 
-  function getTotalCounts(userData: any): number {
-    if (!userData || typeof userData !== 'object') return 0;
+  const [userChallengeList, setUserChallengeList] = useRecoilState(
+    rereadingChallengeAtom,
+  );
 
-    return Object.values(userData).reduce((sum, value) => {
-      if (
-        typeof value === 'object' &&
-        value !== null &&
-        'counts' in value &&
-        typeof (value as any).counts === 'number'
-      ) {
-        return sum + (value as any).counts;
-      }
-      return sum;
-    }, 0) as number;
-  }
-
-  const allChallengeList = memberList
-    .map(({ id }) => {
-      const matched = challengeList?.find(({ creatorId }) => creatorId === id);
-      return matched || { creatorId: id };
-    })
-    .sort((a, b) => getTotalCounts(b) - getTotalCounts(a));
-
-  // 챌린지 유저 랭크
-  const rankedChallengeList = allChallengeList.reduce(
-    (
-      acc: {
-        result: any[];
-        prevTotal: number | null;
-        currentRank: number;
-        skipCount: number;
-      },
-      userData,
-    ) => {
-      const total = getTotalCounts(userData);
-
-      const isSameAsPrev = total === acc.prevTotal;
-
-      const nextRank = isSameAsPrev
-        ? acc.currentRank
-        : acc.currentRank + acc.skipCount;
-
-      const updatedSkipCount = isSameAsPrev ? acc.skipCount + 1 : 1;
-
-      const updatedUserData = {
-        ...userData,
-        rank: nextRank,
-        totalCounts: total,
-      };
-
-      return {
-        result: [...acc.result, updatedUserData],
-        prevTotal: total,
-        currentRank: nextRank,
-        skipCount: updatedSkipCount,
-      };
-    },
-    {
-      result: [],
-      prevTotal: null,
-      currentRank: 1,
-      skipCount: 0,
-    },
-  ).result;
-
-  useEffect(() => {
-    getCollection(`BookClub-${selectedYear}`, setClubByYear);
-    getCollection(CHALLENGE, setChallengeList);
-  }, [selectedYear]);
-
-  const handleChangeYear = (year: string) => setSelectedYear(year);
-
-  const clubBookList = clubByYear.filter(({ book }) => book.thumbnail !== '');
+  const [showAllRank, setShowAllRank] = useState(false);
 
   const { showModal } = useHandleModal();
 
-  const challengeModalOpen = (book?: BookData) => {
-    showModal({
-      element: <ChallengeRereadingModal selectedBook={selectedChallengeBook} />,
-    });
-    setRereadingBook(prevBook => book || prevBook);
-  };
+  const {
+    selectedYear,
+    setSelectedYear,
+    clubBookListByYear, //
+  } = useGetClubByYear();
 
-  const challengBookListByUser = challengeList.map(item => {
-    const { creatorId, id, ...rest } = item;
-    return rest;
-  });
+  const bookRankList: BookRank[] = useMemo(() => {
+    const usersBookList = userChallengeList
+      .map(item => {
+        const { creatorId, id, ...rest } = item;
 
-  const sortedChallengeByCounts = Object.entries(
-    challengBookListByUser.reduce((acc, entry) => {
-      Object.entries(entry as RereadingChallenge).forEach(([title, value]) => {
+        return Object.entries(rest).map(([_, { book, counts }]) => {
+          return { ...book, counts };
+        });
+      })
+      .flat();
+    return Object.values(
+      usersBookList.reduce<Record<string, BookRank>>((acc, book) => {
+        const { title, counts } = book;
+
         if (!acc[title]) {
-          acc[title] = {
-            book: value.book,
-            readers: 1,
-            counts: value.counts || 0,
-          };
+          acc[title] = { ...book, readers: 1 };
         } else {
+          acc[title].counts += counts;
           acc[title].readers += 1;
-          acc[title].counts += value.counts || 0;
         }
-      });
-      return acc;
-    }, {}) as {
-      [title in string]: {
-        book: BaseBookData;
-        readers: number;
-        counts: number;
-      };
-    },
-  )
-    .sort((a, b) => {
-      const readersDiff = b[1].readers - a[1].readers;
+
+        return acc;
+      }, {}),
+    ).sort((a, b) => {
+      const readersDiff = b.readers - a.readers;
       if (readersDiff !== 0) return readersDiff;
-      return b[1].counts - a[1].counts;
-    })
-    .map(([title, info]) => ({ [title]: info }));
+      return b.counts - a.counts;
+    });
+  }, [userChallengeList]);
 
-  const intialChallengeBook = rereadingBook && {
-    [rereadingBook.title]: {
-      book: {
-        authors: rereadingBook.authors,
-        publisher: rereadingBook.publisher,
-        thumbnail: rereadingBook.thumbnail,
-        title: rereadingBook.title,
-      },
-      readers: 0,
-      counts: 0,
-    },
-  };
+  // 유저 순위
+  const userRankList: UserRank[] = useMemo(() => {
+    const memberChallengeList = memberList.map(({ id }) => {
+      const matched = userChallengeList?.find(
+        ({ creatorId }) => creatorId === id,
+      );
+      return matched || { id, creatorId: id };
+    });
 
-  const selectedChallengeBook =
-    sortedChallengeByCounts?.find(item => {
-      const [title] = Object.entries(item)[0];
-      return title === rereadingBook?.title;
-    }) || intialChallengeBook;
+    const usersWithCounts = memberChallengeList
+      .map(user => {
+        const rereadingBookList: ({ counts: number } & BaseBookData)[] =
+          Object.entries(user)
+            .filter(([key]) => key !== 'id' && key !== 'creatorId')
+            .map(([_, value]: any) => ({
+              ...value.book,
+              counts: value.counts,
+            }));
+
+        const totalScore = rereadingBookList.reduce(
+          (acc, cur) => acc + cur.counts,
+          0,
+        );
+
+        return {
+          creatorId: user.creatorId,
+          totalScore,
+          rereadingBookList,
+        };
+      })
+      .sort((a, b) => b.totalScore - a.totalScore);
+
+    // rank 계산 (동점자 처리)
+    let rank = 0;
+    let prevScore = -1;
+    let skip = 0;
+
+    return usersWithCounts.map((user, idx) => {
+      if (prevScore === user.totalScore) {
+        skip++;
+      } else {
+        rank = idx + 1 + skip;
+        skip = 0;
+      }
+      prevScore = user.totalScore;
+
+      const totalRereadingCounts = user.rereadingBookList.reduce(
+        (acc, { counts }) => {
+          return acc + counts;
+        },
+        0,
+      );
+
+      return {
+        creatorId: user.creatorId,
+        rank,
+        rereadingBookList: user.rereadingBookList,
+        totalRereadingCounts,
+      };
+    });
+  }, [userChallengeList]);
+
+  useEffect(() => {
+    getCollection(CHALLENGE, setUserChallengeList);
+  }, []);
 
   return (
     <>
@@ -217,48 +181,20 @@ export default function Challenge() {
           />
         </header>
 
-        {sortedChallengeByCounts.length > 0 && (
+        {bookRankList.length > 0 && (
           <Section className="!mb-20 !mt-16">
             <h4 className="mb-4 text-lg font-bold italic">
               🔥현재 가장 많이 재독한 도서는?
             </h4>
 
             <SwiperContainer options={swiperOptions}>
-              {sortedChallengeByCounts.map((item, index) => {
-                const [title, data] = Object.entries(item)[0];
-                const { book, readers, counts } = data;
-
+              {bookRankList.map((bookRank, index) => {
                 return (
-                  <SwiperSlide key={title}>
-                    <li className="relative min-h-fit w-full pb-3">
-                      <BookThumbnail
-                        title={book.title}
-                        thumbnail={book.thumbnail}
-                        className="mx-auto w-full rounded-md max-sm:w-4/5"
-                      />
-
-                      <div className="absolute -bottom-4 right-0">
-                        <PiShootingStarFill className="size-[90px] fill-yellow-400" />
-                        <span className="absolute bottom-[42px] right-[27px] font-sans text-xl font-bold text-indigo-600">
-                          {index + 1}
-                        </span>
-                      </div>
-
-                      {/* <div className="mt-4 flex flex-wrap gap-2">
-                      <Tag
-                        text={`🙋🏻${readers}명의 멤버가 재독`}
-                        color="lightBlue"
-                        shape="rounded"
-                        className="!py-1.5 text-sm !text-blue-600"
-                      />
-                      <Tag
-                        text={`👀총 ${counts}번 재독`}
-                        color="yellow"
-                        shape="rounded"
-                        className="!py-1.5 text-sm !text-green-600"
-                      />
-                    </div> */}
-                    </li>
+                  <SwiperSlide key={bookRank.title}>
+                    <ChallengeBookRankCard
+                      bookRank={bookRank}
+                      rank={index + 1}
+                    />
                   </SwiperSlide>
                 );
               })}
@@ -270,7 +206,7 @@ export default function Challenge() {
           <Subtitle title="독서모임의 도서들" />
           <SelectYearBtnList
             selectedYear={selectedYear}
-            handleChangeYear={handleChangeYear}
+            handleChangeYear={setSelectedYear}
             buttonClassName="!px-3 h-9 min-h-9"
           />
           <p className="mt-4 text-sm text-gray1">
@@ -278,16 +214,26 @@ export default function Challenge() {
             과연 누구의 재독 수가 가장 많을까요?!
           </p>
           <ul className="mt-5 grid grid-cols-11 max-md:grid-cols-7 max-sm:grid-cols-4 max-sm:gap-5">
-            {clubBookList.map(({ book }) => (
-              <li key={book.datetime}>
+            {clubBookListByYear.map(clubbook => (
+              <li key={clubbook.datetime}>
                 <button
                   type="button"
-                  onClick={() => challengeModalOpen(book)}
                   className="w-full"
+                  onClick={() =>
+                    showModal({
+                      element: (
+                        <ChallengeRereadingModal
+                          selectedBook={clubbook}
+                          readers={0}
+                          counts={0}
+                        />
+                      ),
+                    })
+                  }
                 >
                   <BookThumbnail
-                    title={book.title}
-                    thumbnail={book.thumbnail}
+                    title={clubbook.title}
+                    thumbnail={clubbook.thumbnail}
                     className="w-full rounded-md shadow-card"
                   />
                 </button>
@@ -298,28 +244,26 @@ export default function Challenge() {
 
         <Section className="!mt-10">
           <Subtitle title="개인별 챌린지 현황" />
-          {rankedChallengeList?.length !== 0 && (
+          {userRankList?.length !== 0 && (
             <>
               <ul className="grid grid-cols-4 gap-5 max-sm:grid-cols-2">
-                {rankedChallengeList
-                  ?.slice(0, showAllChallengeUser ? undefined : 4)
-                  .map(challenge => (
-                    <ChallengeRereadingCard
-                      key={challenge.creatorId}
-                      userChallenge={challenge}
-                      creatorId={challenge.creatorId}
+                {userRankList
+                  ?.slice(0, showAllRank ? undefined : 4)
+                  .map(userRank => (
+                    <ChallengeUserRankCard
+                      key={userRank.creatorId}
+                      userRank={userRank}
                     />
                   ))}
               </ul>
-              {!showAllChallengeUser && (
-                <button
-                  type="button"
-                  className="mt-7 flex items-center self-center rounded-full bg-gray4 px-4 py-1.5 text-blue1"
-                  onClick={() => setShowAllChallengeUser(true)}
-                >
-                  <span>순위 더보기</span>
-                </button>
-              )}
+
+              <button
+                type="button"
+                className="mt-7 flex items-center self-center rounded-full bg-gray4 px-4 py-1.5 text-blue1"
+                onClick={() => setShowAllRank(prev => !prev)}
+              >
+                <span>{!showAllRank ? '순위 더보기' : '접기'}</span>
+              </button>
             </>
           )}
         </Section>

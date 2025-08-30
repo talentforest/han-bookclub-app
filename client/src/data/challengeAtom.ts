@@ -8,17 +8,18 @@ import {
   RereadingChallenge,
 } from '@/types';
 
-export const rereadingChallengeState = atom<RereadingChallenge>({
+export const rereadingChallengeAtom = atom<RereadingChallenge[] | null>({
   key: `rereadingChallenge/${v4()}`,
-  default: null,
+  default: [],
 });
 
-export const completeReadingChallengeState = atom<CompleteReadingChallenge>({
-  key: `completeReadingChallenge/${v4()}`,
-  default: null,
-});
+export const completeReadingChallengeState =
+  atom<CompleteReadingChallenge | null>({
+    key: `completeReadingChallenge/${v4()}`,
+    default: null,
+  });
 
-export const sentencesState = atom<ChallengeSentence[]>({
+export const sentencesState = atom<ChallengeSentence[] | null>({
   key: `sentences/${v4()}`,
   default: null,
 });

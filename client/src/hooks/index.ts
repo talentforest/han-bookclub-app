@@ -8,6 +8,7 @@ export { useChangePw } from '@/hooks/useChangePw';
 export { useCreateAccount } from '@/hooks/useCreateAccount';
 export { useCreateBookVoteBox } from '@/hooks/useCreateBookVoteBox';
 export { useDeleteAccount } from '@/hooks/useDeleteAccount';
+export { useGetClubByYear } from '@/hooks/useGetClubByYear';
 export { useHandleAbsence } from '@/hooks/useHandleAbsence';
 export { useHandleFieldHost } from '@/hooks/useHandleFieldHost';
 export { useHandleLike } from '@/hooks/useHandleLike';

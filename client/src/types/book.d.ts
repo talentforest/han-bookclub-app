@@ -12,6 +12,6 @@ export type BookData = {
 };
 
 export type BaseBookData = Pick<
-  Book,
+  BookData,
   'title' | 'thumbnail' | 'authors' | 'url' | 'publisher'
 >;

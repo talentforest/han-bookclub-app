@@ -1,5 +1,5 @@
 /** 챌린지 관련 타입 */
-import { BookData } from '@/types/book';
+import { BaseBookData, BookData } from '@/types/book';
 
 export type CompleteReadingChallengeBook = {
   currentPage: number;
@@ -14,8 +14,10 @@ export type CompleteReadingChallenge = {
 };
 
 export type RereadingChallenge = {
+  id: string;
+  creatorId: string;
   [key: string]: {
-    book: Pick<BookData, 'title' | 'thumbnail' | 'publisher' | 'authors'>;
+    book: Omit<BaseBookData, 'url'>;
     impressionList: {
       id: number;
       text: string;
@@ -23,13 +25,6 @@ export type RereadingChallenge = {
     }[];
     counts: number;
   };
-};
-
-export type ChallengeRank = {
-  creatorId: string;
-  id: string;
-  rank: number;
-  totalCounts: number;
 };
 
 export type ChallengeSentence = {
@@ -42,4 +37,16 @@ export type ChallengeSentence = {
   page: number;
   likeUsers?: string[];
   likes?: number;
+};
+
+export type BookRank = Omit<BaseBookData, 'url'> & {
+  counts: number;
+  readers: number;
+};
+
+export type UserRank = {
+  creatorId: string;
+  rank: number;
+  rereadingBookList: ({ counts: number } & Omit<BaseBookData, 'url'>)[];
+  totalRereadingCounts: number;
 };

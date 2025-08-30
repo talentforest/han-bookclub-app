@@ -79,7 +79,7 @@ const Bookshelf = () => {
       {userData && (
         <main>
           <Section>
-            <UserImgName photoURL={photoURL} displayName={displayName} />
+            <UserImgName photoURL={photoURL} displayName={username} />
             <div className="mt-2.5 flex flex-col items-center gap-1">
               {isAbsentee ? (
                 <Tag text="🔴 이번달 불참" color="red" shape="square" />

@@ -16,7 +16,7 @@ export default function BookThumbnail({
     <>
       {thumbnail !== '' && (
         <img
-          className={`flex aspect-[0.68/1] h-full max-h-40 items-center justify-center rounded-md bg-gray1 shadow-book ${className}`}
+          className={`flex aspect-[0.68/1] h-full items-center justify-center rounded-md bg-gray1 shadow-book ${className}`}
           src={thumbnail}
           alt={`${title} 북커버`}
         />

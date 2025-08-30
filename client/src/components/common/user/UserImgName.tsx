@@ -17,6 +17,8 @@ export default function UserImgName({
     return false;
   };
 
+  const className = 'size-40 rounded-full bg-white shadow-card';
+
   return (
     <div className="flex flex-col items-center justify-between">
       {photoURL ? (
@@ -24,11 +26,11 @@ export default function UserImgName({
           onContextMenu={onContextMenu}
           src={photoURL}
           alt={`${displayName}의 프로필 이미지`}
-          className="size-48 rounded-full bg-white object-cover shadow-card"
+          className={`object-cover ${className}`}
         />
       ) : (
-        <div className="rounded-full border bg-white">
-          <FiUser fontSize={30} stroke="#aaa" />
+        <div className={`flex items-center justify-center ${className}`}>
+          <FiUser className="size-1/2" stroke="#aaa" />
         </div>
       )}
       <span className="mt-4">{displayName}</span>

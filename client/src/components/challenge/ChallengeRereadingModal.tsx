@@ -24,27 +24,16 @@ import BookThumbnail from '@/components/common/book/BookThumbnail';
 import SquareBtn from '@/components/common/button/SquareBtn';
 
 interface ChallengeRereadingModalProps {
-  selectedBook:
-    | {
-        [x: string]: {
-          book: Pick<BookData, 'authors' | 'publisher' | 'thumbnail' | 'title'>;
-          readers: number;
-          counts: number;
-        };
-      }
-    | BookData;
+  selectedBook: BookData;
+  readers: number;
+  counts: number;
 }
 
 export default function ChallengeRereadingModal({
   selectedBook,
+  readers,
+  counts,
 }: ChallengeRereadingModalProps) {
-  const [title, data] = Object.entries(selectedBook)[0];
-  const {
-    book: { thumbnail, authors, publisher },
-    counts,
-    readers,
-  } = data;
-
   const ref = useRef<HTMLTextAreaElement>();
 
   const { uid } = useRecoilValue(currAuthUserAtom);
@@ -108,6 +97,8 @@ export default function ChallengeRereadingModal({
     hideModal();
     alert('소감이 작성 완료되었습니다. 챌린지를 추가 달성했습니다!❣️');
   };
+
+  const { title, thumbnail, authors, publisher } = selectedBook;
 
   return (
     <Modal title="재독 챌린지">

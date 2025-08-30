@@ -1,12 +1,6 @@
-import { useEffect } from 'react';
-
 import { Link } from 'react-router-dom';
 
-import { useRecoilState } from 'recoil';
-
-import { clubByYearAtom, selectedYearAtom } from '@/data/clubAtom';
-
-import { getCollection } from '@/api';
+import { useGetClubByYear } from '@/hooks';
 
 import { thisYearMonthId } from '@/utils';
 
@@ -18,15 +12,7 @@ import EmptyCard from '@/components/common/container/EmptyCard';
 import Section from '@/components/common/container/Section';
 
 function PreviousClub() {
-  const [selectedYear, setSelectedYear] = useRecoilState(selectedYearAtom);
-
-  const [clubByYear, setClubByYear] = useRecoilState(clubByYearAtom);
-
-  useEffect(() => {
-    getCollection(`BookClub-${selectedYear}`, setClubByYear);
-  }, [selectedYear]);
-
-  const handleChangeYear = (year: string) => setSelectedYear(year);
+  const { clubByYear, selectedYear, setSelectedYear } = useGetClubByYear();
 
   return (
     <>
@@ -35,7 +21,7 @@ function PreviousClub() {
       <main>
         <SelectYearBtnList
           selectedYear={selectedYear}
-          handleChangeYear={handleChangeYear}
+          handleChangeYear={setSelectedYear}
         />
 
         <Section title={`${selectedYear}년의 한페이지`} className="!mt-10">

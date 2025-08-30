@@ -44,8 +44,6 @@ function Router({ isLoggedIn }: RouterProps) {
   const anonymous = authService.currentUser?.isAnonymous;
   const modalList = useRecoilValue(modalListState);
 
-  console.log(modalList);
-
   const { hideModal } = useHandleModal();
 
   return (
@@ -115,6 +113,7 @@ function Router({ isLoggedIn }: RouterProps) {
               </>
             )}
           </Routes>
+
           <BottomNavigation />
         </>
       ) : (
