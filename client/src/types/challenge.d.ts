@@ -39,9 +39,15 @@ export type ChallengeSentence = {
   likes?: number;
 };
 
-export type BookRank = Omit<BaseBookData, 'url'> & {
+export type BookWithRank = Omit<BaseBookData, 'url'> & {
   counts: number;
   readers: number;
+  impressionList: {
+    id: number;
+    text: string;
+    createdAt: string;
+    creatorId: string;
+  }[];
 };
 
 export type UserRank = {

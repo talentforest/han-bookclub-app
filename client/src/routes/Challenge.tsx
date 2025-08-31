@@ -9,17 +9,18 @@ import { allUsersAtom } from '@/data/userAtom';
 
 import { getCollection } from '@/api';
 
-import { CHALLENGE } from '@/appConstants';
+import { CHALLENGE, RECOMMENDED_BOOKS, months } from '@/appConstants';
 
 import { useGetClubByYear, useHandleModal } from '@/hooks';
 
-import { thisYear } from '@/utils';
+import { getFbRouteOfPost, thisMonth, thisYear } from '@/utils';
 
-import { BaseBookData, BookRank, UserRank } from '@/types';
+import { BaseBookData, BookData, BookWithRank, UserRank } from '@/types';
 
 import MobileHeader from '@/layout/mobile/MobileHeader';
 
 import ChallengeBookRankCard from '@/components/challenge/ChallengeBookRankCard';
+import ChallengeRecommendedBookListByMonth from '@/components/challenge/ChallengeRecommendedBookListByMonth';
 import ChallengeRereadingModal from '@/components/challenge/ChallengeRereadingModal';
 import ChallengeUserRankCard from '@/components/challenge/ChallengeUserRankCard';
 import DDay from '@/components/common/DDay';
@@ -32,7 +33,7 @@ import SwiperContainer from '@/components/common/container/SwiperContainer';
 const swiperOptions = {
   breakpoints: {
     1024: {
-      slidesPerView: 3,
+      slidesPerView: 8,
     },
     800: {
       slidesPerView: 2,
@@ -65,18 +66,31 @@ export default function Challenge() {
     clubBookListByYear, //
   } = useGetClubByYear();
 
-  const bookRankList: BookRank[] = useMemo(() => {
+  // 책 순위
+  const bookWithRankList: BookWithRank[] = useMemo(() => {
+    if (!userChallengeList) return null;
+
     const usersBookList = userChallengeList
       .map(item => {
         const { creatorId, id, ...rest } = item;
 
-        return Object.entries(rest).map(([_, { book, counts }]) => {
-          return { ...book, counts };
-        });
+        return Object.entries(rest).map(
+          ([_, { book, counts, impressionList }]) => {
+            return {
+              ...book,
+              counts,
+              impressionList: impressionList.map(item => ({
+                ...item,
+                creatorId,
+              })),
+            };
+          },
+        );
       })
       .flat();
+
     return Object.values(
-      usersBookList.reduce<Record<string, BookRank>>((acc, book) => {
+      usersBookList.reduce<Record<string, BookWithRank>>((acc, book) => {
         const { title, counts } = book;
 
         if (!acc[title]) {
@@ -133,33 +147,63 @@ export default function Challenge() {
     let skip = 0;
 
     return usersWithCounts.map((user, idx) => {
-      if (prevScore === user.totalScore) {
+      const { rereadingBookList, creatorId, totalScore } = user;
+
+      if (prevScore === totalScore) {
         skip++;
       } else {
         rank = idx + 1 + skip;
         skip = 0;
       }
-      prevScore = user.totalScore;
+      prevScore = totalScore;
 
-      const totalRereadingCounts = user.rereadingBookList.reduce(
+      const totalRereadingCounts = rereadingBookList.reduce(
         (acc, { counts }) => {
           return acc + counts;
         },
         0,
       );
 
-      return {
-        creatorId: user.creatorId,
-        rank,
-        rereadingBookList: user.rereadingBookList,
-        totalRereadingCounts,
-      };
+      return { creatorId, rank, rereadingBookList, totalRereadingCounts };
     });
   }, [userChallengeList]);
 
   useEffect(() => {
-    getCollection(CHALLENGE, setUserChallengeList);
+    if (!userChallengeList) {
+      getCollection(CHALLENGE, setUserChallengeList);
+    }
   }, []);
+
+  const monthList =
+    selectedYear === thisYear
+      ? months.filter(month => +month <= +thisMonth)
+      : months;
+
+  const collList = monthList.map(month => {
+    return getFbRouteOfPost(`${selectedYear}-${month}`, RECOMMENDED_BOOKS);
+  });
+
+  const onChallengeBookClick = (
+    book: BookData | BaseBookData,
+    reason?: string,
+    recommendedUser?: string,
+  ) => {
+    const challengeBook = bookWithRankList.find(
+      ({ title }) => title === book.title,
+    );
+
+    showModal({
+      element: (
+        <ChallengeRereadingModal
+          selectedBook={challengeBook || book}
+          readers={challengeBook?.readers || 0}
+          counts={challengeBook?.counts || 0}
+          reason={reason}
+          recommendedUser={recommendedUser}
+        />
+      ),
+    });
+  };
 
   return (
     <>
@@ -167,12 +211,12 @@ export default function Challenge() {
 
       <main>
         <header className="mb-10 mt-2 flex gap-x-3">
-          <div className="rounded-xl bg-white p-4 shadow-card">
+          <div className="w-2/3 rounded-xl bg-white p-4 shadow-card">
             <h4 className="mb-3.5 flex items-center gap-2">
               📚✨2025년 챌린지{' '}
               <div className="flex-1 border-t-2 border-dotted border-gray3" />
             </h4>
-            <span className="font-bold">독서모임의 책들 재독하기!</span>
+            <span className="font-bold">독서모임의 책들을 다시 읽어보기!</span>
           </div>
 
           <DDay
@@ -181,29 +225,8 @@ export default function Challenge() {
           />
         </header>
 
-        {bookRankList.length > 0 && (
-          <Section className="!mb-20 !mt-16">
-            <h4 className="mb-4 text-lg font-bold italic">
-              🔥현재 가장 많이 재독한 도서는?
-            </h4>
-
-            <SwiperContainer options={swiperOptions}>
-              {bookRankList.map((bookRank, index) => {
-                return (
-                  <SwiperSlide key={bookRank.title}>
-                    <ChallengeBookRankCard
-                      bookRank={bookRank}
-                      rank={index + 1}
-                    />
-                  </SwiperSlide>
-                );
-              })}
-            </SwiperContainer>
-          </Section>
-        )}
-
         <Section>
-          <Subtitle title="독서모임의 도서들" />
+          <Subtitle title="독서모임의 책들" />
           <SelectYearBtnList
             selectedYear={selectedYear}
             handleChangeYear={setSelectedYear}
@@ -213,23 +236,13 @@ export default function Challenge() {
             책의 썸네일을 클릭한 후 재독 소감을 작성하면 재독수가 증가합니다!
             과연 누구의 재독 수가 가장 많을까요?!
           </p>
-          <ul className="mt-5 grid grid-cols-11 max-md:grid-cols-7 max-sm:grid-cols-4 max-sm:gap-5">
+          <ul className="mt-5 grid grid-cols-10 gap-6 max-md:grid-cols-7 max-sm:grid-cols-4 max-sm:gap-5">
             {clubBookListByYear.map(clubbook => (
               <li key={clubbook.datetime}>
                 <button
                   type="button"
                   className="w-full"
-                  onClick={() =>
-                    showModal({
-                      element: (
-                        <ChallengeRereadingModal
-                          selectedBook={clubbook}
-                          readers={0}
-                          counts={0}
-                        />
-                      ),
-                    })
-                  }
+                  onClick={() => onChallengeBookClick(clubbook)}
                 >
                   <BookThumbnail
                     title={clubbook.title}
@@ -239,11 +252,37 @@ export default function Challenge() {
                 </button>
               </li>
             ))}
+            {collList.map(coll => (
+              <ChallengeRecommendedBookListByMonth
+                key={coll}
+                coll={coll}
+                onChallengeBookClick={onChallengeBookClick}
+              />
+            ))}
           </ul>
         </Section>
 
+        {bookWithRankList && bookWithRankList?.length > 0 && (
+          <Section className="!mb-10 !mt-16">
+            <Subtitle title="🔥현재 가장 여러 번 다시 읽은 책은?" />
+
+            <SwiperContainer options={swiperOptions}>
+              {bookWithRankList.map((bookWithRank, index) => {
+                return (
+                  <SwiperSlide key={bookWithRank.title}>
+                    <ChallengeBookRankCard
+                      bookWithRank={bookWithRank}
+                      rank={index + 1}
+                    />
+                  </SwiperSlide>
+                );
+              })}
+            </SwiperContainer>
+          </Section>
+        )}
+
         <Section className="!mt-10">
-          <Subtitle title="개인별 챌린지 현황" />
+          <Subtitle title="🙋🏻현재 멤버별 챌린지 현황" />
           {userRankList?.length !== 0 && (
             <>
               <ul className="grid grid-cols-4 gap-5 max-sm:grid-cols-2">
@@ -259,10 +298,10 @@ export default function Challenge() {
 
               <button
                 type="button"
-                className="mt-7 flex items-center self-center rounded-full bg-gray4 px-4 py-1.5 text-blue1"
+                className="mt-7 flex items-center self-center rounded-full bg-gray4 px-6 py-2 text-sm text-blue1"
                 onClick={() => setShowAllRank(prev => !prev)}
               >
-                <span>{!showAllRank ? '순위 더보기' : '접기'}</span>
+                {!showAllRank ? '더보기' : '접기'}
               </button>
             </>
           )}

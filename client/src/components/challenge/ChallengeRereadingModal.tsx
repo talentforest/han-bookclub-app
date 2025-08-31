@@ -11,32 +11,37 @@ import { getDocument } from '@/api';
 
 import { CHALLENGE } from '@/appConstants';
 
-import { useHandleModal } from '@/hooks';
+import { useHandleModal, useSendPushNotification } from '@/hooks';
 
 import { formatDate, thisYear } from '@/utils';
 
-import { BookData, RereadingChallenge } from '@/types';
+import { BaseBookData, RereadingChallenge } from '@/types';
 
 import Modal from '@/components/common/Modal';
 import Tag from '@/components/common/Tag';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import SquareBtn from '@/components/common/button/SquareBtn';
+import UserName from '@/components/common/user/UserName';
 
 interface ChallengeRereadingModalProps {
-  selectedBook: BookData;
+  selectedBook: Omit<BaseBookData, 'url'>;
   readers: number;
   counts: number;
+  reason: string;
+  recommendedUser: string;
 }
 
 export default function ChallengeRereadingModal({
   selectedBook,
   readers,
   counts,
+  reason,
+  recommendedUser,
 }: ChallengeRereadingModalProps) {
   const ref = useRef<HTMLTextAreaElement>();
 
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const { uid, displayName } = useRecoilValue(currAuthUserAtom);
 
   const [userChallenge, setUserChallenge] = useState<RereadingChallenge | null>(
     null,
@@ -47,6 +52,8 @@ export default function ChallengeRereadingModal({
   }, [uid]);
 
   const { hideModal } = useHandleModal();
+
+  const { sendPushNotification } = useSendPushNotification();
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -61,6 +68,7 @@ export default function ChallengeRereadingModal({
     const newImpression = {
       text: ref.current.value,
       createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
+      creatorId: uid,
     };
 
     const newRereadingBook = {
@@ -96,6 +104,11 @@ export default function ChallengeRereadingModal({
 
     hideModal();
     alert('소감이 작성 완료되었습니다. 챌린지를 추가 달성했습니다!❣️');
+    sendPushNotification(
+      '/challenge',
+      '다시 읽기 챌린지를 달성한 멤버가 있어요!',
+      `${displayName}님이 ${title} 책을 다시 읽었어요!`,
+    );
   };
 
   const { title, thumbnail, authors, publisher } = selectedBook;
@@ -109,6 +122,14 @@ export default function ChallengeRereadingModal({
           <BookAuthorPublisher authors={authors} publisher={publisher} />
         </div>
       </div>
+      {recommendedUser && (
+        <p className="mt-3">
+          추천한 멤버: <UserName userId={recommendedUser} tag />
+        </p>
+      )}
+      {reason && (
+        <p className="mt-2 border-l-4 border-gray3 pl-2 text-sm">{reason}</p>
+      )}
 
       <div className="mt-4 flex flex-wrap gap-2">
         <Tag

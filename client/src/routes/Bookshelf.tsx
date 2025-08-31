@@ -21,7 +21,7 @@ import { PostTypeName } from '@/types';
 import MobileHeader from '@/layout/mobile/MobileHeader';
 
 import BookshelfPostList from '@/components/bookshelf/BookshelfPostList';
-import ChallengeBookCard from '@/components/challenge/ChallengeBookCard';
+import UserChallengeBookCard from '@/components/challenge/UserChallengeBookCard';
 import GuideLine from '@/components/common/GuideLine';
 import Loading from '@/components/common/Loading';
 import Subtitle from '@/components/common/Subtitle';
@@ -106,7 +106,7 @@ const Bookshelf = () => {
               <Subtitle title={`${displayName}의 2024 챌린지 히스토리`} />
               <ul className="grid grid-cols-2 gap-4 max-sm:flex max-sm:flex-col">
                 {challenge?.books?.map(challengeBook => (
-                  <ChallengeBookCard
+                  <UserChallengeBookCard
                     key={challengeBook.title}
                     challengeBook={challengeBook}
                     creatorId={challenge.creatorId}

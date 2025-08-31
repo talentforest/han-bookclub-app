@@ -14,8 +14,6 @@ export default function FooterBookCard({
 }: FooterBookCardProps) {
   const { authors, publisher, thumbnail, title } = book;
 
-  console.log(authors, publisher);
-
   return (
     <div className={`flex w-full items-center gap-3 py-1 ${className}`}>
       <BookThumbnail thumbnail={thumbnail} title={title} />

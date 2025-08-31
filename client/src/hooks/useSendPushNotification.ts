@@ -6,8 +6,6 @@ import { useRecoilValue } from 'recoil';
 
 import { allUsersAtom, currAuthUserAtom } from '@/data/userAtom';
 
-import { DOMAIN } from '@/appConstants';
-
 import { PostTypeName } from '@/types';
 
 export const useSendPushNotification = () => {
@@ -35,7 +33,7 @@ export const useSendPushNotification = () => {
 
     const title = `🗳️새로운 투표함 등록`;
     const body = `${voteTitle} 투표함이 등록되었습니다. 종료일 전에 투표를 완료해주세요!⚡️`;
-    const link = `${DOMAIN}${import.meta.env.VITE_PUBLIC_URL}${subPath}`;
+    const link = `${import.meta.env.VITE_PUBLIC_URL}${subPath}`;
 
     await sendMulticast({ title, body, link, uid });
     setIsPending(false);
@@ -52,7 +50,7 @@ export const useSendPushNotification = () => {
     const title = `🔥챌린지 완주 성공`;
     const body = `${displayName}님이 📚${bookTitle} 챌린지를 완주했습니다! 같이 힘내서 끝까지 완주해봐요!`;
     const subPath = '/challenge';
-    const link = `${DOMAIN}${import.meta.env.VITE_PUBLIC_URL}${subPath}`;
+    const link = `${import.meta.env.VITE_PUBLIC_URL}${subPath}`;
 
     await sendMulticast({ title, body, link, uid });
     setIsPending(false);
@@ -72,7 +70,7 @@ export const useSendPushNotification = () => {
     const body = `${type}${
       type === '모임 시간' ? '이' : '가'
     } ${data}로 변경되었습니다! 그럼 모임때 만나요👋`;
-    const link = `${DOMAIN}${import.meta.env.VITE_PUBLIC_URL}`;
+    const link = `${import.meta.env.VITE_PUBLIC_URL}`;
 
     await sendMulticast({ title, body, link, uid });
     setIsPending(false);
@@ -93,23 +91,21 @@ export const useSendPushNotification = () => {
       추천책: '/bookclub',
       '공유하고 싶은 문구': '/challenge',
     };
-    const link = `${DOMAIN}${import.meta.env.VITE_PUBLIC_URL}${subPath[type]}`;
-
-    console.log(link);
+    const link = `${import.meta.env.VITE_PUBLIC_URL}${subPath[type]}`;
 
     await sendMulticast({ title, body, link, uid });
     setIsPending(false);
   };
 
-  // 전체 유저에게 다음달 도서 알림 보내기
+  // 전체 유저에게 다음달 책 알림 보내기
   const sendNextMonthClubBookNotification = async (
     nextMonthBookTitle: string,
   ) => {
     setIsPending(true);
 
-    const title = `🔥새로운 다음달 도서 등록!`;
+    const title = `🔥새로운 다음달 책 등록!`;
     const body = `${displayName}님이 다음달 도서로 ${nextMonthBookTitle}를 등록하셨습니다! 다음달에 봐요!`;
-    const link = `${DOMAIN}${import.meta.env.VITE_PUBLIC_URL}`;
+    const link = `${import.meta.env.VITE_PUBLIC_URL}`;
 
     await sendMulticast({ title, body, link, uid });
     setIsPending(false);
@@ -123,7 +119,7 @@ export const useSendPushNotification = () => {
     setIsPending(true);
 
     const { title, body } = notificationData;
-    const link = `${DOMAIN}${import.meta.env.VITE_PUBLIC_URL}`;
+    const link = `${import.meta.env.VITE_PUBLIC_URL}`;
     const token = await getDeviceToken();
 
     await sendUnicast({ title, body, token, link });
@@ -139,7 +135,21 @@ export const useSendPushNotification = () => {
   }) => {
     setIsPending(true);
 
-    const link = `${DOMAIN}${import.meta.env.VITE_PUBLIC_URL}`;
+    const link = `${import.meta.env.VITE_PUBLIC_URL}`;
+    await sendMulticast({ title, body, link, uid });
+
+    setIsPending(false);
+  };
+
+  // 공통
+  const sendPushNotification = async (
+    subPath: string,
+    title: string,
+    body: string,
+  ) => {
+    setIsPending(true);
+
+    const link = `${import.meta.env.VITE_PUBLIC_URL}${subPath}`;
     await sendMulticast({ title, body, link, uid });
 
     setIsPending(false);
@@ -154,6 +164,7 @@ export const useSendPushNotification = () => {
     sendNotificationToCurrentUser,
     sendNotificationToAllUser,
     sendNextMonthClubBookNotification,
+    sendPushNotification,
     isPending,
   };
 };

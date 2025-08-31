@@ -26,7 +26,7 @@ interface ChallengeBookCardProps {
   challengeBook: CompleteReadingChallengeBook;
 }
 
-export default function ChallengeBookCard({
+export default function UserChallengeBookCard({
   docId,
   creatorId,
   challengeBook,

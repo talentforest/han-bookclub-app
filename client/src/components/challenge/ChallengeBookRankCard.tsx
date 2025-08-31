@@ -1,51 +1,48 @@
 import { PiShootingStarFill } from 'react-icons/pi';
 
-import { BookRank } from '@/types';
+import { useHandleModal } from '@/hooks';
 
-import Tag from '@/components/common/Tag';
+import { BookWithRank } from '@/types';
+
+import ChallengeRankedBook from '@/components/challenge/ChallengeRankedBook';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 
 interface ChallengeBookRankCardProps {
-  bookRank: BookRank;
+  bookWithRank: BookWithRank;
   rank: number;
 }
 
 export default function ChallengeBookRankCard({
-  bookRank,
+  bookWithRank,
   rank,
 }: ChallengeBookRankCardProps) {
-  const { title, thumbnail, counts, readers } = bookRank;
+  const { title, thumbnail } = bookWithRank;
+
+  const { showModal } = useHandleModal();
+
+  const onClick = () => {
+    showModal({ element: <ChallengeRankedBook bookWithRank={bookWithRank} /> });
+  };
 
   return (
-    <li className="min-h-fit w-full">
-      <div className="relative">
+    <li className="flex min-h-fit w-full items-center justify-center">
+      <button
+        type="button"
+        onClick={onClick}
+        className={`relative self-center ${rank === 1 ? 'max-sm:w-[67%]' : 'max-sm:w-[58%]'}`}
+      >
         <BookThumbnail
           title={title}
           thumbnail={thumbnail}
-          className={`mx-auto w-full rounded-md ${rank === 1 ? 'max-sm:w-[70%]' : 'max-sm:w-[62%]'}`}
+          className={`mx-auto w-full rounded-md`}
         />
-        <div className="absolute -bottom-4 right-0">
+        <div className="absolute -bottom-4 -right-4">
           <PiShootingStarFill className="size-[90px] fill-yellow-400" />
           <span className="absolute bottom-[42px] right-[27px] font-sans text-xl font-bold text-indigo-600">
             {rank}
           </span>
         </div>
-      </div>
-
-      <div className="mt-4 flex flex-wrap justify-center gap-2">
-        <Tag
-          text={`📚총 ${counts}번 재독 중`}
-          color="yellow"
-          shape="rounded"
-          className="!py-1.5 text-xs !text-green-600"
-        />
-        <Tag
-          text={`🙋🏻멤버 ${readers}명이 재독 중`}
-          color="lightBlue"
-          shape="rounded"
-          className="!py-1.5 text-xs !text-blue-600"
-        />
-      </div>
+      </button>
     </li>
   );
 }

@@ -10,7 +10,7 @@ import {
 
 export const rereadingChallengeAtom = atom<RereadingChallenge[] | null>({
   key: `rereadingChallenge/${v4()}`,
-  default: [],
+  default: null,
 });
 
 export const completeReadingChallengeState =

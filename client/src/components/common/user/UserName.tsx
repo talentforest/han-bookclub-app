@@ -44,7 +44,7 @@ const UserName = ({
   const to = `/bookshelf${isCurrentUser ? '' : `/${user?.displayName}`}`;
 
   return (
-    <div className="flex h-fit w-fit min-w-fit items-center justify-center rounded-sm">
+    <div className="inline-block h-fit w-fit min-w-fit rounded-sm">
       {anonymous && (
         <Link
           to={to}
