@@ -26,7 +26,7 @@ export function getDocument<T>(
 
 export function getCollection<T>(coll: string, setState: (arr: T[]) => void) {
   const collRef = collection(dbService, coll);
-  const userQuery = query(collRef); // where('name', '!=', '테스트계정')
+  const userQuery = query(collRef, where('name', '!=', '테스트계정'));
   const challengeQuery = query(
     collRef,
     where('__name__', '>=', `${thisYear}-`),

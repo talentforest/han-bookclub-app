@@ -34,7 +34,7 @@ export default function ChallengeUserRankCard({
           { key: '총 재독 수', value: `${totalRereadingCounts}회` },
           { key: '재독한 책', value: `${rereadingBookList.length}권` },
         ].map(({ key, value }) => (
-          <div className="flex items-center justify-between">
+          <div key={key} className="flex items-center justify-between">
             <span>{key}</span>
             <span>{value}</span>
           </div>
@@ -45,6 +45,7 @@ export default function ChallengeUserRankCard({
         <div className="flex flex-1 gap-x-2 overflow-scroll scrollbar-hide">
           {rereadingBookList.map(book => (
             <BookThumbnail
+              key={book.title}
               thumbnail={book.thumbnail}
               title={book.title}
               className="w-14 rounded-md border border-gray3 shadow-none"

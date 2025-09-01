@@ -123,9 +123,9 @@ export default function ChallengeRereadingModal({
         </div>
       </div>
       {recommendedUser && (
-        <p className="mt-3">
+        <div className="mt-3 inline">
           추천한 멤버: <UserName userId={recommendedUser} tag />
-        </p>
+        </div>
       )}
       {reason && (
         <p className="mt-2 border-l-4 border-gray3 pl-2 text-sm">{reason}</p>
