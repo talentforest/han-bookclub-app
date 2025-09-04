@@ -55,7 +55,7 @@ export default function SearchedBookPostAddModal({
                 title === '추천책 작성하기' ? '추천책' : '챌린지 책'
               }을 검색해주세요.`}
               onChange={onBookQueryChange}
-              className="pl-9"
+              className="bg-gray-50 pl-9"
             />
           </div>
 

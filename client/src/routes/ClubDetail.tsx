@@ -119,10 +119,7 @@ const ClubDetail = () => {
 
             <Section>
               <Subtitle title="모임 후기" />
-              <div className="columns-2 max-sm:columns-1">
-                {isThisMonthDetail && <MeetingReviewForm docMonth={docId} />}
-                <MeetingReviewList yearMonthId={docId} />
-              </div>
+              <MeetingReviewList yearMonthId={docId} />
             </Section>
           </>
         )}

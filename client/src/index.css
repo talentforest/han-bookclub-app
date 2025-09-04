@@ -245,7 +245,7 @@
       @apply min-h-fit w-full;
     }
     .swiper-slide {
-      @apply mt-auto flex items-center justify-center px-1;
+      @apply mt-auto flex items-center justify-center px-1 py-2;
     }
     /* 네비게이션 아이콘 스타일 */
     .swiper-button-prev {

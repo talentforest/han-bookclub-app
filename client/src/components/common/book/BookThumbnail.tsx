@@ -12,20 +12,21 @@ export default function BookThumbnail({
   thumbnail,
   className = '',
 }: BookThumbnailProps) {
+  const commonClassName =
+    'flex aspect-[0.68/1] h-full items-center justify-center rounded-l-none rounded-r-lg border border-gray4 bg-gray1 shadow-book';
+
   return (
     <>
       {thumbnail !== '' && (
         <img
-          className={`flex aspect-[0.68/1] h-full items-center justify-center rounded-md bg-gray1 shadow-book ${className}`}
+          className={`${commonClassName} ${className}`}
           src={thumbnail}
           alt={`${title} 북커버`}
         />
       )}
 
       {thumbnail === '' && (
-        <div
-          className={`flex aspect-[0.68/1] h-full max-h-40 items-center justify-center rounded-md bg-white shadow-book ${className}`}
-        >
+        <div className={`${commonClassName} ${className}`}>
           {title.includes('이벤트') ? (
             <MdEventAvailable className="size-full max-h-[40px] max-w-[40px] text-gray2 max-sm:w-1/2" />
           ) : (

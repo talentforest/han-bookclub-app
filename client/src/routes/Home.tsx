@@ -12,7 +12,6 @@ import { BOOKCLUB_THIS_YEAR } from '@/appConstants';
 
 import { nextMonthId, thisYear, thisYearMonthId } from '@/utils';
 
-import Footer from '@/layout/Footer';
 import MobileHeader from '@/layout/mobile/MobileHeader';
 
 import NextMonthClub from '@/components/bookClub/NextMonthClub';
@@ -93,8 +92,6 @@ const Home = () => {
           <VoteSlider />
         </Section>
       </main>
-
-      <Footer />
     </>
   );
 };

@@ -48,7 +48,7 @@ export default function ChallengeUserRankCard({
               key={book.title}
               thumbnail={book.thumbnail}
               title={book.title}
-              className="w-14 rounded-md border border-gray3 shadow-none"
+              className="w-14"
             />
           ))}
         </div>

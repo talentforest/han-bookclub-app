@@ -34,7 +34,7 @@ export default function ChallengeBookRankCard({
         <BookThumbnail
           title={title}
           thumbnail={thumbnail}
-          className={`mx-auto w-full rounded-md`}
+          className={`mx-auto w-full`}
         />
         <div className="absolute -bottom-4 -right-4">
           <PiShootingStarFill className="size-[90px] fill-yellow-400" />

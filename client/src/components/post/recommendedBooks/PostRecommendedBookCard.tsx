@@ -45,7 +45,7 @@ export default function PostRecommendedBookCard({
               ),
             })
           }
-          className="mb-10 h-full"
+          className="mb-10 h-40"
         >
           <BookThumbnail title={title} thumbnail={thumbnail} />
         </button>
