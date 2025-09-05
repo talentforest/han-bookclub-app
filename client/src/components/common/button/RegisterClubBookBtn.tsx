@@ -1,137 +1,74 @@
 import { useEffect, useState } from 'react';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
-import { clubByYearAtom } from '@/data/clubAtom';
-import { currAuthUserAtom } from '@/data/userAtom';
+import { clubByMonthSelector } from '@/data/clubAtom';
 
-import { getCollection, setDocument } from '@/api';
+import { useHandleModal } from '@/hooks';
 
-import { BOOKCLUB_THIS_YEAR } from '@/appConstants';
-
-import { useSendPushNotification } from '@/hooks';
-
-import {
-  formatDate,
-  getNextMonthId,
-  getThirdSunday,
-  nextMonth,
-  thisMonth,
-  thisYear,
-  thisYearMonthId,
-} from '@/utils';
+import { formatDate, getThirdSunday, thisYear } from '@/utils';
 
 import { BookData } from '@/types';
 
+import MeetingInfoModal from '@/components/bookClub/MeetingInfoModal';
 import SquareBtn from '@/components/common/button/SquareBtn';
 
 interface RegisterClubBookBtnProps {
   searchedBook: BookData;
-  registerMonthType: 'thisMonth' | 'nextMonth';
+  registerYearMonth: string;
 }
 
 const RegisterClubBookBtn = ({
   searchedBook,
-  registerMonthType,
+  registerYearMonth,
 }: RegisterClubBookBtnProps) => {
-  const { uid } = useRecoilValue(currAuthUserAtom);
-
-  const [thisYearBookClubInfos, setThisYearBookClubInfos] =
-    useRecoilState(clubByYearAtom);
+  const monthlyBookClub = useRecoilValue(
+    clubByMonthSelector(registerYearMonth),
+  );
 
   const [submitted, setSubmitted] = useState(false);
 
-  const {
-    thumbnail,
-    title,
-    authors,
-    translators,
-    price,
-    contents,
-    publisher,
-    datetime,
-    url,
-    isbn,
-  } = searchedBook;
+  const month = registerYearMonth.slice(-2);
 
-  const meetingTime = getThirdSunday(
-    +thisYear,
-    registerMonthType === 'thisMonth' ? +thisMonth : +thisMonth + 1,
-    11,
-    0,
-  );
+  const { showModal } = useHandleModal();
 
-  const bookClubInfo = {
-    book: {
-      thumbnail,
-      title,
-      authors,
-      translators,
-      price,
-      contents,
-      publisher,
-      datetime,
-      url,
-      isbn,
-    },
-    meeting: {
-      place: '카페 느티',
-      time: formatDate(meetingTime, "yyyy-MM-dd'T'HH:mm:ss"),
-    },
-    createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
-    creatorId: uid,
+  const defaultMeeting = {
+    place: '카페 느티',
+    time: formatDate(
+      getThirdSunday(+thisYear, +month, 11, 0),
+      "yyyy-MM-dd'T'HH:mm:ss",
+    ),
   };
 
-  const existNextBook = thisYearBookClubInfos.find(
-    ({ id }) => id === getNextMonthId(),
-  )?.book;
-
-  const nextBookState = existNextBook ? '변경' : '등록';
-
-  const existThisMonthBook = thisYearBookClubInfos.find(
-    ({ id }) => id === thisYearMonthId,
-  )?.book;
-
-  const thisBookState = existThisMonthBook ? '변경' : '등록';
-
-  useEffect(() => {
-    if (registerMonthType === 'nextMonth' && !existNextBook) {
-      getCollection(`BookClub-${thisYear}`, setThisYearBookClubInfos);
-    }
-  }, []);
+  const onBtnClick = async () => {
+    showModal({
+      element: (
+        <MeetingInfoModal
+          title={`${month}월 독서모임 정보`}
+          currentValue={defaultMeeting}
+          yearMonthId={registerYearMonth}
+          registerBook={searchedBook}
+        />
+      ),
+    });
+  };
 
   useEffect(() => {
-    if (registerMonthType === 'nextMonth' && existNextBook) {
+    if (monthlyBookClub) {
       setSubmitted(true);
     }
   }, [submitted]);
 
-  const registerMonth = {
-    id: registerMonthType === 'nextMonth' ? getNextMonthId() : thisYearMonthId,
-    monthNum: registerMonthType === 'nextMonth' ? +nextMonth : +thisMonth,
-    name: registerMonthType === 'nextMonth' ? '다음달' : '이번달',
-    state: registerMonthType === 'nextMonth' ? nextBookState : thisBookState,
-  };
-
-  const { sendNextMonthClubBookNotification } = useSendPushNotification();
-
-  const onSubmit = async () => {
-    await setDocument(BOOKCLUB_THIS_YEAR, registerMonth.id, bookClubInfo);
-    setSubmitted(true);
-    alert(`${registerMonth.name} 독서모임 책으로 등록되었습니다!`);
-    await sendNextMonthClubBookNotification(bookClubInfo.book.title);
-  };
-
   return (
     <>
-      {submitted && existNextBook?.title === searchedBook?.title ? (
+      {submitted && searchedBook.title === monthlyBookClub?.book.title ? (
         <SquareBtn name="등록 완료" disabled className="ml-auto py-2" />
       ) : (
         <SquareBtn
-          name={`${registerMonth.monthNum}월 모임책으로 ${registerMonth.state}`}
+          name={`${month}월 모임책으로 ${monthlyBookClub?.book ? '변경' : '등록'}`}
           type="button"
-          handleClick={onSubmit}
-          color="purple"
+          handleClick={onBtnClick}
+          color="darkBlue"
           className="ml-auto py-2"
         />
       )}

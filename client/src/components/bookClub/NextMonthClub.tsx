@@ -5,15 +5,16 @@ import { useRecoilValue } from 'recoil';
 import { clubByMonthSelector } from '@/data/clubAtom';
 import { nextMonthFieldAndHostSelector } from '@/data/fieldAndHostAtom';
 
-import { formatDate, getNextMonthId } from '@/utils';
+import { formatDate, getNextYearMonthId } from '@/utils';
 
 import MonthBookCard from '@/components/bookCard/MonthBookCard';
+import SquareBtn from '@/components/common/button/SquareBtn';
 import EmptyCard from '@/components/common/container/EmptyCard';
 
 export default function NextMonthClub() {
   const nextMonthFieldAndHost = useRecoilValue(nextMonthFieldAndHostSelector);
 
-  const nextClub = useRecoilValue(clubByMonthSelector(getNextMonthId()));
+  const nextClub = useRecoilValue(clubByMonthSelector(getNextYearMonthId()));
 
   const navigate = useNavigate();
 
@@ -35,9 +36,17 @@ export default function NextMonthClub() {
           text="아직 등록된 다음달 모임책이 없어요."
           createBtnTitle="다음달 모임책 등록하기"
           onCreateClick={() =>
-            navigate('/search', { state: { registerMonth: 'nextMonth' } })
+            navigate('/search', {
+              state: { registerYearMonth: getNextYearMonthId() },
+            })
           }
-        />
+        >
+          <SquareBtn
+            name="다음달은 이벤트달!"
+            color="purple"
+            handleClick={() => {}}
+          />
+        </EmptyCard>
       )}
     </>
   );

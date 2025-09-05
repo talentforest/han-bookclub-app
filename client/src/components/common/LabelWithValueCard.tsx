@@ -2,7 +2,7 @@ import { FiEdit3 } from 'react-icons/fi';
 
 import { useHandleModal } from '@/hooks';
 
-import { formatDate } from '@/utils';
+import { formatDate, thisYearMonthId } from '@/utils';
 
 import MeetingInfoModal from '@/components/bookClub/MeetingInfoModal';
 import UserName from '@/components/common/user/UserName';
@@ -62,9 +62,10 @@ export default function LabelWithValueCard({
                 element: typeof value === 'string' && (
                   <MeetingInfoModal
                     title={label}
-                    value={
+                    currentValue={
                       label === '모임시간' ? { time: value } : { place: value }
                     }
+                    yearMonthId={thisYearMonthId}
                   />
                 ),
               })

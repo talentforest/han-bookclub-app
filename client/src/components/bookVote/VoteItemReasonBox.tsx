@@ -23,7 +23,7 @@ export default function VoteItemReasonBox({
         className="flex w-full items-center gap-1"
       >
         <span className="block flex-1 text-start">
-          👀 작성자의 간단한 선정 이유 보기
+          👀 작성자의 선정 이유 보기
         </span>
         {isOpen ? (
           <FiChevronsUp className="text-gray1" />

@@ -26,7 +26,7 @@ export default function CustomDatePicker({
         placeholderText="정해진 모임 시간이 없습니다"
         locale={ko}
         minDate={new Date()}
-        dateFormat="MM월 dd일 a hh:mm"
+        dateFormat="M월 d일 EEEE a hh:mm"
         shouldCloseOnSelect
         popperPlacement="bottom"
         className={`flex h-12 w-full items-center rounded-xl border border-gray2 !py-3 !pl-10 outline-none ${className}`}

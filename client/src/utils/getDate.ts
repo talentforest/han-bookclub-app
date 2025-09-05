@@ -16,6 +16,8 @@ export const formatDate = (
     | 'yyyy년 MM월 dd일'
     | 'yyyy.MM.dd HH:mm'
     | 'yyyy년 M월 d일 EEEE'
+    | 'yyyy년 M월 d일 EEEE a h시 mm분'
+    | 'M월 d일 EEEE a h시 mm분'
     | 'yyyy.MM.dd a h시'
     | 'yyyy.MM.dd a h시 mm분'
     | 'yyyy-MM-dd HH:mm:ss'
@@ -45,7 +47,7 @@ export function getDDay(deadline: string) {
 }
 
 // 현재 시간의 다음달 yyyy-MM
-export const getNextMonthId = () => {
+export const getNextYearMonthId = () => {
   const date = new Date(formatDate(today, 'yyyy-MM'));
   date.setMonth(date.getMonth() + 1);
   return formatDate(date, 'yyyy-MM');
@@ -91,8 +93,8 @@ export function getLastDayOfMonth(year = +thisYear, month = +thisMonth): Date {
 // 날짜 숫자
 export const thisYear = formatDate(today, 'yyyy');
 export const thisMonth = formatDate(today, 'MM');
-export const nextMonth = formatDate(getNextMonthId(), 'M');
+export const nextMonth = formatDate(getNextYearMonthId(), 'M');
 export const thisDay = formatDate(today, 'dd');
 export const thisYearMonthId = formatDate(today, 'yyyy-MM');
-export const nextMonthId = formatDate(getNextMonthId(), 'yyyy-MM');
+export const nextMonthId = formatDate(getNextYearMonthId(), 'yyyy-MM');
 export const todayWithHyphen = formatDate(today, 'yyyy-MM-dd');

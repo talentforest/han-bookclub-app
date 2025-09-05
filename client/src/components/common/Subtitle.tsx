@@ -1,10 +1,13 @@
 interface SubtitleProps {
   title: string;
+  className?: string;
 }
 
-const Subtitle = ({ title }: SubtitleProps) => {
+const Subtitle = ({ title, className }: SubtitleProps) => {
   return (
-    <h3 className="mb-2 flex w-fit items-center pl-1 text-[17px] font-medium text-[#4866c1] max-sm:mb-2">
+    <h3
+      className={`flex w-fit items-center text-[17px] font-medium text-darkBlue2 ${className}`}
+    >
       {title}
     </h3>
   );

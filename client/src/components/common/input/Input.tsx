@@ -10,6 +10,7 @@ interface InputProps {
   autoComplete?: 'new-password' | 'username' | 'current-password' | 'email';
   required?: boolean;
   ref?: MutableRefObject<HTMLInputElement>;
+  className?: string;
 }
 
 const Input = ({
@@ -22,6 +23,7 @@ const Input = ({
   autoComplete,
   required,
   ref,
+  className,
 }: InputProps) => {
   return (
     <input
@@ -34,7 +36,7 @@ const Input = ({
       onChange={onChange}
       autoComplete={autoComplete}
       required={required}
-      className="h-12 w-full rounded-xl border px-3 py-2 shadow-card focus:outline-none"
+      className={`h-12 w-full rounded-xl border px-3 py-2 shadow-card focus:outline-none ${className}`}
     />
   );
 };

@@ -104,11 +104,11 @@ export default function ChallengeRereadingModal({
 
     hideModal();
     alert('소감이 작성 완료되었습니다. 챌린지를 추가 달성했습니다!❣️');
-    sendPushNotification(
-      '/challenge',
-      '다시 읽기 챌린지를 달성한 멤버가 있어요!',
-      `${displayName}님이 ${title} 책을 다시 읽었어요!`,
-    );
+    sendPushNotification({
+      title: '다시 읽기 챌린지를 달성한 멤버가 있어요!',
+      body: `${displayName}님이 ${title} 책을 다시 읽었어요!`,
+      subPath: '/challenge',
+    });
   };
 
   const { title, thumbnail, authors, publisher } = selectedBook;

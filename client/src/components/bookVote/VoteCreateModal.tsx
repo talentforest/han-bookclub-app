@@ -118,7 +118,7 @@ const VoteCreateModal = () => {
                 {voteItems.map(voteItem => (
                   <div
                     key={voteItem.id}
-                    className="relative flex aspect-[0.7/1] h-40 flex-col items-center justify-between gap-1.5 rounded-xl border bg-white pb-1 pt-2 shadow-card [&>img]:h-3/4"
+                    className="relative flex aspect-[0.7/1] h-32 flex-col items-center justify-between gap-1.5 rounded-xl border bg-white pb-1 pt-2 shadow-card [&>img]:h-3/4"
                   >
                     {voteItem.book.title === '' ? (
                       <button

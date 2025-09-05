@@ -26,7 +26,12 @@ const PreviousBookCard = ({ document }: PreviousBookCardProps) => {
   return (
     <div className="relative flex h-full w-full cursor-pointer flex-col items-center justify-between gap-1 rounded-card bg-white px-4 py-5 shadow-card">
       {pathname === '/previous-club' && (
-        <Tag color="lightBlue" shape="rounded" text={`${month}월의 책`} />
+        <Tag
+          color="lightBlue"
+          shape="rounded"
+          text={`${month}월의 책`}
+          className="font-bold"
+        />
       )}
 
       <h3 className="my-2 text-center text-lg font-medium">

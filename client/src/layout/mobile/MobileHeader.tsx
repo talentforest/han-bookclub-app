@@ -25,7 +25,7 @@ export default function MobileHeader({
 
   return (
     <header
-      className={`items-center gap-2 py-4 max-sm:flex ${showDesktop ? 'flex' : 'hidden'}`}
+      className={`items-center gap-2 py-4 max-sm:flex ${showDesktop ? 'flex' : 'hidden'} header`}
     >
       {title === '독서모임 한페이지' && (
         <img

@@ -142,14 +142,18 @@ export const useSendPushNotification = () => {
   };
 
   // 공통
-  const sendPushNotification = async (
-    subPath: string,
-    title: string,
-    body: string,
-  ) => {
+  const sendPushNotification = async ({
+    title,
+    body,
+    subPath,
+  }: {
+    title: string;
+    body: string;
+    subPath?: string;
+  }) => {
     setIsPending(true);
 
-    const link = `${import.meta.env.VITE_PUBLIC_URL}${subPath}`;
+    const link = `${import.meta.env.VITE_PUBLIC_URL}${subPath || ''}`;
     await sendMulticast({ title, body, link, uid });
 
     setIsPending(false);

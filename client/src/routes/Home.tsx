@@ -10,13 +10,20 @@ import { getCollection } from '@/api';
 
 import { BOOKCLUB_THIS_YEAR } from '@/appConstants';
 
-import { nextMonthId, thisYear, thisYearMonthId } from '@/utils';
+import {
+  getNextYearMonthId,
+  nextMonthId,
+  thisYear,
+  thisYearMonthId,
+} from '@/utils';
 
+import Footer from '@/layout/Footer';
 import MobileHeader from '@/layout/mobile/MobileHeader';
 
 import NextMonthClub from '@/components/bookClub/NextMonthClub';
 import ThisMonthBookClub from '@/components/bookClub/ThisMonthClub';
 import VoteSlider from '@/components/bookVote/VoteSlider';
+import EditBtn from '@/components/common/button/EditBtn';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Section from '@/components/common/container/Section';
 import RecommendedBookSwiperContainer from '@/components/post/recommendedBooks/RecommendedBookSwiperContainer';
@@ -67,7 +74,20 @@ const Home = () => {
             <ThisMonthBookClub />
           </Section>
 
-          <Section title="다음달 모임책" className="col-span-1 !my-0 size-full">
+          <Section
+            title="다음달 모임책"
+            titleBtn={
+              <EditBtn
+                onClick={() =>
+                  navigate('/search', {
+                    state: { registerYearMonth: getNextYearMonthId() },
+                  })
+                }
+                className="!size-6"
+              />
+            }
+            className="col-span-1 !my-0 size-full"
+          >
             <NextMonthClub />
           </Section>
         </div>
@@ -92,6 +112,8 @@ const Home = () => {
           <VoteSlider />
         </Section>
       </main>
+
+      <Footer />
     </>
   );
 };

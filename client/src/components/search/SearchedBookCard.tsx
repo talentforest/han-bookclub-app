@@ -22,7 +22,7 @@ const SearchedBookCard = ({ searchedBook }: SearchedBookCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { state } = useLocation() as {
-    state: { registerMonth: 'thisMonth' | 'nextMonth' };
+    state: { registerYearMonth: string };
   };
 
   const toggleAccordion = () => setIsOpen(prev => !prev);
@@ -95,7 +95,7 @@ const SearchedBookCard = ({ searchedBook }: SearchedBookCardProps) => {
 
           <RegisterClubBookBtn
             searchedBook={searchedBook}
-            registerMonthType={state.registerMonth}
+            registerYearMonth={state?.registerYearMonth}
           />
         </div>
       </div>

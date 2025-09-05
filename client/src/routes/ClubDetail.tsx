@@ -25,7 +25,6 @@ import Loading from '@/components/common/Loading';
 import Subtitle from '@/components/common/Subtitle';
 import SearchBookBtn from '@/components/common/button/SearchBookBtn';
 import Section from '@/components/common/container/Section';
-import MeetingReviewForm from '@/components/post/MeetingReviewForm';
 import MeetingReviewList from '@/components/post/MeetingReviewList';
 import PostTabBox from '@/components/post/PostTabBox';
 import RecommendedBookSwiperContainer from '@/components/post/recommendedBooks/RecommendedBookSwiperContainer';
