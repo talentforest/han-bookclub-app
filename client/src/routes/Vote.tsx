@@ -19,7 +19,6 @@ import MobileHeader from '@/layout/mobile/MobileHeader';
 import VoteCreateModal from '@/components/bookVote/VoteCreateModal';
 import VoteExpiredCard from '@/components/bookVote/VoteExpiredCard';
 import VoteProgressCard from '@/components/bookVote/VoteProgressCard';
-import Subtitle from '@/components/common/Subtitle';
 import EmptyCard from '@/components/common/container/EmptyCard';
 import Section from '@/components/common/container/Section';
 
@@ -47,18 +46,17 @@ const Vote = () => {
       <MobileHeader title="한페이지 투표함" />
 
       <main>
-        <Section>
-          <div className="flex items-center gap-1">
-            <Subtitle title="진행중인 투표함" />
+        <Section
+          title="진행중인 투표함"
+          titleBtn={
             <button
               type="button"
               onClick={() => showModal({ element: <VoteCreateModal /> })}
-              className="mb-2"
             >
               <FiPlusCircle className="text-lg text-pointBlue" />
             </button>
-          </div>
-
+          }
+        >
           {progressVotes?.length !== 0 ? (
             <ul className="flex gap-6 max-sm:flex-col">
               {progressVotes?.map(voteDetail => (
@@ -70,8 +68,7 @@ const Vote = () => {
           )}
         </Section>
 
-        <Section>
-          <Subtitle title="기한이 만료된 투표함" />
+        <Section title="기한이 만료된 투표함">
           {expiredVote?.length !== 0 && (
             <ul className="grid grid-cols-3 gap-7 max-sm:flex max-sm:flex-col max-sm:gap-5">
               {expiredVote?.map(vote => (

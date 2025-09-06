@@ -17,7 +17,6 @@ import { ChallengeSentence } from '@/types';
 
 import MobileHeader from '@/layout/mobile/MobileHeader';
 
-import Subtitle from '@/components/common/Subtitle';
 import Tag from '@/components/common/Tag';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import Section from '@/components/common/container/Section';
@@ -102,8 +101,7 @@ export default function Sentence() {
           )}
         </Section>
 
-        <Section>
-          <Subtitle title="날짜별로 전체 문구 보기" />
+        <Section title="날짜별로 전체 문구 보기">
           {dateKeys?.length !== 0 ? (
             dateKeys?.map(dateKey => (
               <div key={dateKey}>

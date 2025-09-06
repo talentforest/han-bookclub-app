@@ -24,7 +24,6 @@ import BookshelfPostList from '@/components/bookshelf/BookshelfPostList';
 import UserChallengeBookCard from '@/components/challenge/UserChallengeBookCard';
 import GuideLine from '@/components/common/GuideLine';
 import Loading from '@/components/common/Loading';
-import Subtitle from '@/components/common/Subtitle';
 import Tag from '@/components/common/Tag';
 import Section from '@/components/common/container/Section';
 import UserImgName from '@/components/common/user/UserImgName';
@@ -102,8 +101,7 @@ const Bookshelf = () => {
           </Section>
 
           {challenge?.books && (
-            <Section>
-              <Subtitle title={`${displayName}의 2024 챌린지 히스토리`} />
+            <Section title={`${displayName}의 2024 챌린지 히스토리`}>
               <ul className="grid grid-cols-2 gap-4 max-sm:flex max-sm:flex-col">
                 {challenge?.books?.map(challengeBook => (
                   <UserChallengeBookCard
@@ -119,8 +117,7 @@ const Bookshelf = () => {
 
           {(['발제문', '정리 기록', '모임 후기'] as PostTypeName[])?.map(
             postType => (
-              <Section key={postType}>
-                <Subtitle title={`${displayName}의 ${postType}`} />
+              <Section key={postType} title={`${displayName}의 ${postType}`}>
                 <GuideLine text="2022년 6월 이후의 기록이 제공됩니다." />
                 <BookshelfPostList
                   userRecords={userRecords}

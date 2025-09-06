@@ -25,7 +25,6 @@ import ChallengeRereadingModal from '@/components/challenge/ChallengeRereadingMo
 import ChallengeUserRankCard from '@/components/challenge/ChallengeUserRankCard';
 import DDay from '@/components/common/DDay';
 import SelectYearBtnList from '@/components/common/SelectYearBtnList';
-import Subtitle from '@/components/common/Subtitle';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import Section from '@/components/common/container/Section';
 import SwiperContainer from '@/components/common/container/SwiperContainer';
@@ -225,8 +224,7 @@ export default function Challenge() {
           />
         </header>
 
-        <Section>
-          <Subtitle title="독서모임의 책들" />
+        <Section title="독서모임의 책들">
           <SelectYearBtnList
             selectedYear={selectedYear}
             handleChangeYear={setSelectedYear}
@@ -263,9 +261,10 @@ export default function Challenge() {
         </Section>
 
         {bookWithRankList && bookWithRankList?.length > 0 && (
-          <Section className="!mb-10 !mt-16">
-            <Subtitle title="🔥현재 가장 여러 번 다시 읽은 책은?" />
-
+          <Section
+            className="!mb-10 !mt-16"
+            title="🔥현재 가장 여러 번 다시 읽은 책은?"
+          >
             <SwiperContainer options={swiperOptions}>
               {bookWithRankList.map((bookWithRank, index) => {
                 return (
@@ -281,8 +280,7 @@ export default function Challenge() {
           </Section>
         )}
 
-        <Section className="!mt-10">
-          <Subtitle title="🙋🏻현재 멤버별 챌린지 현황" />
+        <Section className="!mt-10" title="🙋🏻현재 멤버별 챌린지 현황">
           {userRankList?.length !== 0 && (
             <>
               <ul className="grid grid-cols-4 gap-5 max-sm:grid-cols-2">

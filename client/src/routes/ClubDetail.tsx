@@ -22,7 +22,6 @@ import BasicBookCard from '@/components/bookCard/BasicBookCard';
 import ThisMonthBookClub from '@/components/bookClub/ThisMonthClub';
 import GuideLine from '@/components/common/GuideLine';
 import Loading from '@/components/common/Loading';
-import Subtitle from '@/components/common/Subtitle';
 import SearchBookBtn from '@/components/common/button/SearchBookBtn';
 import Section from '@/components/common/container/Section';
 import MeetingReviewList from '@/components/post/MeetingReviewList';
@@ -85,9 +84,7 @@ const ClubDetail = () => {
           <>
             <div className="grid grid-cols-5 gap-x-6 max-sm:flex max-sm:flex-col [&>section:first-child]:col-span-2 [&>section:last-child]:col-span-3">
               {absenteeList && (
-                <Section>
-                  <Subtitle title="참석 정보" />
-
+                <Section title="참석 정보">
                   <div className="flex flex-col gap-4">
                     <MemberListCard
                       title="참석 멤버"
@@ -101,8 +98,7 @@ const ClubDetail = () => {
                 </Section>
               )}
 
-              <Section>
-                <Subtitle title="발제문과 정리 기록" />
+              <Section title="발제문과 정리 기록">
                 {isThisMonthDetail && (
                   <GuideLine text="모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 수정만 가능할 뿐 새로 작성이 불가능한 점 유의해주세요." />
                 )}
@@ -110,14 +106,12 @@ const ClubDetail = () => {
               </Section>
             </div>
 
-            <Section>
-              <Subtitle title={isThisMonthDetail ? '책 추천하기' : '추천책'} />
+            <Section title={isThisMonthDetail ? '책 추천하기' : '추천책'}>
               {isThisMonthDetail && <SearchBookBtn />}
               <RecommendedBookSwiperContainer yearMonthId={docId} />
             </Section>
 
-            <Section>
-              <Subtitle title="모임 후기" />
+            <Section title="모임 후기">
               <MeetingReviewList yearMonthId={docId} />
             </Section>
           </>

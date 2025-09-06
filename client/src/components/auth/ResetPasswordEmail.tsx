@@ -32,7 +32,7 @@ const ResetPasswordEmail = () => {
       <MobileHeader showDesktop title="비밀번호 찾기" backBtn />
 
       <main>
-        <Subtitle title="비밀번호가 생각나지 않으세요?" />
+        <Subtitle title="비밀번호가 생각나지 않으세요?" className="mb-2" />
         <p>가입할 때 사용하신 계정 이메일을 적어주세요.</p>
 
         <form onSubmit={onSubmit}>

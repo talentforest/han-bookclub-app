@@ -41,7 +41,7 @@ const CreateAccount = () => {
             text={`${currentStep.step} / ${createAccountSteps.length}`}
             className="mb-2"
           />
-          <Subtitle title={currentStep.stepName} />
+          <Subtitle title={currentStep.stepName} className="mb-2" />
         </header>
 
         {currentStep.step === 1 && (
