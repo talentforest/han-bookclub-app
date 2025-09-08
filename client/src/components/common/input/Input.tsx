@@ -11,6 +11,7 @@ interface InputProps {
   required?: boolean;
   ref?: MutableRefObject<HTMLInputElement>;
   className?: string;
+  errorMsg?: string;
 }
 
 const Input = ({
@@ -24,20 +25,26 @@ const Input = ({
   required,
   ref,
   className,
+  errorMsg,
 }: InputProps) => {
   return (
-    <input
-      id={id}
-      ref={ref}
-      type={type}
-      name={name}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      autoComplete={autoComplete}
-      required={required}
-      className={`h-12 w-full rounded-xl border px-3 py-2 shadow-card focus:outline-none ${className}`}
-    />
+    <div className="">
+      <input
+        id={id}
+        ref={ref}
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        autoComplete={autoComplete}
+        required={required}
+        className={`h-12 w-full rounded-xl border px-3 py-2 shadow-card focus:outline-none ${className}`}
+      />
+      {errorMsg && (
+        <span className="pl-2 text-sm text-red-500">{errorMsg}</span>
+      )}
+    </div>
   );
 };
 

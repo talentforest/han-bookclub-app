@@ -30,6 +30,7 @@ const swiperOptions = {
     },
   },
   pagination: false,
+  loop: true,
 };
 
 export default function RecommendedBookSwiperContainer({

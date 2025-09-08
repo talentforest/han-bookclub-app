@@ -14,6 +14,7 @@ import { setDocument } from '@/api';
 import { BOOKCLUB_THIS_YEAR } from '@/appConstants';
 
 import {
+  useAlertAskJoin,
   useHandleModal,
   useHandleSchedule,
   useSendPushNotification,
@@ -65,6 +66,8 @@ export default function MeetingInfoModal({
   const { isPending, sendPushNotification } = useSendPushNotification();
 
   const { hideModal } = useHandleModal();
+
+  const { anonymous } = useAlertAskJoin('register');
 
   const year = yearMonthId.slice(0, 4);
   const monthNum = +yearMonthId.slice(-2);
@@ -208,8 +211,14 @@ export default function MeetingInfoModal({
           type="submit"
           name={registerBook ? `${monthNum}월 독서모임 등록하기` : '변경하기'}
           className="ml-auto"
-          disabled={isPending}
+          disabled={isPending || anonymous}
         />
+
+        {anonymous && (
+          <p className="ml-auto text-sm text-red-500">
+            익명의 방문자는 등록할 수 없습니다.
+          </p>
+        )}
       </form>
     </Modal>
   );

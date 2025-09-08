@@ -35,13 +35,15 @@ const ResetPasswordEmail = () => {
         <Subtitle title="비밀번호가 생각나지 않으세요?" className="mb-2" />
         <p>가입할 때 사용하신 계정 이메일을 적어주세요.</p>
 
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="mb-3 mt-1 flex w-full gap-x-3">
           <Input
             name="email"
             type="email"
             value={email}
             placeholder="계정 이메일을 적어주세요."
             onChange={onChange}
+            autoComplete="email"
+            className="min-w-10 flex-grow whitespace-nowrap"
           />
           <SquareBtn type="submit" name="전송하기" />
         </form>

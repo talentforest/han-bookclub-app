@@ -11,7 +11,11 @@ import { getDocument } from '@/api';
 
 import { CHALLENGE } from '@/appConstants';
 
-import { useHandleModal, useSendPushNotification } from '@/hooks';
+import {
+  useAlertAskJoin,
+  useHandleModal,
+  useSendPushNotification,
+} from '@/hooks';
 
 import { formatDate, thisYear } from '@/utils';
 
@@ -46,6 +50,8 @@ export default function ChallengeRereadingModal({
   const [userChallenge, setUserChallenge] = useState<RereadingChallenge | null>(
     null,
   );
+
+  const { anonymous } = useAlertAskJoin('register');
 
   useEffect(() => {
     getDocument(CHALLENGE, `${thisYear}-${uid}`, setUserChallenge);
@@ -155,7 +161,13 @@ export default function ChallengeRereadingModal({
           color="darkBlue"
           type="submit"
           className="self-end"
+          disabled={anonymous}
         />
+        {anonymous && (
+          <p className="ml-auto text-sm text-red-500">
+            익명의 방문자는 참여할 수 없습니다.
+          </p>
+        )}
       </form>
     </Modal>
   );

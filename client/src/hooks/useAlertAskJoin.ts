@@ -4,11 +4,15 @@ import { useNavigate } from 'react-router-dom';
 
 import { authService } from '@/fbase';
 
+import { useHandleModal } from '@/hooks/useHandleModal';
+
 import { PostPermission } from '@/types';
 
 export const useAlertAskJoin = (permission: PostPermission) => {
   const navigate = useNavigate();
   const anonymous = authService.currentUser?.isAnonymous;
+
+  const { hideModal } = useHandleModal();
 
   const setText = () => {
     switch (permission) {
@@ -30,6 +34,7 @@ export const useAlertAskJoin = (permission: PostPermission) => {
       const confirm = window.confirm(
         `한페이지 멤버만 ${setText()}. 로그인을 해주세요.`,
       );
+      hideModal();
       if (confirm) return navigate('/login');
     }
   }

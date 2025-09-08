@@ -77,11 +77,13 @@ const CreateAccount = () => {
               type="email"
               placeholder="자주 사용하는 이메일 계정을 입력해주세요."
               value={email}
+              autoComplete="email"
               onChange={onSecondStepChange}
             />
             <Input
               name="password"
               type="password"
+              autoComplete="current-password"
               placeholder="비밀번호는 8자 이상이어야 합니다."
               value={password}
               onChange={onSecondStepChange}
@@ -89,6 +91,7 @@ const CreateAccount = () => {
             <Input
               name="checkPassword"
               type="password"
+              autoComplete="current-password"
               placeholder="비밀번호를 다시 한번 입력해주세요."
               value={checkPassword}
               onChange={onSecondStepChange}

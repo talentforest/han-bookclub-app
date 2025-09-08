@@ -10,23 +10,64 @@ import {
 } from 'firebase/auth';
 
 export const useLogIn = (isLoggedIn: boolean) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const navigator = useNavigate();
+  const [currEmail, setCurrEmail] = useState({ email: '', error: '' });
+  const [currPassword, setCurrPassword] = useState({ password: '', error: '' });
+
+  const navigate = useNavigate();
+
+  const errorMsg = {
+    email: {
+      HAS_NOT_EMAIL: '이메일이 입력되지 않았습니다.',
+    },
+    password: {
+      HAS_NOT_PASSWORD: '비밀번호가 입력되지 않았습니다.',
+      NOT_CORRECT: '아이디나 비밀번호를 다시 한번 확인해주세요.',
+    },
+  };
+
+  const setErrorMsg = (type: 'email' | 'password', error: string) => {
+    if (type === 'email') {
+      setCurrEmail(prev => ({ ...prev, error }));
+    }
+    if (type === 'password') {
+      setCurrPassword(prev => ({ ...prev, error }));
+    }
+  };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const { email } = currEmail;
+    const { password } = currPassword;
+
+    const {
+      email: { HAS_NOT_EMAIL },
+      password: { HAS_NOT_PASSWORD, NOT_CORRECT },
+    } = errorMsg;
+
     try {
+      if (!email && !password) {
+        setErrorMsg('email', HAS_NOT_EMAIL);
+        setErrorMsg('password', HAS_NOT_PASSWORD);
+        return;
+      }
+
+      if (!email) {
+        setErrorMsg('email', HAS_NOT_EMAIL);
+        return;
+      }
+
+      if (!password) {
+        setErrorMsg('password', HAS_NOT_PASSWORD);
+        return;
+      }
+
       await signInWithEmailAndPassword(authService, email, password);
-      navigator('/');
+
+      navigate('/');
     } catch (error) {
-      if ((error as Error).message.includes('user-not-found'))
-        return setError(
-          '유저 정보를 찾을 수 없습니다. 이메일을 다시 한번 확인해주세요.',
-        );
-      if ((error as Error).message.includes('password'))
-        return setError('비밀번호가 일치하지 않습니다.');
+      if ((error as Error).message.includes('invalid-login-credentials'))
+        setErrorMsg('password', NOT_CORRECT);
     }
   };
 
@@ -34,10 +75,13 @@ export const useLogIn = (isLoggedIn: boolean) => {
     const {
       currentTarget: { name, value },
     } = event;
+
     if (name === 'email') {
-      setEmail(value);
-    } else if (name === 'password') {
-      setPassword(value);
+      setCurrEmail({ email: value, error: '' });
+    }
+
+    if (name === 'password') {
+      setCurrPassword({ password: value, error: '' });
     }
   };
 
@@ -47,7 +91,7 @@ export const useLogIn = (isLoggedIn: boolean) => {
         signInAnonymously(authService);
         onAuthStateChanged(authService, user => {
           if (user) {
-            navigator('/');
+            navigate('/');
           }
         });
       } catch (error) {
@@ -57,9 +101,8 @@ export const useLogIn = (isLoggedIn: boolean) => {
   };
 
   return {
-    email,
-    password,
-    error,
+    currEmail,
+    currPassword,
     onSubmit,
     onChange,
     onAnonymousLoginClick,

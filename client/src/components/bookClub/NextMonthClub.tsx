@@ -1,9 +1,10 @@
-import { useNavigate } from 'react-router-dom';
-
 import { useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
 import { nextMonthFieldAndHostSelector } from '@/data/fieldAndHostAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
+
+import { DEVELOPER_EMAIL } from '@/appConstants';
 
 import { formatDate, getNextYearMonthId } from '@/utils';
 
@@ -16,11 +17,11 @@ export default function NextMonthClub() {
 
   const nextClub = useRecoilValue(clubByMonthSelector(getNextYearMonthId()));
 
-  const navigate = useNavigate();
-
   const { book: nextBook, id: nextMonthId } = nextClub || {};
 
   const { field } = nextMonthFieldAndHost || {};
+
+  const { email } = useRecoilValue(currAuthUserAtom);
 
   return (
     <>
@@ -32,20 +33,14 @@ export default function NextMonthClub() {
           className="!mb-0 h-full"
         />
       ) : (
-        <EmptyCard
-          text="아직 등록된 다음달 모임책이 없어요."
-          createBtnTitle="다음달 모임책 등록하기"
-          onCreateClick={() =>
-            navigate('/search', {
-              state: { registerYearMonth: getNextYearMonthId() },
-            })
-          }
-        >
-          <SquareBtn
-            name="다음달은 이벤트달!"
-            color="purple"
-            handleClick={() => {}}
-          />
+        <EmptyCard text="아직 등록된 다음달 모임책이 없어요.">
+          {DEVELOPER_EMAIL === email && (
+            <SquareBtn
+              name="다음달은 이벤트달!"
+              color="purple"
+              handleClick={() => {}}
+            />
+          )}
         </EmptyCard>
       )}
     </>

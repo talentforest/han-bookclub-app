@@ -13,10 +13,10 @@ interface LoginProps {
 
 const LogIn = ({ isLoggedIn }: LoginProps) => {
   const anonymous = authService.currentUser?.isAnonymous;
+
   const {
-    email,
-    password,
-    error,
+    currEmail,
+    currPassword,
     onSubmit,
     onChange,
     onAnonymousLoginClick, //
@@ -36,25 +36,25 @@ const LogIn = ({ isLoggedIn }: LoginProps) => {
           <h1 className="text-lg font-medium">독서모임 한페이지</h1>
         </header>
 
-        <form
-          onSubmit={onSubmit}
-          className="mt-5 flex w-full flex-col items-center gap-3"
-        >
+        <form onSubmit={onSubmit} className="mt-5 flex w-full flex-col gap-3">
           <Input
             name="email"
             type="email"
-            value={email}
+            value={currEmail.email}
             placeholder="이메일 계정을 입력해주세요."
             onChange={onChange}
+            autoComplete="email"
+            errorMsg={currEmail.error}
           />
           <Input
             name="password"
             type="password"
             placeholder="비밀번호를 입력해주세요."
-            value={password}
+            value={currPassword.password}
             onChange={onChange}
+            autoComplete="current-password"
+            errorMsg={currPassword.error}
           />
-          <span>{error}</span>
 
           <SquareBtn
             type="submit"
