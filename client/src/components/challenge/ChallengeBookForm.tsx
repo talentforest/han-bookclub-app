@@ -122,25 +122,21 @@ export default function ChallengeBookForm() {
       </div>
 
       <div>
-        <div>
-          <label htmlFor="wholePage">전체 페이지 수</label>
-          <Input
-            name="wholePage"
-            value={`${pageNums.wholePage}`}
-            placeholder="전체 페이지 수를 적어주세요."
-            onChange={event => onChange(event, 'wholePage')}
-          />
-        </div>
+        <Input
+          label="전체 페이지 수"
+          name="wholePage"
+          value={`${pageNums.wholePage}`}
+          placeholder="전체 페이지 수를 적어주세요."
+          onChange={event => onChange(event, 'wholePage')}
+        />
 
-        <div>
-          <label htmlFor="currentPage">현재 페이지 수</label>
-          <Input
-            name="currentPage"
-            value={`${pageNums.currentPage}`}
-            placeholder="현재 페이지 수를 적어주세요."
-            onChange={event => onChange(event, 'currentPage')}
-          />
-        </div>
+        <Input
+          label="현재 페이지 수"
+          name="currentPage"
+          value={`${pageNums.currentPage}`}
+          placeholder="현재 페이지 수를 적어주세요."
+          onChange={event => onChange(event, 'currentPage')}
+        />
       </div>
 
       <SquareBtn type="submit" name="챌린지 추가하기" />

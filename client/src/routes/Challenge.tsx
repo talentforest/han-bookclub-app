@@ -45,7 +45,6 @@ const swiperOptions = {
   navigation: false,
   scrollbar: false,
   spaceBetween: 4,
-  loop: true,
 };
 
 export default function Challenge() {

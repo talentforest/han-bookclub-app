@@ -2,7 +2,11 @@ import { v4 } from 'uuid';
 
 import { atom, selector } from 'recoil';
 
-import { thisMonth } from '@/utils';
+import { getDocument } from '@/api';
+
+import { BOOK_FIELD_AND_HOST } from '@/appConstants';
+
+import { thisMonth, thisYear } from '@/utils';
 
 import { MonthlyFieldAndHost } from '@/types';
 
@@ -14,6 +18,14 @@ interface IFieldAndHostDoc {
 export const fieldAndHostAtom = atom<IFieldAndHostDoc>({
   key: `fieldAndHostAtom/${v4()}`,
   default: { id: '', bookFieldAndHostList: [] },
+  effects: [
+    ({ setSelf }) => {
+      const fetchData = async () => {
+        getDocument(`BookClub-${thisYear}`, BOOK_FIELD_AND_HOST, setSelf);
+      };
+      fetchData();
+    },
+  ],
 });
 
 export const nextMonthFieldAndHostSelector = selector<MonthlyFieldAndHost>({

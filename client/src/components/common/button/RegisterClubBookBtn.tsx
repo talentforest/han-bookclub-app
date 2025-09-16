@@ -10,7 +10,7 @@ import { formatDate, getThirdSunday, thisYear } from '@/utils';
 
 import { BookData } from '@/types';
 
-import MeetingInfoModal from '@/components/bookClub/MeetingInfoModal';
+import NewBookClubModal from '@/components/bookClub/NewBookClubModal';
 import SquareBtn from '@/components/common/button/SquareBtn';
 
 interface RegisterClubBookBtnProps {
@@ -43,7 +43,7 @@ const RegisterClubBookBtn = ({
   const onBtnClick = async () => {
     showModal({
       element: (
-        <MeetingInfoModal
+        <NewBookClubModal
           title={`${month}월 독서모임 정보`}
           currentValue={defaultMeeting}
           yearMonthId={registerYearMonth}

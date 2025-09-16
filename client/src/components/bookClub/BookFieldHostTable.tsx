@@ -1,22 +1,19 @@
-import { useEffect } from 'react';
-
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import { fieldAndHostAtom } from '@/data/fieldAndHostAtom';
 
-import { getDocument, setDocument } from '@/api';
+import { setDocument } from '@/api';
 
 import {
   BOOK_FIELD_AND_HOST,
   initialBookFieldAndHostData,
 } from '@/appConstants';
 
-import { useHandleFieldHost, useHandleModal } from '@/hooks';
+import { useHandleModal } from '@/hooks';
 
-import { existDocObj, thisYear } from '@/utils';
+import { thisYear } from '@/utils';
 
-import FieldHostEditForm from '@/components/bookClub/FieldHostEditForm';
-import Modal from '@/components/common/Modal';
+import FieldHostEditModal from '@/components/bookClub/FieldHostEditModal';
 import Table from '@/components/common/Table';
 import { Label } from '@/components/common/TableDataItem';
 import EmptyCard from '@/components/common/container/EmptyCard';
@@ -32,52 +29,13 @@ const BookFieldHostTable = ({
   isEditable = false,
   isFoldable = false,
 }: BookFieldHostTableProps) => {
-  const [bookFieldHostDoc, setBookFieldHostDoc] =
-    useRecoilState(fieldAndHostAtom);
-
-  const {
-    onSubmit,
-    selectedValues,
-    setSelectedValues, //
-  } = useHandleFieldHost();
+  const { bookFieldAndHostList } = useRecoilValue(fieldAndHostAtom);
 
   const { showModal } = useHandleModal();
 
   const onEditClick = (month?: number) => {
-    if (month) {
-      const doc = bookFieldHostDoc.bookFieldAndHostList.find(
-        item => item.month === month,
-      );
-      setSelectedValues(doc);
-    }
-    showModal({
-      element: (
-        <Modal title={`${month}월 수정하기`}>
-          <FieldHostEditForm
-            bookFieldHost={bookFieldAndHostList[month - 1]}
-            onSubmit={onSubmit}
-            month={month}
-            selectedValues={selectedValues}
-            setSelectedValues={setSelectedValues}
-          />
-        </Modal>
-      ),
-    });
+    showModal({ element: <FieldHostEditModal month={month} /> });
   };
-
-  useEffect(() => {
-    if (!existDocObj(bookFieldHostDoc)) {
-      getDocument(
-        `BookClub-${thisYear}`,
-        BOOK_FIELD_AND_HOST,
-        setBookFieldHostDoc,
-      );
-    }
-  }, [bookFieldHostDoc]);
-
-  const labels: Label[] = isMonth
-    ? ['월', '독서분야', '발제자']
-    : ['독서분야', '발제자'];
 
   const setInitialBookFieldHostInFb = async () => {
     setDocument(
@@ -87,7 +45,9 @@ const BookFieldHostTable = ({
     );
   };
 
-  const { bookFieldAndHostList } = bookFieldHostDoc;
+  const labels: Label[] = isMonth
+    ? ['월', '독서분야', '발제자']
+    : ['독서분야', '발제자'];
 
   return (
     <>

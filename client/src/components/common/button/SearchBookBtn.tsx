@@ -17,7 +17,7 @@ const SearchBookBtn = () => {
           })
         }
       >
-        <FiSearch fontSize={16} />
+        <FiSearch fontSize={18} />
         <span className="text-sm text-gray2">추천책 검색</span>
       </button>
     </>

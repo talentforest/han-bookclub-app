@@ -34,13 +34,13 @@ const MeetingReviewList = ({
   const isThisMonthDetail = yearMonthId === thisYearMonthId;
 
   return (
-    <div>
-      {meetingReviews?.length !== 0 ? (
-        <ul
-          className={`${meetingReviews.length > 0 ? 'columns-2' : ''} max-sm:columns-1`}
-        >
-          {isThisMonthDetail && <MeetingReviewForm docMonth={yearMonthId} />}
+    <div
+      className={`${!isThisMonthDetail && meetingReviews.length === 0 ? 'columns-1' : 'columns-2'} max-sm:columns-1`}
+    >
+      {isThisMonthDetail && <MeetingReviewForm docMonth={yearMonthId} />}
 
+      {meetingReviews?.length !== 0 ? (
+        <ul>
           {meetingReviews?.map(meetingReview => (
             <li
               className="mb-6 flex w-full break-inside-avoid flex-col gap-4"

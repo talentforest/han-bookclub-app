@@ -14,7 +14,7 @@ import Loading from '@/components/common/Loading';
 import Tag from '@/components/common/Tag';
 import EditBtn from '@/components/common/button/EditBtn';
 import SquareBtn from '@/components/common/button/SquareBtn';
-import RefInput from '@/components/common/input/RefInput';
+import Input from '@/components/common/input/Input';
 import UserImg from '@/components/common/user/UserImg';
 
 const EditProfile = () => {
@@ -50,7 +50,7 @@ const EditProfile = () => {
       name: '닉네임',
       data: <span>{displayName}</span>,
       form: (
-        <RefInput
+        <Input
           onChange={onDisplayNameChange}
           placeholder="닉네임을 입력해주세요"
           value={newDisplayName || ''}

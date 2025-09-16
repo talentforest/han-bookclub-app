@@ -2,20 +2,15 @@ import { useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
-import { clubByMonthSelector, clubByYearAtom } from '@/data/clubAtom';
+import { clubByYearAtom } from '@/data/clubAtom';
 
 import { getCollection } from '@/api';
 
 import { BOOKCLUB_THIS_YEAR } from '@/appConstants';
 
-import {
-  getNextYearMonthId,
-  nextMonthId,
-  thisYear,
-  thisYearMonthId,
-} from '@/utils';
+import { thisYear } from '@/utils';
 
 import Footer from '@/layout/Footer';
 import MobileHeader from '@/layout/mobile/MobileHeader';
@@ -23,7 +18,6 @@ import MobileHeader from '@/layout/mobile/MobileHeader';
 import NextMonthClub from '@/components/bookClub/NextMonthClub';
 import ThisMonthBookClub from '@/components/bookClub/ThisMonthClub';
 import VoteSlider from '@/components/bookVote/VoteSlider';
-import EditBtn from '@/components/common/button/EditBtn';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Section from '@/components/common/container/Section';
 import RecommendedBookSwiperContainer from '@/components/post/recommendedBooks/RecommendedBookSwiperContainer';
@@ -32,13 +26,9 @@ const Home = () => {
   const navigate = useNavigate();
 
   const setThisYearClub = useSetRecoilState(clubByYearAtom);
-  const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
-  const nextMonthClub = useRecoilValue(clubByMonthSelector(nextMonthId));
 
   useEffect(() => {
-    if (!thisMonthClub || !nextMonthClub) {
-      getCollection(BOOKCLUB_THIS_YEAR, setThisYearClub);
-    }
+    getCollection(BOOKCLUB_THIS_YEAR, setThisYearClub);
   }, []);
 
   const buttonList = [
@@ -75,17 +65,7 @@ const Home = () => {
           </Section>
 
           <Section
-            title="다음달 모임책"
-            titleBtn={
-              <EditBtn
-                onClick={() =>
-                  navigate('/search', {
-                    state: { registerYearMonth: getNextYearMonthId() },
-                  })
-                }
-                className="!size-6"
-              />
-            }
+            title="다음달 모임정보"
             className="col-span-1 !my-0 size-full"
           >
             <NextMonthClub />

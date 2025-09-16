@@ -10,6 +10,7 @@ import Subtitle from '@/components/common/Subtitle';
 import Tag from '@/components/common/Tag';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
+import Label from '@/components/common/input/Label';
 
 const CreateAccount = () => {
   const {
@@ -48,8 +49,7 @@ const CreateAccount = () => {
           <form onSubmit={onFirstStepSubmit}>
             <GuideLine text="한페이지 멤버들에게 제공된 키워드를 입력해 주세요." />
             <Input
-              id="키워드"
-              name=""
+              label="확인 키워드"
               type="text"
               placeholder="키워드를 작성해주세요"
               value={keyword}
@@ -110,19 +110,19 @@ const CreateAccount = () => {
 
         {currentStep.step === 3 && (
           <form onSubmit={onThirdStepSubmit}>
-            <label htmlFor="username">이름</label>
             <Input
+              label="이름"
               name="username"
               value={username}
               placeholder="이름을 입력해주세요."
               onChange={onThirdStepChange}
             />
 
-            <label htmlFor="gender">성별</label>
+            <Label htmlFor="gender" text="이름" />
             <fieldset>
               {gender.map(item => (
                 <div key={item}>
-                  <label htmlFor={item}>{item}</label>
+                  <Label text={item} />
                   <input
                     id={item}
                     type="radio"
@@ -135,7 +135,7 @@ const CreateAccount = () => {
               ))}
             </fieldset>
 
-            <label htmlFor="bookFields">관심 분야</label>
+            <Label htmlFor="bookFields" text="관심 분야" />
             <fieldset className="bookfield">
               {clubBookFieldList.map(bookField => (
                 <BookFieldCheckBox

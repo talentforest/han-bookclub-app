@@ -22,7 +22,7 @@ import Modal from '@/components/common/Modal';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import SquareBtn from '@/components/common/button/SquareBtn';
-import RefInput from '@/components/common/input/RefInput';
+import Input from '@/components/common/input/Input';
 
 interface ChallengeEditModalProps {
   challenge: CompleteReadingChallenge;
@@ -97,14 +97,12 @@ export default function ChallengeEditModal({
           </div>
         </div>
 
-        <div>
-          <label>현재까지 읽은 페이지: {currentPageNum}p</label>
-          <RefInput
-            ref={currPageRef}
-            name="currentPage"
-            placeholder="현재 페이지를 수정해주세요."
-          />
-        </div>
+        <Input
+          ref={currPageRef}
+          label={`현재까지 읽은 페이지: ${currentPageNum}p`}
+          name="currentPage"
+          placeholder="현재 페이지를 수정해주세요."
+        />
 
         <SquareBtn
           type="submit"

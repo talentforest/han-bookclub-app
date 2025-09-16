@@ -1,19 +1,16 @@
-import { ReactNode } from 'react';
-
 interface LabelProps {
-  title: string;
-  children?: ReactNode;
+  text: string;
+  htmlFor?: string;
   className?: string;
 }
 
-export default function Label({ title, children, className }: LabelProps) {
+export default function Label({ text, htmlFor, className }: LabelProps) {
   return (
     <label
-      htmlFor={!children ? title : undefined}
-      className={`flex flex-col gap-1 ${className}`}
+      htmlFor={htmlFor || text}
+      className={`flex flex-col py-1 pl-1 text-sm font-medium text-darkBlue ${className}`}
     >
-      <span className="pl-1 text-sm text-gray1">{title}</span>
-      {children && children}
+      {text}
     </label>
   );
 }

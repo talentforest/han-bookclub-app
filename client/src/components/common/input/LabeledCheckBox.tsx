@@ -1,4 +1,5 @@
 import GuideLine from '@/components/common/GuideLine';
+import Label from '@/components/common/input/Label';
 
 interface LabeledCheckBoxProps {
   label: string;
@@ -30,13 +31,7 @@ export default function LabeledCheckBox({
         className="mt-1 size-[15px]"
       />
       <div className="flex-1">
-        <label
-          className="mb-2 inline-block cursor-pointer text-text"
-          htmlFor={label}
-        >
-          {label}
-        </label>
-
+        <Label text={label} />
         {detail && <GuideLine color="gray" text={detail} />}
       </div>
     </div>

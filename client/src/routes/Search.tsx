@@ -6,7 +6,7 @@ import MobileHeader from '@/layout/mobile/MobileHeader';
 
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Section from '@/components/common/container/Section';
-import RefInput from '@/components/common/input/RefInput';
+import Input from '@/components/common/input/Input';
 import SearchedBookCard from '@/components/search/SearchedBookCard';
 
 const Search = () => {
@@ -30,12 +30,13 @@ const Search = () => {
       <main>
         <Section title="책 검색하기">
           <form className="mb-8 flex w-1/2 gap-3 max-sm:mb-4 max-sm:w-full">
-            <RefInput
+            <Input
               ref={inputRef}
               placeholder="등록하실 책을 검색해주세요."
               onChange={onBookQueryChange}
+              className="flex-1"
             />
-            <SquareBtn name="검색하기" />
+            <SquareBtn name="검색하기" className="min-w-fit" />
           </form>
 
           <span>
@@ -44,9 +45,9 @@ const Search = () => {
           </span>
 
           <ul className="mt-4 columns-2 gap-x-4 max-sm:mt-2 max-sm:columns-1 max-sm:gap-x-0">
-            {searchList.map(searchedBook => (
+            {searchList.map((searchedBook, index) => (
               <li
-                key={`${searchedBook.isbn}-${searchedBook.publisher}`}
+                key={`${searchedBook.isbn}-${index}`}
                 className="mb-4 w-full items-center justify-between"
               >
                 <SearchedBookCard searchedBook={searchedBook} />

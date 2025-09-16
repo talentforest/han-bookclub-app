@@ -27,16 +27,16 @@ function PreviousClub() {
         <Section title={`${selectedYear}년의 한페이지`} className="!mt-10">
           {clubByYear.length !== 0 ? (
             <ul className="grid grid-cols-4 gap-5 max-md:grid-cols-3 max-sm:mt-2 max-sm:flex max-sm:flex-col [&>div]:col-span-4">
-              {clubByYear.map(docData => (
+              {clubByYear.map(club => (
                 <Link
-                  key={docData.id}
-                  to={thisYearMonthId === docData.id ? '/bookclub' : docData.id}
+                  key={club.id}
+                  to={thisYearMonthId === club.id ? '/bookclub' : club.id}
                   state={{
-                    docId: docData.id,
-                    docData,
+                    docId: club.id,
+                    docData: club,
                   }}
                 >
-                  <PreviousBookCard document={docData} />
+                  <PreviousBookCard document={club} />
                 </Link>
               ))}
             </ul>

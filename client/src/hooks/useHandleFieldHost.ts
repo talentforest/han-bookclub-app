@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { dbService } from '@/fbase';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -7,39 +7,46 @@ import { useRecoilState } from 'recoil';
 
 import { fieldAndHostAtom } from '@/data/fieldAndHostAtom';
 
+import { getDocument } from '@/api';
+
 import { BOOK_FIELD_AND_HOST } from '@/appConstants';
 
-import { useAlertAskJoin } from '@/hooks';
+import { useAlertAskJoin, useHandleErrorMsg, useHandleModal } from '@/hooks';
 
-import { thisYear } from '@/utils';
+import { existDocObj, thisYear } from '@/utils';
 
 import { MonthlyFieldAndHost } from '@/types';
 
-const initialFieldHost: Pick<MonthlyFieldAndHost, 'field' | 'hosts'> = {
-  field: '',
-  hosts: [''],
-};
-
 export const useHandleFieldHost = () => {
-  const [selectedValues, setSelectedValues] = useState(initialFieldHost);
+  const [selectedValues, setSelectedValues] =
+    useState<MonthlyFieldAndHost | null>(null);
 
   const [fieldHostDoc, setFieldHostDoc] = useRecoilState(fieldAndHostAtom);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
 
-  const onEditClick = (month?: number) => {
-    if (anonymous) return alertAskJoinMember();
-    if (month) {
-      const doc = fieldHostDoc.bookFieldAndHostList.find(
-        item => item.month === month,
-      );
-      setSelectedValues(doc);
-    }
-    // showModal({ isEditing: !editingMonthInfo.isEditing, month });
-    // showModal({ element: <span>hi</span> });
-  };
+  const { bookFieldAndHostList: fieldAndHostList } = fieldHostDoc;
 
   const fbDoc = doc(dbService, `BookClub-${thisYear}`, BOOK_FIELD_AND_HOST);
+
+  const { errorMsg, handleErrorMsg } = useHandleErrorMsg();
+
+  const { hideModal } = useHandleModal();
+
+  const errorMsgObj = {
+    field: [
+      {
+        condition: selectedValues?.field === '',
+        error: '독서분야가 선택되지 않았습니다.',
+      },
+    ],
+    hosts: [
+      {
+        condition: selectedValues?.hosts.length === 0,
+        error: '발제자를 한명 이상 선택해주세요.',
+      },
+    ],
+  };
 
   const onSubmit = async (
     event: React.FormEvent<HTMLFormElement>,
@@ -47,7 +54,12 @@ export const useHandleFieldHost = () => {
   ) => {
     event.preventDefault();
 
-    const editedList = fieldHostDoc.bookFieldAndHostList.map(fieldHost => {
+    if (anonymous) return alertAskJoinMember();
+
+    const hasError = handleErrorMsg(errorMsgObj);
+    if (hasError) return;
+
+    const editedList = fieldAndHostList.map(fieldHost => {
       const editedObj = { ...fieldHost, ...selectedValues };
       return fieldHost.month === month ? editedObj : fieldHost;
     });
@@ -55,12 +67,20 @@ export const useHandleFieldHost = () => {
     const newList = { ...fieldHostDoc, bookFieldAndHostList: editedList };
     setFieldHostDoc(newList);
     await updateDoc(fbDoc, newList);
-    onEditClick(month);
+    hideModal();
   };
 
+  useEffect(() => {
+    if (!existDocObj(fieldAndHostList)) {
+      getDocument(`BookClub-${thisYear}`, BOOK_FIELD_AND_HOST, setFieldHostDoc);
+    }
+  }, [fieldHostDoc]);
+
   return {
+    fieldAndHostList,
     onSubmit,
     selectedValues,
     setSelectedValues,
+    errorMsg,
   };
 };

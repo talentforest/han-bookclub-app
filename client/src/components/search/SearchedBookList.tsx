@@ -17,18 +17,17 @@ export default function SearchedBookList({
   onSelectBtnClick,
 }: SearchedBookListProps) {
   return (
-    <ul className="mt-4 h-64 overflow-scroll">
+    <ul className="mt-2 h-64 overflow-scroll">
       {searchList.map((book, index) => (
         <Fragment key={`${book.title}-${book.isbn}`}>
-          <li className="relative py-2">
-            <FooterBookCard book={book} className="h-14" />
+          <li className="py-2">
             <button
               type="button"
+              className="flex w-full items-center justify-between gap-x-2"
               onClick={() => onSelectBtnClick(book)}
-              className="absolute bottom-2 right-0 flex items-center gap-1"
             >
-              <FiCheckCircle className="text-sm text-blue1" />
-              <span className="mt-1 text-sm text-blue1">선택</span>
+              <FooterBookCard book={book} className="h-14" />
+              <FiCheckCircle className="text-lg text-darkBlue2" />
             </button>
           </li>
 

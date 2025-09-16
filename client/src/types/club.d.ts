@@ -4,10 +4,15 @@ export type MonthlyBookClub = {
   id?: string;
   creatorId: string;
   createdAt: string;
-  book: BookData;
+  book?: BookData;
   meeting: {
     time: string;
     place: string;
+    eventMonth?: {
+      title: string;
+      contents: { id: string; title: string; detail: string }[];
+      hosts: string[];
+    };
   };
 };
 

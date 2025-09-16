@@ -33,7 +33,7 @@ export default function SquareBtn({
       type={type}
       onClick={handleClick}
       disabled={disabled}
-      className={`flex h-12 min-h-12 w-fit min-w-max items-center justify-center rounded-lg px-4 text-[15px] shadow-lg max-sm:px-4 ${colorStyleObj[color]} ${className}`}
+      className={`flex h-12 min-h-12 w-fit min-w-max items-center justify-center rounded-lg px-4 text-[15px] shadow-lg disabled:bg-gray4 disabled:text-gray2 max-sm:px-4 ${colorStyleObj[color]} ${className}`}
     >
       {children}
 

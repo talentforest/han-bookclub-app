@@ -72,7 +72,7 @@ const ClubDetail = () => {
       />
 
       <main>
-        <Section title="모임책과 모임정보">
+        <Section title="모임 정보">
           {isThisMonthDetail ? (
             <ThisMonthBookClub />
           ) : (
@@ -87,11 +87,11 @@ const ClubDetail = () => {
                 <Section title="참석 정보">
                   <div className="flex flex-col gap-4">
                     <MemberListCard
-                      title="참석 멤버"
+                      title={`참석 멤버 ${participantList.length}명`}
                       memberList={participantList}
                     />
                     <MemberListCard
-                      title="불참 멤버"
+                      title={`불참 멤버 ${absenteeList.length}명`}
                       memberList={absenteeList}
                     />
                   </div>

@@ -76,16 +76,14 @@ export default function SentenceAddModal({ book }: SentenceAddModalProps) {
           value={sentence}
         />
 
-        <div>
-          <label htmlFor="페이지">문구가 적힌 페이지</label>
-          <Input
-            id="페이지"
-            name="sentence-page"
-            placeholder="페이지를 작성해주세요."
-            value={`${page}`}
-            onChange={onPageChange}
-          />
-        </div>
+        <Input
+          label="문구가 적힌 페이지"
+          id="페이지"
+          name="sentence-page"
+          placeholder="페이지를 작성해주세요."
+          value={`${page}`}
+          onChange={onPageChange}
+        />
 
         <SquareBtn type="submit" name="등록하기" disabled={isPending} />
       </form>

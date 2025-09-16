@@ -1,11 +1,9 @@
-import { useLocation } from 'react-router-dom';
-
-import { cutLetter, formatDate } from '@/utils';
+import { formatDate } from '@/utils';
 
 import { MonthlyBookClub } from '@/types';
 
+import ClubTimePlace from '@/components/common/ClubTimePlace';
 import Tag from '@/components/common/Tag';
-import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 
 interface PreviousBookCardProps {
@@ -13,11 +11,9 @@ interface PreviousBookCardProps {
 }
 
 const PreviousBookCard = ({ document }: PreviousBookCardProps) => {
-  const { pathname } = useLocation();
-
   const {
     id,
-    book: { thumbnail, title, authors, publisher },
+    book,
     meeting: { time, place },
   } = document;
 
@@ -25,35 +21,34 @@ const PreviousBookCard = ({ document }: PreviousBookCardProps) => {
 
   return (
     <div className="relative flex h-full w-full cursor-pointer flex-col items-center justify-between gap-1 rounded-card bg-white px-4 py-5 shadow-card">
-      {pathname === '/previous-club' && (
-        <Tag
-          color="lightBlue"
-          shape="rounded"
-          text={`${month}월의 책`}
-          className="font-bold"
-        />
+      <Tag
+        color="lightBlue"
+        shape="rounded"
+        text={`${month}월의 독서모임`}
+        className="font-medium"
+      />
+
+      {book ? (
+        <>
+          <BookThumbnail
+            thumbnail={book.thumbnail}
+            title={book.title}
+            className="mt-4 w-20"
+          />
+
+          <h3 className="my-2 text-center text-lg font-medium">{book.title}</h3>
+        </>
+      ) : (
+        <h3 className="my-2 text-center text-lg font-medium">
+          {document.meeting.eventMonth.title}
+        </h3>
       )}
 
-      <h3 className="my-2 text-center text-lg font-medium">
-        {title ? cutLetter(title, 40) : '이벤트'}
-      </h3>
-
-      {pathname !== '/previous-club' && !!authors?.length && publisher && (
-        <BookAuthorPublisher authors={authors} publisher={publisher} />
-      )}
-
-      <div className="h-32">
-        <BookThumbnail thumbnail={thumbnail} title={title} />
-      </div>
-
-      <span className="mt-3 text-center">
-        {!!time
-          ? formatDate(time, 'yyyy.MM.dd a h시 mm분')
-          : '정해진 모임 시간이 없습니다.'}
-      </span>
-      <span className="text-center">
-        {!!place ? place : '정해진 모임 장소가 없습니다.'}
-      </span>
+      <ClubTimePlace
+        time={time}
+        place={place}
+        className="flex flex-col items-center"
+      />
     </div>
   );
 };

@@ -1,7 +1,7 @@
-import { formatDate } from '@/utils';
-
 import { MonthlyBookClub } from '@/types';
 
+import MonthEventCard from '@/components/bookCard/MonthEventCard';
+import ClubTimePlace from '@/components/common/ClubTimePlace';
 import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
@@ -17,30 +17,36 @@ export default function BasicBookCard({
 }: BasicBookCardProps) {
   const {
     meeting: { place, time },
-    book: { thumbnail, title, authors, publisher, url },
+    book,
+    id,
   } = bookClub;
 
-  return (
+  return book ? (
     <div
-      className={`rounded-card bg-white px-4 py-5 shadow-card ${thumbnail === '' ? '[&>div:first-child]:float-left [&>div:first-child]:mr-3 [&>div:first-child]:h-20' : '[&>img]:float-left [&>img]:mr-3 [&>img]:h-28'} ${className}`}
+      className={`flex gap-x-4 rounded-card bg-white p-5 shadow-card ${className}`}
     >
-      <BookThumbnail thumbnail={thumbnail} title={title} />
+      <BookThumbnail
+        thumbnail={book.thumbnail}
+        title={book.title}
+        className="w-20"
+      />
 
-      <div>
-        <h1 className="line-clamp-1 text-lg font-medium">
-          <span className="pr-1">{title}</span>
-          {url && <ExternalLinkBtn url={url} />}
+      <div className="flex w-full flex-col justify-between">
+        <h1 className="line-clamp-2 pr-1 text-lg font-medium leading-6">
+          {book.title} {book.url && <ExternalLinkBtn url={book.url} />}
         </h1>
 
-        {authors && (
-          <BookAuthorPublisher authors={authors} publisher={publisher} />
+        {book.authors && (
+          <BookAuthorPublisher
+            authors={book.authors}
+            publisher={book.publisher}
+          />
         )}
 
-        <span className="mt-1.5 block">
-          {formatDate(time, 'yyyy.MM.dd a h시 mm분')}
-        </span>
-        <span className="mb-2 mt-1">{place}</span>
+        <ClubTimePlace time={time} place={place} className="mt-3.5" />
       </div>
     </div>
+  ) : (
+    <MonthEventCard yearMonthId={id} event={bookClub.meeting} />
   );
 }

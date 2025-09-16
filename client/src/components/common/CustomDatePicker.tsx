@@ -1,42 +1,38 @@
 import { ko } from 'date-fns/locale';
-import DatePicker from 'react-datepicker';
+import DatePicker, { DatePickerProps } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FiCalendar } from 'react-icons/fi';
 
+import Label from '@/components/common/input/Label';
+
 interface CustomDatePickerProps {
-  id: string;
-  currentDate?: Date;
-  onChange: (date: Date | null) => void;
-  className?: string;
+  label?: string;
 }
 
 export default function CustomDatePicker({
-  id,
-  currentDate,
-  onChange,
-  className,
-}: CustomDatePickerProps) {
+  label,
+  ...rest
+}: CustomDatePickerProps & DatePickerProps) {
   return (
-    <div className="relative">
-      <FiCalendar className="absolute left-3 top-3.5 z-10 size-5" />
-      <DatePicker
-        id={id}
-        selected={currentDate as Date}
-        onChange={onChange}
-        placeholderText="정해진 모임 시간이 없습니다"
-        locale={ko}
-        minDate={new Date()}
-        dateFormat="M월 d일 EEEE a hh:mm"
-        shouldCloseOnSelect
-        popperPlacement="bottom"
-        className={`flex h-12 w-full items-center rounded-xl border border-gray2 !py-3 !pl-10 outline-none ${className}`}
-        showTimeInput
-        timeCaption="시간"
-        timeInputLabel="시간:"
-        timeFormat="HH:mm"
-        timeIntervals={10}
-        onFocus={e => e.target.blur()}
-      />
+    <div className="flex flex-col">
+      {label && <Label text={label} />}
+
+      <div className="relative">
+        <FiCalendar className="absolute left-3 top-3.5 z-[1] size-5" />
+        <DatePicker
+          {...rest}
+          locale={ko}
+          minDate={new Date()}
+          shouldCloseOnSelect
+          popperPlacement="bottom"
+          timeCaption="모임시간"
+          timeInputLabel="모임시간:"
+          timeFormat="HH:mm"
+          timeIntervals={10}
+          onFocus={e => e.target.blur()}
+          className={`h-12 w-full rounded-xl border border-gray1 px-3 py-2 pl-10 placeholder:text-gray2 hover:bg-blue-50 focus:outline-none ${rest.className}`}
+        />
+      </div>
     </div>
   );
 }

@@ -7,11 +7,13 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { clubByMonthSelector, clubByYearAtom } from '@/data/clubAtom';
 
-import { getDocument } from '@/api';
+import { getDocument, setDocument } from '@/api';
 
 import { BOOKCLUB_THIS_YEAR, MEETING_PLACE, TAG_LIST } from '@/appConstants';
 
-import { useHandleModal } from '@/hooks';
+import { useHandleModal, useSendPushNotification } from '@/hooks';
+
+import { formatDate } from '@/utils';
 
 import { MonthlyBookClub } from '@/types';
 
@@ -19,6 +21,8 @@ interface SavedPlaceList {
   id: number;
   place: string[];
 }
+
+export type ErrorMsg = { [key in string]: { type: string; error: string } };
 
 export const useHandleSchedule = (
   meeting: MonthlyBookClub['meeting'],
@@ -34,38 +38,55 @@ export const useHandleSchedule = (
 
   const { hideModal } = useHandleModal();
 
-  const onMeetingSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const { sendPushNotification } = useSendPushNotification();
 
-    const { time, place } = currMeeting;
+  const year = yearMonthId.slice(0, 4);
+  const monthNum = +yearMonthId.slice(-2);
+
+  const onMeetingEdit = async (
+    editedValue: Pick<MonthlyBookClub, 'meeting'>,
+  ) => {
+    const document = doc(dbService, BOOKCLUB_THIS_YEAR, yearMonthId);
+
+    const {
+      meeting: { time, place },
+    } = editedValue;
 
     if (meeting.time === time.toLocaleString() && meeting.place === place)
       return hideModal();
 
-    if (!place) return alert('모임 장소가 작성되지 않았어요.');
+    await updateDoc(document, editedValue);
 
-    try {
-      const document = doc(dbService, BOOKCLUB_THIS_YEAR, yearMonthId);
-      const editInfo = { meeting: currMeeting };
-      await updateDoc(document, editInfo);
-      setThisYearClub(prev => {
-        return prev.map(bookclub =>
-          monthlyBookClub.id === yearMonthId
-            ? { ...bookclub, ...editInfo }
-            : bookclub,
-        );
-      });
-    } catch (error) {
-      window.alert(
-        '모임 장소 등록 중 오류가 발생했습니다. 관리자에게 문의해주세요.',
+    setThisYearClub(prev => {
+      return prev.map(bookclub =>
+        monthlyBookClub.id === yearMonthId
+          ? { ...bookclub, ...editedValue }
+          : bookclub,
       );
-    } finally {
-      hideModal();
-    }
+    });
+
+    alert(`${monthNum}월 독서모임 정보가 변경되었습니다!`);
+
+    await sendPushNotification({
+      title: '☕️ 모임 정보가 변경 안내',
+      body: `${monthNum}월의 모임 정보가 바뀌었어요! 🕓${formatDate(time, 'M월 d일 EEEE a h시 mm분')}에 📍${place}에서 만나요 👋`,
+    });
   };
 
-  const onTagClick = (place: string) =>
-    setCurrMeeting(prev => ({ ...prev, place }));
+  const onNewBookClubSubmit = async (submittedValue: MonthlyBookClub) => {
+    await setDocument(BOOKCLUB_THIS_YEAR, yearMonthId, submittedValue);
+
+    alert(`${monthNum}월 독서모임 정보가 등록되었습니다!`);
+
+    await sendPushNotification({
+      title: `☕️${monthNum}의 모임도서: 《${submittedValue.book.title}》`,
+      body: `${year}년 ${monthNum}월의 모임정보가 등록되었어요! 🕓${formatDate(submittedValue.meeting.time, 'M월 d일 EEEE a h시 mm분')}에 📍${submittedValue.meeting.place}에서 만나요 👋`,
+    });
+  };
+
+  const onMeetingChange = (value: Partial<MonthlyBookClub['meeting']>) => {
+    setCurrMeeting(prev => ({ ...prev, ...value }));
+  };
 
   useEffect(() => {
     if (savedPlaceList?.place?.length !== null) {
@@ -74,10 +95,10 @@ export const useHandleSchedule = (
   }, []);
 
   return {
-    currMeeting,
-    setCurrMeeting,
-    onMeetingSubmit,
-    onTagClick,
     savedPlaceList,
+    currMeeting,
+    onMeetingChange,
+    onMeetingEdit,
+    onNewBookClubSubmit,
   };
 };

@@ -152,32 +152,40 @@
     }
     /* 날짜 캘린더 */
     .react-datepicker {
-      @apply rounded-xl border border-b-0 border-gray2 text-sm;
+      @apply rounded-2xl border-x border-t-0 border-gray2 text-sm;
     }
     .react-datepicker__input-container {
-      @apply flex flex-1 border-0;
+      @apply flex flex-1 border-none;
     }
 
     /* 헤더 */
     .react-datepicker__header {
-      @apply mx-0 rounded-t-xl border-0 bg-green1;
+      @apply mx-0 !rounded-t-xl border-0 bg-darkBlue2 pt-[18px];
+    }
+    .react-datepicker-popper {
+      @apply pb-4;
+    }
+    .react-datepicker-popper .react-datepicker__triangle {
+      @apply stroke-none;
+    }
+    .react-datepicker-popper[data-placement^='top']
+      .react-datepicker__triangle {
+      @apply z-50 size-5 border-l-red-500 fill-white text-gray2;
     }
     .react-datepicker-popper[data-placement^='bottom']
       .react-datepicker__triangle {
-      @apply -z-10 border-b-green1 fill-green1;
+      @apply -z-10 size-6 border-none border-b-darkBlue2 fill-darkBlue2 text-transparent;
     }
-    .react-datepicker__triangle::after {
-      @apply border-b-green1;
-    }
+
     .react-datepicker__current-month {
-      @apply my-1 font-SUITE text-darkBlue;
+      @apply my-1 !pb-2 font-SUITE text-white;
     }
     /* 헤더 날짜 네비게이션 */
     .react-datepicker__navigation {
-      @apply absolute flex size-[40px] items-center justify-center rounded-2xl;
+      @apply absolute top-3.5 flex size-[32px] items-center justify-center;
     }
     .react-datepicker__navigation-icon::before {
-      @apply border-r-2 border-t-2 border-darkBlue;
+      @apply border-r-2 border-t-2 border-white;
     }
 
     /* 날짜가 모여있는 달력 */
@@ -189,7 +197,7 @@
     }
     /* 요일들 */
     .react-datepicker__day-name {
-      @apply mx-0.5 font-SUITE text-[12px] text-green3;
+      @apply mx-0.5 font-SUITE text-[12px] text-white;
     }
     .react-datepicker__day {
       @apply m-0.5 font-SUITE text-[13px];
@@ -203,17 +211,23 @@
     }
     /* 선택된 날짜 */
     .react-datepicker__day--selected {
-      @apply bg-green2 font-semibold text-darkBlue;
+      @apply bg-darkBlue2 font-semibold text-white;
     }
     /* 날짜에 마우스를 올릴 때 */
     .react-datepicker__day:hover {
-      @apply cursor-pointer border-0 bg-green3 text-darkBlue;
+      @apply cursor-pointer border-0 bg-darkBlue text-darkBlue;
+    }
+    .react-datepicker__day--disabled,
+    .react-datepicker__month-text--disabled,
+    .react-datepicker__quarter-text--disabled,
+    .react-datepicker__year-text--disabled {
+      @apply !cursor-default text-gray3 hover:bg-transparent hover:text-gray3;
     }
     .react-datepicker__day:not([aria-disabled='true']):hover,
     .react-datepicker__month-text:not([aria-disabled='true']):hover,
     .react-datepicker__quarter-text:not([aria-disabled='true']):hover,
     .react-datepicker__year-text:not([aria-disabled='true']):hover {
-      @apply cursor-pointer border-0 bg-green2 text-darkBlue;
+      @apply cursor-pointer border-0 bg-blue2 text-darkBlue;
     }
     .react-datepicker__day--keyboard-selected {
       @apply bg-transparent;
@@ -224,13 +238,13 @@
 
     /* 시간 Input */
     .react-datepicker__input-time-container {
-      @apply mx-2 mb-5 mt-3 flex w-[94%] items-center rounded-xl border bg-white px-4 shadow-card;
+      @apply mx-3 mb-5 mt-3 flex w-[90%] items-center rounded-xl border border-pointNavy bg-white px-4 shadow-card;
     }
     .react-datepicker-time__input-container {
       @apply flex flex-1 bg-transparent;
     }
     .react-datepicker-time__caption {
-      @apply font-SUITE text-sm text-gray1;
+      @apply font-SUITE text-sm font-semibold;
     }
     .react-datepicker-time__input {
       @apply m-0 flex w-full flex-1 font-SUITE;
@@ -239,7 +253,7 @@
       .react-datepicker-time__input-container
       .react-datepicker-time__input
       > input {
-      @apply ml-0 w-full flex-1 bg-transparent py-2 text-gray1 outline-none;
+      @apply ml-0 w-full flex-1 bg-transparent py-2 outline-none;
     }
 
     /* Swiper */

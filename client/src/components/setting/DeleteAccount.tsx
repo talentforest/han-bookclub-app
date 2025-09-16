@@ -5,7 +5,6 @@ import MobileHeader from '@/layout/mobile/MobileHeader';
 import GuideLine from '@/components/common/GuideLine';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
-import Label from '@/components/common/input/Label';
 
 const DeleteAccount = () => {
   const {
@@ -25,26 +24,22 @@ const DeleteAccount = () => {
           {showMessage && (
             <span className="text-sm">비밀번호가 맞지 않습니다.</span>
           )}
-          <div>
-            <Label title="비밀번호 확인" className="mb-1" />
 
-            <div className="flex flex-col">
-              <Input
-                name="password"
-                type="password"
-                placeholder="현재 비밀번호를 입력해주세요."
-                value={password}
-                onChange={onChange}
-                autoComplete="current-password"
-              />
+          <Input
+            label="비밀번호 확인"
+            name="password"
+            type="password"
+            placeholder="현재 비밀번호를 입력해주세요."
+            value={password}
+            onChange={onChange}
+            autoComplete="current-password"
+          />
 
-              <SquareBtn
-                type="submit"
-                name="탈퇴하기"
-                className="my-2 !h-8 self-end py-1"
-              />
-            </div>
-          </div>
+          <SquareBtn
+            type="submit"
+            name="탈퇴하기"
+            className="my-2 ml-auto !h-8 py-1"
+          />
         </form>
       </main>
     </>

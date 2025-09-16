@@ -1,20 +1,18 @@
 import { useState } from 'react';
 
-import { ko } from 'date-fns/locale';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { FiMinusCircle, FiPlus, FiSearch } from 'react-icons/fi';
+import { FiPlusCircle } from 'react-icons/fi';
 
 import { useCreateBookVoteBox, useSearchBook } from '@/hooks';
 
 import { BookData } from '@/types';
 
+import CreateVoteBookCard from '@/components/bookVote/CreateVoteBookCard';
+import CustomDatePicker from '@/components/common/CustomDatePicker';
 import Modal from '@/components/common/Modal';
-import BookThumbnail from '@/components/common/book/BookThumbnail';
+import Textarea from '@/components/common/TextArea';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
-import Label from '@/components/common/input/Label';
-import RefInput from '@/components/common/input/RefInput';
 import SearchedBookList from '@/components/search/SearchedBookList';
 
 const initialSearchBook = {
@@ -84,135 +82,96 @@ const VoteCreateModal = () => {
   return (
     <Modal title="모임책 투표 생성하기" className="max-w-[500px]">
       {!searchBook.isOpenSearchBook && (
-        <form
-          onSubmit={onNewVoteSubmit}
-          className="my-2 flex flex-col gap-x-4 gap-y-8"
-        >
-          <>
-            <Label title="투표 제목">
-              <Input
-                type="text"
-                placeholder="예: 1월 과학책 투표"
-                value={title}
-                onChange={onVoteTitleChange}
-                required
-              />
-            </Label>
+        <form onSubmit={onNewVoteSubmit} className="flex flex-col gap-4">
+          <Input
+            label="투표제목"
+            type="text"
+            placeholder="예: 1월 과학책 투표"
+            value={title}
+            onChange={onVoteTitleChange}
+            required
+          />
 
-            <Label title="투표 종료일">
-              <DatePicker
-                id="투표 종료일"
-                selected={new Date(newVote.deadline)}
-                onChange={onDateChange}
-                selectsEnd
-                endDate={new Date(newVote.deadline)}
-                minDate={new Date()}
-                locale={ko}
-                dateFormat="yyyy년 MM월 dd일"
-                className="h-12 w-full rounded-xl border p-2.5 pl-4 shadow-card outline-none"
-              />
-            </Label>
+          <div>
+            <span className="py-1 pl-1 text-sm font-medium text-darkBlue">
+              투표할 책 등록
+            </span>
+            <ul className="flex gap-x-3 overflow-x-scroll py-1 scrollbar-hide">
+              {voteItems.map(({ id, book }) => (
+                <CreateVoteBookCard
+                  key={id}
+                  voteId={id}
+                  book={book}
+                  onCreateClick={() => toggleSearch(id)}
+                  onDeleteClick={() => onDeleteVoteItemClick(id)}
+                />
+              ))}
+              <button
+                type="button"
+                onClick={onAddVoteItemBtn}
+                disabled={voteItems.length >= 4}
+                className="flex h-[inherit] items-center justify-center px-2 text-darkBlue2 disabled:text-gray2"
+              >
+                <FiPlusCircle className="text-xl" />
+              </button>
+            </ul>
+          </div>
 
-            <Label title="투표할 모임책">
-              <ul className="flex flex-wrap gap-4">
-                {voteItems.map(voteItem => (
-                  <div
-                    key={voteItem.id}
-                    className="relative flex aspect-[0.7/1] h-32 flex-col items-center justify-between gap-1.5 rounded-xl border bg-white pb-1 pt-2 shadow-card [&>img]:h-3/4"
-                  >
-                    {voteItem.book.title === '' ? (
-                      <button
-                        type="button"
-                        className="flex h-full items-center gap-1"
-                        onClick={() => toggleSearch(voteItem.id)}
-                      >
-                        <FiSearch className="text-sm text-gray1" />
-                        <span className="text-sm text-gray1">책 등록하기</span>
-                      </button>
-                    ) : (
-                      <>
-                        <BookThumbnail
-                          thumbnail={voteItem.book.thumbnail}
-                          title={title}
-                        />
-                        <div className="flex h-9 items-center px-0.5">
-                          <span className="line-clamp-2 text-center text-sm leading-4">
-                            《{voteItem.book.title}》
-                          </span>
-                        </div>
-                      </>
-                    )}
+          <CustomDatePicker
+            id="투표 종료일"
+            label="투표 종료일"
+            selected={new Date(newVote.deadline)}
+            onChange={onDateChange}
+            selectsEnd
+            endDate={new Date(newVote.deadline)}
+            dateFormat="yyyy년 MM월 dd일"
+          />
 
-                    {/* 취소 버튼 */}
-                    {voteItem.id > 2 && (
-                      <button
-                        type="button"
-                        onClick={() => onDeleteVoteItemClick(voteItem.id)}
-                        className="absolute -right-1.5 -top-1.5 p-0.5"
-                      >
-                        <FiMinusCircle className="rounded-full bg-white text-2xl text-pointCoral" />
-                      </button>
-                    )}
-                  </div>
-                ))}
-
-                {voteItems.length < 3 && (
-                  <button
-                    type="button"
-                    onClick={onAddVoteItemBtn}
-                    disabled={voteItems.length >= 3}
-                    className="flex aspect-[0.7/1] h-40 items-center justify-center rounded-xl border border-gray2 bg-white py-1.5 text-blue-500 shadow-card disabled:text-gray2"
-                  >
-                    <FiPlus />
-                    <span className="text-sm">투표할 책 추가</span>
-                  </button>
-                )}
-              </ul>
-            </Label>
-
-            <SquareBtn
-              type="submit"
-              name="모임책 투표 등록"
-              className="mt-3 self-end"
-              disabled={isPending}
-            />
-          </>
+          <SquareBtn
+            type="submit"
+            name="모임책 투표 등록하기"
+            className="mt-3 self-end"
+            disabled={isPending}
+            color="darkBlue"
+          />
         </form>
       )}
 
       {searchBook.isOpenSearchBook &&
         (!isOpenSelectReason ? (
-          <Label title="책등록 1단계" className="my-2">
-            <RefInput
+          <>
+            <Input
               id="search-book"
+              label="투표책 검색"
               ref={searchInputRef}
               placeholder="투표할 책을 검색해주세요."
               onChange={onBookQueryChange}
+              iconName="FiSearch"
             />
             <SearchedBookList
               searchList={searchList}
               onSelectBtnClick={onSelectBookBtnClick}
             />
-          </Label>
+          </>
         ) : (
-          <Label title="책등록 2단계" className="my-2">
-            <textarea
+          <>
+            <Textarea
+              label="책등록 2단계"
               id="select-reason"
               placeholder="이 책을 투표항목으로 선정한 이유에 대해서 작성해주세요."
               value={voteItems[searchBook.itemId - 1].selectReason}
               onChange={onSelectReasonChange}
-              className="mb-4 h-40 w-full resize-none rounded-xl border p-3 outline-none"
             />
             <SquareBtn
               type="button"
-              name="투표할 모임책 등록하기"
+              name="투표책으로 등록하기"
               handleClick={() => {
                 toggleSelectReason();
                 toggleSearch();
               }}
-              className="self-end"
+              className="mt-3 self-end"
             />
-          </Label>
+          </>
         ))}
     </Modal>
   );

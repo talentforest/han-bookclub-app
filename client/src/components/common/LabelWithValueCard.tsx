@@ -4,7 +4,7 @@ import { useHandleModal } from '@/hooks';
 
 import { formatDate, thisYearMonthId } from '@/utils';
 
-import MeetingInfoModal from '@/components/bookClub/MeetingInfoModal';
+import NewBookClubModal from '@/components/bookClub/NewBookClubModal';
 import UserName from '@/components/common/user/UserName';
 
 interface LabelWithValueCardProps {
@@ -40,7 +40,7 @@ export default function LabelWithValueCard({
               {typeof value === 'string' && value && (
                 <span className="tracking-tight">
                   {label === '모임시간'
-                    ? formatDate(value, 'yyyy.MM.dd a h시 mm분')
+                    ? formatDate(value, 'M월 d일 EEEE a h시 mm분')
                     : value}
                 </span>
               )}
@@ -60,7 +60,7 @@ export default function LabelWithValueCard({
             onClick={() =>
               showModal({
                 element: typeof value === 'string' && (
-                  <MeetingInfoModal
+                  <NewBookClubModal
                     title={label}
                     currentValue={
                       label === '모임시간' ? { time: value } : { place: value }

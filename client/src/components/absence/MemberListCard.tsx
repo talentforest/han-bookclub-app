@@ -12,16 +12,11 @@ export default function MemberListCard({
 }: MemberListCardProps) {
   return (
     <div className="rounded-card bg-white p-4 shadow-card">
-      <div className="flex items-center justify-between">
-        <Tag
-          text={title}
-          color={title.includes('참석') ? 'green' : 'red'}
-          className="mr-3"
-        />
-        <span className="text-[15px] text-gray1 underline">
-          총 {memberList.length}명
-        </span>
-      </div>
+      <Tag
+        text={title}
+        color={title.includes('참석') ? 'green' : 'red'}
+        className="mr-3 font-medium"
+      />
 
       {memberList.length !== 0 ? (
         <ul className="mt-4 flex flex-wrap items-center gap-3">

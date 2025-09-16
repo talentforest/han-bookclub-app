@@ -18,9 +18,7 @@ export const useGetClubByYear = () => {
   }, [selectedYear]);
 
   const clubBookListByYear = useMemo(() => {
-    return clubByYear
-      .map(({ book }) => book)
-      .filter(({ thumbnail }) => thumbnail);
+    return clubByYear.filter(({ book }) => book).map(({ book }) => book);
   }, [clubByYear]);
 
   return {

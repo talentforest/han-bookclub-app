@@ -11,6 +11,7 @@ export { useDeleteAccount } from '@/hooks/useDeleteAccount';
 export { useGetClubByYear } from '@/hooks/useGetClubByYear';
 export { useHandleAbsence } from '@/hooks/useHandleAbsence';
 export { useHandleFieldHost } from '@/hooks/useHandleFieldHost';
+export { useHandleErrorMsg } from '@/hooks/useHandleErrorMsg';
 export { useHandleLike } from '@/hooks/useHandleLike';
 export { useHandleModal } from '@/hooks/useHandleModal';
 export { useHandlePenalty } from '@/hooks/useHandlePenalty';

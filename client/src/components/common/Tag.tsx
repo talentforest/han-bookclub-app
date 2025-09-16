@@ -16,6 +16,7 @@ interface TagProps {
   shape?: 'rounded' | 'square';
   className?: string;
   children?: ReactNode;
+  onClick?: () => void;
 }
 
 export default function Tag({
@@ -24,6 +25,7 @@ export default function Tag({
   children,
   shape = 'square',
   className,
+  onClick,
 }: TagProps) {
   const bgColor = {
     blue: 'bg-blue1 text-white',
@@ -41,7 +43,16 @@ export default function Tag({
     square: 'rounded-lg',
   };
 
-  return (
+  return onClick ? (
+    <button type="button" onClick={onClick}>
+      <div
+        className={`text-sm ${shapeStyle[shape]} ${bgColor[color]} flex h-fit min-h-6 w-fit min-w-6 items-center gap-1 rounded-2xl px-3.5 py-2 shadow-card ${className}`}
+      >
+        <span>{text && text}</span>
+        {children && children}
+      </div>
+    </button>
+  ) : (
     <div
       className={`text-sm ${shapeStyle[shape]} ${bgColor[color]} flex h-fit min-h-6 w-fit min-w-6 items-center gap-1 rounded-2xl px-3.5 py-2 shadow-card ${className}`}
     >

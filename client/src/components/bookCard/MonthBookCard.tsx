@@ -1,3 +1,5 @@
+import { FiBookmark } from 'react-icons/fi';
+
 import { thisMonth } from '@/utils';
 
 import { BookData } from '@/types';
@@ -24,33 +26,31 @@ export default function MonthBookCard({
 
   return (
     <div
-      className={`flex flex-col justify-between rounded-card bg-white px-6 py-5 shadow-card max-sm:gap-2 max-sm:p-4 ${className}`}
+      className={`flex justify-between gap-x-2 rounded-card bg-white px-6 py-5 shadow-card ${className}`}
     >
-      <div className="flex flex-1 justify-between gap-x-4">
-        <div className="flex flex-col items-start justify-between max-sm:w-[70%]">
-          <Tag
-            text={`${month}월 모임책`}
-            color={+month === +thisMonth ? 'lightGreen' : 'purple'}
-            shape="rounded"
-            className="font-medium shadow-2xl"
-          />
-          <h1 className="mb-0.5 mt-2.5 line-clamp-2 w-full text-lg font-medium leading-6">
-            {title}
-          </h1>
-          <BookAuthorPublisher authors={authors} publisher={publisher} />
-          <span className="my-1 flex-1 text-[15px] text-gray2">
-            {bookFields}분야
-          </span>
-        </div>
-
-        <BookThumbnail
-          title={title}
-          thumbnail={thumbnail}
-          className="max-sm:h-36"
+      <div className="flex flex-col items-start justify-between max-sm:w-[70%]">
+        <Tag
+          text={`${month}월 모임책`}
+          color={+month === +thisMonth ? 'lightGreen' : 'purple'}
+          shape="rounded"
+          className="font-medium shadow-2xl"
         />
+        <h1 className="mb-0.5 mt-2.5 line-clamp-2 w-full text-lg font-medium leading-6">
+          {title}
+        </h1>
+        <BookAuthorPublisher authors={authors} publisher={publisher} />
+        <div className="mb-2 mt-1 flex flex-1 items-center gap-x-0.5">
+          <FiBookmark className="text-[15px] text-gray1" />
+          <span className="text-[15px] text-gray1">{bookFields}분야</span>
+        </div>
+        <ExternalLinkBtn title="Daum 책 상세정보" url={url} />
       </div>
 
-      <ExternalLinkBtn title="Daum 책 상세정보" url={url} />
+      <BookThumbnail
+        title={title}
+        thumbnail={thumbnail}
+        className="max-sm:h-36"
+      />
     </div>
   );
 }

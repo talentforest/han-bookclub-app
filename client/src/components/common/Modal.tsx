@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 import ReactDOM from 'react-dom';
 
@@ -22,11 +22,18 @@ export default function Modal({
 }: ModalProps) {
   const { hideModal } = useHandleModal();
 
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
   const el = document.getElementById('modal');
 
   return ReactDOM.createPortal(
     <section
-      className={`fixed inset-0 z-10 m-auto flex h-fit max-h-[80vh] w-[55vw] flex-col rounded-2xl bg-white p-5 max-sm:w-[90%] max-sm:px-4 ${className}`}
+      className={`fixed inset-0 z-10 m-auto flex h-fit max-h-[80vh] w-[55vw] flex-col rounded-2xl bg-white px-5 py-6 max-sm:w-[90%] ${className}`}
     >
       {headerType !== 'noHeader' && (
         <header className="mb-3 flex items-center justify-between">
@@ -38,9 +45,8 @@ export default function Modal({
           )}
         </header>
       )}
-      <div className="flex flex-col overflow-scroll scrollbar-hide">
-        {children}
-      </div>
+
+      {children}
     </section>,
     el,
   );

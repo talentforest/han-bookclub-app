@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import { ClubBookField } from '@/types';
 
+import Label from '@/components/common/input/Label';
+
 interface BookFieldCheckBoxProps {
   bookFieldName: string;
   checkedBoxHandler: (bookFields: ClubBookField, checked: boolean) => void;
@@ -26,7 +28,7 @@ const BookFieldCheckBox = ({
 
   return (
     <div>
-      <label htmlFor={bookFieldName}>{bookFieldName}</label>
+      <Label text={bookFieldName} />
       <input
         id={bookFieldName}
         type="checkbox"
