@@ -65,6 +65,7 @@ export type DetailPageHeaderTitle =
   | `${string}의 한페이지`
   | `${string}의 한페이지 발제문`
   | `${string}의 한페이지 정리 기록`
+  | `나의 ${string}년 모임 불참 설정`
   | '한페이지 정리 기록'
   | '도서 검색'
   | '설정'

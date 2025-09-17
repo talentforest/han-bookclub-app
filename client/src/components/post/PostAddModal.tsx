@@ -28,7 +28,7 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const { sendPostNotification, isPending } = useSendPushNotification();
+  const { sendPostPushNotification, isPending } = useSendPushNotification();
 
   const {
     id,
@@ -60,7 +60,7 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
     if (docData.text === '') return;
     try {
       await onAddDocSubmit(event);
-      await sendPostNotification(postType);
+      await sendPostPushNotification(postType);
       hideModal();
     } catch (error) {
       window.alert('등록 중 오류가 발생했습니다.');

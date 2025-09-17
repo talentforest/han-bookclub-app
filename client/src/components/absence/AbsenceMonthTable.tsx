@@ -42,7 +42,7 @@ export default function AbsenceMonthTable({
     }
   }, [absenceList]);
 
-  const absenceMonths: UserAbsence[] = absenceList.absenceMembers?.map(
+  const absenceMonths: UserAbsence[] = absenceList?.absenceMembers?.map(
     ({ month, onceAbsenceMembers, breakMembers }) => {
       return {
         month,

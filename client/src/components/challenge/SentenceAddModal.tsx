@@ -24,7 +24,7 @@ export default function SentenceAddModal({ book }: SentenceAddModalProps) {
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const { sendPostNotification, isPending } = useSendPushNotification();
+  const { sendPostPushNotification, isPending } = useSendPushNotification();
 
   const { title, thumbnail } = book;
 
@@ -56,7 +56,7 @@ export default function SentenceAddModal({ book }: SentenceAddModalProps) {
     }
 
     onAddDocSubmit(event);
-    sendPostNotification('공유하고 싶은 문구');
+    sendPostPushNotification('공유하고 싶은 문구');
     hideModal();
     alert(
       '문구가 추가되었습니다. 공유해주신 좋은 문구를 멤버들이 볼 수 있게 되었어요!',

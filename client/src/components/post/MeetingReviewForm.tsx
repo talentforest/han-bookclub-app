@@ -44,7 +44,7 @@ const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
     docData,
   });
 
-  const { isPending, sendPostNotification } = useSendPushNotification();
+  const { isPending, sendPostPushNotification } = useSendPushNotification();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -53,7 +53,7 @@ const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
 
     try {
       await onAddDocSubmit(event);
-      await sendPostNotification('모임 후기');
+      await sendPostPushNotification('모임 후기');
     } catch (error) {
       window.alert('모임 후기 등록 중 문제가 발생했습니다. 다시 시도해주세요.');
     }

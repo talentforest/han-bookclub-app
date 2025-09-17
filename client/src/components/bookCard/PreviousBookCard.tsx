@@ -33,7 +33,7 @@ const PreviousBookCard = ({ document }: PreviousBookCardProps) => {
           <BookThumbnail
             thumbnail={book.thumbnail}
             title={book.title}
-            className="mt-4 w-20"
+            className="mt-4 !h-28 border"
           />
 
           <h3 className="my-2 text-center text-lg font-medium">{book.title}</h3>

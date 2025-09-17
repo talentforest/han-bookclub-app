@@ -4,7 +4,7 @@
   "description": "독서모임 한페이지",
   "private": true,
   "scripts": {
-    "client": "cd client && npm start",
+    "client": "cd client && npm run dev",
     "server": "cd server/functions && npm run serve",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },

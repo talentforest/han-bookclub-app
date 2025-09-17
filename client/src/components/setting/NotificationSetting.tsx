@@ -25,7 +25,7 @@ export default function NotificationSetting() {
 
   const anonymous = authService.currentUser?.isAnonymous;
 
-  const { sendNotificationToCurrentUser } = useSendPushNotification();
+  const { sendPushNotificationToUser } = useSendPushNotification();
 
   const saveFcmDataInDB = async () => {
     const token = await getDeviceToken();
@@ -65,17 +65,18 @@ export default function NotificationSetting() {
       title: '💌알림 시작 안내',
       body: '이제부터 독서모임 한페이지에서 유용한 알림들을 보내드릴게요❣️',
       link: import.meta.env.VITE_PUBLIC_URL,
+      uid,
     };
 
     // 만약 off했다가 다시 on하면??
     if (Notification.permission === 'granted') {
       saveFcmDataInDB();
-      sendNotificationToCurrentUser(notificationData);
+      sendPushNotificationToUser(notificationData);
     } else if (Notification.permission !== 'denied') {
       const permission = await Notification.requestPermission();
       if (permission === 'granted') {
         saveFcmDataInDB();
-        sendNotificationToCurrentUser(notificationData);
+        sendPushNotificationToUser(notificationData);
       }
     }
   };
@@ -114,7 +115,7 @@ export default function NotificationSetting() {
   return (
     <>
       <MobileHeader title="설정" backBtn />
-      <section className="mt-3 flex items-start justify-between">
+      <main className="flex justify-between">
         <h3 className="font-medium text-gray1">알림</h3>
         <button
           type="button"
@@ -126,7 +127,7 @@ export default function NotificationSetting() {
             className={`size-5 rounded-full shadow-md transition-transform ${isActive ? 'translate-x-5 bg-white' : 'translate-x-0 bg-gray4'}`}
           />
         </button>
-      </section>
+      </main>
     </>
   );
 }

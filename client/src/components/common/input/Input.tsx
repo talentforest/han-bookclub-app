@@ -52,10 +52,7 @@ const Input = React.forwardRef(function (
     FiSearch: <FiSearch className="absolute left-3 top-3.5 size-[20px]" />,
     FiHash: <FiHash className="absolute left-3 top-3.5 size-[20px]" />,
     FiChevronsDown: (
-      <FiChevronsDown
-        className="absolute left-3 top-3.5 size-[20px]"
-        onClick={() => console.log('hii')}
-      />
+      <FiChevronsDown className="absolute left-3 top-3.5 size-[20px]" />
     ),
   };
 

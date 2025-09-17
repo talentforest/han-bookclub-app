@@ -38,12 +38,11 @@ export default function ChallengeEditModal({
   setCurrentPageNum,
 }: ChallengeEditModalProps) {
   const { books } = challenge;
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const { uid, displayName } = useRecoilValue(currAuthUserAtom);
 
   const currPageRef = useRef<HTMLInputElement>();
 
-  const { sendCompleteChallengePushNotification, isPending } =
-    useSendPushNotification();
+  const { sendPushNotification, isPending } = useSendPushNotification();
 
   const { hideModal } = useHandleModal();
 
@@ -76,9 +75,12 @@ export default function ChallengeEditModal({
 
     if (currentPage === currChallengeBook.wholePage) {
       alert('축하합니다! 챌린지 하나를 완주하셨군요!👏👏👏');
-      sendCompleteChallengePushNotification({
-        bookTitle: currChallengeBook.title,
-      });
+
+      const title = `🔥챌린지 완주 성공`;
+      const body = `${displayName}님이 📚${currChallengeBook.title} 챌린지를 완주했습니다! 같이 힘내서 끝까지 완주해봐요!`;
+      const subPath = '/challenge';
+
+      sendPushNotification({ title, body, subPath });
     } else {
       alert('현재 페이지가 수정되었어요!');
     }

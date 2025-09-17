@@ -6,3 +6,4 @@ export * from '@/types/signup';
 export * from '@/types/user';
 export * from '@/types/club';
 export * from '@/types/vote';
+export * from '@/types/fcm';

@@ -21,7 +21,7 @@ export default function RecommendBookModalForm() {
   const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
   const recommendBook = useRecoilValue(recommendedBookAtom);
 
-  const { sendPostNotification, isPending } = useSendPushNotification();
+  const { sendPostPushNotification, isPending } = useSendPushNotification();
 
   const { book } = thisMonthClub;
 
@@ -57,7 +57,7 @@ export default function RecommendBookModalForm() {
     }
     try {
       await onAddDocSubmit(event);
-      await sendPostNotification('추천책');
+      await sendPostPushNotification('추천책');
     } catch (error) {
       window.alert('추천책 등록 중 문제가 발생했습니다. 다시 시도해주세요.');
     } finally {
