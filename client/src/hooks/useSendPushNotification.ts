@@ -28,7 +28,7 @@ export const useSendPushNotification = () => {
       const token = await getDeviceToken();
       await sendUnicast({ title, body, token, link });
     }
-    console.log(userFcm);
+
     if (userFcm) {
       userFcm.tokens.map(async token =>
         sendUnicast({ title, body, token, link }),

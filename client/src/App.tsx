@@ -17,48 +17,48 @@ import { FCM_NOTIFICATION } from '@/appConstants';
 
 import { formatDate } from '@/utils';
 
-import Loading from '@/components/common/Loading';
+import LoopLoading from '@/components/common/LoopLoading';
 
 function App() {
-  const [init, setInit] = useState(false); // user가 null이 되지 않기 위해 초기화
+  const [init, setInit] = useState(false); // 초기화
   const [currUser, setCurrUser] = useRecoilState(currAuthUserAtom);
-  const [fcmDoc, setFcmDoc] = useRecoilState(fcmState);
+  const [currentUserFcm, setCurrentUserFcm] = useRecoilState(fcmState);
+
+  const user = getAuth().currentUser;
 
   useEffect(() => {
-    const user = getAuth().currentUser;
-    setCurrUser({
-      uid: user?.uid,
-      displayName: user?.displayName,
-      email: user?.email,
-      photoURL: user?.photoURL,
-    });
-    setInit(true);
-  }, []);
+    if (user) {
+      const { uid, displayName, email, photoURL } = user;
+      setCurrUser({ uid, displayName, email, photoURL });
+      setInit(true);
+    }
+  }, [user]);
 
   useEffect(() => {
     if (currUser?.uid) {
-      getDocument(FCM_NOTIFICATION, currUser.uid, setFcmDoc);
+      getDocument(FCM_NOTIFICATION, currUser.uid, setCurrentUserFcm);
     }
   }, [currUser?.uid]);
 
   useEffect(() => {
-    if (fcmDoc?.notification === true) {
+    if (currentUserFcm?.notification === true) {
       const compareToken = async () => {
         if (Notification.permission === 'granted') {
           const token = await getDeviceToken();
 
-          const isExistTokenInDB = fcmDoc?.tokens?.find(
+          const isExistTokenInDB = currentUserFcm?.tokens?.find(
             fcmToken => fcmToken === token,
           );
 
           if (isExistTokenInDB) return;
+
           if (!isExistTokenInDB && currUser?.uid) {
             const document = doc(dbService, FCM_NOTIFICATION, currUser.uid);
             const fcmData = {
               createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
               tokens:
-                fcmDoc?.tokens?.length !== 0
-                  ? [...fcmDoc?.tokens, token]
+                currentUserFcm?.tokens?.length !== 0
+                  ? [...currentUserFcm?.tokens, token]
                   : [token],
             };
             await updateDoc(document, fcmData);
@@ -68,9 +68,15 @@ function App() {
 
       compareToken();
     }
-  }, [fcmDoc]);
+  }, [currentUserFcm]);
 
-  return init ? <Router isLoggedIn={Boolean(currUser)} /> : <Loading />;
+  return init ? (
+    <Router isLoggedIn={Boolean(currUser)} />
+  ) : (
+    <div className="flex h-screen items-center justify-center">
+      <LoopLoading size={120} />
+    </div>
+  );
 }
 
 export default App;
