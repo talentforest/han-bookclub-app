@@ -46,7 +46,8 @@ export const useCreateBookVoteBox = () => {
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('register');
 
-  const { sendPushNotification, isPending } = useSendPushNotification();
+  const { sendPushNotificationToAllUser, isPending } =
+    useSendPushNotification();
 
   const setDocVote = async () => {
     const document = doc(dbService, BOOK_VOTE, `VoteId-${newVote.id}`);
@@ -72,7 +73,7 @@ export const useCreateBookVoteBox = () => {
       window.alert('투표가 성공적으로 등록되었습니다!');
       hideModal();
 
-      sendPushNotification({
+      sendPushNotificationToAllUser({
         title: '🗳️새로운 투표함 등록',
         body: `${newVote.title} 투표함이 등록되었습니다. 종료일 전에 투표를 완료해주세요!⚡️`,
         subPath: `/vote/${newVote.id}`,

@@ -10,7 +10,7 @@ import { BookData } from '@/types';
 import CreateVoteBookCard from '@/components/bookVote/CreateVoteBookCard';
 import CustomDatePicker from '@/components/common/CustomDatePicker';
 import Modal from '@/components/common/Modal';
-import Textarea from '@/components/common/TextArea';
+import Textarea from '@/components/common/Textarea';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
 import SearchedBookList from '@/components/search/SearchedBookList';

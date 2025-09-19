@@ -42,7 +42,8 @@ export default function ChallengeEditModal({
 
   const currPageRef = useRef<HTMLInputElement>();
 
-  const { sendPushNotification, isPending } = useSendPushNotification();
+  const { sendPushNotificationToAllUser, isPending } =
+    useSendPushNotification();
 
   const { hideModal } = useHandleModal();
 
@@ -80,7 +81,7 @@ export default function ChallengeEditModal({
       const body = `${displayName}님이 📚${currChallengeBook.title} 챌린지를 완주했습니다! 같이 힘내서 끝까지 완주해봐요!`;
       const subPath = '/challenge';
 
-      sendPushNotification({ title, body, subPath });
+      sendPushNotificationToAllUser({ title, body, subPath });
     } else {
       alert('현재 페이지가 수정되었어요!');
     }

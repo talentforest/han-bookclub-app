@@ -4,3 +4,9 @@ export type UserFcm = {
   tokens: string[];
   notification: boolean;
 };
+
+export type NotificationData = {
+  title: string;
+  body: string;
+  subPath?: string;
+};

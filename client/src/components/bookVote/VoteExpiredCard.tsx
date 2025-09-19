@@ -67,7 +67,7 @@ export default function VoteExpiredCard({
         to={`/vote/${id}`}
         state={{ collName, docId: id }}
         aria-label="상세보기"
-        className="absolute right-4 top-[40%] flex size-12 items-center justify-center rounded-full border bg-gray1 opacity-20 group-hover:opacity-100"
+        className="absolute right-4 top-[40%] flex size-12 items-center justify-center rounded-full border bg-pointNavy opacity-20 group-hover:opacity-100"
       >
         <FiChevronRight className="text-xl text-white" />
       </Link>

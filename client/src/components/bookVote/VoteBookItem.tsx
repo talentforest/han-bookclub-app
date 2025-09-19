@@ -27,7 +27,7 @@ export default function VoteBookItem({
     >
       <div className="relative flex w-full justify-center max-sm:px-3">
         {selected && (
-          <BiSolidBadgeCheck className="absolute -top-2 right-0 size-9 rounded-full bg-white text-green2" />
+          <BiSolidBadgeCheck className="absolute -top-2 right-0 size-12 rounded-full bg-white text-pointCoral" />
         )}
         <BookThumbnail thumbnail={thumbnail} title={title} className="!h-36" />
       </div>

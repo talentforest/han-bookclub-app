@@ -59,7 +59,7 @@ export default function ChallengeRereadingModal({
 
   const { hideModal } = useHandleModal();
 
-  const { sendPushNotification } = useSendPushNotification();
+  const { sendPushNotificationToAllUser } = useSendPushNotification();
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -110,7 +110,7 @@ export default function ChallengeRereadingModal({
 
     hideModal();
     alert('소감이 작성 완료되었습니다. 챌린지를 추가 달성했습니다!❣️');
-    sendPushNotification({
+    sendPushNotificationToAllUser({
       title: '다시 읽기 챌린지를 달성한 멤버가 있어요!',
       body: `${displayName}님이 ${title} 책을 다시 읽었어요!`,
       subPath: '/challenge',

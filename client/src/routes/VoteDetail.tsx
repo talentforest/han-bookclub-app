@@ -75,6 +75,7 @@ const VoteDetail = () => {
             onVoteDeleteClick={onVoteDeleteClick}
           />
           <VoteItemReasonBox voteItems={currentVote.voteItems} />
+
           {/* 투표를 완료했거나 만료된 이후 결과 화면 */}
           {isExpiredVote || (myVotedItems && !isRevote) ? (
             <>
@@ -97,15 +98,15 @@ const VoteDetail = () => {
                     style={{
                       width: `${getPercentage(voteCount, totalVoteCount)}%`,
                     }}
-                    className={`absolute inset-y-0 left-0 z-0 rounded-r-lg ${findHighestVoteItem(title) ? 'bg-green2' : 'bg-gray3'}`}
+                    className={`absolute inset-y-0 left-0 z-0 rounded-r-lg ${findHighestVoteItem(title) ? 'bg-pointCoral' : 'bg-gray3'}`}
                   />
                   <span
-                    className={`z-10 inline-block w-full pt-[1px] text-[15px] ${findHighestVoteItem(title) ? 'font-medium text-green-700' : 'text-gray2'}`}
+                    className={`z-10 inline-block w-full pt-[1px] text-[15px] ${findHighestVoteItem(title) ? 'font-medium text-white' : 'text-gray2'}`}
                   >
                     {title}
                   </span>
                   <span
-                    className={`z-10 pt-[1px] text-sm ${findHighestVoteItem(title) ? 'font-medium text-green-700' : 'text-gray2'}`}
+                    className={`z-10 pt-[1px] text-sm ${findHighestVoteItem(title) ? 'font-medium text-pointCoral' : 'text-gray2'}`}
                   >
                     {getPercentage(voteCount, totalVoteCount)}%
                   </span>

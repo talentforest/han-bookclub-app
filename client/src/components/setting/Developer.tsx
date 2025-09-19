@@ -34,7 +34,6 @@ export default function Developer() {
   const {
     sendPushNotificationToUser,
     sendPushNotificationToAllUser,
-    sendPushNotification,
     isPending,
   } = useSendPushNotification();
 
@@ -57,25 +56,27 @@ export default function Developer() {
         <Section title="알림 테스트">
           <div className="flex flex-wrap gap-3">
             <SquareBtn
-              name="나에게 알림 보내기"
+              name="나에게 알림"
               handleClick={async () => {
-                await sendPushNotificationToUser({
+                const notificationData = {
                   title: '🚀알림테스트',
                   body: '나에게만 알림 보내기🔥',
-                });
+                };
+                await sendPushNotificationToUser(notificationData);
                 window.alert('알림을 보냈습니다!');
               }}
               disabled={isPending}
             />
-
             <SquareBtn
               color="purple"
-              name="모든 멤버에게 알림 보내기"
-              handleClick={() => {
-                sendPushNotificationToAllUser({
+              name="모든 멤버에게 알림"
+              handleClick={async () => {
+                const notification = {
                   title: '🚀알림테스트',
-                  body: '모두에게 알림 보내기🔥',
-                });
+                  body: '알림을 잘 받았나요?🔥',
+                };
+                await sendPushNotificationToUser(notification);
+                await sendPushNotificationToAllUser(notification);
                 window.alert('알림을 보냈습니다!');
               }}
               disabled={isPending}
@@ -92,13 +93,14 @@ export default function Developer() {
                   <SquareBtn
                     color="blue"
                     name="에게 알림"
-                    handleClick={() =>
-                      sendPushNotificationToUser({
+                    handleClick={() => {
+                      const notificationData = {
                         title: '🚀알림 테스트',
                         body: '알림을 잘 받았나요?',
-                        userFcm,
-                      })
-                    }
+                      };
+                      sendPushNotificationToUser(notificationData, userFcm);
+                      window.alert('알림을 보냈습니다!');
+                    }}
                     disabled={isPending}
                   >
                     <UserName userId={userFcm.id} />
@@ -110,13 +112,15 @@ export default function Developer() {
 
         <Section title="모임 종료 알림">
           <SquareBtn
-            name={`${+thisMonth}월 모임 종료 알림`}
+            name={`${+thisMonth}월 독서모임 종료 알림`}
             handleClick={async () => {
-              await sendPushNotification({
-                title: `☕️${+thisMonth}월 모임 종료`,
-                body: '독서모임이 종료되었습니다. 재미있었던 이야기가 있었다면 모임 후기를 작성해보세요.🔥',
-              });
-              window.alert('이번달 모임 종료 알림을 보냈습니다!');
+              const notificationData = {
+                title: `☕️${+thisMonth}월 독서모임이 종료됐어요`,
+                body: '독서모임이 종료되었습니다. 기억에 남는 이야기가 있었다면 모임 후기에 작성해보세요🔥',
+              };
+              await sendPushNotificationToUser(notificationData);
+              await sendPushNotificationToAllUser(notificationData);
+              window.alert('이번달 독서모임 종료 알림을 모두에게 보냈습니다!');
             }}
             disabled={isPending}
           />
@@ -124,13 +128,15 @@ export default function Developer() {
 
         <Section title="모임 임박 알림">
           <SquareBtn
-            name={`${+thisMonth}월 모임 임박 알림 #DDAY: ${meetingDDay}일`}
+            name={`${+thisMonth}월 독서모임 임박 알림 DDAY: ${meetingDDay}일`}
             handleClick={async () => {
-              await sendPushNotification({
-                title: `☕️${+thisMonth}월 모임이 임박했습니다!`,
-                body: `${meetingDDay} 후 독서모임이 시작됩니다. 모임책을 완독하세요.🔥`,
-              });
-              window.alert('이번달 모임 임박 알림을 보냈습니다!');
+              const notificationData = {
+                title: `☕️${+thisMonth}월 독서모임이 임박했어요!`,
+                body: `${meetingDDay} 후 독서모임이 시작됩니다. 모임책을 완독하세요🔥`,
+              };
+              await sendPushNotificationToUser(notificationData);
+              await sendPushNotificationToAllUser(notificationData);
+              window.alert('이번달 독서모임 임박 알림을 모두에게 보냈습니다!');
             }}
             disabled={isPending}
           />
