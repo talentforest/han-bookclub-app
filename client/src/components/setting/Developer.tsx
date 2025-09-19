@@ -14,7 +14,7 @@ import { DEVELOPER_EMAIL } from '@/appConstants/account';
 
 import { useSendPushNotification } from '@/hooks';
 
-import { getDDay, thisMonth, thisYearMonthId } from '@/utils';
+import { getDDay, thisMonth, thisYear, thisYearMonthId } from '@/utils';
 
 import { UserFcm } from '@/types';
 
@@ -47,6 +47,8 @@ export default function Developer() {
   }, []);
 
   const meetingDDay = getDDay(thisMonthClub.meeting.time);
+
+  const challengeDDay = getDDay('2025-12-21');
 
   return (
     <>
@@ -137,6 +139,22 @@ export default function Developer() {
               await sendPushNotificationToUser(notificationData);
               await sendPushNotificationToAllUser(notificationData);
               window.alert('이번달 독서모임 임박 알림을 모두에게 보냈습니다!');
+            }}
+            disabled={isPending}
+          />
+        </Section>
+
+        <Section title="챌린지 디데이 알림">
+          <SquareBtn
+            name={`${+thisYear}년 챌린지 DDAY: ${challengeDDay}일`}
+            handleClick={async () => {
+              const notificationData = {
+                title: `☕️${+thisYear}년 재독 챌린지 DDAY 알림`,
+                body: `챌린지 종료까지 ${challengeDDay}일 남았습니다. 모임책 한권을 재독해봐요!🔥`,
+              };
+              await sendPushNotificationToUser(notificationData);
+              await sendPushNotificationToAllUser(notificationData);
+              window.alert('챌린지 디데이 알림을 모두에게 보냈습니다!');
             }}
             disabled={isPending}
           />
