@@ -17,28 +17,51 @@ export const useSendPushNotification = () => {
    * 특정 유저에게 푸시 알림 보내기 함수
    * @param notificationData 알림의 세부내용
    * @param userFcm 값이 주어지지 않는 경우 '현재 유저'의 기기에 보내는 것이며, 주어진 경우 주어진 유저의 기기에 보내게 된다.
+   * @returns result에 'success'나 'fail' 값이 담긴 객체를 반환한다.
    */
-  const sendPushNotificationToUser = async (
+  const sendPushNotificationToUser: (
     notificationData: NotificationData,
     userFcm?: UserFcm,
-  ) => {
+  ) => Promise<{
+    result: 'success' | 'fail';
+  }> = async (notificationData: NotificationData, userFcm?: UserFcm) => {
     setIsPending(true);
 
-    const { title, body, subPath } = notificationData;
+    const { title, body, subPath, notification } = notificationData;
     const link = `${import.meta.env.VITE_PUBLIC_URL}${subPath || ''}`;
 
-    if (!userFcm) {
-      const token = await getDeviceToken();
-      await sendUnicast({ title, body, token, link });
-    }
+    try {
+      if (!userFcm) {
+        if (Notification.permission === 'denied') {
+          alert(
+            '현재 앱알림이 거부된 상태입니다. 모바일이라면 휴대폰 앱 설정에 들어가서 알림 설정을 켜주세요.',
+          );
+          return { result: 'fail' };
+        }
 
-    if (userFcm) {
-      userFcm.tokens.map(async token =>
-        sendUnicast({ title, body, token, link }),
-      );
-    }
+        if (!notification) {
+          return { result: 'fail' };
+        }
 
-    setIsPending(false);
+        const token = await getDeviceToken();
+        await sendUnicast({ title, body, token, link });
+        return { result: 'success' };
+      }
+
+      if (userFcm) {
+        if (!userFcm?.notification) {
+          return { result: 'fail' };
+        }
+        userFcm.tokens.map(async token =>
+          sendUnicast({ title, body, token, link }),
+        );
+        return { result: 'success' };
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsPending(false);
+    }
   };
 
   /** 현재 유저를 제외한 모든 유저에게 푸시 알림 보내기 함수 */
@@ -46,7 +69,7 @@ export const useSendPushNotification = () => {
     title,
     body,
     subPath,
-  }: NotificationData) => {
+  }: Omit<NotificationData, 'notification'>) => {
     setIsPending(true);
 
     const link = `${import.meta.env.VITE_PUBLIC_URL}${subPath || ''}`;

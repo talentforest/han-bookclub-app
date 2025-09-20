@@ -56,6 +56,7 @@ export const sendMulticast = onCall(
     const tokensSnapshot = await db.collection('FCMNotification').get();
     const tokens = tokensSnapshot.docs
       .filter((doc) => doc.id !== uid)
+      .filter((doc) => doc.data().notification)
       .map((doc) => doc.data().tokens)
       .flat()
       .filter((token) => typeof token === 'string' && token.trim() !== '');
@@ -71,13 +72,11 @@ export const sendMulticast = onCall(
 
     try {
       const response = await admin.messaging().sendEachForMulticast(message);
-
       // 유효하지 않은 토큰 배열
       const invalidTokens = tokens.filter((_, index) => {
         const errorCode = response.responses[index].error?.code;
         return errorCode === 'messaging/registration-token-not-registered';
       });
-
       if (invalidTokens.length > 0) {
         const deletePromises = invalidTokens.map(async (invalidToken) => {
           // Firestore에서 토큰이 포함된 문서 찾기
@@ -85,7 +84,6 @@ export const sendMulticast = onCall(
             .collection('FCMNotification')
             .where('tokens', 'array-contains', invalidToken)
             .get();
-
           const updatePromises = snapshot.docs.map(async (doc) => {
             const docData = doc.data();
             const updatedTokens = docData.tokens.filter(
@@ -97,7 +95,6 @@ export const sendMulticast = onCall(
         });
         await Promise.all(deletePromises);
       }
-
       return { success: true, response };
     } catch (error) {
       console.log('Error sending message:', error);

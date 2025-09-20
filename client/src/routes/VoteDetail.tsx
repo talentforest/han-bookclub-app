@@ -4,9 +4,18 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { FiUsers } from 'react-icons/fi';
 
-import { useHandleVoting } from '@/hooks';
+import { useRecoilValue } from 'recoil';
 
-import { getPercentage, todayWithHyphen } from '@/utils';
+import { currUserFcmState } from '@/data/fcmAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
+
+import { DEVELOPER_EMAIL } from '@/appConstants';
+
+import { useHandleVoting, useSendPushNotification } from '@/hooks';
+
+import { getDDay, getPercentage, todayWithHyphen } from '@/utils';
+
+import { NotificationData } from '@/types';
 
 import MobileHeader from '@/layout/mobile/MobileHeader';
 
@@ -28,6 +37,9 @@ type LocationState = {
 
 const VoteDetail = () => {
   const { state } = useLocation() as LocationState;
+
+  const { email } = useRecoilValue(currAuthUserAtom);
+  const currUserFcm = useRecoilValue(currUserFcmState);
 
   const navigate = useNavigate();
 
@@ -51,6 +63,12 @@ const VoteDetail = () => {
     onToggleRevoteClick,
   } = useHandleVoting({ collName: state?.collName, docId: state?.docId });
 
+  const {
+    sendPushNotificationToUser,
+    sendPushNotificationToAllUser,
+    isPending,
+  } = useSendPushNotification();
+
   const isExpiredVote = currentVote?.deadline < todayWithHyphen;
 
   const highestVoteItemList = voteCountsById?.filter((book, _, arr) => {
@@ -60,6 +78,8 @@ const VoteDetail = () => {
   const findHighestVoteItem = (title: string) => {
     return !!highestVoteItemList.find(item => item.title === title);
   };
+
+  const voteDday = getDDay(currentVote.deadline);
 
   return (
     <>
@@ -164,12 +184,35 @@ const VoteDetail = () => {
               <FiUsers />
               {`투표인원: ${votedItemsByMember?.length}명`}
             </h4>
-            <div className="mt-2 flex flex-wrap gap-2">
+
+            <ul className="mt-2 flex flex-wrap gap-2">
               {votedItemsByMember.map(member => (
-                <UserName tag key={member.id} userId={member.id} />
+                <li key={member.id}>
+                  <UserName tag userId={member.id} />
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
+
+          {email === DEVELOPER_EMAIL && (
+            <SquareBtn
+              className="mt-10"
+              color="darkBlue"
+              name={`투표 임박 알림: ${+voteDday > 0 ? `${voteDday}일` : '오늘 자정'}`}
+              handleClick={async () => {
+                const notificationData: NotificationData = {
+                  title: `🗳️ 투표 임박 알림!`,
+                  body: `${+voteDday > 0 ? `${voteDday}일 후` : '오늘 자정에'} 투표가 마감됩니다. 투표를 안하신 분들은 투표를 완료하세요🔥`,
+                  notification: currUserFcm.notification,
+                };
+                await sendPushNotificationToUser(notificationData);
+                await sendPushNotificationToAllUser(notificationData);
+
+                window.alert('이번달 투표 임박 알림을 모두에게 보냈습니다!');
+              }}
+              disabled={isPending}
+            />
+          )}
         </main>
       )}
     </>

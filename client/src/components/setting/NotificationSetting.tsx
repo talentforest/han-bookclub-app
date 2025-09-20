@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { authService, dbService, getDeviceToken } from '@/fbase';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
 
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { fcmState } from '@/data/fcmAtom';
+import { currUserFcmState } from '@/data/fcmAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
 import { FCM_NOTIFICATION } from '@/appConstants';
@@ -14,40 +14,47 @@ import { useSendPushNotification } from '@/hooks';
 
 import { formatDate } from '@/utils';
 
+import { NotificationData } from '@/types';
+
 import MobileHeader from '@/layout/mobile/MobileHeader';
 
 export default function NotificationSetting() {
   const [isActive, setIsActive] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
-  const fcmDoc = useRecoilValue(fcmState);
+  const [currUserFcm, setCurrUserFcm] = useRecoilState(currUserFcmState);
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const anonymous = authService.currentUser?.isAnonymous;
 
-  const { sendPushNotificationToUser } = useSendPushNotification();
+  const { sendPushNotificationToUser, isPending } = useSendPushNotification();
 
   const saveFcmDataInDB = async () => {
     const token = await getDeviceToken();
 
-    const existCurrentTokenInDB = fcmDoc?.tokens?.includes(token);
-    if (existCurrentTokenInDB) return;
+    if (currUserFcm?.tokens?.includes(token)) return;
 
     const document = doc(dbService, FCM_NOTIFICATION, uid);
 
-    const fcmDataToSave = {
+    const defaultFcmData = {
       createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
       notification: true,
-      tokens: [token],
+      tokens:
+        currUserFcm.tokens && currUserFcm.tokens?.length > 0
+          ? [...currUserFcm?.tokens, token]
+          : [token],
     };
 
-    if (fcmDoc?.notification === true) {
-      const newTokens = [...fcmDoc?.tokens, token];
-      const fcmData = { ...fcmDataToSave, tokens: newTokens };
-      await updateDoc(document, fcmData);
-    } else {
-      await setDoc(document, fcmDataToSave);
+    if (!currUserFcm.notification) {
+      await setDoc(document, defaultFcmData);
     }
+
+    if (currUserFcm.notification) {
+      await updateDoc(document, defaultFcmData);
+    }
+
+    setCurrUserFcm(defaultFcmData);
   };
 
   const onPermitClick = async () => {
@@ -61,24 +68,32 @@ export default function NotificationSetting() {
       return;
     }
 
-    const notificationData = {
+    if (Notification.permission === 'denied') {
+      return alert(
+        '현재 앱알림이 거부된 상태입니다. 모바일이라면 휴대폰 앱 설정에 들어가서 알림 설정을 켜주세요. 브라우저라면 브라우저 설정에 들어가서 알림 설정을 허용으로 변경해주세요. 안된다면 개발자에게 문의해주세요.',
+      );
+    }
+
+    const notificationData: NotificationData = {
       title: '💌알림 시작 안내',
       body: '이제부터 독서모임 한페이지에서 유용한 알림들을 보내드릴게요❣️',
-      link: import.meta.env.VITE_PUBLIC_URL,
-      uid,
+      notification: true,
     };
 
-    // 만약 off했다가 다시 on하면??
     if (Notification.permission === 'granted') {
-      saveFcmDataInDB();
-      sendPushNotificationToUser(notificationData);
-    } else if (Notification.permission !== 'denied') {
+      await saveFcmDataInDB();
+      await sendPushNotificationToUser(notificationData);
+    } else {
       const permission = await Notification.requestPermission();
+
       if (permission === 'granted') {
-        saveFcmDataInDB();
-        sendPushNotificationToUser(notificationData);
+        await saveFcmDataInDB();
+        await sendPushNotificationToUser(notificationData);
       }
     }
+
+    setIsActive(true);
+    setIsDisabled(false);
   };
 
   const onRefuseClick = async () => {
@@ -90,27 +105,20 @@ export default function NotificationSetting() {
     };
 
     await setDoc(document, fcmData);
+    setIsActive(prev => !prev);
+    setIsDisabled(false);
   };
 
   const handleNotification = () => {
-    if (isActive) {
-      onRefuseClick();
-    } else {
-      onPermitClick();
-    }
-    setIsActive(prev => !prev);
+    setIsDisabled(true);
+    isActive ? onRefuseClick() : onPermitClick();
   };
 
-  // DB에도 허용이 안되어 있고, 앱 자체에도 허용이 안되어 있는 경우
-  // 여기는 디폴트 OFF. DB에 저장도 하고 허용 알림까지 떠야함.
   useEffect(() => {
-    // 기기 알림 허용 && DB 알림값 허용, 토큰값 저장 / 디폴트 ON
-    if (fcmDoc?.notification && Notification.permission === 'granted') {
+    if (currUserFcm?.notification && Notification.permission === 'granted') {
       setIsActive(true);
     }
-    // DB에는 허용이 되어 있지만 앱 자체에서 허용이 되어 있지 않은 경우
-    // 여기는 디폴트 OFF. 허용 알림까지 떠야함.
-  }, [fcmDoc?.notification]);
+  }, [currUserFcm?.notification]);
 
   return (
     <>
@@ -122,6 +130,7 @@ export default function NotificationSetting() {
           className={`flex h-7 w-12 items-center rounded-full p-1 ${isActive ? 'bg-green-500' : 'bg-gray3'}`}
           aria-label="알림 토글 버튼"
           onClick={handleNotification}
+          disabled={isPending || isDisabled}
         >
           <div
             className={`size-5 rounded-full shadow-md transition-transform ${isActive ? 'translate-x-5 bg-white' : 'translate-x-0 bg-gray4'}`}

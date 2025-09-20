@@ -12,12 +12,12 @@ export default function DDay({
   className,
 }: DDayProps) {
   return (
-    <div className={`flex items-center ${className}`}>
-      <span className="mt-0.5 text-[15px] text-gray1">D-DAY</span>
+    <div className={`flex items-center gap-x-1 ${className}`}>
+      <span className="text-[15px] text-gray1">D-DAY</span>
       <span className="text-red-500">: {getDDay(hyphenDate)}</span>
 
       {isDateMark && (
-        <span className="mt-0.5 text-sm text-gray1">
+        <span className="ml-2 text-sm text-gray1">
           {formatDate(hyphenDate)}
         </span>
       )}

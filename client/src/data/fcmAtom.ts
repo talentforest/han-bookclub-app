@@ -3,14 +3,14 @@ import { v4 } from 'uuid';
 import { atom } from 'recoil';
 
 interface FcmDocument {
-  id: string;
+  id?: string;
   notification?: boolean;
-  createdAt?: number;
+  createdAt?: string;
   tokens?: string[];
 }
 
-export const fcmState = atom<FcmDocument>({
-  key: `fcmDocument/${v4()}`,
+export const currUserFcmState = atom<FcmDocument>({
+  key: `currUserFcm/${v4()}`,
   default: null,
 });
 

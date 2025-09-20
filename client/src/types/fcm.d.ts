@@ -8,5 +8,6 @@ export type UserFcm = {
 export type NotificationData = {
   title: string;
   body: string;
+  notification: boolean;
   subPath?: string;
 };

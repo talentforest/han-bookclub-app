@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
+import { currUserFcmState } from '@/data/fcmAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
 import { getCollection } from '@/api';
@@ -16,7 +17,7 @@ import { useSendPushNotification } from '@/hooks';
 
 import { getDDay, thisMonth, thisYear, thisYearMonthId } from '@/utils';
 
-import { UserFcm } from '@/types';
+import { NotificationData, UserFcm } from '@/types';
 
 import MobileHeader from '@/layout/mobile/MobileHeader';
 
@@ -26,6 +27,8 @@ import UserName from '@/components/common/user/UserName';
 
 export default function Developer() {
   const { email } = useRecoilValue(currAuthUserAtom);
+
+  const currUserFcm = useRecoilValue(currUserFcmState);
 
   const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
 
@@ -60,12 +63,18 @@ export default function Developer() {
             <SquareBtn
               name="나에게 알림"
               handleClick={async () => {
-                const notificationData = {
+                const notificationData: NotificationData = {
                   title: '🚀알림테스트',
                   body: '나에게만 알림 보내기🔥',
+                  notification: currUserFcm.notification,
                 };
-                await sendPushNotificationToUser(notificationData);
-                window.alert('알림을 보냈습니다!');
+
+                const sendNotification =
+                  await sendPushNotificationToUser(notificationData);
+
+                if (sendNotification.result === 'success') {
+                  window.alert('알림을 보냈습니다!');
+                }
               }}
               disabled={isPending}
             />
@@ -77,8 +86,14 @@ export default function Developer() {
                   title: '🚀알림테스트',
                   body: '알림을 잘 받았나요?🔥',
                 };
-                await sendPushNotificationToUser(notification);
+
+                await sendPushNotificationToUser({
+                  ...notification,
+                  notification: currUserFcm.notification,
+                });
+
                 await sendPushNotificationToAllUser(notification);
+
                 window.alert('알림을 보냈습니다!');
               }}
               disabled={isPending}
@@ -88,27 +103,28 @@ export default function Developer() {
 
         <Section title="특정 멤버에게 알림 테스트">
           <ul className="flex flex-wrap gap-3">
-            {userFcmList
-              .filter(user => user.notification)
-              .map(userFcm => (
-                <li key={userFcm.id}>
-                  <SquareBtn
-                    color="blue"
-                    name="에게 알림"
-                    handleClick={() => {
-                      const notificationData = {
-                        title: '🚀알림 테스트',
-                        body: '알림을 잘 받았나요?',
-                      };
-                      sendPushNotificationToUser(notificationData, userFcm);
-                      window.alert('알림을 보냈습니다!');
-                    }}
-                    disabled={isPending}
-                  >
-                    <UserName userId={userFcm.id} />
-                  </SquareBtn>
-                </li>
-              ))}
+            {userFcmList.map(userFcm => (
+              <li key={userFcm.id}>
+                <SquareBtn
+                  color="blue"
+                  name="에게 알림"
+                  handleClick={() => {
+                    const notificationData = {
+                      title: '🚀알림 테스트',
+                      body: '알림을 잘 받았나요?',
+                      notification: currUserFcm.notification,
+                    };
+
+                    sendPushNotificationToUser(notificationData, userFcm);
+
+                    window.alert('알림을 보냈습니다!');
+                  }}
+                  disabled={isPending}
+                >
+                  <UserName userId={userFcm.id} />
+                </SquareBtn>
+              </li>
+            ))}
           </ul>
         </Section>
 
@@ -119,6 +135,7 @@ export default function Developer() {
               const notificationData = {
                 title: `☕️${+thisMonth}월 독서모임이 종료됐어요`,
                 body: '독서모임이 종료되었습니다. 기억에 남는 이야기가 있었다면 모임 후기에 작성해보세요🔥',
+                notification: currUserFcm.notification,
               };
               await sendPushNotificationToUser(notificationData);
               await sendPushNotificationToAllUser(notificationData);
@@ -135,6 +152,7 @@ export default function Developer() {
               const notificationData = {
                 title: `☕️${+thisMonth}월 독서모임이 임박했어요!`,
                 body: `${meetingDDay} 후 독서모임이 시작됩니다. 모임책을 완독하세요🔥`,
+                notification: currUserFcm.notification,
               };
               await sendPushNotificationToUser(notificationData);
               await sendPushNotificationToAllUser(notificationData);
@@ -151,6 +169,7 @@ export default function Developer() {
               const notificationData = {
                 title: `☕️${+thisYear}년 재독 챌린지 DDAY 알림`,
                 body: `챌린지 종료까지 ${challengeDDay}일 남았습니다. 모임책 한권을 재독해봐요!🔥`,
+                notification: currUserFcm.notification,
               };
               await sendPushNotificationToUser(notificationData);
               await sendPushNotificationToAllUser(notificationData);
