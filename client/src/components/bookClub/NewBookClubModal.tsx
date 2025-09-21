@@ -100,7 +100,7 @@ export default function NewBookClubModal({
   };
 
   return (
-    <Modal title={title} className="!mt-[30%] max-w-96">
+    <Modal title={title} className="max-w-96 max-sm:mt-[30%]">
       <form onSubmit={onSubmit} className="flex flex-col gap-y-3">
         {'time' in currentValue && (
           <CustomDatePicker

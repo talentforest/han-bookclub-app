@@ -162,19 +162,16 @@
     .react-datepicker__header {
       @apply mx-0 !rounded-t-xl border-0 bg-darkBlue2 pt-[18px];
     }
-    .react-datepicker-popper {
-      @apply pb-4;
-    }
     .react-datepicker-popper .react-datepicker__triangle {
       @apply stroke-none;
     }
     .react-datepicker-popper[data-placement^='top']
       .react-datepicker__triangle {
-      @apply z-50 size-5 border-l-red-500 fill-white text-gray2;
+      @apply size-5 !translate-y-[-2px] fill-white stroke-gray2;
     }
     .react-datepicker-popper[data-placement^='bottom']
       .react-datepicker__triangle {
-      @apply -z-10 size-6 border-none border-b-darkBlue2 fill-darkBlue2 text-transparent;
+      @apply size-5 fill-darkBlue2 text-transparent;
     }
 
     .react-datepicker__current-month {
@@ -238,16 +235,16 @@
 
     /* 시간 Input */
     .react-datepicker__input-time-container {
-      @apply mx-3 mb-5 mt-3 flex w-[90%] items-center rounded-xl border border-pointNavy bg-white px-4 shadow-card;
+      @apply mx-3 mb-5 mt-3 flex h-10 w-[90%] items-center rounded-xl border border-pointNavy bg-white px-4 shadow-card;
     }
     .react-datepicker-time__input-container {
-      @apply flex flex-1 bg-transparent;
+      @apply flex h-full flex-1 items-center;
     }
     .react-datepicker-time__caption {
       @apply font-SUITE text-sm font-semibold;
     }
     .react-datepicker-time__input {
-      @apply m-0 flex w-full flex-1 font-SUITE;
+      @apply m-0 flex h-full w-full flex-1 !p-0 font-SUITE;
     }
     .react-datepicker__input-time-container
       .react-datepicker-time__input-container
