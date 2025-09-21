@@ -41,11 +41,13 @@ export const formatDate = (
 };
 
 export function getDDay(deadline: string) {
-  const newToday = new Date();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
   const maxTime = new Date(deadline);
-  const diff = +maxTime - +newToday;
+  maxTime.setHours(0, 0, 0, 0);
+  const diff = +maxTime - +today;
   const diffDay = Math.floor(diff / (1000 * 60 * 60 * 24));
-  return `${diffDay + 1}`;
+  return `${diffDay}`;
 }
 
 // 현재 시간의 다음달 yyyy-MM

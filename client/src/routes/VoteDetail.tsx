@@ -194,7 +194,7 @@ const VoteDetail = () => {
             </ul>
           </div>
 
-          {email === DEVELOPER_EMAIL && (
+          {email === DEVELOPER_EMAIL && +voteDday >= 0 && (
             <SquareBtn
               className="mt-10"
               color="darkBlue"
