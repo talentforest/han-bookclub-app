@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import './index.css';
 import Router from '@/Router';
 import { dbService, getDeviceToken, storageService } from '@/fbase';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
 
@@ -22,12 +22,10 @@ import { formatDate } from '@/utils';
 import LoopLoading from '@/components/common/LoopLoading';
 
 function App() {
-  const [init, setInit] = useState(false); // 초기화
+  const [init, setInit] = useState(false);
   const [currUser, setCurrUser] = useRecoilState(currAuthUserAtom);
   const [currUserFcm, setCurrUserFcm] = useRecoilState(currUserFcmState);
   const setBasePhoto = useSetRecoilState(basePhotoAtom);
-
-  const user = getAuth().currentUser;
 
   const getBasePhoto = async () => {
     const originalFileRef = ref(
@@ -40,13 +38,20 @@ function App() {
   };
 
   useEffect(() => {
-    if (user) {
-      const { uid, displayName, email, photoURL } = user;
-      setCurrUser({ uid, displayName, email, photoURL });
-      getBasePhoto();
-    }
-    setInit(true);
-  }, [user]);
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      if (user) {
+        const { uid, displayName, email, photoURL } = user;
+        setCurrUser({ uid, displayName, email, photoURL });
+        getBasePhoto();
+      } else {
+        setCurrUser(null);
+      }
+      setInit(true);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     if (currUser?.uid) {

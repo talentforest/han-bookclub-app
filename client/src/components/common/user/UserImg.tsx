@@ -37,8 +37,8 @@ const UserImg = ({ isEditing, setNewUserImgUrl, imgUrl }: UserImgProps) => {
     const options = {
       maxSizeMB: 0.1,
       useWebWorker: true,
-      maxWidthOrHeight: 40,
-      initialQuality: 0.7,
+      maxWidthOrHeight: 100,
+      initialQuality: 0.8,
     };
 
     const compressedFile = await imageCompression(originalFile, options);

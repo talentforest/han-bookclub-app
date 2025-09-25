@@ -14,9 +14,14 @@ import { USER } from '@/appConstants';
 interface UserImgNameProps {
   userId: string;
   className?: string;
+  isLink?: boolean;
 }
 
-export default function UserImgName({ userId, className }: UserImgNameProps) {
+export default function UserImgName({
+  userId,
+  className,
+  isLink,
+}: UserImgNameProps) {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const basePhoto = useRecoilValue(basePhotoAtom);
@@ -46,7 +51,7 @@ export default function UserImgName({ userId, className }: UserImgNameProps) {
 
   const to = `/bookshelf${isCurrentUser ? '' : `/${user?.displayName}`}`;
 
-  return (
+  return isLink ? (
     <Link
       to={to}
       state={{ userId: user.id }}
@@ -63,5 +68,20 @@ export default function UserImgName({ userId, className }: UserImgNameProps) {
 
       <span className="w-full min-w-fit">{user.displayName}</span>
     </Link>
+  ) : (
+    <div
+      className={`flex min-w-fit cursor-pointer items-center justify-between gap-x-1 ${className}`}
+    >
+      <img
+        onContextMenu={onContextMenu}
+        src={user.photoURL.compressed || basePhoto}
+        alt={`${user.displayName}의 프로필 이미지`}
+        className={`aspect-square object-cover ${commonClassName}`}
+        width={20}
+        height={20}
+      />
+
+      <span className="w-full min-w-fit">{user.displayName}</span>
+    </div>
   );
 }
