@@ -78,7 +78,10 @@ const Bookshelf = () => {
       {userData && (
         <main>
           <Section>
-            <UserImg isEditing={false} imgUrl={photoURL?.original} />
+            <UserImg
+              isEditing={false}
+              imgUrl={photoURL?.original || (photoURL as unknown as string)}
+            />
             <span className="mx-auto text-lg font-medium">{username}</span>
 
             <div className="mt-3 flex flex-col items-center gap-1">

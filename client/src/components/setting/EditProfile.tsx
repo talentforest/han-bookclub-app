@@ -99,39 +99,46 @@ const EditProfile = () => {
         <EditBtn onClick={onToggleEditClick} disabled={isEditing} />
       </MobileHeader>
 
-      <main>
+      <main className="flex items-start gap-x-4 max-sm:flex-col">
         <UserImg
           imgUrl={userDoc.photoURL?.original}
           isEditing={isEditing}
           setNewUserImgUrl={setNewUserImgUrl}
         />
 
-        {!isEditing ? (
-          <ul className="mt-10 flex w-full flex-col gap-y-5">
-            {profile.map(({ name, data }) => (
-              <li className="flex gap-6" key={name}>
-                <h3 className="min-w-24">{name}</h3>
-                {data}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <form onSubmit={onProfileSubmit} className="mt-8">
-            <ul className="flex flex-col gap-4">
-              {profile.map(({ name, form }) => (
-                <li className="flex justify-between gap-6" key={name}>
+        <div className="flex-1">
+          <EditBtn
+            onClick={onToggleEditClick}
+            disabled={isEditing}
+            className="ml-auto max-sm:hidden"
+          />
+          {!isEditing ? (
+            <ul className="mt-10 flex w-full flex-col gap-y-5">
+              {profile.map(({ name, data }) => (
+                <li className="flex gap-6" key={name}>
                   <h3 className="min-w-24">{name}</h3>
-                  {form}
+                  {data}
                 </li>
               ))}
             </ul>
-            <SquareBtn
-              name="수정완료"
-              type="submit"
-              className="mx-auto mt-12"
-            />
-          </form>
-        )}
+          ) : (
+            <form onSubmit={onProfileSubmit} className="mt-8">
+              <ul className="flex flex-col gap-4">
+                {profile.map(({ name, form }) => (
+                  <li className="flex justify-between gap-6" key={name}>
+                    <h3 className="min-w-24">{name}</h3>
+                    {form}
+                  </li>
+                ))}
+              </ul>
+              <SquareBtn
+                name="수정완료"
+                type="submit"
+                className="mx-auto mt-12"
+              />
+            </form>
+          )}
+        </div>
       </main>
     </>
   );

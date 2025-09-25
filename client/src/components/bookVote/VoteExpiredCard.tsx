@@ -53,7 +53,7 @@ export default function VoteExpiredCard({
 
       <ul className="mb-3 mt-5 flex items-center justify-center gap-x-5">
         {voteItems.map(({ book: { title, thumbnail }, id }) => (
-          <li key={id} className="relative h-28">
+          <li key={id} className="relative w-20">
             <BookThumbnail title={title} thumbnail={thumbnail} />
           </li>
         ))}

@@ -22,7 +22,7 @@ export default function MemberListCard({
         <ul className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-3">
           {memberList.map(member => (
             <li key={member}>
-              <UserImgName userId={member} />
+              <UserImgName userId={member} isLink />
             </li>
           ))}
         </ul>

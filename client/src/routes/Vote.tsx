@@ -70,7 +70,7 @@ const Vote = () => {
 
         <Section title="기한이 만료된 투표함">
           {expiredVote?.length !== 0 && (
-            <ul className="grid grid-cols-3 gap-7 max-sm:flex max-sm:flex-col max-sm:gap-5">
+            <ul className="grid grid-cols-3 gap-7 max-md:grid-cols-2 max-sm:flex max-sm:flex-col max-sm:gap-5">
               {expiredVote?.map(vote => (
                 <VoteExpiredCard
                   key={vote.id}
