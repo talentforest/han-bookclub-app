@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 
 import './index.css';
 import Router from '@/Router';
-import { dbService, getDeviceToken } from '@/fbase';
+import { dbService, getDeviceToken, storageService } from '@/fbase';
 import { getAuth } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
+import { getDownloadURL, ref } from 'firebase/storage';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
+import { basePhotoAtom } from '@/data/clubAtom';
 import { currUserFcmState } from '@/data/fcmAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
@@ -23,15 +25,27 @@ function App() {
   const [init, setInit] = useState(false); // 초기화
   const [currUser, setCurrUser] = useRecoilState(currAuthUserAtom);
   const [currUserFcm, setCurrUserFcm] = useRecoilState(currUserFcmState);
+  const setBasePhoto = useSetRecoilState(basePhotoAtom);
 
   const user = getAuth().currentUser;
+
+  const getBasePhoto = async () => {
+    const originalFileRef = ref(
+      storageService,
+      `avatars/한페이지로고.jpeg`,
+    );
+    getDownloadURL(originalFileRef).then(url => {
+      setBasePhoto(url);
+    });
+  };
 
   useEffect(() => {
     if (user) {
       const { uid, displayName, email, photoURL } = user;
       setCurrUser({ uid, displayName, email, photoURL });
-      setInit(true);
+      getBasePhoto();
     }
+    setInit(true);
   }, [user]);
 
   useEffect(() => {

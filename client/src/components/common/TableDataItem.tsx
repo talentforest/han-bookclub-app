@@ -27,7 +27,7 @@ export default function TableDataItem({
   return (
     <>
       {isMulti && (
-        <td className="py-3.5 text-center text-sm">
+        <td className="px-1 py-4 text-center text-sm">
           <ul className="flex flex-wrap items-center justify-center gap-2">
             {!!(data as string[])?.length && data ? (
               (data as string[]).map(item =>

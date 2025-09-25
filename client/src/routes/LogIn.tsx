@@ -26,12 +26,12 @@ const LogIn = ({ isLoggedIn }: LoginProps) => {
 
   return (
     <>
-      <main className="mx-auto my-5 flex w-[50%] flex-col items-center justify-center max-sm:w-[90%]">
-        <header className="flex w-full flex-col items-center">
+      <main className="mx-auto flex h-screen w-[50%] flex-col items-center justify-center max-sm:w-[90%]">
+        <header className="mt-[45%] flex w-full flex-col items-center">
           <img
             src={`${import.meta.env.VITE_PUBLIC_URL}/hanpage_logo.png`}
             alt="독서모임 한페이지 로고"
-            className="size-1/2"
+            className="size-40"
           />
           <h1 className="text-lg font-medium">독서모임 한페이지</h1>
         </header>
@@ -55,7 +55,6 @@ const LogIn = ({ isLoggedIn }: LoginProps) => {
             autoComplete="current-password"
             errorMsg={currPassword.error}
           />
-
           <SquareBtn
             type="submit"
             name="로그인"

@@ -6,6 +6,11 @@ import { thisYear } from '@/utils';
 
 import { MonthlyBookClub } from '@/types';
 
+export const basePhotoAtom = atom<string>({
+  key: `basePhotoAtom/${v4()}`,
+  default: null,
+});
+
 export const selectedYearAtom = atom<string>({
   key: `selectedYearAtom/${v4()}`,
   default: thisYear,

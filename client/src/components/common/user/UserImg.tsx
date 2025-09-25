@@ -1,7 +1,10 @@
 import { useState } from 'react';
 
 import imageCompression from 'browser-image-compression';
-import { FiUser } from 'react-icons/fi';
+
+import { useRecoilValue } from 'recoil';
+
+import { basePhotoAtom } from '@/data/clubAtom';
 
 import { ProfileImgFiles } from '@/hooks/useHandleProfile';
 
@@ -17,8 +20,7 @@ const UserImg = ({ isEditing, setNewUserImgUrl, imgUrl }: UserImgProps) => {
   const [beforeOnChange, setBeforeOnChange] = useState(true);
   const [previewUrl, setPreviewUrl] = useState('');
 
-  const commonImgStyle =
-    'size-52 rounded-full bg-white  shadow-card max-sm:size-40';
+  const basePhoto = useRecoilValue(basePhotoAtom);
 
   const onProfileImgChange = async (
     event: React.FormEvent<HTMLInputElement>,
@@ -60,18 +62,12 @@ const UserImg = ({ isEditing, setNewUserImgUrl, imgUrl }: UserImgProps) => {
 
   return (
     <div className="relative m-3 mx-auto flex w-fit items-center justify-center">
-      {imgUrl ? (
-        <img
-          src={beforeOnChange ? imgUrl : previewUrl}
-          alt="나의 프로필 이미지"
-          onContextMenu={event => event.preventDefault()}
-          className={`object-cover ${commonImgStyle}`}
-        />
-      ) : (
-        <div className={`flex items-center justify-center ${commonImgStyle}`}>
-          <FiUser className="size-1/2 text-gray3" />
-        </div>
-      )}
+      <img
+        src={beforeOnChange ? imgUrl || basePhoto : previewUrl}
+        alt="프로필 이미지"
+        onContextMenu={event => event.preventDefault()}
+        className={`size-52 rounded-full bg-white object-cover shadow-card max-sm:size-40`}
+      />
 
       {isEditing && <ImageInput onImageChange={onProfileImgChange} />}
     </div>
