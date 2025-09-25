@@ -26,7 +26,7 @@ import DDay from '@/components/common/DDay';
 import GuideLine from '@/components/common/GuideLine';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import VoteBookItemBtn from '@/components/common/button/VoteBookItemBtn';
-import UserName from '@/components/common/user/UserName';
+import UserImgName from '@/components/common/user/UserImgName';
 
 type LocationState = {
   state: {
@@ -185,10 +185,10 @@ const VoteDetail = () => {
               {`투표인원: ${votedItemsByMember?.length}명`}
             </h4>
 
-            <ul className="mt-2 flex flex-wrap gap-2">
+            <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-2">
               {votedItemsByMember.map(member => (
                 <li key={member.id}>
-                  <UserName tag userId={member.id} />
+                  <UserImgName userId={member.id} />
                 </li>
               ))}
             </ul>

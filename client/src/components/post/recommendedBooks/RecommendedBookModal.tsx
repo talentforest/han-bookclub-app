@@ -5,7 +5,7 @@ import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
 import Modal from '@/components/common/Modal';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
-import UserName from '@/components/common/user/UserName';
+import UserImgName from '@/components/common/user/UserImgName';
 import PostFooter from '@/components/post/PostFooter';
 import PostHeader from '@/components/post/PostHeader';
 
@@ -55,7 +55,7 @@ export default function RecommendedBookModal({
         <BookAuthorPublisher authors={authors} publisher={publisher} />
 
         <h3 className="mt-1 flex items-center border-t-2 border-dotted border-gray3 pt-2">
-          <UserName userId={creatorId} />의 추천 이유
+          <UserImgName userId={creatorId} />의 추천 이유
         </h3>
         <p
           dangerouslySetInnerHTML={{ __html: text }}

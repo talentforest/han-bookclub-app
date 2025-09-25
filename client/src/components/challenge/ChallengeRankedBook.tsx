@@ -4,7 +4,7 @@ import Modal from '@/components/common/Modal';
 import Tag from '@/components/common/Tag';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
-import UserName from '@/components/common/user/UserName';
+import UserImgName from '@/components/common/user/UserImgName';
 
 interface ChallengeRankedBookProps {
   bookWithRank: BookWithRank;
@@ -51,12 +51,14 @@ export default function ChallengeRankedBook({
       <ul className="mt-2">
         {impressionList?.map(({ text, id, creatorId, createdAt }) => (
           <li key={id} className="mb-3 gap-2 border-l-4 border-gray3 pl-3">
-            <p>
-              {text} <UserName userId={creatorId} tag className="ml-1" />
-            </p>
-            <span className="mt-2 text-sm text-gray2">
-              {new Date(createdAt).toLocaleDateString()}
-            </span>
+            <p>{text}</p>
+
+            <div className="mt-3 flex justify-between">
+              <UserImgName userId={creatorId} />
+              <span className="text-gray2">
+                {new Date(createdAt).toLocaleDateString()}
+              </span>
+            </div>
           </li>
         ))}
       </ul>

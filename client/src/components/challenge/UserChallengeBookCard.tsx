@@ -18,7 +18,7 @@ import PagePosition from '@/components/challenge/PagePosition';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import PageWithPercent from '@/components/common/book/PageWithPercent';
-import UserName from '@/components/common/user/UserName';
+import UserImgName from '@/components/common/user/UserImgName';
 
 interface ChallengeBookCardProps {
   docId: string;
@@ -56,7 +56,7 @@ export default function UserChallengeBookCard({
 
           <div className="flex flex-1 flex-col justify-between">
             <div className="mb-2 flex items-center">
-              <UserName userId={creatorId} tag />
+              <UserImgName userId={creatorId} />
               <span className="text-sm"> 의 챌린지!</span>
             </div>
 

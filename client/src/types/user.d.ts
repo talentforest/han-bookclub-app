@@ -9,7 +9,8 @@ export type UserProfile = {
   tagColor: string;
   notification?: boolean;
   userRecords: UserRecords;
-} & Pick<FirebaseAuthUser, 'photoURL' | 'email' | 'displayName'>;
+  photoURL: { original: string; compressed: string };
+} & Pick<FirebaseAuthUser, 'email' | 'displayName'>;
 
 export type UserRecords = {
   [K in Exclude<keyof typeof postTypeObj, 'challenge'>]: UserRecordId[];

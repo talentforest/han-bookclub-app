@@ -23,7 +23,7 @@ import MobileHeader from '@/layout/mobile/MobileHeader';
 
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Section from '@/components/common/container/Section';
-import UserName from '@/components/common/user/UserName';
+import UserImgName from '@/components/common/user/UserImgName';
 
 export default function Developer() {
   const { email } = useRecoilValue(currAuthUserAtom);
@@ -121,7 +121,7 @@ export default function Developer() {
                   }}
                   disabled={isPending}
                 >
-                  <UserName userId={userFcm.id} />
+                  <UserImgName userId={userFcm.id} />
                 </SquareBtn>
               </li>
             ))}

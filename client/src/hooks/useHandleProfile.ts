@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { authService, dbService, storageService } from '@/fbase';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
-import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 import { useRecoilState } from 'recoil';
 
@@ -13,18 +13,23 @@ import { USER } from '@/appConstants';
 
 import { ClubBookField } from '@/types';
 
+export type ProfileImgFiles = {
+  original: File;
+  compressed: File;
+};
+
 export const useHandleProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const [{ uid, displayName, photoURL }, setUserData] =
-    useRecoilState(currAuthUserAtom);
+  const [{ uid, displayName }, setUserData] = useRecoilState(currAuthUserAtom);
 
   const [userDoc, setUserDoc] = useRecoilState(userDocAtomFamily(uid));
 
-  const [newUserImgUrl, setNewUserImgUrl] = useState('');
-  const [newDisplayName, setNewDisplayName] = useState(displayName);
+  const [newUserImgUrl, setNewUserImgUrl] = useState<ProfileImgFiles | null>(
+    null,
+  );
 
-  const userDataRef = doc(dbService, USER, uid);
+  const [newDisplayName, setNewDisplayName] = useState(displayName);
 
   const refreshUser = () => {
     const user = getAuth().currentUser;
@@ -36,25 +41,35 @@ export const useHandleProfile = () => {
     });
   };
 
+  const userDataRef = doc(dbService, USER, uid);
+
   const updateProfileImg = async () => {
-    let userImageUrl = photoURL;
-    const fileRef = ref(storageService, `${uid}`);
-    const response = await uploadString(fileRef, newUserImgUrl, 'data_url');
-    userImageUrl = await getDownloadURL(response.ref);
-    const updatePhotoUrl = {
-      photoURL: userImageUrl,
-    };
-    await updateProfile(authService.currentUser, updatePhotoUrl);
-    await updateDoc(userDataRef, updatePhotoUrl);
+    const { original, compressed } = newUserImgUrl;
+
+    const originalFileRef = ref(storageService, `avatars/${uid}/original`);
+    const originalResponse = await uploadBytes(originalFileRef, original);
+    const originalPhotoURL = await getDownloadURL(originalResponse.ref);
+
+    const compressedFileRef = ref(storageService, `avatars/${uid}/compressed`);
+    const compressedResponse = await uploadBytes(compressedFileRef, compressed);
+    const compressedPhotoURL = await getDownloadURL(compressedResponse.ref);
+
+    await updateProfile(authService.currentUser, {
+      photoURL: originalPhotoURL,
+    });
+    await updateDoc(userDataRef, {
+      photoURL: { original: originalPhotoURL, compressed: compressedPhotoURL },
+    });
+
     refreshUser();
   };
 
   const updateDisplayName = async () => {
-    const updateData = {
-      displayName: newDisplayName,
-    };
+    const updateData = { displayName: newDisplayName };
+
     await updateProfile(authService.currentUser, updateData);
     await updateDoc(userDataRef, updateData);
+
     refreshUser();
   };
 
@@ -66,13 +81,16 @@ export const useHandleProfile = () => {
 
   const onProfileSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     try {
-      if (newUserImgUrl !== '') {
+      if (newUserImgUrl) {
         updateProfileImg();
       }
+
       if (displayName !== newDisplayName) {
         updateDisplayName();
       }
+
       updateFavBookField();
       setIsEditing(false);
     } catch (error) {

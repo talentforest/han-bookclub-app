@@ -14,7 +14,7 @@ import { cutLetter } from '@/utils';
 import { BookVote, BookVoteItemsByMember } from '@/types';
 
 import BookThumbnail from '@/components/common/book/BookThumbnail';
-import UserName from '@/components/common/user/UserName';
+import UserImgName from '@/components/common/user/UserImgName';
 
 interface VoteExpiredCardProps {
   vote: BookVote;
@@ -48,12 +48,8 @@ export default function VoteExpiredCard({
           {cutLetter(title, 40)}
         </h4>
 
-        <span className="text-end text-sm text-gray1">
-          {new Date(createdAt).toLocaleDateString()}
-        </span>
+        <UserImgName userId={creatorId} />
       </div>
-
-      <UserName userId={creatorId} tag />
 
       <ul className="mb-3 mt-5 flex items-center justify-center gap-x-5">
         {voteItems.map(({ book: { title, thumbnail }, id }) => (
@@ -71,6 +67,10 @@ export default function VoteExpiredCard({
       >
         <FiChevronRight className="text-xl text-white" />
       </Link>
+
+      <span className="text-end text-sm text-gray1">
+        {new Date(createdAt).toLocaleDateString()}
+      </span>
     </div>
   );
 }

@@ -18,7 +18,7 @@ export default function ImageInput({
       <button
         type="button"
         onClick={() => fileInput.current?.click()}
-        className={`absolute bottom-2 right-3 flex size-8 cursor-pointer items-center justify-center rounded-full border-0 bg-pointCoral ${className}`}
+        className={`absolute bottom-2 right-3 flex size-8 cursor-pointer items-center justify-center rounded-full border-0 bg-pointPurple ${className}`}
       >
         <FiImage fontSize={13} className="size-4 text-white" />
       </button>

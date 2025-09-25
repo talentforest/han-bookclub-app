@@ -5,7 +5,7 @@ import { useHandleModal } from '@/hooks';
 import { formatDate, thisYearMonthId } from '@/utils';
 
 import NewBookClubModal from '@/components/bookClub/NewBookClubModal';
-import UserName from '@/components/common/user/UserName';
+import UserImgName from '@/components/common/user/UserImgName';
 
 interface LabelWithValueCardProps {
   label: string;
@@ -33,7 +33,7 @@ export default function LabelWithValueCard({
                   <span>발제자 없음</span>
                 ) : (
                   value?.map(host => (
-                    <UserName key={host} userId={host} tag className="mr-1" />
+                    <UserImgName key={host} userId={host} className="mr-1" />
                   ))
                 ))}
 

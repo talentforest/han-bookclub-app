@@ -24,7 +24,6 @@ const EditProfile = () => {
     isEditing,
     onToggleEditClick,
     userDoc,
-    newUserImgUrl,
     setNewUserImgUrl,
     newDisplayName,
     setNewDisplayName,
@@ -102,8 +101,8 @@ const EditProfile = () => {
 
       <main>
         <UserImg
+          imgUrl={userDoc.photoURL?.original}
           isEditing={isEditing}
-          newUserImgUrl={newUserImgUrl}
           setNewUserImgUrl={setNewUserImgUrl}
         />
 

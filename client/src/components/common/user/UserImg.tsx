@@ -1,52 +1,68 @@
 import { useState } from 'react';
 
+import imageCompression from 'browser-image-compression';
 import { FiUser } from 'react-icons/fi';
 
-import { useRecoilValue } from 'recoil';
-
-import { currAuthUserAtom } from '@/data/userAtom';
+import { ProfileImgFiles } from '@/hooks/useHandleProfile';
 
 import ImageInput from '@/components/common/input/ImageInput';
 
 interface UserImgProps {
   isEditing: boolean;
-  newUserImgUrl: string;
-  setNewUserImgUrl: (newUserImgUrl: string) => void;
+  setNewUserImgUrl?: React.Dispatch<React.SetStateAction<ProfileImgFiles>>;
+  imgUrl?: string;
 }
 
-const UserImg = ({
-  isEditing,
-  newUserImgUrl,
-  setNewUserImgUrl,
-}: UserImgProps) => {
-  const { photoURL } = useRecoilValue(currAuthUserAtom);
-
+const UserImg = ({ isEditing, setNewUserImgUrl, imgUrl }: UserImgProps) => {
   const [beforeOnChange, setBeforeOnChange] = useState(true);
+  const [previewUrl, setPreviewUrl] = useState('');
 
   const commonImgStyle =
     'size-52 rounded-full bg-white  shadow-card max-sm:size-40';
 
-  const onProfileImgChange = (event: React.FormEvent<HTMLInputElement>) => {
+  const onProfileImgChange = async (
+    event: React.FormEvent<HTMLInputElement>,
+  ) => {
     const {
-      currentTarget: { files },
+      currentTarget: { files: originalFiles },
     } = event;
-    const theFile = files[0];
-    const reader = new FileReader();
-    reader.onload = finishedEvent => {
+
+    if (!originalFiles || !originalFiles[0]) return;
+
+    const originalFile = originalFiles[0];
+    const originalReader = new FileReader();
+
+    const options = {
+      maxSizeMB: 0.1,
+      useWebWorker: true,
+      maxWidthOrHeight: 40,
+      initialQuality: 0.7,
+    };
+
+    const compressedFile = await imageCompression(originalFile, options);
+
+    originalReader.onload = finishedEvent => {
       const {
         target: { result },
       } = finishedEvent;
-      setNewUserImgUrl(result as string);
+
+      setPreviewUrl(result as string);
     };
-    reader.readAsDataURL(theFile);
+
+    setNewUserImgUrl({
+      compressed: compressedFile,
+      original: originalFile,
+    });
+
+    originalReader.readAsDataURL(originalFile);
     setBeforeOnChange(false);
   };
 
   return (
     <div className="relative m-3 mx-auto flex w-fit items-center justify-center">
-      {photoURL ? (
+      {imgUrl ? (
         <img
-          src={beforeOnChange ? photoURL : newUserImgUrl}
+          src={beforeOnChange ? imgUrl : previewUrl}
           alt="나의 프로필 이미지"
           onContextMenu={event => event.preventDefault()}
           className={`object-cover ${commonImgStyle}`}
@@ -56,6 +72,7 @@ const UserImg = ({
           <FiUser className="size-1/2 text-gray3" />
         </div>
       )}
+
       {isEditing && <ImageInput onImageChange={onProfileImgChange} />}
     </div>
   );

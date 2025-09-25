@@ -7,7 +7,7 @@ import { ChallengeSentence } from '@/types';
 import LikeBtnWithPeopleInfo from '@/components/common/LikeBtnWithPeopleInfo';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import EditorContent from '@/components/common/editor/EditorContent';
-import UserName from '@/components/common/user/UserName';
+import UserImgName from '@/components/common/user/UserImgName';
 
 interface SentenceSlideBoxProps {
   sentence: ChallengeSentence;
@@ -24,7 +24,7 @@ export default function SentenceSlideBox({ sentence }: SentenceSlideBoxProps) {
           <span className="title">{title}</span>
         </div>
 
-        <UserName userId={creatorId} />
+        <UserImgName userId={creatorId} />
       </div>
 
       <div>

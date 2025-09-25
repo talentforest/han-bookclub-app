@@ -1,5 +1,5 @@
 import Tag from '@/components/common/Tag';
-import UserName from '@/components/common/user/UserName';
+import UserImgName from '@/components/common/user/UserImgName';
 
 interface MemberListCardProps {
   title: string;
@@ -19,9 +19,11 @@ export default function MemberListCard({
       />
 
       {memberList.length !== 0 ? (
-        <ul className="mt-4 flex flex-wrap items-center gap-3">
+        <ul className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-3">
           {memberList.map(member => (
-            <UserName key={member} userId={member} tag isLink />
+            <li key={member}>
+              <UserImgName userId={member} />
+            </li>
           ))}
         </ul>
       ) : (

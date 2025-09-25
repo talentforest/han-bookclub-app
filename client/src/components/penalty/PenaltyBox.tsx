@@ -4,7 +4,7 @@ import { FiInfo } from 'react-icons/fi';
 
 import { ClubMonth } from '@/types';
 
-import UserName from '@/components/common/user/UserName';
+import UserImgName from '@/components/common/user/UserImgName';
 
 interface PenaltyBoxProps {
   title:
@@ -44,7 +44,7 @@ export default function PenaltyBox({
           {dutySubjectUsers?.length !== 0 ? (
             <ul>
               {dutySubjectUsers?.map(userId => (
-                <UserName key={userId} userId={userId} tag />
+                <UserImgName key={userId} userId={userId} />
               ))}
             </ul>
           ) : (

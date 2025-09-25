@@ -1,7 +1,7 @@
 import { UserRank } from '@/types';
 
 import BookThumbnail from '@/components/common/book/BookThumbnail';
-import UserName from '@/components/common/user/UserName';
+import UserImgName from '@/components/common/user/UserImgName';
 
 interface ChallengeRereadingCardProps {
   userRank: UserRank;
@@ -17,7 +17,7 @@ export default function ChallengeUserRankCard({
       className={`flex gap-x-4 rounded-xl bg-white p-4 shadow-card ${rereadingBookList.length !== 0 ? 'col-span-2' : ''}`}
     >
       <div
-        className={`${rereadingBookList.length !== 0 ? 'w-[40%] min-w-32' : 'w-full'}`}
+        className={`${rereadingBookList.length !== 0 ? 'w-[50%] min-w-32' : 'w-full'}`}
       >
         <div className="mb-2 flex h-8 items-center justify-between">
           {totalRereadingCounts !== 0 && (
@@ -27,7 +27,7 @@ export default function ChallengeUserRankCard({
               <span className="pb-2 text-lg font-bold text-gray1">위</span>
             </span>
           )}
-          <UserName userId={creatorId} className="text-lg" />
+          <UserImgName userId={creatorId} className="text-lg" />
         </div>
 
         {[

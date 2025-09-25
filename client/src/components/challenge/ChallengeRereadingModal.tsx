@@ -26,7 +26,7 @@ import Tag from '@/components/common/Tag';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import SquareBtn from '@/components/common/button/SquareBtn';
-import UserName from '@/components/common/user/UserName';
+import UserImgName from '@/components/common/user/UserImgName';
 
 interface ChallengeRereadingModalProps {
   selectedBook: Omit<BaseBookData, 'url'>;
@@ -121,54 +121,63 @@ export default function ChallengeRereadingModal({
 
   return (
     <Modal title="재독 챌린지">
-      <div className="flex items-center gap-3">
-        <BookThumbnail title={title} thumbnail={thumbnail} className="w-8" />
-        <div className="">
-          <h2 className="mb-0.5 line-clamp-1 w-full">{title}</h2>
-          <BookAuthorPublisher authors={authors} publisher={publisher} />
-        </div>
-      </div>
-      {recommendedUser && (
-        <div className="mt-3 inline">
-          추천한 멤버: <UserName userId={recommendedUser} tag />
-        </div>
-      )}
-      {reason && (
-        <p className="mt-2 border-l-4 border-gray3 pl-2 text-sm">{reason}</p>
-      )}
+      <div className="overflow-scroll scrollbar-hide">
+        <div className="flex items-center gap-3">
+          <BookThumbnail title={title} thumbnail={thumbnail} className="w-14" />
 
-      <div className="mt-4 flex flex-wrap gap-2">
-        <Tag
-          text={`🙋🏻 ${readers}명의 멤버가 재독`}
-          color="lightBlue"
-          className="!py-1.5 text-sm !text-blue-600"
-        />
-        <Tag
-          text={`👀 총 ${counts}번 재독`}
-          color="yellow"
-          className="!py-1.5 text-sm !text-green-600"
-        />
-      </div>
+          <div className="w-full">
+            {recommendedUser && (
+              <div className="mb-2 flex items-center">
+                <UserImgName userId={recommendedUser} />
+                <span className="text-[15px]">의 추천책</span>
+              </div>
+            )}
+            <h2 className="mb-0.5 line-clamp-1 w-full font-medium">{title}</h2>
+            <BookAuthorPublisher authors={authors} publisher={publisher} />
+          </div>
+        </div>
 
-      <form onSubmit={onSubmit} className="mt-5 flex flex-col gap-3">
-        <textarea
-          ref={ref}
-          placeholder="이 책을 재독한 소감을 작성해주세요."
-          className="min-h-32 resize-none rounded-xl border p-3 outline-none"
-        />
-        <SquareBtn
-          name="챌린지완료"
-          color="darkBlue"
-          type="submit"
-          className="self-end"
-          disabled={anonymous}
-        />
-        {anonymous && (
-          <p className="ml-auto text-sm text-red-500">
-            익명의 방문자는 참여할 수 없습니다.
+        {reason && (
+          <p className="mt-2 border-l-4 border-gray3 pl-2 text-[15px]">
+            {reason}
           </p>
         )}
-      </form>
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Tag
+            text={`🙋🏻 ${readers}명의 멤버가 재독`}
+            color="lightBlue"
+            shape="rounded"
+            className="!py-1.5 text-sm !text-blue-600"
+          />
+          <Tag
+            text={`👀 총 ${counts}번 재독`}
+            color="yellow"
+            shape="rounded"
+            className="!py-1.5 text-sm !text-green-600"
+          />
+        </div>
+
+        <form onSubmit={onSubmit} className="mt-5 flex flex-col gap-3">
+          <textarea
+            ref={ref}
+            placeholder="이 책을 재독한 소감을 작성해주세요."
+            className="min-h-32 resize-none rounded-xl border p-3 outline-none"
+          />
+          <SquareBtn
+            name="챌린지완료"
+            color="darkBlue"
+            type="submit"
+            className="self-end"
+            disabled={anonymous}
+          />
+          {anonymous && (
+            <p className="ml-auto text-sm text-red-500">
+              익명의 방문자는 참여할 수 없습니다.
+            </p>
+          )}
+        </form>
+      </div>
     </Modal>
   );
 }

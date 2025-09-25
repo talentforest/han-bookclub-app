@@ -1,39 +1,74 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, useEffect } from 'react';
+
+import { Link } from 'react-router-dom';
 
 import { FiUser } from 'react-icons/fi';
 
+import { useRecoilState, useRecoilValue } from 'recoil';
+
+import { allUsersAtom, currAuthUserAtom } from '@/data/userAtom';
+
+import { getCollection } from '@/api';
+
+import { USER } from '@/appConstants';
+
 interface UserImgNameProps {
-  photoURL: string;
-  displayName: string;
+  userId: string;
+  className?: string;
 }
 
-export default function UserImgName({
-  photoURL,
-  displayName,
-}: UserImgNameProps) {
+export default function UserImgName({ userId, className }: UserImgNameProps) {
+  const { uid } = useRecoilValue(currAuthUserAtom);
+
+  const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersAtom);
+
+  const user = allUserDocs?.find(({ id }) => id === userId);
+
+  useEffect(() => {
+    if (allUserDocs?.length === 0) {
+      getCollection(USER, setAllUserDocs);
+    }
+  }, [userId, allUserDocs, setAllUserDocs]);
+
   const onContextMenu = (e: MouseEvent<HTMLImageElement>) => {
     e.preventDefault();
     e.stopPropagation();
+
     return false;
   };
 
-  const className = 'size-40 rounded-full bg-white shadow-card';
+  const commonClassName = 'size-[20px] aspect-square rounded-full shadow-card';
+
+  if (!user) return;
+
+  const isCurrentUser = uid === user?.id;
+
+  const to = `/bookshelf${isCurrentUser ? '' : `/${user?.displayName}`}`;
 
   return (
-    <div className="flex flex-col items-center justify-between">
-      {photoURL ? (
+    <Link
+      to={to}
+      state={{ userId: user.id }}
+      className={`flex min-w-fit cursor-pointer items-center justify-between gap-x-1 ${className}`}
+    >
+      {user.photoURL.compressed ? (
         <img
           onContextMenu={onContextMenu}
-          src={photoURL}
-          alt={`${displayName}의 프로필 이미지`}
-          className={`object-cover ${className}`}
+          src={user.photoURL.compressed}
+          alt={`${user.displayName}의 프로필 이미지`}
+          className={`aspect-square object-cover ${commonClassName}`}
+          width={20}
+          height={20}
         />
       ) : (
-        <div className={`flex items-center justify-center ${className}`}>
-          <FiUser className="size-1/2" stroke="#aaa" />
+        <div
+          className={`flex items-center justify-center bg-blue3 ${commonClassName}`}
+        >
+          <FiUser className="size-1/2" stroke="#3c3c3c" />
         </div>
       )}
-      <span className="mt-4">{displayName}</span>
-    </div>
+
+      <span className="w-full min-w-fit">{user.displayName}</span>
+    </Link>
   );
 }

@@ -1,6 +1,6 @@
 import { thisMonth } from '@/utils';
 
-import UserName from '@/components/common/user/UserName';
+import UserImgName from '@/components/common/user/UserImgName';
 
 export type Label =
   | '월'
@@ -27,14 +27,14 @@ export default function TableDataItem({
   return (
     <>
       {isMulti && (
-        <td className="py-3.5 text-center text-sm text-gray2">
+        <td className="py-3.5 text-center text-sm">
           <ul className="flex flex-wrap items-center justify-center gap-2">
-            {!!(data as string[])?.length ? (
+            {!!(data as string[])?.length && data ? (
               (data as string[]).map(item =>
                 item === 'no_host' ? (
                   <span key={item}>발제자 없음</span>
                 ) : (
-                  <UserName key={item} isLink userId={item as string} tag />
+                  <UserImgName key={item} userId={item as string} />
                 ),
               )
             ) : (

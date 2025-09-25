@@ -11,7 +11,7 @@ import { useHandleLike } from '@/hooks';
 import { UserPost } from '@/types';
 
 import LikeBtn from '@/components/common/button/LikeBtn';
-import UserName from '@/components/common/user/UserName';
+import UserImgName from '@/components/common/user/UserImgName';
 
 interface LikeBtnWithPeopleInfoProps {
   post: UserPost;
@@ -62,10 +62,10 @@ const LikeBtnWithPeopleInfo = ({
 
       {showLikeUsers && (
         <div className="absolute bottom-7 rounded-xl border bg-white p-3">
-          <h4 className="mb-2 text-sm text-gray1">좋아한 사람</h4>
+          <h4 className="mb-2 text-sm text-gray1">좋아한 멤버</h4>
           <ul className="flex w-full flex-wrap gap-x-2 gap-y-1">
             {post?.likeUsers?.map(user => (
-              <UserName key={user} userId={user} />
+              <UserImgName key={user} userId={user} className="" />
             ))}
           </ul>
         </div>

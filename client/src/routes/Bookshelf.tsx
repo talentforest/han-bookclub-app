@@ -26,7 +26,7 @@ import GuideLine from '@/components/common/GuideLine';
 import Loading from '@/components/common/Loading';
 import Tag from '@/components/common/Tag';
 import Section from '@/components/common/container/Section';
-import UserImgName from '@/components/common/user/UserImgName';
+import UserImg from '@/components/common/user/UserImg';
 
 const Bookshelf = () => {
   const [challenge, setChallenge] = useRecoilState(
@@ -47,10 +47,10 @@ const Bookshelf = () => {
 
   const {
     id,
-    photoURL,
     favoriteBookField,
     userRecords,
     displayName: username,
+    photoURL,
   } = userData || {};
 
   const isCurrentUser = uid === id;
@@ -78,8 +78,10 @@ const Bookshelf = () => {
       {userData && (
         <main>
           <Section>
-            <UserImgName photoURL={photoURL} displayName={username} />
-            <div className="mt-2.5 flex flex-col items-center gap-1">
+            <UserImg isEditing={false} imgUrl={photoURL.original} />
+            <span className="mx-auto text-lg font-medium">{username}</span>
+
+            <div className="mt-3 flex flex-col items-center gap-1">
               {isAbsentee ? (
                 <Tag text="🔴 이번달 불참" color="red" shape="square" />
               ) : (
