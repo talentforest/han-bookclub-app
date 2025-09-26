@@ -38,12 +38,12 @@ type LocationState = {
 const ClubDetail = () => {
   const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
 
-  const {
-    state: { docId, docData },
-  } = useLocation() as LocationState;
+  const { state } = useLocation() as LocationState;
 
-  const year = docId.slice(0, 4);
-  const month = docId.slice(-2);
+  const yearMonthId = state?.docId || thisYearMonthId;
+
+  const year = yearMonthId.slice(0, 4);
+  const month = yearMonthId.slice(-2);
 
   const setAbsenceList = useSetRecoilState(absenceAtom);
 
@@ -60,14 +60,14 @@ const ClubDetail = () => {
     getDocument(`BookClub-${year}`, ABSENCE_MEMBERS, setAbsenceList);
   }, [year]);
 
-  const isThisMonthDetail = docId === thisYearMonthId;
+  const isThisMonthDetail = yearMonthId === thisYearMonthId;
 
-  return !existDocObj(docId) ? (
+  return !existDocObj(yearMonthId) ? (
     <Loading />
   ) : (
     <>
       <MobileHeader
-        title={`${isThisMonthDetail ? '이달' : formatDate(docId, 'yyyy년 M월')}의 한페이지`}
+        title={`${isThisMonthDetail ? '이달' : formatDate(yearMonthId, 'yyyy년 M월')}의 한페이지`}
         backBtn={!isThisMonthDetail}
       />
 
@@ -76,7 +76,10 @@ const ClubDetail = () => {
           {isThisMonthDetail ? (
             <ThisMonthBookClub />
           ) : (
-            <BasicBookCard bookClub={docData} className="w-full" />
+            <BasicBookCard
+              bookClub={state?.docData || thisMonthClub}
+              className="w-full"
+            />
           )}
         </Section>
 
@@ -102,17 +105,17 @@ const ClubDetail = () => {
                 {isThisMonthDetail && (
                   <GuideLine text="모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 수정만 가능할 뿐 새로 작성이 불가능한 점 유의해주세요." />
                 )}
-                <PostTabBox yearMonthId={docId} />
+                <PostTabBox yearMonthId={yearMonthId} />
               </Section>
             </div>
 
             <Section title={isThisMonthDetail ? '책 추천하기' : '추천책'}>
               {isThisMonthDetail && <SearchBookBtn />}
-              <RecommendedBookSwiperContainer yearMonthId={docId} />
+              <RecommendedBookSwiperContainer yearMonthId={yearMonthId} />
             </Section>
 
             <Section title="모임 후기">
-              <MeetingReviewList yearMonthId={docId} />
+              <MeetingReviewList yearMonthId={yearMonthId} />
             </Section>
           </>
         )}

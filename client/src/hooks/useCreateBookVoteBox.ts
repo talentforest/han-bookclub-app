@@ -76,7 +76,7 @@ export const useCreateBookVoteBox = () => {
       sendPushNotificationToAllUser({
         title: '🗳️새로운 투표함 등록',
         body: `${newVote.title} 투표함이 등록되었습니다. 종료일 전에 투표를 완료해주세요!⚡️`,
-        subPath: `/vote/${newVote.id}`,
+        subPath: `/vote`,
       });
     } catch (error) {
       console.error('Error adding document:', error);
