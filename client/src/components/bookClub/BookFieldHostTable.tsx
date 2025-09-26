@@ -20,14 +20,12 @@ import EmptyCard from '@/components/common/container/EmptyCard';
 
 interface BookFieldHostTableProps {
   isMonth?: boolean;
-  isFoldable?: boolean;
   isEditable?: boolean;
 }
 
 const BookFieldHostTable = ({
   isMonth = false,
   isEditable = false,
-  isFoldable = false,
 }: BookFieldHostTableProps) => {
   const { bookFieldAndHostList } = useRecoilValue(fieldAndHostAtom);
 
@@ -54,9 +52,8 @@ const BookFieldHostTable = ({
       {!!bookFieldAndHostList ? (
         <Table
           labels={labels}
-          recordsOfYear={bookFieldAndHostList}
+          rowDataList={bookFieldAndHostList}
           onEditClick={onEditClick}
-          isFoldable={isFoldable}
           isEditable={isEditable}
         />
       ) : (

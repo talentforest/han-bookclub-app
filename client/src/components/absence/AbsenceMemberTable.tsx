@@ -23,12 +23,10 @@ import EmptyCard from '@/components/common/container/EmptyCard';
 
 interface AbsenceMemberTableProps {
   isMonth?: boolean;
-  isFoldable?: boolean;
   isEditable?: boolean;
 }
 
 export default function AbsenceMemberTable({
-  isFoldable,
   isMonth,
   isEditable,
 }: AbsenceMemberTableProps) {
@@ -55,10 +53,8 @@ export default function AbsenceMemberTable({
     <>
       {!!absenceList?.absenceMembers ? (
         <Table
-          color="blue"
           labels={labels}
-          recordsOfYear={absenceList?.absenceMembers}
-          isFoldable={isFoldable}
+          rowDataList={absenceList?.absenceMembers}
           isEditable={isEditable}
         />
       ) : (

@@ -27,8 +27,6 @@ export const useHandleAbsence = () => {
 
   const [selectedValues, setSelectedValues] = useState(initialAbsence);
 
-  // const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
-
   const fbDoc = doc(dbService, BOOKCLUB_THIS_YEAR, ABSENCE_MEMBERS);
 
   const handleMember = (member: string[], checked: boolean) => {

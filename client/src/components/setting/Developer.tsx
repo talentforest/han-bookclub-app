@@ -121,7 +121,7 @@ export default function Developer() {
                   }}
                   disabled={isPending}
                 >
-                  <UserImgName userId={userFcm.id} />
+                  <UserImgName userId={userFcm.id} isLink={false} />
                 </SquareBtn>
               </li>
             ))}

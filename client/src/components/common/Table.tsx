@@ -1,10 +1,6 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment } from 'react';
 
-import { useLocation } from 'react-router-dom';
-
-import { FiChevronDown, FiChevronUp, FiEdit } from 'react-icons/fi';
-
-import { thisMonth } from '@/utils';
+import { FiEdit } from 'react-icons/fi';
 
 import {
   MonthlyAbsenceMembers,
@@ -21,59 +17,25 @@ type LabelColor = 'yellow' | 'blue';
 interface TableProps {
   color?: LabelColor;
   labels: Label[];
-  recordsOfYear: TableRecord[];
-  onEditClick?: (month: number) => void;
+  rowDataList: TableRecord[];
   isEditable: boolean;
-  isFoldable: boolean;
+  onEditClick?: (month: number) => void;
 }
 
 export default function Table({
-  color = 'yellow',
+  color = 'blue',
   labels,
-  recordsOfYear,
-  onEditClick,
+  rowDataList,
   isEditable,
-  isFoldable,
+  onEditClick,
 }: TableProps) {
-  const [openTable, setOpenTable] = useState(false);
-
-  const toggleTable = () => setOpenTable(prev => !prev);
-
-  const threeMonthRecord: TableRecord[] = recordsOfYear?.filter(
-    doc => doc.month < +thisMonth + 3,
-  );
-
-  const showingRecords = openTable ? recordsOfYear : threeMonthRecord;
-
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    if (pathname === '/monthlyinfo' || pathname === '/setting/absence') {
-      setOpenTable(prev => !prev);
-    }
-  }, []);
-
   const tableStyle = {
     blue: 'bg-blue2',
-    yellow: 'bg-blue2',
+    yellow: 'bg-yellow2',
   };
 
   return (
     <div className="relative overflow-hidden rounded-xl bg-white shadow-card">
-      {isFoldable && (
-        <button
-          className="absolute right-4 top-4"
-          type="button"
-          onClick={toggleTable}
-        >
-          {openTable ? (
-            <FiChevronUp className="text-lg" />
-          ) : (
-            <FiChevronDown className="text-lg" />
-          )}
-        </button>
-      )}
-
       <table className="w-full">
         <colgroup>
           {labels.includes('월') && <col width="18%" />}
@@ -94,9 +56,9 @@ export default function Table({
         </thead>
 
         <tbody>
-          {showingRecords?.map(record => (
+          {rowDataList?.map(record => (
             <Fragment key={record.month}>
-              <tr>
+              <tr className="border-b border-[#f0f0f0] last:border-0">
                 {'month' in record && labels.includes('월') && (
                   <TableDataItem label="월" data={record.month} />
                 )}
@@ -136,7 +98,7 @@ export default function Table({
                       type="button"
                       onClick={() => onEditClick(record.month)}
                     >
-                      <FiEdit stroke="#aaa" />
+                      <FiEdit className="stroke-gray2" />
                     </button>
                   </td>
                 )}

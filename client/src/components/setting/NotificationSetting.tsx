@@ -127,7 +127,7 @@ export default function NotificationSetting() {
         <h3 className="font-medium text-gray1">알림</h3>
         <button
           type="button"
-          className={`flex h-7 w-12 items-center rounded-full p-1 ${isActive ? 'bg-green-500' : 'bg-gray3'}`}
+          className={`flex h-7 w-12 items-center rounded-full p-1 disabled:opacity-20 ${isActive ? 'bg-green-500' : 'bg-gray3'}`}
           aria-label="알림 토글 버튼"
           onClick={handleNotification}
           disabled={isPending || isDisabled}

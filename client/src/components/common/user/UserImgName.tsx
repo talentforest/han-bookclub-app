@@ -20,7 +20,7 @@ interface UserImgNameProps {
 export default function UserImgName({
   userId,
   className,
-  isLink,
+  isLink = true,
 }: UserImgNameProps) {
   const { uid } = useRecoilValue(currAuthUserAtom);
 

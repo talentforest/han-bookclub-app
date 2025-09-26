@@ -12,8 +12,8 @@ export type Label =
   | '모임정지';
 
 interface TableDataItemProps {
-  data: string | number | boolean | string[];
   isMulti?: boolean;
+  data: string | number | boolean | string[];
   label?: Label;
 }
 
@@ -22,23 +22,25 @@ export default function TableDataItem({
   data,
   label,
 }: TableDataItemProps) {
-  const className = `py-3.5 text-center text-sm ${data ? 'absence' : 'attendance'}`;
+  const commonTdClassName = 'px-1.5 py-4 text-center text-sm';
 
   return (
     <>
       {isMulti && (
-        <td className="px-1 py-4 text-center text-sm">
-          <ul className="flex flex-wrap items-center justify-center gap-2">
+        <td className={`${commonTdClassName}`}>
+          <ul className="flex flex-wrap items-center justify-center gap-3">
             {!!(data as string[])?.length && data ? (
-              (data as string[]).map(item =>
-                item === 'no_host' ? (
-                  <span key={item}>발제자 없음</span>
+              (data as string[]).map(userId =>
+                userId === 'no_host' ? (
+                  <span key={userId} className="text-gray2">
+                    발제자 없음
+                  </span>
                 ) : (
-                  <UserImgName key={item} userId={item as string} />
+                  <UserImgName key={userId} userId={userId as string} />
                 ),
               )
             ) : (
-              <span>없음</span>
+              <span className="text-gray2">없음</span>
             )}
           </ul>
         </td>
@@ -48,21 +50,21 @@ export default function TableDataItem({
         <>
           {label === '월' && (
             <td
-              className={`py-3.5 text-center ${+thisMonth === data ? 'font-semibold text-black' : 'text-gray2'}`}
+              className={`${commonTdClassName} !text-[15px] ${+thisMonth === data ? 'font-semibold text-blue-700' : 'text-blue-400'}`}
             >
               {data}월
             </td>
           )}
 
           {(label === '모임정지' || label === '일회불참') && (
-            <td className={className}>
+            <td className={`${commonTdClassName}`}>
               {data ? (label === '모임정지' ? '🔴' : '🟠') : ''}
             </td>
           )}
 
           {label !== '월' && label !== '모임정지' && label !== '일회불참' && (
-            <td className="py-3.5 text-center text-sm">
-              {data || <span className="text-sm text-gray2">없음</span>}
+            <td className={`${commonTdClassName}`}>
+              {data || <span className="text-gray2">없음</span>}
             </td>
           )}
         </>

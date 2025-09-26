@@ -31,7 +31,7 @@ export default function LabeledCheckBox({
         className="mt-1 size-[15px]"
       />
       <div className="flex-1">
-        <Label text={label} />
+        <Label text={label} className="py-0 !text-base" />
         {detail && <GuideLine color="gray" text={detail} />}
       </div>
     </div>

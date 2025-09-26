@@ -1,23 +1,46 @@
-import { FormEvent } from 'react';
+import { useEffect } from 'react';
 
-import { UserAbsence } from '@/types';
+import { useRecoilValue } from 'recoil';
+
+import { absenceAtom } from '@/data/absenceAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
+
+import { useHandleAbsence } from '@/hooks';
 
 import SquareBtn from '@/components/common/button/SquareBtn';
 import LabeledCheckBox from '@/components/common/input/LabeledCheckBox';
 
 interface AbsenceFormProps {
   month: number;
-  onSubmit: (event: FormEvent<HTMLFormElement>, index: number) => void;
-  selectedValues: UserAbsence;
-  setSelectedValues: React.Dispatch<React.SetStateAction<UserAbsence>>;
 }
 
-export default function AbsenceForm({
-  month,
-  onSubmit,
-  selectedValues,
-  setSelectedValues,
-}: AbsenceFormProps) {
+export default function AbsenceForm({ month }: AbsenceFormProps) {
+  const absenceList = useRecoilValue(absenceAtom);
+
+  const { uid } = useRecoilValue(currAuthUserAtom);
+
+  const { onSubmit, selectedValues, setSelectedValues } = useHandleAbsence();
+
+  useEffect(() => {
+    const { absenceMembers } = absenceList;
+    const absenceByMonth = absenceMembers?.find(item => item.month === month);
+
+    if (!absenceByMonth) return;
+
+    const { breakMembers, onceAbsenceMembers } = absenceByMonth;
+
+    const isBreakMonth = breakMembers?.find(userId => userId === uid);
+    const isOnceAbsenceMonth = onceAbsenceMembers?.find(
+      userId => userId === uid,
+    );
+
+    setSelectedValues({
+      month,
+      breakMonth: !!isBreakMonth,
+      onceAbsenceMonth: !!isOnceAbsenceMonth,
+    });
+  }, [month]);
+
   const checkedBoxHandler = (label: string, checked: boolean) => {
     const otherBoxChecked =
       (label === '모임 일회 불참' && checked && selectedValues.breakMonth) ||

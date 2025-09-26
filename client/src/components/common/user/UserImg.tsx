@@ -34,14 +34,26 @@ const UserImg = ({ isEditing, setNewUserImgUrl, imgUrl }: UserImgProps) => {
     const originalFile = originalFiles[0];
     const originalReader = new FileReader();
 
-    const options = {
+    const compressedOptions = {
       maxSizeMB: 0.1,
       useWebWorker: true,
       maxWidthOrHeight: 100,
       initialQuality: 0.8,
     };
 
-    const compressedFile = await imageCompression(originalFile, options);
+    const maxOptions = {
+      maxSizeMB: 1,
+      useWebWorker: true,
+      maxWidthOrHeight: 600,
+      initialQuality: 1,
+    };
+
+    const compressedFile = await imageCompression(
+      originalFile,
+      compressedOptions,
+    );
+
+    const maxFile = await imageCompression(originalFile, maxOptions);
 
     originalReader.onload = finishedEvent => {
       const {
@@ -53,7 +65,7 @@ const UserImg = ({ isEditing, setNewUserImgUrl, imgUrl }: UserImgProps) => {
 
     setNewUserImgUrl({
       compressed: compressedFile,
-      original: originalFile,
+      original: originalFile.size > 100000 ? maxFile : originalFile,
     });
 
     originalReader.readAsDataURL(originalFile);
