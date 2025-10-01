@@ -119,7 +119,7 @@ export default function EventMeetingModal({
     alert(`${monthNum}월 독서모임 정보가 변경되었습니다!`);
 
     await sendPushNotificationToAllUser({
-      title: `☕️${year}년 ${monthNum}: ${currMeeting.eventMonth.title}`,
+      title: `☕️${year}년 ${monthNum}월: ${currMeeting.eventMonth.title}`,
       body: `${year}년 ${monthNum}월의 모임정보가 ${monthlyBookClub.book ? '변경' : '등록'}되었어요! 🕓${formatDate(time, 'M월 d일 EEEE a h시 mm분')}에 📍${place}에서 만나요 👋`,
     });
   };

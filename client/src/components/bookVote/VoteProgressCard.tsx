@@ -26,7 +26,7 @@ const VoteProgressCard = ({ voteDetail }: VoteProgressCardProps) => {
 
       <ul className="flex gap-6">
         {voteItems.map(({ id, book }) => (
-          <li key={id} className="h-32">
+          <li key={id} className="h-24">
             <BookThumbnail thumbnail={book.thumbnail} title={book.title} />
           </li>
         ))}
