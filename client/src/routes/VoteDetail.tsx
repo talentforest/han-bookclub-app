@@ -17,7 +17,7 @@ import { getDDay, getPercentage, todayWithHyphen } from '@/utils';
 
 import { NotificationData } from '@/types';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import VoteBookItem from '@/components/bookVote/VoteBookItem';
 import VoteDetailHeader from '@/components/bookVote/VoteDetailHeader';

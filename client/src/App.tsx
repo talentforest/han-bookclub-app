@@ -94,9 +94,7 @@ function App() {
   return init ? (
     <Router isLoggedIn={Boolean(currUser)} />
   ) : (
-    <div className="flex h-screen items-center justify-center">
-      <LoopLoading size={120} />
-    </div>
+    <LoopLoading size={120} className="h-screen" />
   );
 }
 

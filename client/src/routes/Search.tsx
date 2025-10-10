@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { useSearchBook } from '@/hooks';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Section from '@/components/common/container/Section';

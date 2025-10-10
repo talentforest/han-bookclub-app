@@ -36,7 +36,7 @@ export default function AbsenceMemberTable({
     if (!existDocObj(absenceList)) {
       getDocument(BOOKCLUB_THIS_YEAR, ABSENCE_MEMBERS, setAbsenceList);
     }
-  }, [absenceList]);
+  }, []);
 
   const defaultLabels: Label[] = ['일회불참멤버', '모임정지멤버'];
 

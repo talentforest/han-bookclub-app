@@ -29,12 +29,14 @@ export const absenceAtom = atom<{
 export const attendanceSelector = selectorFamily({
   key: 'attendanceSelector',
   get:
-    (month: number) =>
+    (yearMonthId: string) =>
     ({ get }) => {
       const allMemberList = get(allUsersAtom);
       const absenceData = get(absenceAtom);
 
       const absenceList = absenceData?.absenceMembers || [];
+      const year = +yearMonthId.slice(0, 4);
+      const month = +yearMonthId.slice(-2);
 
       const absence = absenceList.find(({ month: mon }) => month === mon);
 
@@ -44,6 +46,10 @@ export const attendanceSelector = selectorFamily({
       ];
 
       const participantList = allMemberList
+        .filter(({ membershipJoinTime: time }) => {
+          const clubYearMonthId = new Date(year, month - 1);
+          return new Date(time).getTime() < clubYearMonthId.getTime();
+        })
         .filter(member => !absenteeList.includes(member.id))
         .map(member => member.id);
 

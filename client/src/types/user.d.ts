@@ -10,6 +10,7 @@ export type UserProfile = {
   notification?: boolean;
   userRecords: UserRecords;
   photoURL: { original: string; compressed: string };
+  membershipJoinTime: string;
 } & Pick<FirebaseAuthUser, 'email' | 'displayName'>;
 
 export type UserRecords = {

@@ -15,7 +15,7 @@ import { formatDate } from '@/utils';
 
 import { ChallengeSentence } from '@/types';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import Tag from '@/components/common/Tag';
 import BookThumbnail from '@/components/common/book/BookThumbnail';

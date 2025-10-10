@@ -29,11 +29,11 @@ export default function Tag({
 }: TagProps) {
   const bgColor = {
     blue: 'bg-blue1 text-white',
-    lightBlue: 'bg-blue-200 text-text',
-    yellow: 'bg-yellow-200 text-white',
+    lightBlue: 'bg-blue-100 text-blue-700',
+    yellow: 'bg-yellow-200 text-yellow-600',
     purple: 'bg-purple3 text-text',
-    lightGreen: 'bg-green3 text-text',
-    green: 'bg-pointGreen text-text',
+    lightGreen: 'bg-green3 text-green-700',
+    green: 'bg-pointGreen text-green-900',
     red: 'bg-pointCoral text-white',
     lightGray: 'bg-white text-gray1',
   };

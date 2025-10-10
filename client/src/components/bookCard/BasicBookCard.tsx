@@ -2,7 +2,6 @@ import { MonthlyBookClub } from '@/types';
 
 import MonthEventCard from '@/components/bookCard/MonthEventCard';
 import ClubTimePlace from '@/components/common/ClubTimePlace';
-import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 
@@ -28,12 +27,12 @@ export default function BasicBookCard({
       <BookThumbnail
         thumbnail={book.thumbnail}
         title={book.title}
-        className="w-20"
+        url={book.url}
       />
 
       <div className="flex w-full flex-col justify-between">
         <h1 className="line-clamp-2 pr-1 text-lg font-medium leading-6">
-          {book.title} {book.url && <ExternalLinkBtn url={book.url} />}
+          {book.title}
         </h1>
 
         {book.authors && (

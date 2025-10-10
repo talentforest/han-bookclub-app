@@ -16,7 +16,7 @@ import { formatDate } from '@/utils';
 
 import { NotificationData } from '@/types';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 export default function NotificationSetting() {
   const [isActive, setIsActive] = useState(false);

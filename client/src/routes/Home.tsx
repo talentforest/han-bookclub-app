@@ -13,7 +13,7 @@ import { BOOKCLUB_THIS_YEAR } from '@/appConstants';
 import { thisYear } from '@/utils';
 
 import Footer from '@/layout/Footer';
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import NextMonthClub from '@/components/bookClub/NextMonthClub';
 import ThisMonthBookClub from '@/components/bookClub/ThisMonthClub';

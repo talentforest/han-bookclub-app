@@ -4,7 +4,7 @@ import { useGetClubByYear } from '@/hooks';
 
 import { thisYearMonthId } from '@/utils';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import PreviousBookCard from '@/components/bookCard/PreviousBookCard';
 import SelectYearBtnList from '@/components/common/SelectYearBtnList';
@@ -30,11 +30,7 @@ function PreviousClub() {
               {clubByYear.map(club => (
                 <Link
                   key={club.id}
-                  to={thisYearMonthId === club.id ? '/bookclub' : club.id}
-                  state={{
-                    docId: club.id,
-                    docData: club,
-                  }}
+                  to={`/bookclub${thisYearMonthId === club.id ? '' : `/${club.id}`}`}
                 >
                   <PreviousBookCard document={club} />
                 </Link>

@@ -19,7 +19,7 @@ import { getDDay, thisMonth, thisYear, thisYearMonthId } from '@/utils';
 
 import { NotificationData, UserFcm } from '@/types';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Section from '@/components/common/container/Section';
@@ -35,6 +35,7 @@ export default function Developer() {
   const [userFcmList, setUserFcmList] = useState<UserFcm[]>([]);
 
   const {
+    sendTestToMe,
     sendPushNotificationToUser,
     sendPushNotificationToAllUser,
     isPending,
@@ -108,16 +109,17 @@ export default function Developer() {
                 <SquareBtn
                   color="blue"
                   name="에게 알림"
-                  handleClick={() => {
-                    const notificationData = {
-                      title: '🚀알림 테스트',
-                      body: '알림을 잘 받았나요?',
-                      notification: currUserFcm.notification,
-                    };
+                  handleClick={async () => {
+                    // const notificationData = {
+                    //   title: '🚀알림 테스트',
+                    //   body: '알림을 잘 받았나요?',
+                    //   notification: currUserFcm.notification,
+                    // };
+                    const { result } = await sendTestToMe('정리 기록');
 
-                    sendPushNotificationToUser(notificationData, userFcm);
-
-                    window.alert('알림을 보냈습니다!');
+                    if (result === 'success') {
+                      window.alert('알림을 보냈습니다!');
+                    }
                   }}
                   disabled={isPending}
                 >

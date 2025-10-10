@@ -14,16 +14,16 @@ import { getDocument } from '@/api';
 
 import { CHALLENGE } from '@/appConstants';
 
-import { thisMonth } from '@/utils';
+import { thisYearMonthId } from '@/utils';
 
 import { PostTypeName } from '@/types';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import BookshelfPostList from '@/components/bookshelf/BookshelfPostList';
 import UserChallengeBookCard from '@/components/challenge/UserChallengeBookCard';
 import GuideLine from '@/components/common/GuideLine';
-import Loading from '@/components/common/Loading';
+import LoopLoading from '@/components/common/LoopLoading';
 import Tag from '@/components/common/Tag';
 import Section from '@/components/common/container/Section';
 import UserImg from '@/components/common/user/UserImg';
@@ -37,13 +37,15 @@ const Bookshelf = () => {
     state: { userId: string };
   };
 
-  const { absenteeList } = useRecoilValue(attendanceSelector(+thisMonth));
+  const { absenteeList } = useRecoilValue(attendanceSelector(thisYearMonthId));
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const allUserDocs = useRecoilValue(allUsersAtom);
 
-  const userData = allUserDocs.find(user => user.id === state.userId);
+  const userData = allUserDocs?.find(
+    user => user.id === (state?.userId || uid),
+  );
 
   const {
     id,
@@ -57,7 +59,7 @@ const Bookshelf = () => {
 
   const displayName = isCurrentUser ? '나' : username;
 
-  const isAbsentee = absenteeList.includes(state.userId);
+  const isAbsentee = absenteeList?.includes(state?.userId);
 
   useEffect(() => {
     if (challenge?.creatorId !== id && id) {
@@ -67,7 +69,11 @@ const Bookshelf = () => {
 
   return (
     <>
-      <MobileHeader title={`${displayName}의 책장`} backBtn={!isCurrentUser}>
+      <MobileHeader
+        title={`${displayName}의 책장`}
+        backBtn={!isCurrentUser}
+        backTo="/bookshelf"
+      >
         {isCurrentUser && (
           <Link to="/setting">
             <FiSettings fontSize={18} />
@@ -100,7 +106,7 @@ const Bookshelf = () => {
                   <Tag text={name} key={id} color="lightBlue" shape="rounded" />
                 ))
               ) : (
-                <Loading className="h-[12vh]" />
+                <LoopLoading size={100} className="h-[30vh] w-full" />
               )}
             </ul>
           </Section>

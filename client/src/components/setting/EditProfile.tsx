@@ -8,9 +8,9 @@ import { clubBookFieldList } from '@/appConstants';
 
 import { useHandleProfile } from '@/hooks';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
-import Loading from '@/components/common/Loading';
+import LoopLoading from '@/components/common/LoopLoading';
 import Tag from '@/components/common/Tag';
 import EditBtn from '@/components/common/button/EditBtn';
 import SquareBtn from '@/components/common/button/SquareBtn';
@@ -91,55 +91,57 @@ const EditProfile = () => {
     },
   ];
 
-  return !userDoc?.displayName ? (
-    <Loading />
-  ) : (
+  return (
     <>
-      <MobileHeader title="프로필 정보" backBtn>
+      <MobileHeader title="프로필 정보" backBtn backTo="/setting">
         <EditBtn onClick={onToggleEditClick} disabled={isEditing} />
       </MobileHeader>
 
-      <main className="flex items-start gap-x-4 max-sm:flex-col">
-        <UserImg
-          imgUrl={userDoc.photoURL?.original}
-          isEditing={isEditing}
-          setNewUserImgUrl={setNewUserImgUrl}
-        />
-
-        <div className="flex-1">
-          <EditBtn
-            onClick={onToggleEditClick}
-            disabled={isEditing}
-            className="ml-auto max-sm:hidden"
+      {!userDoc?.displayName ? (
+        <LoopLoading size={150} className="h-[80vh]" />
+      ) : (
+        <main className="flex items-start gap-x-4 max-sm:flex-col">
+          <UserImg
+            imgUrl={userDoc.photoURL?.original}
+            isEditing={isEditing}
+            setNewUserImgUrl={setNewUserImgUrl}
           />
-          {!isEditing ? (
-            <ul className="mt-10 flex w-full flex-col gap-y-5">
-              {profile.map(({ name, data }) => (
-                <li className="flex gap-6" key={name}>
-                  <h3 className="min-w-24">{name}</h3>
-                  {data}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <form onSubmit={onProfileSubmit} className="mt-8">
-              <ul className="flex flex-col gap-4">
-                {profile.map(({ name, form }) => (
-                  <li className="flex justify-between gap-6" key={name}>
+
+          <div className="flex-1">
+            <EditBtn
+              onClick={onToggleEditClick}
+              disabled={isEditing}
+              className="ml-auto max-sm:hidden"
+            />
+            {!isEditing ? (
+              <ul className="mt-10 flex w-full flex-col gap-y-5">
+                {profile.map(({ name, data }) => (
+                  <li className="flex gap-6" key={name}>
                     <h3 className="min-w-24">{name}</h3>
-                    {form}
+                    {data}
                   </li>
                 ))}
               </ul>
-              <SquareBtn
-                name="수정완료"
-                type="submit"
-                className="mx-auto mt-12"
-              />
-            </form>
-          )}
-        </div>
-      </main>
+            ) : (
+              <form onSubmit={onProfileSubmit} className="mt-8">
+                <ul className="flex flex-col gap-4">
+                  {profile.map(({ name, form }) => (
+                    <li className="flex justify-between gap-6" key={name}>
+                      <h3 className="min-w-24">{name}</h3>
+                      {form}
+                    </li>
+                  ))}
+                </ul>
+                <SquareBtn
+                  name="수정완료"
+                  type="submit"
+                  className="mx-auto mt-12"
+                />
+              </form>
+            )}
+          </div>
+        </main>
+      )}
     </>
   );
 };

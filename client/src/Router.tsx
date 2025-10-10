@@ -22,8 +22,7 @@ import Setting from '@/routes/Setting';
 import Vote from '@/routes/Vote';
 import VoteDetail from '@/routes/VoteDetail';
 
-import TopNavigation from '@/layout/desktop/TopNavigation';
-import BottomNavigation from '@/layout/mobile/BottomNavigation';
+import AppNavigation from '@/layout/AppNavigation';
 
 import CreateAccount from '@/components/auth/CreateAccount';
 import ResetPasswordEmail from '@/components/auth/ResetPasswordEmail';
@@ -52,45 +51,31 @@ function Router({ isLoggedIn }: RouterProps) {
 
       {isLoggedIn ? (
         <>
-          <TopNavigation />
+          <AppNavigation type="top" />
 
           <Routes>
             <Route path="/" element={<Home />} />
+
             <Route path="/monthlyinfo" element={<MonthlyClubInfo />} />
-
-            <>
-              <Route path="/bookclub" element={<ClubDetail />} />
-              <Route path="/bookclub/subjects" element={<PostListDetail />} />
-              <Route
-                path="/bookclub/host-review"
-                element={<PostListDetail />}
-              />
-            </>
-
             <Route path="/challenge" element={<Challenge />} />
-
             <Route path="/search" element={<Search />} />
 
-            <>
-              <Route path="/previous-club" element={<PreviousClub />} />
-              <Route path="/previous-club/:id" element={<ClubDetail />} />
-              <Route
-                path="/previous-club/:id/host-review"
-                element={<PostListDetail />}
-              />
-              <Route
-                path="/previous-club/:id/subjects"
-                element={<PostListDetail />}
-              />
-            </>
+            <Route path="/previous-bookclub" element={<PreviousClub />} />
 
-            <>
-              <Route path="/vote" element={<Vote />} />
-              <Route path="/vote/:id" element={<VoteDetail />} />
-            </>
+            <Route path="/bookclub/:id?" element={<ClubDetail />} />
+            <Route
+              path="/bookclub/:id?/subjects"
+              element={<PostListDetail />}
+            />
+            <Route
+              path="/bookclub/:id?/host-review"
+              element={<PostListDetail />}
+            />
 
-            <Route path="/bookshelf" element={<Bookshelf />} />
-            <Route path="/bookshelf/:username" element={<Bookshelf />} />
+            <Route path="/vote" element={<Vote />} />
+            <Route path="/vote/:id" element={<VoteDetail />} />
+
+            <Route path="/bookshelf/:username?" element={<Bookshelf />} />
 
             <Route path="/setting" element={<Setting />} />
             <Route path="/setting/absence" element={<Absence />} />
@@ -114,7 +99,7 @@ function Router({ isLoggedIn }: RouterProps) {
             )}
           </Routes>
 
-          <BottomNavigation />
+          <AppNavigation type="bottom" />
         </>
       ) : (
         <Routes>

@@ -10,7 +10,7 @@ import { DEVELOPER_EMAIL } from '@/appConstants';
 
 import { useAlertAskJoin } from '@/hooks';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import LogOutBtn from '@/components/common/button/LogOutBtn';
 
@@ -34,7 +34,12 @@ const Setting = () => {
 
   return (
     <>
-      <MobileHeader title="설정" backBtn showDesktop={false} />
+      <MobileHeader
+        title="설정"
+        backBtn
+        showDesktop={false}
+        backTo={'/bookshelf'}
+      />
       <main>
         <h4 className="block pb-1 text-sm text-blue1 max-md:text-sm">
           사용자 설정

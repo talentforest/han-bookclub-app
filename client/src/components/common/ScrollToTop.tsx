@@ -6,9 +6,7 @@ export default function ScrollToTop(): null {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    if (!pathname.includes('/bookclub/')) {
-      window.scrollTo(0, 0);
-    }
+    window.scrollTo(0, 0);
   }, [pathname]);
 
   return null;

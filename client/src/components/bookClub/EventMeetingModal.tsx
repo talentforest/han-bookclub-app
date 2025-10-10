@@ -29,7 +29,6 @@ import { MonthlyBookClub } from '@/types';
 import CustomDatePicker from '@/components/common/CustomDatePicker';
 import Modal from '@/components/common/Modal';
 import Tag from '@/components/common/Tag';
-// import Textarea from '@/components/common/Textarea';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
 import SelectHosts from '@/components/common/input/SelectHosts';
@@ -69,7 +68,6 @@ export default function EventMeetingModal({
 
   const { anonymous } = useAlertAskJoin('register');
 
-  const year = yearMonthId.slice(0, 4);
   const monthNum = +yearMonthId.slice(-2);
 
   const { isPending, sendPushNotificationToAllUser } =
@@ -119,8 +117,8 @@ export default function EventMeetingModal({
     alert(`${monthNum}월 독서모임 정보가 변경되었습니다!`);
 
     await sendPushNotificationToAllUser({
-      title: `☕️${year}년 ${monthNum}월: ${currMeeting.eventMonth.title}`,
-      body: `${year}년 ${monthNum}월의 모임정보가 ${monthlyBookClub.book ? '변경' : '등록'}되었어요! 🕓${formatDate(time, 'M월 d일 EEEE a h시 mm분')}에 📍${place}에서 만나요 👋`,
+      title: `☕️${currMeeting.eventMonth.title} 변경 안내`,
+      body: `${formatDate(time, 'M월 d일 EEEE a h시 mm분')}에 ${place}에서 만나요👋`,
     });
   };
 
@@ -136,8 +134,8 @@ export default function EventMeetingModal({
     alert(`${monthNum}월 독서모임 정보가 등록되었습니다!`);
 
     await sendPushNotificationToAllUser({
-      title: `☕️${year}년 ${monthNum}: ${currMeeting.eventMonth.title}`,
-      body: `${year}년 ${monthNum}월의 모임정보가 ${monthlyBookClub?.book ? '변경' : '등록'}되었어요! 🕓${formatDate(time, 'M월 d일 EEEE a h시 mm분')}에 📍${place}에서 만나요 👋`,
+      title: `☕️${currMeeting.eventMonth.title} 등록 안내`,
+      body: `${monthNum}월 이벤트가 등록되었어요! 🕓${formatDate(time, 'M월 d일 EEEE a h시 mm분')}에 📍${place}에서 만나요👋`,
     });
   };
 

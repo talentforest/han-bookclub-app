@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { authService } from '@/fbase';
 import { sendPasswordResetEmail } from 'firebase/auth';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import Subtitle from '@/components/common/Subtitle';
 import SquareBtn from '@/components/common/button/SquareBtn';

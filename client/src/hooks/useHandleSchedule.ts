@@ -40,7 +40,6 @@ export const useHandleSchedule = (
 
   const { sendPushNotificationToAllUser } = useSendPushNotification();
 
-  const year = yearMonthId.slice(0, 4);
   const monthNum = +yearMonthId.slice(-2);
 
   const onMeetingEdit = async (
@@ -68,8 +67,8 @@ export const useHandleSchedule = (
     alert(`${monthNum}월 독서모임 정보가 변경되었습니다!`);
 
     await sendPushNotificationToAllUser({
-      title: '☕️ 모임 정보가 변경 안내',
-      body: `${monthNum}월의 모임 정보가 바뀌었어요! 🕓${formatDate(time, 'M월 d일 EEEE a h시 mm분')}에 📍${place}에서 만나요 👋`,
+      title: `☕️${monthNum}월 독서모임 변경 안내`,
+      body: `${monthNum}월 모임정보가 바뀌었어요! 🕓${formatDate(time, 'M월 d일 EEEE a h시 mm분')}에 ${place}에서 만나요 👋`,
     });
   };
 
@@ -79,8 +78,8 @@ export const useHandleSchedule = (
     alert(`${monthNum}월 독서모임 정보가 등록되었습니다!`);
 
     await sendPushNotificationToAllUser({
-      title: `☕️${monthNum}의 모임도서: 《${submittedValue.book.title}》`,
-      body: `${year}년 ${monthNum}월의 모임정보가 등록되었어요! 🕓${formatDate(submittedValue.meeting.time, 'M월 d일 EEEE a h시 mm분')}에 📍${submittedValue.meeting.place}에서 만나요 👋`,
+      title: `☕️${monthNum}월 독서모임 등록 안내`,
+      body: `${monthNum}월 모임책은 《${submittedValue.book.title}》입니다. 🕓${formatDate(submittedValue.meeting.time, 'M월 d일 EEEE a h시 mm분')}에 ${submittedValue.meeting.place}에서 만나요👋`,
     });
   };
 

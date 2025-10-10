@@ -2,7 +2,7 @@ import { clubBookFieldList, createAccountSteps, gender } from '@/appConstants';
 
 import { useCreateAccount } from '@/hooks';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import BookFieldCheckBox from '@/components/auth/BookFieldCheckBox';
 import GuideLine from '@/components/common/GuideLine';

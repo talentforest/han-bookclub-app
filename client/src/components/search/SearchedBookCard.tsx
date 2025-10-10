@@ -9,7 +9,6 @@ import { formatDate } from '@/utils';
 import { BookData } from '@/types';
 
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
-import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import RegisterClubBookBtn from '@/components/common/button/RegisterClubBookBtn';
@@ -64,10 +63,13 @@ const SearchedBookCard = ({ searchedBook }: SearchedBookCardProps) => {
           isOpen ? 'max-h-[1000px]' : 'max-h-0'
         }`}
       >
-        <div
-          className={`mb-4 mt-2 rounded-xl bg-white p-4 shadow-card ${thumbnail === '' ? '[&>div:first-child]:float-left [&>div:first-child]:mr-3 [&>div:first-child]:w-28' : '[&>img]:float-left [&>img]:mr-3 [&>img]:w-28'}`}
-        >
-          <BookThumbnail thumbnail={thumbnail} title={title} />
+        <div className="mb-4 mt-2 rounded-xl bg-white p-4 shadow-card">
+          <BookThumbnail
+            thumbnail={thumbnail}
+            title={title}
+            url={url}
+            className="float-left mr-3 w-28"
+          />
 
           <div className="mb-4 h-full [&>div]:text-text">
             <h1 className="mb-1 text-lg font-medium">
@@ -89,8 +91,6 @@ const SearchedBookCard = ({ searchedBook }: SearchedBookCardProps) => {
               </div>
             )}
             {contents && <p className="my-3">{contents}...</p>}
-
-            {url && <ExternalLinkBtn title="Daum 책정보" url={url} />}
           </div>
 
           <RegisterClubBookBtn

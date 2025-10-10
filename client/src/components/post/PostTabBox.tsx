@@ -99,7 +99,7 @@ export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
               {postList?.map((post, index) => (
                 <SwiperSlide
                   key={post.id}
-                  className={`min-h-fit ${postList.length === 1 ? 'w-full' : 'max-w-[70vw]'}`}
+                  className={`!mt-0 min-h-fit !py-0 ${postList.length === 1 ? 'w-full' : 'max-w-[70vw]'}`}
                 >
                   <div className="mx-auto flex w-full flex-col rounded-xl bg-white p-3">
                     <Post
@@ -112,11 +112,7 @@ export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
                     </span>
                     <ChevronRightLinkBtn
                       title="더보기"
-                      state={{
-                        id: yearMonthId,
-                        postType: currTab,
-                        postId: post.id,
-                      }}
+                      state={{ postId: post.id }}
                       to={linkTo}
                       onClick={blockLinkAndAlertJoinMember}
                       className="w-fit self-end rounded-xl bg-purple3 px-4 py-3 !text-[15px] text-purple1 shadow-card"
@@ -125,9 +121,9 @@ export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
                 </SwiperSlide>
               ))}
             </SwiperContainer>
+
             <ChevronRightLinkBtn
               title={`전체 ${currTab} 보기`}
-              state={{ id: yearMonthId, postType: currTab }}
               to={linkTo}
               onClick={blockLinkAndAlertJoinMember}
               className="w-fit self-end px-2 !text-[15px] text-blue-500"
@@ -139,7 +135,6 @@ export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
               <>
                 <PlusIconWithTextLink
                   to={linkTo}
-                  state={{ id: yearMonthId, postType: currTab }}
                   name={`${currTab} 추가하러 가기`}
                 />
                 <span className="text-sm text-gray1">

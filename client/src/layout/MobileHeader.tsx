@@ -11,6 +11,7 @@ interface MobileHeaderProps {
   backBtn?: boolean;
   showDesktop?: boolean;
   children?: ReactNode;
+  backTo?: string;
 }
 
 export default function MobileHeader({
@@ -18,10 +19,13 @@ export default function MobileHeader({
   backBtn,
   showDesktop,
   children,
+  backTo,
 }: MobileHeaderProps) {
   const navigate = useNavigate();
 
-  const onBackClick = () => navigate(-1);
+  const onClick = () => {
+    backTo ? navigate(backTo) : navigate(-1);
+  };
 
   return (
     <header
@@ -36,7 +40,12 @@ export default function MobileHeader({
       )}
 
       {backBtn && (
-        <button onClick={onBackClick}>
+        <button
+          onClick={onClick}
+          type="button"
+          aria-label="뒤로가기"
+          onKeyDown={onClick}
+        >
           <FiChevronLeft fontSize={22} />
         </button>
       )}

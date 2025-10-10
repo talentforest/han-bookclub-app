@@ -15,7 +15,7 @@ import { existDocObj } from '@/utils';
 import { UserAbsence } from '@/types';
 
 import AbsenceForm from '@/components/absence/AbsenceForm';
-import Loading from '@/components/common/Loading';
+import LoopLoading from '@/components/common/LoopLoading';
 import Modal from '@/components/common/Modal';
 import Table from '@/components/common/Table';
 
@@ -68,7 +68,7 @@ export default function AbsenceMonthTable({
           isEditable={isEditable}
         />
       ) : (
-        <Loading className="h-[40vh]" />
+        <LoopLoading size={150} className="h-[60vh]" />
       )}
     </>
   );

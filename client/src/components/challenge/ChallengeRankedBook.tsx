@@ -30,18 +30,18 @@ export default function ChallengeRankedBook({
         <div>
           <h2 className="mb-0.5 line-clamp-1 w-full">{title}</h2>
           <BookAuthorPublisher authors={authors} publisher={publisher} />
-          <div className="mt-1 flex gap-1">
+          <div className="mt-2 flex gap-1">
             <Tag
               text={`📚총 ${counts}번 재독중`}
               color="yellow"
               shape="rounded"
-              className="!py-1.5 text-sm !text-green-600"
+              className="!py-1 text-sm"
             />
             <Tag
               text={`🙋🏻${readers}명이 재독중`}
               color="lightBlue"
               shape="rounded"
-              className="!py-1.5 text-sm !text-blue-600"
+              className="!py-1 text-sm !text-blue-600"
             />
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { useDeleteAccount } from '@/hooks';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import GuideLine from '@/components/common/GuideLine';
 import SquareBtn from '@/components/common/button/SquareBtn';

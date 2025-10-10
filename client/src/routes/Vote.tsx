@@ -14,7 +14,7 @@ import { useHandleModal } from '@/hooks';
 
 import { todayWithHyphen } from '@/utils';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import VoteCreateModal from '@/components/bookVote/VoteCreateModal';
 import VoteExpiredCard from '@/components/bookVote/VoteExpiredCard';

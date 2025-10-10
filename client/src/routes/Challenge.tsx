@@ -17,7 +17,7 @@ import { getFbRouteOfPost, thisMonth, thisYear } from '@/utils';
 
 import { BaseBookData, BookData, BookWithRank, UserRank } from '@/types';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import ChallengeBookRankCard from '@/components/challenge/ChallengeBookRankCard';
 import ChallengeRecommendedBookListByMonth from '@/components/challenge/ChallengeRecommendedBookListByMonth';

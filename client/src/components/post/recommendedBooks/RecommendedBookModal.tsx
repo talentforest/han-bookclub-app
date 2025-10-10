@@ -1,7 +1,6 @@
 import { UserPost } from '@/types';
 
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
-import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
 import Modal from '@/components/common/Modal';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
@@ -41,15 +40,16 @@ export default function RecommendedBookModal({
         postType="추천책"
       />
 
-      <div className="my-4 gap-2 overflow-scroll scrollbar-hide [&>img]:float-left [&>img]:mb-2 [&>img]:mr-4 [&>img]:h-36">
+      <div className="my-4 gap-2 overflow-scroll scrollbar-hide">
         <BookThumbnail
           title={recommendedBookTitle}
           thumbnail={recommendedBookThumbnail}
+          url={url}
+          className="float-left mb-2 mr-4 h-36"
         />
 
         <h4 className="text-lg">
           <span className="pr-1">{recommendedBookTitle}</span>
-          {url && <ExternalLinkBtn url={url} />}
         </h4>
 
         <BookAuthorPublisher authors={authors} publisher={publisher} />

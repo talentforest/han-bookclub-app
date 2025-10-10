@@ -4,7 +4,7 @@ import { currAuthUserAtom } from '@/data/userAtom';
 
 import { thisYear } from '@/utils';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import AbsenceMonthTable from '@/components/absence/AbsenceMonthTable';
 import GuideLine from '@/components/common/GuideLine';

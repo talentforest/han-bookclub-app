@@ -6,7 +6,17 @@ import { useRecoilValue } from 'recoil';
 
 import { currAuthUserAtom } from '@/data/userAtom';
 
+import { thisMonth } from '@/utils';
+
 import { NotificationData, PostTypeName, UserFcm } from '@/types';
+
+type PushNotificationObj = {
+  [key in PostTypeName]: {
+    title: string;
+    body: string;
+    subPath: string;
+  };
+};
 
 export const useSendPushNotification = () => {
   const [isPending, setIsPending] = useState(false);
@@ -79,31 +89,154 @@ export const useSendPushNotification = () => {
   };
 
   /** 현재 유저를 제외한 전체 유저에게 "게시물" 등록 푸시 알림 보내기 함수 */
-  const sendPostPushNotification = async (type: PostTypeName) => {
+  // 다음달로 넘어갔는데 알림을 클릭하는 경우
+  const sendPostPushNotification = async (
+    type: PostTypeName,
+    yearMonthId?: string,
+  ) => {
     setIsPending(true);
 
-    const postposition =
-      type === '모임 후기' || type === '공유하고 싶은 문구' ? '를' : '을';
+    try {
+      if (!currentUserUid || !type) {
+        return { result: 'fail' };
+      }
 
-    const title = `🔥새로운 ${type} 등록`;
+      const month = +yearMonthId?.slice(-2) || +thisMonth;
 
-    const body = `${displayName}님이 ${type}${postposition} 작성하셨어요. 바로 확인해보세요!👀`;
+      const postPushNotificationObj: {
+        [key in PostTypeName]: {
+          title: string;
+          body: string;
+          subPath: string;
+        };
+      } = {
+        발제문: {
+          title: '🗃️새로운 발제문 등록',
+          body: `${displayName}님이 ${month}월 발제문을 등록했어요. 바로 확인해볼까요?👀`,
+          subPath: '/bookclub',
+        },
+        '정리 기록': {
+          title: '🗃️새로운 정리기록 등록',
+          body: `${displayName}님이 ${month}월 정리기록을 작성하셨어요. 바로 확인해볼까요?👀`,
+          subPath: '/bookclub',
+        },
+        '모임 후기': {
+          title: '📨새로운 모임후기 등록',
+          body: `${displayName}님이 모임후기를 작성하셨어요. 바로 확인해보세요!👀`,
+          subPath: '/bookclub',
+        },
+        추천책: {
+          title: '📚새로운 추천책 등록',
+          body: `${displayName}님이 ${month}월 추천책을 작성하셨어요.`,
+          subPath: '/bookclub',
+        },
+        챌린지: {
+          title: '🎉챌린지 달성',
+          body: `${displayName}님이 챌린지를 달성하셨어요. 같이 챌린지를 완주해봅시다!✨`,
+          subPath: '/bookclub',
+        },
+        '공유하고 싶은 문구': {
+          title: '📝공유하고 싶은 문구 등록',
+          body: `${displayName}님이 공유하고 싶은 문구를 작성하셨어요.`,
+          subPath: '/bookclub',
+        },
+      };
 
-    const subPath: Partial<{ [key in PostTypeName]: string }> = {
-      발제문: '/bookclub/subjects',
-      '정리 기록': '/bookclub/host-review',
-      '모임 후기': '/bookclub',
-      추천책: '/bookclub',
-      '공유하고 싶은 문구': '/challenge',
+      const { title, body, subPath } = postPushNotificationObj[type];
+
+      const link = `${import.meta.env.VITE_PUBLIC_URL}${subPath}`;
+
+      await sendMulticast({ title, body, link, uid: currentUserUid });
+
+      return { result: 'success' };
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsPending(false);
+    }
+  };
+
+  const getNotificationObj = (type: PostTypeName, yearMonthId?: string) => {
+    const month = +yearMonthId?.slice(-2) || +thisMonth;
+    const monthSegment = yearMonthId ? `/${yearMonthId}` : '';
+
+    const postPushNotificationObj: PushNotificationObj = {
+      발제문: {
+        title: '🗃️새로운 발제문 등록',
+        body: `${displayName}님이 ${month}월 발제문을 등록했어요. 바로 확인해볼까요?👀`,
+        subPath: `/bookclub${monthSegment}/subjects`,
+      },
+      '정리 기록': {
+        title: '🗃️새로운 정리기록 등록',
+        body: `${displayName}님이 ${month}월 모임 정리기록을 등록했어요. 바로 확인해볼까요?👀`,
+        subPath: `/bookclub${monthSegment}/host-review`,
+      },
+      '모임 후기': {
+        title: '📨새로운 모임후기 등록',
+        body: `${displayName}님이 모임후기를 등록했어요. 바로 확인해보세요!👀`,
+        subPath: `/bookclub${monthSegment}`,
+      },
+      추천책: {
+        title: '📚새로운 추천책 등록',
+        body: `${displayName}님이 ${month}월 모임 추천책을 등록했어요.`,
+        subPath: `/bookclub${monthSegment}`,
+      },
+      챌린지: {
+        title: '🎉챌린지 달성',
+        body: `${displayName}님이 챌린지를 달성하셨어요. 어떤 챌린지를 달성했는지 한번 확인하러 가볼까요?!✨`,
+        subPath: '/challenge',
+      },
+      '공유하고 싶은 문구': {
+        title: '📝공유하고 싶은 문구 등록',
+        body: `${displayName}님이 공유하고 싶은 문구를 작성하셨어요.`,
+        subPath: '/bookclub',
+      },
     };
 
-    const link = `${import.meta.env.VITE_PUBLIC_URL}${subPath[type]}`;
+    return postPushNotificationObj[type];
+  };
 
-    await sendMulticast({ title, body, link, uid: currentUserUid });
-    setIsPending(false);
+  const sendTestToMe: (
+    postType: PostTypeName,
+    yearMonthId?: string,
+  ) => Promise<{
+    result: 'success' | 'fail';
+  }> = async (postType: PostTypeName, yearMonthId?: string) => {
+    setIsPending(true);
+
+    try {
+      if (Notification.permission === 'denied') {
+        alert(
+          '현재 앱알림이 거부된 상태입니다. 모바일이라면 휴대폰 앱 설정에 들어가서 알림 설정을 켜주세요.',
+        );
+        return { result: 'fail' };
+      }
+
+      if (!currentUserUid || !postType) {
+        return { result: 'fail' };
+      }
+
+      const { title, body, subPath } = getNotificationObj(
+        postType,
+        yearMonthId,
+      );
+
+      const link = `http://localhost:3000/han-bookclub-app${subPath}`;
+
+      const token = await getDeviceToken();
+
+      await sendUnicast({ title, body, token, link });
+
+      return { result: 'success' };
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return {
+    sendTestToMe,
     sendPostPushNotification,
     sendPushNotificationToUser,
     sendPushNotificationToAllUser,

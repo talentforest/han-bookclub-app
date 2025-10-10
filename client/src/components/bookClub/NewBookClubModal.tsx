@@ -52,8 +52,6 @@ export default function NewBookClubModal({
     onNewBookClubSubmit,
   } = useHandleSchedule(bookClubSchedule, yearMonthId);
 
-  const monthNum = +yearMonthId.slice(-2);
-
   const { anonymous } = useAlertAskJoin('register');
 
   const { isPending } = useSendPushNotification();
@@ -71,7 +69,7 @@ export default function NewBookClubModal({
     ],
   };
 
-  const { sendPushNotificationToAllUser } = useSendPushNotification();
+  const monthNum = +yearMonthId.slice(-2);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -89,18 +87,10 @@ export default function NewBookClubModal({
         };
         await onNewBookClubSubmit(newBookClub);
         alert(`${monthNum}월 독서모임 정보가 등록되었습니다!`);
-        await sendPushNotificationToAllUser({
-          title: `☕️${monthNum}월의 독서모임 정보가 등록되었어요!`,
-          body: `${monthNum}월의 모임책은 《${registerBook?.title}》입니다. 🕓${formatDate(currMeeting.time, 'M월 d일 EEEE a h시 mm분')}에 ${currMeeting.place}에서 만나요 👋`,
-        });
       } else {
         const updatedMeeting = { meeting: currMeeting };
         await onMeetingEdit(updatedMeeting);
         alert(`${monthNum}월 독서모임 정보가 변경되었습니다!`);
-        await sendPushNotificationToAllUser({
-          title: `☕️${monthNum}월의 독서모임 정보가 변경되었어요!`,
-          body: `🕓${formatDate(currMeeting.time, 'M월 d일 EEEE a h시 mm분')}에 ${currMeeting.place}에서 만나요 👋`,
-        });
       }
     } catch (error) {
       window.alert(

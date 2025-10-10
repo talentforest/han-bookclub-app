@@ -8,7 +8,7 @@ import { thisYear } from '@/utils';
 
 import { BookClubInfo } from '@/types';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import AbsenceMemberTable from '@/components/absence/AbsenceMemberTable';
 import BookFieldHostTable from '@/components/bookClub/BookFieldHostTable';

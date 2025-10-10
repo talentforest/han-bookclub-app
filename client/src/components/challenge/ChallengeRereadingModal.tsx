@@ -64,57 +64,64 @@ export default function ChallengeRereadingModal({
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (ref.current.value === '')
-      return window.alert('소감이 작성되지 않았습니다.');
+    try {
+      if (ref.current.value === '')
+        return window.alert('소감이 작성되지 않았습니다.');
 
-    const existChallengeDoc = userChallenge?.creatorId;
-    const existRereadingBook = userChallenge[title];
-    const docRef = doc(dbService, CHALLENGE, `${thisYear}-${uid}`);
+      const existChallengeDoc = userChallenge?.creatorId;
+      const existRereadingBook = userChallenge[title];
+      const docRef = doc(dbService, CHALLENGE, `${thisYear}-${uid}`);
 
-    const newImpression = {
-      text: ref.current.value,
-      createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
-      creatorId: uid,
-    };
+      const newImpression = {
+        text: ref.current.value,
+        createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
+        creatorId: uid,
+      };
 
-    const newRereadingBook = {
-      [title]: {
-        book: { title, thumbnail, authors, publisher },
-        counts: 1,
-        impressionList: [{ id: 1, ...newImpression }],
-      },
-    };
+      const newRereadingBook = {
+        [title]: {
+          book: { title, thumbnail, authors, publisher },
+          counts: 1,
+          impressionList: [{ id: 1, ...newImpression }],
+        },
+      };
 
-    if (existChallengeDoc) {
-      await updateDoc(
-        docRef,
-        existRereadingBook
-          ? {
-              [title]: {
-                ...existRereadingBook,
-                counts: existRereadingBook.counts + 1,
-                impressionList: [
-                  ...existRereadingBook.impressionList,
-                  {
-                    id: existRereadingBook.impressionList.length + 1,
-                    ...newImpression,
-                  },
-                ],
-              },
-            }
-          : newRereadingBook,
+      if (existChallengeDoc) {
+        await updateDoc(
+          docRef,
+          existRereadingBook
+            ? {
+                [title]: {
+                  ...existRereadingBook,
+                  counts: existRereadingBook.counts + 1,
+                  impressionList: [
+                    ...existRereadingBook.impressionList,
+                    {
+                      id: existRereadingBook.impressionList.length + 1,
+                      ...newImpression,
+                    },
+                  ],
+                },
+              }
+            : newRereadingBook,
+        );
+      } else {
+        await setDoc(docRef, { creatorId: uid, ...newRereadingBook });
+      }
+
+      alert('소감이 작성 완료되었습니다. 챌린지를 달성했습니다!❣️');
+      sendPushNotificationToAllUser({
+        title: `${displayName}님이 챌린지를 달성했어요!🔥`,
+        body: `${displayName}님은 《${title}》 책을 재독했어요. 여러분도 함께 도전해보세요!`,
+        subPath: '/challenge',
+      });
+    } catch (error) {
+      window.alert(
+        '소감 작성 중 오류가 발생했습니다. 관리자에게 문의해주세요.',
       );
-    } else {
-      await setDoc(docRef, { creatorId: uid, ...newRereadingBook });
+    } finally {
+      hideModal();
     }
-
-    hideModal();
-    alert('소감이 작성 완료되었습니다. 챌린지를 추가 달성했습니다!❣️');
-    sendPushNotificationToAllUser({
-      title: '다시 읽기 챌린지를 달성한 멤버가 있어요!',
-      body: `${displayName}님이 ${title} 책을 다시 읽었어요!`,
-      subPath: '/challenge',
-    });
   };
 
   const { title, thumbnail, authors, publisher } = selectedBook;

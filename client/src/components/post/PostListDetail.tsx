@@ -1,6 +1,6 @@
 import { Fragment, useEffect } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import { useRecoilState } from 'recoil';
 
@@ -15,11 +15,11 @@ import { useAlertAskJoin, useHandleModal } from '@/hooks';
 
 import { formatDate, getFbRouteOfPost, thisYearMonthId } from '@/utils';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import BasicBookCard from '@/components/bookCard/BasicBookCard';
 import DottedDividingLine from '@/components/common/DottedDividingLine';
-import Loading from '@/components/common/Loading';
+import LoopLoading from '@/components/common/LoopLoading';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Post from '@/components/post/Post';
 import PostAddModal from '@/components/post/PostAddModal';
@@ -27,16 +27,11 @@ import PostFooter from '@/components/post/PostFooter';
 
 interface LocationState {
   pathname: string;
-  state: {
-    id: string;
-    postType: '발제문' | '정리 기록';
-    postId: string;
-  };
+  state: { postId: string };
 }
 
 export default function PostListDetail() {
   const [clubInfoDocs, setClubInfoDocs] = useRecoilState(clubByYearAtom);
-
   const [hostReviews, setHostReviews] = useRecoilState(hostReviewState);
   const [subjects, setSubjects] = useRecoilState(subjectsState);
 
@@ -44,17 +39,21 @@ export default function PostListDetail() {
 
   const { pathname, state } = useLocation() as LocationState;
 
-  const docId = state?.id ?? thisYearMonthId;
+  const params = useParams();
+
+  const yearMonthId = params?.id ?? thisYearMonthId;
   const postType = pathname.includes('host-review') ? '정리 기록' : '발제문';
   const postId = state?.postId ?? '';
 
+  const year = yearMonthId.slice(0, 4);
+
   useEffect(() => {
-    getCollection(`BookClub-${docId.slice(0, 4)}`, setClubInfoDocs);
-    getCollection(getFbRouteOfPost(docId, HOST_REVIEW), setHostReviews);
-    getCollection(getFbRouteOfPost(docId, SUBJECTS), setSubjects);
+    getCollection(`BookClub-${year}`, setClubInfoDocs);
+    getCollection(getFbRouteOfPost(yearMonthId, HOST_REVIEW), setHostReviews);
+    getCollection(getFbRouteOfPost(yearMonthId, SUBJECTS), setSubjects);
   }, []);
 
-  const document = clubInfoDocs?.find(doc => doc.id === docId);
+  const document = clubInfoDocs?.find(doc => doc.id === yearMonthId);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('write');
 
@@ -66,11 +65,11 @@ export default function PostListDetail() {
   const postInfo = {
     발제문: {
       postList: subjects,
-      collName: getFbRouteOfPost(docId, SUBJECTS),
+      collName: getFbRouteOfPost(yearMonthId, SUBJECTS),
     },
     '정리 기록': {
       postList: hostReviews,
-      collName: getFbRouteOfPost(docId, HOST_REVIEW),
+      collName: getFbRouteOfPost(yearMonthId, HOST_REVIEW),
     },
   };
 
@@ -83,14 +82,14 @@ export default function PostListDetail() {
   return (
     <>
       <MobileHeader
-        title={`${docId === thisYearMonthId ? '이달' : formatDate(docId, 'yy년 MM월')}의 한페이지 ${postType}`}
+        title={`${yearMonthId === thisYearMonthId ? '이달' : formatDate(yearMonthId, 'yyyy년 M월')}의 한페이지 ${postType}`}
         backBtn
       />
 
       <main>
         {document && <BasicBookCard bookClub={document} />}
 
-        {pathname.includes('bookclub') && (
+        {!params?.id && (
           <SquareBtn
             type="button"
             color="darkBlue"
@@ -101,7 +100,7 @@ export default function PostListDetail() {
         )}
 
         {!postInfo[postType]?.postList ? (
-          <Loading className="h-[25vh]" />
+          <LoopLoading size={150} className="h-[55vh]" />
         ) : (
           currPostList?.length !== 0 &&
           currPostList.map((post, index) => (

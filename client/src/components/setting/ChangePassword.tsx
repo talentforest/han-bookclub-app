@@ -2,7 +2,7 @@ import { authService } from '@/fbase';
 
 import { useChangePw } from '@/hooks';
 
-import MobileHeader from '@/layout/mobile/MobileHeader';
+import MobileHeader from '@/layout/MobileHeader';
 
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
