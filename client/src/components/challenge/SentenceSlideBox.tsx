@@ -36,7 +36,7 @@ export default function SentenceSlideBox({ sentence }: SentenceSlideBoxProps) {
       <span>p.{page}</span>
 
       <div>
-        <span>{formatDate(createdAt)}</span>
+        <span>{formatDate(createdAt, 'M월 d일 HH:mm')}</span>
         <LikeBtnWithPeopleInfo post={sentence} />
       </div>
     </div>

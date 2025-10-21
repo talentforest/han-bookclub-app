@@ -35,7 +35,6 @@ export default function Developer() {
   const [userFcmList, setUserFcmList] = useState<UserFcm[]>([]);
 
   const {
-    sendTestToMe,
     sendPushNotificationToUser,
     sendPushNotificationToAllUser,
     isPending,
@@ -110,14 +109,18 @@ export default function Developer() {
                   color="blue"
                   name="에게 알림"
                   handleClick={async () => {
-                    // const notificationData = {
-                    //   title: '🚀알림 테스트',
-                    //   body: '알림을 잘 받았나요?',
-                    //   notification: currUserFcm.notification,
-                    // };
-                    const { result } = await sendTestToMe('정리 기록');
+                    const notificationData = {
+                      title: '🚀알림 테스트',
+                      body: '알림을 잘 받았나요?',
+                      notification: currUserFcm.notification,
+                    };
 
-                    if (result === 'success') {
+                    const result = await sendPushNotificationToUser(
+                      notificationData,
+                      userFcm,
+                    );
+
+                    if (result?.result === 'success') {
                       window.alert('알림을 보냈습니다!');
                     }
                   }}
@@ -135,7 +138,7 @@ export default function Developer() {
             name={`${+thisMonth}월 독서모임 종료 알림`}
             handleClick={async () => {
               const notificationData = {
-                title: `☕️${+thisMonth}월 독서모임이 종료됐어요`,
+                title: `☕️${+thisMonth}월 독서모임 종료`,
                 body: '독서모임이 종료되었습니다. 기억에 남는 이야기가 있었다면 모임 후기에 작성해보세요🔥',
                 notification: currUserFcm.notification,
               };
@@ -153,7 +156,7 @@ export default function Developer() {
             handleClick={async () => {
               const notificationData = {
                 title: `☕️${+thisMonth}월 독서모임이 임박했어요!`,
-                body: `${meetingDDay} 후 독서모임이 시작됩니다. 모임책을 완독하세요🔥`,
+                body: `${meetingDDay}일 후 독서모임이 시작됩니다. 모임책을 완독하세요🔥`,
                 notification: currUserFcm.notification,
               };
               await sendPushNotificationToUser(notificationData);

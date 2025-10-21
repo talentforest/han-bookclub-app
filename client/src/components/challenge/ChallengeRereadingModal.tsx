@@ -34,6 +34,7 @@ interface ChallengeRereadingModalProps {
   counts: number;
   reason: string;
   recommendedUser: string;
+  yearMonthId: string;
 }
 
 export default function ChallengeRereadingModal({
@@ -42,6 +43,7 @@ export default function ChallengeRereadingModal({
   counts,
   reason,
   recommendedUser,
+  yearMonthId,
 }: ChallengeRereadingModalProps) {
   const ref = useRef<HTMLTextAreaElement>();
 
@@ -78,8 +80,9 @@ export default function ChallengeRereadingModal({
         creatorId: uid,
       };
 
-      const newRereadingBook = {
+      const newRereadingBook: Omit<RereadingChallenge, 'id' | 'creatorId'> = {
         [title]: {
+          yearMonthId: '',
           book: { title, thumbnail, authors, publisher },
           counts: 1,
           impressionList: [{ id: 1, ...newImpression }],
@@ -112,7 +115,7 @@ export default function ChallengeRereadingModal({
       alert('소감이 작성 완료되었습니다. 챌린지를 달성했습니다!❣️');
       sendPushNotificationToAllUser({
         title: `${displayName}님이 챌린지를 달성했어요!🔥`,
-        body: `${displayName}님은 《${title}》 책을 재독했어요. 여러분도 함께 도전해보세요!`,
+        body: `${displayName}님은 《${title}》 책을 재독했어요. 여러분도 함께 챌린지에 도전해보세요!`,
         subPath: '/challenge',
       });
     } catch (error) {
@@ -129,39 +132,50 @@ export default function ChallengeRereadingModal({
   return (
     <Modal title="재독 챌린지">
       <div className="overflow-scroll scrollbar-hide">
-        <div className="flex items-center gap-3">
-          <BookThumbnail title={title} thumbnail={thumbnail} className="w-14" />
+        <div className="mb-4">
+          <BookThumbnail
+            title={title}
+            thumbnail={thumbnail}
+            className="float-left mb-3 mr-3 w-16"
+          />
 
-          <div className="w-full">
+          <div>
+            {yearMonthId && (
+              <Tag
+                color="purple"
+                shape="rounded"
+                className="!py-2"
+                text={`${formatDate(yearMonthId, 'yyyy년 M월')} 모임책`}
+              />
+            )}
+
+            <h2 className="mb-0.5 mt-1.5 w-full font-medium">{title}</h2>
+            <BookAuthorPublisher authors={authors} publisher={publisher} />
+
             {recommendedUser && (
-              <div className="mb-2 flex items-center">
-                <UserImgName userId={recommendedUser} />
+              <div className="mt-2 flex items-center">
+                <UserImgName userId={recommendedUser} isLink={false} />
                 <span className="text-[15px]">의 추천책</span>
               </div>
             )}
-            <h2 className="mb-0.5 line-clamp-1 w-full font-medium">{title}</h2>
-            <BookAuthorPublisher authors={authors} publisher={publisher} />
+            {reason && (
+              <p className="mt-2 border-l-4 border-gray3 pl-2 text-[15px]">
+                {reason}
+              </p>
+            )}
           </div>
         </div>
 
-        {reason && (
-          <p className="mt-2 border-l-4 border-gray3 pl-2 text-[15px]">
-            {reason}
-          </p>
-        )}
-
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="mt-4 flex w-full flex-wrap gap-2">
           <Tag
             text={`🙋🏻 ${readers}명의 멤버가 재독`}
             color="lightBlue"
-            shape="rounded"
-            className="!py-1.5 text-sm !text-blue-600"
+            className="!py-1.5"
           />
           <Tag
             text={`👀 총 ${counts}번 재독`}
             color="yellow"
-            shape="rounded"
-            className="!py-1.5 text-sm !text-green-600"
+            className="!py-1.5"
           />
         </div>
 

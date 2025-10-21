@@ -52,7 +52,11 @@ export default function UserChallengeBookCard({
     <li className="relative flex">
       <div className="relative flex-1 rounded-xl bg-white px-4 pb-3 pt-4 opacity-80 shadow-card">
         <div className="flex h-32 gap-4">
-          <BookThumbnail title={title} thumbnail={thumbnail} />
+          <BookThumbnail
+            title={title}
+            thumbnail={thumbnail}
+            className="w-[28%]"
+          />
 
           <div className="flex flex-1 flex-col justify-between">
             <div className="mb-2 flex items-center">

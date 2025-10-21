@@ -1,4 +1,4 @@
-import { FiEdit3 } from 'react-icons/fi';
+import { FiCalendar, FiEdit3, FiMapPin, FiUser } from 'react-icons/fi';
 
 import { useHandleModal } from '@/hooks';
 
@@ -8,7 +8,7 @@ import NewBookClubModal from '@/components/bookClub/NewBookClubModal';
 import UserImgName from '@/components/common/user/UserImgName';
 
 interface LabelWithValueCardProps {
-  label: string;
+  label: '모임장소' | '모임시간' | '발제자' | '진행자';
   value: string[] | string;
   editable: boolean;
 }
@@ -20,10 +20,20 @@ export default function LabelWithValueCard({
 }: LabelWithValueCardProps) {
   const { showModal } = useHandleModal();
 
+  const icon = {
+    모임장소: <FiMapPin className="inline" />,
+    모임시간: <FiCalendar className="inline" />,
+    발제자: <FiUser className="inline" />,
+    진행자: <FiUser className="inline" />,
+  };
+
   return (
     <>
-      <div className="relative flex h-full items-center gap-2 overflow-hidden rounded-card bg-white px-4 shadow-card max-sm:p-2 max-sm:px-4">
-        <h4 className="min-w-14 tracking-tight text-gray2">{label}</h4>
+      <div className="relative flex h-full items-center overflow-hidden rounded-card bg-white px-4 shadow-card max-sm:p-2 max-sm:px-4">
+        <h4 className="flex min-w-20 items-center gap-0.5 tracking-tight text-gray2">
+          {icon[label]}
+          {label}
+        </h4>
 
         <div className="flex w-full flex-1 py-1">
           {value && (
@@ -40,7 +50,7 @@ export default function LabelWithValueCard({
               {typeof value === 'string' && value && (
                 <span className="tracking-tight">
                   {label === '모임시간'
-                    ? formatDate(value, 'M월 d일 EEEE a h시 mm분')
+                    ? formatDate(value, 'M월 d일 a h:mm')
                     : value}
                 </span>
               )}

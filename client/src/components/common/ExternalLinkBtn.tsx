@@ -16,10 +16,10 @@ export default function ExternalLinkBtn({
       href={url}
       target="_blank"
       rel="noreferrer"
-      className={`p-2 text-[15px] text-gray1 ${title ? 'flex items-center gap-1' : 'inline-block'} ${className}`}
+      className={`p-1.5 text-gray1 ${title ? 'flex items-center gap-1' : 'inline-block'} ${className}`}
     >
       <FiExternalLink className="size-full" />
-      {title && <span className="truncate">{title}</span>}
+      {title && <span className="truncate text-[15px]">{title}</span>}
     </a>
   );
 }

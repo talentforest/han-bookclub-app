@@ -43,7 +43,6 @@ export const postTypeObj = {
     name: '추천책',
     collName: RECOMMENDED_BOOKS,
   },
-  // 챌린지
   challenge: {
     name: '챌린지',
     collName: CHALLENGE,

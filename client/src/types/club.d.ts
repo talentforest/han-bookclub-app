@@ -1,3 +1,5 @@
+import { monthlyClubInfo } from '@/appConstants';
+
 import { BookData } from '@/types/book';
 
 export type MonthlyBookClub = {
@@ -60,6 +62,7 @@ export type DetailPageHeaderTitle =
   | '도서 정보'
   | `${string}모임책 투표함`
   | `${string}년 개인별 챌린지`
+  | `${string}년 연말결산 이벤트`
   | `${string}년 독서모임 한페이지 정보`
   | `${string}년 ${string} 정보`
   | `${string}의 한페이지`
@@ -78,8 +81,4 @@ export type DetailPageHeaderTitle =
 
 export type NotLogInPage = '계정 생성' | '비밀번호 찾기';
 
-export type BookClubInfo =
-  | 'fieldAndHost'
-  | 'absence'
-  | 'challenge'
-  | 'yearClosing';
+export type MonthlyClubInfoType = typeof monthlyClubInfo;

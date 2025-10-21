@@ -26,15 +26,15 @@ export default function MonthEventCard({
 
   const thisMonthClubInfoList = monthClubInfo && [
     {
-      label: '모임장소',
+      label: '모임장소' as const,
       value: monthClubInfo.meeting?.place,
     },
     {
-      label: '모임시간',
+      label: '모임시간' as const,
       value: monthClubInfo.meeting?.time,
     },
     {
-      label: '진행자',
+      label: '진행자' as const,
       value: monthClubInfo.meeting.eventMonth?.hosts,
     },
   ];

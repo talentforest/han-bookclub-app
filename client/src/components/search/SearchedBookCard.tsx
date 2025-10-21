@@ -81,7 +81,7 @@ const SearchedBookCard = ({ searchedBook }: SearchedBookCardProps) => {
             {datetime && (
               <div className="mb-0.5 mt-3">
                 <span className="mr-1 text-gray1">출간일:</span>{' '}
-                {formatDate(datetime, 'yyyy년 MM월 dd일')}
+                {formatDate(datetime, 'yyyy년 M월 d일')}
               </div>
             )}
             {price && (

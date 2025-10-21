@@ -14,7 +14,7 @@ export default function SelectYearBtnList({
   buttonClassName = '',
 }: SelectedYearBtnListProps) {
   return (
-    <ul className="flex flex-wrap gap-4 max-sm:gap-x-2.5 max-sm:gap-y-2">
+    <ul className="flex flex-wrap gap-2 max-sm:gap-x-2.5 max-sm:gap-y-2">
       {operationYearList.map(year => (
         <li key={year}>
           <SquareBtn

@@ -77,6 +77,7 @@ export default function Challenge() {
             return {
               ...book,
               counts,
+              id,
               impressionList: impressionList.map(item => ({
                 ...item,
                 creatorId,
@@ -182,7 +183,7 @@ export default function Challenge() {
   });
 
   const onChallengeBookClick = (
-    book: BookData | BaseBookData,
+    book: (BookData | BaseBookData) & { yearMonthId?: string },
     reason?: string,
     recommendedUser?: string,
   ) => {
@@ -198,6 +199,7 @@ export default function Challenge() {
           counts={challengeBook?.counts || 0}
           reason={reason}
           recommendedUser={recommendedUser}
+          yearMonthId={book.yearMonthId}
         />
       ),
     });
@@ -224,16 +226,18 @@ export default function Challenge() {
         </header>
 
         <Section title="독서모임의 책들">
-          <SelectYearBtnList
-            selectedYear={selectedYear}
-            handleChangeYear={setSelectedYear}
-            buttonClassName="!px-3 h-9 min-h-9"
-          />
-          <p className="mt-4 text-sm text-gray1">
+          <p className="mb-4 text-sm text-gray1">
             책의 썸네일을 클릭한 후 재독 소감을 작성하면 재독수가 증가합니다!
             과연 누구의 재독 수가 가장 많을까요?!
           </p>
-          <ul className="mt-5 grid grid-cols-10 gap-6 max-md:grid-cols-7 max-sm:grid-cols-4 max-sm:gap-5">
+
+          <SelectYearBtnList
+            selectedYear={selectedYear}
+            handleChangeYear={setSelectedYear}
+            buttonClassName="shadow-none"
+          />
+
+          <ul className="mt-5 grid grid-cols-10 gap-4 max-md:grid-cols-7 max-sm:grid-cols-4 max-sm:gap-3">
             {clubBookListByYear.map(clubbook => (
               <li key={clubbook.datetime}>
                 <button
@@ -244,7 +248,6 @@ export default function Challenge() {
                   <BookThumbnail
                     title={clubbook.title}
                     thumbnail={clubbook.thumbnail}
-                    className="w-full rounded-md shadow-card"
                   />
                 </button>
               </li>

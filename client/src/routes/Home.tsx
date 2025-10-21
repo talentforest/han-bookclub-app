@@ -49,7 +49,7 @@ const Home = () => {
     },
     {
       name: '연말결산',
-      onClick: () => alert('아직 준비중이에요!'),
+      onClick: () => alert('준비중입니다!'),
       color: 'gray' as const,
     },
   ];
@@ -64,10 +64,7 @@ const Home = () => {
             <ThisMonthBookClub />
           </Section>
 
-          <Section
-            title="다음달 모임정보"
-            className="col-span-1 !my-0 size-full"
-          >
+          <Section title="다음달 모임책" className="col-span-1 !my-0 size-full">
             <NextMonthClub />
           </Section>
         </div>
@@ -77,7 +74,7 @@ const Home = () => {
             <SquareBtn
               key={name}
               name={`${thisYear} ${name}`}
-              className="h-fit w-full !px-0 py-3.5"
+              className="h-fit w-full rounded-xl !px-0 py-4"
               color={color}
               handleClick={onClick}
             />
@@ -88,7 +85,7 @@ const Home = () => {
           <RecommendedBookSwiperContainer />
         </Section>
 
-        <Section title="다음 모임책 투표함">
+        <Section title="모임책 투표함">
           <VoteSlider />
         </Section>
       </main>

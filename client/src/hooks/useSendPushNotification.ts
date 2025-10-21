@@ -82,10 +82,14 @@ export const useSendPushNotification = () => {
   }: Omit<NotificationData, 'notification'>) => {
     setIsPending(true);
 
-    const link = `${import.meta.env.VITE_PUBLIC_URL}${subPath || ''}`;
-    await sendMulticast({ title, body, link, uid: currentUserUid });
-
-    setIsPending(false);
+    try {
+      const link = `${import.meta.env.VITE_PUBLIC_URL}${subPath || ''}`;
+      await sendMulticast({ title, body, link, uid: currentUserUid });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsPending(false);
+    }
   };
 
   /** 현재 유저를 제외한 전체 유저에게 "게시물" 등록 푸시 알림 보내기 함수 */

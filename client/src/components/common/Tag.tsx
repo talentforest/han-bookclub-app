@@ -30,10 +30,10 @@ export default function Tag({
   const bgColor = {
     blue: 'bg-blue1 text-white',
     lightBlue: 'bg-blue-100 text-blue-700',
-    yellow: 'bg-yellow-200 text-yellow-600',
-    purple: 'bg-purple3 text-text',
+    yellow: 'bg-amber-100 text-yellow-700',
+    purple: 'bg-purple3 text-purple-700',
     lightGreen: 'bg-green3 text-green-700',
-    green: 'bg-pointGreen text-green-900',
+    green: 'bg-emerald-200 text-green-900',
     red: 'bg-pointCoral text-white',
     lightGray: 'bg-white text-gray1',
   };
@@ -44,9 +44,9 @@ export default function Tag({
   };
 
   return onClick ? (
-    <button type="button" onClick={onClick}>
+    <button type="button" onClick={onClick} className="min-w-fit">
       <div
-        className={`text-sm ${shapeStyle[shape]} ${bgColor[color]} flex h-fit min-h-6 w-fit min-w-6 items-center gap-1 rounded-2xl px-3.5 py-2 shadow-card ${className}`}
+        className={`text-sm ${shapeStyle[shape]} ${bgColor[color]} flex h-fit min-h-6 w-fit min-w-6 items-center gap-1 rounded-2xl px-4 py-2.5 ${className}`}
       >
         <span>{text && text}</span>
         {children && children}
@@ -54,7 +54,7 @@ export default function Tag({
     </button>
   ) : (
     <div
-      className={`text-sm ${shapeStyle[shape]} ${bgColor[color]} flex h-fit min-h-6 w-fit min-w-6 items-center gap-1 rounded-2xl px-3.5 py-2 shadow-card ${className}`}
+      className={`min-w-fit text-sm ${shapeStyle[shape]} ${bgColor[color]} flex h-fit min-h-6 w-fit min-w-6 items-center gap-1 rounded-2xl px-4 py-2.5 ${className}`}
     >
       <span>{text && text}</span>
       {children && children}

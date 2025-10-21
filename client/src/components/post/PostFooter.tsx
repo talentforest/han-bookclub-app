@@ -19,7 +19,9 @@ export default function PostFooter({
 }: PostFooterProps) {
   return (
     <footer className="mt-4 flex items-center justify-between">
-      <span className="text-sm text-gray1">{formatDate(createdAt)}</span>
+      <span className="min-w-fit text-sm text-gray1">
+        {formatDate(createdAt)}
+      </span>
 
       {footerType === 'likes' && (
         <LikeBtnWithPeopleInfo collName={collName} post={post} />

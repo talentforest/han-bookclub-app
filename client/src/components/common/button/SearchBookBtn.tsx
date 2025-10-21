@@ -10,7 +10,7 @@ const SearchBookBtn = () => {
   return (
     <>
       <button
-        className="mb-[10px] flex w-1/2 items-center gap-1 rounded-xl bg-white px-4 py-3 shadow-card max-sm:w-full"
+        className="mb-[10px] flex w-1/2 items-center gap-1 rounded-full bg-white px-4 py-3 shadow-card max-sm:w-full"
         onClick={() =>
           showModal({
             element: <SearchedBookPostAddModal title="추천책 작성하기" />,

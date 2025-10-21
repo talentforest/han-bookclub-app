@@ -40,17 +40,17 @@ export default function ThisMonthClub() {
 
   const thisMonthClubInfoList = thisMonthClub && [
     {
-      label: '모임장소',
-      value: thisMonthClub.meeting?.place,
-      editable: true && pathname === '/bookclub',
-    },
-    {
-      label: '모임시간',
+      label: '모임시간' as const,
       value: thisMonthClub.meeting?.time,
       editable: true && pathname === '/bookclub',
     },
     {
-      label: '발제자',
+      label: '모임장소' as const,
+      value: thisMonthClub.meeting?.place,
+      editable: true && pathname === '/bookclub',
+    },
+    {
+      label: '발제자' as const,
       value: fieldAndHost?.hosts,
     },
   ];
@@ -58,14 +58,14 @@ export default function ThisMonthClub() {
   return (
     <>
       {thisMonthClub && thisMonthClub?.book ? (
-        <div className="grid grid-cols-5 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">
+        <div className="grid grid-cols-2 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">
           <MonthBookCard
             month={`${+thisMonth}`}
             book={thisMonthClub.book}
             bookFields={fieldAndHost?.field}
-            className="col-span-3"
+            className="col-span-1"
           />
-          <div className="col-span-2 flex flex-col gap-6 max-sm:gap-4">
+          <div className="col-span-1 flex flex-col gap-6 max-sm:gap-4">
             {thisMonthClubInfoList.map(({ label, value, editable }) => (
               <LabelWithValueCard
                 key={label}

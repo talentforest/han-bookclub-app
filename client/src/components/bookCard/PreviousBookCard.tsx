@@ -1,4 +1,4 @@
-import { formatDate } from '@/utils';
+import { formatDate, thisMonth } from '@/utils';
 
 import { MonthlyBookClub } from '@/types';
 
@@ -22,7 +22,7 @@ const PreviousBookCard = ({ document }: PreviousBookCardProps) => {
   return (
     <div className="relative flex h-full w-full cursor-pointer flex-col items-center justify-between gap-1 rounded-card bg-white px-4 py-5 shadow-card">
       <Tag
-        color="lightBlue"
+        color={+month === +thisMonth ? 'lightBlue' : 'purple'}
         shape="rounded"
         text={`${month}월의 독서모임`}
         className="font-medium"
@@ -33,7 +33,7 @@ const PreviousBookCard = ({ document }: PreviousBookCardProps) => {
           <BookThumbnail
             thumbnail={book.thumbnail}
             title={book.title}
-            className="mt-4 !h-28 border"
+            className="mt-4 w-1/3"
           />
 
           <h3 className="my-2 text-center text-lg font-medium">{book.title}</h3>

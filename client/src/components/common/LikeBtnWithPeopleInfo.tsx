@@ -52,17 +52,15 @@ const LikeBtnWithPeopleInfo = ({
         )}
       </button>
 
-      <span className="text-sm">
-        {post?.likeUsers?.length || 0}명이 좋아합니다
-      </span>
+      <span className="text-sm">{post?.likeUsers?.length || 0} Likes</span>
 
       {!myPost && (
         <LikeBtn collName={collName} like={like} onLikeClick={onLikeClick} />
       )}
 
       {showLikeUsers && (
-        <div className="absolute bottom-7 rounded-xl border bg-white p-3">
-          <h4 className="mb-2 text-sm text-gray1">좋아한 멤버</h4>
+        <div className="absolute bottom-7 right-0 rounded-xl border bg-white p-3">
+          <h4 className="mb-2 min-w-20 text-sm text-gray1">좋아한 멤버</h4>
           <ul className="flex w-full flex-wrap gap-x-2 gap-y-1">
             {post?.likeUsers?.map(user => (
               <UserImgName key={user} userId={user} className="" />

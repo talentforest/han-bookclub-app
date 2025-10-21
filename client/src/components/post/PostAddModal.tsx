@@ -71,7 +71,7 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
     <Modal title={`${postType} 작성하기`}>
       <form
         onSubmit={handleSubmit}
-        className="overflow-scroll pb-1 scrollbar-hide"
+        className="flex-1 overflow-scroll pb-1 scrollbar-hide"
       >
         <QuillEditor
           placeholder={`${postType}을 작성해주세요`}
@@ -81,8 +81,9 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
         <SquareBtn
           name="작성 완료"
           type="submit"
-          className="ml-auto"
+          className="ml-auto px-7 !shadow-none max-sm:px-4"
           disabled={isPending}
+          color="darkBlue"
         />
       </form>
     </Modal>

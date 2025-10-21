@@ -19,7 +19,7 @@ export default function CreatorBox({
       {isAnonymous ? (
         <span className="text-sm">익명의 멤버</span>
       ) : (
-        <UserImgName userId={creatorId} />
+        <UserImgName userId={creatorId} isLink={false} />
       )}
     </div>
   );

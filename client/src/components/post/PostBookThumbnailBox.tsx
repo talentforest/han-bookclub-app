@@ -93,7 +93,7 @@ const PostBookThumbnailBox = ({
           <BookThumbnail
             thumbnail={thumbnail}
             title={title}
-            className="max-h-60 w-full"
+            className="w-full"
           />
         </button>
       )}

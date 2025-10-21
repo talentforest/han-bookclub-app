@@ -61,7 +61,12 @@ const EditProfile = () => {
       data: (
         <ul className="flex flex-wrap gap-2">
           {userDoc?.favoriteBookField?.map(item => (
-            <Tag key={item.id} text={item.name} color="green" />
+            <Tag
+              key={item.id}
+              text={item.name}
+              color="lightBlue"
+              shape="rounded"
+            />
           ))}
         </ul>
       ),
@@ -76,8 +81,8 @@ const EditProfile = () => {
             >
               <Tag
                 text={name}
-                color={isSelected(id) ? 'purple' : 'lightGray'}
-                className="!px-2"
+                color={isSelected(id) ? 'lightBlue' : 'lightGray'}
+                shape="rounded"
               />
             </button>
           ))}

@@ -57,7 +57,7 @@ const Vote = () => {
             </button>
           }
         >
-          {progressVotes?.length !== 0 ? (
+          {progressVotes && progressVotes?.length !== 0 ? (
             <ul className="flex gap-6 max-sm:flex-col">
               {progressVotes?.map(voteDetail => (
                 <VoteProgressCard key={voteDetail.id} voteDetail={voteDetail} />

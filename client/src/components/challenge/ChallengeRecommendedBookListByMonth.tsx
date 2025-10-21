@@ -43,7 +43,6 @@ export default function ChallengeRecommendedBookListByMonth({
             <BookThumbnail
               title={recommendedBook.title}
               thumbnail={recommendedBook.thumbnail}
-              className="w-full rounded-md shadow-card"
             />
           </button>
         </li>

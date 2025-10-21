@@ -6,3 +6,4 @@ export * from '@/appConstants/url';
 export * from '@/appConstants/initialData';
 export * from '@/appConstants/date';
 export * from '@/appConstants/account';
+export * from '@/appConstants/club';

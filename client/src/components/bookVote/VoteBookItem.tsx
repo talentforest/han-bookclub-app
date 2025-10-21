@@ -29,7 +29,11 @@ export default function VoteBookItem({
         {selected && (
           <BiSolidBadgeCheck className="absolute -top-2 right-0 size-12 rounded-full bg-white text-pointCoral" />
         )}
-        <BookThumbnail thumbnail={thumbnail} title={title} className="!h-36" />
+        <BookThumbnail
+          thumbnail={thumbnail}
+          title={title}
+          className="w-[80%]"
+        />
       </div>
       <span className="mt-2 line-clamp-2 h-10 w-4/5 text-center leading-5">
         《{title}》

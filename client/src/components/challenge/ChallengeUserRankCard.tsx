@@ -42,7 +42,7 @@ export default function ChallengeUserRankCard({
       </div>
 
       {rereadingBookList.length !== 0 && (
-        <div className="flex flex-1 gap-x-2 overflow-scroll scrollbar-hide">
+        <div className="flex flex-1 gap-x-2 overflow-scroll px-2 py-1 scrollbar-hide">
           {rereadingBookList.map(book => (
             <BookThumbnail
               key={book.title}

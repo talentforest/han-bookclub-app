@@ -39,7 +39,7 @@ const VoteDetailHeader = ({
       <div className="flex w-full justify-between gap-2">
         <CreatorBox creatorId={creatorId} />
         <span className="text-gray1 max-sm:text-sm">
-          {formatDate(createdAt)}
+          {formatDate(createdAt, 'M월 d일 HH:mm')}
         </span>
       </div>
     </header>

@@ -45,7 +45,7 @@ export default function RecommendedBookModal({
           title={recommendedBookTitle}
           thumbnail={recommendedBookThumbnail}
           url={url}
-          className="float-left mb-2 mr-4 h-36"
+          className="float-left mb-2 mr-4 w-20"
         />
 
         <h4 className="text-lg">
@@ -55,7 +55,7 @@ export default function RecommendedBookModal({
         <BookAuthorPublisher authors={authors} publisher={publisher} />
 
         <h3 className="mt-1 flex items-center border-t-2 border-dotted border-gray3 pt-2">
-          <UserImgName userId={creatorId} />의 추천 이유
+          <UserImgName userId={creatorId} isLink={false} />의 추천 이유
         </h3>
         <p
           dangerouslySetInnerHTML={{ __html: text }}

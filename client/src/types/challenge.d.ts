@@ -17,6 +17,7 @@ export type RereadingChallenge = {
   id: string;
   creatorId: string;
   [key: string]: {
+    yearMonthId: string;
     book: Omit<BaseBookData, 'url'>;
     impressionList: {
       id: number;

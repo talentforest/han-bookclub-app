@@ -17,13 +17,13 @@ export default function BookThumbnail({
   className = '',
 }: BookThumbnailProps) {
   const commonClassName =
-    'flex aspect-[0.68/1] h-full items-center justify-center rounded-l-none rounded-r-lg border border-gray4 bg-gray1 shadow-book';
+    'flex aspect-[0.68/1] min-h-fit h-fit items-center justify-center rounded-l-none rounded-r-lg bg-gray1 shadow-book';
 
   return (
     <>
       {thumbnail !== '' &&
         (url ? (
-          <div className={`relative ${className}`}>
+          <div className={`relative h-fit ${className} `}>
             <img
               className={`${commonClassName}`}
               src={thumbnail}
@@ -31,7 +31,7 @@ export default function BookThumbnail({
             />
             <ExternalLinkBtn
               url={url}
-              className="absolute bottom-0.5 right-0.5 flex size-8 items-center justify-center rounded-full bg-indigo-500 text-white opacity-60"
+              className="absolute bottom-1 right-1 flex size-7 items-center justify-center rounded-full bg-indigo-500 text-white opacity-50"
             />
           </div>
         ) : (

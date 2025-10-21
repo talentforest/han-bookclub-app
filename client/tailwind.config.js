@@ -45,7 +45,7 @@ export default {
         card: '20px',
       },
       boxShadow: {
-        book: '2px 4px 8px 4px rgba(0, 0, 0, 0.1)',
+        book: '-2px 2px 6px 2px rgba(0, 0, 0, 0.3)',
         card: '2px 4px 8px 0px rgba(0, 0, 0, 0.08)',
         modal: '2px 2px 16px 0px rgba(0, 0, 0, 0.25)',
       },

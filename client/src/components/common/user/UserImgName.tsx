@@ -70,7 +70,7 @@ export default function UserImgName({
     </Link>
   ) : (
     <div
-      className={`flex min-w-fit cursor-pointer items-center justify-between gap-x-1 ${className}`}
+      className={`flex min-w-fit items-center justify-between gap-x-1 ${className}`}
     >
       <img
         onContextMenu={onContextMenu}

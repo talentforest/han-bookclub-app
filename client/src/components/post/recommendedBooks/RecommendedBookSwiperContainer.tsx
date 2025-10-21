@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { SwiperSlide } from 'swiper/react';
 
 import { useRecoilValue } from 'recoil';
@@ -23,13 +25,13 @@ const swiperOptions = {
       slidesPerView: 4,
     },
     500: {
-      slidesPerView: 3,
-    },
-    320: {
       slidesPerView: 2,
     },
+    320: {
+      slidesPerView: 1,
+    },
   },
-  pagination: false,
+  scrollbar: false,
 };
 
 export default function RecommendedBookSwiperContainer({
@@ -37,23 +39,24 @@ export default function RecommendedBookSwiperContainer({
 }: RecommendedBookSwiperContainerProps) {
   const usersData = useRecoilValue(allUsersAtom);
 
-  const allRecommendedBookIds = usersData
-    .map(item => item?.userRecords?.recommendedBooks)
-    .filter(item => !!item?.length)
-    .flat()
-    .sort(compareYearMonth);
+  const recommendedBookIds = useMemo(() => {
+    const allRecommendedBookIds = usersData
+      .map(item => item?.userRecords?.recommendedBooks)
+      .filter(item => !!item?.length)
+      .flat()
+      .sort(compareYearMonth)
+      .slice(0, 3);
 
-  const thisMonthRecommendedBookIds = allRecommendedBookIds
-    .filter(recommendedBookId => {
-      return yearMonthId
-        ? recommendedBookId.monthId === yearMonthId
-        : recommendedBookId;
-    })
-    .sort(compareYearMonth);
+    const thisMonthRecommendedBookIds = allRecommendedBookIds
+      .filter(recommendedBookId => {
+        return yearMonthId
+          ? recommendedBookId.monthId === yearMonthId
+          : recommendedBookId;
+      })
+      .sort(compareYearMonth);
 
-  const recommendedBookIds = yearMonthId
-    ? thisMonthRecommendedBookIds
-    : allRecommendedBookIds;
+    return yearMonthId ? thisMonthRecommendedBookIds : allRecommendedBookIds;
+  }, [usersData, yearMonthId]);
 
   return recommendedBookIds.length !== 0 ? (
     <SwiperContainer options={swiperOptions}>

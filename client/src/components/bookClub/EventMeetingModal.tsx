@@ -184,7 +184,10 @@ export default function EventMeetingModal({
 
   return (
     <Modal title={title} className="max-w-96">
-      <form onSubmit={onSubmit} className="flex flex-col gap-y-3">
+      <form
+        onSubmit={onSubmit}
+        className="flex flex-col gap-y-3 overflow-y-scroll scrollbar-hide"
+      >
         {currStep === 1 && (
           <>
             {'eventMonth' in currentValue && (
@@ -332,23 +335,6 @@ export default function EventMeetingModal({
                               </div>
                             }
                           />
-                          {/* <Textarea
-                    value={content.detail}
-                    placeholder="이벤트달에 대한 설명을 작성해주세요."
-                    onChange={(
-                      event: React.ChangeEvent<HTMLTextAreaElement>,
-                    ) => {
-                      onMeetingChange({
-                        eventMonth: {
-                          ...currMeeting.eventMonth,
-                          contents: [
-                            ...currMeeting.eventMonth.contents,
-                            { ...content, detail: event.target.value },
-                          ],
-                        },
-                      });
-                    }}
-                  /> */}
                         </li>
                       ))}
                     </ul>
@@ -386,12 +372,14 @@ export default function EventMeetingModal({
             name="이전"
             handleClick={() => changeStep('prev')}
             disabled={currStep === 1}
+            className="!shadow-none"
           />
           {LAST_STEP !== currStep && (
             <SquareBtn
               type="button"
               name="다음"
               handleClick={() => changeStep('next')}
+              className="!shadow-none"
             />
           )}
           {LAST_STEP === currStep && (

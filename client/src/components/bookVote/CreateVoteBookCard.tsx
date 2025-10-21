@@ -22,7 +22,7 @@ export default function CreateVoteBookCard({
       {book.title === '' ? (
         <button
           type="button"
-          className="flex aspect-[0.7/1] h-28 items-center justify-center gap-1 rounded-r-lg border border-gray1 shadow-card"
+          className="flex aspect-[0.68/1] w-[70px] items-center justify-center rounded-r-lg border border-gray1 shadow-card"
           onClick={onCreateClick}
         >
           <FiSearch className="size-[28px] text-gray2" />
@@ -31,7 +31,7 @@ export default function CreateVoteBookCard({
         <BookThumbnail
           thumbnail={book.thumbnail}
           title={book.title}
-          className="flex !aspect-[0.7/1] !h-28 min-w-fit items-center justify-center gap-1 border border-gray1 !shadow-none"
+          className="w-[70px]"
         />
       )}
 

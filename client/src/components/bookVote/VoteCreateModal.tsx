@@ -82,7 +82,10 @@ const VoteCreateModal = () => {
   return (
     <Modal title="모임책 투표 생성하기" className="max-w-[500px]">
       {!searchBook.isOpenSearchBook && (
-        <form onSubmit={onNewVoteSubmit} className="flex flex-col gap-4">
+        <form
+          onSubmit={onNewVoteSubmit}
+          className="flex flex-col gap-4 overflow-y-scroll scrollbar-hide"
+        >
           <Input
             label="투표제목"
             type="text"

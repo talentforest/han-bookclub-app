@@ -18,7 +18,12 @@ export const useGetClubByYear = () => {
   }, [selectedYear]);
 
   const clubBookListByYear = useMemo(() => {
-    return clubByYear.filter(({ book }) => book).map(({ book }) => book);
+    return clubByYear
+      .filter(({ book }) => book)
+      .map(clubBookList => ({
+        ...clubBookList.book,
+        yearMonthId: clubBookList.id,
+      }));
   }, [clubByYear]);
 
   return {

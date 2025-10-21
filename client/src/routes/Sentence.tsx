@@ -54,7 +54,7 @@ export default function Sentence() {
     return sentences?.reduce((accByBook: any, sentence) => {
       const key =
         by === 'createdAt'
-          ? formatDate(sentence[by], 'yyyy년 MM월 dd일')
+          ? formatDate(sentence[by], 'yyyy년 M월 d일')
           : sentence[by];
 
       return {

@@ -6,7 +6,7 @@ import { currAuthUserAtom } from '@/data/userAtom';
 
 import { thisYear } from '@/utils';
 
-import { BookClubInfo } from '@/types';
+import { MonthlyClubInfoType } from '@/types';
 
 import MobileHeader from '@/layout/MobileHeader';
 
@@ -18,28 +18,16 @@ import Section from '@/components/common/container/Section';
 export default function MonthlyClubInfo() {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const { state } = useLocation() as { state: BookClubInfo };
-
-  const infoPerType: {
-    [key in BookClubInfo]: {
-      name: '월별 독서분야' | '모임불참' | '챌린지' | '연말결산';
-    };
-  } = {
-    fieldAndHost: {
-      name: '월별 독서분야',
-    },
-    absence: {
-      name: '모임불참',
-    },
-    challenge: {
-      name: '챌린지',
-    },
-    yearClosing: {
-      name: '연말결산',
-    },
+  const { state } = useLocation() as {
+    state: 'fieldAndHost' | 'absence';
   };
 
-  const { name } = infoPerType[state];
+  const infoPerType: Pick<MonthlyClubInfoType, 'fieldAndHost' | 'absence'> = {
+    fieldAndHost: '월별 독서분야',
+    absence: '모임불참',
+  };
+
+  const name = infoPerType[state];
 
   return (
     <>

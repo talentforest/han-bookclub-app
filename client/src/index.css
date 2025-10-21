@@ -84,7 +84,7 @@
         font-size: 14px;
       }
       .ql-size-large {
-        font-size: 20px;
+        font-size: 18px;
       }
 
       p,
@@ -262,10 +262,13 @@
     }
     /* 네비게이션 아이콘 스타일 */
     .swiper-button-prev {
-      @apply left-0 top-[42%] size-10 rounded-full border bg-gray1 text-white;
+      @apply left-0 top-[42%] size-9 rounded-full border bg-gray1 text-white opacity-60;
     }
     .swiper-button-next {
-      @apply right-0 top-[42%] size-10 rounded-full border bg-gray1 text-white;
+      @apply right-0 top-[42%] size-9 rounded-full border bg-gray1 text-white opacity-60;
+    }
+    .swiper-button-disabled {
+      @apply opacity-10;
     }
     .swiper-button-prev:after,
     .swiper-button-next:after {

@@ -8,7 +8,7 @@ export default function BookAuthorPublisher({
   publisher,
 }: BookAuthorPublisherProps) {
   return (
-    <span className="line-clamp-1 truncate whitespace-pre-wrap text-gray1">
+    <span className="line-clamp-1 truncate whitespace-pre-wrap text-sm tracking-tight text-gray1">
       {authors.length !== 0 ? (
         <span>
           {authors[0]}

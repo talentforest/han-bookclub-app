@@ -28,10 +28,11 @@ export default function BasicBookCard({
         thumbnail={book.thumbnail}
         title={book.title}
         url={book.url}
+        className="w-28"
       />
 
       <div className="flex w-full flex-col justify-between">
-        <h1 className="line-clamp-2 pr-1 text-lg font-medium leading-6">
+        <h1 className="line-clamp-2 pr-1 text-lg font-medium leading-5">
           {book.title}
         </h1>
 

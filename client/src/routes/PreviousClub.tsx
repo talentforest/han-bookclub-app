@@ -22,6 +22,7 @@ function PreviousClub() {
         <SelectYearBtnList
           selectedYear={selectedYear}
           handleChangeYear={setSelectedYear}
+          buttonClassName="!shadow-none"
         />
 
         <Section title={`${selectedYear}년의 한페이지`} className="!mt-10">
