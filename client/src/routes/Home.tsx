@@ -35,17 +35,17 @@ const Home = () => {
     {
       name: '월별 독서분야',
       onClick: () => navigate('/monthlyinfo', { state: 'fieldAndHost' }),
-      color: 'darkBlue' as const,
+      color: 'blue' as const,
     },
     {
       name: '모임불참',
       onClick: () => navigate('/monthlyinfo', { state: 'absence' }),
-      color: 'darkBlue' as const,
+      color: 'blue' as const,
     },
     {
       name: '챌린지',
       onClick: () => navigate('/challenge'),
-      color: 'darkBlue' as const,
+      color: 'blue' as const,
     },
     {
       name: '연말결산',

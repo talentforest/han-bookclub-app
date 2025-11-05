@@ -29,7 +29,7 @@ export default function LabelWithValueCard({
 
   return (
     <>
-      <div className="relative flex h-full items-center overflow-hidden rounded-card bg-white px-4 shadow-card max-sm:p-2 max-sm:px-4">
+      <div className="relative flex h-full items-center overflow-hidden rounded-card bg-white px-4 py-2 shadow-card max-sm:px-4">
         <h4 className="flex min-w-20 items-center gap-0.5 tracking-tight text-gray2">
           {icon[label]}
           {label}

@@ -17,37 +17,30 @@ export default function BookThumbnail({
   className = '',
 }: BookThumbnailProps) {
   const commonClassName =
-    'flex aspect-[0.68/1] min-h-fit h-fit items-center justify-center rounded-l-none rounded-r-lg bg-gray1 shadow-book';
+    'aspect-[0.68/1] h-fit shadow-book overflow-hidden rounded-r-lg';
 
   return (
     <>
-      {thumbnail !== '' &&
-        (url ? (
-          <div className={`relative h-fit ${className} `}>
-            <img
-              className={`${commonClassName}`}
-              src={thumbnail}
-              alt={`${title} 북커버`}
-            />
+      {thumbnail !== '' && (
+        <div className={`relative ${commonClassName} ${className}`}>
+          <img className="size-full" src={thumbnail} alt={`${title} 북커버`} />
+          {url && (
             <ExternalLinkBtn
               url={url}
               className="absolute bottom-1 right-1 flex size-7 items-center justify-center rounded-full bg-indigo-500 text-white opacity-50"
             />
-          </div>
-        ) : (
-          <img
-            className={`${commonClassName} ${className}`}
-            src={thumbnail}
-            alt={`${title} 북커버`}
-          />
-        ))}
+          )}
+        </div>
+      )}
 
       {thumbnail === '' && (
-        <div className={`${commonClassName} ${className}`}>
+        <div
+          className={`flex items-center justify-center bg-gray4 ${commonClassName} ${className}`}
+        >
           {title.includes('이벤트') ? (
             <MdEventAvailable className="size-full max-h-[40px] max-w-[40px] text-gray2 max-sm:w-1/2" />
           ) : (
-            <FiBook className="size-full max-h-[40px] max-w-[40px] text-gray2 max-sm:w-2/3" />
+            <FiBook className="mx-auto size-full max-h-[40px] max-w-[40px] text-gray2 max-sm:w-1/2" />
           )}
         </div>
       )}

@@ -74,7 +74,7 @@ const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
         <div className="flex items-end">
           <button
             type="button"
-            className={`flex items-center ${isAnonymous ? 'text-blue1' : 'text-gray2'} py-1`}
+            className={`flex items-center ${isAnonymous ? 'text-blue3' : 'text-gray2'} py-1`}
             onClick={() => setIsAnonymous(prev => !prev)}
           >
             <BiCheckCircle />

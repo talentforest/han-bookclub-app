@@ -18,7 +18,7 @@ export default function DDay({
 
       {isDateMark && (
         <span className="ml-2 text-sm text-gray1">
-          {formatDate(hyphenDate)}
+          {formatDate(hyphenDate, 'yyyy년 M월 d일')}
         </span>
       )}
     </div>

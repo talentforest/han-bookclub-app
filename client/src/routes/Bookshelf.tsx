@@ -94,7 +94,7 @@ const Bookshelf = () => {
               {isAbsentee ? (
                 <Tag text="🔴 이번달 불참" color="red" shape="square" />
               ) : (
-                <Tag text="✅ 이번달 출석" color="green" shape="square" />
+                <Tag text="✅ 이번달 출석" color="lightGreen" shape="square" />
               )}
             </div>
           </Section>

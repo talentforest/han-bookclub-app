@@ -19,7 +19,7 @@ export default function FooterBookCard({
       <BookThumbnail
         thumbnail={thumbnail}
         title={title}
-        className="w-8 rounded-md"
+        className="ml-1 w-8 !rounded-r"
       />
 
       <div className="flex h-full w-full flex-1 flex-col items-start">

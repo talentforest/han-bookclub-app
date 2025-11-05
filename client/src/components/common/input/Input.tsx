@@ -57,7 +57,7 @@ const Input = React.forwardRef(function (
   };
 
   const commonInputClassName =
-    'h-12 w-full rounded-xl border focus:border-pointPurple border-gray1 focus:read-only:border-gray1 focus:read-only:border focus:border-2 placeholder:text-gray2 hover:bg-blue-50 focus:outline-none py-2';
+    'h-12 w-full rounded-xl border focus:border-purple2 border-gray1 focus:read-only:border-gray1 focus:read-only:border focus:border-2 placeholder:text-gray2 hover:bg-blue-50 focus:outline-none py-2';
 
   return (
     <div className={`relative flex w-full flex-col ${containerClassName}`}>

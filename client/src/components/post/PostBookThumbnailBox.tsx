@@ -56,44 +56,37 @@ const PostBookThumbnailBox = ({
   const findUser = allUsers?.find(user => user.id === creatorId);
   const userName = isCurrentUser ? '나' : findUser?.displayName;
 
+  const toggleModal = () =>
+    showModal({
+      element: (
+        <Modal title={`${userName}의 ${postType}`}>
+          <div className="overflow-scroll">
+            <EditorContent text={text} />
+
+            <div className="mb-4 mt-10 flex justify-end">
+              {uid === creatorId && (
+                <PostHandleBtns
+                  post={post}
+                  collName={getPostRoute()}
+                  postType={postType}
+                />
+              )}
+            </div>
+
+            <PostFooter createdAt={createdAt} footerType="likes" post={post} />
+          </div>
+        </Modal>
+      ),
+    });
+
   return (
     <>
       {existDocObj(post) && (
-        <button
-          type="button"
-          onClick={() =>
-            showModal({
-              element: (
-                <Modal title={`${userName}의 ${postType}`}>
-                  <div className="overflow-scroll">
-                    <EditorContent text={text} />
-
-                    <div className="mb-4 mt-10 flex justify-end">
-                      {uid === creatorId && (
-                        <PostHandleBtns
-                          post={post}
-                          collName={getPostRoute()}
-                          postType={postType}
-                        />
-                      )}
-                    </div>
-
-                    <PostFooter
-                      createdAt={createdAt}
-                      footerType="likes"
-                      post={post}
-                    />
-                  </div>
-                </Modal>
-              ),
-            })
-          }
-          className="w-full overflow-hidden rounded-md shadow-card"
-        >
+        <button type="button" onClick={toggleModal}>
           <BookThumbnail
             thumbnail={thumbnail}
             title={title}
-            className="w-full"
+            className="w-full overflow-hidden !rounded-r-lg"
           />
         </button>
       )}

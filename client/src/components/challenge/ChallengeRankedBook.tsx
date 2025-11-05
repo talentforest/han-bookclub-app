@@ -51,7 +51,7 @@ export default function ChallengeRankedBook({
         </div>
       </div>
 
-      <h3 className="font-bold text-darkBlue">재독한 멤버의 소감들</h3>
+      <h3 className="font-bold text-blue1">재독한 멤버의 소감들</h3>
       <ul className="mt-2">
         {impressionList?.map(({ text, id, creatorId, createdAt }) => (
           <li key={id} className="mb-3 gap-2 border-l-4 border-gray3 pl-3">

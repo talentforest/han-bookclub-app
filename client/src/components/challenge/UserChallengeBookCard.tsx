@@ -12,13 +12,15 @@ import { currAuthUserAtom } from '@/data/userAtom';
 
 import { CHALLENGE } from '@/appConstants';
 
+import { getPercentageNum } from '@/utils';
+
 import { CompleteReadingChallengeBook } from '@/types';
 
 import PagePosition from '@/components/challenge/PagePosition';
+import Tag from '@/components/common/Tag';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import PageWithPercent from '@/components/common/book/PageWithPercent';
-import UserImgName from '@/components/common/user/UserImgName';
 
 interface ChallengeBookCardProps {
   docId: string;
@@ -48,35 +50,22 @@ export default function UserChallengeBookCard({
     await deleteDoc(docRef);
   };
 
+  const percentage = `${getPercentageNum(currentPage, wholePage)}%`;
+
   return (
-    <li className="relative flex">
-      <div className="relative flex-1 rounded-xl bg-white px-4 pb-3 pt-4 opacity-80 shadow-card">
-        <div className="flex h-32 gap-4">
-          <BookThumbnail
-            title={title}
-            thumbnail={thumbnail}
-            className="w-[28%]"
+    <li
+      className={`rounded-xl bg-white px-4 pb-3 pt-4 shadow-card ${percentage === '100%' ? '' : 'opacity-60'}`}
+    >
+      <div className="mb-2.5 flex flex-1">
+        <div className="mr-4 flex flex-1 flex-col gap-1">
+          <Tag
+            text={percentage === '100%' ? '🎉 챌린지 성공' : '😭 챌린지 실패'}
+            color={percentage === '100%' ? 'green' : 'red'}
+            className="mb-1.5 min-w-fit font-medium"
           />
 
-          <div className="flex flex-1 flex-col justify-between">
-            <div className="mb-2 flex items-center">
-              <UserImgName userId={creatorId} />
-              <span className="text-sm"> 의 챌린지!</span>
-            </div>
-
-            <h3 className="mb-1 font-medium">
-              {title}{' '}
-              <span className="text-sm font-normal text-gray1">완독하기</span>
-            </h3>
-
-            <BookAuthorPublisher authors={authors} publisher={publisher} />
-            <div className="mt-auto">
-              <PageWithPercent
-                currentPage={currentPageNum}
-                wholePage={wholePage}
-              />
-            </div>
-          </div>
+          <h3 className="font-medium leading-5">{title}</h3>
+          <BookAuthorPublisher authors={authors} publisher={publisher} />
 
           {pathname === '/challenge' && uid === creatorId && (
             <div className="absolute right-3 top-3 flex gap-3">
@@ -85,14 +74,14 @@ export default function UserChallengeBookCard({
               </button>
             </div>
           )}
+
+          <PageWithPercent currentPage={currentPageNum} wholePage={wholePage} />
         </div>
 
-        <PagePosition
-          currentPage={currentPageNum}
-          wholePage={wholePage}
-          isEnd
-        />
+        <BookThumbnail title={title} thumbnail={thumbnail} className="w-20" />
       </div>
+
+      <PagePosition percentage={percentage} />
     </li>
   );
 }

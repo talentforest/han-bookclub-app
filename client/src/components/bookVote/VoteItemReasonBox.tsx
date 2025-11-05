@@ -4,6 +4,8 @@ import { FiChevronsDown, FiChevronsUp } from 'react-icons/fi';
 
 import { BookVoteItem } from '@/types';
 
+import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
+
 interface VoteItemReasonBoxProps {
   voteItems: BookVoteItem[];
 }
@@ -40,9 +42,9 @@ export default function VoteItemReasonBox({
         {voteItems.map(({ selectReason, id, book }) => (
           <li
             key={id}
-            className="mt-2 flex w-full flex-col gap-2 px-2 pt-2 max-sm:px-0"
+            className="mt-2 flex w-full flex-col px-2 pt-2 max-sm:px-0"
           >
-            <span className="bg-green2 py-0.5 font-medium">
+            <span className="mb-2 bg-green3 py-0.5 font-medium">
               📚 {book.title}
             </span>
 
@@ -51,6 +53,12 @@ export default function VoteItemReasonBox({
             ) : (
               <span>정보가 없습니다.</span>
             )}
+
+            <ExternalLinkBtn
+              url={book.url}
+              title="책 상세정보 보러가기"
+              className="text-purple2"
+            />
           </li>
         ))}
       </ul>

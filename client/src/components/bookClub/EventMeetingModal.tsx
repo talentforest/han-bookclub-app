@@ -358,7 +358,7 @@ export default function EventMeetingModal({
                     }}
                     className="flex min-h-12 w-full items-center justify-center rounded-xl border border-gray1"
                   >
-                    <FiPlusCircle className="size-5 text-darkBlue2" />
+                    <FiPlusCircle className="size-5 text-blue1" />
                   </button>
                 </div>
               </>
@@ -392,7 +392,7 @@ export default function EventMeetingModal({
               }
               className="ml-auto"
               disabled={isPending || anonymous}
-              color="darkBlue"
+              color="blue"
             />
           )}
         </div>

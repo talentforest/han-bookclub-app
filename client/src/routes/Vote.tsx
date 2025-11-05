@@ -53,7 +53,7 @@ const Vote = () => {
               type="button"
               onClick={() => showModal({ element: <VoteCreateModal /> })}
             >
-              <FiPlusCircle className="text-lg text-pointBlue" />
+              <FiPlusCircle className="text-lg text-blue1" />
             </button>
           }
         >

@@ -187,7 +187,7 @@ export default function ChallengeRereadingModal({
           />
           <SquareBtn
             name="챌린지완료"
-            color="darkBlue"
+            color="blue"
             type="submit"
             className="self-end"
             disabled={anonymous}

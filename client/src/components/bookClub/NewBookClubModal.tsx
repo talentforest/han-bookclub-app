@@ -156,7 +156,7 @@ export default function NewBookClubModal({
           }
           className="ml-auto"
           disabled={isPending || anonymous}
-          color="darkBlue"
+          color="blue"
         />
 
         {anonymous && (

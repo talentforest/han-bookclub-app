@@ -21,8 +21,8 @@ export default function PlusIconWithTextLink({
       state={state}
       className="mb-2 flex items-center gap-1 rounded-xl px-4 py-3"
     >
-      <FiPlus className="text-lg text-blue1" />
-      <span className="font-medium text-blue1">{name}</span>
+      <FiPlus className="text-lg text-blue3" />
+      <span className="font-medium text-blue3">{name}</span>
     </Link>
   );
 }

@@ -18,7 +18,7 @@ export default function SelectYearBtnList({
       {operationYearList.map(year => (
         <li key={year}>
           <SquareBtn
-            color={year === selectedYear ? 'darkBlue' : 'gray'}
+            color={year === selectedYear ? 'blue' : 'gray'}
             name={`${year}년`}
             type="button"
             handleClick={() => handleChangeYear(year)}

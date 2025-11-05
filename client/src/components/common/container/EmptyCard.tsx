@@ -23,7 +23,7 @@ export default function EmptyCard({
       {onCreateClick && (
         <SquareBtn
           name={createBtnTitle}
-          color="blue"
+          color="purple"
           handleClick={onCreateClick}
           tailChildren={<LuArrowUpRight size={18} />}
         />

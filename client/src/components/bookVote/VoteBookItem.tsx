@@ -27,15 +27,15 @@ export default function VoteBookItem({
     >
       <div className="relative flex w-full justify-center max-sm:px-3">
         {selected && (
-          <BiSolidBadgeCheck className="absolute -top-2 right-0 size-12 rounded-full bg-white text-pointCoral" />
+          <BiSolidBadgeCheck className="absolute -top-2 right-0 z-10 size-12 rounded-full bg-white text-pointCoral" />
         )}
         <BookThumbnail
           thumbnail={thumbnail}
           title={title}
-          className="w-[80%]"
+          className="w-24 max-sm:w-20"
         />
       </div>
-      <span className="mt-2 line-clamp-2 h-10 w-4/5 text-center leading-5">
+      <span className="mt-2 line-clamp-2 h-fit w-4/5 text-center leading-5">
         《{title}》
       </span>
 

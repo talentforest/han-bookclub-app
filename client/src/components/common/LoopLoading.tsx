@@ -27,7 +27,7 @@ export default function LoopLoading({
             r="45"
             strokeWidth="11"
             fill="none"
-            className="stroke-purple3"
+            className="stroke-purple4"
           />
           <circle
             cx="50"
@@ -38,10 +38,10 @@ export default function LoopLoading({
             strokeLinecap="round"
             strokeDasharray="45 240"
             strokeDashoffset="100"
-            className="origin-center animate-spin border stroke-purple1"
+            className="origin-center animate-spin border stroke-purple2"
           />
         </svg>
-        <LuBookHeart className="absolute size-[40%] text-pointPurple" />
+        <LuBookHeart className="absolute size-[40%] text-purple2" />
       </div>
     </div>
   );

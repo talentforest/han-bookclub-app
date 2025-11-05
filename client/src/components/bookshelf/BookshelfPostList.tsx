@@ -24,7 +24,7 @@ export default function BookshelfPostList({
   };
 
   return (
-    <ul className="grid grid-cols-7 gap-8 max-md:grid-cols-6 max-sm:grid-cols-4 max-sm:gap-4">
+    <ul className="grid grid-cols-7 gap-5 max-md:grid-cols-6 max-sm:grid-cols-4 max-sm:gap-4">
       {postList[postType].length !== 0 ? (
         postList[postType].map(postId => (
           <PostBookThumbnailBox

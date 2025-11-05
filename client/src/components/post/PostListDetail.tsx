@@ -92,7 +92,7 @@ export default function PostListDetail() {
         {!params?.id && (
           <SquareBtn
             type="button"
-            color="darkBlue"
+            color="blue"
             name={`${postType} 작성하기`}
             handleClick={toggleAddPostModal}
             className="mt-5 w-full !py-3"

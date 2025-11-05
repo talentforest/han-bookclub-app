@@ -83,7 +83,7 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
           type="submit"
           className="ml-auto px-7 !shadow-none max-sm:px-4"
           disabled={isPending}
-          color="darkBlue"
+          color="blue"
         />
       </form>
     </Modal>

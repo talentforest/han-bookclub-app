@@ -58,7 +58,7 @@ const LogIn = ({ isLoggedIn }: LoginProps) => {
           <SquareBtn
             type="submit"
             name="로그인"
-            color="darkBlue"
+            color="blue"
             className="w-full"
           />
           <SquareBtn

@@ -1,4 +1,4 @@
-import { getPercentage } from '@/utils';
+import { getPercentageNum } from '@/utils';
 
 interface PageWithPercentProps {
   currentPage: number;
@@ -9,11 +9,15 @@ export default function PageWithPercent({
   currentPage,
   wholePage,
 }: PageWithPercentProps) {
-  const percentNum = getPercentage(currentPage, wholePage);
+  const percentNum = getPercentageNum(currentPage, wholePage);
 
   return (
-    <span className="text-[13px] font-medium text-gray1">
-      {currentPage}p / {wholePage}p ({percentNum.toFixed(0)}%)
+    <span
+      className={`text-sm font-medium tracking-tighter ${percentNum === 100 ? 'text-green2' : 'text-pointCoral'}`}
+    >
+      {percentNum === 100 ? '🎊' : '❗️'} {currentPage} / {wholePage} (
+      {percentNum}
+      %)
     </span>
   );
 }

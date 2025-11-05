@@ -19,13 +19,13 @@ interface RecommendedBookSwiperContainerProps {
 const swiperOptions = {
   breakpoints: {
     1024: {
-      slidesPerView: 6,
+      slidesPerView: 3,
     },
     800: {
-      slidesPerView: 4,
+      slidesPerView: 2,
     },
     500: {
-      slidesPerView: 2,
+      slidesPerView: 1,
     },
     320: {
       slidesPerView: 1,

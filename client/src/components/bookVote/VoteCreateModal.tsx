@@ -96,7 +96,7 @@ const VoteCreateModal = () => {
           />
 
           <div>
-            <span className="py-1 pl-1 text-sm font-medium text-darkBlue">
+            <span className="py-1 pl-1 text-sm font-medium text-blue1">
               투표할 책 등록
             </span>
             <ul className="flex gap-x-3 overflow-x-scroll py-1 scrollbar-hide">
@@ -113,7 +113,7 @@ const VoteCreateModal = () => {
                 type="button"
                 onClick={onAddVoteItemBtn}
                 disabled={voteItems.length >= 4}
-                className="flex h-[inherit] items-center justify-center px-2 text-darkBlue2 disabled:text-gray2"
+                className="flex h-[inherit] items-center justify-center px-2 text-blue1 disabled:text-gray2"
               >
                 <FiPlusCircle className="text-xl" />
               </button>
@@ -135,7 +135,7 @@ const VoteCreateModal = () => {
             name="모임책 투표 등록하기"
             className="mt-3 self-end"
             disabled={isPending}
-            color="darkBlue"
+            color="blue"
           />
         </form>
       )}

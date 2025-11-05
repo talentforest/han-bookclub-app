@@ -6,7 +6,7 @@ interface SquareBtnProps {
   children?: ReactNode;
   disabled?: boolean;
   handleClick?: () => void;
-  color?: 'gray' | 'purple' | 'blue' | 'darkBlue';
+  color?: 'gray' | 'purple' | 'blue' | 'lightBlue';
   className?: string;
   tailChildren?: ReactNode;
 }
@@ -23,9 +23,9 @@ export default function SquareBtn({
 }: SquareBtnProps) {
   const colorStyleObj = {
     gray: 'text-gray1 bg-gray4',
-    blue: 'text-blue1 bg-blue2',
-    darkBlue: 'text-white bg-darkBlue2',
-    purple: 'text-purple1 bg-purple3',
+    blue: 'text-white bg-blue1',
+    purple: 'text-white bg-purple2',
+    lightBlue: 'text-blue4 bg-blue2',
   };
 
   return (

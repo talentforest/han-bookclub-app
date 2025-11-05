@@ -41,7 +41,7 @@ const Setting = () => {
         backTo={'/bookshelf'}
       />
       <main>
-        <h4 className="block pb-1 text-sm text-blue1 max-md:text-sm">
+        <h4 className="block pb-1 text-sm text-blue3 max-md:text-sm">
           사용자 설정
         </h4>
         <ul className="mb-14 divide-y divide-gray3">
@@ -60,7 +60,7 @@ const Setting = () => {
           )}
         </ul>
 
-        <h4 className="block pb-1 text-sm text-blue1 max-md:text-sm">기타</h4>
+        <h4 className="block pb-1 text-sm text-blue3 max-md:text-sm">기타</h4>
 
         <ul className="divide-y divide-gray3">
           {etcSettings.map(({ to, name }) => (

@@ -41,8 +41,8 @@ export default function MonthBookCard({
           </h1>
           <BookAuthorPublisher authors={authors} publisher={publisher} />
           <div className="mt-2 flex flex-1 items-center gap-x-0.5">
-            <FiBookmark className="text-[15px] text-purple1" />
-            <span className="text-[15px] text-purple1">{bookFields}</span>
+            <FiBookmark className="text-[15px] text-purple2" />
+            <span className="text-[15px] text-purple2">{bookFields}</span>
           </div>
         </div>
       </div>

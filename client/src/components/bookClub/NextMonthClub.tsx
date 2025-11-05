@@ -96,7 +96,7 @@ export default function NextMonthClub() {
           <div className="flex gap-x-3">
             <SquareBtn
               name="모임책 등록"
-              color="blue"
+              color="lightBlue"
               handleClick={onEditBtnClick}
             >
               <LuBook className="mr-2" />

@@ -30,7 +30,7 @@ export default function Table({
   onEditClick,
 }: TableProps) {
   const tableStyle = {
-    blue: 'bg-blue2',
+    blue: 'bg-blue4',
     yellow: 'bg-yellow2',
   };
 
@@ -47,7 +47,7 @@ export default function Table({
         <thead>
           <tr className={`${tableStyle[color]} relative rounded-t-xl`}>
             {labels.map(label => (
-              <th key={label} className="py-3 font-medium text-blue1">
+              <th key={label} className="py-3 font-medium text-blue3">
                 {label}
               </th>
             ))}

@@ -18,7 +18,7 @@ export default function ExternalLinkBtn({
       rel="noreferrer"
       className={`p-1.5 text-gray1 ${title ? 'flex items-center gap-1' : 'inline-block'} ${className}`}
     >
-      <FiExternalLink className="size-full" />
+      <FiExternalLink className={!title ? 'size-full' : ''} />
       {title && <span className="truncate text-[15px]">{title}</span>}
     </a>
   );

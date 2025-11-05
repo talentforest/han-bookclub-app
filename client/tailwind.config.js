@@ -15,31 +15,25 @@ export default {
         text: '#333',
 
         pointCoral: '#E94F37',
-        pointBlue: '#1D3557',
-        pointNavy: '#18206F',
-        pointGreen: '#97EAD2',
-        pointPurple: '#9381FF',
 
         gray1: '#6d6d6d',
         gray2: '#b5b5b5',
         gray3: '#dedede',
         gray4: '#e9e9e9',
-        gray5: '#d9d9d9',
 
-        darkBlue: '#272635',
-        darkBlue2: '#18206F',
+        blue1: '#18206F',
+        blue2: '#1D4ED8',
+        blue3: '#5D8AFE',
+        blue4: '#DBEAFE',
 
-        blue1: '#5D8AFE',
-        blue2: '#d1e9ff',
-        blue3: '#e8eeff',
+        purple1: '#7E22CE',
+        purple2: '#9381FF',
+        purple3: '#B8B8FF',
+        purple4: '#e3defd',
 
-        purple1: '#9381FF',
-        purple2: '#B8B8FF',
-        purple3: '#e3defd',
-
-        green1: '#8CC7A1',
-        green2: '#97EAD2',
-        green3: '#bcf5d5',
+        green1: '#16A34A',
+        green2: '#23CA06',
+        green3: '#BDFFBC',
       },
       borderRadius: {
         card: '20px',

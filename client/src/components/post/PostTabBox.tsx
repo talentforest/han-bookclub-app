@@ -82,7 +82,7 @@ export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
           <li key={tab}>
             <button
               onClick={() => setCurrTab(tab)}
-              className={`rounded-t-xl px-3 py-2 ${tab === currTab ? 'bg-blue2 font-medium text-blue1' : 'bg-white text-text'}`}
+              className={`rounded-t-xl px-3 py-2 ${tab === currTab ? 'bg-blue4 font-medium text-blue3' : 'bg-white text-text'}`}
             >
               {tab}
             </button>
@@ -91,7 +91,7 @@ export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
       </ul>
 
       <div
-        className={`flex min-h-48 w-full flex-col items-center justify-center rounded-b-2xl rounded-tr-2xl p-4 shadow-card ${currTab ? 'bg-blue2' : ''}`}
+        className={`flex min-h-48 w-full flex-col items-center justify-center rounded-b-2xl rounded-tr-2xl p-4 shadow-card ${currTab ? 'bg-blue4' : ''}`}
       >
         {postList?.length !== 0 ? (
           <>
@@ -115,7 +115,7 @@ export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
                       state={{ postId: post.id }}
                       to={linkTo}
                       onClick={blockLinkAndAlertJoinMember}
-                      className="w-fit self-end rounded-xl bg-purple3 px-4 py-3 !text-[15px] text-purple1 shadow-card"
+                      className="bg-purple4 w-fit self-end rounded-xl px-4 py-3 !text-[15px] text-purple2 shadow-card"
                     />
                   </div>
                 </SwiperSlide>
@@ -142,7 +142,7 @@ export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
                 </span>
               </>
             ) : (
-              <span className="text-sm text-blue1">
+              <span className="text-sm text-blue3">
                 기록된 {currTab}이 없습니다
               </span>
             )}

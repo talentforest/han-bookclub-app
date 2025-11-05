@@ -13,7 +13,7 @@ import { DEVELOPER_EMAIL } from '@/appConstants';
 
 import { useHandleVoting, useSendPushNotification } from '@/hooks';
 
-import { getDDay, getPercentage, todayWithHyphen } from '@/utils';
+import { getDDay, getPercentageNum, todayWithHyphen } from '@/utils';
 
 import { NotificationData } from '@/types';
 
@@ -116,7 +116,7 @@ const VoteDetail = () => {
                 >
                   <div
                     style={{
-                      width: `${getPercentage(voteCount, totalVoteCount)}%`,
+                      width: `${getPercentageNum(voteCount, totalVoteCount)}%`,
                     }}
                     className={`absolute inset-y-0 left-0 z-0 rounded-r-lg ${findHighestVoteItem(title) ? 'bg-pointCoral' : 'bg-gray3'}`}
                   />
@@ -128,7 +128,7 @@ const VoteDetail = () => {
                   <span
                     className={`z-10 pt-[1px] text-sm ${findHighestVoteItem(title) ? 'font-medium text-pointCoral' : 'text-gray2'}`}
                   >
-                    {getPercentage(voteCount, totalVoteCount)}%
+                    {getPercentageNum(voteCount, totalVoteCount)}%
                   </span>
                 </div>
               ))}
@@ -197,7 +197,7 @@ const VoteDetail = () => {
           {email === DEVELOPER_EMAIL && +voteDday >= 0 && (
             <SquareBtn
               className="mt-10"
-              color="darkBlue"
+              color="blue"
               name={`투표 임박 알림: ${+voteDday > 0 ? `${voteDday}일` : '오늘 자정'}`}
               handleClick={async () => {
                 const notificationData: NotificationData = {

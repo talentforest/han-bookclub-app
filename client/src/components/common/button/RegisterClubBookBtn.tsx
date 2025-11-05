@@ -68,7 +68,7 @@ const RegisterClubBookBtn = ({
           name={`${month}월 모임책으로 ${monthlyBookClub?.book ? '변경' : '등록'}`}
           type="button"
           handleClick={onBtnClick}
-          color="darkBlue"
+          color="blue"
           className="ml-auto py-2"
         />
       )}

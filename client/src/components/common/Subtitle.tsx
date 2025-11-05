@@ -6,7 +6,7 @@ interface SubtitleProps {
 const Subtitle = ({ title, className }: SubtitleProps) => {
   return (
     <h3
-      className={`flex w-fit items-center text-[17px] font-medium text-darkBlue2 ${className}`}
+      className={`flex w-fit items-center text-[17px] font-medium text-blue1 ${className}`}
     >
       {title}
     </h3>

@@ -36,7 +36,7 @@ export default function PenaltyCostReceipt({
                 {penaltyMonths.map(month => (
                   <li
                     key={month}
-                    className="rounded-xl bg-purple3 px-1 py-2 text-xs"
+                    className="bg-purple4 rounded-xl px-1 py-2 text-xs"
                   >
                     {month}
                   </li>

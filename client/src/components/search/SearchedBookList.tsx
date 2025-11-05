@@ -27,7 +27,7 @@ export default function SearchedBookList({
               onClick={() => onSelectBtnClick(book)}
             >
               <FooterBookCard book={book} className="h-14" />
-              <FiCheckCircle className="text-lg text-darkBlue2" />
+              <FiCheckCircle className="text-lg text-blue1" />
             </button>
           </li>
 

@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil';
 
 import { basePhotoAtom } from '@/data/clubAtom';
 
-import { ProfileImgFiles } from '@/hooks/useHandleProfile';
+import { ProfileImgFiles } from '@/hooks/handleAccount/useHandleProfile';
 
 import ImageInput from '@/components/common/input/ImageInput';
 

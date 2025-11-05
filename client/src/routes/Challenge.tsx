@@ -211,7 +211,7 @@ export default function Challenge() {
 
       <main>
         <header className="mb-10 mt-2 flex gap-x-3">
-          <div className="w-2/3 rounded-xl bg-white p-4 shadow-card">
+          <div className="rounded-xl bg-white p-4 shadow-card">
             <h4 className="mb-3.5 flex items-center gap-2">
               📚✨2025년 챌린지{' '}
               <div className="flex-1 border-t-2 border-dotted border-gray3" />
@@ -221,7 +221,7 @@ export default function Challenge() {
 
           <DDay
             hyphenDate={`${thisYear}-12-21`}
-            className="flex flex-1 flex-col items-center justify-center rounded-xl bg-indigo-200 p-2 text-xl font-bold text-indigo-700 shadow-card"
+            className="flex w-44 flex-col items-center justify-center rounded-xl bg-indigo-200 p-2 text-xl font-bold text-indigo-700 shadow-card"
           />
         </header>
 
@@ -237,7 +237,7 @@ export default function Challenge() {
             buttonClassName="shadow-none"
           />
 
-          <ul className="mt-5 grid grid-cols-10 gap-4 max-md:grid-cols-7 max-sm:grid-cols-4 max-sm:gap-3">
+          <ul className="mt-5 grid grid-cols-10 gap-4 max-md:grid-cols-7 max-sm:grid-cols-4 max-sm:gap-4">
             {clubBookListByYear.map(clubbook => (
               <li key={clubbook.datetime}>
                 <button
@@ -298,7 +298,7 @@ export default function Challenge() {
 
               <button
                 type="button"
-                className="mt-7 flex items-center self-center rounded-full bg-gray4 px-6 py-2 text-sm text-blue1"
+                className="mt-7 flex items-center self-center rounded-full bg-gray4 px-6 py-2 text-sm text-blue3"
                 onClick={() => setShowAllRank(prev => !prev)}
               >
                 {!showAllRank ? '더보기' : '접기'}

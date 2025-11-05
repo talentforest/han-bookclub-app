@@ -2,13 +2,12 @@ import { ReactNode } from 'react';
 
 type tagColor =
   | 'green'
-  | 'lightGreen'
   | 'purple'
-  | 'blue'
   | 'yellow'
   | 'red'
   | 'lightBlue'
-  | 'lightGray';
+  | 'lightGray'
+  | 'lightGreen';
 
 interface TagProps {
   text?: string;
@@ -21,21 +20,20 @@ interface TagProps {
 
 export default function Tag({
   text,
-  color = 'blue',
+  color = 'lightBlue',
   children,
   shape = 'square',
   className,
   onClick,
 }: TagProps) {
   const bgColor = {
-    blue: 'bg-blue1 text-white',
-    lightBlue: 'bg-blue-100 text-blue-700',
-    yellow: 'bg-amber-100 text-yellow-700',
-    purple: 'bg-purple3 text-purple-700',
-    lightGreen: 'bg-green3 text-green-700',
-    green: 'bg-emerald-200 text-green-900',
-    red: 'bg-pointCoral text-white',
     lightGray: 'bg-white text-gray1',
+    lightGreen: 'bg-green2 text-white',
+    lightBlue: 'bg-blue4 text-blue2',
+    yellow: 'bg-amber-100 text-yellow-700',
+    purple: 'bg-purple4 text-purple-700',
+    green: 'bg-green1 text-white',
+    red: 'bg-pointCoral text-white',
   };
 
   const shapeStyle = {

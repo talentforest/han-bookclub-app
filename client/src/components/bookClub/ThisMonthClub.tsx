@@ -65,7 +65,7 @@ export default function ThisMonthClub() {
             bookFields={fieldAndHost?.field}
             className="col-span-1"
           />
-          <div className="col-span-1 flex flex-col gap-6 max-sm:gap-4">
+          <div className="col-span-1 flex flex-col gap-4">
             {thisMonthClubInfoList.map(({ label, value, editable }) => (
               <LabelWithValueCard
                 key={label}

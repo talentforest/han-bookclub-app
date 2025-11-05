@@ -50,12 +50,12 @@ export default function PostRecommendedBookCard({
         <button
           type="button"
           onClick={onClick}
-          className="relative mx-2 mt-4 min-h-[102px] w-full rounded-xl bg-white px-4 py-3 shadow-card"
+          className="relative mt-7 min-h-[102px] w-full rounded-xl bg-white px-4 py-3 shadow-card"
         >
           <BookThumbnail
             title={title}
             thumbnail={thumbnail}
-            className="absolute bottom-4 w-[80px]"
+            className="!absolute bottom-4 w-[80px]"
           />
 
           <div className="ml-[90px] flex h-full flex-col items-start">

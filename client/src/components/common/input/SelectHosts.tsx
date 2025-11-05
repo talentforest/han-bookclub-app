@@ -41,7 +41,7 @@ export default function SelectHosts({
     <div className="flex flex-col">
       <Label text={label} />
       <Select
-        className="h-12 shadow-none shadow-pointPurple focus-within:border-pointCoral [&>div:nth-child(3)]:h-full [&>div:nth-child(3)]:rounded-xl [&>div:nth-child(3)]:border-gray1"
+        className="h-12 shadow-none shadow-purple2 focus-within:border-pointCoral [&>div:nth-child(3)]:h-full [&>div:nth-child(3)]:rounded-xl [&>div:nth-child(3)]:border-gray1"
         menuPosition="fixed"
         name="host"
         placeholder={`${label}를 선택해주세요`}

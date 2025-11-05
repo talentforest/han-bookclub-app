@@ -51,7 +51,7 @@ export default function MonthEventCard({
         {pathname === '/' && (
           <Tag
             text={`${month}월 이벤트`}
-            color={+month === +thisMonth ? 'lightGreen' : 'purple'}
+            color={+month === +thisMonth ? 'green' : 'purple'}
             shape="rounded"
             className="mb-3 font-medium shadow-2xl"
           />
