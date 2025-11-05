@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { authService } from '@/fbase';
 
-import { useHandleModal } from '@/hooks/useHandleModal';
+import { useHandleModal } from '@/hooks/common/useHandleModal';
 
 import { PostPermission } from '@/types';
 
