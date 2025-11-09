@@ -86,7 +86,7 @@ const PostBookThumbnailBox = ({
           <BookThumbnail
             thumbnail={thumbnail}
             title={title}
-            className="w-full overflow-hidden !rounded-r-lg"
+            className="w-full overflow-hidden"
           />
         </button>
       )}

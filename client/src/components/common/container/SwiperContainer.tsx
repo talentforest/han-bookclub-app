@@ -39,7 +39,7 @@ export default function SwiperContainer({
   };
 
   return (
-    <Swiper className="h-full" {...initialSwiperOptions}>
+    <Swiper className="sample-slider h-full" {...initialSwiperOptions}>
       {children}
     </Swiper>
   );

@@ -50,7 +50,7 @@ export default function PostRecommendedBookCard({
         <button
           type="button"
           onClick={onClick}
-          className="relative mt-7 min-h-[102px] w-full rounded-xl bg-white px-4 py-3 shadow-card"
+          className="relative mx-2 mt-7 min-h-[102px] w-full rounded-xl bg-white px-6 py-3 shadow-card"
         >
           <BookThumbnail
             title={title}

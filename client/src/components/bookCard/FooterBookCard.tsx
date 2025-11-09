@@ -16,11 +16,7 @@ export default function FooterBookCard({
 
   return (
     <div className={`flex w-full items-center gap-3 py-1 ${className}`}>
-      <BookThumbnail
-        thumbnail={thumbnail}
-        title={title}
-        className="ml-1 w-8 !rounded-r"
-      />
+      <BookThumbnail thumbnail={thumbnail} title={title} className="ml-1 w-8" />
 
       <div className="flex h-full w-full flex-1 flex-col items-start">
         <h5 className="line-clamp-1 truncate whitespace-pre-wrap text-start">

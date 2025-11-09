@@ -9,6 +9,9 @@ export default {
       },
       fontFamily: {
         SUITE: ['SUITE', 'sans-serif'],
+        RomanticGumi: ['RomanticGumi', 'sans-serif'],
+        SiwonhanSeolreim: ['SiwonhanSeolreim', 'sans-serif'],
+        GiantsInline: ['GiantsInline', 'sans-serif'],
       },
       colors: {
         bg: '#f2f8ff',

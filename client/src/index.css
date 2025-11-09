@@ -26,6 +26,27 @@
   font-weight: 700;
   font-style: bold;
 }
+@font-face {
+  font-family: 'RomanticGumi';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2410-1@1.0/GumiRomanceTTF.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SiwonhanSeolreim';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/seolleimcool-SemiBold.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GiantsInline';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Inline.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -260,6 +281,9 @@
     .swiper-slide {
       @apply mt-auto flex items-center justify-center px-1 py-2;
     }
+    /* .sample-slider .swiper-wrapper {
+      transition-timing-function: linear;
+    } */
     /* 네비게이션 아이콘 스타일 */
     .swiper-button-prev {
       @apply left-0 top-[42%] size-9 rounded-full border bg-gray1 text-white opacity-60;

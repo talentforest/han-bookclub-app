@@ -17,7 +17,7 @@ export default function BookThumbnail({
   className = '',
 }: BookThumbnailProps) {
   const commonClassName =
-    'aspect-[0.68/1] h-fit shadow-book overflow-hidden rounded-r-lg';
+    'aspect-[0.68/1] h-fit shadow-book overflow-hidden rounded-r-[8%]';
 
   return (
     <>

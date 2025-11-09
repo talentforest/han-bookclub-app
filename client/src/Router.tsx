@@ -21,7 +21,7 @@ import Search from '@/routes/Search';
 import Setting from '@/routes/Setting';
 import Vote from '@/routes/Vote';
 import VoteDetail from '@/routes/VoteDetail';
-import YearClosing from '@/routes/YearClosing';
+import YearClosingDetail from '@/routes/YearClosingDetail';
 
 import AppNavigation from '@/layout/AppNavigation';
 
@@ -59,7 +59,7 @@ function Router({ isLoggedIn }: RouterProps) {
 
             <Route path="/monthlyinfo" element={<MonthlyClubInfo />} />
             <Route path="/challenge" element={<Challenge />} />
-            <Route path="/yearClosingEvent" element={<YearClosing />} />
+            <Route path="/yearClosingEvent" element={<YearClosingDetail />} />
             <Route path="/search" element={<Search />} />
 
             <Route path="/previous-bookclub" element={<PreviousClub />} />

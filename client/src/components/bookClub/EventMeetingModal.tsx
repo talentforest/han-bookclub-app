@@ -373,6 +373,7 @@ export default function EventMeetingModal({
             handleClick={() => changeStep('prev')}
             disabled={currStep === 1}
             className="!shadow-none"
+            color="gray"
           />
           {LAST_STEP !== currStep && (
             <SquareBtn

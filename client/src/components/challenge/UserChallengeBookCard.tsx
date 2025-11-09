@@ -54,7 +54,7 @@ export default function UserChallengeBookCard({
 
   return (
     <li
-      className={`rounded-xl bg-white px-4 pb-3 pt-4 shadow-card ${percentage === '100%' ? '' : 'opacity-60'}`}
+      className={`rounded-xl border bg-white px-4 pb-3 pt-4 shadow-card ${percentage === '100%' ? 'border-green1' : 'border-pointCoral opacity-50'}`}
     >
       <div className="mb-2.5 flex flex-1">
         <div className="mr-4 flex flex-1 flex-col gap-1">

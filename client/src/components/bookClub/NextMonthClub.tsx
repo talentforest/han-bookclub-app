@@ -45,9 +45,10 @@ export default function NextMonthClub() {
     eventMonth: {
       title: '',
       contents: [
+        { id: v4(), title: `${nextYear}년 책분야와 발제자`, detail: '' },
         { id: v4(), title: `${thisYear}년 재독 챌린지 결과`, detail: '' },
         { id: v4(), title: `${thisYear}년 가장 멋진 발제문은?`, detail: '' },
-        { id: v4(), title: `${nextYear}년 책분야와 발제자`, detail: '' },
+        { id: v4(), title: `${thisYear}년 개근한 멤버는?`, detail: '' },
       ],
       hosts: [],
     },

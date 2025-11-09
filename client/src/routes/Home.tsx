@@ -49,7 +49,7 @@ const Home = () => {
     },
     {
       name: '연말결산',
-      onClick: () => alert('준비중입니다!'),
+      onClick: () => navigate('/yearClosingEvent'),
       color: 'gray' as const,
     },
   ];

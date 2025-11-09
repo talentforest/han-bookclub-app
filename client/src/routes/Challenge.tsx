@@ -167,6 +167,8 @@ export default function Challenge() {
     });
   }, [userChallengeList]);
 
+  // console.log(userRankList);
+
   useEffect(() => {
     if (!userChallengeList) {
       getCollection(CHALLENGE, setUserChallengeList);
@@ -267,6 +269,11 @@ export default function Challenge() {
             className="!mb-10 !mt-16"
             title="🔥현재 가장 여러 번 다시 읽은 책은?"
           >
+            <img
+              src={`${import.meta.env.VITE_PUBLIC_URL}/rank_stage.png`}
+              alt="시상대"
+              // className={`${className}`}
+            />
             <SwiperContainer options={swiperOptions}>
               {bookWithRankList.map((bookWithRank, index) => {
                 return (
