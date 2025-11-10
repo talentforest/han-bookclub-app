@@ -227,6 +227,16 @@ export default function Challenge() {
             className="flex w-44 flex-col items-center justify-center rounded-xl bg-indigo-200 p-2 text-xl font-bold text-indigo-700 shadow-card"
           /> */}
 
+        <div className="mt-4 w-full rounded-xl bg-white p-5 shadow-card">
+          <div className="h-10 border border-red-500">
+            <img
+              src={`${import.meta.env.VITE_PUBLIC_URL}/dday.png`}
+              alt="시상대"
+              className="mx-auto h-10 border"
+            />
+          </div>
+        </div>
+
         {bookWithRankList && bookWithRankList?.length > 0 && (
           <Section
             className="!mb-10 !mt-16"
