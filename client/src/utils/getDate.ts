@@ -16,6 +16,7 @@ export const formatDate = (
     | 'M월 d일 a h:mm'
     | 'yyyy년 M월'
     | 'yyyy년 M월 d일'
+    | 'yyyy.M.d. HH:mm'
     | 'yy년 M월 d일 HH:mm'
     | 'M월 d일 EEEE a h시 mm분'
     | 'M월 d일 EEEE a HH:mm'

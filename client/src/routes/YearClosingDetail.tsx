@@ -62,10 +62,9 @@ export default function YearClosingDetail() {
 
   return (
     <>
-      <MobileHeader title={`${thisYear}년 연말결산 이벤트`} backBtn />
+      <MobileHeader title={`${thisYear}년 독서모임 연말결산`} backBtn />
 
       <main>
-        <span className="font-sans">1 2 3</span>
         <div className="relative mb-14 mt-2 rounded-2xl bg-white p-5 shadow-card">
           <h2 className="font-GiantsInline italic leading-5">
             <span className="text-3xl tracking-tighter text-purple1">
@@ -79,39 +78,43 @@ export default function YearClosingDetail() {
             권의 책을 진행했어요.
           </h2>
 
-          <div className="-mx-5 mt-2">
+          <div className="-mx-5 mt-6">
             <SwiperContainer options={swiperOptions}>
               {clubBookListByYear.map(book => (
-                <SwiperSlide key={book.isbn}>
+                <SwiperSlide key={book.title}>
                   <BookThumbnail
                     title={book.title}
                     thumbnail={book.thumbnail}
-                    className="w-[80px]"
+                    className="w-[65px]"
                   />
                 </SwiperSlide>
               ))}
             </SwiperContainer>
 
-            {/* <img
+            <img
               src={`${import.meta.env.VITE_PUBLIC_URL}/books.png`}
               alt="책 3D 이미지"
-              className="absolute right-5 top-5 w-20"
-            /> */}
+              className="absolute right-4 top-4 w-1/4 opacity-50"
+            />
           </div>
         </div>
 
-        <Section title="🎖️2025년 우수 멤버">
+        <Section title="🎖️2025년 우수 멤버 선정">
           <div className="flex gap-4">
-            <ul className="w-full rounded-xl bg-white p-4 shadow-card">
-              <h2 className="mb-2 font-medium text-gray1">개근 우수 멤버</h2>
+            <div className="w-full rounded-xl bg-white p-4 shadow-card">
+              <h2 className="mb-2 text-[15px] font-medium text-blue3">
+                개근 우수 멤버
+              </h2>
               {pefectAttendanceMemberList.map(({ id }) => (
                 <UserImgName key={id} userId={id} />
               ))}
-            </ul>
+            </div>
 
-            <ul className="w-full rounded-xl bg-white p-4 shadow-card">
-              <h2 className="mb-2 font-medium text-gray1">챌린지 우수 멤버</h2>
-            </ul>
+            {/* <div className="w-full rounded-xl bg-white p-4 shadow-card">
+              <h2 className="mb-2 text-[15px] font-medium text-blue3">
+                챌린지 우수 멤버
+              </h2>
+            </div> */}
           </div>
         </Section>
 

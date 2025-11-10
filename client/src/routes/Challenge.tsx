@@ -212,20 +212,70 @@ export default function Challenge() {
       <MobileHeader title={`${thisYear}년 개인별 챌린지`} backBtn />
 
       <main>
-        <header className="mb-10 mt-2 flex gap-x-3">
-          <div className="rounded-xl bg-white p-4 shadow-card">
-            <h4 className="mb-3.5 flex items-center gap-2">
-              📚✨2025년 챌린지{' '}
-              <div className="flex-1 border-t-2 border-dotted border-gray3" />
-            </h4>
-            <span className="font-bold">독서모임의 책들을 다시 읽어보기!</span>
-          </div>
+        <div className="w-full rounded-xl bg-white p-5 shadow-card">
+          <h4 className="mb-2 flex items-center gap-2 font-medium italic">
+            🔥2025년 챌린지{' '}
+            <div className="flex-1 border-t-2 border-dotted border-gray3" />
+          </h4>
+          <span className="font-GiantsInline font-bold text-blue1">
+            독서모임책과 추천책 다시 읽어보기!
+          </span>
+        </div>
 
-          <DDay
+        {/* <DDay
             hyphenDate={`${thisYear}-12-21`}
             className="flex w-44 flex-col items-center justify-center rounded-xl bg-indigo-200 p-2 text-xl font-bold text-indigo-700 shadow-card"
-          />
-        </header>
+          /> */}
+
+        {bookWithRankList && bookWithRankList?.length > 0 && (
+          <Section
+            className="!mb-10 !mt-16"
+            title="🔥현재 가장 여러 번 다시 읽은 책은?"
+          >
+            <div className="relative h-60 border border-red-500">
+              <img
+                src={`${import.meta.env.VITE_PUBLIC_URL}/stage.png`}
+                alt="시상대"
+                className="absolute bottom-0 ml-[5px]"
+              />
+              <div className="absolute flex items-end justify-center border border-red-500">
+                {bookWithRankList?.[0] && (
+                  <BookThumbnail
+                    thumbnail={bookWithRankList[0].thumbnail}
+                    title={bookWithRankList[0].title}
+                    className="absolute w-[55px]"
+                  />
+                )}
+                {bookWithRankList?.[1] && (
+                  <BookThumbnail
+                    thumbnail={bookWithRankList[1].thumbnail}
+                    title={bookWithRankList[1].title}
+                    className="absolute w-[55px]"
+                  />
+                )}
+                {bookWithRankList?.[1] && (
+                  <BookThumbnail
+                    thumbnail={bookWithRankList[1].thumbnail}
+                    title={bookWithRankList[1].title}
+                    className="absolute w-[55px]"
+                  />
+                )}
+              </div>
+            </div>
+            {/* <SwiperContainer options={swiperOptions}>
+              {bookWithRankList.map((bookWithRank, index) => {
+                return (
+                  <SwiperSlide key={bookWithRank.title}>
+                    <ChallengeBookRankCard
+                      bookWithRank={bookWithRank}
+                      rank={index + 1}
+                    />
+                  </SwiperSlide>
+                );
+              })}
+            </SwiperContainer> */}
+          </Section>
+        )}
 
         <Section title="독서모임의 책들">
           <p className="mb-4 text-sm text-gray1">
@@ -263,31 +313,6 @@ export default function Challenge() {
             ))}
           </ul>
         </Section>
-
-        {bookWithRankList && bookWithRankList?.length > 0 && (
-          <Section
-            className="!mb-10 !mt-16"
-            title="🔥현재 가장 여러 번 다시 읽은 책은?"
-          >
-            <img
-              src={`${import.meta.env.VITE_PUBLIC_URL}/rank_stage.png`}
-              alt="시상대"
-              // className={`${className}`}
-            />
-            <SwiperContainer options={swiperOptions}>
-              {bookWithRankList.map((bookWithRank, index) => {
-                return (
-                  <SwiperSlide key={bookWithRank.title}>
-                    <ChallengeBookRankCard
-                      bookWithRank={bookWithRank}
-                      rank={index + 1}
-                    />
-                  </SwiperSlide>
-                );
-              })}
-            </SwiperContainer>
-          </Section>
-        )}
 
         <Section className="!mt-10" title="🙋🏻현재 멤버별 챌린지 현황">
           {userRankList?.length !== 0 && (

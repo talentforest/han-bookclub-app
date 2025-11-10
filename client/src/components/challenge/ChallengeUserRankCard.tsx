@@ -21,8 +21,8 @@ export default function ChallengeUserRankCard({
       >
         <div className="mb-2 flex h-8 items-center justify-between">
           {totalRereadingCounts !== 0 && (
-            <span className="mr-1 text-3xl font-bold">
-              {rank === 1 && '🏆'}
+            <span className="font-RomanticGumi mr-1 text-2xl font-bold text-blue2">
+              {/* {rank === 1 && '🏆'} */}
               {rank}
               <span className="pb-2 text-lg font-bold text-gray1">위</span>
             </span>
@@ -35,8 +35,8 @@ export default function ChallengeUserRankCard({
           { key: '재독한 책', value: `${rereadingBookList.length}권` },
         ].map(({ key, value }) => (
           <div key={key} className="flex items-center justify-between">
-            <span>{key}</span>
-            <span>{value}</span>
+            <span className="text-purple2">{key}</span>
+            <span className="font-semibold">{value}</span>
           </div>
         ))}
       </div>
