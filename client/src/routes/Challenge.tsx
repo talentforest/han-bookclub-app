@@ -13,7 +13,13 @@ import { CHALLENGE, RECOMMENDED_BOOKS, months } from '@/appConstants';
 
 import { useGetClubByYear, useHandleModal } from '@/hooks';
 
-import { getFbRouteOfPost, thisMonth, thisYear } from '@/utils';
+import {
+  formatDate,
+  getDDay,
+  getFbRouteOfPost,
+  thisMonth,
+  thisYear,
+} from '@/utils';
 
 import { BaseBookData, BookData, BookWithRank, UserRank } from '@/types';
 
@@ -23,7 +29,6 @@ import ChallengeBookRankCard from '@/components/challenge/ChallengeBookRankCard'
 import ChallengeRecommendedBookListByMonth from '@/components/challenge/ChallengeRecommendedBookListByMonth';
 import ChallengeRereadingModal from '@/components/challenge/ChallengeRereadingModal';
 import ChallengeUserRankCard from '@/components/challenge/ChallengeUserRankCard';
-import DDay from '@/components/common/DDay';
 import SelectYearBtnList from '@/components/common/SelectYearBtnList';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import Section from '@/components/common/container/Section';
@@ -212,28 +217,32 @@ export default function Challenge() {
       <MobileHeader title={`${thisYear}년 개인별 챌린지`} backBtn />
 
       <main>
-        <div className="w-full rounded-xl bg-white p-5 shadow-card">
-          <h4 className="mb-2 flex items-center gap-2 font-medium italic">
-            🔥2025년 챌린지{' '}
-            <div className="flex-1 border-t-2 border-dotted border-gray3" />
-          </h4>
-          <span className="font-GiantsInline font-bold text-blue1">
-            독서모임책과 추천책 다시 읽어보기!
-          </span>
-        </div>
+        <div className="flex gap-4">
+          <div className="flex w-full flex-col justify-center gap-y-3 rounded-xl bg-white p-5 shadow-card">
+            <h4 className="font-GiantsInline text-lg font-medium leading-6 text-blue3">
+              2025: <span className="text-xl">Challenge</span>
+            </h4>
+            <span className="font-GiantsInline font-bold text-blue1">
+              모임책과 추천책 다시 읽어보기
+            </span>
+          </div>
 
-        {/* <DDay
-            hyphenDate={`${thisYear}-12-21`}
-            className="flex w-44 flex-col items-center justify-center rounded-xl bg-indigo-200 p-2 text-xl font-bold text-indigo-700 shadow-card"
-          /> */}
-
-        <div className="mt-4 w-full rounded-xl bg-white p-5 shadow-card">
-          <div className="h-10 border border-red-500">
+          <div className="flex w-full flex-col items-center justify-center rounded-xl bg-white p-5 shadow-card">
             <img
               src={`${import.meta.env.VITE_PUBLIC_URL}/dday.png`}
-              alt="시상대"
-              className="mx-auto h-10 border"
+              alt="dday"
+              className="h-10 w-fit"
             />
+
+            <div className="mt-1 flex flex-col items-center">
+              <span className="font-RomanticGumi text-[32px] text-blue2">
+                {+getDDay(`${thisYear}-12-21`) > 0 ? '+' : ''}
+                {getDDay(`${thisYear}-12-21`)}
+              </span>
+              <span className="font-RomanticGumi text-sm text-gray2">
+                {formatDate(`${thisYear}-12-21`, 'yy.M.d')}
+              </span>
+            </div>
           </div>
         </div>
 
@@ -242,34 +251,31 @@ export default function Challenge() {
             className="!mb-10 !mt-16"
             title="🔥현재 가장 여러 번 다시 읽은 책은?"
           >
-            <div className="relative h-60 border border-red-500">
+            <div className="relative h-60">
               <img
                 src={`${import.meta.env.VITE_PUBLIC_URL}/stage.png`}
                 alt="시상대"
-                className="absolute bottom-0 ml-[5px]"
+                className="absolute bottom-0 left-0 right-0 mx-auto h-40"
               />
-              <div className="absolute flex items-end justify-center border border-red-500">
-                {bookWithRankList?.[0] && (
-                  <BookThumbnail
-                    thumbnail={bookWithRankList[0].thumbnail}
-                    title={bookWithRankList[0].title}
-                    className="absolute w-[55px]"
-                  />
-                )}
-                {bookWithRankList?.[1] && (
-                  <BookThumbnail
-                    thumbnail={bookWithRankList[1].thumbnail}
-                    title={bookWithRankList[1].title}
-                    className="absolute w-[55px]"
-                  />
-                )}
-                {bookWithRankList?.[1] && (
-                  <BookThumbnail
-                    thumbnail={bookWithRankList[1].thumbnail}
-                    title={bookWithRankList[1].title}
-                    className="absolute w-[55px]"
-                  />
-                )}
+
+              <div className="absolute bottom-[84px] left-0 right-0 flex items-end justify-center gap-[7%]">
+                <BookThumbnail
+                  thumbnail={bookWithRankList?.[1]?.thumbnail ?? ''}
+                  title={bookWithRankList?.[1].title ?? '아직 2위가 없어요!'}
+                  className="mb-2 w-[60px]"
+                />
+
+                <BookThumbnail
+                  thumbnail={bookWithRankList?.[0]?.thumbnail ?? ''}
+                  title={bookWithRankList?.[0]?.title ?? '아직 1위가 없어요!'}
+                  className="mb-14 w-[60px]"
+                />
+
+                <BookThumbnail
+                  thumbnail={bookWithRankList?.[2]?.thumbnail ?? ''}
+                  title={bookWithRankList?.[2]?.title ?? '아직 3위가 없어요!'}
+                  className="w-[60px]"
+                />
               </div>
             </div>
             {/* <SwiperContainer options={swiperOptions}>
@@ -286,6 +292,37 @@ export default function Challenge() {
             </SwiperContainer> */}
           </Section>
         )}
+
+        <img
+          src={`${import.meta.env.VITE_PUBLIC_URL}/total_stage.png`}
+          alt="total stage"
+          className="w-fit"
+        />
+
+        <Section className="!mt-10" title="🙋🏻현재 멤버별 챌린지 현황">
+          {userRankList?.length !== 0 && (
+            <>
+              <ul className="grid grid-cols-4 gap-5 max-sm:grid-cols-2">
+                {userRankList
+                  ?.slice(0, showAllRank ? undefined : 4)
+                  .map(userRank => (
+                    <ChallengeUserRankCard
+                      key={userRank.creatorId}
+                      userRank={userRank}
+                    />
+                  ))}
+              </ul>
+
+              <button
+                type="button"
+                className="mt-7 flex items-center self-center rounded-full bg-gray4 px-6 py-2 text-sm text-blue3"
+                onClick={() => setShowAllRank(prev => !prev)}
+              >
+                {!showAllRank ? '더보기' : '접기'}
+              </button>
+            </>
+          )}
+        </Section>
 
         <Section title="독서모임의 책들">
           <p className="mb-4 text-sm text-gray1">
@@ -322,31 +359,6 @@ export default function Challenge() {
               />
             ))}
           </ul>
-        </Section>
-
-        <Section className="!mt-10" title="🙋🏻현재 멤버별 챌린지 현황">
-          {userRankList?.length !== 0 && (
-            <>
-              <ul className="grid grid-cols-4 gap-5 max-sm:grid-cols-2">
-                {userRankList
-                  ?.slice(0, showAllRank ? undefined : 4)
-                  .map(userRank => (
-                    <ChallengeUserRankCard
-                      key={userRank.creatorId}
-                      userRank={userRank}
-                    />
-                  ))}
-              </ul>
-
-              <button
-                type="button"
-                className="mt-7 flex items-center self-center rounded-full bg-gray4 px-6 py-2 text-sm text-blue3"
-                onClick={() => setShowAllRank(prev => !prev)}
-              >
-                {!showAllRank ? '더보기' : '접기'}
-              </button>
-            </>
-          )}
         </Section>
       </main>
     </>

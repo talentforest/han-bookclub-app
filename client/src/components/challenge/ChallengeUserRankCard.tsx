@@ -14,15 +14,14 @@ export default function ChallengeUserRankCard({
 
   return (
     <li
-      className={`flex gap-x-4 rounded-xl bg-white p-4 shadow-card ${rereadingBookList.length !== 0 ? 'col-span-2' : ''}`}
+      className={`flex gap-x-3 rounded-xl bg-white p-4 shadow-card ${rereadingBookList.length !== 0 ? 'col-span-2' : ''}`}
     >
       <div
-        className={`${rereadingBookList.length !== 0 ? 'w-[50%] min-w-32' : 'w-full'}`}
+        className={`${rereadingBookList.length !== 0 ? 'w-[30%] min-w-28' : 'w-full'}`}
       >
-        <div className="mb-2 flex h-8 items-center justify-between">
+        <div className="mb-2 flex h-8 items-center justify-between gap-2">
           {totalRereadingCounts !== 0 && (
-            <span className="font-RomanticGumi mr-1 text-2xl font-bold text-blue2">
-              {/* {rank === 1 && '🏆'} */}
+            <span className="mr-1 font-RomanticGumi text-2xl font-bold text-blue2">
               {rank}
               <span className="pb-2 text-lg font-bold text-gray1">위</span>
             </span>
@@ -35,7 +34,7 @@ export default function ChallengeUserRankCard({
           { key: '재독한 책', value: `${rereadingBookList.length}권` },
         ].map(({ key, value }) => (
           <div key={key} className="flex items-center justify-between">
-            <span className="text-purple2">{key}</span>
+            <span className="min-w-20 text-purple2">{key}</span>
             <span className="font-semibold">{value}</span>
           </div>
         ))}
@@ -48,7 +47,7 @@ export default function ChallengeUserRankCard({
               key={book.title}
               thumbnail={book.thumbnail}
               title={book.title}
-              className="w-14"
+              className="w-14 min-w-14"
             />
           ))}
         </div>
