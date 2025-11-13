@@ -22,3 +22,4 @@ export { useLogIn } from '@/hooks/handleAccount/useLogIn';
 export { useSearchBook } from '@/hooks/useSearchBook';
 export { useSendPushNotification } from '@/hooks/common/useSendPushNotification';
 export { useWindowSize } from '@/hooks/common/useWindowSize';
+export { useHandleChallenge } from '@/hooks/useHandleChallenge';

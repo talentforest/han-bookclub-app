@@ -25,16 +25,12 @@ export default function ChallengeBookRankCard({
   };
 
   return (
-    <li className="flex min-h-fit w-full items-center justify-center">
-      <button
-        type="button"
-        onClick={onClick}
-        className={`relative self-center ${rank === 1 ? 'max-sm:w-[67%]' : 'max-sm:w-[58%]'}`}
-      >
-        <BookThumbnail title={title} thumbnail={thumbnail} className="w-24" />
+    <li className="flex items-center justify-center">
+      <button type="button" onClick={onClick} className="relative">
+        <BookThumbnail title={title} thumbnail={thumbnail} className="w-20" />
         <div className="absolute -bottom-4 -right-4">
-          <PiShootingStarFill className="size-[90px] fill-yellow-400" />
-          <span className="absolute bottom-[42px] right-[27px] font-sans text-xl font-bold text-indigo-600">
+          <PiShootingStarFill className="size-[80px] fill-yellow-400" />
+          <span className="absolute bottom-[35px] right-[24px] font-GiantsInline text-xl font-bold text-purple1">
             {rank}
           </span>
         </div>

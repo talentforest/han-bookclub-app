@@ -62,7 +62,7 @@ const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mb-5 rounded-2xl bg-green3 p-4 shadow-card max-sm:p-4"
+      className="mb-5 rounded-2xl bg-purple4 p-4 shadow-card max-sm:p-4"
     >
       <div className="flex flex-col">
         <textarea

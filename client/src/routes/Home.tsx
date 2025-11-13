@@ -2,13 +2,14 @@ import { useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { clubByYearAtom } from '@/data/clubAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
 
 import { getCollection } from '@/api';
 
-import { BOOKCLUB_THIS_YEAR } from '@/appConstants';
+import { BOOKCLUB_THIS_YEAR, DEVELOPER_EMAIL } from '@/appConstants';
 
 import { thisYear } from '@/utils';
 
@@ -24,6 +25,8 @@ import RecommendedBookSwiperContainer from '@/components/post/recommendedBooks/R
 
 const Home = () => {
   const navigate = useNavigate();
+
+  const currUser = useRecoilValue(currAuthUserAtom);
 
   const setThisYearClub = useSetRecoilState(clubByYearAtom);
 
@@ -49,7 +52,13 @@ const Home = () => {
     },
     {
       name: '연말결산',
-      onClick: () => navigate('/yearClosingEvent'),
+      onClick: () => {
+        if (DEVELOPER_EMAIL === currUser.email) {
+          navigate('/yearClosingEvent');
+        } else {
+          alert('아직 준비중인 페이지입니다!');
+        }
+      },
       color: 'gray' as const,
     },
   ];

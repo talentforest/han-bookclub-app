@@ -1,17 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { SwiperSlide } from 'swiper/react';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { RECOMMENDED_BOOKS, months } from '@/appConstants';
 
-import { rereadingChallengeAtom } from '@/data/challengeAtom';
-import { allUsersAtom } from '@/data/userAtom';
-
-import { getCollection } from '@/api';
-
-import { CHALLENGE, RECOMMENDED_BOOKS, months } from '@/appConstants';
-
-import { useGetClubByYear, useHandleModal } from '@/hooks';
+import { useGetClubByYear, useHandleChallenge, useHandleModal } from '@/hooks';
 
 import {
   formatDate,
@@ -21,7 +14,7 @@ import {
   thisYear,
 } from '@/utils';
 
-import { BaseBookData, BookData, BookWithRank, UserRank } from '@/types';
+import { BaseBookData, BookData } from '@/types';
 
 import MobileHeader from '@/layout/MobileHeader';
 
@@ -37,13 +30,13 @@ import SwiperContainer from '@/components/common/container/SwiperContainer';
 const swiperOptions = {
   breakpoints: {
     1024: {
-      slidesPerView: 8,
+      slidesPerView: 5,
     },
     800: {
-      slidesPerView: 2,
+      slidesPerView: 3,
     },
     320: {
-      slidesPerView: 2,
+      slidesPerView: 3,
     },
   },
   pagination: true,
@@ -53,15 +46,11 @@ const swiperOptions = {
 };
 
 export default function Challenge() {
-  const memberList = useRecoilValue(allUsersAtom);
-
-  const [userChallengeList, setUserChallengeList] = useRecoilState(
-    rereadingChallengeAtom,
-  );
-
-  const [showAllRank, setShowAllRank] = useState(false);
+  const [showAllUserRank, setShowAllUserRank] = useState(false);
 
   const { showModal } = useHandleModal();
+
+  const { bookWithRankList, userRankList } = useHandleChallenge();
 
   const {
     selectedYear,
@@ -69,125 +58,16 @@ export default function Challenge() {
     clubBookListByYear, //
   } = useGetClubByYear();
 
-  // 책 순위
-  const bookWithRankList: BookWithRank[] = useMemo(() => {
-    if (!userChallengeList) return null;
+  const recommendedBookCollNameList = useMemo(() => {
+    const monthList =
+      selectedYear === thisYear
+        ? months.filter(month => +month <= +thisMonth)
+        : months;
 
-    const usersBookList = userChallengeList
-      .map(item => {
-        const { creatorId, id, ...rest } = item;
-
-        return Object.entries(rest).map(
-          ([_, { book, counts, impressionList }]) => {
-            return {
-              ...book,
-              counts,
-              id,
-              impressionList: impressionList.map(item => ({
-                ...item,
-                creatorId,
-              })),
-            };
-          },
-        );
-      })
-      .flat();
-
-    return Object.values(
-      usersBookList.reduce<Record<string, BookWithRank>>((acc, book) => {
-        const { title, counts } = book;
-
-        if (!acc[title]) {
-          acc[title] = { ...book, readers: 1 };
-        } else {
-          acc[title].counts += counts;
-          acc[title].readers += 1;
-        }
-
-        return acc;
-      }, {}),
-    ).sort((a, b) => {
-      const readersDiff = b.readers - a.readers;
-      if (readersDiff !== 0) return readersDiff;
-      return b.counts - a.counts;
+    return monthList.map(month => {
+      return getFbRouteOfPost(`${selectedYear}-${month}`, RECOMMENDED_BOOKS);
     });
-  }, [userChallengeList]);
-
-  // 유저 순위
-  const userRankList: UserRank[] = useMemo(() => {
-    const memberChallengeList = memberList.map(({ id }) => {
-      const matched = userChallengeList?.find(
-        ({ creatorId }) => creatorId === id,
-      );
-      return matched || { id, creatorId: id };
-    });
-
-    const usersWithCounts = memberChallengeList
-      .map(user => {
-        const rereadingBookList: ({ counts: number } & BaseBookData)[] =
-          Object.entries(user)
-            .filter(([key]) => key !== 'id' && key !== 'creatorId')
-            .map(([_, value]: any) => ({
-              ...value.book,
-              counts: value.counts,
-            }));
-
-        const totalScore = rereadingBookList.reduce(
-          (acc, cur) => acc + cur.counts,
-          0,
-        );
-
-        return {
-          creatorId: user.creatorId,
-          totalScore,
-          rereadingBookList,
-        };
-      })
-      .sort((a, b) => b.totalScore - a.totalScore);
-
-    // rank 계산 (동점자 처리)
-    let rank = 0;
-    let prevScore = -1;
-    let skip = 0;
-
-    return usersWithCounts.map((user, idx) => {
-      const { rereadingBookList, creatorId, totalScore } = user;
-
-      if (prevScore === totalScore) {
-        skip++;
-      } else {
-        rank = idx + 1 + skip;
-        skip = 0;
-      }
-      prevScore = totalScore;
-
-      const totalRereadingCounts = rereadingBookList.reduce(
-        (acc, { counts }) => {
-          return acc + counts;
-        },
-        0,
-      );
-
-      return { creatorId, rank, rereadingBookList, totalRereadingCounts };
-    });
-  }, [userChallengeList]);
-
-  // console.log(userRankList);
-
-  useEffect(() => {
-    if (!userChallengeList) {
-      getCollection(CHALLENGE, setUserChallengeList);
-    }
-  }, []);
-
-  const monthList =
-    selectedYear === thisYear
-      ? months.filter(month => +month <= +thisMonth)
-      : months;
-
-  const collList = monthList.map(month => {
-    return getFbRouteOfPost(`${selectedYear}-${month}`, RECOMMENDED_BOOKS);
-  });
+  }, [selectedYear]);
 
   const onChallengeBookClick = (
     book: (BookData | BaseBookData) & { yearMonthId?: string },
@@ -248,63 +128,63 @@ export default function Challenge() {
 
         {bookWithRankList && bookWithRankList?.length > 0 && (
           <Section
-            className="!mb-10 !mt-16"
+            className="!mb-10 !mt-16 flex"
             title="🔥현재 가장 여러 번 다시 읽은 책은?"
           >
-            <div className="relative h-60">
-              <img
-                src={`${import.meta.env.VITE_PUBLIC_URL}/stage.png`}
-                alt="시상대"
-                className="absolute bottom-0 left-0 right-0 mx-auto h-40"
-              />
-
-              <div className="absolute bottom-[84px] left-0 right-0 flex items-end justify-center gap-[7%]">
-                <BookThumbnail
-                  thumbnail={bookWithRankList?.[1]?.thumbnail ?? ''}
-                  title={bookWithRankList?.[1].title ?? '아직 2위가 없어요!'}
-                  className="mb-2 w-[60px]"
+            <div className="flex items-end gap-x-8 max-sm:flex-col max-sm:items-center">
+              <div className="relative my-5 h-[235px] w-[450px] max-sm:w-full">
+                <img
+                  src={`${import.meta.env.VITE_PUBLIC_URL}/stage.png`}
+                  alt="시상대"
+                  className="absolute bottom-0 left-0 right-0 mx-auto w-[270px]"
                 />
-
-                <BookThumbnail
-                  thumbnail={bookWithRankList?.[0]?.thumbnail ?? ''}
-                  title={bookWithRankList?.[0]?.title ?? '아직 1위가 없어요!'}
-                  className="mb-14 w-[60px]"
-                />
-
-                <BookThumbnail
-                  thumbnail={bookWithRankList?.[2]?.thumbnail ?? ''}
-                  title={bookWithRankList?.[2]?.title ?? '아직 3위가 없어요!'}
-                  className="w-[60px]"
-                />
+                <div className="absolute left-0 right-0 top-0 flex justify-center gap-6">
+                  <BookThumbnail
+                    thumbnail={bookWithRankList?.[1]?.thumbnail ?? ''}
+                    title={bookWithRankList?.[1].title ?? '아직 2위가 없어요!'}
+                    className="mt-12 w-[65px]"
+                  />
+                  <BookThumbnail
+                    thumbnail={bookWithRankList?.[0]?.thumbnail ?? ''}
+                    title={bookWithRankList?.[0]?.title ?? '아직 1위가 없어요!'}
+                    className="w-[70px]"
+                  />
+                  <BookThumbnail
+                    thumbnail={bookWithRankList?.[2]?.thumbnail ?? ''}
+                    title={bookWithRankList?.[2]?.title ?? '아직 3위가 없어요!'}
+                    className="mt-[52px] w-[65px]"
+                  />
+                </div>
               </div>
+
+              <SwiperContainer options={swiperOptions}>
+                {bookWithRankList.map((bookWithRank, index) => {
+                  return (
+                    <SwiperSlide key={bookWithRank.title}>
+                      <ChallengeBookRankCard
+                        bookWithRank={bookWithRank}
+                        rank={index + 1}
+                      />
+                    </SwiperSlide>
+                  );
+                })}
+              </SwiperContainer>
             </div>
-            {/* <SwiperContainer options={swiperOptions}>
-              {bookWithRankList.map((bookWithRank, index) => {
-                return (
-                  <SwiperSlide key={bookWithRank.title}>
-                    <ChallengeBookRankCard
-                      bookWithRank={bookWithRank}
-                      rank={index + 1}
-                    />
-                  </SwiperSlide>
-                );
-              })}
-            </SwiperContainer> */}
           </Section>
         )}
 
-        <img
-          src={`${import.meta.env.VITE_PUBLIC_URL}/total_stage.png`}
-          alt="total stage"
-          className="w-fit"
-        />
-
         <Section className="!mt-10" title="🙋🏻현재 멤버별 챌린지 현황">
+          {/* <img
+            src={`${import.meta.env.VITE_PUBLIC_URL}/total_stage.png`}
+            alt="시상대"
+            className="mx-auto mb-4 mt-2 w-full"
+          /> */}
+
           {userRankList?.length !== 0 && (
             <>
               <ul className="grid grid-cols-4 gap-5 max-sm:grid-cols-2">
                 {userRankList
-                  ?.slice(0, showAllRank ? undefined : 4)
+                  ?.slice(0, showAllUserRank ? undefined : 4)
                   .map(userRank => (
                     <ChallengeUserRankCard
                       key={userRank.creatorId}
@@ -316,9 +196,9 @@ export default function Challenge() {
               <button
                 type="button"
                 className="mt-7 flex items-center self-center rounded-full bg-gray4 px-6 py-2 text-sm text-blue3"
-                onClick={() => setShowAllRank(prev => !prev)}
+                onClick={() => setShowAllUserRank(prev => !prev)}
               >
-                {!showAllRank ? '더보기' : '접기'}
+                {!showAllUserRank ? '더보기' : '접기'}
               </button>
             </>
           )}
@@ -351,7 +231,7 @@ export default function Challenge() {
                 </button>
               </li>
             ))}
-            {collList.map(coll => (
+            {recommendedBookCollNameList.map(coll => (
               <ChallengeRecommendedBookListByMonth
                 key={coll}
                 coll={coll}

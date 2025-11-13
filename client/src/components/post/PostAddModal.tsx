@@ -71,7 +71,7 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
     <Modal title={`${postType} 작성하기`}>
       <form
         onSubmit={handleSubmit}
-        className="flex-1 overflow-scroll pb-1 scrollbar-hide"
+        className="flex flex-col overflow-scroll scrollbar-hide"
       >
         <QuillEditor
           placeholder={`${postType}을 작성해주세요`}

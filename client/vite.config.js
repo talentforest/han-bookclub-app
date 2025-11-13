@@ -4,7 +4,7 @@ import path from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig(({ mode }) => ({
-  base: mode === 'development' ? '/' : '/han-bookclub-app/',
+  base: mode === 'development' ? '/han-bookclub-app' : '/han-bookclub-app/',
   plugins: [react()],
   resolve: {
     alias: {
