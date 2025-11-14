@@ -30,10 +30,10 @@ import SwiperContainer from '@/components/common/container/SwiperContainer';
 const swiperOptions = {
   breakpoints: {
     1024: {
-      slidesPerView: 5,
+      slidesPerView: 10,
     },
     800: {
-      slidesPerView: 3,
+      slidesPerView: 6,
     },
     320: {
       slidesPerView: 3,
@@ -97,8 +97,8 @@ export default function Challenge() {
       <MobileHeader title={`${thisYear}년 개인별 챌린지`} backBtn />
 
       <main>
-        <div className="flex gap-4">
-          <div className="flex w-full flex-col justify-center gap-y-3 rounded-xl bg-white p-5 shadow-card">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col justify-center gap-y-3 rounded-xl bg-white p-5 shadow-card">
             <h4 className="font-GiantsInline text-lg font-medium leading-6 text-blue3">
               2025: <span className="text-xl">Challenge</span>
             </h4>
@@ -107,7 +107,7 @@ export default function Challenge() {
             </span>
           </div>
 
-          <div className="flex w-full flex-col items-center justify-center rounded-xl bg-white p-5 shadow-card">
+          <div className="flex flex-col items-center justify-center rounded-xl bg-white p-5 shadow-card">
             <img
               src={`${import.meta.env.VITE_PUBLIC_URL}/dday.png`}
               alt="dday"
@@ -119,7 +119,7 @@ export default function Challenge() {
                 {+getDDay(`${thisYear}-12-21`) > 0 ? '+' : ''}
                 {getDDay(`${thisYear}-12-21`)}
               </span>
-              <span className="font-RomanticGumi text-sm text-gray2">
+              <span className="font-RomanticGumi text-sm tracking-tighter text-gray2">
                 {formatDate(`${thisYear}-12-21`, 'yy.M.d')}
               </span>
             </div>
@@ -131,58 +131,25 @@ export default function Challenge() {
             className="!mb-10 !mt-16 flex"
             title="🔥현재 가장 여러 번 다시 읽은 책은?"
           >
-            <div className="flex items-end gap-x-8 max-sm:flex-col max-sm:items-center">
-              <div className="relative my-5 h-[235px] w-[450px] max-sm:w-full">
-                <img
-                  src={`${import.meta.env.VITE_PUBLIC_URL}/stage.png`}
-                  alt="시상대"
-                  className="absolute bottom-0 left-0 right-0 mx-auto w-[270px]"
-                />
-                <div className="absolute left-0 right-0 top-0 flex justify-center gap-6">
-                  <BookThumbnail
-                    thumbnail={bookWithRankList?.[1]?.thumbnail ?? ''}
-                    title={bookWithRankList?.[1].title ?? '아직 2위가 없어요!'}
-                    className="mt-12 w-[65px]"
-                  />
-                  <BookThumbnail
-                    thumbnail={bookWithRankList?.[0]?.thumbnail ?? ''}
-                    title={bookWithRankList?.[0]?.title ?? '아직 1위가 없어요!'}
-                    className="w-[70px]"
-                  />
-                  <BookThumbnail
-                    thumbnail={bookWithRankList?.[2]?.thumbnail ?? ''}
-                    title={bookWithRankList?.[2]?.title ?? '아직 3위가 없어요!'}
-                    className="mt-[52px] w-[65px]"
-                  />
-                </div>
-              </div>
-
-              <SwiperContainer options={swiperOptions}>
-                {bookWithRankList.map((bookWithRank, index) => {
-                  return (
-                    <SwiperSlide key={bookWithRank.title}>
-                      <ChallengeBookRankCard
-                        bookWithRank={bookWithRank}
-                        rank={index + 1}
-                      />
-                    </SwiperSlide>
-                  );
-                })}
-              </SwiperContainer>
-            </div>
+            <SwiperContainer options={swiperOptions}>
+              {bookWithRankList.map((bookWithRank, index) => {
+                return (
+                  <SwiperSlide key={bookWithRank.title}>
+                    <ChallengeBookRankCard
+                      bookWithRank={bookWithRank}
+                      rank={index + 1}
+                    />
+                  </SwiperSlide>
+                );
+              })}
+            </SwiperContainer>
           </Section>
         )}
 
         <Section className="!mt-10" title="🙋🏻현재 멤버별 챌린지 현황">
-          {/* <img
-            src={`${import.meta.env.VITE_PUBLIC_URL}/total_stage.png`}
-            alt="시상대"
-            className="mx-auto mb-4 mt-2 w-full"
-          /> */}
-
           {userRankList?.length !== 0 && (
             <>
-              <ul className="grid grid-cols-4 gap-5 max-sm:grid-cols-2">
+              <ul className="flex flex-col gap-y-3">
                 {userRankList
                   ?.slice(0, showAllUserRank ? undefined : 4)
                   .map(userRank => (
@@ -216,7 +183,7 @@ export default function Challenge() {
             buttonClassName="shadow-none"
           />
 
-          <ul className="mt-5 grid grid-cols-10 gap-4 max-md:grid-cols-7 max-sm:grid-cols-4 max-sm:gap-4">
+          <ul className="mt-5 grid grid-cols-10 gap-4 max-md:grid-cols-8 max-sm:grid-cols-4 max-sm:gap-4">
             {clubBookListByYear.map(clubbook => (
               <li key={clubbook.datetime}>
                 <button

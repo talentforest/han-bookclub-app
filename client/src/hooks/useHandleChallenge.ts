@@ -23,6 +23,7 @@ export const useHandleChallenge = () => {
       getCollection(CHALLENGE, setUserChallengeList);
     }
   }, []);
+
   // 책 순위
   const bookWithRankList: BookWithRank[] = useMemo(() => {
     if (!userChallengeList) return null;
