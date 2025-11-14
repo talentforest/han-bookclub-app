@@ -25,6 +25,8 @@ export default function AppNavigation({ type }: { type: 'top' | 'bottom' }) {
 
   const match = location.pathname.match(/\/bookclub\/(\d{4}-\d{2})(?:\/|$)/);
   const yearMonthIdSegment = match ? match[1] : null;
+  const prevYearMonthId =
+    new Date(yearMonthIdSegment).getTime() < new Date().getTime();
 
   const navigationList: AppNavigation[] = [
     {
@@ -39,7 +41,9 @@ export default function AppNavigation({ type }: { type: 'top' | 'bottom' }) {
       icon: <FiArchive className={`${iconClassName}`} />,
       active: !!(
         pathname.includes('previous-bookclub') ||
-        (pathname.includes('/bookclub') && yearMonthIdSegment)
+        (pathname.includes('/bookclub') &&
+          yearMonthIdSegment &&
+          prevYearMonthId)
       ),
     },
     {

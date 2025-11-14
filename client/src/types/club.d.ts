@@ -12,7 +12,17 @@ export type MonthlyBookClub = {
     place: string;
     eventMonth?: {
       title: string;
-      contents: { id: string; title: string; detail: string }[];
+      contents: {
+        id: string;
+        title: string;
+        detail?: string;
+        result?: {
+          users?: [];
+          books?: [];
+          subjects?: string[];
+          detail?: string;
+        };
+      }[];
       hosts: string[];
     };
   };

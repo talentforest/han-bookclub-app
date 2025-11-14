@@ -19,6 +19,7 @@ import MobileHeader from '@/layout/MobileHeader';
 import NextMonthClub from '@/components/bookClub/NextMonthClub';
 import ThisMonthBookClub from '@/components/bookClub/ThisMonthClub';
 import VoteSlider from '@/components/bookVote/VoteSlider';
+import ChevronRightLinkBtn from '@/components/common/button/ChevronRightLinkBtn';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Section from '@/components/common/container/Section';
 import RecommendedBookSwiperContainer from '@/components/post/recommendedBooks/RecommendedBookSwiperContainer';
@@ -75,6 +76,7 @@ const Home = () => {
 
           <Section title="다음달 모임책" className="col-span-1 !my-0 size-full">
             <NextMonthClub />
+            <ChevronRightLinkBtn to={'/bookclub/2025-12'} title="자세히보기" />
           </Section>
         </div>
 

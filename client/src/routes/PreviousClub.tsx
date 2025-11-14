@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { Link } from 'react-router-dom';
 
 import { useGetClubByYear } from '@/hooks';
@@ -14,6 +16,12 @@ import Section from '@/components/common/container/Section';
 function PreviousClub() {
   const { clubByYear, selectedYear, setSelectedYear } = useGetClubByYear();
 
+  const prevClubList = useMemo(() => {
+    return clubByYear.filter(
+      club => new Date(club.id).getTime() < new Date(thisYearMonthId).getTime(),
+    );
+  }, [clubByYear]);
+
   return (
     <>
       <MobileHeader title="지난 한페이지" />
@@ -26,9 +34,9 @@ function PreviousClub() {
         />
 
         <Section title={`${selectedYear}년의 한페이지`} className="!mt-10">
-          {clubByYear.length !== 0 ? (
+          {prevClubList.length !== 0 ? (
             <ul className="grid grid-cols-4 gap-5 max-md:grid-cols-3 max-sm:mt-2 max-sm:flex max-sm:flex-col [&>div]:col-span-4">
-              {clubByYear.map(club => (
+              {prevClubList.map(club => (
                 <Link
                   key={club.id}
                   to={`/bookclub${thisYearMonthId === club.id ? '' : `/${club.id}`}`}

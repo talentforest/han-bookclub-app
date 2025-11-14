@@ -21,6 +21,7 @@ import ThisMonthBookClub from '@/components/bookClub/ThisMonthClub';
 import GuideLine from '@/components/common/GuideLine';
 import LoopLoading from '@/components/common/LoopLoading';
 import SearchBookBtn from '@/components/common/button/SearchBookBtn';
+import Accordion from '@/components/common/container/Accordion';
 import EmptyCard from '@/components/common/container/EmptyCard';
 import Section from '@/components/common/container/Section';
 import MeetingReviewList from '@/components/post/MeetingReviewList';
@@ -100,18 +101,40 @@ const ClubDetail = () => {
                       </Section>
                     )}
 
-                    <Section title="발제문과 정리 기록">
-                      {isThisMonthDetail && (
-                        <GuideLine text="모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 수정만 가능할 뿐 새로 작성이 불가능한 점 유의해주세요." />
-                      )}
-                      <PostTabBox yearMonthId={yearMonthId} />
-                    </Section>
+                    {monthlyBookClub?.book && (
+                      <Section title="발제문과 정리 기록">
+                        {isThisMonthDetail && (
+                          <GuideLine text="모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 수정만 가능할 뿐 새로 작성이 불가능한 점 유의해주세요." />
+                        )}
+                        <PostTabBox yearMonthId={yearMonthId} />
+                      </Section>
+                    )}
                   </div>
 
-                  <Section title={isThisMonthDetail ? '책 추천하기' : '추천책'}>
-                    {isThisMonthDetail && <SearchBookBtn />}
-                    <RecommendedBookSwiperContainer yearMonthId={yearMonthId} />
-                  </Section>
+                  {monthlyBookClub?.book && (
+                    <Section
+                      title={isThisMonthDetail ? '책 추천하기' : '추천책'}
+                    >
+                      {isThisMonthDetail && <SearchBookBtn />}
+                      <RecommendedBookSwiperContainer
+                        yearMonthId={yearMonthId}
+                      />
+                    </Section>
+                  )}
+
+                  {monthlyBookClub?.meeting?.eventMonth && (
+                    <Section title="이벤트 콘텐츠">
+                      <ul className="flex flex-col gap-y-3">
+                        {monthlyBookClub.meeting.eventMonth.contents.map(
+                          content => (
+                            <Accordion key={content.id} title={content.title}>
+                              <div className="mb-4">{content.detail}</div>
+                            </Accordion>
+                          ),
+                        )}
+                      </ul>
+                    </Section>
+                  )}
 
                   <Section title="모임 후기">
                     <MeetingReviewList yearMonthId={yearMonthId} />

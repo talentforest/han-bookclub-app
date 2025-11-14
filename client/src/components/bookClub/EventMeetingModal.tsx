@@ -133,10 +133,10 @@ export default function EventMeetingModal({
 
     alert(`${monthNum}월 독서모임 정보가 등록되었습니다!`);
 
-    await sendPushNotificationToAllUser({
-      title: `☕️${currMeeting.eventMonth.title} 등록 안내`,
-      body: `${monthNum}월 이벤트가 등록되었어요! 🕓${formatDate(time, 'M월 d일 EEEE a h시 mm분')}에 📍${place}에서 만나요👋`,
-    });
+    // await sendPushNotificationToAllUser({
+    //   title: `☕️${currMeeting.eventMonth.title} 등록 안내`,
+    //   body: `${monthNum}월 이벤트가 등록되었어요! 🕓${formatDate(time, 'M월 d일 EEEE a h시 mm분')}에 📍${place}에서 만나요👋`,
+    // });
   };
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
