@@ -18,23 +18,28 @@ import { USER } from '@/appConstants';
 
 export const useDeleteAccount = () => {
   const [password, setPassword] = useState('');
+
   const [showMessage, setShowMessage] = useState(false);
+
   const { uid } = useRecoilValue(currAuthUserAtom);
+
   const navigate = useNavigate();
-  const anonymous = authService.currentUser?.isAnonymous;
 
   const onDeleteSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     if (password === '') return;
+
     const user = authService.currentUser;
     const credential = EmailAuthProvider.credential(user?.email, password);
     try {
       const checkDeleteAccount = window.confirm('정말 탈퇴하시겠어요?');
+
       if (checkDeleteAccount === true) {
         reauthenticateWithCredential(user, credential)
           .then(() => {
-            const UserDataRef = doc(dbService, USER, `${uid}`);
-            deleteDoc(UserDataRef);
+            const userDataRef = doc(dbService, USER, uid);
+            deleteDoc(userDataRef);
             deleteUser(user);
             navigate('/');
           })
@@ -52,7 +57,9 @@ export const useDeleteAccount = () => {
   };
 
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const anonymous = authService.currentUser?.isAnonymous;
     if (anonymous) return alert('익명의 방문자입니다!');
+
     setPassword(event.currentTarget.value);
   };
 

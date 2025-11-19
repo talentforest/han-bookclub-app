@@ -46,7 +46,7 @@ export default function MonthEventCard({
   return (
     <>
       <div
-        className={`flex flex-col justify-between rounded-card bg-white px-6 py-5 shadow-card ${className}`}
+        className={`flex flex-col justify-between rounded-card bg-white px-4 py-5 shadow-card ${className}`}
       >
         {pathname === '/' && (
           <Tag

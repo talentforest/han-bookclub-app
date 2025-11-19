@@ -1,14 +1,16 @@
 export type BookData = {
   title: string;
-  contents: string;
-  url: string;
-  isbn: string;
-  datetime: string;
+  thumbnail: string;
   authors: string[];
   publisher: string;
+  url: string;
+  contents: string;
+  isbn: string;
+  datetime: string;
   translators: string[];
   price: number;
-  thumbnail: string;
+  sale_price: number;
+  status: string;
 };
 
 export type BaseBookData = Pick<

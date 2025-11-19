@@ -8,14 +8,14 @@ import { currAuthUserAtom } from '@/data/userAtom';
 
 import { useHandleLike } from '@/hooks';
 
-import { UserPost } from '@/types';
+import { Collection, SubCollection, UserPost } from '@/types';
 
 import LikeBtn from '@/components/common/button/LikeBtn';
 import UserImgName from '@/components/common/user/UserImgName';
 
 interface LikeBtnWithPeopleInfoProps {
   post: UserPost;
-  collName?: string;
+  collName?: Collection | SubCollection;
 }
 
 const LikeBtnWithPeopleInfo = ({

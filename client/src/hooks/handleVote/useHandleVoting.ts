@@ -21,11 +21,10 @@ import { formatDate, getVoteCountsById } from '@/utils';
 import { BookVote, BookVoteItemsByMember } from '@/types';
 
 interface UseHandleVotingProps {
-  collName: string;
   docId: string;
 }
 
-export const useHandleVoting = ({ collName, docId }: UseHandleVotingProps) => {
+export const useHandleVoting = ({ docId }: UseHandleVotingProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const [currentVote, setCurrentVote] = useState<BookVote>(initialBookVote);
@@ -41,7 +40,7 @@ export const useHandleVoting = ({ collName, docId }: UseHandleVotingProps) => {
 
   useEffect(() => {
     if (docId && currentVote.id === '') {
-      getDocument(collName, `VoteId-${docId}`, setCurrentVote);
+      getDocument(BOOK_VOTE, `VoteId-${docId}`, setCurrentVote);
     }
     if (currentVote.id) {
       getCollection(
@@ -49,13 +48,13 @@ export const useHandleVoting = ({ collName, docId }: UseHandleVotingProps) => {
         setVotedItemsByMember,
       );
     }
-  }, [collName, docId, currentVote.id, setVotedItemsByMember]);
+  }, [docId, currentVote.id, setVotedItemsByMember]);
 
   const onVoteDeleteClick = async () => {
     const confirm = window.confirm('정말로 삭제하시겠어요?');
 
     if (confirm) {
-      const currentVoteRef = doc(dbService, collName, `VoteId-${docId}`);
+      const currentVoteRef = doc(dbService, BOOK_VOTE, `VoteId-${docId}`);
       await deleteDoc(currentVoteRef);
       navigate(-1);
     }
@@ -72,7 +71,7 @@ export const useHandleVoting = ({ collName, docId }: UseHandleVotingProps) => {
     try {
       const personalVoteRef = doc(
         dbService,
-        `${collName}/VoteId-${currentVote.id}/${VOTED_ITEMS}`,
+        `${BOOK_VOTE}/VoteId-${currentVote.id}/${VOTED_ITEMS}`,
         uid,
       );
 

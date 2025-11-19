@@ -1,17 +1,18 @@
 import { useState } from 'react';
 
-import { authService, dbService } from '@/fbase';
-import { doc, updateDoc } from 'firebase/firestore';
-
 import { useRecoilValue } from 'recoil';
 
 import { currAuthUserAtom } from '@/data/userAtom';
+
+import { useEditDoc } from '@/hooks/handleFbDoc/useEditDoc';
+
+import { Collection, SubCollection } from '@/types';
 
 interface IHandleLikeProps {
   likes: number;
   likeUsers: string[];
   docId: string;
-  collName: string;
+  collName: Collection | SubCollection;
 }
 
 export const useHandleLike = ({
@@ -21,23 +22,25 @@ export const useHandleLike = ({
   collName,
 }: IHandleLikeProps) => {
   const [like, setLike] = useState(false);
+
   const [showLikeUsers, setShowLikeUsers] = useState(false);
+
   const { uid } = useRecoilValue(currAuthUserAtom);
-  const anonymous = authService.currentUser?.isAnonymous;
+
+  const { onEditClick } = useEditDoc({ collName, docId });
 
   const onLikeClick = async () => {
-    if (!collName || anonymous) return;
-
-    const docRef = doc(dbService, collName, `${docId}`);
+    if (!collName) return;
 
     if (like) {
       setShowLikeUsers(false);
-      await updateDoc(docRef, {
+
+      await onEditClick({
         likes: likes - 1,
         likeUsers: likeUsers.filter(likeId => likeId !== uid),
       });
     } else {
-      await updateDoc(docRef, {
+      await onEditClick({
         likes: likes + 1,
         likeUsers: [...likeUsers, uid],
       });

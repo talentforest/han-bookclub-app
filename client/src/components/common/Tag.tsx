@@ -27,7 +27,7 @@ export default function Tag({
   onClick,
 }: TagProps) {
   const bgColor = {
-    lightGray: 'bg-white text-gray1',
+    lightGray: 'bg-gray4 text-gray1',
     lightGreen: 'bg-green2 text-white',
     lightBlue: 'bg-blue4 text-blue2',
     yellow: 'bg-amber-100 text-yellow-700',
@@ -42,13 +42,13 @@ export default function Tag({
   };
 
   return onClick ? (
-    <button type="button" onClick={onClick} className="min-w-fit">
-      <div
-        className={`text-sm ${shapeStyle[shape]} ${bgColor[color]} flex h-fit min-h-6 w-fit min-w-6 items-center gap-1 rounded-2xl px-4 py-2.5 ${className}`}
-      >
-        <span>{text && text}</span>
-        {children && children}
-      </div>
+    <button
+      type="button"
+      onClick={onClick}
+      className={`${shapeStyle[shape]} ${bgColor[color]} flex h-fit min-h-6 w-fit min-w-6 items-center gap-1 rounded-2xl px-4 py-2.5 text-sm ${className}`}
+    >
+      <span>{text && text}</span>
+      {children && children}
     </button>
   ) : (
     <div

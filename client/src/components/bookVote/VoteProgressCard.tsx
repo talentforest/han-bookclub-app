@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { FiChevronRight } from 'react-icons/fi';
 import { MdOutlineHowToVote } from 'react-icons/md';
 
-import { BOOK_VOTE } from '@/appConstants';
-
 import { BookVote } from '@/types';
 
 import DDay from '@/components/common/DDay';
@@ -40,7 +38,7 @@ const VoteProgressCard = ({ voteDetail }: VoteProgressCardProps) => {
         <DDay hyphenDate={deadline} isDateMark={false} />
         <Link
           to={`/vote/${id}`}
-          state={{ collName: BOOK_VOTE, docId: id }}
+          state={{ docId: id }}
           className="flex items-center justify-end gap-0.5 py-0.5"
         >
           <span className="text-sm text-gray1">투표하러 가기</span>

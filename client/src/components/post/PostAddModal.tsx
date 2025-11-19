@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent } from 'react';
 
 import { useRecoilValue } from 'recoil';
 
@@ -9,9 +9,9 @@ import { HOST_REVIEW, SUBJECTS } from '@/appConstants';
 
 import { useAddDoc, useHandleModal, useSendPushNotification } from '@/hooks';
 
-import { formatDate, getFbRouteOfPost, thisYearMonthId } from '@/utils';
+import { getFbRouteOfPost, thisYearMonthId } from '@/utils';
 
-import { PostTypeName } from '@/types';
+import { PostTypeName, UserPost } from '@/types';
 
 import Modal from '@/components/common/Modal';
 import SquareBtn from '@/components/common/button/SquareBtn';
@@ -22,8 +22,6 @@ interface PostAddModalProps {
 }
 
 const PostAddModal = ({ postType }: PostAddModalProps) => {
-  const [text, setText] = useState('');
-
   const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
 
   const { uid } = useRecoilValue(currAuthUserAtom);
@@ -32,7 +30,7 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
 
   const {
     id,
-    book: { thumbnail, title: bookTitle },
+    book: { thumbnail, title, url, publisher, authors },
   } = thisMonthClub;
 
   const collName =
@@ -40,26 +38,25 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
       ? getFbRouteOfPost(id, SUBJECTS)
       : getFbRouteOfPost(id, HOST_REVIEW);
 
-  const docData = {
-    text,
-    createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
+  const initialDocData = {
+    text: '',
+    createdAt: '',
     creatorId: uid,
-    title: bookTitle,
-    thumbnail,
+    clubBook: { title, thumbnail, url, publisher, authors },
   };
 
-  const { onAddDocSubmit } = useAddDoc({
-    setText,
-    collName,
-    docData,
-  });
+  const { onAddDocSubmit, newDocData, onDataChange } = useAddDoc<
+    Partial<UserPost>
+  >({ collName, initialDocData });
 
   const { hideModal } = useHandleModal();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    if (docData.text === '') return;
+    if (newDocData.text === '') return;
+
     try {
       await onAddDocSubmit(event);
+      onDataChange({ text: '' });
       await sendPostPushNotification(postType);
       hideModal();
     } catch (error) {
@@ -71,12 +68,12 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
     <Modal title={`${postType} 작성하기`}>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col overflow-scroll scrollbar-hide"
+        className="flex h-[90vh] flex-col overflow-scroll scrollbar-hide"
       >
         <QuillEditor
           placeholder={`${postType}을 작성해주세요`}
-          text={text}
-          setText={setText}
+          text={newDocData.text}
+          setText={text => onDataChange({ text })}
         />
         <SquareBtn
           name="작성 완료"

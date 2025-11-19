@@ -11,7 +11,9 @@ import { REVIEWS } from '@/appConstants';
 
 import { useAddDoc, useSendPushNotification } from '@/hooks';
 
-import { formatDate, getFbRouteOfPost, thisYearMonthId } from '@/utils';
+import { getFbRouteOfPost, thisYearMonthId } from '@/utils';
+
+import { UserPost } from '@/types';
 
 import SquareBtn from '@/components/common/button/SquareBtn';
 
@@ -20,39 +22,38 @@ interface MeetingReviewFormProps {
 }
 
 const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
-  const [text, setText] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
 
-  const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
+  const {
+    book: { title, thumbnail, url, authors, publisher },
+  } = useRecoilValue(clubByMonthSelector(thisYearMonthId));
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const collName = getFbRouteOfPost(docMonth, REVIEWS);
 
-  const docData = {
-    createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
+  const initialDocData = {
+    text: '',
+    createdAt: '',
     creatorId: uid,
-    text,
-    title: thisMonthClub?.book?.title,
-    thumbnail: thisMonthClub?.book?.thumbnail,
+    clubBook: { title, thumbnail, url, authors, publisher },
     isAnonymous,
   };
 
-  const { onAddDocSubmit, onChange } = useAddDoc({
-    setText,
-    collName,
-    docData,
-  });
+  const { onAddDocSubmit, onDataChange, newDocData } = useAddDoc<
+    Partial<UserPost>
+  >({ collName, initialDocData });
 
   const { isPending, sendPostPushNotification } = useSendPushNotification();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (docData.text === '') return;
+    if (newDocData.text === '') return;
 
     try {
       await onAddDocSubmit(event);
+      onDataChange({ text: '' });
       await sendPostPushNotification('모임 후기');
     } catch (error) {
       window.alert('모임 후기 등록 중 문제가 발생했습니다. 다시 시도해주세요.');
@@ -67,10 +68,13 @@ const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
       <div className="flex flex-col">
         <textarea
           placeholder="모임 후기나 기록하고 싶은 이야기를 작성해주세요(한 문장도 좋아요!)."
-          value={text}
-          onChange={onChange}
+          value={newDocData.text}
+          onChange={e => {
+            onDataChange({ text: e.target.value });
+          }}
           className="mb-1 min-h-40 w-full resize-none rounded-xl bg-white p-2.5 outline-none"
         />
+
         <div className="flex items-end">
           <button
             type="button"
@@ -80,6 +84,7 @@ const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
             <BiCheckCircle />
             <span className="pl-1">익명으로 작성하기</span>
           </button>
+
           <SquareBtn
             name="남기기"
             type="submit"

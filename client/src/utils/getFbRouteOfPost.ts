@@ -1,10 +1,14 @@
-import { SubCollection } from '@/types';
+import { SubCollectionSegment } from '@/types';
 
-export const getFbRouteOfPost = (
+export const getFbRouteOfPost: (
   yearMonthDocId: string,
-  subCollection: Omit<SubCollection, 'VotedItems'>,
+  subCollection: Exclude<SubCollectionSegment, 'VotedItems'>,
+) => `BookClub-${string}/${string}/${SubCollectionSegment}` = (
+  yearMonthDocId,
+  subCollection,
 ) => {
   const year = yearMonthDocId.slice(0, 4);
-  const collection = `BookClub-${year}`;
+  const collection: `BookClub-${string}` = `BookClub-${year}`;
+
   return `${collection}/${yearMonthDocId}/${subCollection}`;
 };

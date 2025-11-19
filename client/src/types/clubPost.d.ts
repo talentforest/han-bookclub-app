@@ -14,12 +14,15 @@ export type UserPost = {
   text: string;
   creatorId: string;
   createdAt: string;
-  title: string;
-  thumbnail: string;
+  updatedAt?: string;
+  clubBook: BaseBookData;
   recommendedBook?: BaseBookData;
   likes?: number;
   likeUsers?: string[];
   isAnonymous?: boolean;
+
+  title?: string; // clubBook 타이틀
+  thumbnail?: string; // clubBook 썸네일
 };
 
 export type PenaltyPostType = {

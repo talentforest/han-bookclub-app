@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { authService, dbService } from '@/fbase';
 import { collection, doc, setDoc, updateDoc } from 'firebase/firestore';
@@ -14,25 +14,27 @@ import { USER } from '@/appConstants';
 
 import { useAlertAskJoin } from '@/hooks';
 
-import { existDocObj, thisYearMonthId } from '@/utils';
+import { existDocObj, formatDate, thisYearMonthId } from '@/utils';
 
-import { UserPost, UserRecordId } from '@/types';
+import { Collection, SubCollection, UserRecordId } from '@/types';
 
-interface UseAddDocProps {
-  setText: (text: string) => void;
-  collName: string;
-  docData: UserPost;
+interface UseAddDocProps<T> {
+  collName: Collection | SubCollection;
+  initialDocData: T;
 }
 
-export const useAddDoc = ({ setText, collName, docData }: UseAddDocProps) => {
+export const useAddDoc = <T extends { [key in string]: any }>({
+  collName,
+  initialDocData,
+}: UseAddDocProps<T>) => {
+  const [newDocData, setNewDocData] = useState<T>(initialDocData);
+
   const { uid } = useRecoilValue(currAuthUserAtom);
+
   const [userExtraData, setUserExtraData] = useRecoilState(
     userDocAtomFamily(uid),
   );
   const setMyRecommendBook = useSetRecoilState(recommendedBookAtom);
-
-  const docRef = doc(collection(dbService, collName));
-  const userDataRef = doc(dbService, USER, `${uid}`);
 
   const { alertAskJoinMember } = useAlertAskJoin('write');
 
@@ -42,13 +44,18 @@ export const useAddDoc = ({ setText, collName, docData }: UseAddDocProps) => {
     }
   }, [uid]);
 
+  const docRef = doc(collection(dbService, collName));
+
   const onAddDocSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
-      if (docData.text.length === 0) return;
+      if (newDocData.text.length === 0) return;
 
-      await setDoc(docRef, docData);
+      await setDoc(docRef, {
+        ...newDocData,
+        createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
+      });
 
       const newUserDocId = {
         monthId: thisYearMonthId,
@@ -57,7 +64,7 @@ export const useAddDoc = ({ setText, collName, docData }: UseAddDocProps) => {
 
       updateUserData(newUserDocId);
 
-      if (docData?.recommendedBook?.title) {
+      if (newDocData?.recommendedBook) {
         setMyRecommendBook({
           thumbnail: '',
           title: '',
@@ -69,10 +76,11 @@ export const useAddDoc = ({ setText, collName, docData }: UseAddDocProps) => {
     } catch (error) {
       console.error('Error adding document:', error);
     }
-    setText('');
   };
 
   const updateUserData = async (newUserDocId: UserRecordId) => {
+    const userDataRef = doc(dbService, USER, uid);
+
     if (collName.includes('Sentence')) {
       await updateDoc(userDataRef, {
         'userRecords.sentences': [
@@ -116,10 +124,10 @@ export const useAddDoc = ({ setText, collName, docData }: UseAddDocProps) => {
     }
   };
 
-  function onChange(event: React.FormEvent<HTMLTextAreaElement>) {
+  const onDataChange = async (newData: T) => {
     if (authService.currentUser.isAnonymous) return alertAskJoinMember();
-    setText(event.currentTarget.value);
-  }
+    setNewDocData({ ...newDocData, ...newData });
+  };
 
-  return { onAddDocSubmit, onChange };
+  return { onAddDocSubmit, onDataChange, newDocData };
 };

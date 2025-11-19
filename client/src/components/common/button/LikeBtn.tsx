@@ -1,7 +1,9 @@
 import { FiHeart } from 'react-icons/fi';
 
+import { Collection, SubCollection } from '@/types';
+
 interface LikeBtnProps {
-  collName: string;
+  collName: Collection | SubCollection;
   like: boolean;
   onLikeClick: () => void;
 }

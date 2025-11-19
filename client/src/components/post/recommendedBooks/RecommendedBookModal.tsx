@@ -1,4 +1,4 @@
-import { UserPost } from '@/types';
+import { Collection, SubCollection, UserPost } from '@/types';
 
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
 import Modal from '@/components/common/Modal';
@@ -9,7 +9,7 @@ import PostFooter from '@/components/post/PostFooter';
 import PostHeader from '@/components/post/PostHeader';
 
 interface RecommendedBookModalProps {
-  collName: string;
+  collName: Collection | SubCollection;
   recommendedBookDetail: UserPost;
 }
 
@@ -21,15 +21,8 @@ export default function RecommendedBookModal({
     creatorId,
     createdAt,
     text,
-    title,
-    thumbnail,
-    recommendedBook: {
-      url,
-      authors,
-      publisher,
-      title: recommendedBookTitle,
-      thumbnail: recommendedBookThumbnail,
-    },
+    clubBook,
+    recommendedBook: { url, authors, publisher, title, thumbnail },
   } = recommendedBookDetail;
 
   return (
@@ -42,14 +35,14 @@ export default function RecommendedBookModal({
 
       <div className="my-4 gap-2 overflow-scroll scrollbar-hide">
         <BookThumbnail
-          title={recommendedBookTitle}
-          thumbnail={recommendedBookThumbnail}
+          title={title}
+          thumbnail={thumbnail}
           url={url}
           className="float-left mb-2 mr-4 w-20"
         />
 
         <h4 className="text-lg">
-          <span className="pr-1">{recommendedBookTitle}</span>
+          <span className="pr-1">{title}</span>
         </h4>
 
         <BookAuthorPublisher authors={authors} publisher={publisher} />
@@ -63,7 +56,15 @@ export default function RecommendedBookModal({
         />
         <h3 className="mt-10 text-sm text-gray1">추천책이 나왔던 모임책</h3>
         {recommendedBookDetail.recommendedBook && (
-          <FooterBookCard book={{ title, thumbnail }} className="mb-10 h-14" />
+          <FooterBookCard
+            book={
+              clubBook || {
+                title: recommendedBookDetail.title,
+                thumbnail: recommendedBookDetail.thumbnail,
+              }
+            }
+            className="mb-10 h-14"
+          />
         )}
         <PostFooter
           collName={collName}

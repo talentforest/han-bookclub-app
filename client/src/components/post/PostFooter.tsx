@@ -1,6 +1,6 @@
 import { formatDate } from '@/utils';
 
-import { UserPost } from '@/types';
+import { Collection, SubCollection, UserPost } from '@/types';
 
 import LikeBtnWithPeopleInfo from '@/components/common/LikeBtnWithPeopleInfo';
 
@@ -8,7 +8,7 @@ interface PostFooterProps {
   post?: UserPost;
   createdAt: string;
   footerType?: 'likes';
-  collName?: string;
+  collName?: Collection | SubCollection;
 }
 
 export default function PostFooter({

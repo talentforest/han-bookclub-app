@@ -16,6 +16,8 @@ export type MonthlyBookClub = {
         id: string;
         title: string;
         detail?: string;
+        reward?: string;
+        deadline?: string;
         result?: {
           users?: [];
           books?: [];

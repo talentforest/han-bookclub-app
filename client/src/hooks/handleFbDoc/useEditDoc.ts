@@ -5,49 +5,55 @@ import { doc, updateDoc } from 'firebase/firestore';
 
 import { useAlertAskJoin, useHandleModal } from '@/hooks';
 
-import { UserPost } from '@/types';
+import { formatDate } from '@/utils';
 
-interface UseEditDocProps {
-  post: UserPost;
-  collName: string;
+import { Collection, SubCollection } from '@/types';
+
+interface UseEditDocProps<T> {
+  collName: Collection | SubCollection;
+  docId: string;
+  dataToUpdate?: T;
 }
 
-export const useEditDoc = ({ post, collName }: UseEditDocProps) => {
-  const [editedText, setEditedText] = useState(post.text);
-
-  const docRef = doc(dbService, collName, post.id);
+export const useEditDoc = <T extends { [x: string]: any }>({
+  collName,
+  docId,
+  dataToUpdate,
+}: UseEditDocProps<T>) => {
+  const [editedData, setEditedData] = useState<T>(dataToUpdate);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('see');
 
-  const updatedData = () => {
-    if (collName.includes('Reviews')) {
-      return { text: editedText };
-    }
-    return { text: editedText };
-  };
-
   const { hideModal } = useHandleModal();
 
-  const onEditedSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onEditClick = async (newData: T) => {
+    if (anonymous) return alertAskJoinMember();
+
+    const docRef = doc(dbService, collName, docId);
+    await updateDoc(docRef, newData);
+  };
+
+  const onEditSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (anonymous) return alertAskJoinMember();
 
-    if (editedText === '<p><br></p>') return alert('한글자 이상 작성해주세요.');
+    if (editedData?.text === '<p><br></p>')
+      return alert('한글자 이상 작성해주세요.');
 
-    await updateDoc(docRef, updatedData());
+    const docRef = doc(dbService, collName, docId);
+    await updateDoc(docRef, {
+      ...editedData,
+      updatedAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
+    });
 
     hideModal();
   };
 
-  const onEditedChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
-    setEditedText(event.currentTarget.value);
-  };
-
   return {
-    editedText,
-    setEditedText,
-    onEditedSubmit,
-    onEditedChange,
+    editedData,
+    setEditedData,
+    onEditSubmit,
+    onEditClick,
   };
 };

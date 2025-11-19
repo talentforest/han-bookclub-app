@@ -44,8 +44,7 @@ export default function RecommendedBookSwiperContainer({
       .map(item => item?.userRecords?.recommendedBooks)
       .filter(item => !!item?.length)
       .flat()
-      .sort(compareYearMonth)
-      .slice(0, 3);
+      .sort(compareYearMonth);
 
     const thisMonthRecommendedBookIds = allRecommendedBookIds
       .filter(recommendedBookId => {

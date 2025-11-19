@@ -13,19 +13,21 @@ import { USER } from '@/appConstants';
 
 import { existDocObj } from '@/utils';
 
+import { Collection, SubCollection } from '@/types';
+
 interface UseDeleteDocProps {
+  collName: Collection | SubCollection;
   docId: string;
-  collName: string;
 }
 
-export const useDeleteDoc = ({ docId, collName }: UseDeleteDocProps) => {
+export const useDeleteDoc = ({ collName, docId }: UseDeleteDocProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
+
   const [userExtraData, setUserExtraData] = useRecoilState(
     userDocAtomFamily(uid),
   );
 
   const docRef = doc(dbService, collName, docId);
-  const userDataRef = doc(dbService, USER, uid);
 
   useEffect(() => {
     if (uid && !existDocObj(userExtraData)) {
@@ -36,11 +38,14 @@ export const useDeleteDoc = ({ docId, collName }: UseDeleteDocProps) => {
   const onDeleteClick = async () => {
     const confirm = window.confirm('정말로 삭제하시겠어요?');
     if (!confirm) return;
+
     await deleteDoc(docRef);
     updateUserData();
   };
 
   const updateUserData = async () => {
+    const userDataRef = doc(dbService, USER, uid);
+
     const { reviews, subjects, recommendedBooks, hostReviews, sentences } =
       userExtraData.userRecords;
 

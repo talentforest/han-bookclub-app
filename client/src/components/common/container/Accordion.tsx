@@ -1,6 +1,6 @@
 import { ReactNode, useState } from 'react';
 
-import { FaChevronDown } from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 interface AccordionProps {
   children: ReactNode;
@@ -20,15 +20,20 @@ export default function Accordion({
   const toggleDetails = () => setIsOpen(prev => !prev);
 
   return (
-    <li className="rounded-xl bg-white shadow-card">
+    <li className="h-fit rounded-xl bg-white shadow-card">
       <div className="flex w-full items-center pl-4">
-        {headerChildren || title}
+        {headerChildren ? headerChildren : <h1 className="py-2">{title}</h1>}
+
         <button
           type="button"
           onClick={toggleDetails}
           className="ml-auto px-4 py-5"
         >
-          <FaChevronDown className={`size-3.5 text-blue3 ${iconClassName}`} />
+          {isOpen ? (
+            <FaChevronUp className={`size-3.5 text-blue3 ${iconClassName}`} />
+          ) : (
+            <FaChevronDown className={`size-3.5 text-blue3 ${iconClassName}`} />
+          )}
         </button>
       </div>
 

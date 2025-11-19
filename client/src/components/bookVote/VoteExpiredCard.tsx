@@ -7,7 +7,7 @@ import { MdOutlineHowToVote } from 'react-icons/md';
 
 import { getCollection } from '@/api';
 
-import { VOTED_ITEMS } from '@/appConstants';
+import { BOOK_VOTE, VOTED_ITEMS } from '@/appConstants';
 
 import { cutLetter } from '@/utils';
 
@@ -18,13 +18,9 @@ import UserImgName from '@/components/common/user/UserImgName';
 
 interface VoteExpiredCardProps {
   vote: BookVote;
-  collName: string;
 }
 
-export default function VoteExpiredCard({
-  vote,
-  collName,
-}: VoteExpiredCardProps) {
+export default function VoteExpiredCard({ vote }: VoteExpiredCardProps) {
   const [votedItemsByMember, setVotedItemsMyMember] = useState<
     BookVoteItemsByMember[]
   >([]);
@@ -34,7 +30,7 @@ export default function VoteExpiredCard({
   useEffect(() => {
     if (!votedItemsByMember?.length) {
       getCollection(
-        `${collName}/VoteId-${id}/${VOTED_ITEMS}`,
+        `${BOOK_VOTE}/VoteId-${id}/${VOTED_ITEMS}`,
         setVotedItemsMyMember,
       );
     }
@@ -65,7 +61,7 @@ export default function VoteExpiredCard({
 
       <Link
         to={`/vote/${id}`}
-        state={{ collName, docId: id }}
+        state={{ docId: id }}
         aria-label="상세보기"
         className="absolute right-4 top-[40%] flex size-12 items-center justify-center rounded-full border bg-blue1 opacity-20 group-hover:opacity-100"
       >

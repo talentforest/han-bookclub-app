@@ -1,5 +1,3 @@
-import { ChangeEvent, useState } from 'react';
-
 import { useRecoilValue } from 'recoil';
 
 import { currAuthUserAtom } from '@/data/userAtom';
@@ -8,39 +6,34 @@ import { SENTENCES2024 } from '@/appConstants';
 
 import { useAddDoc, useHandleModal, useSendPushNotification } from '@/hooks';
 
-import { formatDate } from '@/utils';
+import { BaseBookData, ChallengeSentence } from '@/types';
 
 import Modal from '@/components/common/Modal';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
 
 interface SentenceAddModalProps {
-  book: { title: string; thumbnail: string };
+  book: BaseBookData;
 }
 
 export default function SentenceAddModal({ book }: SentenceAddModalProps) {
-  const [sentence, setSentence] = useState('');
-  const [page, setPage] = useState('');
-
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const { sendPostPushNotification, isPending } = useSendPushNotification();
 
-  const { title, thumbnail } = book;
-
-  const docData = {
-    title,
-    thumbnail,
+  const initialDocData = {
+    text: '',
     creatorId: uid,
-    createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
-    text: sentence,
-    page: +page,
+    createdAt: '',
+    clubBook: book,
+    page: 0,
   };
 
-  const { onAddDocSubmit, onChange } = useAddDoc({
-    setText: setSentence,
+  const { onAddDocSubmit, onDataChange, newDocData } = useAddDoc<
+    Partial<ChallengeSentence>
+  >({
     collName: SENTENCES2024,
-    docData,
+    initialDocData,
   });
 
   const { hideModal } = useHandleModal();
@@ -48,14 +41,15 @@ export default function SentenceAddModal({ book }: SentenceAddModalProps) {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (sentence === '') {
+    if (newDocData.text === '') {
       return window.alert('문구가 작성되지 않았습니다.');
     }
-    if (page === '') {
+    if (newDocData.page === 0) {
       return window.alert('페이지가 작성되지 않았습니다.');
     }
 
     onAddDocSubmit(event);
+    onDataChange({ text: '' });
     sendPostPushNotification('공유하고 싶은 문구');
     hideModal();
     alert(
@@ -63,17 +57,13 @@ export default function SentenceAddModal({ book }: SentenceAddModalProps) {
     );
   };
 
-  const onPageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPage(event.target.value);
-  };
-
   return (
     <Modal title="공유하고 싶은 문구 등록하기">
       <form onSubmit={onSubmit}>
         <textarea
           placeholder="공유하고 싶은 문구를 작성해주세요."
-          onChange={onChange}
-          value={sentence}
+          onChange={e => onDataChange({ text: e.target.value })}
+          value={newDocData.text}
         />
 
         <Input
@@ -81,8 +71,8 @@ export default function SentenceAddModal({ book }: SentenceAddModalProps) {
           id="페이지"
           name="sentence-page"
           placeholder="페이지를 작성해주세요."
-          value={`${page}`}
-          onChange={onPageChange}
+          value={`${newDocData.page}`}
+          onChange={e => onDataChange({ page: +e.target.value })}
         />
 
         <SquareBtn type="submit" name="등록하기" disabled={isPending} />

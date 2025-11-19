@@ -36,7 +36,12 @@ export default function SearchedBookPostAddModal({
 
   const onSelectBtnClick = (book: BookData) => {
     changeStep(2);
-    title === '추천책 작성하기' ? setMyRecommendBook(book) : setBookDesc(book);
+    if (title === '추천책 작성하기') {
+      const { url, title, publisher, thumbnail, authors } = book;
+      setMyRecommendBook({ url, title, publisher, thumbnail, authors });
+    } else {
+      setBookDesc(book);
+    }
   };
 
   const changeStep = (step: number) => setCurrStep(step);

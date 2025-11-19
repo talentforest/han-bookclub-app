@@ -68,8 +68,6 @@ export default function EventMeetingModal({
 
   const { anonymous } = useAlertAskJoin('register');
 
-  const monthNum = +yearMonthId.slice(-2);
-
   const { isPending, sendPushNotificationToAllUser } =
     useSendPushNotification();
 
@@ -78,6 +76,8 @@ export default function EventMeetingModal({
   const { errorMsg, handleErrorMsg } = useHandleErrorMsg();
 
   const { eventMonth, time, place } = currMeeting;
+
+  const monthNum = +yearMonthId.slice(-2);
 
   const errorMsgObj = {
     place: [
@@ -133,10 +133,10 @@ export default function EventMeetingModal({
 
     alert(`${monthNum}월 독서모임 정보가 등록되었습니다!`);
 
-    // await sendPushNotificationToAllUser({
-    //   title: `☕️${currMeeting.eventMonth.title} 등록 안내`,
-    //   body: `${monthNum}월 이벤트가 등록되었어요! 🕓${formatDate(time, 'M월 d일 EEEE a h시 mm분')}에 📍${place}에서 만나요👋`,
-    // });
+    await sendPushNotificationToAllUser({
+      title: `☕️${currMeeting.eventMonth.title} 등록 안내`,
+      body: `${monthNum}월 이벤트가 등록되었어요! 🕓${formatDate(time, 'M월 d일 EEEE a h시 mm분')}에 📍${place}에서 만나요👋`,
+    });
   };
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -147,11 +147,11 @@ export default function EventMeetingModal({
       if (hasError) return;
 
       monthlyBookClub ? onClubEventEdit() : onClubEventNewSubmit();
+      hideModal();
     } catch (error) {
       window.alert(
         '모임 장소 등록 중 오류가 발생했습니다. 관리자에게 문의해주세요.',
       );
-    } finally {
       hideModal();
     }
   };
@@ -347,11 +347,7 @@ export default function EventMeetingModal({
                           ...eventMonth,
                           contents: [
                             ...eventMonth.contents,
-                            {
-                              id: v4(),
-                              title: '',
-                              detail: '',
-                            },
+                            { id: v4(), title: '' },
                           ],
                         },
                       });

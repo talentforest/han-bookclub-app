@@ -17,11 +17,11 @@ import MobileHeader from '@/layout/MobileHeader';
 
 import MemberListCard from '@/components/absence/MemberListCard';
 import BasicBookCard from '@/components/bookCard/BasicBookCard';
+import EventMeetingDetail from '@/components/bookClub/EventMeetingDetail';
 import ThisMonthBookClub from '@/components/bookClub/ThisMonthClub';
 import GuideLine from '@/components/common/GuideLine';
 import LoopLoading from '@/components/common/LoopLoading';
 import SearchBookBtn from '@/components/common/button/SearchBookBtn';
-import Accordion from '@/components/common/container/Accordion';
 import EmptyCard from '@/components/common/container/EmptyCard';
 import Section from '@/components/common/container/Section';
 import MeetingReviewList from '@/components/post/MeetingReviewList';
@@ -122,18 +122,11 @@ const ClubDetail = () => {
                     </Section>
                   )}
 
+                  {/* 이벤트 모임내용 */}
                   {monthlyBookClub?.meeting?.eventMonth && (
-                    <Section title="이벤트 콘텐츠">
-                      <ul className="flex flex-col gap-y-3">
-                        {monthlyBookClub.meeting.eventMonth.contents.map(
-                          content => (
-                            <Accordion key={content.id} title={content.title}>
-                              <div className="mb-4">{content.detail}</div>
-                            </Accordion>
-                          ),
-                        )}
-                      </ul>
-                    </Section>
+                    <EventMeetingDetail
+                      eventDetail={monthlyBookClub.meeting?.eventMonth}
+                    />
                   )}
 
                   <Section title="모임 후기">

@@ -29,10 +29,7 @@ import VoteBookItemBtn from '@/components/common/button/VoteBookItemBtn';
 import UserImgName from '@/components/common/user/UserImgName';
 
 type LocationState = {
-  state: {
-    collName: 'BookVote';
-    docId: string;
-  };
+  state: { docId: string };
 };
 
 const VoteDetail = () => {
@@ -44,7 +41,7 @@ const VoteDetail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!state?.collName || !state?.docId) {
+    if (!state?.docId) {
       navigate('/vote');
     }
   }, []);
@@ -61,7 +58,7 @@ const VoteDetail = () => {
     onVoteDeleteClick,
     isRevote,
     onToggleRevoteClick,
-  } = useHandleVoting({ collName: state?.collName, docId: state?.docId });
+  } = useHandleVoting({ docId: state?.docId });
 
   const {
     sendPushNotificationToUser,

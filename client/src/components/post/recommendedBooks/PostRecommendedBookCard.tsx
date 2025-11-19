@@ -6,7 +6,7 @@ import { getDocument } from '@/api';
 
 import { useHandleModal } from '@/hooks';
 
-import { UserPost } from '@/types';
+import { SubCollection, UserPost } from '@/types';
 
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
@@ -25,10 +25,13 @@ export default function PostRecommendedBookCard({
   const { showModal } = useHandleModal();
 
   const year = monthId.slice(0, 4);
-  const collection = `BookClub-${year}/${monthId}/RecommendedBooks/`;
+  const collName: Extract<
+    SubCollection,
+    `BookClub-${string}/${string}/RecommendedBooks`
+  > = `BookClub-${year}/${monthId}/RecommendedBooks`;
 
   useEffect(() => {
-    getDocument(collection, docId, setRecommendedBookDoc);
+    getDocument(collName, docId, setRecommendedBookDoc);
   }, []);
 
   const title = recommendedBookDoc?.recommendedBook?.title || '';
@@ -39,7 +42,7 @@ export default function PostRecommendedBookCard({
       element: (
         <RecommendedBookModal
           recommendedBookDetail={recommendedBookDoc}
-          collName={collection}
+          collName={collName}
         />
       ),
     });
@@ -62,7 +65,10 @@ export default function PostRecommendedBookCard({
             <div className="flex items-center gap-0.5 text-gray1">
               <FiUser fontSize={14} className="text-gray2" />
               <span className="mr-2 text-sm text-gray2">추천인</span>
-              <UserImgName userId={recommendedBookDoc.creatorId} />
+              <UserImgName
+                userId={recommendedBookDoc.creatorId}
+                isLink={false}
+              />
             </div>
 
             <div className="mb-1 mt-1.5 flex flex-1 flex-col items-start">

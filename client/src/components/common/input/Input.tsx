@@ -5,12 +5,13 @@ import React, {
   ReactNode,
 } from 'react';
 
+import { FaMedal } from 'react-icons/fa';
 import { FiChevronsDown, FiHash, FiMapPin, FiSearch } from 'react-icons/fi';
 
 import Label from '@/components/common/input/Label';
 
 interface InputProps {
-  iconName?: 'FiMapPin' | 'FiSearch' | 'FiHash' | 'FiChevronsDown';
+  iconName?: 'FiMapPin' | 'FiSearch' | 'FiHash' | 'FiChevronsDown' | 'FaMedal';
   inputType?: HTMLInputTypeAttribute & 'date-picker';
   label?: string;
   errorMsg?: string;
@@ -28,7 +29,7 @@ interface InputProps {
  * 3. 에러메시지를 나타낼 수 있는 인풋
  *
  * @param iconName input 왼쪽에 나타날 아이콘을 추가할 수 있습니다.
- * @param inputType input 타입을 지정합니다. input의 기본 속성 이외에 'date-picker'가 추가됩니다. 기본값은 'text'입니다.
+ * @param inputType input 타입을 지정합니다. 기본값은 'text'입니다.
  * @param label input에 대한 라벨을 붙일 때 해당 속성이 존재한다면 자동으로 인풋 상단에 라벨이 붙습니다.
  * @param errorMsg 에러메시지가 존재한다면 인풋 하단에 나타나게 됩니다.
  * @param containerClassName 인풋 컨테이너에 대한 스타일입니다.
@@ -54,6 +55,7 @@ const Input = React.forwardRef(function (
     FiChevronsDown: (
       <FiChevronsDown className="absolute left-3 top-3.5 size-[20px]" />
     ),
+    FaMedal: <FaMedal className="absolute left-3 top-3.5 size-[20px]" />,
   };
 
   const commonInputClassName =
