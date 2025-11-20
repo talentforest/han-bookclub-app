@@ -30,6 +30,9 @@ export type MonthlyBookClub = {
   };
 };
 
+type EventContent =
+  MonthlyBookClub['meeting']['eventMonth']['contents'][number];
+
 export type MonthlyAbsenceMembers = {
   month: number;
   breakMembers: string[];

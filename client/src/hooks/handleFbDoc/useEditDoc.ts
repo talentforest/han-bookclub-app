@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { dbService } from '@/fbase';
-import { doc, updateDoc } from 'firebase/firestore';
+import { AddPrefixToKeys, doc, updateDoc } from 'firebase/firestore';
 
 import { useAlertAskJoin, useHandleModal } from '@/hooks';
 
@@ -15,7 +15,11 @@ interface UseEditDocProps<T> {
   dataToUpdate?: T;
 }
 
-export const useEditDoc = <T extends { [x: string]: any }>({
+export const useEditDoc = <
+  T extends {
+    [x: string]: any;
+  } & AddPrefixToKeys<string, any>,
+>({
   collName,
   docId,
   dataToUpdate,
@@ -40,6 +44,8 @@ export const useEditDoc = <T extends { [x: string]: any }>({
 
     if (editedData?.text === '<p><br></p>')
       return alert('한글자 이상 작성해주세요.');
+
+    console.log('editedData:', editedData);
 
     const docRef = doc(dbService, collName, docId);
     await updateDoc(docRef, {

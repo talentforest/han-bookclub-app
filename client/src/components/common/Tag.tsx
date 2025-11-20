@@ -28,7 +28,7 @@ export default function Tag({
 }: TagProps) {
   const bgColor = {
     lightGray: 'bg-gray4 text-gray1',
-    lightGreen: 'bg-green2 text-white',
+    lightGreen: 'bg-green3 text-green-700',
     lightBlue: 'bg-blue4 text-blue2',
     yellow: 'bg-amber-100 text-yellow-700',
     purple: 'bg-purple4 text-purple-700',

@@ -45,7 +45,7 @@ const ClubDetail = () => {
   );
 
   useEffect(() => {
-    if (!monthlyBookClub) {
+    if (!monthlyBookClub || monthlyBookClub.meeting?.eventMonth) {
       getCollection(BOOKCLUB_THIS_YEAR, setThisYearClub);
     }
     if (!absenceList) {
