@@ -17,14 +17,16 @@ export default function PostEditBtn({
   postType,
   post,
 }: PostEditBtnProps) {
-  const { showModal } = useHandleModal();
+  const { showModal, hideModal } = useHandleModal();
 
-  const onClick = () =>
+  const onClick = () => {
+    hideModal();
     showModal({
       element: (
         <PostEditModal postType={postType} post={post} collName={collName} />
       ),
     });
+  };
 
   return (
     <button onClick={onClick}>
