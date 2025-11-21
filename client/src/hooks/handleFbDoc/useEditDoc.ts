@@ -45,8 +45,6 @@ export const useEditDoc = <
     if (editedData?.text === '<p><br></p>')
       return alert('한글자 이상 작성해주세요.');
 
-    console.log('editedData:', editedData);
-
     const docRef = doc(dbService, collName, docId);
     await updateDoc(docRef, {
       ...editedData,

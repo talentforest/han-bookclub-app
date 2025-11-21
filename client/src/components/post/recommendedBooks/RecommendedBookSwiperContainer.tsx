@@ -14,6 +14,7 @@ import PostRecommendedBookCard from '@/components/post/recommendedBooks/PostReco
 
 interface RecommendedBookSwiperContainerProps {
   yearMonthId?: string;
+  maxLength?: number;
 }
 
 const swiperOptions = {
@@ -36,6 +37,7 @@ const swiperOptions = {
 
 export default function RecommendedBookSwiperContainer({
   yearMonthId,
+  maxLength,
 }: RecommendedBookSwiperContainerProps) {
   const usersData = useRecoilValue(allUsersAtom);
 
@@ -44,7 +46,8 @@ export default function RecommendedBookSwiperContainer({
       .map(item => item?.userRecords?.recommendedBooks)
       .filter(item => !!item?.length)
       .flat()
-      .sort(compareYearMonth);
+      .sort(compareYearMonth)
+      .slice(0, maxLength);
 
     const thisMonthRecommendedBookIds = allRecommendedBookIds
       .filter(recommendedBookId => {

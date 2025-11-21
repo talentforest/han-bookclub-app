@@ -111,7 +111,7 @@ export default function Challenge() {
             <img
               src={`${import.meta.env.VITE_PUBLIC_URL}/dday.png`}
               alt="dday"
-              className="h-10 w-fit"
+              className="aspect-auto h-10 w-fit"
             />
 
             <div className="mt-1 flex flex-col items-center">

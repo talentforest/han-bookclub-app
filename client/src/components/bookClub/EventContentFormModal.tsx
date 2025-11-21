@@ -37,8 +37,6 @@ export default function EventContentFormModal({
     ({ id }) => id === initialContent.id,
   );
 
-  console.log(editedData);
-
   const onCurrContentChange = (newData: Partial<EventContent>) => {
     const contents = editedData['meeting.eventMonth.contents'];
 

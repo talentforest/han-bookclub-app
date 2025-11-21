@@ -11,6 +11,8 @@ import { getDocument } from '@/api';
 
 import { USER } from '@/appConstants';
 
+import { useHandleModal } from '@/hooks/common/useHandleModal';
+
 import { existDocObj } from '@/utils';
 
 import { Collection, SubCollection } from '@/types';
@@ -29,6 +31,8 @@ export const useDeleteDoc = ({ collName, docId }: UseDeleteDocProps) => {
 
   const docRef = doc(dbService, collName, docId);
 
+  const { hideModal } = useHandleModal();
+
   useEffect(() => {
     if (uid && !existDocObj(userExtraData)) {
       getDocument(USER, uid, setUserExtraData);
@@ -41,6 +45,7 @@ export const useDeleteDoc = ({ collName, docId }: UseDeleteDocProps) => {
 
     await deleteDoc(docRef);
     updateUserData();
+    hideModal();
   };
 
   const updateUserData = async () => {

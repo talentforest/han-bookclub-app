@@ -93,7 +93,7 @@ const Home = () => {
         </Section>
 
         <Section title="한페이지 멤버들이 소개했던 책">
-          <RecommendedBookSwiperContainer />
+          <RecommendedBookSwiperContainer maxLength={5} />
         </Section>
 
         <Section title="모임책 투표함">
