@@ -37,6 +37,8 @@ export default function EventContentFormModal({
     ({ id }) => id === initialContent.id,
   );
 
+  console.log(editedData);
+
   const onCurrContentChange = (newData: Partial<EventContent>) => {
     const contents = editedData['meeting.eventMonth.contents'];
 
@@ -49,17 +51,24 @@ export default function EventContentFormModal({
   };
 
   return (
-    <Modal title="다음">
+    <Modal title="이벤트 콘텐츠">
       <form
         className="mb-4 flex flex-col gap-y-2 overflow-scroll"
         onSubmit={onEditSubmit}
       >
+        <Input
+          value={currContent?.title || ''}
+          onChange={e => onCurrContentChange({ title: e.target.value })}
+          label="콘텐츠 제목"
+          placeholder="콘텐츠 제목을 작성해주세요."
+        />
+
         <div>
           <Label text="상세 내용" />
           <textarea
             id="상세 내용"
             placeholder="콘텐츠에 대한 상세 내용을 작성해주세요."
-            value={currContent.detail}
+            value={currContent?.detail}
             onChange={e => onCurrContentChange({ detail: e.target.value })}
             className="min-h-40 w-full resize-none rounded-xl border border-gray1 bg-white p-2.5 outline-none"
           />
@@ -90,7 +99,7 @@ export default function EventContentFormModal({
 
         <SquareBtn
           type="submit"
-          name="수정하기"
+          name="변경하기"
           className="ml-auto"
           size="md"
         />

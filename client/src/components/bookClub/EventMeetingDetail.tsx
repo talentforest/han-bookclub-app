@@ -1,3 +1,6 @@
+import { FiPlusCircle } from 'react-icons/fi';
+import { v4 } from 'uuid';
+
 import { useHandleModal } from '@/hooks';
 
 import { formatDate } from '@/utils';
@@ -30,8 +33,32 @@ export default function EventMeetingDetail({
     });
   };
 
+  const onContentCreateClick = () => {
+    const initialContent = {
+      id: v4(),
+      title: '',
+      detail: '',
+    };
+
+    showModal({
+      element: (
+        <EventContentFormModal
+          initialContent={initialContent}
+          contents={[...eventDetail.contents, initialContent]}
+        />
+      ),
+    });
+  };
+
   return (
-    <Section title="이벤트 콘텐츠">
+    <Section
+      title="이벤트 콘텐츠"
+      titleBtn={
+        <button type="button" onClick={onContentCreateClick}>
+          <FiPlusCircle className="text-lg text-blue1" />
+        </button>
+      }
+    >
       <ul className="flex flex-col gap-y-3">
         {eventDetail.contents.map(content => (
           <Accordion
@@ -60,10 +87,12 @@ export default function EventMeetingDetail({
               {content.detail || '콘텐츠 상세 정보가 없어요.'}
             </p>
 
-            <EditBtn
-              onClick={() => onEditClick(content)}
-              className="mb-4 ml-auto size-[24px] text-gray1"
-            />
+            <div className="mb-4 ml-auto flex gap-x-2">
+              <EditBtn
+                onClick={() => onEditClick(content)}
+                className="size-[24px] text-gray1"
+              />
+            </div>
           </Accordion>
         ))}
       </ul>

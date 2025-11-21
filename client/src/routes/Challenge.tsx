@@ -94,7 +94,7 @@ export default function Challenge() {
 
   return (
     <>
-      <MobileHeader title={`${thisYear}년 개인별 챌린지`} backBtn />
+      <MobileHeader title={`${thisYear}년 개인별 챌린지`} backBtn backTo="/" />
 
       <main>
         <div className="grid grid-cols-2 gap-4">

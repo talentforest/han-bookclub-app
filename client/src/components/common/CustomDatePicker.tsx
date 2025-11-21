@@ -7,7 +7,7 @@ import Label from '@/components/common/input/Label';
 
 interface CustomDatePickerProps {
   label?: string;
-  resetDate: () => void;
+  resetDate?: () => void;
 }
 
 export default function CustomDatePicker({
