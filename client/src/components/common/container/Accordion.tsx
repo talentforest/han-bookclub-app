@@ -20,7 +20,7 @@ export default function Accordion({
   const toggleDetails = () => setIsOpen(prev => !prev);
 
   return (
-    <li className="h-fit rounded-xl bg-white shadow-card">
+    <li className="h-fit list-none rounded-xl bg-white shadow-card">
       <div className="flex w-full items-center pl-4">
         {headerChildren ? headerChildren : <h1 className="py-2">{title}</h1>}
 

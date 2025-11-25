@@ -3,7 +3,7 @@ import { v4 } from 'uuid';
 
 import { useHandleModal } from '@/hooks';
 
-import { formatDate } from '@/utils';
+import { formatDate, thisYearMonthId } from '@/utils';
 
 import { EventContent, MonthlyBookClub } from '@/types';
 
@@ -54,9 +54,11 @@ export default function EventMeetingDetail({
     <Section
       title="이벤트 콘텐츠"
       titleBtn={
-        <button type="button" onClick={onContentCreateClick}>
-          <FiPlusCircle className="text-lg text-blue1" />
-        </button>
+        (thisYearMonthId === '2025-12' || thisYearMonthId === '2025-11') && (
+          <button type="button" onClick={onContentCreateClick}>
+            <FiPlusCircle className="text-lg text-blue1" />
+          </button>
+        )
       }
     >
       <ul className="flex flex-col gap-y-3">

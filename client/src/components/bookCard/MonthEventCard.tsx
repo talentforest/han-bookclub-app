@@ -44,7 +44,7 @@ export default function MonthEventCard({
   const { pathname } = useLocation();
 
   return (
-    <>
+    <div className="grid grid-cols-2 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">
       <div
         className={`flex flex-col justify-between rounded-card bg-white px-4 py-5 shadow-card ${className}`}
       >
@@ -64,13 +64,13 @@ export default function MonthEventCard({
         </span>
       </div>
 
-      <ul className="col-span-2 mt-4 flex flex-col gap-6 max-sm:gap-4">
+      <ul className="col-span-1 flex flex-col gap-4">
         {thisMonthClubInfoList.map(({ label, value }) => (
           <li key={label}>
             <LabelWithValueCard label={label} value={value} editable={false} />
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
 }

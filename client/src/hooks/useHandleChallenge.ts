@@ -102,24 +102,23 @@ export const useHandleChallenge = () => {
 
     // rank 계산 (동점자 처리)
     let rank = 0;
-    let prevScore = -1;
-    let skip = 0;
+    let prevScore: number | null = null;
+    let prevRank = 0;
 
     return usersWithCounts.map((user, idx) => {
       const { rereadingBookList, creatorId, totalScore } = user;
 
       if (prevScore === totalScore) {
-        skip++;
+        rank = prevRank;
       } else {
-        rank = idx + 1 + skip;
-        skip = 0;
+        rank = idx + 1;
       }
+
       prevScore = totalScore;
+      prevRank = rank;
 
       const totalRereadingCounts = rereadingBookList.reduce(
-        (acc, { counts }) => {
-          return acc + counts;
-        },
+        (acc, { counts }) => acc + counts,
         0,
       );
 

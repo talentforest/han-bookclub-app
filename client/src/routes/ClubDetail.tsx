@@ -17,6 +17,7 @@ import MobileHeader from '@/layout/MobileHeader';
 
 import MemberListCard from '@/components/absence/MemberListCard';
 import BasicBookCard from '@/components/bookCard/BasicBookCard';
+import MonthEventCard from '@/components/bookCard/MonthEventCard';
 import EventMeetingDetail from '@/components/bookClub/EventMeetingDetail';
 import ThisMonthBookClub from '@/components/bookClub/ThisMonthClub';
 import GuideLine from '@/components/common/GuideLine';
@@ -72,14 +73,20 @@ const ClubDetail = () => {
           ) : (
             <>
               <Section title="모임 정보">
-                {isThisMonthDetail ? (
-                  <ThisMonthBookClub />
-                ) : (
-                  <BasicBookCard
-                    bookClub={monthlyBookClub}
-                    className="w-full"
-                  />
-                )}
+                {isThisMonthDetail && <ThisMonthBookClub />}
+
+                {!isThisMonthDetail &&
+                  (monthlyBookClub.book ? (
+                    <BasicBookCard
+                      bookClub={monthlyBookClub}
+                      className="w-full"
+                    />
+                  ) : (
+                    <MonthEventCard
+                      yearMonthId={monthlyBookClub.id}
+                      event={monthlyBookClub.meeting}
+                    />
+                  ))}
               </Section>
 
               {((isThisMonthDetail && monthlyBookClub) ||

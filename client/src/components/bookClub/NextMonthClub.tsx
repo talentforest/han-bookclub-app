@@ -6,7 +6,10 @@ import { v4 } from 'uuid';
 import { useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
-import { nextMonthFieldAndHostSelector } from '@/data/fieldAndHostAtom';
+import {
+  fieldAndHostAtom,
+  nextMonthFieldAndHostSelector,
+} from '@/data/fieldAndHostAtom';
 
 import { useHandleModal } from '@/hooks';
 
@@ -24,15 +27,18 @@ import { MonthlyBookClub } from '@/types';
 import MonthBookCard from '@/components/bookCard/MonthBookCard';
 import MonthEventCard from '@/components/bookCard/MonthEventCard';
 import EventMeetingModal from '@/components/bookClub/EventMeetingModal';
+import LabelWithValueCard from '@/components/common/LabelWithValueCard';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import EmptyCard from '@/components/common/container/EmptyCard';
 
 export default function NextMonthClub() {
   const nextMonthFieldAndHost = useRecoilValue(nextMonthFieldAndHostSelector);
 
+  const fieldAndHosts = useRecoilValue(fieldAndHostAtom);
+
   const nextClub = useRecoilValue(clubByMonthSelector(nextYearMonthId));
 
-  const { book: nextBook, id: nextMonthId } = nextClub || {};
+  const { book: nextBook, id: nextMonthId, meeting } = nextClub || {};
 
   const { field } = nextMonthFieldAndHost || {};
 
@@ -75,23 +81,57 @@ export default function NextMonthClub() {
     });
   };
 
+  const { bookFieldAndHostList } = fieldAndHosts;
+
+  const fieldAndHost = bookFieldAndHostList?.find(
+    ({ month }) => month === +nextMonth,
+  );
+
+  const nextMonthClubInfoList = nextClub && [
+    {
+      label: '모임시간' as const,
+      value: meeting?.time,
+    },
+    {
+      label: '모임장소' as const,
+      value: meeting?.place,
+    },
+    {
+      label: '발제자' as const,
+      value: fieldAndHost?.hosts,
+    },
+  ];
+
   return (
     <>
       {nextClub ? (
-        nextBook ? (
-          <MonthBookCard
-            month={formatDate(nextMonthId, 'M')}
-            book={nextBook}
-            bookFields={field}
-            className="!mb-0 h-full"
-          />
-        ) : (
-          <MonthEventCard
-            yearMonthId={nextMonthId}
-            event={nextClub.meeting}
-            className="!mb-0 h-full"
-          />
-        )
+        <>
+          {nextBook ? (
+            <div className="grid grid-cols-2 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">
+              <MonthBookCard
+                month={formatDate(nextMonthId, 'M')}
+                book={nextBook}
+                bookFields={field}
+                className="col-span-1 h-full"
+              />
+              <div className="col-span-1 flex flex-col gap-4">
+                {nextMonthClubInfoList.map(({ label, value }) => (
+                  <LabelWithValueCard
+                    key={label}
+                    label={label}
+                    value={value}
+                    editable={false}
+                  />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <MonthEventCard
+              yearMonthId={nextMonthId}
+              event={nextClub.meeting}
+            />
+          )}
+        </>
       ) : (
         <EmptyCard text="아직 등록된 다음달 모임책이 없어요.">
           <div className="flex gap-x-3">

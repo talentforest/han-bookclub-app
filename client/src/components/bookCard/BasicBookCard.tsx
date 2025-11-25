@@ -1,6 +1,5 @@
 import { MonthlyBookClub } from '@/types';
 
-import MonthEventCard from '@/components/bookCard/MonthEventCard';
 import ClubTimePlace from '@/components/common/ClubTimePlace';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
@@ -17,10 +16,9 @@ export default function BasicBookCard({
   const {
     meeting: { place, time },
     book,
-    id,
   } = bookClub;
 
-  return book ? (
+  return (
     <div
       className={`flex gap-x-4 rounded-card bg-white p-5 shadow-card ${className}`}
     >
@@ -46,7 +44,5 @@ export default function BasicBookCard({
         <ClubTimePlace time={time} place={place} className="mt-3.5" />
       </div>
     </div>
-  ) : (
-    <MonthEventCard yearMonthId={id} event={bookClub.meeting} />
   );
 }

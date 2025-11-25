@@ -11,7 +11,7 @@ import { getCollection } from '@/api';
 
 import { BOOKCLUB_THIS_YEAR, DEVELOPER_EMAIL } from '@/appConstants';
 
-import { thisYear } from '@/utils';
+import { nextMonth, thisYear } from '@/utils';
 
 import Footer from '@/layout/Footer';
 import MobileHeader from '@/layout/MobileHeader';
@@ -69,16 +69,16 @@ const Home = () => {
       <MobileHeader title="독서모임 한페이지" />
 
       <main>
-        <div className="my-2.5 mb-16 grid grid-cols-3 gap-x-6 max-md:flex max-md:flex-col max-md:gap-y-16">
-          <Section title="이달의 모임정보" className="col-span-2 !my-0">
-            <ThisMonthBookClub />
-          </Section>
+        <Section title="이달의 모임정보">
+          <ThisMonthBookClub />
+        </Section>
 
-          <Section title="다음달 모임책" className="col-span-1 !my-0 size-full">
-            <NextMonthClub />
+        <Section title="다음달 모임책">
+          <NextMonthClub />
+          {+nextMonth === 12 && (
             <ChevronRightLinkBtn to={'/bookclub/2025-12'} title="자세히보기" />
-          </Section>
-        </div>
+          )}
+        </Section>
 
         <Section className="!my-28 grid w-full grid-cols-4 gap-4 max-sm:my-20 max-sm:grid-cols-2 max-sm:gap-2.5">
           {buttonList.map(({ name, onClick, color }) => (
