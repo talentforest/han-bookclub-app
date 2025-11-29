@@ -7,6 +7,7 @@ interface AccordionProps {
   title?: ReactNode;
   headerChildren?: ReactNode;
   iconClassName?: string;
+  className?: string;
 }
 
 export default function Accordion({
@@ -14,13 +15,16 @@ export default function Accordion({
   children,
   headerChildren,
   iconClassName,
+  className = '',
 }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDetails = () => setIsOpen(prev => !prev);
 
   return (
-    <li className="h-fit list-none rounded-xl bg-white shadow-card">
+    <li
+      className={`h-fit list-none rounded-xl bg-white shadow-card ${className}`}
+    >
       <div className="flex w-full items-center pl-4">
         {headerChildren ? headerChildren : <h1 className="py-2">{title}</h1>}
 

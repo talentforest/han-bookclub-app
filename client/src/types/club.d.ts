@@ -1,6 +1,6 @@
 import { monthlyClubInfo } from '@/appConstants';
 
-import { BookData } from '@/types/book';
+import { BaseBookData, BookData } from '@/types/book';
 
 export type MonthlyBookClub = {
   id?: string;
@@ -21,7 +21,12 @@ export type MonthlyBookClub = {
         result?: {
           users?: [];
           books?: [];
-          subjects?: string[];
+          subjects?: {
+            rank: number;
+            subject: string;
+            clubBook: BaseBookData;
+            yearMonthId: string;
+          }[];
           detail?: string;
         };
       }[];

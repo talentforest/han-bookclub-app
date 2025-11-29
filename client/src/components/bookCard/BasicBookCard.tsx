@@ -25,6 +25,9 @@ export default function BasicBookCard({
       <BookThumbnail
         thumbnail={book.thumbnail}
         title={book.title}
+        iconName={
+          book.title.includes('이벤트') ? 'MdEventAvailable' : undefined
+        }
         url={book.url}
         className="w-28"
       />

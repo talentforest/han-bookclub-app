@@ -1,13 +1,16 @@
-import { FiBook } from 'react-icons/fi';
+import { ReactNode } from 'react';
+
+import { FiBook, FiPlus } from 'react-icons/fi';
 import { MdEventAvailable } from 'react-icons/md';
 
 import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
 
 interface BookThumbnailProps {
-  title: string;
-  thumbnail: string;
+  title?: string;
+  thumbnail?: string;
   url?: string;
   className?: string;
+  iconName?: 'MdEventAvailable' | 'FiPlus';
 }
 
 export default function BookThumbnail({
@@ -15,13 +18,23 @@ export default function BookThumbnail({
   thumbnail,
   url,
   className = '',
+  iconName,
 }: BookThumbnailProps) {
+  const icon: { [key in BookThumbnailProps['iconName']]: ReactNode } = {
+    MdEventAvailable: (
+      <MdEventAvailable className="mx-auto size-full max-h-[40px] max-w-[40px] text-gray2 max-sm:w-1/2" />
+    ),
+    FiPlus: (
+      <FiPlus className="mx-auto size-full max-h-[40px] max-w-[40px] text-gray2 max-sm:w-[60%]" />
+    ),
+  };
+
   const commonClassName =
     'aspect-[0.68/1] h-fit shadow-book overflow-hidden rounded-r-[8%]';
 
   return (
     <>
-      {thumbnail !== '' && (
+      {thumbnail && (
         <div className={`relative ${commonClassName} ${className}`}>
           <img className="size-full" src={thumbnail} alt={`${title} 북커버`} />
           {url && (
@@ -33,12 +46,12 @@ export default function BookThumbnail({
         </div>
       )}
 
-      {thumbnail === '' && (
+      {!thumbnail && (
         <div
           className={`flex items-center justify-center bg-gray4 ${commonClassName} ${className}`}
         >
-          {title.includes('이벤트') ? (
-            <MdEventAvailable className="size-full max-h-[40px] max-w-[40px] text-gray2 max-sm:w-1/2" />
+          {iconName ? (
+            icon[iconName]
           ) : (
             <FiBook className="mx-auto size-full max-h-[40px] max-w-[40px] text-gray2 max-sm:w-1/2" />
           )}

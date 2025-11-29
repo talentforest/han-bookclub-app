@@ -13,8 +13,10 @@ import MobileHeader from '@/layout/MobileHeader';
 import AbsenceRankList from '@/components/absence/AbsenceRankList';
 import ChallengeUserRankCard from '@/components/challenge/ChallengeUserRankCard';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
+import SquareBtn from '@/components/common/button/SquareBtn';
 import Section from '@/components/common/container/Section';
 import SwiperContainer from '@/components/common/container/SwiperContainer';
+import BestSubjectList from '@/components/event/BestSubjectList';
 
 const swiperOptions = {
   breakpoints: {
@@ -41,9 +43,9 @@ const swiperOptions = {
 };
 
 export default function YearClosingDetail() {
-  const { clubBookListByYear } = useGetClubByYear();
+  const { meeting } = useRecoilValue(clubByMonthSelector(`${thisYear}-12`));
 
-  const monthlyBookClub = useRecoilValue(clubByMonthSelector(`${thisYear}-12`));
+  const { clubBookListByYear } = useGetClubByYear();
 
   const { userRankList } = useHandleChallenge();
 
@@ -53,7 +55,7 @@ export default function YearClosingDetail() {
 
       <main>
         <div className="relative mb-14 mt-2 rounded-2xl bg-white p-5 shadow-card">
-          <h2 className="mb-4 font-GiantsInline italic leading-5">
+          <h2 className="mb-4 font-RomanticGumi leading-5 tracking-tighter">
             <span className="text-3xl tracking-tighter text-purple1">
               {thisYear}
             </span>
@@ -84,20 +86,33 @@ export default function YearClosingDetail() {
           />
         </div>
 
-        {monthlyBookClub?.meeting?.eventMonth &&
-          monthlyBookClub?.meeting?.eventMonth.contents.map(content => (
-            <Section key={content.id} title={content.title}>
-              {content.title.includes('챌린지') && (
+        {meeting?.eventMonth &&
+          meeting?.eventMonth.contents.map(({ title, id, result }) => (
+            <Section key={id} title={title}>
+              {/* 챌린지 섹션 */}
+              {title.includes('챌린지') && (
                 <ul className="flex flex-col gap-y-3">
-                  {userRankList.map(userRank => (
-                    <ChallengeUserRankCard
-                      key={userRank.creatorId}
-                      userRank={userRank}
-                    />
-                  ))}
+                  {userRankList
+                    .filter(user => user.rereadingBookList.length !== 0)
+                    .map(userRank => (
+                      <ChallengeUserRankCard
+                        key={userRank.creatorId}
+                        userRank={userRank}
+                      />
+                    ))}
                 </ul>
               )}
-              {content.title.includes('개근상') && <AbsenceRankList />}
+
+              {/* 발제문 */}
+              {title.includes('최우수 발제문') && (
+                <BestSubjectList subjects={result.subjects} />
+              )}
+
+              {/* 개근상 섹션 */}
+              {title.includes('개근상') && <AbsenceRankList />}
+
+              {/* 책분야와 발제자 */}
+              {title.includes('책분야') && <SquareBtn name="이동하기" />}
             </Section>
           ))}
       </main>

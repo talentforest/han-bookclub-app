@@ -15,7 +15,7 @@ export type UserPost = {
   creatorId: string;
   createdAt: string;
   updatedAt?: string;
-  clubBook: BaseBookData;
+  clubBook?: BaseBookData;
   recommendedBook?: BaseBookData;
   likes?: number;
   likeUsers?: string[];

@@ -23,6 +23,10 @@ export default function ChallengeRankedBook({
     impressionList,
   } = bookWithRank;
 
+  console.log(impressionList);
+
+  // NOTE: 모든 멤버의 글이 안나옴 미치겠다 ㅋㅋ큐ㅠ
+
   return (
     <Modal title="많이 재독한 책">
       <div className="mb-5 flex items-center gap-2">

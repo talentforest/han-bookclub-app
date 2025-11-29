@@ -33,6 +33,9 @@ const PreviousBookCard = ({ document }: PreviousBookCardProps) => {
           <BookThumbnail
             thumbnail={book.thumbnail}
             title={book.title}
+            iconName={
+              book.title.includes('이벤트') ? 'MdEventAvailable' : undefined
+            }
             className="mt-4 w-1/2 max-sm:w-1/4"
           />
 

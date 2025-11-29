@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useParams } from 'react-router-dom';
 
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { absenceAtom, attendanceSelector } from '@/data/absenceAtom';
 import { clubByMonthSelector, clubByYearAtom } from '@/data/clubAtom';
@@ -34,33 +34,32 @@ const ClubDetail = () => {
 
   const yearMonthId = params?.id || thisYearMonthId;
   const year = yearMonthId.slice(0, 4);
-
-  const monthlyBookClub = useRecoilValue(clubByMonthSelector(yearMonthId));
-
-  const [absenceList, setAbsenceList] = useRecoilState(absenceAtom);
-
-  const setThisYearClub = useSetRecoilState(clubByYearAtom);
+  const isThisMonthClubDetail = yearMonthId === thisYearMonthId;
 
   const { absenteeList, participantList } = useRecoilValue(
     attendanceSelector(yearMonthId),
   );
+  const setAbsenceList = useSetRecoilState(absenceAtom);
+
+  const monthlyBookClub = useRecoilValue(clubByMonthSelector(yearMonthId));
+  const setThisYearClub = useSetRecoilState(clubByYearAtom);
+  const isEventMonth = monthlyBookClub?.meeting?.eventMonth;
 
   useEffect(() => {
-    if (!monthlyBookClub || monthlyBookClub.meeting?.eventMonth) {
+    if (isThisMonthClubDetail) {
       getCollection(BOOKCLUB_THIS_YEAR, setThisYearClub);
     }
-    if (!absenceList) {
-      getDocument(`BookClub-${year}`, ABSENCE_MEMBERS, setAbsenceList);
-    }
-  }, [year]);
+  }, [isThisMonthClubDetail]);
 
-  const isThisMonthDetail = yearMonthId === thisYearMonthId;
+  useEffect(() => {
+    getDocument(`BookClub-${year}`, ABSENCE_MEMBERS, setAbsenceList);
+  }, [year]);
 
   return (
     <>
       <MobileHeader
-        title={`${isThisMonthDetail ? '이달' : formatDate(yearMonthId, 'yyyy년 M월')}의 한페이지`}
-        backBtn={!isThisMonthDetail}
+        title={`${isThisMonthClubDetail ? '이달' : formatDate(yearMonthId, 'yyyy년 M월')}의 한페이지`}
+        backBtn={!isThisMonthClubDetail}
         backTo={'/previous-bookclub'}
       />
 
@@ -73,74 +72,66 @@ const ClubDetail = () => {
           ) : (
             <>
               <Section title="모임 정보">
-                {isThisMonthDetail && <ThisMonthBookClub />}
-
-                {!isThisMonthDetail &&
-                  (monthlyBookClub.book ? (
-                    <BasicBookCard
-                      bookClub={monthlyBookClub}
-                      className="w-full"
-                    />
-                  ) : (
-                    <MonthEventCard
-                      yearMonthId={monthlyBookClub.id}
-                      event={monthlyBookClub.meeting}
-                    />
-                  ))}
+                {isEventMonth ? (
+                  <MonthEventCard
+                    yearMonthId={monthlyBookClub.id}
+                    event={monthlyBookClub.meeting}
+                  />
+                ) : (
+                  <>
+                    {isThisMonthClubDetail ? (
+                      <ThisMonthBookClub />
+                    ) : (
+                      <BasicBookCard
+                        bookClub={monthlyBookClub}
+                        className="w-full"
+                      />
+                    )}
+                  </>
+                )}
               </Section>
 
-              {((isThisMonthDetail && monthlyBookClub) ||
-                !isThisMonthDetail) && (
-                <>
-                  <div className="grid grid-cols-5 gap-x-6 max-sm:flex max-sm:flex-col [&>section:first-child]:col-span-2 [&>section:last-child]:col-span-3">
-                    {absenteeList && (
-                      <Section title="참석 정보">
-                        <div className="flex flex-col gap-4">
-                          <MemberListCard
-                            title={`참석 멤버 ${participantList.length}명`}
-                            memberList={participantList}
-                          />
-                          <MemberListCard
-                            title={`불참 멤버 ${absenteeList.length}명`}
-                            memberList={absenteeList}
-                          />
-                        </div>
-                      </Section>
-                    )}
-
-                    {monthlyBookClub?.book && (
-                      <Section title="발제문과 정리 기록">
-                        {isThisMonthDetail && (
-                          <GuideLine text="모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 수정만 가능할 뿐 새로 작성이 불가능한 점 유의해주세요." />
-                        )}
-                        <PostTabBox yearMonthId={yearMonthId} />
-                      </Section>
-                    )}
-                  </div>
-
-                  {monthlyBookClub?.book && (
-                    <Section
-                      title={isThisMonthDetail ? '책 추천하기' : '추천책'}
-                    >
-                      {isThisMonthDetail && <SearchBookBtn />}
-                      <RecommendedBookSwiperContainer
-                        yearMonthId={yearMonthId}
+              <div className="grid grid-cols-5 gap-x-6 max-sm:flex max-sm:flex-col [&>section:first-child]:col-span-2 [&>section:last-child]:col-span-3">
+                {absenteeList && (
+                  <Section title="참석 정보">
+                    <div className="flex flex-col gap-4">
+                      <MemberListCard
+                        title={`참석 멤버 ${participantList.length}명`}
+                        memberList={participantList}
                       />
-                    </Section>
-                  )}
-
-                  {/* 이벤트 모임내용 */}
-                  {monthlyBookClub?.meeting?.eventMonth && (
-                    <EventMeetingDetail
-                      eventDetail={monthlyBookClub.meeting?.eventMonth}
-                    />
-                  )}
-
-                  <Section title="모임 후기">
-                    <MeetingReviewList yearMonthId={yearMonthId} />
+                      <MemberListCard
+                        title={`불참 멤버 ${absenteeList.length}명`}
+                        memberList={absenteeList}
+                      />
+                    </div>
                   </Section>
-                </>
+                )}
+
+                {!isEventMonth && (
+                  <Section title="발제문과 정리 기록">
+                    {isThisMonthClubDetail && (
+                      <GuideLine text="모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 수정만 가능할 뿐 새로 작성이 불가능한 점 유의해주세요." />
+                    )}
+                    <PostTabBox yearMonthId={yearMonthId} />
+                  </Section>
+                )}
+              </div>
+
+              <Section title={isThisMonthClubDetail ? '책 추천하기' : '추천책'}>
+                {isThisMonthClubDetail && <SearchBookBtn />}
+                <RecommendedBookSwiperContainer yearMonthId={yearMonthId} />
+              </Section>
+
+              {/* 이벤트 모임내용 */}
+              {isEventMonth && (
+                <EventMeetingDetail
+                  eventDetail={monthlyBookClub.meeting?.eventMonth}
+                />
               )}
+
+              <Section title="모임 후기">
+                <MeetingReviewList yearMonthId={yearMonthId} />
+              </Section>
             </>
           )}
         </main>

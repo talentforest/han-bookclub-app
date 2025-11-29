@@ -11,9 +11,7 @@ import UserImgName from '@/components/common/user/UserImgName';
 
 type AbsenceRank = Record<string, { rank: number; absenceCount: number }>;
 
-interface AbsenceRankListProps {}
-
-export default function AbsenceRankList({}: AbsenceRankListProps) {
+export default function AbsenceRankList() {
   const usersDoc = useRecoilValue(allUsersAtom);
 
   const absenceMonthList = useRecoilValue(absenceAtom);
@@ -92,12 +90,14 @@ export default function AbsenceRankList({}: AbsenceRankListProps) {
   return (
     <ul className="flex flex-col gap-y-2">
       {getMatchRankList(1, 3).map(rankedUser => (
-        <div
-          className={`flex w-full items-center rounded-xl bg-white px-5 py-3 shadow-card ${rankedUser[Object.keys(rankedUser)[0]].rank === 1 ? 'border-2 border-yellow-500' : ''}`}
+        <li
+          key={Object.keys(rankedUser)[0]}
+          className={`flex w-full items-center rounded-xl bg-white px-5 py-3 shadow-card ${rankedUser[Object.keys(rankedUser)[0]].rank === 1 ? 'border-2 border-yellow-400' : ''}`}
         >
           {rankedUser[Object.keys(rankedUser)[0]].rank === 1 && (
             <FaMedal className="mr-2 size-5 text-yellow-600" />
           )}
+
           <span className="w-12 font-RomanticGumi text-base font-medium text-blue2">{`${rankedUser[Object.keys(rankedUser)[0]].rank}위`}</span>
           <UserImgName userId={Object.keys(rankedUser)[0]} />
 
@@ -105,7 +105,7 @@ export default function AbsenceRankList({}: AbsenceRankListProps) {
             <span className="block w-8">불참 </span>
             {rankedUser[Object.keys(rankedUser)[0]].absenceCount}회
           </div>
-        </div>
+        </li>
       ))}
     </ul>
   );

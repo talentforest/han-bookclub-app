@@ -1,3 +1,5 @@
+import { FaMedal } from 'react-icons/fa';
+
 import { UserRank } from '@/types';
 
 import Tag from '@/components/common/Tag';
@@ -16,19 +18,24 @@ export default function ChallengeUserRankCard({
 
   return (
     <Accordion
+      className={rank === 1 ? 'border-2 border-yellow-400' : ''}
       headerChildren={
         <div className="flex w-full items-center gap-x-2">
+          {rank === 1 && <FaMedal className="mr-2 size-5 text-yellow-600" />}
+
           {totalRereadingCounts !== 0 && (
             <span className="font-RomanticGumi text-lg font-bold text-blue2">
               {rank}
               <span className="text-sm font-bold text-gray1">위</span>
             </span>
           )}
+
           <Tag className="!px-2 !py-1.5">
             <UserImgName userId={creatorId} className="font-medium" />
           </Tag>
+
           <Tag
-            className="!px-3 !py-1.5 font-GiantsInline !text-sm font-medium"
+            className="ml-auto !px-3 !py-1.5 font-GiantsInline !text-sm font-medium"
             text={`${rereadingBookList.length}권`}
             color="yellow"
           />
