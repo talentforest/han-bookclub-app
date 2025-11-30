@@ -1,7 +1,5 @@
 import { useMemo, useState } from 'react';
 
-import { SwiperSlide } from 'swiper/react';
-
 import { RECOMMENDED_BOOKS, months } from '@/appConstants';
 
 import { useGetClubByYear, useHandleChallenge, useHandleModal } from '@/hooks';
@@ -25,25 +23,6 @@ import ChallengeUserRankCard from '@/components/challenge/ChallengeUserRankCard'
 import SelectYearBtnList from '@/components/common/SelectYearBtnList';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import Section from '@/components/common/container/Section';
-import SwiperContainer from '@/components/common/container/SwiperContainer';
-
-const swiperOptions = {
-  breakpoints: {
-    1024: {
-      slidesPerView: 10,
-    },
-    800: {
-      slidesPerView: 6,
-    },
-    320: {
-      slidesPerView: 3,
-    },
-  },
-  pagination: true,
-  navigation: false,
-  scrollbar: false,
-  spaceBetween: 4,
-};
 
 export default function Challenge() {
   const [showAllUserRank, setShowAllUserRank] = useState(false);
@@ -97,25 +76,25 @@ export default function Challenge() {
       <MobileHeader title={`${thisYear}년 개인별 챌린지`} backBtn backTo="/" />
 
       <main>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="flex flex-col justify-center gap-y-3 rounded-xl bg-white p-5 shadow-card">
-            <h4 className="font-GiantsInline text-lg font-medium leading-6 text-blue3">
-              2025: <span className="text-xl">Challenge</span>
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-2 flex flex-col justify-center gap-y-3 rounded-xl bg-white p-4 shadow-card">
+            <h4 className="font-GiantsInline font-semibold leading-6 text-blue2">
+              2025: Challenge
             </h4>
-            <span className="font-GiantsInline font-bold text-blue1">
+            <span className="font-RomanticGumi font-bold text-blue1">
               모임책과 추천책 다시 읽어보기
             </span>
           </div>
 
-          <div className="flex flex-col items-center justify-center rounded-xl bg-white p-5 shadow-card">
+          <div className="flex flex-col items-center justify-center rounded-xl bg-white p-4 shadow-card">
             <img
               src={`${import.meta.env.VITE_PUBLIC_URL}/dday.png`}
               alt="dday"
-              className="aspect-auto h-10 w-fit"
+              className="aspect-auto h-7 w-fit"
             />
 
             <div className="mt-1 flex flex-col items-center">
-              <span className="font-RomanticGumi text-[32px] text-blue2">
+              <span className="font-RomanticGumi text-[28px] text-blue2">
                 {+getDDay(`${thisYear}-12-21`) > 0 ? '+' : ''}
                 {getDDay(`${thisYear}-12-21`)}
               </span>
@@ -131,18 +110,14 @@ export default function Challenge() {
             className="!mb-10 !mt-16 flex"
             title="🔥현재 가장 여러 번 다시 읽은 책은?"
           >
-            <SwiperContainer options={swiperOptions}>
-              {bookWithRankList.map((bookWithRank, index) => {
-                return (
-                  <SwiperSlide key={bookWithRank.title}>
-                    <ChallengeBookRankCard
-                      bookWithRank={bookWithRank}
-                      rank={index + 1}
-                    />
-                  </SwiperSlide>
-                );
-              })}
-            </SwiperContainer>
+            <ul className="grid grid-cols-4 gap-4">
+              {bookWithRankList.map(bookWithRank => (
+                <ChallengeBookRankCard
+                  key={bookWithRank.title}
+                  bookWithRank={bookWithRank}
+                />
+              ))}
+            </ul>
           </Section>
         )}
 

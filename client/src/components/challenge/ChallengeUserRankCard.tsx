@@ -56,14 +56,16 @@ export default function ChallengeUserRankCard({
         </ul>
 
         {rereadingBookList.length !== 0 && (
-          <div className="-mx-2 flex flex-1 gap-x-2 overflow-scroll rounded-lg px-2.5 py-2 scrollbar-hide">
+          <div className="-mx-2 flex flex-1 gap-x-2.5 overflow-scroll rounded-lg px-2.5 py-2 scrollbar-hide">
             {rereadingBookList.map(book => (
-              <BookThumbnail
-                key={book.title}
-                thumbnail={book.thumbnail}
-                title={book.title}
-                className="w-10 min-w-10"
-              />
+              <button type="button" onClick={() => {}}>
+                <BookThumbnail
+                  key={book.title}
+                  thumbnail={book.thumbnail}
+                  title={book.title}
+                  className="w-12 min-w-12"
+                />
+              </button>
             ))}
           </div>
         )}

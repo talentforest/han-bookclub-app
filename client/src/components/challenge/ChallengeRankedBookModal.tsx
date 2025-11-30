@@ -6,13 +6,13 @@ import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import UserImgName from '@/components/common/user/UserImgName';
 
-interface ChallengeRankedBookProps {
+interface ChallengeRankedBookModalProps {
   bookWithRank: BookWithRank;
 }
 
-export default function ChallengeRankedBook({
+export default function ChallengeRankedBookModal({
   bookWithRank,
-}: ChallengeRankedBookProps) {
+}: ChallengeRankedBookModalProps) {
   const {
     counts,
     readers,
@@ -22,10 +22,6 @@ export default function ChallengeRankedBook({
     publisher,
     impressionList,
   } = bookWithRank;
-
-  console.log(impressionList);
-
-  // NOTE: 모든 멤버의 글이 안나옴 미치겠다 ㅋㅋ큐ㅠ
 
   return (
     <Modal title="많이 재독한 책">
@@ -56,17 +52,16 @@ export default function ChallengeRankedBook({
       </div>
 
       <h3 className="font-bold text-blue1">재독한 멤버의 소감들</h3>
-      <ul className="mt-2">
+      <ul className="mt-2 flex flex-col gap-y-4 overflow-scroll scrollbar-hide">
         {impressionList?.map(({ text, id, creatorId, createdAt }) => (
-          <li key={id} className="mb-3 gap-2 border-l-4 border-gray3 pl-3">
-            <p>{text}</p>
-
-            <div className="mt-3 flex justify-between">
+          <li key={id} className="gap-2 border-l-4 border-gray3 pl-3">
+            <div className="mb-2 flex justify-between">
               <UserImgName userId={creatorId} />
-              <span className="text-gray2">
+              <span className="text-[15px] text-gray1">
                 {new Date(createdAt).toLocaleDateString()}
               </span>
             </div>
+            <p>{text}</p>
           </li>
         ))}
       </ul>
