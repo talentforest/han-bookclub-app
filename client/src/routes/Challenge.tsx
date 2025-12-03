@@ -160,7 +160,7 @@ export default function Challenge() {
 
           <ul className="mt-5 grid grid-cols-10 gap-4 max-md:grid-cols-8 max-sm:grid-cols-4 max-sm:gap-4">
             {clubBookListByYear.map(clubbook => (
-              <li key={clubbook.datetime}>
+              <li key={clubbook.title}>
                 <button
                   type="button"
                   className="w-full"

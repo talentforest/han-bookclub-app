@@ -53,8 +53,8 @@ export default function ChallengeRankedBookModal({
 
       <h3 className="font-bold text-blue1">재독한 멤버의 소감들</h3>
       <ul className="mt-2 flex flex-col gap-y-4 overflow-scroll scrollbar-hide">
-        {impressionList?.map(({ text, id, creatorId, createdAt }) => (
-          <li key={id} className="gap-2 border-l-4 border-gray3 pl-3">
+        {impressionList?.map(({ text, creatorId, createdAt }) => (
+          <li key={text} className="gap-2 border-l-4 border-gray3 pl-3">
             <div className="mb-2 flex justify-between">
               <UserImgName userId={creatorId} />
               <span className="text-[15px] text-gray1">

@@ -30,7 +30,7 @@ export const useEditDoc = <
 
   const { hideModal } = useHandleModal();
 
-  const onEditClick = async (newData: T) => {
+  const onEditSubmitClick = async (newData: T) => {
     if (anonymous) return alertAskJoinMember();
 
     const docRef = doc(dbService, collName, docId);
@@ -58,6 +58,6 @@ export const useEditDoc = <
     editedData,
     setEditedData,
     onEditSubmit,
-    onEditClick,
+    onEditSubmitClick,
   };
 };

@@ -15,7 +15,7 @@ import {
   initialAbsenseMembersData,
 } from '@/appConstants';
 
-import { existDocObj, thisYear } from '@/utils';
+import { thisYear } from '@/utils';
 
 import Table from '@/components/common/Table';
 import { Label } from '@/components/common/TableDataItem';
@@ -33,9 +33,7 @@ export default function AbsenceMemberTable({
   const [absenceList, setAbsenceList] = useRecoilState(absenceAtom);
 
   useEffect(() => {
-    if (!existDocObj(absenceList)) {
-      getDocument(BOOKCLUB_THIS_YEAR, ABSENCE_MEMBERS, setAbsenceList);
-    }
+    getDocument(BOOKCLUB_THIS_YEAR, ABSENCE_MEMBERS, setAbsenceList);
   }, []);
 
   const defaultLabels: Label[] = ['일회불참멤버', '모임정지멤버'];

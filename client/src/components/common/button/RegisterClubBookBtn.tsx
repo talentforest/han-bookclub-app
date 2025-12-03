@@ -65,7 +65,7 @@ const RegisterClubBookBtn = ({
         <SquareBtn name="등록 완료" disabled className="ml-auto py-2" />
       ) : (
         <SquareBtn
-          name={`${month}월 모임책으로 ${monthlyBookClub?.book ? '변경' : '등록'}`}
+          name={`${+month}월 모임책으로 ${monthlyBookClub?.book ? '변경' : '등록'}`}
           type="button"
           handleClick={onBtnClick}
           color="blue"

@@ -73,7 +73,7 @@ export default function NextMonthClub() {
     showModal({
       element: (
         <EventMeetingModal
-          title={`${nextMonth}월 독서모임 정보`}
+          title={`${+nextMonth}월 독서모임 정보`}
           currentValue={initialEventMeeting}
           yearMonthId={nextYearMonthId}
         />

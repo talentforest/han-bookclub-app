@@ -25,7 +25,7 @@ export default function BookThumbnail({
       <MdEventAvailable className="mx-auto size-full max-h-[40px] max-w-[40px] text-gray2 max-sm:w-1/2" />
     ),
     FiPlus: (
-      <FiPlus className="mx-auto size-full max-h-[40px] max-w-[40px] text-gray2 max-sm:w-[60%]" />
+      <FiPlus className="mx-auto size-full max-h-[40px] max-w-[40px] text-blue2 max-sm:w-[55%]" />
     ),
   };
 

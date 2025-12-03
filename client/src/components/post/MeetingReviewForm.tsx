@@ -24,9 +24,9 @@ interface MeetingReviewFormProps {
 const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
   const [isAnonymous, setIsAnonymous] = useState(false);
 
-  const {
-    book: { title, thumbnail, url, authors, publisher },
-  } = useRecoilValue(clubByMonthSelector(thisYearMonthId));
+  const { book: clubBook } = useRecoilValue(
+    clubByMonthSelector(thisYearMonthId),
+  );
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
@@ -36,7 +36,7 @@ const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
     text: '',
     createdAt: '',
     creatorId: uid,
-    clubBook: { title, thumbnail, url, authors, publisher },
+    clubBook: clubBook || null,
     isAnonymous,
   };
 

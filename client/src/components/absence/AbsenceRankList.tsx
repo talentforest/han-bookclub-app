@@ -1,11 +1,15 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { FaMedal } from 'react-icons/fa';
 
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { absenceAtom } from '@/data/absenceAtom';
 import { allUsersAtom } from '@/data/userAtom';
+
+import { getDocument } from '@/api';
+
+import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
 
 import UserImgName from '@/components/common/user/UserImgName';
 
@@ -14,7 +18,7 @@ type AbsenceRank = Record<string, { rank: number; absenceCount: number }>;
 export default function AbsenceRankList() {
   const usersDoc = useRecoilValue(allUsersAtom);
 
-  const absenceMonthList = useRecoilValue(absenceAtom);
+  const [absenceMonthList, setAbsenceList] = useRecoilState(absenceAtom);
 
   const getMatchRankList: (rankFrom: number, rankTo: number) => AbsenceRank[] =
     useCallback(
@@ -87,12 +91,16 @@ export default function AbsenceRankList() {
       [absenceMonthList, usersDoc],
     );
 
+  useEffect(() => {
+    getDocument(BOOKCLUB_THIS_YEAR, ABSENCE_MEMBERS, setAbsenceList);
+  }, []);
+
   return (
     <ul className="flex flex-col gap-y-2">
       {getMatchRankList(1, 3).map(rankedUser => (
         <li
           key={Object.keys(rankedUser)[0]}
-          className={`flex w-full items-center rounded-xl bg-white px-5 py-3 shadow-card ${rankedUser[Object.keys(rankedUser)[0]].rank === 1 ? 'border-2 border-yellow-400' : ''}`}
+          className={`flex w-full items-center rounded-xl bg-white px-5 py-3 shadow-card ${rankedUser[Object.keys(rankedUser)[0]].rank === 1 ? 'border-2 border-yellow-400 !py-4' : ''}`}
         >
           {rankedUser[Object.keys(rankedUser)[0]].rank === 1 && (
             <FaMedal className="mr-2 size-5 text-yellow-600" />
@@ -101,9 +109,11 @@ export default function AbsenceRankList() {
           <span className="w-12 font-RomanticGumi text-base font-medium text-blue2">{`${rankedUser[Object.keys(rankedUser)[0]].rank}위`}</span>
           <UserImgName userId={Object.keys(rankedUser)[0]} />
 
-          <div className="ml-auto flex w-[62px] text-[15px] text-gray1">
+          <div className="ml-auto flex font-medium">
             <span className="block w-8">불참 </span>
-            {rankedUser[Object.keys(rankedUser)[0]].absenceCount}회
+            <span className="w-[25px]">
+              {rankedUser[Object.keys(rankedUser)[0]].absenceCount}회
+            </span>
           </div>
         </li>
       ))}

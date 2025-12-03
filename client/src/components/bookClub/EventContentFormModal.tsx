@@ -1,12 +1,10 @@
-import { AddPrefixToKeys } from 'firebase/firestore';
-
 import { BOOKCLUB_THIS_YEAR } from '@/appConstants';
 
 import { useEditDoc } from '@/hooks';
 
 import { formatDate, thisYear } from '@/utils';
 
-import { EventContent } from '@/types';
+import { EventContent, EventContentUpdateRoute } from '@/types';
 
 import CustomDatePicker from '@/components/common/CustomDatePicker';
 import Modal from '@/components/common/Modal';
@@ -23,15 +21,14 @@ export default function EventContentFormModal({
   initialContent,
   contents,
 }: EventContentFormProps) {
-  const { onEditSubmit, setEditedData, editedData } = useEditDoc<
-    AddPrefixToKeys<'meeting.eventMonth', { contents: EventContent[] }>
-  >({
-    collName: BOOKCLUB_THIS_YEAR,
-    docId: `${thisYear}-12`,
-    dataToUpdate: {
-      'meeting.eventMonth.contents': contents,
-    },
-  });
+  const { onEditSubmit, setEditedData, editedData } =
+    useEditDoc<EventContentUpdateRoute>({
+      collName: BOOKCLUB_THIS_YEAR,
+      docId: `${thisYear}-12`,
+      dataToUpdate: {
+        'meeting.eventMonth.contents': contents,
+      },
+    });
 
   const currContent = editedData['meeting.eventMonth.contents'].find(
     ({ id }) => id === initialContent.id,

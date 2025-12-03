@@ -8,11 +8,16 @@ import { getCollection } from '@/api';
 
 import { BOOKCLUB_THIS_YEAR, SUBJECTS } from '@/appConstants';
 
-import { useEditDoc, useGetClubByYear } from '@/hooks';
+import { useEditDoc, useGetClubByYear, useHandleModal } from '@/hooks';
 
 import { getFbRouteOfPost, thisYear } from '@/utils';
 
-import { BaseBookData, BookData, EventContent, UserPost } from '@/types';
+import {
+  BaseBookData,
+  EventContent,
+  EventContentUpdateRoute,
+  UserPost,
+} from '@/types';
 
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
 import GuideLine from '@/components/common/GuideLine';
@@ -22,86 +27,121 @@ import SquareBtn from '@/components/common/button/SquareBtn';
 import EditorContent from '@/components/common/editor/EditorContent';
 import Input from '@/components/common/input/Input';
 
-type SelectClubBook = {
-  step: number;
-  clubBook?: BookData & { yearMonthId: string };
-};
+interface BestSubjectModalProps {
+  rank: number;
+  isEditing?: boolean;
+}
 
-export default function BestSubjectModal() {
-  const { meeting } = useRecoilValue(clubByMonthSelector(`${thisYear}-12`));
+export default function BestSubjectModal({
+  rank,
+  isEditing,
+}: BestSubjectModalProps) {
+  const [currStep, setCurrStep] = useState(1);
+
+  const [subjectList, setSubjectList] = useState<UserPost[]>([]);
 
   const ref = useRef<HTMLInputElement>(null);
 
-  const [currStep, setCurrStep] = useState<SelectClubBook>({ step: 1 });
-  const [subjectList, setSubjectList] = useState<UserPost[]>([]);
+  const { meeting } = useRecoilValue(clubByMonthSelector(`${thisYear}-12`));
+
+  const { hideModal } = useHandleModal();
 
   const { clubBookListByYear } = useGetClubByYear();
 
-  const { editedData, setEditedData, onEditClick } = useEditDoc({
-    collName: `${BOOKCLUB_THIS_YEAR}`,
-    docId: `${thisYear}-12`,
-    dataToUpdate: { 'meeting.eventMonth.contents': [] },
-  });
+  const { editedData, setEditedData, onEditSubmitClick } =
+    useEditDoc<EventContentUpdateRoute>({
+      collName: `${BOOKCLUB_THIS_YEAR}`,
+      docId: `${thisYear}-12`,
+      dataToUpdate: { 'meeting.eventMonth.contents': [] },
+    });
 
-  console.log(editedData);
+  const currBook = editedData['meeting.eventMonth.contents']
+    .find(content => content.title.includes('최고의 모임책'))
+    ?.result.subjects.find(subject => subject.rank === rank);
 
-  const onChangeData = (
-    newSubject: EventContent['result']['subjects'][number],
-  ) => {
-    const initialContents = meeting?.eventMonth?.contents;
+  const onBestSubjectStep = ({
+    step,
+    clubBook,
+    yearMonthId,
+  }: {
+    step: number;
+    clubBook: BaseBookData;
+    yearMonthId: string;
+  }) => {
+    setCurrStep(step);
 
-    const newContents = initialContents.map(content => {
-      return content.title.includes('최우수 발제문')
-        ? {
-            ...content,
-            result: {
-              subjects: [...content.result.subjects, { ...newSubject }],
-            },
-          }
-        : content;
+    const newData: EventContent['result']['subjects'][number] = {
+      yearMonthId,
+      clubBook,
+      rank,
+    };
+
+    const newContents = meeting?.eventMonth?.contents.map(content => {
+      if (!content.title.includes('최고의 모임책과 발제문')) return content;
+      return {
+        ...content,
+        result: {
+          ...content.result,
+          subjects: [...content.result.subjects, { ...newData }],
+        },
+      };
     });
 
     setEditedData({ 'meeting.eventMonth.contents': newContents });
   };
 
-  const handleStep = ({ step, clubBook }: SelectClubBook) => {
-    setCurrStep({ step, clubBook });
+  const onBestSubjectSubmit = () => {
+    const bestSubject =
+      subjectList[0].text
+        .split('📍')
+        .find(subject => subject.includes(ref?.current?.value)) || '';
 
-    const { title, thumbnail, authors, url, publisher, yearMonthId } = clubBook;
+    const newContents = editedData['meeting.eventMonth.contents'].map(
+      content => {
+        if (!content.title.includes('최고의 모임책과 발제문')) return content;
+        return {
+          ...content,
+          result: {
+            ...content.result,
+            subjects: content.result.subjects.map(subject => {
+              if (subject.rank !== rank) return subject;
+              return { ...subject, bestSubject };
+            }),
+          },
+        };
+      },
+    );
 
-    onChangeData({
-      subject: '',
-      yearMonthId,
-      clubBook: { title, thumbnail, authors, url, publisher },
-      rank: 1,
-    });
+    onEditSubmitClick({ 'meeting.eventMonth.contents': newContents });
+
+    hideModal();
   };
 
   useEffect(() => {
-    if (currStep?.clubBook) {
+    if (currBook) {
       getCollection(
-        getFbRouteOfPost(currStep.clubBook.yearMonthId, SUBJECTS),
+        getFbRouteOfPost(currBook.yearMonthId, SUBJECTS),
         setSubjectList,
       );
     }
-  }, [currStep?.clubBook?.yearMonthId]);
-
-  const onSubmit = () => {
-    editedData;
-    console.log(ref?.current?.value);
-  };
+  }, [currBook]);
 
   return (
-    <Modal title="최우수 발제문 선택하기">
-      {currStep.step === 1 && (
+    <Modal
+      title={`2025년 최고의 발제문 ${rank}위 ${isEditing ? '수정' : '선정'}하기`}
+    >
+      {currStep === 1 && (
         <>
           <GuideLine text="먼저 책을 선택해주세요." />
+
           <ul className="grid grid-cols-4 gap-4">
-            {clubBookListByYear.map(clubBook => (
-              <li key={clubBook.title}>
+            {clubBookListByYear.map(({ yearMonthId, ...clubBook }) => (
+              <li key={yearMonthId}>
                 <button
                   type="button"
-                  onClick={() => handleStep({ step: 2, clubBook })}
+                  onClick={() =>
+                    onBestSubjectStep({ step: 2, clubBook, yearMonthId })
+                  }
                 >
                   <BookThumbnail
                     thumbnail={clubBook.thumbnail}
@@ -114,7 +154,7 @@ export default function BestSubjectModal() {
         </>
       )}
 
-      {currStep.step === 2 && (
+      {currStep === 2 && (
         <>
           <Input
             ref={ref}
@@ -127,12 +167,13 @@ export default function BestSubjectModal() {
               <EditorContent key={subject.id} text={subject.text} />
             ))}
           </div>
+
           <div className="flex items-center">
-            <FooterBookCard book={currStep.clubBook} />
+            <FooterBookCard book={currBook?.clubBook} />
             <SquareBtn
               name="선택하기"
               color="purple"
-              handleClick={onSubmit}
+              handleClick={() => onBestSubjectSubmit()}
               type="submit"
             />
           </div>

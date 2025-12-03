@@ -30,9 +30,7 @@ export default function ChallengeUserRankCard({
             </span>
           )}
 
-          <Tag className="!px-2 !py-1.5">
-            <UserImgName userId={creatorId} className="font-medium" />
-          </Tag>
+          <UserImgName userId={creatorId} className="font-mediu2 ml-2" />
 
           <Tag
             className="ml-auto !px-3 !py-1.5 font-GiantsInline !text-sm font-medium"
@@ -58,9 +56,8 @@ export default function ChallengeUserRankCard({
         {rereadingBookList.length !== 0 && (
           <div className="-mx-2 flex flex-1 gap-x-2.5 overflow-scroll rounded-lg px-2.5 py-2 scrollbar-hide">
             {rereadingBookList.map(book => (
-              <button type="button" onClick={() => {}}>
+              <button key={book.title} type="button" onClick={() => {}}>
                 <BookThumbnail
-                  key={book.title}
                   thumbnail={book.thumbnail}
                   title={book.title}
                   className="w-12 min-w-12"

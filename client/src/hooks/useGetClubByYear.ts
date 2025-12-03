@@ -8,7 +8,7 @@ import { getCollection } from '@/api';
 
 import { thisYear } from '@/utils';
 
-import { BookData } from '@/types';
+import { BaseBookData } from '@/types';
 
 export const useGetClubByYear = () => {
   const [selectedYear, setSelectedYear] = useState(thisYear);
@@ -19,15 +19,24 @@ export const useGetClubByYear = () => {
     getCollection(`BookClub-${selectedYear}`, setClubByYear);
   }, [selectedYear]);
 
-  const clubBookListByYear: (BookData & { yearMonthId: string })[] =
+  const clubBookListByYear: (BaseBookData & { yearMonthId: string })[] =
     useMemo(() => {
       return clubByYear
         .filter(item => item?.book)
         .filter(({ book }) => book.thumbnail !== '')
-        .map(clubBookList => ({
-          ...clubBookList.book,
-          yearMonthId: clubBookList.id,
-        }));
+        .map(
+          ({
+            book: { title, url, publisher, authors, thumbnail },
+            id: yearMonthId,
+          }) => ({
+            title,
+            url,
+            publisher,
+            authors,
+            thumbnail,
+            yearMonthId,
+          }),
+        );
     }, [clubByYear]);
 
   return {

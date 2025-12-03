@@ -25,6 +25,7 @@ export default function RecommendedBookModal({
     recommendedBook: { url, authors, publisher, title, thumbnail },
   } = recommendedBookDetail;
 
+  console.log(clubBook);
   return (
     <Modal title="추천책 보기" className="w-[40%]">
       <PostHeader
@@ -33,7 +34,7 @@ export default function RecommendedBookModal({
         postType="추천책"
       />
 
-      <div className="my-4 gap-2 overflow-scroll scrollbar-hide">
+      <div className="mt-4 gap-2 overflow-scroll scrollbar-hide">
         <BookThumbnail
           title={title}
           thumbnail={thumbnail}
@@ -54,17 +55,21 @@ export default function RecommendedBookModal({
           dangerouslySetInnerHTML={{ __html: text }}
           className="mt-2 whitespace-pre-wrap break-all"
         />
-        <h3 className="mt-10 text-sm text-gray1">추천책이 나왔던 모임책</h3>
-        {recommendedBookDetail.recommendedBook && (
-          <FooterBookCard
-            book={
-              clubBook || {
-                title: recommendedBookDetail.title,
-                thumbnail: recommendedBookDetail.thumbnail,
-              }
-            }
-            className="mb-10 h-14"
-          />
+        {(clubBook || recommendedBookDetail.title) && (
+          <>
+            <h3 className="mt-6 text-sm text-gray1">추천책이 나왔던 모임책</h3>
+            {recommendedBookDetail.recommendedBook && (
+              <FooterBookCard
+                book={
+                  clubBook || {
+                    title: recommendedBookDetail.title,
+                    thumbnail: recommendedBookDetail.thumbnail,
+                  }
+                }
+                className="h-14"
+              />
+            )}
+          </>
         )}
         <PostFooter
           collName={collName}

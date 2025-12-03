@@ -27,7 +27,7 @@ export const useHandleLike = ({
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const { onEditClick } = useEditDoc({ collName, docId });
+  const { onEditSubmitClick } = useEditDoc({ collName, docId });
 
   const onLikeClick = async () => {
     if (!collName) return;
@@ -35,12 +35,12 @@ export const useHandleLike = ({
     if (like) {
       setShowLikeUsers(false);
 
-      await onEditClick({
+      await onEditSubmitClick({
         likes: likes - 1,
         likeUsers: likeUsers.filter(likeId => likeId !== uid),
       });
     } else {
-      await onEditClick({
+      await onEditSubmitClick({
         likes: likes + 1,
         likeUsers: [...likeUsers, uid],
       });

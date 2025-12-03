@@ -1,3 +1,5 @@
+import { AddPrefixToKeys } from 'firebase/firestore';
+
 import { monthlyClubInfo } from '@/appConstants';
 
 import { BaseBookData, BookData } from '@/types/book';
@@ -20,12 +22,15 @@ export type MonthlyBookClub = {
         deadline?: string;
         result?: {
           users?: [];
-          books?: [];
+          books?: {
+            clubBook: BaseBookData;
+            rank: number;
+          }[];
           subjects?: {
             rank: number;
-            subject: string;
-            clubBook: BaseBookData;
             yearMonthId: string;
+            clubBook: BaseBookData;
+            bestSubject?: string;
           }[];
           detail?: string;
         };
@@ -37,6 +42,11 @@ export type MonthlyBookClub = {
 
 type EventContent =
   MonthlyBookClub['meeting']['eventMonth']['contents'][number];
+
+export type EventContentUpdateRoute = AddPrefixToKeys<
+  'meeting.eventMonth',
+  { contents: EventContent[] }
+>;
 
 export type MonthlyAbsenceMembers = {
   month: number;

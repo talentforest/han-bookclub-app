@@ -14,6 +14,7 @@ import { BOOKCLUB_THIS_YEAR, BOOK_FIELD_AND_HOST } from '@/appConstants';
 import { thisMonth, thisYearMonthId } from '@/utils';
 
 import MonthBookCard from '@/components/bookCard/MonthBookCard';
+import MonthEventCard from '@/components/bookCard/MonthEventCard';
 import LabelWithValueCard from '@/components/common/LabelWithValueCard';
 import EmptyCard from '@/components/common/container/EmptyCard';
 
@@ -57,25 +58,32 @@ export default function ThisMonthClub() {
 
   return (
     <>
-      {thisMonthClub && thisMonthClub?.book ? (
-        <div className="grid grid-cols-2 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">
-          <MonthBookCard
-            month={`${+thisMonth}`}
-            book={thisMonthClub.book}
-            bookFields={fieldAndHost?.field}
-            className="col-span-1"
-          />
-          <div className="col-span-1 flex flex-col gap-4">
-            {thisMonthClubInfoList.map(({ label, value, editable }) => (
-              <LabelWithValueCard
-                key={label}
-                label={label}
-                value={value}
-                editable={editable}
-              />
-            ))}
+      {thisMonthClub ? (
+        thisMonthClub?.book ? (
+          <div className="grid grid-cols-2 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">
+            <MonthBookCard
+              month={`${+thisMonth}`}
+              book={thisMonthClub.book}
+              bookFields={fieldAndHost?.field}
+              className="col-span-1"
+            />
+            <div className="col-span-1 flex flex-col gap-4">
+              {thisMonthClubInfoList.map(({ label, value, editable }) => (
+                <LabelWithValueCard
+                  key={label}
+                  label={label}
+                  value={value}
+                  editable={editable}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <MonthEventCard
+            yearMonthId={thisYearMonthId}
+            event={thisMonthClub.meeting}
+          />
+        )
       ) : (
         <EmptyCard
           text="아직 등록된 이번달 모임책이 없어요."

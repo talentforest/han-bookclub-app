@@ -24,12 +24,6 @@ export const useHandleChallenge = () => {
     }
   }, []);
 
-  // const test = userChallengeList?.map(user => {
-  //   return Object.entries(user)?.map(([_, value]) => console.log(value));
-  // });
-
-  // console.log(test);
-
   // 책 순위
   const bookWithRankList: BookWithRank[] = useMemo(() => {
     if (!userChallengeList) return null;
@@ -75,8 +69,6 @@ export const useHandleChallenge = () => {
       return b.counts + b.readers - (a.counts + a.readers);
     });
   }, [userChallengeList]);
-
-  console.log(bookWithRankList);
 
   // 유저 순위
   const userRankList: UserRank[] = useMemo(() => {
