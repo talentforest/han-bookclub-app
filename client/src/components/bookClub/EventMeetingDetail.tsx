@@ -110,12 +110,12 @@ export default function EventMeetingDetail({
         <EmptyCard text="콘텐츠가 없습니다"></EmptyCard>
       )}
 
-      <Link
-        to="/yearClosingEvent"
+      {/* <Link
+        to={'/yearClosingEvent'}
         className="ml-auto mt-5 text-sm text-purple2 underline"
       >
         연말 결산 결과 페이지로 이동
-      </Link>
+      </Link> */}
     </Section>
   );
 }

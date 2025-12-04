@@ -4,6 +4,8 @@ import { useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
 
+import { readingLifeQuestion } from '@/appConstants';
+
 import { useGetClubByYear, useHandleChallenge } from '@/hooks';
 
 import { thisYear } from '@/utils';
@@ -14,8 +16,10 @@ import AbsenceRankList from '@/components/absence/AbsenceRankList';
 import ChallengeUserRankCard from '@/components/challenge/ChallengeUserRankCard';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import SquareBtn from '@/components/common/button/SquareBtn';
+import Accordion from '@/components/common/container/Accordion';
 import Section from '@/components/common/container/Section';
 import SwiperContainer from '@/components/common/container/SwiperContainer';
+import UserImgName from '@/components/common/user/UserImgName';
 import BestBookList from '@/components/event/BestBookList';
 import BestSubjectList from '@/components/event/BestSubjectList';
 
@@ -53,6 +57,8 @@ export default function YearClosingDetail() {
   const requiredContent = meeting.eventMonth.contents.filter(
     content => content.result,
   );
+
+  console.log(userRankList);
 
   return (
     <>
@@ -127,8 +133,41 @@ export default function YearClosingDetail() {
               {title.includes('10Books') && <div />}
 
               {/* 2025 독서생활 */}
-              {/* 이건 답변 정리하면서 정리해야겠다... */}
-              {title.includes('2025 독서생활') && <div />}
+              {title.includes('독서생활') && (
+                <ul className="flex flex-col gap-y-3">
+                  {readingLifeQuestion.map(
+                    ({ question, answerList }, index) => (
+                      <Accordion key={index} title={question}>
+                        <div className="mb-4">
+                          {answerList.length !== 0 ? (
+                            answerList.map(({ answer, userId }) => (
+                              <li key={answer}>
+                                <p>{answer}hihihhi</p>
+                                <UserImgName userId={userId} />
+                              </li>
+                            ))
+                          ) : (
+                            <ul>
+                              {userRankList
+                                .sort((a, b) =>
+                                  b.creatorId > a.creatorId ? -1 : 0,
+                                )
+                                .map(user => (
+                                  <li
+                                    key={user.creatorId}
+                                    className="w-fit rounded-xl border px-4 py-2"
+                                  >
+                                    <UserImgName userId={user.creatorId} />
+                                  </li>
+                                ))}
+                            </ul>
+                          )}
+                        </div>
+                      </Accordion>
+                    ),
+                  )}
+                </ul>
+              )}
             </Section>
           ))}
       </main>

@@ -49,11 +49,11 @@ export default function BestSubjectList({ subjects }: BestSubjectListProps) {
                 >
                   <div className="mb-3 flex w-full items-center justify-between gap-x-3">
                     <FooterBookCard book={clubBook} className="" />
-                    <div className="flex aspect-square size-10 flex-col items-center justify-center rounded-full bg-purple4">
+                    <div className="flex aspect-square size-12 flex-col items-center justify-center rounded-full bg-purple4">
                       <span className="font-GiantsInline text-xs leading-4 text-purple2">
                         Rank
                       </span>
-                      <span className="font-GiantsInline text-lg leading-6 text-purple2">
+                      <span className="font-GiantsInline text-lg leading-5 text-purple1">
                         {rank}
                       </span>
                     </div>
@@ -78,7 +78,7 @@ export default function BestSubjectList({ subjects }: BestSubjectListProps) {
             Array.from({ length: 3 - subjects.length }).map((_, index) => (
               <div
                 key={index}
-                className={`flex flex-col items-center gap-y-4 p-5 ${index === 0 && subjects.length === 3 ? 'col-span-2' : ''}`}
+                className={`flex flex-col items-center gap-y-4 p-5 ${index === 0 && (subjects.length === 0 || subjects.length === 3) ? 'col-span-2 border border-red-500' : ''}`}
               >
                 <button
                   type="button"
