@@ -3,8 +3,8 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import { defineConfig } from 'vite';
 
-export default defineConfig(({ mode }) => ({
-  base: mode === 'development' ? '/han-bookclub-app' : '/han-bookclub-app/',
+export default defineConfig(({}) => ({
+  base: '/han-bookclub-app',
   plugins: [react()],
   resolve: {
     alias: {

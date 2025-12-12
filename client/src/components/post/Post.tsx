@@ -27,7 +27,7 @@ export default function Post({
       className={`flex min-h-[80px] w-full flex-col gap-2.5 ${className}`}
     >
       <PostHeader collName={collName} post={post} postType={type} />
-      <EditorContent text={text.replaceAll('📍', '')} />
+      <EditorContent text={text} />
       {children}
     </article>
   );

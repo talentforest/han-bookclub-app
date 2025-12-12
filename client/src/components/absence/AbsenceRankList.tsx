@@ -11,6 +11,7 @@ import { getDocument } from '@/api';
 
 import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
 
+import Confetti from '@/components/common/container/Confetti';
 import UserImgName from '@/components/common/user/UserImgName';
 
 type AbsenceRank = Record<string, { rank: number; absenceCount: number }>;
@@ -96,27 +97,36 @@ export default function AbsenceRankList() {
   }, []);
 
   return (
-    <ul className="flex flex-col gap-y-2">
-      {getMatchRankList(1, 3).map(rankedUser => (
-        <li
-          key={Object.keys(rankedUser)[0]}
-          className={`flex w-full items-center rounded-xl bg-white px-5 py-3 shadow-card ${rankedUser[Object.keys(rankedUser)[0]].rank === 1 ? 'border-2 border-yellow-400 !py-4' : ''}`}
-        >
-          {rankedUser[Object.keys(rankedUser)[0]].rank === 1 && (
-            <FaMedal className="mr-2 size-5 text-yellow-600" />
-          )}
+    <>
+      <Confetti className="flex justify-center gap-x-4 py-10">
+        <UserImgName
+          className="flex aspect-square size-24 flex-col items-center justify-center rounded-2xl bg-white p-4 text-base shadow-card [&>img]:size-10"
+          userId={Object.keys(getMatchRankList(0, 1)[0] || [])[0]}
+        />
+      </Confetti>
 
-          <span className="w-12 font-RomanticGumi text-base font-medium text-blue2">{`${rankedUser[Object.keys(rankedUser)[0]].rank}위`}</span>
-          <UserImgName userId={Object.keys(rankedUser)[0]} />
+      <ul className="flex flex-col gap-y-2">
+        {getMatchRankList(1, 3).map(rankedUser => (
+          <li
+            key={Object.keys(rankedUser)[0]}
+            className={`flex w-full items-center rounded-xl bg-white px-5 py-3 shadow-card ${rankedUser[Object.keys(rankedUser)[0]].rank === 1 ? 'border-2 border-yellow-400 !py-4' : ''}`}
+          >
+            {rankedUser[Object.keys(rankedUser)[0]].rank === 1 && (
+              <FaMedal className="mr-2 size-5 text-yellow-600" />
+            )}
 
-          <div className="ml-auto flex font-medium">
-            <span className="block w-8">불참 </span>
-            <span className="w-[25px]">
-              {rankedUser[Object.keys(rankedUser)[0]].absenceCount}회
-            </span>
-          </div>
-        </li>
-      ))}
-    </ul>
+            <span className="w-12 font-RomanticGumi text-base font-medium text-blue2">{`${rankedUser[Object.keys(rankedUser)[0]].rank}위`}</span>
+            <UserImgName userId={Object.keys(rankedUser)[0]} />
+
+            <div className="ml-auto flex font-medium">
+              <span className="block w-8">불참 </span>
+              <span className="w-[25px]">
+                {rankedUser[Object.keys(rankedUser)[0]].absenceCount}회
+              </span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }

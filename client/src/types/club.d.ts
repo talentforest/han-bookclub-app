@@ -32,6 +32,14 @@ export type MonthlyBookClub = {
             clubBook: BaseBookData;
             bestSubject?: string;
           }[];
+          readingLifeQuestions?: {
+            id: string;
+            question: string;
+            answerList: {
+              userId: string;
+              answer: string;
+            }[];
+          }[];
           detail?: string;
         };
       }[];

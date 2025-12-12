@@ -1,10 +1,10 @@
+import { ReactNode, useMemo, useState } from 'react';
+
 import { SwiperSlide } from 'swiper/react';
 
 import { useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
-
-import { readingLifeQuestion } from '@/appConstants';
 
 import { useGetClubByYear, useHandleChallenge } from '@/hooks';
 
@@ -16,12 +16,13 @@ import AbsenceRankList from '@/components/absence/AbsenceRankList';
 import ChallengeUserRankCard from '@/components/challenge/ChallengeUserRankCard';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import SquareBtn from '@/components/common/button/SquareBtn';
-import Accordion from '@/components/common/container/Accordion';
+import Confetti from '@/components/common/container/Confetti';
 import Section from '@/components/common/container/Section';
 import SwiperContainer from '@/components/common/container/SwiperContainer';
 import UserImgName from '@/components/common/user/UserImgName';
 import BestBookList from '@/components/event/BestBookList';
 import BestSubjectList from '@/components/event/BestSubjectList';
+import ReadingLifeQuestionList from '@/components/event/ReadingLifeQuestionList';
 
 const swiperOptions = {
   breakpoints: {
@@ -48,17 +49,75 @@ const swiperOptions = {
 };
 
 export default function YearClosingDetail() {
+  const [currTab, setCurrTab] = useState('개근상');
+
   const { meeting } = useRecoilValue(clubByMonthSelector(`${thisYear}-12`));
 
   const { clubBookListByYear } = useGetClubByYear();
 
   const { userRankList } = useHandleChallenge();
 
-  const requiredContent = meeting.eventMonth.contents.filter(
-    content => content.result,
-  );
+  const findCurrContent = useMemo(() => {
+    const contentList = meeting.eventMonth.contents.filter(
+      content => content.result,
+    );
+    return contentList.find(content => content.title.includes(currTab));
+  }, [currTab]);
 
-  console.log(userRankList);
+  const contentObj: {
+    [key in string]: {
+      name: string;
+      result: ReactNode;
+    };
+  } = {
+    개근상: {
+      name: '독서모임 개근상',
+      result: <AbsenceRankList />,
+    },
+    챌린지: {
+      name: '재독 챌린지',
+      result: (
+        <>
+          <Confetti className="flex justify-center gap-x-4 py-10">
+            {userRankList
+              .filter(({ rank }) => rank === 1)
+              .map(user => (
+                <UserImgName
+                  key={user.creatorId}
+                  className="flex aspect-square size-24 flex-col items-center justify-center rounded-2xl bg-white p-4 text-base shadow-card [&>img]:size-10"
+                  userId={user.creatorId}
+                />
+              ))}
+          </Confetti>
+
+          <ul className="flex flex-col gap-y-3">
+            {userRankList.map(userRank => (
+              <ChallengeUserRankCard
+                key={userRank.creatorId}
+                userRank={userRank}
+              />
+            ))}
+          </ul>
+        </>
+      ),
+    },
+    모임책: {
+      name: '최고의 모임책',
+      result: <BestBookList books={findCurrContent.result.books} />,
+    },
+    발제문: {
+      name: '최고의 발제문',
+      result: <BestSubjectList subjects={findCurrContent.result.subjects} />,
+    },
+    독서생활: {
+      name: '독서생활을 돌아보는 질문',
+      result: (
+        <ReadingLifeQuestionList
+          questionList={findCurrContent.result.readingLifeQuestions}
+        />
+      ),
+    },
+  };
 
   return (
     <>
@@ -97,79 +156,19 @@ export default function YearClosingDetail() {
           />
         </div>
 
-        {meeting?.eventMonth &&
-          requiredContent.map(({ title, id, result }) => (
-            <Section key={id} title={title} className="!mb-24">
-              {/* 챌린지 섹션 */}
-              {title.includes('챌린지') && (
-                <ul className="flex flex-col gap-y-3">
-                  {userRankList
-                    .filter(user => user.rereadingBookList.length !== 0)
-                    .map(userRank => (
-                      <ChallengeUserRankCard
-                        key={userRank.creatorId}
-                        userRank={userRank}
-                      />
-                    ))}
-                </ul>
-              )}
-
-              {/* 발제문 */}
-              {title.includes('최고의 모임책') && (
-                <>
-                  <BestBookList books={result.books || []} />
-                  <BestSubjectList subjects={result.subjects || []} />
-                </>
-              )}
-
-              {/* 개근상 섹션 */}
-              {title.includes('개근상') && <AbsenceRankList />}
-
-              {/* 책분야와 발제자 */}
-              {title.includes('책분야') && <SquareBtn name="이동하기" />}
-
-              {/* 10Books */}
-              {/* 멤버들의 사진 저장하기 */}
-              {title.includes('10Books') && <div />}
-
-              {/* 2025 독서생활 */}
-              {title.includes('독서생활') && (
-                <ul className="flex flex-col gap-y-3">
-                  {readingLifeQuestion.map(
-                    ({ question, answerList }, index) => (
-                      <Accordion key={index} title={question}>
-                        <div className="mb-4">
-                          {answerList.length !== 0 ? (
-                            answerList.map(({ answer, userId }) => (
-                              <li key={answer}>
-                                <p>{answer}hihihhi</p>
-                                <UserImgName userId={userId} />
-                              </li>
-                            ))
-                          ) : (
-                            <ul>
-                              {userRankList
-                                .sort((a, b) =>
-                                  b.creatorId > a.creatorId ? -1 : 0,
-                                )
-                                .map(user => (
-                                  <li
-                                    key={user.creatorId}
-                                    className="w-fit rounded-xl border px-4 py-2"
-                                  >
-                                    <UserImgName userId={user.creatorId} />
-                                  </li>
-                                ))}
-                            </ul>
-                          )}
-                        </div>
-                      </Accordion>
-                    ),
-                  )}
-                </ul>
-              )}
-            </Section>
+        <ul className="mb-5 flex flex-wrap gap-2">
+          {Object.entries(contentObj).map(content => (
+            <li key={content[0]}>
+              <SquareBtn
+                name={content[1].name}
+                handleClick={() => setCurrTab(content[0])}
+                className={`rounded-t-xl !px-3 !py-2 tracking-tighter ${currTab.includes(content[0]) ? 'bg-blue1 font-medium text-blue4' : '!bg-blue4 !text-blue2'}`}
+              />
+            </li>
           ))}
+        </ul>
+
+        <Section className="min-h-72">{contentObj[currTab]?.result}</Section>
       </main>
     </>
   );

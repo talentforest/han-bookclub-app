@@ -66,7 +66,7 @@ export default function UserImgName({
         height={20}
       />
 
-      <span className="w-full min-w-fit">{user.displayName}</span>
+      <span className="min-w-fit">{user.displayName}</span>
     </Link>
   ) : (
     <div
@@ -81,7 +81,7 @@ export default function UserImgName({
         height={20}
       />
 
-      <span className="w-full min-w-fit">{user.displayName}</span>
+      <span className="min-w-fit">{user.displayName}</span>
     </div>
   );
 }

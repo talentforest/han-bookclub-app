@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, forwardRef } from 'react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -18,29 +18,34 @@ interface SwiperContainerProps {
   options?: AppSwiperOptions;
 }
 
-export default function SwiperContainer({
-  children,
-  options,
-}: SwiperContainerProps) {
-  const initialSwiperOptions: AppSwiperOptions = {
-    modules: [Autoplay, Pagination, Navigation, Scrollbar],
-    spaceBetween: 15,
-    slidesPerView: 'auto' as const,
-    speed: 800,
-    autoplay: {
-      disableOnInteraction: true,
-    },
-    navigation: true,
-    pagination: {
-      type: 'bullets',
-    },
-    scrollbar: { draggable: true },
-    ...options,
-  };
+const SwiperContainer = forwardRef<any, SwiperContainerProps>(
+  ({ children, options }, ref) => {
+    const initialSwiperOptions: AppSwiperOptions = {
+      modules: [Autoplay, Pagination, Navigation, Scrollbar],
+      spaceBetween: 15,
+      slidesPerView: 'auto' as const,
+      speed: 800,
+      autoplay: {
+        disableOnInteraction: true,
+      },
+      navigation: true,
+      pagination: {
+        type: 'bullets',
+      },
+      scrollbar: { draggable: true },
+      ...options,
+    };
 
-  return (
-    <Swiper className="sample-slider h-full" {...initialSwiperOptions}>
-      {children}
-    </Swiper>
-  );
-}
+    return (
+      <Swiper
+        ref={ref}
+        className="sample-slider h-full"
+        {...initialSwiperOptions}
+      >
+        {children}
+      </Swiper>
+    );
+  },
+);
+
+export default SwiperContainer;

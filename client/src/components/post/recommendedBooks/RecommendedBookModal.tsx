@@ -25,7 +25,6 @@ export default function RecommendedBookModal({
     recommendedBook: { url, authors, publisher, title, thumbnail },
   } = recommendedBookDetail;
 
-  console.log(clubBook);
   return (
     <Modal title="추천책 보기" className="w-[40%]">
       <PostHeader
