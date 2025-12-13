@@ -96,20 +96,21 @@ export default function AbsenceRankList() {
     getDocument(BOOKCLUB_THIS_YEAR, ABSENCE_MEMBERS, setAbsenceList);
   }, []);
 
-  return (
-    <>
-      <Confetti className="flex justify-center gap-x-4 py-10">
-        <UserImgName
-          className="flex aspect-square size-24 flex-col items-center justify-center rounded-2xl bg-white p-4 text-base shadow-card [&>img]:size-10"
-          userId={Object.keys(getMatchRankList(0, 1)[0] || [])[0]}
-        />
-      </Confetti>
+  const userIdList = getMatchRankList(1, 1).map(rank => Object.keys(rank)[0]);
 
-      <ul className="flex flex-col gap-y-2">
-        {getMatchRankList(1, 3).map(rankedUser => (
+  return (
+    <div>
+      <Confetti
+        title="우수 멤버"
+        userIdList={userIdList}
+        marqueeText="우수 멤버로 선정된 것을 축하합니다!"
+      />
+
+      <ul className="mt-3 flex flex-col gap-y-2">
+        {getMatchRankList(1, 10).map(rankedUser => (
           <li
             key={Object.keys(rankedUser)[0]}
-            className={`flex w-full items-center rounded-xl bg-white px-5 py-3 shadow-card ${rankedUser[Object.keys(rankedUser)[0]].rank === 1 ? 'border-2 border-yellow-400 !py-4' : ''}`}
+            className={`flex !h-[54px] w-full items-center rounded-xl bg-white px-5 py-3 shadow-card`}
           >
             {rankedUser[Object.keys(rankedUser)[0]].rank === 1 && (
               <FaMedal className="mr-2 size-5 text-yellow-600" />
@@ -127,6 +128,6 @@ export default function AbsenceRankList() {
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
 }

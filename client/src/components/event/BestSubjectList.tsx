@@ -31,17 +31,17 @@ export default function BestSubjectList({ subjects }: BestSubjectListProps) {
 
   return (
     <>
-      <ul className="flex flex-col gap-y-4 rounded-2xl bg-white p-5 shadow-card">
+      <ul className="flex flex-col gap-y-4">
         {subjects.length > 0 &&
           subjects?.map(
             ({ bestSubject, clubBook, yearMonthId, rank }, index) => (
               <li
                 key={bestSubject}
-                className={`flex flex-col items-center ${subjects.length === index + 1 ? '' : 'border-b-2 border-dotted pb-4'}`}
+                className={`flex flex-col items-center rounded-2xl shadow-card ${subjects.length === index + 1 ? '' : 'border-b-2 border-dotted pb-4'}`}
               >
                 <div className="mb-3 flex w-full items-center justify-between gap-x-3">
-                  <FooterBookCard book={clubBook} className="" />
-                  <div className="flex aspect-square size-12 flex-col items-center justify-center rounded-full bg-purple4">
+                  <FooterBookCard book={clubBook} className="text-white" />
+                  <div className="flex aspect-square size-14 flex-col items-center justify-center rounded-full bg-purple4">
                     <span className="font-GiantsInline text-xs leading-4 text-purple2">
                       Rank
                     </span>
@@ -51,12 +51,15 @@ export default function BestSubjectList({ subjects }: BestSubjectListProps) {
                   </div>
                 </div>
                 <p>
-                  <FaQuoteLeft className="float-left mr-3 size-12 bg-white text-purple3" />
-                  <span dangerouslySetInnerHTML={{ __html: bestSubject }} />
+                  <FaQuoteLeft className="float-left mr-3 size-12 text-purple3" />
+                  <span
+                    className="text-white"
+                    dangerouslySetInnerHTML={{ __html: bestSubject }}
+                  />
                 </p>
                 <Link
                   to={`/bookclub/${yearMonthId}/subjects`}
-                  className="ml-auto w-fit px-2 pb-2 text-sm font-medium text-purple2 underline"
+                  className="ml-auto w-fit px-2 pb-2 text-sm font-medium text-purple3 underline"
                 >
                   전체 발제문 보기
                 </Link>
@@ -65,7 +68,7 @@ export default function BestSubjectList({ subjects }: BestSubjectListProps) {
           )}
       </ul>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="mt-4 grid grid-cols-2 gap-4">
         {3 - subjects.length > 0 &&
           Array.from({ length: 3 - subjects.length }).map((_, index) => (
             <div

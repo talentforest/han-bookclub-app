@@ -14,7 +14,7 @@ export default function RankStage<T>({
   children,
 }: RankStageProps<T>) {
   return (
-    <div className="relative mx-auto w-[290px]">
+    <div className="relative mx-auto min-h-60 w-[290px]">
       <img
         src={`${import.meta.env.VITE_PUBLIC_URL}/stage.png`}
         alt="stage"

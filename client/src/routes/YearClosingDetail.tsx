@@ -19,7 +19,6 @@ import SquareBtn from '@/components/common/button/SquareBtn';
 import Confetti from '@/components/common/container/Confetti';
 import Section from '@/components/common/container/Section';
 import SwiperContainer from '@/components/common/container/SwiperContainer';
-import UserImgName from '@/components/common/user/UserImgName';
 import BestBookList from '@/components/event/BestBookList';
 import BestSubjectList from '@/components/event/BestSubjectList';
 import ReadingLifeQuestionList from '@/components/event/ReadingLifeQuestionList';
@@ -45,7 +44,12 @@ const swiperOptions = {
   navigation: false,
   pagination: false,
   scrollbar: false,
-  speed: 100,
+  speed: 4000,
+  autoplay: {
+    delay: 0,
+    disableOnInteraction: false,
+    pauseOnMouseEnter: true,
+  },
 };
 
 export default function YearClosingDetail() {
@@ -77,20 +81,17 @@ export default function YearClosingDetail() {
     챌린지: {
       name: '재독 챌린지',
       result: (
-        <>
-          <Confetti className="flex justify-center gap-x-4 py-10">
-            {userRankList
-              .filter(({ rank }) => rank === 1)
-              .map(user => (
-                <UserImgName
-                  key={user.creatorId}
-                  className="flex aspect-square size-24 flex-col items-center justify-center rounded-2xl bg-white p-4 text-base shadow-card [&>img]:size-10"
-                  userId={user.creatorId}
-                />
-              ))}
-          </Confetti>
-
-          <ul className="flex flex-col gap-y-3">
+        <div>
+          <Confetti
+            title="우수 멤버"
+            marqueeText="우수 멤버로 선정된 것을 축하합니다!"
+            userIdList={
+              userRankList
+                .filter(({ rank }) => rank === 1)
+                .map(user => user.creatorId) || []
+            }
+          />
+          <ul className="mt-3 flex flex-col gap-y-2">
             {userRankList.map(userRank => (
               <ChallengeUserRankCard
                 key={userRank.creatorId}
@@ -98,7 +99,7 @@ export default function YearClosingDetail() {
               />
             ))}
           </ul>
-        </>
+        </div>
       ),
     },
     모임책: {
@@ -121,54 +122,61 @@ export default function YearClosingDetail() {
 
   return (
     <>
-      <MobileHeader title={`${thisYear}년 독서모임 연말결산`} backBtn />
+      <MobileHeader
+        title={`${thisYear}년 독서모임 연말결산`}
+        backBtn
+        className="bg-black text-white"
+      />
 
-      <main>
-        <div className="relative mb-14 mt-2 rounded-2xl bg-white p-5 shadow-card">
-          <h2 className="mb-8 font-RomanticGumi leading-5 tracking-tighter">
-            <span className="text-3xl tracking-tighter text-purple1">
+      <main className="bg-black pt-4">
+        <div className="relative mb-3 rounded-2xl bg-white px-4 py-6 shadow-card">
+          <h2 className="font-RomanticGumi leading-5">
+            <span className="mr-0.5 text-3xl tracking-[-0.1em] text-purple1">
               {thisYear}
             </span>
             년에는 독서모임에서
             <br />
-            <span className="text-3xl tracking-tighter text-pointCoral">
+            <span className="text-3xl tracking-[-0.1em] text-pointCoral">
               {clubBookListByYear.length}
             </span>
             권의 책을 진행했어요.
           </h2>
+          <img
+            src={`${import.meta.env.VITE_PUBLIC_URL}/books.png`}
+            alt="책 3D 이미지"
+            className="absolute right-0 top-2 w-[35%] opacity-50"
+          />
+        </div>
 
+        <div className="-mx-5">
           <SwiperContainer options={swiperOptions}>
             {clubBookListByYear.map(book => (
               <SwiperSlide key={book.title}>
                 <BookThumbnail
                   title={book.title}
                   thumbnail={book.thumbnail}
-                  className="w-[72px]"
+                  className="w-[78px] shadow-sm shadow-white"
                 />
               </SwiperSlide>
             ))}
           </SwiperContainer>
-
-          <img
-            src={`${import.meta.env.VITE_PUBLIC_URL}/books.png`}
-            alt="책 3D 이미지"
-            className="absolute right-0 top-0 w-[35%] opacity-50"
-          />
         </div>
 
-        <ul className="mb-5 flex flex-wrap gap-2">
+        <ul className="mb-5 mt-20 flex flex-wrap gap-1.5">
           {Object.entries(contentObj).map(content => (
             <li key={content[0]}>
               <SquareBtn
                 name={content[1].name}
                 handleClick={() => setCurrTab(content[0])}
-                className={`rounded-t-xl !px-3 !py-2 tracking-tighter ${currTab.includes(content[0]) ? 'bg-blue1 font-medium text-blue4' : '!bg-blue4 !text-blue2'}`}
+                className={`rounded-t-xl !px-3 !text-sm tracking-tighter ${currTab.includes(content[0]) ? 'bg-blue1 font-medium text-blue4' : '!bg-blue4 !text-blue2'}`}
               />
             </li>
           ))}
         </ul>
 
-        <Section className="min-h-72">{contentObj[currTab]?.result}</Section>
+        <Section className="min-h-72 overflow-hidden">
+          {contentObj[currTab]?.result}
+        </Section>
       </main>
     </>
   );

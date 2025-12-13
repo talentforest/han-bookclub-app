@@ -18,7 +18,7 @@ export default function ChallengeUserRankCard({
 
   return (
     <Accordion
-      className={rank === 1 ? 'border-2 border-yellow-400' : ''}
+      className="!h-[54px]"
       headerChildren={
         <div className="flex w-full items-center gap-x-2">
           {rank === 1 && <FaMedal className="mr-2 size-5 text-yellow-600" />}
@@ -30,7 +30,7 @@ export default function ChallengeUserRankCard({
             </span>
           )}
 
-          <UserImgName userId={creatorId} className="font-mediu2 ml-2" />
+          <UserImgName userId={creatorId} className="ml-2 font-medium" />
 
           <Tag
             className="ml-auto !px-3 !py-1.5 font-GiantsInline !text-sm font-medium"

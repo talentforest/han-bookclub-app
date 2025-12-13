@@ -279,6 +279,9 @@
     .swiper {
       @apply min-h-fit w-full;
     }
+    .swiper-wrapper {
+      transition-timing-function: linear !important;
+    }
     .swiper-slide {
       @apply mt-auto flex items-center justify-center px-1 py-2;
     }

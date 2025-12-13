@@ -48,13 +48,17 @@ export default function ReadingLifeQuestionList({
   return (
     <div className="flex flex-col gap-y-3">
       {questionList.map(({ question, answerList }) => (
-        <Accordion key={question} title={question}>
+        <Accordion
+          key={question}
+          title={question}
+          className="!bg-transparent !text-white [&>div]:pl-0"
+        >
           <ul key={question} className="mb-4 mt-2 grid grid-cols-1 gap-y-3">
             {getAllAnwserList(answerList).map(({ answer, userId }) => (
               <li key={userId} className="flex items-start">
                 <UserImgName
                   userId={userId}
-                  className="rounded-lg bg-[#eeedff] px-2 py-1 text-[15px]"
+                  className="rounded-lg bg-[#eeedff] px-2 py-1 text-[15px] font-medium text-blue1"
                 />
                 <span
                   className={`ml-3 w-fit break-words font-medium tracking-tight ${!answer ? 'text-gray3' : 'text-blue1'}`}
@@ -66,6 +70,14 @@ export default function ReadingLifeQuestionList({
           </ul>
         </Accordion>
       ))}
+
+      <button
+        type="button"
+        className="self-end text-[15px] text-purple4 underline"
+        onClick={openRereadingLifeQuestionListModal}
+      >
+        질문들 수정하기
+      </button>
     </div>
   );
 }

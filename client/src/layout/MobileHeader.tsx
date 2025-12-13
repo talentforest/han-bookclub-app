@@ -12,6 +12,7 @@ interface MobileHeaderProps {
   showDesktop?: boolean;
   children?: ReactNode;
   backTo?: string;
+  className?: string;
 }
 
 export default function MobileHeader({
@@ -20,6 +21,7 @@ export default function MobileHeader({
   showDesktop,
   children,
   backTo,
+  className,
 }: MobileHeaderProps) {
   const navigate = useNavigate();
 
@@ -29,7 +31,7 @@ export default function MobileHeader({
 
   return (
     <header
-      className={`items-center gap-2 py-4 max-sm:flex ${showDesktop ? 'flex' : 'hidden'} header`}
+      className={`items-center gap-2 py-4 max-sm:flex ${showDesktop ? 'flex' : 'hidden'} header ${className}`}
     >
       {title === '독서모임 한페이지' && (
         <img

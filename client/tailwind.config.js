@@ -4,6 +4,7 @@ export default {
   theme: {
     extend: {
       screens: {
+        xs: '320px',
         sm: '640px',
         md: '1024px',
       },
@@ -48,6 +49,15 @@ export default {
       },
       borderColor: {
         DEFAULT: '#b5b5b5', // 기본 테두리 색상
+      },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(200%)' },
+          '100%': { transform: 'translateX(-200%)' },
+        },
+      },
+      animation: {
+        marquee: 'marquee 8s linear infinite',
       },
     },
   },
