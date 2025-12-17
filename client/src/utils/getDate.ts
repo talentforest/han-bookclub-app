@@ -99,6 +99,7 @@ export const thisDay = formatDate(today, 'dd');
 
 export const nextYearMonthId = formatDate(getNextYearMonthId(), 'yyyy-MM');
 export const nextYear = `${+thisYear + 1}`;
+export const yearOfNextMonth = nextYearMonthId.slice(0, 4);
 export const nextMonth = formatDate(getNextYearMonthId(), 'MM');
 
 export const todayWithHyphen = formatDate(today, 'yyyy-MM-dd');

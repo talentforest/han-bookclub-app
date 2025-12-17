@@ -12,7 +12,7 @@ import {
   thisYear,
 } from '@/utils';
 
-import { BaseBookData, BookData } from '@/types';
+import { BaseBookData } from '@/types';
 
 import MobileHeader from '@/layout/MobileHeader';
 
@@ -49,7 +49,7 @@ export default function Challenge() {
   }, [selectedYear]);
 
   const onChallengeBookClick = (
-    book: (BookData | BaseBookData) & { yearMonthId?: string },
+    book: BaseBookData & { yearMonthId?: string },
     reason?: string,
     recommendedUser?: string,
   ) => {

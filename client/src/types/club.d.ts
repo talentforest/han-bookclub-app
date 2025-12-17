@@ -2,13 +2,13 @@ import { AddPrefixToKeys } from 'firebase/firestore';
 
 import { monthlyClubInfo } from '@/appConstants';
 
-import { BaseBookData, BookData } from '@/types/book';
+import { BaseBookData } from '@/types/book';
 
 export type MonthlyBookClub = {
   id?: string;
   creatorId: string;
   createdAt: string;
-  book?: BookData;
+  book?: BaseBookData;
   meeting: {
     time: string;
     place: string;
@@ -63,7 +63,7 @@ export type MonthlyAbsenceMembers = {
 };
 
 export type MonthlyFieldAndHost = {
-  month: number;
+  month?: number;
   field: string;
   hosts: string[];
   detail: string;

@@ -85,6 +85,7 @@ export default function NewBookClubModal({
           creatorId: user.uid,
           book: registerBook,
         };
+
         await onNewBookClubSubmit(newBookClub);
         alert(`${monthNum}월 독서모임 정보가 등록되었습니다!`);
       } else {
@@ -92,11 +93,12 @@ export default function NewBookClubModal({
         await onMeetingEdit(updatedMeeting);
         alert(`${monthNum}월 독서모임 정보가 변경되었습니다!`);
       }
+
+      hideModal();
     } catch (error) {
       window.alert(
         '모임 장소 등록 중 오류가 발생했습니다. 관리자에게 문의해주세요.',
       );
-    } finally {
       hideModal();
     }
   };

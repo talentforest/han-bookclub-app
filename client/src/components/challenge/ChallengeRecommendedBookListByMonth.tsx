@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 
 import { getCollection } from '@/api';
 
-import { BaseBookData, BookData, UserPost } from '@/types';
+import { BaseBookData, UserPost } from '@/types';
 
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 
 interface ChallengeRecommendedBookListByMonthProps {
   coll: string;
   onChallengeBookClick: (
-    book: BookData | BaseBookData,
+    book: BaseBookData,
     reason?: string,
     recommendedUser?: string,
   ) => void;

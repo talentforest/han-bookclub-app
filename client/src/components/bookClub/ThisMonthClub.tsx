@@ -1,15 +1,9 @@
-import { useEffect } from 'react';
-
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
-import { fieldAndHostAtom } from '@/data/fieldAndHostAtom';
-
-import { getDocument } from '@/api';
-
-import { BOOKCLUB_THIS_YEAR, BOOK_FIELD_AND_HOST } from '@/appConstants';
+import { fieldAndHostSelector } from '@/data/fieldAndHostAtom';
 
 import { thisMonth, thisYearMonthId } from '@/utils';
 
@@ -21,23 +15,11 @@ import EmptyCard from '@/components/common/container/EmptyCard';
 export default function ThisMonthClub() {
   const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
 
-  const [fieldAndHosts, setFieldAndHosts] = useRecoilState(fieldAndHostAtom);
+  const fieldAndHost = useRecoilValue(fieldAndHostSelector(thisYearMonthId));
 
   const { pathname } = useLocation();
 
   const navigate = useNavigate();
-
-  const { bookFieldAndHostList } = fieldAndHosts;
-
-  const fieldAndHost = bookFieldAndHostList?.find(
-    ({ month }) => month === +thisMonth,
-  );
-
-  useEffect(() => {
-    if (fieldAndHosts.bookFieldAndHostList.length === 0) {
-      getDocument(BOOKCLUB_THIS_YEAR, BOOK_FIELD_AND_HOST, setFieldAndHosts);
-    }
-  }, []);
 
   const thisMonthClubInfoList = thisMonthClub && [
     {
@@ -62,9 +44,9 @@ export default function ThisMonthClub() {
         thisMonthClub?.book ? (
           <div className="grid grid-cols-2 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">
             <MonthBookCard
-              month={`${+thisMonth}`}
+              month={thisMonth}
               book={thisMonthClub.book}
-              bookFields={fieldAndHost?.field}
+              field={fieldAndHost?.field}
               className="col-span-1"
             />
             <div className="col-span-1 flex flex-col gap-4">

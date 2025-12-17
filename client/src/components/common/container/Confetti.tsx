@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import UserImgName from '@/components/common/user/UserImgName';
 
 interface ConfettiProps {
-  title: '우수 멤버' | '최고의 모임책';
+  title: '우수 멤버' | '최고의 모임책' | '최고의 발제문';
   userIdList?: string[];
   className?: string;
   children?: ReactNode;
@@ -43,11 +43,9 @@ export default function Confetti({
         )}
 
         {marqueeText && (
-          <div className="animate-marquee mt-4 w-fit rounded-full bg-purple4 px-3 py-2 shadow-card">
-            <h3 className="whitespace-nowrap font-RomanticGumi text-sm font-bold italic text-purple2">
-              {marqueeText}
-            </h3>
-          </div>
+          <h3 className="animate-marquee -mx-5 mt-4 whitespace-nowrap font-RomanticGumi font-bold italic text-purple4">
+            {marqueeText}
+          </h3>
         )}
 
         {children || children}

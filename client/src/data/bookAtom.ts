@@ -15,7 +15,7 @@ export const recommendedBookAtom = atom<BaseBookData>({
   },
 });
 
-export const bookDescState = atom<BookData>({
+export const bookDescState = atom<BaseBookData>({
   key: `bookDesc${v4()}`,
   default: null,
 });

@@ -8,6 +8,7 @@ import { EventContent } from '@/types';
 
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
+import Confetti from '@/components/common/container/Confetti';
 import BestSubjectModal from '@/components/event/BestSubjectModal';
 
 interface BestSubjectListProps {
@@ -30,7 +31,9 @@ export default function BestSubjectList({ subjects }: BestSubjectListProps) {
   };
 
   return (
-    <>
+    <div className="flex flex-col items-center justify-center">
+      <Confetti title="최고의 발제문" />
+
       <ul className="flex flex-col gap-y-4">
         {subjects.length > 0 &&
           subjects?.map(
@@ -88,6 +91,6 @@ export default function BestSubjectList({ subjects }: BestSubjectListProps) {
             </div>
           ))}
       </div>
-    </>
+    </div>
   );
 }

@@ -44,6 +44,7 @@ export default function SelectField({
         isSearchable={false}
         defaultValue={currentField || fieldOptions[12]}
         onChange={onBookFieldChange}
+        placeholder="독서분야를 선택해주세요"
       />
       {errorMsg && <ErrorMsg msg={errorMsg} />}
     </div>

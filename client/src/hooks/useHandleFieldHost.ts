@@ -1,37 +1,40 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { dbService } from '@/fbase';
 import { doc, updateDoc } from 'firebase/firestore';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
-import { fieldAndHostAtom } from '@/data/fieldAndHostAtom';
-
-import { getDocument } from '@/api';
+import { fieldAndHostAtomFamily } from '@/data/fieldAndHostAtom';
 
 import { BOOK_FIELD_AND_HOST } from '@/appConstants';
 
 import { useAlertAskJoin, useHandleErrorMsg, useHandleModal } from '@/hooks';
 
-import { existDocObj, thisYear } from '@/utils';
-
 import { MonthlyFieldAndHost } from '@/types';
 
-export const useHandleFieldHost = () => {
-  const [selectedValues, setSelectedValues] =
-    useState<MonthlyFieldAndHost | null>(null);
+interface UseHandleFieldHostProps {
+  year: string;
+  monthKey: string;
+}
+export const useHandleFieldHost = ({
+  year,
+  monthKey,
+}: UseHandleFieldHostProps) => {
+  const { id, ...fieldAndHostObj } = useRecoilValue(
+    fieldAndHostAtomFamily(year),
+  );
 
-  const [fieldHostDoc, setFieldHostDoc] = useRecoilState(fieldAndHostAtom);
+  const fieldAndHost = fieldAndHostObj[monthKey];
+
+  const [selectedValues, setSelectedValues] =
+    useState<MonthlyFieldAndHost | null>(fieldAndHost);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
 
-  const { bookFieldAndHostList: fieldAndHostList } = fieldHostDoc;
-
-  const fbDoc = doc(dbService, `BookClub-${thisYear}`, BOOK_FIELD_AND_HOST);
+  const { hideModal } = useHandleModal();
 
   const { errorMsg, handleErrorMsg } = useHandleErrorMsg();
-
-  const { hideModal } = useHandleModal();
 
   const errorMsgObj = {
     field: [
@@ -48,10 +51,9 @@ export const useHandleFieldHost = () => {
     ],
   };
 
-  const onSubmit = async (
-    event: React.FormEvent<HTMLFormElement>,
-    month: number,
-  ) => {
+  const fbDoc = doc(dbService, `BookClub-${year}`, BOOK_FIELD_AND_HOST);
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (anonymous) return alertAskJoinMember();
@@ -59,25 +61,16 @@ export const useHandleFieldHost = () => {
     const hasError = handleErrorMsg(errorMsgObj);
     if (hasError) return;
 
-    const editedList = fieldAndHostList.map(fieldHost => {
-      const editedObj = { ...fieldHost, ...selectedValues };
-      return fieldHost.month === month ? editedObj : fieldHost;
-    });
+    const newMonthData = { [monthKey]: selectedValues };
 
-    const newList = { ...fieldHostDoc, bookFieldAndHostList: editedList };
-    setFieldHostDoc(newList);
-    await updateDoc(fbDoc, newList);
+    await updateDoc(fbDoc, newMonthData);
+
     hideModal();
   };
 
-  useEffect(() => {
-    if (!existDocObj(fieldAndHostList)) {
-      getDocument(`BookClub-${thisYear}`, BOOK_FIELD_AND_HOST, setFieldHostDoc);
-    }
-  }, [fieldHostDoc]);
-
   return {
-    fieldAndHostList,
+    fieldAndHostObj,
+    fieldAndHost,
     onSubmit,
     selectedValues,
     setSelectedValues,

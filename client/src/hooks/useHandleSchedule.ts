@@ -9,7 +9,7 @@ import { clubByMonthSelector, clubByYearAtom } from '@/data/clubAtom';
 
 import { getDocument, setDocument } from '@/api';
 
-import { BOOKCLUB_THIS_YEAR, MEETING_PLACE, TAG_LIST } from '@/appConstants';
+import { MEETING_PLACE, TAG_LIST } from '@/appConstants';
 
 import { useHandleModal, useSendPushNotification } from '@/hooks';
 
@@ -41,11 +41,12 @@ export const useHandleSchedule = (
   const { sendPushNotificationToAllUser } = useSendPushNotification();
 
   const monthNum = +yearMonthId.slice(-2);
+  const collName = `BookClub-${yearMonthId.slice(0, 4)}`;
 
   const onMeetingEdit = async (
     editedValue: Pick<MonthlyBookClub, 'meeting'>,
   ) => {
-    const document = doc(dbService, BOOKCLUB_THIS_YEAR, yearMonthId);
+    const document = doc(dbService, collName, yearMonthId);
 
     const {
       meeting: { time, place },
@@ -73,14 +74,14 @@ export const useHandleSchedule = (
   };
 
   const onNewBookClubSubmit = async (submittedValue: MonthlyBookClub) => {
-    await setDocument(BOOKCLUB_THIS_YEAR, yearMonthId, submittedValue);
+    await setDocument(collName, yearMonthId, submittedValue);
 
     alert(`${monthNum}월 독서모임 정보가 등록되었습니다!`);
 
-    await sendPushNotificationToAllUser({
-      title: `☕️${monthNum}월 독서모임 등록 안내`,
-      body: `${monthNum}월 모임책은 《${submittedValue.book.title}》입니다. 🕓${formatDate(submittedValue.meeting.time, 'M월 d일 EEEE a h시 mm분')}에 ${submittedValue.meeting.place}에서 만나요👋`,
-    });
+    // await sendPushNotificationToAllUser({
+    //   title: `☕️${monthNum}월 독서모임 등록 안내`,
+    //   body: `${monthNum}월 모임책은 《${submittedValue.book.title}》입니다. 🕓${formatDate(submittedValue.meeting.time, 'M월 d일 EEEE a h시 mm분')}에 ${submittedValue.meeting.place}에서 만나요👋`,
+    // });
   };
 
   const onMeetingChange = (value: Partial<MonthlyBookClub['meeting']>) => {

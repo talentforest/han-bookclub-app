@@ -1,6 +1,7 @@
-import { thisYear } from '@/utils';
+import { nextYear, thisYear } from '@/utils';
 
 export const BOOKCLUB_THIS_YEAR = `BookClub-${thisYear}` as const;
+export const BOOKCLUB_NEXT_YEAR = `BookClub-${nextYear}` as const;
 export const BOOKCLUB_2024 = 'BookClub-2024' as const;
 export const BOOKCLUB_2023 = 'BookClub-2023' as const;
 export const BOOKCLUB_2022 = 'BookClub-2022' as const;

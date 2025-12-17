@@ -6,7 +6,7 @@ import { bookDescState, recommendedBookAtom } from '@/data/bookAtom';
 
 import { useSearchBook } from '@/hooks';
 
-import { BookData } from '@/types';
+import { BaseBookData } from '@/types';
 
 import ChallengeBookForm from '@/components/challenge/ChallengeBookForm';
 import Modal from '@/components/common/Modal';
@@ -22,6 +22,7 @@ export default function SearchedBookPostAddModal({
   title,
 }: SearchedBookPostAddModalProps) {
   const setMyRecommendBook = useSetRecoilState(recommendedBookAtom);
+
   const setBookDesc = useSetRecoilState(bookDescState);
 
   const [currStep, setCurrStep] = useState(1);
@@ -34,11 +35,11 @@ export default function SearchedBookPostAddModal({
     }
   }, []);
 
-  const onSelectBtnClick = (book: BookData) => {
+  const onSelectBtnClick = (book: BaseBookData) => {
     changeStep(2);
+
     if (title === '추천책 작성하기') {
-      const { url, title, publisher, thumbnail, authors } = book;
-      setMyRecommendBook({ url, title, publisher, thumbnail, authors });
+      setMyRecommendBook(book);
     } else {
       setBookDesc(book);
     }

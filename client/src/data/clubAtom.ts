@@ -2,7 +2,7 @@ import { v4 } from 'uuid';
 
 import { atom, selectorFamily } from 'recoil';
 
-import { thisYear } from '@/utils';
+import { nextYear, thisYear } from '@/utils';
 
 import { MonthlyBookClub } from '@/types';
 
@@ -21,17 +21,38 @@ export const clubByYearAtom = atom<MonthlyBookClub[]>({
   default: [],
   effects: [
     ({ setSelf, onSet }) => {
-      const bookMeetingStoreKey = 'clubByYear';
+      const storeKey = 'clubByYear';
 
-      const savedValue = localStorage.getItem(bookMeetingStoreKey);
+      const savedValue = localStorage.getItem(storeKey);
       if (savedValue !== null) {
         setSelf(JSON.parse(savedValue));
       }
 
       onSet((newValue, _, isReset) => {
         isReset
-          ? localStorage.removeItem(bookMeetingStoreKey)
-          : localStorage.setItem(bookMeetingStoreKey, JSON.stringify(newValue));
+          ? localStorage.removeItem(storeKey)
+          : localStorage.setItem(storeKey, JSON.stringify(newValue));
+      });
+    },
+  ],
+});
+
+export const clubByNextYearAtom = atom<MonthlyBookClub[]>({
+  key: `clubByNextYearAtom/${v4()}`,
+  default: [],
+  effects: [
+    ({ setSelf, onSet }) => {
+      const storeKey = 'clubByNextYear';
+
+      const savedValue = localStorage.getItem(storeKey);
+      if (savedValue !== null) {
+        setSelf(JSON.parse(savedValue));
+      }
+
+      onSet((newValue, _, isReset) => {
+        isReset
+          ? localStorage.removeItem(storeKey)
+          : localStorage.setItem(storeKey, JSON.stringify(newValue));
       });
     },
   ],
@@ -42,7 +63,12 @@ export const clubByMonthSelector = selectorFamily({
   get:
     (yearMonthId: string) =>
     ({ get }) => {
-      const clubs = get(clubByYearAtom);
+      const thisClubs = get(clubByYearAtom);
+      const nextClubs = get(clubByNextYearAtom);
+
+      const clubs =
+        nextYear === yearMonthId.slice(0, 4) ? nextClubs : thisClubs;
+
       return clubs.find(({ id }) => id === yearMonthId) || null;
     },
 });

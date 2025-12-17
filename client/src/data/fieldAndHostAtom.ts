@@ -1,39 +1,42 @@
 import { v4 } from 'uuid';
 
-import { atom, selector } from 'recoil';
+import { atomFamily, selectorFamily } from 'recoil';
 
 import { getDocument } from '@/api';
 
 import { BOOK_FIELD_AND_HOST } from '@/appConstants';
 
-import { thisMonth, thisYear } from '@/utils';
-
 import { MonthlyFieldAndHost } from '@/types';
 
-interface IFieldAndHostDoc {
-  id?: string;
-  bookFieldAndHostList: MonthlyFieldAndHost[];
+interface FieldAndHost {
+  [key: string]: MonthlyFieldAndHost;
 }
 
-export const fieldAndHostAtom = atom<IFieldAndHostDoc>({
-  key: `fieldAndHostAtom/${v4()}`,
-  default: { id: '', bookFieldAndHostList: [] },
-  effects: [
+export const fieldAndHostAtomFamily = atomFamily<FieldAndHost | null, string>({
+  key: `fieldAndHostAtomFamily/${v4}`,
+  default: {} as FieldAndHost,
+  effects: (year: string) => [
     ({ setSelf }) => {
       const fetchData = async () => {
-        getDocument(`BookClub-${thisYear}`, BOOK_FIELD_AND_HOST, setSelf);
+        getDocument(`BookClub-${year}`, BOOK_FIELD_AND_HOST, setSelf);
       };
+
       fetchData();
     },
   ],
 });
 
-export const nextMonthFieldAndHostSelector = selector<MonthlyFieldAndHost>({
-  key: 'clubByMonthSelector',
-  get: ({ get }) => {
-    const fieldAndHost = get(fieldAndHostAtom);
-    return fieldAndHost?.bookFieldAndHostList?.find(
-      ({ month }) => month === +thisMonth + 1,
-    );
-  },
+export const fieldAndHostSelector = selectorFamily({
+  key: 'fieldAndHostSelector',
+  get:
+    (yearMonthId: string) =>
+    ({ get }) => {
+      const year = yearMonthId.slice(0, 4);
+
+      const fieldAndHostObj = get(fieldAndHostAtomFamily(year));
+
+      const month = `${+yearMonthId.slice(-2)}월`;
+
+      return fieldAndHostObj[month] || null;
+    },
 });

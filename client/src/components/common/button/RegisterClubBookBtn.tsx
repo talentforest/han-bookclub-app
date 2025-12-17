@@ -6,15 +6,15 @@ import { clubByMonthSelector } from '@/data/clubAtom';
 
 import { useHandleModal } from '@/hooks';
 
-import { formatDate, getThirdSunday, thisYear } from '@/utils';
+import { formatDate, getThirdSunday } from '@/utils';
 
-import { BookData } from '@/types';
+import { BaseBookData } from '@/types';
 
 import NewBookClubModal from '@/components/bookClub/NewBookClubModal';
 import SquareBtn from '@/components/common/button/SquareBtn';
 
 interface RegisterClubBookBtnProps {
-  searchedBook: BookData;
+  searchedBook: BaseBookData;
   registerYearMonth: string;
 }
 
@@ -28,14 +28,15 @@ const RegisterClubBookBtn = ({
 
   const [submitted, setSubmitted] = useState(false);
 
-  const month = registerYearMonth.slice(-2);
+  const monthNum = +registerYearMonth.slice(-2);
+  const yearNum = +registerYearMonth.slice(0, 4);
 
   const { showModal } = useHandleModal();
 
   const defaultMeeting = {
     place: '카페 느티',
     time: formatDate(
-      getThirdSunday(+thisYear, +month, 11, 0),
+      getThirdSunday(yearNum, monthNum, 11, 0),
       "yyyy-MM-dd'T'HH:mm:ss",
     ),
   };
@@ -44,7 +45,7 @@ const RegisterClubBookBtn = ({
     showModal({
       element: (
         <NewBookClubModal
-          title={`${month}월 독서모임 정보`}
+          title={`${monthNum}월 독서모임 정보`}
           currentValue={defaultMeeting}
           yearMonthId={registerYearMonth}
           registerBook={searchedBook}
@@ -65,7 +66,7 @@ const RegisterClubBookBtn = ({
         <SquareBtn name="등록 완료" disabled className="ml-auto py-2" />
       ) : (
         <SquareBtn
-          name={`${+month}월 모임책으로 ${monthlyBookClub?.book ? '변경' : '등록'}`}
+          name={`${monthNum}월 모임책으로 ${monthlyBookClub?.book ? '변경' : '등록'}`}
           type="button"
           handleClick={onBtnClick}
           color="blue"

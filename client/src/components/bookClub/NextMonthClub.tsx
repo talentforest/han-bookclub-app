@@ -1,28 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 
 import { LuBook, LuPartyPopper } from 'react-icons/lu';
-import { v4 } from 'uuid';
 
 import { useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
-import {
-  fieldAndHostAtom,
-  nextMonthFieldAndHostSelector,
-} from '@/data/fieldAndHostAtom';
+import { fieldAndHostSelector } from '@/data/fieldAndHostAtom';
 
 import { useHandleModal } from '@/hooks';
 
-import {
-  formatDate,
-  getThirdSunday,
-  nextMonth,
-  nextYear,
-  nextYearMonthId,
-  thisYear,
-} from '@/utils';
-
-import { MonthlyBookClub } from '@/types';
+import { formatDate, nextMonth, nextYearMonthId } from '@/utils';
 
 import MonthBookCard from '@/components/bookCard/MonthBookCard';
 import MonthEventCard from '@/components/bookCard/MonthEventCard';
@@ -32,33 +19,13 @@ import SquareBtn from '@/components/common/button/SquareBtn';
 import EmptyCard from '@/components/common/container/EmptyCard';
 
 export default function NextMonthClub() {
-  const nextMonthFieldAndHost = useRecoilValue(nextMonthFieldAndHostSelector);
-
-  const fieldAndHosts = useRecoilValue(fieldAndHostAtom);
-
   const nextClub = useRecoilValue(clubByMonthSelector(nextYearMonthId));
 
+  const fieldAndHost = useRecoilValue(fieldAndHostSelector(nextYearMonthId));
+
+  const { hosts, field } = fieldAndHost || {};
+
   const { book: nextBook, id: nextMonthId, meeting } = nextClub || {};
-
-  const { field } = nextMonthFieldAndHost || {};
-
-  const initialEventMeeting: MonthlyBookClub['meeting'] = {
-    place: '카페 느티',
-    time: formatDate(
-      getThirdSunday(+thisYear, +nextMonth, 11, 0),
-      "yyyy-MM-dd'T'HH:mm:ss",
-    ),
-    eventMonth: {
-      title: '',
-      contents: [
-        { id: v4(), title: `${thisYear}년 재독 챌린지 결과` },
-        { id: v4(), title: `${thisYear}년 가장 멋진 발제문은?` },
-        { id: v4(), title: `${thisYear}년 개근 성실 멤버는?` },
-        { id: v4(), title: `${nextYear}년 책분야와 발제자` },
-      ],
-      hosts: [],
-    },
-  };
 
   const { showModal } = useHandleModal();
 
@@ -74,18 +41,11 @@ export default function NextMonthClub() {
       element: (
         <EventMeetingModal
           title={`${+nextMonth}월 독서모임 정보`}
-          currentValue={initialEventMeeting}
           yearMonthId={nextYearMonthId}
         />
       ),
     });
   };
-
-  const { bookFieldAndHostList } = fieldAndHosts;
-
-  const fieldAndHost = bookFieldAndHostList?.find(
-    ({ month }) => month === +nextMonth,
-  );
 
   const nextMonthClubInfoList = nextClub && [
     {
@@ -98,7 +58,7 @@ export default function NextMonthClub() {
     },
     {
       label: '발제자' as const,
-      value: fieldAndHost?.hosts,
+      value: hosts,
     },
   ];
 
@@ -111,7 +71,7 @@ export default function NextMonthClub() {
               <MonthBookCard
                 month={formatDate(nextMonthId, 'M')}
                 book={nextBook}
-                bookFields={field}
+                field={field}
                 className="col-span-1 h-full"
               />
               <div className="col-span-1 flex flex-col gap-4">

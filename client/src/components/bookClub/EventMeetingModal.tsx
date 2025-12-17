@@ -12,8 +12,6 @@ import { currAuthUserAtom } from '@/data/userAtom';
 
 import { setDocument } from '@/api';
 
-import { BOOKCLUB_THIS_YEAR } from '@/appConstants';
-
 import {
   useAlertAskJoin,
   useHandleErrorMsg,
@@ -22,7 +20,7 @@ import {
   useSendPushNotification,
 } from '@/hooks';
 
-import { formatDate } from '@/utils';
+import { formatDate, getThirdSunday } from '@/utils';
 
 import { MonthlyBookClub } from '@/types';
 
@@ -36,14 +34,12 @@ import SelectHosts from '@/components/common/input/SelectHosts';
 interface MeetingInfoModalProps {
   title: string;
   yearMonthId: string;
-  currentValue?: Partial<MonthlyBookClub['meeting']>;
 }
 
 const LAST_STEP = 2;
 
 export default function EventMeetingModal({
   title,
-  currentValue,
   yearMonthId,
 }: MeetingInfoModalProps) {
   const user = useRecoilValue(currAuthUserAtom);
@@ -57,9 +53,29 @@ export default function EventMeetingModal({
 
   const monthlyBookClub = useRecoilValue(clubByMonthSelector(yearMonthId));
 
+  const year = +yearMonthId.slice(0, 4);
+  const month = +yearMonthId.slice(-2);
+
+  const initialEventMeeting: MonthlyBookClub['meeting'] = {
+    place: '카페 느티',
+    time: formatDate(
+      getThirdSunday(year, month, 11, 0),
+      "yyyy-MM-dd'T'HH:mm:ss",
+    ),
+    eventMonth: {
+      title: '',
+      contents: [
+        { id: v4(), title: `${year}년 재독 챌린지 결과` },
+        { id: v4(), title: `${year}년 가장 멋진 발제문은?` },
+        { id: v4(), title: `${year}년 개근 성실 멤버는?` },
+      ],
+      hosts: [],
+    },
+  };
+
   const bookClubSchedule = monthlyBookClub
-    ? { ...monthlyBookClub.meeting, ...currentValue }
-    : (currentValue as MonthlyBookClub['meeting']);
+    ? { ...monthlyBookClub.meeting, ...initialEventMeeting }
+    : (initialEventMeeting as MonthlyBookClub['meeting']);
 
   const { currMeeting, onMeetingChange, savedPlaceList } = useHandleSchedule(
     bookClubSchedule,
@@ -76,8 +92,6 @@ export default function EventMeetingModal({
   const { errorMsg, handleErrorMsg } = useHandleErrorMsg();
 
   const { eventMonth, time, place } = currMeeting;
-
-  const monthNum = +yearMonthId.slice(-2);
 
   const errorMsgObj = {
     place: [
@@ -108,8 +122,11 @@ export default function EventMeetingModal({
     ],
   };
 
+  const monthNum = +yearMonthId.slice(-2);
+  const collName = `BookClub-${yearMonthId.slice(0, 4)}`;
+
   const onClubEventEdit = async () => {
-    const document = doc(dbService, BOOKCLUB_THIS_YEAR, yearMonthId);
+    const document = doc(dbService, collName, yearMonthId);
     const editInfo = { meeting: currMeeting };
 
     await updateDoc(document, editInfo);
@@ -129,7 +146,7 @@ export default function EventMeetingModal({
       creatorId: user.uid,
     };
 
-    await setDocument(BOOKCLUB_THIS_YEAR, yearMonthId, eventMonthlyBookClub);
+    await setDocument(collName, yearMonthId, eventMonthlyBookClub);
 
     alert(`${monthNum}월 독서모임 정보가 등록되었습니다!`);
 
@@ -190,175 +207,160 @@ export default function EventMeetingModal({
       >
         {currStep === 1 && (
           <>
-            {'eventMonth' in currentValue && (
-              <Input
-                label="이벤트 제목"
-                placeholder="이벤트달의 제목을 작성해주세요."
-                value={eventMonth.title}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  onMeetingChange({
-                    eventMonth: {
-                      ...eventMonth,
-                      title: event.target.value,
-                    },
-                  });
-                }}
-                errorMsg={errorMsg?.eventTitle}
-              />
-            )}
+            <Input
+              label="이벤트 제목"
+              placeholder="이벤트달의 제목을 작성해주세요."
+              value={eventMonth.title}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                onMeetingChange({
+                  eventMonth: {
+                    ...eventMonth,
+                    title: event.target.value,
+                  },
+                });
+              }}
+              errorMsg={errorMsg?.eventTitle}
+            />
 
-            {'time' in currentValue && (
-              <CustomDatePicker
-                id="모임시간"
-                label="모임시간"
-                selectsEnd
-                selected={new Date(time)}
-                dateFormat="M월 d일 EEEE a hh:mm"
-                onChange={(date: Date) => {
-                  onMeetingChange({
-                    time: formatDate(date, "yyyy-MM-dd'T'HH:mm:ss"),
-                  });
-                }}
-                showTimeInput
-                placeholderText="정해진 모임시간이 없습니다."
-              />
-            )}
+            <CustomDatePicker
+              id="모임시간"
+              label="모임시간"
+              selectsEnd
+              selected={new Date(time)}
+              dateFormat="M월 d일 EEEE a hh:mm"
+              onChange={(date: Date) => {
+                onMeetingChange({
+                  time: formatDate(date, "yyyy-MM-dd'T'HH:mm:ss"),
+                });
+              }}
+              showTimeInput
+              placeholderText="정해진 모임시간이 없습니다."
+            />
 
-            {'place' in currentValue && (
-              <Input
-                label="모임장소"
-                value={place}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  onMeetingChange({ place: event.target.value });
-                }}
-                placeholder="모임 장소를 작성해주세요"
-                iconName="FiMapPin"
-                errorMsg={errorMsg?.place}
-              >
-                <ul className="mx-0.5 mt-2 flex flex-wrap gap-2">
-                  {savedPlaceList?.place?.map(place => (
-                    <Tag
-                      key={place}
-                      text={place}
-                      shape="square"
-                      color="green"
-                      className="!px-2.5 !py-1.5 !text-xs"
-                      onClick={() => onMeetingChange({ place })}
-                    />
-                  ))}
-                </ul>
-              </Input>
-            )}
+            <Input
+              label="모임장소"
+              value={place}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                onMeetingChange({ place: event.target.value });
+              }}
+              placeholder="모임 장소를 작성해주세요"
+              iconName="FiMapPin"
+              errorMsg={errorMsg?.place}
+            >
+              <ul className="mx-0.5 mt-2 flex flex-wrap gap-2">
+                {savedPlaceList?.place?.map(place => (
+                  <Tag
+                    key={place}
+                    text={place}
+                    shape="square"
+                    color="green"
+                    className="!px-2.5 !py-1.5 !text-xs"
+                    onClick={() => onMeetingChange({ place })}
+                  />
+                ))}
+              </ul>
+            </Input>
           </>
         )}
 
         {currStep === 2 && (
           <>
-            {'eventMonth' in currentValue && (
-              <>
-                <SelectHosts
-                  label="이벤트 진행자"
-                  selectedHosts={currentValue.eventMonth.hosts}
-                  onChange={value => {
-                    const hosts = value.map(({ value }) => value);
-                    onMeetingChange({ eventMonth: { ...eventMonth, hosts } });
-                  }}
-                  errorMsg={errorMsg.hosts}
-                />
+            <SelectHosts
+              label="이벤트 진행자"
+              selectedHosts={initialEventMeeting.eventMonth.hosts}
+              onChange={value => {
+                const hosts = value.map(({ value }) => value);
+                onMeetingChange({ eventMonth: { ...eventMonth, hosts } });
+              }}
+              errorMsg={errorMsg.hosts}
+            />
 
-                <div className="flex h-[40vh] flex-col gap-y-3 overflow-y-scroll scrollbar-hide">
-                  {eventMonth?.contents.length > 0 && (
-                    <ul className="flex flex-col gap-y-3">
-                      {eventMonth?.contents?.map(({ id, title }, index) => (
-                        <li key={id}>
-                          <Input
-                            label={index === 0 && '이벤트 콘텐츠 아이디어'}
-                            readOnly={!isEditingInput(id)}
-                            id={id}
-                            iconName="FiHash"
-                            value={title}
-                            placeholder={
-                              isEditingInput(id)
-                                ? '이벤트 내용을 작성해주세요.'
-                                : ''
-                            }
-                            className="bg-blue-50 !pr-16 font-medium read-only:cursor-default read-only:border-gray1 read-only:bg-white"
-                            onChange={(
-                              event: ChangeEvent<HTMLInputElement>,
-                            ) => {
-                              const contents = eventMonth.contents.map(
-                                content => {
-                                  return id === content.id
-                                    ? { ...content, title: event.target.value }
-                                    : content;
-                                },
-                              );
-                              onMeetingChange({
-                                eventMonth: { ...eventMonth, contents },
-                              });
-                            }}
-                            errorMsg={title === '' && errorMsg.contents}
-                            tailIconChildren={
-                              <div className="absolute right-3 top-[15px] flex items-center gap-2">
-                                {!isEditingInput(id) ? (
-                                  <FiEdit3
-                                    onClick={() => {
-                                      setCurrEdit({ id, isEditing: true });
-                                      handleFocus(id);
-                                    }}
-                                    className="!size-[18px]"
-                                  />
-                                ) : (
-                                  <FiCheckCircle
-                                    onClick={() => {
-                                      setCurrEdit({ id: '', isEditing: false });
-                                    }}
-                                    className="!size-[17px]"
-                                  />
-                                )}
+            <div className="flex h-[40vh] flex-col gap-y-3 overflow-y-scroll scrollbar-hide">
+              {eventMonth?.contents.length > 0 && (
+                <ul className="flex flex-col gap-y-3">
+                  {eventMonth?.contents?.map(({ id, title }, index) => (
+                    <li key={id}>
+                      <Input
+                        label={index === 0 && '이벤트 콘텐츠 아이디어'}
+                        readOnly={!isEditingInput(id)}
+                        id={id}
+                        iconName="FiHash"
+                        value={title}
+                        placeholder={
+                          isEditingInput(id)
+                            ? '이벤트 내용을 작성해주세요.'
+                            : ''
+                        }
+                        className="bg-blue-50 !pr-16 font-medium read-only:cursor-default read-only:border-gray1 read-only:bg-white"
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                          const contents = eventMonth.contents.map(content => {
+                            return id === content.id
+                              ? { ...content, title: event.target.value }
+                              : content;
+                          });
+                          onMeetingChange({
+                            eventMonth: { ...eventMonth, contents },
+                          });
+                        }}
+                        errorMsg={title === '' && errorMsg.contents}
+                        tailIconChildren={
+                          <div className="absolute right-3 top-[15px] flex items-center gap-2">
+                            {!isEditingInput(id) ? (
+                              <FiEdit3
+                                onClick={() => {
+                                  setCurrEdit({ id, isEditing: true });
+                                  handleFocus(id);
+                                }}
+                                className="!size-[18px]"
+                              />
+                            ) : (
+                              <FiCheckCircle
+                                onClick={() => {
+                                  setCurrEdit({ id: '', isEditing: false });
+                                }}
+                                className="!size-[17px]"
+                              />
+                            )}
 
-                                {index > 2 && (
-                                  <FiTrash2
-                                    className="!size-[18px]"
-                                    onClick={() => {
-                                      if (index === 0) return;
-                                      const contents =
-                                        eventMonth.contents.filter(
-                                          content => content.id !== id,
-                                        );
-                                      onMeetingChange({
-                                        eventMonth: { ...eventMonth, contents },
-                                      });
-                                    }}
-                                  />
-                                )}
-                              </div>
-                            }
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      onMeetingChange({
-                        eventMonth: {
-                          ...eventMonth,
-                          contents: [
-                            ...eventMonth.contents,
-                            { id: v4(), title: '' },
-                          ],
-                        },
-                      });
-                    }}
-                    className="flex min-h-12 w-full items-center justify-center rounded-xl border border-gray1"
-                  >
-                    <FiPlusCircle className="size-5 text-blue1" />
-                  </button>
-                </div>
-              </>
-            )}
+                            {index > 2 && (
+                              <FiTrash2
+                                className="!size-[18px]"
+                                onClick={() => {
+                                  if (index === 0) return;
+                                  const contents = eventMonth.contents.filter(
+                                    content => content.id !== id,
+                                  );
+                                  onMeetingChange({
+                                    eventMonth: { ...eventMonth, contents },
+                                  });
+                                }}
+                              />
+                            )}
+                          </div>
+                        }
+                      />
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <button
+                type="button"
+                onClick={() => {
+                  onMeetingChange({
+                    eventMonth: {
+                      ...eventMonth,
+                      contents: [
+                        ...eventMonth.contents,
+                        { id: v4(), title: '' },
+                      ],
+                    },
+                  });
+                }}
+                className="flex min-h-12 w-full items-center justify-center rounded-xl border border-gray1"
+              >
+                <FiPlusCircle className="size-5 text-blue1" />
+              </button>
+            </div>
           </>
         )}
 

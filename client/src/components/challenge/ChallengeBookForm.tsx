@@ -24,9 +24,13 @@ import Input from '@/components/common/input/Input';
 
 export default function ChallengeBookForm() {
   const setSearchList = useSetRecoilState(searchListAtom);
+
   const userChallenge = useRecoilValue(completeReadingChallengeState);
+
   const bookDesc = useRecoilValue(bookDescState);
+
   const { uid } = useRecoilValue(currAuthUserAtom);
+
   const [pageNums, setPageNums] = useState({
     wholePage: 0,
     currentPage: 0,
@@ -65,7 +69,7 @@ export default function ChallengeBookForm() {
     }
 
     const alreayExistBook = findMyChallengeBooks?.books?.find(
-      book => book.title === bookDesc.title,
+      book => book.title === title,
     );
 
     if (alreayExistBook) {

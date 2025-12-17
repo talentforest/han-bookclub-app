@@ -2,7 +2,7 @@ import { FiBookmark } from 'react-icons/fi';
 
 import { thisMonth } from '@/utils';
 
-import { BookData } from '@/types';
+import { BaseBookData } from '@/types';
 
 import Tag from '@/components/common/Tag';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
@@ -10,15 +10,15 @@ import BookThumbnail from '@/components/common/book/BookThumbnail';
 
 interface MonthBookCardProps {
   month: string;
-  book: BookData;
-  bookFields: string;
+  book: BaseBookData;
+  field: string;
   className?: string;
 }
 
 export default function MonthBookCard({
   month,
   book,
-  bookFields,
+  field,
   className = '',
 }: MonthBookCardProps) {
   const { title, thumbnail, authors, publisher, url } = book;
@@ -40,10 +40,12 @@ export default function MonthBookCard({
             {title}
           </h1>
           <BookAuthorPublisher authors={authors} publisher={publisher} />
-          <div className="mt-2 flex flex-1 items-center gap-x-0.5">
-            <FiBookmark className="text-[15px] text-purple2" />
-            <span className="text-[15px] text-purple2">{bookFields}</span>
-          </div>
+          {field && (
+            <div className="mt-2 flex flex-1 items-center gap-x-0.5">
+              <FiBookmark className="text-[15px] text-purple2" />
+              <span className="text-[15px] text-purple2">{field}</span>
+            </div>
+          )}
         </div>
       </div>
 

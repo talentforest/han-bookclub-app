@@ -5,7 +5,7 @@ import { FiPlusCircle } from 'react-icons/fi';
 
 import { useCreateBookVoteBox, useSearchBook } from '@/hooks';
 
-import { BookData } from '@/types';
+import { BaseBookData } from '@/types';
 
 import CreateVoteBookCard from '@/components/bookVote/CreateVoteBookCard';
 import CustomDatePicker from '@/components/common/CustomDatePicker';
@@ -52,7 +52,7 @@ const VoteCreateModal = () => {
 
   const toggleSelectReason = () => setIsOpenSelectReason(prev => !prev);
 
-  const onSelectBookBtnClick = (book: BookData) => {
+  const onSelectBookBtnClick = (book: BaseBookData) => {
     const { title, url, thumbnail } = book;
     const newBookItem = { title, url, thumbnail };
     const voteItems = newVote.voteItems.map(voteItem => {

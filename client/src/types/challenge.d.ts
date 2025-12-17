@@ -1,5 +1,5 @@
 /** 챌린지 관련 타입 */
-import { BaseBookData, BookData } from '@/types/book';
+import { BaseBookData } from '@/types/book';
 
 export type CompleteReadingChallengeBook = {
   currentPage: number;

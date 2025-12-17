@@ -12,7 +12,7 @@ import TableDataItem, { Label } from '@/components/common/TableDataItem';
 
 type TableRecord = MonthlyFieldAndHost | MonthlyAbsenceMembers | UserAbsence;
 
-type LabelColor = 'yellow' | 'blue';
+type LabelColor = 'yellow' | 'lightBlue';
 
 interface TableProps {
   color?: LabelColor;
@@ -23,20 +23,26 @@ interface TableProps {
 }
 
 export default function Table({
-  color = 'blue',
+  color = 'lightBlue',
   labels,
   rowDataList,
   isEditable,
   onEditClick,
 }: TableProps) {
   const tableStyle = {
-    blue: 'bg-blue4',
-    yellow: 'bg-yellow2',
+    header: {
+      lightBlue: 'bg-blue4 text-blue3',
+      yellow: 'bg-yellow-50 text-yellow-500',
+    },
+    border: {
+      lightBlue: 'border-[#dcebfc]',
+      yellow: 'border-[#fff9b9]',
+    },
   };
 
   return (
     <div className="relative overflow-hidden rounded-xl bg-white shadow-card">
-      <table className="w-full">
+      <table className={`w-full`}>
         <colgroup>
           {labels.includes('월') && <col width="18%" />}
           <col width="40%" />
@@ -45,9 +51,9 @@ export default function Table({
         </colgroup>
 
         <thead>
-          <tr className={`${tableStyle[color]} relative rounded-t-xl`}>
+          <tr className={`${tableStyle.header[color]} relative rounded-t-xl`}>
             {labels.map(label => (
-              <th key={label} className="py-3 font-medium text-blue3">
+              <th key={label} className="py-3 text-[15px] font-medium">
                 {label}
               </th>
             ))}
@@ -58,12 +64,18 @@ export default function Table({
         <tbody>
           {rowDataList?.map(record => (
             <Fragment key={record.month}>
-              <tr className="border-b border-[#f0f0f0] last:border-0">
+              <tr
+                className={`border-b ${tableStyle.border[color]} last:border-0`}
+              >
                 {'month' in record && labels.includes('월') && (
-                  <TableDataItem label="월" data={record.month} />
+                  <TableDataItem label="월" data={record.month} color={color} />
                 )}
                 {'field' in record && (
-                  <TableDataItem label="독서분야" data={record.field} />
+                  <TableDataItem
+                    label="독서분야"
+                    data={record.field}
+                    detail={record.detail}
+                  />
                 )}
                 {'hosts' in record && (
                   <TableDataItem isMulti label="발제자" data={record.hosts} />

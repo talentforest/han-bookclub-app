@@ -6,8 +6,11 @@ import { searchListAtom } from '@/data/bookAtom';
 
 import { searchBookHandler } from '@/api';
 
+import { BookData } from '@/types';
+
 export const useSearchBook = () => {
-  const [searchList, setSearchList] = useRecoilState(searchListAtom);
+  const [searchList, setSearchList] =
+    useRecoilState<BookData[]>(searchListAtom);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
 

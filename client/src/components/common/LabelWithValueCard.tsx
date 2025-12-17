@@ -39,7 +39,7 @@ export default function LabelWithValueCard({
           {value && (
             <>
               {typeof value !== 'string' &&
-                (value.includes('no_host') ? (
+                (value.includes('no_host') || value.length === 0 ? (
                   <span>발제자 없음</span>
                 ) : (
                   value?.map(host => (
