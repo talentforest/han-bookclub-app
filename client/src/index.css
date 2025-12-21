@@ -54,13 +54,13 @@
 
 @layer base {
   body {
-    @apply bg-[#f8f8f8] font-SUITE;
+    @apply font-SUITE;
     > div {
       .header {
-        @apply mx-auto w-[80%] px-4 max-sm:w-full max-sm:px-5;
+        @apply mx-auto w-full bg-[#f8f8f8] px-20 max-sm:px-5;
       }
       > main {
-        @apply relative mx-auto w-[80%] px-4 pb-32 max-sm:w-full max-sm:px-5;
+        @apply relative mx-auto min-h-[90vh] w-full bg-[#f8f8f8] px-20 pb-32 max-sm:px-5;
       }
     }
     /* ql-editor */

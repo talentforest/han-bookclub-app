@@ -20,10 +20,10 @@ const initialAbsence: UserAbsence = {
   onceAbsenceMonth: false,
 };
 
-export const useHandleAbsence = () => {
+export const useHandleAbsence = (year: string) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const [absenceList, setAbsenceList] = useRecoilState(absenceAtom);
+  const [absenceList, setAbsenceList] = useRecoilState(absenceAtom(year));
 
   const [selectedValues, setSelectedValues] = useState(initialAbsence);
 

@@ -11,6 +11,8 @@ import { getDocument } from '@/api';
 
 import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
 
+import { thisYear } from '@/utils';
+
 import Confetti from '@/components/common/container/Confetti';
 import UserImgName from '@/components/common/user/UserImgName';
 
@@ -19,7 +21,9 @@ type AbsenceRank = Record<string, { rank: number; absenceCount: number }>;
 export default function AbsenceRankList() {
   const usersDoc = useRecoilValue(allUsersAtom);
 
-  const [absenceMonthList, setAbsenceList] = useRecoilState(absenceAtom);
+  const [absenceMonthList, setAbsenceList] = useRecoilState(
+    absenceAtom(thisYear),
+  );
 
   const getMatchRankList: (rankFrom: number, rankTo: number) => AbsenceRank[] =
     useCallback(

@@ -11,7 +11,7 @@ import { getCollection, getDocument } from '@/api';
 
 import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
 
-import { existDocObj, formatDate, thisYearMonthId } from '@/utils';
+import { existDocObj, formatDate, thisYear, thisYearMonthId } from '@/utils';
 
 import MobileHeader from '@/layout/MobileHeader';
 
@@ -39,7 +39,7 @@ const ClubDetail = () => {
   const { absenteeList, participantList } = useRecoilValue(
     attendanceSelector(yearMonthId),
   );
-  const setAbsenceList = useSetRecoilState(absenceAtom);
+  const setAbsenceList = useSetRecoilState(absenceAtom(thisYear));
 
   const monthlyBookClub = useRecoilValue(clubByMonthSelector(yearMonthId));
   const setThisYearClub = useSetRecoilState(clubByYearAtom);

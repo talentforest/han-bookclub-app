@@ -7,19 +7,23 @@ import { currAuthUserAtom } from '@/data/userAtom';
 
 import { useHandleAbsence } from '@/hooks';
 
+import { thisYear } from '@/utils';
+
 import SquareBtn from '@/components/common/button/SquareBtn';
 import LabeledCheckBox from '@/components/common/input/LabeledCheckBox';
 
 interface AbsenceFormProps {
+  year: string;
   month: number;
 }
 
-export default function AbsenceForm({ month }: AbsenceFormProps) {
-  const absenceList = useRecoilValue(absenceAtom);
+export default function AbsenceForm({ year, month }: AbsenceFormProps) {
+  const absenceList = useRecoilValue(absenceAtom(thisYear));
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const { onSubmit, selectedValues, setSelectedValues } = useHandleAbsence();
+  const { onSubmit, selectedValues, setSelectedValues } =
+    useHandleAbsence(year);
 
   useEffect(() => {
     const { absenceMembers } = absenceList;

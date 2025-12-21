@@ -1,9 +1,5 @@
 import { useLocation } from 'react-router-dom';
 
-import { useRecoilValue } from 'recoil';
-
-import { currAuthUserAtom } from '@/data/userAtom';
-
 import { thisYear } from '@/utils';
 
 import { MonthlyClubInfoType } from '@/types';
@@ -16,8 +12,6 @@ import ChevronRightLinkBtn from '@/components/common/button/ChevronRightLinkBtn'
 import Section from '@/components/common/container/Section';
 
 export default function MonthlyClubInfo() {
-  const { uid } = useRecoilValue(currAuthUserAtom);
-
   const { state } = useLocation() as {
     state: 'fieldAndHost' | 'absence';
   };
@@ -31,19 +25,26 @@ export default function MonthlyClubInfo() {
 
   return (
     <>
-      <MobileHeader title={`${thisYear}년 ${name} 정보`} backBtn />
+      <MobileHeader title={`${name} 정보`} backBtn />
 
       <main>
         {name === '모임불참' && (
-          <Section>
-            <AbsenceMemberTable isMonth />
-            <ChevronRightLinkBtn
-              title="나의 불참 설정하러 가기"
-              to="/setting/absence"
-              state={{ userId: uid }}
-              className="pt-3"
-            />
-          </Section>
+          <>
+            <Section title={`2025년 모임불참`}>
+              <AbsenceMemberTable year="2025" isMonth />
+
+              <ChevronRightLinkBtn
+                title="나의 불참 설정하러 가기"
+                to="/setting/absence"
+                state={{ year: '2025' }}
+                className="pt-3"
+              />
+            </Section>
+
+            <Section title={`2026년 모임불참`}>
+              <AbsenceMemberTable year="2026" isMonth />
+            </Section>
+          </>
         )}
 
         {name === '월별 독서분야' && (

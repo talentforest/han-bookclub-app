@@ -1,25 +1,28 @@
 import { v4 } from 'uuid';
 
-import { atom, selectorFamily } from 'recoil';
+import { atomFamily, selectorFamily } from 'recoil';
 
 import { allUsersAtom } from '@/data/userAtom';
 
 import { getDocument } from '@/api';
 
-import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
+import { ABSENCE_MEMBERS } from '@/appConstants';
 
 import { MonthlyAbsenceMembers } from '@/types';
 
-export const absenceAtom = atom<{
-  id: string;
-  absenceMembers: MonthlyAbsenceMembers[];
-} | null>({
+export const absenceAtom = atomFamily<
+  {
+    id: string;
+    absenceMembers: MonthlyAbsenceMembers[];
+  },
+  string | null
+>({
   key: `absence/${v4()}`,
   default: null,
-  effects: [
+  effects: (year: string) => [
     ({ setSelf }) => {
       const fetchData = async () => {
-        getDocument(BOOKCLUB_THIS_YEAR, ABSENCE_MEMBERS, setSelf);
+        getDocument(`BookClub-${year}`, ABSENCE_MEMBERS, setSelf);
       };
       fetchData();
     },
@@ -31,17 +34,17 @@ export const attendanceSelector = selectorFamily({
   get:
     (yearMonthId: string) =>
     ({ get }) => {
+      const year = +yearMonthId.slice(0, 4);
+      const month = +yearMonthId.slice(-2);
+
       const allMemberList = get(allUsersAtom);
-      const absenceData = get(absenceAtom);
+      const absenceData = get(absenceAtom(`${year}`));
 
       if (!absenceData?.absenceMembers) {
         return { absenteeList: null, participantList: null };
       }
 
       const absenceList = absenceData?.absenceMembers;
-
-      const year = +yearMonthId.slice(0, 4);
-      const month = +yearMonthId.slice(-2);
 
       const absence = absenceList.find(({ month: mon }) => month === mon);
 

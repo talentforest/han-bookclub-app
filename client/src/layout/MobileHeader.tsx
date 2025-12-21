@@ -31,7 +31,7 @@ export default function MobileHeader({
 
   return (
     <header
-      className={`items-center gap-2 py-4 max-sm:flex ${showDesktop ? 'flex' : 'hidden'} header ${className}`}
+      className={`header items-center gap-2 py-4 max-sm:flex ${showDesktop ? 'flex' : 'hidden'} ${className}`}
     >
       {title === '독서모임 한페이지' && (
         <img

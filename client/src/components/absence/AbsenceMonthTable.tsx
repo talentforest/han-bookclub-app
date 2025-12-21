@@ -20,15 +20,17 @@ import Modal from '@/components/common/Modal';
 import Table from '@/components/common/Table';
 
 interface AbsenceMonthTableProps {
+  year: string;
   userId: string;
   isEditable?: boolean;
 }
 
 export default function AbsenceMonthTable({
+  year,
   userId,
   isEditable = false,
 }: AbsenceMonthTableProps) {
-  const [absenceList, setAbsenceList] = useRecoilState(absenceAtom);
+  const [absenceList, setAbsenceList] = useRecoilState(absenceAtom(year));
 
   useEffect(() => {
     if (!existDocObj(absenceList)) {
@@ -52,7 +54,7 @@ export default function AbsenceMonthTable({
     showModal({
       element: (
         <Modal title={`${month}월 모임 불참 여부`}>
-          <AbsenceForm month={month} />
+          <AbsenceForm year={year} month={month} />
         </Modal>
       ),
     });

@@ -29,14 +29,17 @@ export default function BookThumbnail({
     ),
   };
 
-  const commonClassName =
-    'aspect-[0.68/1] h-fit shadow-book overflow-hidden rounded-r-[8%]';
+  const commonClassName = 'aspect-[0.68/1] h-fit shadow-book rounded-r-[8%]';
 
   return (
     <>
       {thumbnail && (
         <div className={`relative ${commonClassName} ${className}`}>
-          <img className="size-full" src={thumbnail} alt={`${title} 북커버`} />
+          <img
+            className="size-full shadow-sm shadow-white"
+            src={thumbnail}
+            alt={`${title} 북커버`}
+          />
           {url && (
             <ExternalLinkBtn
               url={url}

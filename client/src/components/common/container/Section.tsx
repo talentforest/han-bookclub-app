@@ -17,7 +17,7 @@ export default function Section({
 }: SectionProps) {
   return (
     <section
-      className={`relative mb-20 mt-2.5 flex flex-col max-md:mb-16 ${className}`}
+      className={`relative flex flex-col pb-20 pt-2.5 max-md:pb-16 ${className}`}
     >
       {title &&
         (titleBtn ? (

@@ -9,13 +9,7 @@ import { absenceAtom } from '@/data/absenceAtom';
 
 import { getDocument } from '@/api';
 
-import {
-  ABSENCE_MEMBERS,
-  BOOKCLUB_THIS_YEAR,
-  initialAbsenseMembersData,
-} from '@/appConstants';
-
-import { thisYear } from '@/utils';
+import { ABSENCE_MEMBERS, initialAbsenseMembersData } from '@/appConstants';
 
 import Table from '@/components/common/Table';
 import { Label } from '@/components/common/TableDataItem';
@@ -24,16 +18,20 @@ import EmptyCard from '@/components/common/container/EmptyCard';
 interface AbsenceMemberTableProps {
   isMonth?: boolean;
   isEditable?: boolean;
+  year: string;
 }
 
 export default function AbsenceMemberTable({
   isMonth,
   isEditable,
+  year,
 }: AbsenceMemberTableProps) {
-  const [absenceList, setAbsenceList] = useRecoilState(absenceAtom);
+  const [absenceList, setAbsenceList] = useRecoilState(absenceAtom(year));
+
+  const collName = `BookClub-${year}`;
 
   useEffect(() => {
-    getDocument(BOOKCLUB_THIS_YEAR, ABSENCE_MEMBERS, setAbsenceList);
+    getDocument(`BookClub-${year}`, ABSENCE_MEMBERS, setAbsenceList);
   }, []);
 
   const defaultLabels: Label[] = ['일회불참멤버', '모임정지멤버'];
@@ -42,7 +40,7 @@ export default function AbsenceMemberTable({
 
   const setInitialAbsenceDataInFb = async () => {
     await setDoc(
-      doc(dbService, BOOKCLUB_THIS_YEAR, ABSENCE_MEMBERS),
+      doc(dbService, collName, ABSENCE_MEMBERS),
       initialAbsenseMembersData,
     );
   };
@@ -58,7 +56,7 @@ export default function AbsenceMemberTable({
       ) : (
         <EmptyCard
           text="아직 월별 불참 정보가 없습니다."
-          createBtnTitle={`${thisYear} 새로운 불참 정보 생성하기`}
+          createBtnTitle={`${year} 새로운 불참 정보 생성하기`}
           onCreateClick={setInitialAbsenceDataInFb}
         />
       )}

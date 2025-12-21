@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { useRecoilValue } from 'recoil';
 
 import { allUsersAtom } from '@/data/userAtom';
@@ -22,28 +24,28 @@ export default function ReadingLifeQuestionList({
   const { showModal } = useHandleModal();
 
   const openRereadingLifeQuestionListModal = () => {
-    showModal({
-      element: <ReadingLifeQuestionListModal />,
-    });
+    showModal({ element: <ReadingLifeQuestionListModal /> });
   };
 
-  const getAllAnwserList = (
-    answerList: {
-      userId: string;
-      answer: string;
-    }[],
-  ) => {
-    const notAnswerList = memberList
-      .filter(user =>
-        answerList.length !== 0
-          ? answerList.find(({ userId }) => userId !== user.id)
-          : true,
-      )
-      .map(user => ({ userId: user.id, answer: '' }))
-      .sort((a, b) => (b.userId > a.userId ? -1 : 0));
+  const getAllAnwserList = useCallback(
+    (
+      answerList: {
+        userId: string;
+        answer: string;
+      }[],
+    ) => {
+      const notAnswerList = memberList
+        .filter(user => {
+          return !answerList.find(({ userId }) => userId === user.id);
+        })
+        .map(user => ({ userId: user.id, answer: '' }));
 
-    return [...answerList, ...notAnswerList];
-  };
+      return [...answerList, ...notAnswerList].sort((a, b) =>
+        b.userId > a.userId ? -1 : 0,
+      );
+    },
+    [],
+  );
 
   return (
     <div className="flex flex-col gap-y-3">
@@ -61,7 +63,7 @@ export default function ReadingLifeQuestionList({
                   className="rounded-lg bg-[#eeedff] px-2 py-1 text-[15px] font-medium text-blue1"
                 />
                 <span
-                  className={`ml-3 w-fit break-words font-medium tracking-tight ${!answer ? 'text-gray3' : 'text-blue1'}`}
+                  className={`ml-3 w-fit break-words font-medium tracking-tight ${!answer ? 'text-gray3' : 'text-white'}`}
                 >
                   {answer || '정보 없음'}
                 </span>

@@ -68,7 +68,7 @@ export default function YearClosingDetail() {
       content => content.result,
     );
     return contentList.find(content => content.title.includes(currTab));
-  }, [currTab]);
+  }, [currTab, meeting]);
 
   const contentObj: {
     [key in string]: {
@@ -127,7 +127,7 @@ export default function YearClosingDetail() {
       <MobileHeader
         title={`${thisYear}년 독서모임 연말결산`}
         backBtn
-        className="bg-black text-white"
+        className="!bg-black !text-white"
       />
 
       <main className="bg-black pb-40 pt-4">
@@ -182,7 +182,7 @@ export default function YearClosingDetail() {
           />
         </div>
 
-        <div className="-mx-5">
+        <div className="max-sm:-mx-5">
           <SwiperContainer options={swiperOptions}>
             {clubBookListByYear.map(book => (
               <SwiperSlide key={book.title}>

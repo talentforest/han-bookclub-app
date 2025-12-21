@@ -59,6 +59,8 @@ export default function BestSubjectModal({
     .find(content => content.title.includes('최고의 모임책'))
     ?.result.subjects.find(subject => subject.rank === rank);
 
+  console.log(currBook);
+
   const onBestSubjectStep = ({
     step,
     clubBook,
@@ -74,6 +76,7 @@ export default function BestSubjectModal({
       yearMonthId,
       clubBook,
       rank,
+      bestSubject: '',
     };
 
     const newContents = meeting?.eventMonth?.contents.map(content => {
@@ -82,7 +85,11 @@ export default function BestSubjectModal({
         ...content,
         result: {
           ...content.result,
-          subjects: [...content.result.subjects, { ...newData }],
+          subjects: isEditing
+            ? content.result.subjects.map(subject => {
+                return subject.rank !== rank ? subject : newData;
+              })
+            : [...content.result.subjects, newData],
         },
       };
     });
@@ -99,17 +106,24 @@ export default function BestSubjectModal({
     const newContents = editedData['meeting.eventMonth.contents'].map(
       content => {
         if (!content.title.includes('최고의 모임책과 발제문')) return content;
+
         return {
           ...content,
           result: {
             ...content.result,
             subjects: content.result.subjects.map(subject => {
               if (subject.rank !== rank) return subject;
+              console.log('subject', subject);
               return { ...subject, bestSubject };
             }),
           },
         };
       },
+    );
+
+    console.log(
+      newContents.find(content => content.title.includes('발제문')).result
+        .subjects,
     );
 
     onEditSubmitClick({ 'meeting.eventMonth.contents': newContents });
@@ -128,7 +142,7 @@ export default function BestSubjectModal({
 
   return (
     <Modal
-      title={`2025년 최고의 발제문 ${rank}위 ${isEditing ? '수정' : '선정'}하기`}
+      title={`2025년 최고의 발제문 ${rank}위 ${isEditing ? '변경' : '선정'}하기`}
     >
       {currStep === 1 && (
         <>
@@ -169,7 +183,7 @@ export default function BestSubjectModal({
           </div>
 
           <div className="flex items-center">
-            <FooterBookCard book={currBook?.clubBook} />
+            {currBook?.clubBook && <FooterBookCard book={currBook?.clubBook} />}
             <SquareBtn
               name="선택하기"
               color="purple"
