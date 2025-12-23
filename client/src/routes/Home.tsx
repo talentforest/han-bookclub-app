@@ -10,13 +10,12 @@ import { getCollection } from '@/api';
 
 import { BOOKCLUB_NEXT_YEAR, BOOKCLUB_THIS_YEAR } from '@/appConstants';
 
-import { nextMonth, thisYear } from '@/utils';
+import { nextMonth, nextYearMonthId, thisYear, thisYearMonthId } from '@/utils';
 
 import Footer from '@/layout/Footer';
 import MobileHeader from '@/layout/MobileHeader';
 
-import NextMonthClub from '@/components/bookClub/NextMonthClub';
-import ThisMonthBookClub from '@/components/bookClub/ThisMonthClub';
+import MonthBookClub from '@/components/bookClub/MonthBookClub';
 import VoteSlider from '@/components/bookVote/VoteSlider';
 import ChevronRightLinkBtn from '@/components/common/button/ChevronRightLinkBtn';
 import SquareBtn from '@/components/common/button/SquareBtn';
@@ -63,11 +62,11 @@ const Home = () => {
 
       <main>
         <Section title="이달의 모임정보">
-          <ThisMonthBookClub />
+          <MonthBookClub yearMonthId={thisYearMonthId} />
         </Section>
 
         <Section title="다음달 모임책">
-          <NextMonthClub />
+          <MonthBookClub yearMonthId={nextYearMonthId} />
           {+nextMonth === 12 && (
             <ChevronRightLinkBtn to={'/bookclub/2025-12'} title="자세히보기" />
           )}

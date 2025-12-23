@@ -45,7 +45,7 @@ export default function UserImgName({
 
   const commonClassName = 'size-[20px] aspect-square rounded-full shadow-card';
 
-  if (!user) return;
+  if (!user) return <span className="text-sm text-gray2">탈퇴회원</span>;
 
   const isCurrentUser = uid === user?.id;
 

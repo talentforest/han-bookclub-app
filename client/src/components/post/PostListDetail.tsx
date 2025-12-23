@@ -2,10 +2,11 @@ import { Fragment, useEffect } from 'react';
 
 import { useLocation, useParams } from 'react-router-dom';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { clubByYearAtom } from '@/data/clubAtom';
+import { clubByMonthSelector } from '@/data/clubAtom';
 import { hostReviewState, subjectsState } from '@/data/documentsAtom';
+import { fieldAndHostSelector } from '@/data/fieldAndHostAtom';
 
 import { getCollection } from '@/api';
 
@@ -31,31 +32,32 @@ interface LocationState {
 }
 
 export default function PostListDetail() {
-  const [clubInfoDocs, setClubInfoDocs] = useRecoilState(clubByYearAtom);
-  const [hostReviews, setHostReviews] = useRecoilState(hostReviewState);
-  const [subjects, setSubjects] = useRecoilState(subjectsState);
+  const params = useParams();
+  const yearMonthId = params?.id ?? thisYearMonthId;
 
-  const { showModal } = useHandleModal();
+  const monthlyBookClub = useRecoilValue(clubByMonthSelector(yearMonthId));
+  const fieldAndHosts = useRecoilValue(fieldAndHostSelector(yearMonthId));
+
+  const [hostReviews, setHostReviews] = useRecoilState(hostReviewState);
+
+  const [subjects, setSubjects] = useRecoilState(subjectsState);
 
   const { pathname, state } = useLocation() as LocationState;
 
-  const params = useParams();
-
-  const yearMonthId = params?.id ?? thisYearMonthId;
-  const postType = pathname.includes('host-review') ? '정리 기록' : '발제문';
-  const postId = state?.postId ?? '';
-
-  const year = yearMonthId.slice(0, 4);
+  const subjectCollName = getFbRouteOfPost(yearMonthId, SUBJECTS);
+  const hostReviewCollName = getFbRouteOfPost(yearMonthId, HOST_REVIEW);
 
   useEffect(() => {
-    getCollection(`BookClub-${year}`, setClubInfoDocs);
-    getCollection(getFbRouteOfPost(yearMonthId, HOST_REVIEW), setHostReviews);
-    getCollection(getFbRouteOfPost(yearMonthId, SUBJECTS), setSubjects);
+    getCollection(hostReviewCollName, setHostReviews);
+    getCollection(subjectCollName, setSubjects);
   }, []);
 
-  const document = clubInfoDocs?.find(doc => doc.id === yearMonthId);
-
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('write');
+
+  const { showModal } = useHandleModal();
+
+  const postType = pathname.includes('host-review') ? '정리 기록' : '발제문';
+  const postId = state?.postId ?? '';
 
   const toggleAddPostModal = () => {
     if (anonymous) return alertAskJoinMember();
@@ -65,18 +67,18 @@ export default function PostListDetail() {
   const postInfo = {
     발제문: {
       postList: subjects,
-      collName: getFbRouteOfPost(yearMonthId, SUBJECTS),
+      collName: subjectCollName,
     },
     '정리 기록': {
       postList: hostReviews,
-      collName: getFbRouteOfPost(yearMonthId, HOST_REVIEW),
+      collName: hostReviewCollName,
     },
   };
 
   const { postList, collName } = postInfo[postType];
 
   const currPostList = postId
-    ? postList.filter(post => post.id === postId)
+    ? postList?.filter(post => post.id === postId)
     : postList;
 
   return (
@@ -87,7 +89,12 @@ export default function PostListDetail() {
       />
 
       <main>
-        {document && <BasicBookCard bookClub={document} />}
+        {document && (
+          <BasicBookCard
+            bookClub={monthlyBookClub}
+            fieldAndHosts={fieldAndHosts}
+          />
+        )}
 
         {!params?.id && (
           <SquareBtn
@@ -118,6 +125,7 @@ export default function PostListDetail() {
                   collName={collName}
                 />
               </Post>
+
               {currPostList.length - 1 !== index && <DottedDividingLine />}
             </Fragment>
           ))

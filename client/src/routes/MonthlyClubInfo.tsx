@@ -48,7 +48,7 @@ export default function MonthlyClubInfo() {
         )}
 
         {name === '월별 독서분야' && (
-          <Section title="월별 독서분야와 발제자">
+          <Section title={`${thisYear}년 월별 독서분야와 발제자`}>
             <BookFieldHostTable year={thisYear} isEditable isMonth />
           </Section>
         )}

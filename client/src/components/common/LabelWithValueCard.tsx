@@ -27,59 +27,51 @@ export default function LabelWithValueCard({
     진행자: <FiUser className="inline" />,
   };
 
+  const getValue = (label: LabelWithValueCardProps['label']) => {
+    if (label === '모임시간')
+      return formatDate(value as string, 'yyyy.M.d. a HH:mm');
+
+    if (label === '발제자' || label === '진행자')
+      return value.includes('no_host') || value.length === 0
+        ? '발제자 없음'
+        : (value as string[])?.map(host => (
+            <UserImgName key={host} userId={host} className="mr-1" />
+          ));
+
+    return value;
+  };
+
+  const onEditClick = () =>
+    showModal({
+      element: typeof value === 'string' && (
+        <NewBookClubModal
+          title={label}
+          currentValue={
+            label === '모임시간' ? { time: value } : { place: value }
+          }
+          yearMonthId={thisYearMonthId}
+        />
+      ),
+    });
+
   return (
     <>
-      <div className="relative flex h-full items-center overflow-hidden rounded-card bg-white px-4 py-2 shadow-card max-sm:px-4">
+      <div className="relative flex h-full items-center overflow-hidden rounded-card bg-white px-4 py-3 shadow-card max-sm:px-4">
         <h4 className="flex min-w-20 items-center gap-0.5 tracking-tight text-gray2">
           {icon[label]}
           {label}
         </h4>
 
-        <div className="flex w-full flex-1 py-1">
-          {value && (
-            <>
-              {typeof value !== 'string' &&
-                (value.includes('no_host') || value.length === 0 ? (
-                  <span>발제자 없음</span>
-                ) : (
-                  value?.map(host => (
-                    <UserImgName key={host} userId={host} className="mr-1" />
-                  ))
-                ))}
+        {value && (
+          <span className="flex gap-x-2 tracking-tight">{getValue(label)}</span>
+        )}
 
-              {typeof value === 'string' && value && (
-                <span className="tracking-tight">
-                  {label === '모임시간'
-                    ? formatDate(value, 'M월 d일 a h:mm')
-                    : value}
-                </span>
-              )}
-            </>
-          )}
-
-          {!value && (
-            <span className="text-center text-sm text-gray2 max-sm:text-start">
-              정보가 아직 없어요
-            </span>
-          )}
-        </div>
+        {!value && <span className="text-gray2">정보가 아직 없어요</span>}
 
         {editable && (
           <button
             type="button"
-            onClick={() =>
-              showModal({
-                element: typeof value === 'string' && (
-                  <NewBookClubModal
-                    title={label}
-                    currentValue={
-                      label === '모임시간' ? { time: value } : { place: value }
-                    }
-                    yearMonthId={thisYearMonthId}
-                  />
-                ),
-              })
-            }
+            onClick={onEditClick}
             className="absolute bottom-0 right-0 p-3"
           >
             <FiEdit3 stroke="#aaa" size={16} />

@@ -41,6 +41,7 @@ const BookFieldHostTable = ({
         { detail: '', hosts: [], field: '' } as MonthlyFieldAndHost,
       ]),
     );
+
     setDocument(`BookClub-${year}`, BOOK_FIELD_AND_HOST, monthlyObj);
   };
 

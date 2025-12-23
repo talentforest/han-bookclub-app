@@ -45,7 +45,7 @@ export const useHandleFieldHost = ({
     ],
     hosts: [
       {
-        condition: selectedValues?.hosts.length === 0,
+        condition: selectedValues?.hosts?.length === 0,
         error: '발제자를 한명 이상 선택해주세요.',
       },
     ],

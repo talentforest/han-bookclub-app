@@ -6,38 +6,20 @@ import { clubByMonthSelector } from '@/data/clubAtom';
 
 import { thisMonth } from '@/utils';
 
-import { MonthlyBookClub } from '@/types';
-
-import LabelWithValueCard from '@/components/common/LabelWithValueCard';
 import Tag from '@/components/common/Tag';
 
 interface MonthEventCardProps {
   yearMonthId: string;
-  event: MonthlyBookClub['meeting'];
+
   className?: string;
 }
 
 export default function MonthEventCard({
   yearMonthId,
-  event,
+
   className = '',
 }: MonthEventCardProps) {
   const monthClubInfo = useRecoilValue(clubByMonthSelector(yearMonthId));
-
-  const thisMonthClubInfoList = monthClubInfo && [
-    {
-      label: '모임장소' as const,
-      value: monthClubInfo.meeting?.place,
-    },
-    {
-      label: '모임시간' as const,
-      value: monthClubInfo.meeting?.time,
-    },
-    {
-      label: '진행자' as const,
-      value: monthClubInfo.meeting.eventMonth?.hosts,
-    },
-  ];
 
   const month = +yearMonthId.slice(-2);
 
@@ -57,20 +39,12 @@ export default function MonthEventCard({
           />
         )}
         <h1 className="mb-1.5 line-clamp-2 w-full text-lg font-medium leading-6">
-          {event.eventMonth.title}
+          {monthClubInfo.meeting.eventMonth.title}
         </h1>
         <span className="text-gray1">
-          이벤트 콘텐츠 {event.eventMonth.contents.length}개
+          이벤트 콘텐츠 {monthClubInfo.meeting.eventMonth.contents.length}개
         </span>
       </div>
-
-      <ul className="col-span-1 flex flex-col gap-4">
-        {thisMonthClubInfoList.map(({ label, value }) => (
-          <li key={label}>
-            <LabelWithValueCard label={label} value={value} editable={false} />
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

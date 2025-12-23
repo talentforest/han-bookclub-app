@@ -16,10 +16,8 @@ import { existDocObj, formatDate, thisYear, thisYearMonthId } from '@/utils';
 import MobileHeader from '@/layout/MobileHeader';
 
 import MemberListCard from '@/components/absence/MemberListCard';
-import BasicBookCard from '@/components/bookCard/BasicBookCard';
-import MonthEventCard from '@/components/bookCard/MonthEventCard';
 import EventMeetingDetail from '@/components/bookClub/EventMeetingDetail';
-import ThisMonthBookClub from '@/components/bookClub/ThisMonthClub';
+import MonthBookClub from '@/components/bookClub/MonthBookClub';
 import GuideLine from '@/components/common/GuideLine';
 import LoopLoading from '@/components/common/LoopLoading';
 import SearchBookBtn from '@/components/common/button/SearchBookBtn';
@@ -34,6 +32,7 @@ const ClubDetail = () => {
 
   const yearMonthId = params?.id || thisYearMonthId;
   const year = yearMonthId.slice(0, 4);
+
   const isThisMonthClubDetail = yearMonthId === thisYearMonthId;
 
   const { absenteeList, participantList } = useRecoilValue(
@@ -43,6 +42,7 @@ const ClubDetail = () => {
 
   const monthlyBookClub = useRecoilValue(clubByMonthSelector(yearMonthId));
   const setThisYearClub = useSetRecoilState(clubByYearAtom);
+
   const isEventMonth = monthlyBookClub?.meeting?.eventMonth;
 
   useEffect(() => {
@@ -71,29 +71,17 @@ const ClubDetail = () => {
             <EmptyCard text="아직 생성된 모임이 없어요." />
           ) : (
             <>
-              <Section title="모임 정보">
-                {isEventMonth ? (
-                  <MonthEventCard
-                    yearMonthId={monthlyBookClub.id}
-                    event={monthlyBookClub.meeting}
-                  />
-                ) : (
-                  <>
-                    {isThisMonthClubDetail ? (
-                      <ThisMonthBookClub />
-                    ) : (
-                      <BasicBookCard
-                        bookClub={monthlyBookClub}
-                        className="w-full"
-                      />
-                    )}
-                  </>
-                )}
+              <Section
+                title={`${isThisMonthClubDetail ? '이번' : '지난'} 모임 정보`}
+              >
+                <MonthBookClub yearMonthId={monthlyBookClub.id} />
               </Section>
 
               <div className="grid grid-cols-5 gap-x-6 max-sm:flex max-sm:flex-col [&>section:first-child]:col-span-2 [&>section:last-child]:col-span-3">
                 {absenteeList && (
-                  <Section title="참석 정보">
+                  <Section
+                    title={`${isThisMonthClubDetail ? '이번' : '지난'} 참석 정보`}
+                  >
                     <div className="flex flex-col gap-4">
                       <MemberListCard
                         title={`참석 멤버 ${participantList.length}명`}
@@ -108,7 +96,9 @@ const ClubDetail = () => {
                 )}
 
                 {!isEventMonth && (
-                  <Section title="발제문과 정리 기록">
+                  <Section
+                    title={`${isThisMonthClubDetail ? '이번' : '지난'} 발제문과 정리 기록`}
+                  >
                     {isThisMonthClubDetail && (
                       <GuideLine text="모임이 끝난 후, 이달의 책에 대한 모든 글은 달의 마지막 날까지 작성할 수 있어요. 다음 책이 업데이트 되면, 이전 책에 대한 글은 수정만 가능할 뿐 새로 작성이 불가능한 점 유의해주세요." />
                     )}
@@ -129,7 +119,9 @@ const ClubDetail = () => {
                 />
               )}
 
-              <Section title="모임 후기">
+              <Section
+                title={`${isThisMonthClubDetail ? '이번' : '지난'} 모임 후기`}
+              >
                 <MeetingReviewList yearMonthId={yearMonthId} />
               </Section>
             </>

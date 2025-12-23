@@ -1,4 +1,4 @@
-import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 
 import { clubBookFieldList } from '@/appConstants';
 
@@ -29,22 +29,22 @@ export default function SelectField({
 
   const currentField = fieldOptions.find(({ label }) => label === field);
 
-  const onBookFieldChange = (value: ChangeSelectValue) => {
-    const field = value.label;
-    setSelectedValues(prev => ({ ...prev, field }));
+  const onBookFieldChange = (option: ChangeSelectValue) => {
+    setSelectedValues(prev => ({ ...prev, field: option ? option.label : '' }));
   };
 
   return (
     <div>
       <Label text="독서분야" />
-      <Select
+      <CreatableSelect
+        isClearable
         className="h-12 [&>div]:h-full [&>div]:rounded-xl [&>div]:border-gray1"
         menuPosition="fixed"
         options={fieldOptions}
-        isSearchable={false}
-        defaultValue={currentField || fieldOptions[12]}
+        value={currentField || fieldOptions[12]}
         onChange={onBookFieldChange}
         placeholder="독서분야를 선택해주세요"
+        formatCreateLabel={inputValue => `"${inputValue}" 옵션 추가`}
       />
       {errorMsg && <ErrorMsg msg={errorMsg} />}
     </div>

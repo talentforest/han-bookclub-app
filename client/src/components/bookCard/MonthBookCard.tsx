@@ -1,27 +1,31 @@
-import { FiBookmark } from 'react-icons/fi';
+import { useRecoilValue } from 'recoil';
+
+import { clubByMonthSelector } from '@/data/clubAtom';
+import { fieldAndHostSelector } from '@/data/fieldAndHostAtom';
 
 import { thisMonth } from '@/utils';
 
-import { BaseBookData } from '@/types';
-
 import Tag from '@/components/common/Tag';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
+import BookField from '@/components/common/book/BookField';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 
 interface MonthBookCardProps {
-  month: string;
-  book: BaseBookData;
-  field: string;
+  yearMonthId: string;
   className?: string;
 }
 
 export default function MonthBookCard({
-  month,
-  book,
-  field,
+  yearMonthId,
   className = '',
 }: MonthBookCardProps) {
-  const { title, thumbnail, authors, publisher, url } = book;
+  const monthClubInfo = useRecoilValue(clubByMonthSelector(yearMonthId));
+
+  const fieldAndHost = useRecoilValue(fieldAndHostSelector(yearMonthId));
+
+  const month = +yearMonthId.slice(-2);
+
+  const { title, thumbnail, authors, publisher, url } = monthClubInfo.book;
 
   return (
     <div
@@ -29,7 +33,7 @@ export default function MonthBookCard({
     >
       <div className="flex flex-1 flex-col items-start">
         <Tag
-          text={`${month}월 모임책`}
+          text={`${+month}월 모임책`}
           color={+month === +thisMonth ? 'lightBlue' : 'purple'}
           shape="rounded"
           className="font-medium"
@@ -40,12 +44,7 @@ export default function MonthBookCard({
             {title}
           </h1>
           <BookAuthorPublisher authors={authors} publisher={publisher} />
-          {field && (
-            <div className="mt-2 flex flex-1 items-center gap-x-0.5">
-              <FiBookmark className="text-[15px] text-purple2" />
-              <span className="text-[15px] text-purple2">{field}</span>
-            </div>
-          )}
+          {fieldAndHost?.field && <BookField field={fieldAndHost?.field} />}
         </div>
       </div>
 

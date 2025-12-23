@@ -1,22 +1,24 @@
-import { MonthlyBookClub } from '@/types';
+import { FiUser } from 'react-icons/fi';
 
-import ClubTimePlace from '@/components/common/ClubTimePlace';
+import { MonthlyBookClub, MonthlyFieldAndHost } from '@/types';
+
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
+import BookField from '@/components/common/book/BookField';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
+import UserImgName from '@/components/common/user/UserImgName';
 
 interface BasicBookCardProps {
   bookClub: MonthlyBookClub;
+  fieldAndHosts?: MonthlyFieldAndHost;
   className?: string;
 }
 
 export default function BasicBookCard({
   bookClub,
+  fieldAndHosts,
   className = '',
 }: BasicBookCardProps) {
-  const {
-    meeting: { place, time },
-    book,
-  } = bookClub;
+  const { book } = bookClub;
 
   return (
     <div
@@ -33,7 +35,7 @@ export default function BasicBookCard({
       />
 
       <div className="flex w-full flex-col justify-between">
-        <h1 className="line-clamp-2 pr-1 text-lg font-medium leading-5">
+        <h1 className="mb-1 line-clamp-2 pr-1 text-lg font-medium leading-5">
           {book.title}
         </h1>
 
@@ -44,7 +46,18 @@ export default function BasicBookCard({
           />
         )}
 
-        <ClubTimePlace time={time} place={place} className="mt-3.5" />
+        {fieldAndHosts?.field && <BookField field={fieldAndHosts?.field} />}
+
+        <div className="flex items-center gap-x-1">
+          <FiUser className="text-[16px] text-purple2" />
+          <ul className="flex gap-x-2">
+            {fieldAndHosts?.hosts?.map(host => (
+              <li key={host}>
+                <UserImgName userId={host} className="text-[15px]" />
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
