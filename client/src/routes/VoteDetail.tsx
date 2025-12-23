@@ -91,12 +91,13 @@ const VoteDetail = () => {
             vote={currentVote}
             onVoteDeleteClick={onVoteDeleteClick}
           />
+
           <VoteItemReasonBox voteItems={currentVote.voteItems} />
 
           {/* 투표를 완료했거나 만료된 이후 결과 화면 */}
           {isExpiredVote || (myVotedItems && !isRevote) ? (
             <>
-              <ul className="mb-6 mt-2 flex h-full flex-wrap items-center justify-center gap-5 max-sm:mb-10">
+              <ul className="mb-6 mt-2 grid grid-cols-2 gap-4 max-sm:mb-10">
                 {currentVote.voteItems.map(voteItem => (
                   <VoteBookItem
                     key={voteItem.id}
@@ -115,7 +116,7 @@ const VoteDetail = () => {
                     style={{
                       width: `${getPercentageNum(voteCount, totalVoteCount)}%`,
                     }}
-                    className={`absolute inset-y-0 left-0 z-0 rounded-r-lg ${findHighestVoteItem(title) ? 'bg-pointCoral' : 'bg-gray3'}`}
+                    className={`absolute inset-y-0 left-0 z-0 rounded-r-lg ${findHighestVoteItem(title) ? 'bg-blue2' : 'bg-gray3'}`}
                   />
                   <span
                     className={`z-10 inline-block w-full pt-[1px] text-[15px] ${findHighestVoteItem(title) ? 'font-medium text-white' : 'text-gray2'}`}
@@ -123,7 +124,7 @@ const VoteDetail = () => {
                     {title}
                   </span>
                   <span
-                    className={`z-10 pt-[1px] text-sm ${findHighestVoteItem(title) ? 'font-medium text-pointCoral' : 'text-gray2'}`}
+                    className={`z-10 pt-[1px] text-sm ${findHighestVoteItem(title) ? 'font-medium text-blue2' : 'text-gray2'}`}
                   >
                     {getPercentageNum(voteCount, totalVoteCount)}%
                   </span>

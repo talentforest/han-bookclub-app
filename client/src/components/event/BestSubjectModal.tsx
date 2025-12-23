@@ -59,8 +59,6 @@ export default function BestSubjectModal({
     .find(content => content.title.includes('최고의 모임책'))
     ?.result.subjects.find(subject => subject.rank === rank);
 
-  console.log(currBook);
-
   const onBestSubjectStep = ({
     step,
     clubBook,
@@ -113,17 +111,12 @@ export default function BestSubjectModal({
             ...content.result,
             subjects: content.result.subjects.map(subject => {
               if (subject.rank !== rank) return subject;
-              console.log('subject', subject);
+
               return { ...subject, bestSubject };
             }),
           },
         };
       },
-    );
-
-    console.log(
-      newContents.find(content => content.title.includes('발제문')).result
-        .subjects,
     );
 
     onEditSubmitClick({ 'meeting.eventMonth.contents': newContents });

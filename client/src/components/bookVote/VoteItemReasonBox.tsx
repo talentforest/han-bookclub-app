@@ -12,7 +12,7 @@ export default function VoteItemReasonBox({
 }: VoteItemReasonBoxProps) {
   return (
     <Accordion title="👀 작성자의 선정 이유 보기" className="my-4">
-      <div className="mb-4">
+      <ul className="mb-4">
         {voteItems.map(({ selectReason, id, book }) => (
           <li key={id} className="flex w-full flex-col p-2 max-sm:px-0">
             <span className="mb-2 bg-green3 py-0.5 font-medium">
@@ -32,7 +32,7 @@ export default function VoteItemReasonBox({
             />
           </li>
         ))}
-      </div>
+      </ul>
     </Accordion>
   );
 }

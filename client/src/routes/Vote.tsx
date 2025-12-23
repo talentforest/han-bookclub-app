@@ -59,9 +59,14 @@ const Vote = () => {
         >
           {progressVotes && progressVotes?.length !== 0 ? (
             <ul className="flex gap-6 max-sm:flex-col">
-              {progressVotes?.map(voteDetail => (
-                <VoteProgressCard key={voteDetail.id} voteDetail={voteDetail} />
-              ))}
+              {progressVotes
+                ?.slice(0, 1)
+                .map(voteDetail => (
+                  <VoteProgressCard
+                    key={voteDetail.id}
+                    voteDetail={voteDetail}
+                  />
+                ))}
             </ul>
           ) : (
             <EmptyCard text="아직 등록된 투표가 없습니다." />

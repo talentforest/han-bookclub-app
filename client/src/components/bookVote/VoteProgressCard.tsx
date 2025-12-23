@@ -3,31 +3,38 @@ import { Link } from 'react-router-dom';
 import { FiChevronRight } from 'react-icons/fi';
 import { MdOutlineHowToVote } from 'react-icons/md';
 
+import { cutLetter } from '@/utils';
+
 import { BookVote } from '@/types';
 
 import DDay from '@/components/common/DDay';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
+import UserImgName from '@/components/common/user/UserImgName';
 
 interface VoteProgressCardProps {
   voteDetail: BookVote;
 }
 
 const VoteProgressCard = ({ voteDetail }: VoteProgressCardProps) => {
-  const { id, title, voteItems, deadline } = voteDetail;
+  const { id, title, voteItems, deadline, creatorId } = voteDetail;
 
   return (
-    <div className="flex w-fit flex-col justify-between rounded-card bg-white px-7 py-5 shadow-card max-sm:w-full">
-      <h4 className="mb-3 flex items-center gap-1 font-medium">
-        <MdOutlineHowToVote className="text-base" />
-        {title}
-      </h4>
+    <div className="relative flex w-full flex-col justify-between rounded-card bg-white p-4 shadow-card">
+      <div className="mb-2 flex w-full items-center justify-between gap-4">
+        <h4 className="line-clamp-1 w-4/5 flex-1 gap-1 truncate font-medium">
+          <MdOutlineHowToVote className="mb-1 inline size-5 pr-0.5 text-base" />
+          {cutLetter(title, 40)}
+        </h4>
 
-      <ul className="flex gap-6">
-        {voteItems.map(({ id, book }) => (
-          <li key={id}>
+        <UserImgName userId={creatorId} />
+      </div>
+
+      <ul className="my-3 flex items-center justify-center gap-x-5">
+        {voteItems.map(({ book: { title, thumbnail }, id }) => (
+          <li key={id} className="relative">
             <BookThumbnail
-              thumbnail={book.thumbnail}
-              title={book.title}
+              title={title}
+              thumbnail={thumbnail}
               className="w-16"
             />
           </li>
@@ -41,7 +48,9 @@ const VoteProgressCard = ({ voteDetail }: VoteProgressCardProps) => {
           state={{ docId: id }}
           className="flex items-center justify-end gap-0.5 py-0.5"
         >
-          <span className="text-sm text-gray1">투표하러 가기</span>
+          <span className="text-sm font-semibold text-gray1">
+            투표하러 가기
+          </span>
           <FiChevronRight className="text-sm text-gray1" />
         </Link>
       </div>

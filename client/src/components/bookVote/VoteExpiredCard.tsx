@@ -37,7 +37,7 @@ export default function VoteExpiredCard({ vote }: VoteExpiredCardProps) {
   }, []);
 
   return (
-    <div className="group relative flex w-full flex-col justify-between rounded-card bg-white bg-opacity-65 p-4 opacity-80 shadow-card">
+    <div className="group relative flex w-full flex-col justify-between rounded-card bg-white bg-opacity-65 p-4 opacity-70 shadow-card">
       <div className="mb-2 flex w-full items-center justify-between gap-4">
         <h4 className="line-clamp-1 w-4/5 flex-1 gap-1 truncate font-medium text-gray1">
           <MdOutlineHowToVote className="mb-1 inline size-5 pr-0.5 text-base" />
@@ -68,7 +68,7 @@ export default function VoteExpiredCard({ vote }: VoteExpiredCardProps) {
         <FiChevronRight className="text-xl text-white" />
       </Link>
 
-      <span className="text-end text-sm text-gray1">
+      <span className="mt-3 text-end text-sm text-gray1">
         {new Date(createdAt).toLocaleDateString()}
       </span>
     </div>

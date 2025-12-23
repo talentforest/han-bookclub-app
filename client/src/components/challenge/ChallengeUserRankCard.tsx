@@ -40,7 +40,7 @@ export default function ChallengeUserRankCard({
         </div>
       }
     >
-      <div className="-mt-2 mb-3 flex items-start gap-x-4 pt-1">
+      <div className="-mt-2 mb-3 flex items-start gap-x-4 border pt-1">
         <ul className="w-[85px] pt-1.5">
           {[
             { key: '총 재독 수', value: `${totalRereadingCounts}회` },

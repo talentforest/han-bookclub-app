@@ -42,7 +42,7 @@ export default function Accordion({
       </div>
 
       <div
-        className={`flex overflow-hidden px-4 transition-[max-height] duration-500 ease-in-out max-sm:flex-col ${
+        className={`flex overflow-hidden bg-white px-4 transition-[max-height] duration-500 ease-in-out max-sm:flex-col ${
           isOpen ? 'max-h-[5000px]' : 'max-h-0'
         }`}
       >

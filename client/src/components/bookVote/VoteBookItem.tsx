@@ -22,17 +22,17 @@ export default function VoteBookItem({
   } = voteItem;
 
   return (
-    <div
-      className={`flex h-full w-40 flex-col items-center gap-3 overflow-hidden rounded-card bg-white shadow-card max-sm:w-[45%] max-sm:gap-2 ${children ? 'pt-4' : 'py-5'}`}
+    <li
+      className={`flex min-h-48 w-full flex-col items-center justify-center gap-y-1.5 overflow-hidden rounded-card bg-white shadow-card ${children ? 'pt-4' : ''}`}
     >
       <div className="relative flex w-full justify-center max-sm:px-3">
         {selected && (
-          <BiSolidBadgeCheck className="absolute -top-2 right-0 z-10 size-12 rounded-full bg-white text-pointCoral" />
+          <BiSolidBadgeCheck className="absolute -top-2 right-4 z-10 size-10 rounded-full bg-white text-blue2" />
         )}
         <BookThumbnail
           thumbnail={thumbnail}
           title={title}
-          className="w-24 max-sm:w-20"
+          className="w-24 max-sm:w-[70px]"
         />
       </div>
       <span className="mt-2 line-clamp-2 h-fit w-4/5 text-center leading-5">
@@ -40,6 +40,6 @@ export default function VoteBookItem({
       </span>
 
       {children}
-    </div>
+    </li>
   );
 }
