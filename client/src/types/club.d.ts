@@ -14,42 +14,49 @@ export type MonthlyBookClub = {
     place: string;
     eventMonth?: {
       title: string;
-      contents: {
-        id: string;
-        title: string;
-        detail?: string;
-        reward?: string;
-        deadline?: string;
-        result?: {
-          users?: [];
-          books?: {
-            clubBook: BaseBookData;
-            rank: number;
-          }[];
-          subjects?: {
-            rank: number;
-            yearMonthId: string;
-            clubBook: BaseBookData;
-            bestSubject?: string;
-          }[];
-          readingLifeQuestions?: {
-            id: string;
-            question: string;
-            answerList: {
-              userId: string;
-              answer: string;
-            }[];
-          }[];
-          detail?: string;
-        };
-      }[];
       hosts: string[];
+      contents: EventContent[];
     };
   };
 };
 
-type EventContent =
-  MonthlyBookClub['meeting']['eventMonth']['contents'][number];
+export type EventContent = {
+  id: string;
+  title: string;
+  detail?: string;
+  reward?: string;
+  deadline?: string;
+  result?: EventResult;
+};
+
+export type EventResult = {
+  books?: BookEventResult[]; // 최고의 모임책
+  subjects?: SubjectEventResult[]; //최고의 발제문
+  readingLifeQuestions?: ReadingLifeQuestion[];
+};
+
+export type BookEventResult = {
+  clubBook: BaseBookData;
+  rank: number;
+};
+
+export type SubjectEventResult = {
+  rank: number;
+  yearMonthId: string;
+  clubBook: BaseBookData;
+  bestSubject?: string;
+};
+
+export type ReadingLifeQuestion = {
+  id: string;
+  answerType: 'sentence' | 'book' | '';
+  question: string;
+  answerList: {
+    userId: string;
+    answer: string;
+    book?: BaseBookData;
+  }[];
+};
 
 export type EventContentUpdateRoute = AddPrefixToKeys<
   'meeting.eventMonth',

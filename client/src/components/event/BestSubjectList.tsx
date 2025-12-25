@@ -4,16 +4,16 @@ import { FaQuoteLeft } from 'react-icons/fa';
 
 import { useHandleModal } from '@/hooks';
 
-import { EventContent } from '@/types';
+import { SubjectEventResult } from '@/types';
 
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import EditBtn from '@/components/common/button/EditBtn';
-import Confetti from '@/components/common/container/Confetti';
 import BestSubjectModal from '@/components/event/BestSubjectModal';
+import Confetti from '@/components/event/Confetti';
 
 interface BestSubjectListProps {
-  subjects?: EventContent['result']['subjects'];
+  subjects?: SubjectEventResult[];
 }
 
 export default function BestSubjectList({ subjects }: BestSubjectListProps) {
@@ -46,7 +46,7 @@ export default function BestSubjectList({ subjects }: BestSubjectListProps) {
                 <div className="mb-3 flex w-full items-center justify-between gap-x-3">
                   <FooterBookCard
                     book={clubBook}
-                    className="text-white [&>div>span]:text-white"
+                    className="text-white [&>div>img]:!shadow-white [&>div>span]:text-white"
                   />
 
                   <div className="flex aspect-square size-14 flex-col items-center justify-center rounded-full bg-purple4">

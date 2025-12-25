@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { FiPlusCircle } from 'react-icons/fi';
 import { v4 } from 'uuid';

@@ -10,14 +10,16 @@ import DottedDividingLine from '@/components/common/DottedDividingLine';
 interface SearchedBookListProps {
   searchList: BookData[];
   onSelectBtnClick: (book: BaseBookData) => void;
+  className?: string;
 }
 
 export default function SearchedBookList({
   searchList,
   onSelectBtnClick,
+  className,
 }: SearchedBookListProps) {
   return (
-    <ul className="mt-2 h-64 overflow-scroll">
+    <ul className={`h-52 overflow-scroll ${className}`}>
       {searchList.map(
         ({ isbn, title, thumbnail, authors, publisher, url }, index) => (
           <Fragment key={`${title}-${isbn}`}>

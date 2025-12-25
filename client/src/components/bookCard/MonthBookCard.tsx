@@ -1,9 +1,11 @@
+import { useLocation } from 'react-router-dom';
+
 import { useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
 import { fieldAndHostSelector } from '@/data/fieldAndHostAtom';
 
-import { thisMonth } from '@/utils';
+import { thisYearMonthId } from '@/utils';
 
 import Tag from '@/components/common/Tag';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
@@ -23,9 +25,12 @@ export default function MonthBookCard({
 
   const fieldAndHost = useRecoilValue(fieldAndHostSelector(yearMonthId));
 
-  const month = +yearMonthId.slice(-2);
+  const month = +yearMonthId?.slice(-2);
 
-  const { title, thumbnail, authors, publisher, url } = monthClubInfo.book;
+  const { title, thumbnail, authors, publisher, url } =
+    monthClubInfo?.book || {};
+
+  const { pathname } = useLocation();
 
   return (
     <div
@@ -34,7 +39,7 @@ export default function MonthBookCard({
       <div className="flex flex-1 flex-col items-start">
         <Tag
           text={`${+month}월 모임책`}
-          color={+month === +thisMonth ? 'lightBlue' : 'purple'}
+          color={+yearMonthId === +thisYearMonthId ? 'lightBlue' : 'purple'}
           shape="rounded"
           className="font-medium"
         />
@@ -43,7 +48,11 @@ export default function MonthBookCard({
           <h1 className="mb-0.5 mt-2.5 line-clamp-2 w-full text-lg font-medium leading-[22px]">
             {title}
           </h1>
-          <BookAuthorPublisher authors={authors} publisher={publisher} />
+
+          {authors && publisher && (
+            <BookAuthorPublisher authors={authors} publisher={publisher} />
+          )}
+
           {fieldAndHost?.field && <BookField field={fieldAndHost?.field} />}
         </div>
       </div>
@@ -51,7 +60,7 @@ export default function MonthBookCard({
       <BookThumbnail
         title={title}
         thumbnail={thumbnail}
-        url={url}
+        url={pathname === '/previous-bookclub' ? undefined : url}
         className="w-[84px]"
       />
     </div>

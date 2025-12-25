@@ -1,85 +1,97 @@
-import { useCallback } from 'react';
+import { BiSearch } from 'react-icons/bi';
+import { FiPlusCircle } from 'react-icons/fi';
 
 import { useRecoilValue } from 'recoil';
 
-import { allUsersAtom } from '@/data/userAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
 
 import { useHandleModal } from '@/hooks';
 
-import { EventContent } from '@/types';
+import { ReadingLifeQuestion } from '@/types';
 
 import Accordion from '@/components/common/container/Accordion';
 import UserImgName from '@/components/common/user/UserImgName';
-import ReadingLifeQuestionListModal from '@/components/event/ReadingLifeQuestionListModal';
+import ReadingLifeQuestionModal from '@/components/event/ReadingLifeQuestionModal';
+import UserAnswer from '@/components/event/UserAnswer';
 
 interface ReadingLifeQuestionListProps {
-  questionList: EventContent['result']['readingLifeQuestions'];
+  questionList: ReadingLifeQuestion[];
 }
 
 export default function ReadingLifeQuestionList({
   questionList,
 }: ReadingLifeQuestionListProps) {
-  const memberList = useRecoilValue(allUsersAtom);
+  const currUser = useRecoilValue(currAuthUserAtom);
 
   const { showModal } = useHandleModal();
 
-  const openRereadingLifeQuestionListModal = () => {
-    showModal({ element: <ReadingLifeQuestionListModal /> });
+  const openRereadingLifeQuestionListModal = (
+    questionTitle: string,
+    answerType: ReadingLifeQuestion['answerType'],
+  ) => {
+    showModal({
+      element: (
+        <ReadingLifeQuestionModal
+          questionTitle={questionTitle}
+          answerType={answerType}
+        />
+      ),
+    });
   };
 
-  const getAllAnwserList = useCallback(
-    (
-      answerList: {
-        userId: string;
-        answer: string;
-      }[],
-    ) => {
-      const notAnswerList = memberList
-        .filter(user => {
-          return !answerList.find(({ userId }) => userId === user.id);
-        })
-        .map(user => ({ userId: user.id, answer: '' }));
-
-      return [...answerList, ...notAnswerList].sort((a, b) =>
-        b.userId > a.userId ? -1 : 0,
-      );
-    },
-    [],
-  );
+  const getHasAnswer = (answerList: ReadingLifeQuestion['answerList']) => {
+    return answerList.find(({ userId }) => userId === currUser.uid);
+  };
 
   return (
-    <div className="flex flex-col gap-y-3">
-      {questionList.map(({ question, answerList }) => (
+    <ul className="flex flex-col gap-y-8">
+      {questionList.map(({ question, answerType, answerList }) => (
         <Accordion
           key={question}
           title={question}
-          className="!bg-transparent !text-white [&>div]:pl-0"
+          initialOpen={true}
+          className="!bg-transparent !text-white [&>div:first-child]:!pb-0 [&>div]:px-0"
         >
-          <ul key={question} className="mb-4 mt-2 grid grid-cols-1 gap-y-3">
-            {getAllAnwserList(answerList).map(({ answer, userId }) => (
-              <li key={userId} className="flex items-start">
-                <UserImgName
-                  userId={userId}
-                  className="rounded-lg bg-[#eeedff] px-2 py-1 text-[15px] font-medium text-blue1"
-                />
-                <span
-                  className={`ml-3 w-fit break-words font-medium tracking-tight ${!answer ? 'text-gray3' : 'text-white'}`}
-                >
-                  {answer || '정보 없음'}
-                </span>
-              </li>
+          <ul
+            key={question}
+            className={`mt-2 ${answerType === 'sentence' ? 'flex flex-wrap gap-3' : 'grid grid-cols-3 gap-3'}`}
+          >
+            {answerList.map(userAnswer => (
+              <UserAnswer
+                key={userAnswer.userId}
+                question={question}
+                answerType={answerType}
+                userAnswer={userAnswer}
+              />
             ))}
+
+            {/* 나의 답변이 없을 때 */}
+            {!getHasAnswer(answerList) && (
+              <li className="col-span-2">
+                <button
+                  type="button"
+                  onClick={() =>
+                    openRereadingLifeQuestionListModal(question, answerType)
+                  }
+                  className="flex flex-col items-center justify-center rounded-xl border p-4"
+                >
+                  <UserImgName
+                    userId={currUser.uid}
+                    isLink={false}
+                    className="w-fit min-w-fit rounded-lg pb-2 font-medium text-purple3"
+                  />
+
+                  {question.includes('책') ? (
+                    <BiSearch className="size-5 text-gray2" />
+                  ) : (
+                    <FiPlusCircle className="size-5 text-gray2" />
+                  )}
+                </button>
+              </li>
+            )}
           </ul>
         </Accordion>
       ))}
-
-      <button
-        type="button"
-        className="self-end text-[15px] text-purple4 underline"
-        onClick={openRereadingLifeQuestionListModal}
-      >
-        질문들 수정하기
-      </button>
-    </div>
+    </ul>
   );
 }

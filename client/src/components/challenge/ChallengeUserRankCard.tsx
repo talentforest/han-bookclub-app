@@ -2,59 +2,71 @@ import { FaMedal } from 'react-icons/fa';
 
 import { UserRank } from '@/types';
 
-import Tag from '@/components/common/Tag';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import Accordion from '@/components/common/container/Accordion';
 import UserImgName from '@/components/common/user/UserImgName';
 
 interface ChallengeRereadingCardProps {
   userRank: UserRank;
+  color?: 'dark' | 'light';
 }
 
 export default function ChallengeUserRankCard({
   userRank,
+  color = 'light',
 }: ChallengeRereadingCardProps) {
   const { creatorId, rank, rereadingBookList, totalRereadingCounts } = userRank;
 
   return (
     <Accordion
-      className="!h-[54px]"
+      className={`!py-[1px] ${color === 'dark' ? '!bg-darkGray' : ''}`}
       headerChildren={
         <div className="flex w-full items-center gap-x-2">
-          {rank === 1 && <FaMedal className="mr-2 size-5 text-yellow-600" />}
+          {rank === 1 && <FaMedal className="size-5 text-yellow-300" />}
 
           {totalRereadingCounts !== 0 && (
-            <span className="font-RomanticGumi text-lg font-bold text-blue2">
+            <span
+              className={`font-RomanticGumi text-lg font-bold ${color === 'dark' ? 'text-white' : 'text-blue3'}`}
+            >
               {rank}
-              <span className="text-sm font-bold text-gray1">위</span>
+              <span
+                className={`text-sm font-bold ${color === 'dark' ? 'text-white' : 'text-blue3'}`}
+              >
+                위
+              </span>
             </span>
           )}
 
-          <UserImgName userId={creatorId} className="ml-2 font-medium" />
-
-          <Tag
-            className="ml-auto !px-3 !py-1.5 font-GiantsInline !text-sm font-medium"
-            text={`${rereadingBookList.length}권`}
-            color="yellow"
+          <UserImgName
+            userId={creatorId}
+            className={`ml-2 font-medium ${color === 'dark' ? 'text-white' : ''}`}
           />
+
+          <span
+            className={`ml-auto mr-1 font-GiantsInline font-medium ${color === 'dark' ? 'text-yellow-200' : 'text-blue3'}`}
+          >
+            {rereadingBookList.length}권
+          </span>
         </div>
       }
     >
-      <div className="-mt-2 mb-3 flex items-start gap-x-4 border pt-1">
-        <ul className="w-[85px] pt-1.5">
+      <div className="mb-4 flex items-start gap-x-3">
+        <ul className="mt-1 w-[85px]">
           {[
             { key: '총 재독 수', value: `${totalRereadingCounts}회` },
             { key: '재독한 책', value: `${rereadingBookList.length}권` },
           ].map(({ key, value }) => (
             <li key={key} className="flex items-center justify-between pb-1">
-              <span className="min-w-14 text-sm text-purple2">{key}</span>
-              <span className="min-w-fit text-sm font-semibold">{value}</span>
+              <span className="min-w-14 text-sm text-blue4">{key}</span>
+              <span className="min-w-fit text-sm font-semibold text-white">
+                {value}
+              </span>
             </li>
           ))}
         </ul>
 
         {rereadingBookList.length !== 0 && (
-          <div className="-mx-2 flex flex-1 gap-x-2.5 overflow-scroll rounded-lg px-2.5 py-2 scrollbar-hide">
+          <div className="flex flex-1 gap-x-2.5 overflow-scroll rounded-lg p-2 scrollbar-hide">
             {rereadingBookList.map(book => (
               <button key={book.title} type="button" onClick={() => {}}>
                 <BookThumbnail

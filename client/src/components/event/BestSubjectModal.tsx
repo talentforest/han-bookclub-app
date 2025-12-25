@@ -14,8 +14,8 @@ import { getFbRouteOfPost, thisYear } from '@/utils';
 
 import {
   BaseBookData,
-  EventContent,
   EventContentUpdateRoute,
+  SubjectEventResult,
   UserPost,
 } from '@/types';
 
@@ -70,7 +70,7 @@ export default function BestSubjectModal({
   }) => {
     setCurrStep(step);
 
-    const newData: EventContent['result']['subjects'][number] = {
+    const newData: SubjectEventResult = {
       yearMonthId,
       clubBook,
       rank,

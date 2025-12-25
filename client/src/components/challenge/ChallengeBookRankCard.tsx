@@ -27,12 +27,6 @@ export default function ChallengeBookRankCard({
     <li className="flex items-center justify-center">
       <button type="button" onClick={onClick} className="relative">
         <BookThumbnail title={title} thumbnail={thumbnail} className="w-full" />
-        {/* <div className="absolute -bottom-3 -right-3">
-          <PiMedalFill className="size-[60px] fill-yellow-400" />
-          <span className="absolute bottom-[24px] right-[24px] font-RomanticGumi text-purple1">
-            1
-          </span>
-        </div> */}
       </button>
     </li>
   );

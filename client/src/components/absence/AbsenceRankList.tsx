@@ -1,7 +1,5 @@
 import { useCallback, useEffect } from 'react';
 
-import { FaMedal } from 'react-icons/fa';
-
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { absenceAtom } from '@/data/absenceAtom';
@@ -13,8 +11,8 @@ import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
 
 import { thisYear } from '@/utils';
 
-import Confetti from '@/components/common/container/Confetti';
-import UserImgName from '@/components/common/user/UserImgName';
+import Confetti from '@/components/event/Confetti';
+import RankItem from '@/components/event/RankItem';
 
 type AbsenceRank = Record<string, { rank: number; absenceCount: number }>;
 
@@ -79,6 +77,7 @@ export default function AbsenceRankList() {
             return acc;
           }, []);
 
+        // 찾는 랭크에 맞는 배열 반환
         const result = rankedAbsenceList.filter(item => {
           const userId = Object.keys(item)[0];
           const itemRank = item[userId].rank;
@@ -110,27 +109,20 @@ export default function AbsenceRankList() {
         marqueeText="우수 멤버로 선정된 것을 축하합니다!"
       />
 
-      <ul className="mt-3 flex flex-col gap-y-2">
-        {getMatchRankList(1, 10).map(rankedUser => (
-          <li
-            key={Object.keys(rankedUser)[0]}
-            className={`flex !h-[54px] w-full items-center rounded-xl bg-white px-5 py-3 shadow-card`}
-          >
-            {rankedUser[Object.keys(rankedUser)[0]].rank === 1 && (
-              <FaMedal className="mr-2 size-5 text-yellow-600" />
-            )}
+      <ul className="mt-3 grid grid-cols-3 gap-3 max-md:grid-cols-2 max-sm:flex max-sm:flex-col">
+        {getMatchRankList(1, 10).map(rankedUser => {
+          const userId = Object.keys(rankedUser)[0];
+          const { rank, absenceCount } = rankedUser[userId];
 
-            <span className="w-12 font-RomanticGumi text-base font-medium text-blue2">{`${rankedUser[Object.keys(rankedUser)[0]].rank}위`}</span>
-            <UserImgName userId={Object.keys(rankedUser)[0]} />
-
-            <div className="ml-auto flex font-medium">
-              <span className="block w-8">불참 </span>
-              <span className="w-[25px]">
-                {rankedUser[Object.keys(rankedUser)[0]].absenceCount}회
-              </span>
-            </div>
-          </li>
-        ))}
+          return (
+            <RankItem
+              key={userId}
+              rank={rank}
+              userId={userId}
+              data={`불참 ${absenceCount}회`}
+            />
+          );
+        })}
       </ul>
     </div>
   );

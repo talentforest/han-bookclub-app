@@ -52,6 +52,7 @@ export default function AbsenceMemberTable({
           labels={labels}
           rowDataList={absenceList?.absenceMembers}
           isEditable={isEditable}
+          color="yellow"
         />
       ) : (
         <EmptyCard

@@ -110,7 +110,7 @@ export default function Challenge() {
             className="!mb-10 !mt-16 flex"
             title="🔥현재 가장 여러 번 다시 읽은 책은?"
           >
-            <ul className="grid grid-cols-4 gap-4">
+            <ul className="mt-2 grid grid-cols-8 gap-4 max-md:grid-cols-6 max-sm:grid-cols-4">
               {bookWithRankList.map(bookWithRank => (
                 <ChallengeBookRankCard
                   key={bookWithRank.title}

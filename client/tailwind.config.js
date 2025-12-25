@@ -20,6 +20,8 @@ export default {
 
         pointCoral: '#E94F37',
 
+        darkGray: '#262626',
+
         gray1: '#6d6d6d',
         gray2: '#b5b5b5',
         gray3: '#dedede',

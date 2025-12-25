@@ -8,6 +8,7 @@ interface AccordionProps {
   headerChildren?: ReactNode;
   iconClassName?: string;
   className?: string;
+  initialOpen?: boolean;
 }
 
 export default function Accordion({
@@ -16,23 +17,18 @@ export default function Accordion({
   headerChildren,
   iconClassName,
   className = '',
+  initialOpen = false,
 }: AccordionProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(initialOpen);
 
   const toggleDetails = () => setIsOpen(prev => !prev);
 
   return (
-    <li
-      className={`h-fit list-none rounded-xl bg-white shadow-card ${className}`}
-    >
+    <li className={`h-fit rounded-xl bg-white shadow-card ${className}`}>
       <div className="flex w-full items-center pl-4">
-        {headerChildren ? headerChildren : <h1 className="py-2">{title}</h1>}
+        {headerChildren ? headerChildren : <h1>{title}</h1>}
 
-        <button
-          type="button"
-          onClick={toggleDetails}
-          className="ml-auto px-4 py-5"
-        >
+        <button type="button" onClick={toggleDetails} className="ml-auto p-4">
           {isOpen ? (
             <FaChevronUp className={`size-3.5 text-blue3 ${iconClassName}`} />
           ) : (
@@ -42,7 +38,7 @@ export default function Accordion({
       </div>
 
       <div
-        className={`flex overflow-hidden bg-white px-4 transition-[max-height] duration-500 ease-in-out max-sm:flex-col ${
+        className={`flex overflow-hidden px-4 transition-[max-height] duration-500 ease-in-out max-sm:flex-col ${
           isOpen ? 'max-h-[5000px]' : 'max-h-0'
         }`}
       >

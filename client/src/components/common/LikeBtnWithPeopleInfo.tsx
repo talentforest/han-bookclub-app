@@ -63,7 +63,7 @@ const LikeBtnWithPeopleInfo = ({
           <h4 className="mb-2 min-w-20 text-sm text-gray1">좋아한 멤버</h4>
           <ul className="flex w-full flex-wrap gap-x-2 gap-y-1">
             {post?.likeUsers?.map(user => (
-              <UserImgName key={user} userId={user} className="" />
+              <UserImgName key={user} userId={user} />
             ))}
           </ul>
         </div>

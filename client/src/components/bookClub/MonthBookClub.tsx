@@ -54,7 +54,7 @@ export default function MonthBookClub({ yearMonthId }: MonthBookClubProps) {
             <MonthEventCard yearMonthId={yearMonthId} />
           )}
 
-          <ul className="col-span-1 flex flex-col gap-4">
+          <ul className="col-span-1 flex flex-col gap-3">
             {infoList.map(({ label, value }) => (
               <li key={label}>
                 <LabelWithValueCard

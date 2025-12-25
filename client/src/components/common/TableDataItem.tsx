@@ -7,7 +7,7 @@ import { thisMonth } from '@/utils';
 import Modal from '@/components/common/Modal';
 import UserImgName from '@/components/common/user/UserImgName';
 
-type LabelColor = 'yellow' | 'lightBlue' | 'darkBlue';
+type LabelColor = 'yellow' | 'lightBlue' | 'dark';
 
 export type Label =
   | '월'
@@ -37,14 +37,19 @@ export default function TableDataItem({
 
   const colorStyle = {
     bold: {
-      darkBlue: 'text-blue2',
+      dark: 'text-white',
       lightBlue: 'text-blue2',
       yellow: 'text-yellow-600',
     },
     regular: {
-      darkBlue: 'text-blue2',
+      dark: 'text-white',
       lightBlue: 'text-blue3',
-      yellow: 'text-yellow-500',
+      yellow: 'text-yellow-600',
+    },
+    text: {
+      dark: 'text-white',
+      lightBlue: 'text-black',
+      yellow: 'text-black',
     },
   };
 
@@ -53,8 +58,8 @@ export default function TableDataItem({
   const toggleModal = () => {
     showModal({
       element: (
-        <Modal className="!min-h-60" title={`${data} 상세내용 보기`}>
-          <textarea value={detail} readOnly className="min-h-40 resize-none" />
+        <Modal title={`${data} 상세내용 보기`}>
+          <textarea value={detail} readOnly className="min-h-60 resize-none" />
         </Modal>
       ),
     });
@@ -72,7 +77,11 @@ export default function TableDataItem({
                     발제자 없음
                   </span>
                 ) : (
-                  <UserImgName key={userId} userId={userId as string} />
+                  <UserImgName
+                    key={userId}
+                    userId={userId as string}
+                    className={`!${colorStyle.text[color]}`}
+                  />
                 ),
               )
             ) : (
@@ -100,7 +109,7 @@ export default function TableDataItem({
 
           {label !== '월' && label !== '모임정지' && label !== '일회불참' && (
             <td
-              className={`${commonTdClassName} flex items-center justify-center text-text`}
+              className={`${commonTdClassName} flex items-center justify-center ${colorStyle.text[color]}`}
             >
               {data || <span className="text-gray2">없음</span>}
               {detail && (

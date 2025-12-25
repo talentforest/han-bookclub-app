@@ -19,7 +19,7 @@ interface BookFieldHostTableProps {
   year?: string;
   isMonth?: boolean;
   isEditable?: boolean;
-  color?: 'lightBlue' | 'yellow';
+  color?: 'lightBlue' | 'yellow' | 'dark';
 }
 
 const BookFieldHostTable = ({

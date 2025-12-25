@@ -1,14 +1,14 @@
 import { useHandleModal } from '@/hooks';
 
-import { EventContent } from '@/types';
+import { BookEventResult } from '@/types';
 
 import BookThumbnail from '@/components/common/book/BookThumbnail';
-import Confetti from '@/components/common/container/Confetti';
 import RankStage from '@/components/common/container/RankStage';
 import BestBookModal from '@/components/event/BestBookModal';
+import Confetti from '@/components/event/Confetti';
 
 interface BestBookListProps {
-  books?: EventContent['result']['books'];
+  books?: BookEventResult[];
 }
 
 export default function BestBookList({ books }: BestBookListProps) {
@@ -34,7 +34,7 @@ export default function BestBookList({ books }: BestBookListProps) {
     <div className="flex flex-col items-center justify-center">
       <Confetti title="최고의 모임책" />
 
-      <RankStage<EventContent['result']['books'][number]>
+      <RankStage<BookEventResult>
         firstRank={filterBookRank(1)}
         secondRank={filterBookRank(2)}
         thirdRank={filterBookRank(3)}

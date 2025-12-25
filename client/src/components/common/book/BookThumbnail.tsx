@@ -34,9 +34,9 @@ export default function BookThumbnail({
   return (
     <>
       {thumbnail && (
-        <div className={`relative ${commonClassName} ${className}`}>
+        <div className={`relative ${className}`}>
           <img
-            className="size-full shadow-sm shadow-white"
+            className={`size-full ${commonClassName} `}
             src={thumbnail}
             alt={`${title} 북커버`}
           />

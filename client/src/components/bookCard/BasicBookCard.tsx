@@ -53,7 +53,7 @@ export default function BasicBookCard({
           <ul className="flex gap-x-2">
             {fieldAndHosts?.hosts?.map(host => (
               <li key={host}>
-                <UserImgName userId={host} className="text-[15px]" />
+                <UserImgName userId={host} size="sm" />
               </li>
             ))}
           </ul>

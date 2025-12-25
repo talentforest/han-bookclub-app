@@ -8,7 +8,8 @@ import { thisYearMonthId } from '@/utils';
 
 import MobileHeader from '@/layout/MobileHeader';
 
-import PreviousBookCard from '@/components/bookCard/PreviousBookCard';
+import MonthBookCard from '@/components/bookCard/MonthBookCard';
+import MonthEventCard from '@/components/bookCard/MonthEventCard';
 import SelectYearBtnList from '@/components/common/SelectYearBtnList';
 import EmptyCard from '@/components/common/container/EmptyCard';
 import Section from '@/components/common/container/Section';
@@ -35,13 +36,17 @@ function PreviousClub() {
 
         <Section title={`${selectedYear}년의 한페이지`} className="!mt-10">
           {prevClubList.length !== 0 ? (
-            <ul className="grid grid-cols-4 gap-5 max-md:grid-cols-3 max-sm:mt-2 max-sm:flex max-sm:flex-col [&>div]:col-span-4">
+            <ul className="grid grid-cols-4 gap-4 max-md:grid-cols-3 max-sm:mt-2 max-sm:flex max-sm:flex-col [&>div]:col-span-4">
               {prevClubList.map(club => (
                 <Link
                   key={club.id}
                   to={`/bookclub${thisYearMonthId === club.id ? '' : `/${club.id}`}`}
                 >
-                  <PreviousBookCard document={club} />
+                  {club.meeting.eventMonth ? (
+                    <MonthEventCard yearMonthId={club.id} />
+                  ) : (
+                    <MonthBookCard yearMonthId={club.id} />
+                  )}
                 </Link>
               ))}
             </ul>

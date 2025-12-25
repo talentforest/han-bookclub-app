@@ -29,22 +29,16 @@ export default function MonthlyClubInfo() {
 
       <main>
         {name === '모임불참' && (
-          <>
-            <Section title={`2025년 모임불참`}>
-              <AbsenceMemberTable year="2025" isMonth />
+          <Section title={`2025년 모임불참`}>
+            <AbsenceMemberTable year="2025" isMonth />
 
-              <ChevronRightLinkBtn
-                title="나의 불참 설정하러 가기"
-                to="/setting/absence"
-                state={{ year: '2025' }}
-                className="pt-3"
-              />
-            </Section>
-
-            <Section title={`2026년 모임불참`}>
-              <AbsenceMemberTable year="2026" isMonth />
-            </Section>
-          </>
+            <ChevronRightLinkBtn
+              title="나의 불참 설정하러 가기"
+              to="/setting/absence"
+              state={{ year: '2025' }}
+              className="pt-3"
+            />
+          </Section>
         )}
 
         {name === '월별 독서분야' && (

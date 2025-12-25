@@ -14,12 +14,14 @@ import { USER } from '@/appConstants';
 interface UserImgNameProps {
   userId: string;
   className?: string;
+  size?: 'sm' | 'md' | 'lg';
   isLink?: boolean;
 }
 
 export default function UserImgName({
   userId,
   className,
+  size = 'md',
   isLink = true,
 }: UserImgNameProps) {
   const { uid } = useRecoilValue(currAuthUserAtom);
@@ -43,9 +45,20 @@ export default function UserImgName({
     return false;
   };
 
-  const commonClassName = 'size-[20px] aspect-square rounded-full shadow-card';
+  const sizeStyle = {
+    sm: 'text-sm  [&>img]:size-[18px]',
+    md: 'text-base [&>img]:size-[20px]',
+    lg: 'text-lg [&>img]:size-[22px]',
+  };
 
-  if (!user) return <span className="text-sm text-gray2">탈퇴회원</span>;
+  const commonClassName = 'aspect-square rounded-full shadow-card';
+
+  if (!user)
+    return (
+      <span className={`${sizeStyle[size]} ${className} text-gray2`}>
+        탈퇴회원
+      </span>
+    );
 
   const isCurrentUser = uid === user?.id;
 
@@ -55,30 +68,26 @@ export default function UserImgName({
     <Link
       to={to}
       state={{ userId: user.id }}
-      className={`flex min-w-fit cursor-pointer items-center justify-between gap-x-1 ${className}`}
+      className={`flex min-w-fit cursor-pointer items-center justify-between gap-x-1 ${sizeStyle[size]} ${className}`}
     >
       <img
         onContextMenu={onContextMenu}
         src={user.photoURL.compressed || basePhoto}
         alt={`${user.displayName}의 프로필 이미지`}
         className={`aspect-square object-cover ${commonClassName}`}
-        width={20}
-        height={20}
       />
 
       <span className="min-w-fit">{user.displayName}</span>
     </Link>
   ) : (
     <div
-      className={`flex min-w-fit items-center justify-between gap-x-1 ${className}`}
+      className={`flex min-w-fit items-center justify-between gap-x-1 ${sizeStyle[size]} ${className}`}
     >
       <img
         onContextMenu={onContextMenu}
         src={user.photoURL.compressed || basePhoto}
         alt={`${user.displayName}의 프로필 이미지`}
         className={`aspect-square object-cover ${commonClassName}`}
-        width={20}
-        height={20}
       />
 
       <span className="min-w-fit">{user.displayName}</span>
