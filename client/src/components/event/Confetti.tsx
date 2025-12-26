@@ -50,7 +50,7 @@ export default function Confetti({
         )}
 
         {marqueeText && (
-          <h3 className="-mx-5 mt-4 animate-marquee whitespace-nowrap font-RomanticGumi font-bold italic text-purple4">
+          <h3 className="mt-4 animate-marquee whitespace-nowrap font-RomanticGumi font-bold italic text-purple4">
             {marqueeText}
           </h3>
         )}

@@ -50,6 +50,7 @@ export default function ReadingLifeQuestionList({
           key={question}
           title={question}
           initialOpen={true}
+          titleClassName="text-purple3"
           className="!bg-transparent !text-white [&>div:first-child]:!pb-0 [&>div]:px-0"
         >
           <ul

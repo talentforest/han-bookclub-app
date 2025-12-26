@@ -8,6 +8,7 @@ interface AccordionProps {
   headerChildren?: ReactNode;
   iconClassName?: string;
   className?: string;
+  titleClassName?: string;
   initialOpen?: boolean;
 }
 
@@ -17,6 +18,7 @@ export default function Accordion({
   headerChildren,
   iconClassName,
   className = '',
+  titleClassName = '',
   initialOpen = false,
 }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(initialOpen);
@@ -26,7 +28,11 @@ export default function Accordion({
   return (
     <li className={`h-fit rounded-xl bg-white shadow-card ${className}`}>
       <div className="flex w-full items-center pl-4">
-        {headerChildren ? headerChildren : <h1>{title}</h1>}
+        {headerChildren ? (
+          headerChildren
+        ) : (
+          <h1 className={titleClassName}>{title}</h1>
+        )}
 
         <button type="button" onClick={toggleDetails} className="ml-auto p-4">
           {isOpen ? (

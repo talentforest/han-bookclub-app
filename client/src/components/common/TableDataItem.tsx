@@ -58,7 +58,7 @@ export default function TableDataItem({
   const toggleModal = () => {
     showModal({
       element: (
-        <Modal title={`${data} 상세내용 보기`}>
+        <Modal title={`독서모임 상세내용`}>
           <textarea value={detail} readOnly className="min-h-60 resize-none" />
         </Modal>
       ),

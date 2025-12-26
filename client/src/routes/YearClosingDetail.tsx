@@ -9,11 +9,12 @@ import { clubByMonthSelector } from '@/data/clubAtom';
 
 import { useGetClubByYear, useHandleChallenge } from '@/hooks';
 
-import { thisYear } from '@/utils';
+import { nextYear, thisYear } from '@/utils';
 
 import MobileHeader from '@/layout/MobileHeader';
 
 import AbsenceRankList from '@/components/absence/AbsenceRankList';
+import BookFieldHostTable from '@/components/bookClub/BookFieldHostTable';
 import ChallengeUserRankCard from '@/components/challenge/ChallengeUserRankCard';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import SquareBtn from '@/components/common/button/SquareBtn';
@@ -129,7 +130,7 @@ export default function YearClosingDetail() {
         className="!bg-black !text-white"
       />
 
-      <main className="bg-black pb-40 pt-4">
+      <main className="overflow-hidden bg-black pb-40 pt-4">
         <div className="relative mb-3 rounded-2xl bg-[#2a2a2a] px-4 py-6 shadow-card">
           <h2 className="font-RomanticGumi leading-5 text-white">
             <span className="mr-0.5 text-3xl tracking-[-0.1em] text-purple2">
@@ -202,7 +203,7 @@ export default function YearClosingDetail() {
               <SquareBtn
                 name={content[1].name}
                 handleClick={() => setCurrTab(content[0])}
-                className={`rounded-t-xl !px-3 !text-sm tracking-tighter ${currTab.includes(content[0]) ? '!bg-darkGray font-bold !text-white' : '!text-darkGray !bg-gray2'}`}
+                className={`rounded-t-xl !px-3 !text-sm tracking-tighter ${currTab.includes(content[0]) ? '!bg-darkGray font-bold !text-white' : '!bg-gray2 !text-darkGray'}`}
               />
             </li>
           ))}
@@ -217,6 +218,13 @@ export default function YearClosingDetail() {
           <ReadingLifeQuestionList
             questionList={questionList.result.readingLifeQuestions}
           />
+        </Section>
+
+        <Section
+          title={`${nextYear}년 독서분야와 발제자`}
+          className={'!mt-4 [&>h3]:text-white'}
+        >
+          <BookFieldHostTable year={nextYear} isMonth isEditable color="dark" />
         </Section>
       </main>
     </>

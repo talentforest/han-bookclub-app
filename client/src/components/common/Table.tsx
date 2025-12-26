@@ -43,7 +43,7 @@ export default function Table({
     border: {
       dark: 'border-[#424242]',
       lightBlue: 'border-[#dcebfc]',
-      yellow: 'border-[#f8ee80]',
+      yellow: 'border-[#fffac2]',
     },
   };
 
