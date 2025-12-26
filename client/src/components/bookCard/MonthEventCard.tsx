@@ -32,7 +32,7 @@ export default function MonthEventCard({
       {(pathname === '/' || pathname === '/previous-bookclub') && (
         <Tag
           text={`${month}월 이벤트`}
-          color={+yearMonthId === +thisYearMonthId ? 'green' : 'purple'}
+          color={yearMonthId === thisYearMonthId ? 'yellow' : 'purple'}
           shape="rounded"
           className="mb-3 font-medium shadow-2xl"
         />

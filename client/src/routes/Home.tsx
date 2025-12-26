@@ -35,24 +35,29 @@ const Home = () => {
 
   const buttonList = [
     {
-      name: '월별 독서분야',
+      name: `${thisYear} 월별 독서분야`,
       onClick: () => navigate('/monthlyinfo', { state: 'fieldAndHost' }),
-      color: 'blue' as const,
+      color: 'lightBlue' as const,
     },
     {
-      name: '모임불참',
-      onClick: () => navigate('/monthlyinfo', { state: 'absence' }),
-      color: 'blue' as const,
-    },
-    {
-      name: '챌린지',
+      name: `${thisYear} 챌린지`,
       onClick: () => navigate('/challenge'),
-      color: 'blue' as const,
+      color: 'lightBlue' as const,
     },
     {
-      name: '연말결산',
-      onClick: () => navigate('/yearClosingEvent'),
-      color: 'blue' as const,
+      name: `${thisYear} 모임불참`,
+      onClick: () => navigate('/monthlyinfo', { state: 'absence' }),
+      color: 'lightBlue' as const,
+    },
+    // {
+    //   name: '연말결산',
+    //   onClick: () => navigate('/yearClosingEvent'),
+    //   color: 'blue' as const,
+    // },
+    {
+      name: `${thisYear} 페널티`,
+      onClick: () => navigate('/monthlyinfo', { state: 'absence' }),
+      color: 'gray' as const,
     },
   ];
 
@@ -76,7 +81,7 @@ const Home = () => {
           {buttonList.map(({ name, onClick, color }) => (
             <SquareBtn
               key={name}
-              name={`${thisYear} ${name}`}
+              name={`${name}`}
               className="h-fit w-full rounded-xl !px-0 py-4"
               color={color}
               handleClick={onClick}

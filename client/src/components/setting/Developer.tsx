@@ -61,6 +61,7 @@ export default function Developer() {
         <Section title="알림 테스트">
           <div className="flex flex-wrap gap-3">
             <SquareBtn
+              color="lightBlue"
               name="나에게 알림"
               handleClick={async () => {
                 const notificationData: NotificationData = {
@@ -135,6 +136,7 @@ export default function Developer() {
 
         <Section title="모임 종료 알림">
           <SquareBtn
+            color="purple"
             name={`${+thisMonth}월 독서모임 종료 알림`}
             handleClick={async () => {
               const notificationData = {

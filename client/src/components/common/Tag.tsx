@@ -30,9 +30,9 @@ export default function Tag({
     lightGray: 'bg-gray4 text-gray1',
     lightGreen: 'bg-green3 text-green-700',
     lightBlue: 'bg-blue4 text-blue2',
-    yellow: 'bg-amber-100 text-yellow-700',
+    yellow: 'bg-yellow-100 text-yellow-600',
     purple: 'bg-purple4 text-purple-700',
-    green: 'bg-green1 text-white',
+    green: 'bg-green3 text-green1',
     red: 'bg-pointCoral text-white',
   };
 

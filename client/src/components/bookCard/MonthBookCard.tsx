@@ -31,6 +31,7 @@ export default function MonthBookCard({
     monthClubInfo?.book || {};
 
   const { pathname } = useLocation();
+  console.log(title, yearMonthId, thisYearMonthId);
 
   return (
     <div
@@ -39,7 +40,7 @@ export default function MonthBookCard({
       <div className="flex flex-1 flex-col items-start">
         <Tag
           text={`${+month}월 모임책`}
-          color={+yearMonthId === +thisYearMonthId ? 'lightBlue' : 'purple'}
+          color={yearMonthId === thisYearMonthId ? 'yellow' : 'purple'}
           shape="rounded"
           className="font-medium"
         />

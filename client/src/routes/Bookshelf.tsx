@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 
 import { Link, useLocation } from 'react-router-dom';
 
-import { FiSettings } from 'react-icons/fi';
+import { authService } from '@/fbase';
+import { RiSettings2Line } from 'react-icons/ri';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 
@@ -57,6 +58,8 @@ const Bookshelf = () => {
 
   const isCurrentUser = uid === id;
 
+  const isAnonymous = authService.currentUser.isAnonymous;
+
   const displayName = isCurrentUser ? '나' : username;
 
   const isAbsentee = absenteeList?.includes(state?.userId);
@@ -75,8 +78,13 @@ const Bookshelf = () => {
         backTo="/bookshelf"
       >
         {isCurrentUser && (
-          <Link to="/setting">
-            <FiSettings fontSize={18} />
+          <Link
+            to={!isAnonymous ? '/setting' : ''}
+            onClick={() => {
+              if (isAnonymous) return alert('익명의 방문자입니다!');
+            }}
+          >
+            <RiSettings2Line fontSize={20} />
           </Link>
         )}
       </MobileHeader>

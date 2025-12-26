@@ -21,7 +21,10 @@ const LogOutBtn = () => {
   };
 
   return (
-    <button className="border-none bg-transparent" onClick={onLogOutClick}>
+    <button
+      className="border-none bg-transparent text-[15px]"
+      onClick={onLogOutClick}
+    >
       로그아웃
     </button>
   );
