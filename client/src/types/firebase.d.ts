@@ -5,6 +5,7 @@ import {
   BOOK_VOTE,
   CHALLENGE,
   FCM_NOTIFICATION,
+  HOST_BOOKCLUB,
   HOST_REVIEW,
   MEETING_PLACE,
   PENALTY,
@@ -38,7 +39,8 @@ export type SubCollectionSegment =
   | typeof RECOMMENDED_BOOKS
   | typeof HOST_REVIEW
   | typeof REVIEWS
-  | typeof SUBJECTS;
+  | typeof SUBJECTS
+  | typeof HOST_BOOKCLUB;
 
 export type DocId =
   | typeof BOOK_FIELD_AND_HOST

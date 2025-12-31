@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import { dbService } from '@/fbase';
-import { deleteDoc, doc } from 'firebase/firestore';
 import { FiTrash2 } from 'react-icons/fi';
 
 import { useRecoilValue } from 'recoil';
@@ -12,14 +10,15 @@ import { currAuthUserAtom } from '@/data/userAtom';
 
 import { CHALLENGE } from '@/appConstants';
 
+import { useDeleteDoc } from '@/hooks';
+
 import { getPercentageNum } from '@/utils';
 
 import { CompleteReadingChallengeBook } from '@/types';
 
+import FooterBookCard from '@/components/bookCard/FooterBookCard';
 import PagePosition from '@/components/challenge/PagePosition';
 import Tag from '@/components/common/Tag';
-import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
-import BookThumbnail from '@/components/common/book/BookThumbnail';
 import PageWithPercent from '@/components/common/book/PageWithPercent';
 
 interface ChallengeBookCardProps {
@@ -33,8 +32,7 @@ export default function UserChallengeBookCard({
   creatorId,
   challengeBook,
 }: ChallengeBookCardProps) {
-  const { title, thumbnail, authors, publisher, wholePage, currentPage } =
-    challengeBook;
+  const { wholePage, currentPage, ...book } = challengeBook;
 
   const [currentPageNum] = useState(currentPage);
 
@@ -42,46 +40,56 @@ export default function UserChallengeBookCard({
 
   const { pathname } = useLocation();
 
-  const docRef = doc(dbService, CHALLENGE, docId);
-
-  const onDeleteClick = async () => {
-    const confirm = window.confirm('정말로 삭제하시겠어요?');
-    if (!confirm) return;
-    await deleteDoc(docRef);
-  };
+  const { onDeleteClick } = useDeleteDoc({ collName: CHALLENGE, docId });
 
   const percentage = `${getPercentageNum(currentPage, wholePage)}%`;
 
+  const status = percentage === '100%' ? 'success' : 'fail';
+
+  const statusObj = {
+    success: {
+      title: '🎉 성공',
+      color: 'green' as const,
+      style: 'bg-white',
+    },
+    fail: {
+      title: '😭 실패',
+      color: 'red' as const,
+      style: 'opacity-50 border border-gray3 bg-gray3',
+    },
+  };
+
   return (
-    <li
-      className={`rounded-xl border bg-white px-4 pb-3 pt-4 shadow-card ${percentage === '100%' ? 'border-green1' : 'border-pointCoral opacity-50'}`}
+    <div
+      className={`rounded-2xl px-4 pb-3 pt-4 shadow-card ${statusObj[status].style}`}
     >
-      <div className="mb-2.5 flex flex-1">
-        <div className="mr-4 flex flex-1 flex-col gap-1">
+      <div className="relative">
+        <FooterBookCard book={book} className="!pt-0" />
+
+        {pathname === '/challenge' && uid === creatorId && (
+          <button
+            type="button"
+            onClick={onDeleteClick}
+            className="absolute right-0 top-0 flex gap-3"
+          >
+            <FiTrash2 fontSize={16} className="text-gray1" />
+          </button>
+        )}
+      </div>
+
+      <div className="flex items-end justify-between gap-x-1">
+        <PageWithPercent currentPage={currentPageNum} wholePage={wholePage} />
+
+        {status === 'success' && (
           <Tag
-            text={percentage === '100%' ? '🎉 챌린지 성공' : '😭 챌린지 실패'}
-            color={percentage === '100%' ? 'green' : 'red'}
-            className="mb-1.5 min-w-fit font-medium"
+            text={statusObj[status].title}
+            color={statusObj[status].color}
+            className="min-w-fit !px-2.5 !py-1.5 !text-xs font-medium"
           />
-
-          <h3 className="font-medium leading-5">{title}</h3>
-          <BookAuthorPublisher authors={authors} publisher={publisher} />
-
-          {pathname === '/challenge' && uid === creatorId && (
-            <div className="absolute right-3 top-3 flex gap-3">
-              <button type="button" onClick={onDeleteClick}>
-                <FiTrash2 fontSize={15} />
-              </button>
-            </div>
-          )}
-
-          <PageWithPercent currentPage={currentPageNum} wholePage={wholePage} />
-        </div>
-
-        <BookThumbnail title={title} thumbnail={thumbnail} className="w-20" />
+        )}
       </div>
 
       <PagePosition percentage={percentage} />
-    </li>
+    </div>
   );
 }

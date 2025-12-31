@@ -1,8 +1,4 @@
-import { useEffect, useState } from 'react';
-
 import { FiUser } from 'react-icons/fi';
-
-import { getDocument } from '@/api';
 
 import { useHandleModal } from '@/hooks';
 
@@ -14,72 +10,58 @@ import UserImgName from '@/components/common/user/UserImgName';
 import RecommendedBookModal from '@/components/post/recommendedBooks/RecommendedBookModal';
 
 interface PostRecommendedBookCardProps {
-  docIds: { docId: string; monthId: string };
+  post: UserPost;
+  collName: SubCollection;
 }
 
 export default function PostRecommendedBookCard({
-  docIds: { docId, monthId },
+  post,
+  collName,
 }: PostRecommendedBookCardProps) {
-  const [recommendedBookDoc, setRecommendedBookDoc] = useState<UserPost>();
-
   const { showModal } = useHandleModal();
-
-  const year = monthId.slice(0, 4);
-  const collName: Extract<
-    SubCollection,
-    `BookClub-${string}/${string}/RecommendedBooks`
-  > = `BookClub-${year}/${monthId}/RecommendedBooks`;
-
-  useEffect(() => {
-    getDocument(collName, docId, setRecommendedBookDoc);
-  }, []);
-
-  const { recommendedBook, creatorId } = recommendedBookDoc || {};
 
   const onClick = () =>
     showModal({
       element: (
         <RecommendedBookModal
-          recommendedBookDetail={recommendedBookDoc}
+          recommendedBookDetail={post}
           collName={collName}
         />
       ),
     });
 
+  const {
+    recommendedBook: { title, thumbnail, authors, publisher },
+    creatorId,
+  } = post;
+
   return (
-    <>
-      {recommendedBookDoc?.recommendedBook && (
-        <button
-          type="button"
-          onClick={onClick}
-          className="relative mx-2 mt-7 min-h-[102px] w-full rounded-xl bg-white px-6 py-3 shadow-card"
-        >
-          <BookThumbnail
-            title={recommendedBook.title}
-            thumbnail={recommendedBook.thumbnail}
-            className="!absolute bottom-4 w-[80px]"
-          />
+    <button
+      type="button"
+      onClick={onClick}
+      className="relative mt-7 min-h-[102px] w-full rounded-xl bg-white px-4 py-3 shadow-card"
+    >
+      <BookThumbnail
+        title={title}
+        thumbnail={thumbnail}
+        className="!absolute bottom-4 w-[70px]"
+      />
 
-          <div className="ml-[90px] flex h-full flex-col items-start">
-            <div className="flex items-center gap-0.5 text-gray1">
-              <FiUser fontSize={14} className="text-gray2" />
-              <span className="mr-2 text-sm text-gray2">추천인</span>
-              <UserImgName userId={creatorId} isLink={false} />
-            </div>
+      <div className="ml-[80px] flex h-full flex-col items-start">
+        <div className="flex items-center gap-0.5 text-gray1">
+          <FiUser fontSize={14} className="text-gray1" />
+          <span className="mr-2 text-sm text-gray1">추천인</span>
+          <UserImgName userId={creatorId} isLink={false} />
+        </div>
 
-            <div className="mb-1 mt-1.5 flex flex-1 flex-col items-start">
-              <span className="mb-1 line-clamp-2 text-start text-base font-medium leading-[20px]">
-                {recommendedBook.title}
-              </span>
+        <div className="mb-1 mt-1.5 flex flex-1 flex-col items-start">
+          <h4 className="mb-1 line-clamp-2 text-start text-base font-medium leading-[20px]">
+            {title}
+          </h4>
 
-              <BookAuthorPublisher
-                authors={recommendedBook?.authors}
-                publisher={recommendedBook?.publisher}
-              />
-            </div>
-          </div>
-        </button>
-      )}
-    </>
+          <BookAuthorPublisher authors={authors} publisher={publisher} />
+        </div>
+      </div>
+    </button>
   );
 }

@@ -1,17 +1,16 @@
 import { authService, dbService } from '@/fbase';
 import { onAuthStateChanged } from 'firebase/auth';
 import {
+  QueryConstraint,
   collection,
+  collectionGroup,
   doc,
   onSnapshot,
-  orderBy,
   query,
   where,
 } from 'firebase/firestore';
 
-import { CHALLENGE, USER } from '@/appConstants';
-
-import { thisYear } from '@/utils';
+import { USER } from '@/appConstants';
 
 export function getDocument<T>(
   coll: string,
@@ -24,22 +23,39 @@ export function getDocument<T>(
   unsubscribe(listener);
 }
 
-export function getCollection<T>(coll: string, setState: (arr: T[]) => void) {
+export async function getSubCollectionGroup<T>(
+  coll: string,
+  setState: (arr: T[]) => void,
+  ...constraints: QueryConstraint[]
+) {
+  const q = query(collectionGroup(dbService, coll), ...constraints);
+
+  const listener = onSnapshot(q, querySnapshot => {
+    const newArray = querySnapshot.docs.map(doc => {
+      return {
+        id: doc.id,
+        yearMonthId: doc.ref.parent.parent.id,
+        ...doc.data(),
+      } as unknown as T;
+    });
+    setState(newArray);
+  });
+
+  unsubscribe(listener);
+}
+
+export function getCollection<T>(
+  coll: string,
+  setState: (arr: T[]) => void,
+  ...constraints: QueryConstraint[]
+) {
   const collRef = collection(dbService, coll);
-  const userQuery = query(collRef, where('name', '!=', '테스트계정'));
-  const challengeQuery = query(
-    collRef,
-    where('__name__', '>=', `${thisYear}-`),
-  );
 
-  const orderQuery = query(collRef, orderBy('createdAt', 'desc'));
+  const userConstraints = [where('name', '!=', '테스트계정')];
 
-  const queryRef =
-    coll === USER
-      ? userQuery
-      : coll === CHALLENGE
-        ? challengeQuery
-        : orderQuery;
+  const con = coll === USER ? userConstraints : [];
+
+  const queryRef = query(collRef, ...con, ...constraints);
 
   const listener = onSnapshot(queryRef, querySnapshot => {
     const newArray = querySnapshot.docs.map(doc => {

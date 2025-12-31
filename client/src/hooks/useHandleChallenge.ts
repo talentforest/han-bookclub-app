@@ -1,5 +1,7 @@
 import { useEffect, useMemo } from 'react';
 
+import { where } from 'firebase/firestore';
+
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { rereadingChallengeAtom } from '@/data/challengeAtom';
@@ -8,6 +10,8 @@ import { allUsersAtom } from '@/data/userAtom';
 import { getCollection } from '@/api';
 
 import { CHALLENGE } from '@/appConstants';
+
+import { thisYear } from '@/utils';
 
 import { BaseBookData, BookWithRank, UserRank } from '@/types';
 
@@ -20,7 +24,11 @@ export const useHandleChallenge = () => {
 
   useEffect(() => {
     if (!userChallengeList) {
-      getCollection(CHALLENGE, setUserChallengeList);
+      getCollection(
+        CHALLENGE,
+        setUserChallengeList,
+        where('__name__', '>=', `${thisYear}-`),
+      );
     }
   }, []);
 

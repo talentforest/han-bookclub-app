@@ -1,63 +1,73 @@
 import { FiUser } from 'react-icons/fi';
 
-import { MonthlyBookClub, MonthlyFieldAndHost } from '@/types';
+import { BaseBookData, MonthlyBookClub, MonthlyFieldAndHost } from '@/types';
 
+import ClubTimePlace from '@/components/common/ClubTimePlace';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookField from '@/components/common/book/BookField';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import UserImgName from '@/components/common/user/UserImgName';
 
 interface BasicBookCardProps {
-  bookClub: MonthlyBookClub;
+  clubBook: BaseBookData;
+  meeting?: MonthlyBookClub['meeting'];
   fieldAndHosts?: MonthlyFieldAndHost;
   className?: string;
 }
 
 export default function BasicBookCard({
-  bookClub,
+  clubBook,
+  meeting,
   fieldAndHosts,
   className = '',
 }: BasicBookCardProps) {
-  const { book } = bookClub;
+  const { thumbnail, title, url, authors, publisher } = clubBook;
 
   return (
     <div
-      className={`flex gap-x-4 rounded-card bg-white p-5 shadow-card ${className}`}
+      className={`flex w-full gap-x-4 rounded-card bg-white p-5 shadow-card ${className}`}
     >
       <BookThumbnail
-        thumbnail={book.thumbnail}
-        title={book.title}
-        iconName={
-          book.title.includes('이벤트') ? 'MdEventAvailable' : undefined
-        }
-        url={book.url}
-        className="w-28"
+        thumbnail={thumbnail}
+        title={title}
+        iconName={title.includes('이벤트') ? 'MdEventAvailable' : undefined}
+        url={url}
+        className="w-24"
       />
 
       <div className="flex w-full flex-col justify-between">
-        <h1 className="mb-1 line-clamp-2 pr-1 text-lg font-medium leading-5">
-          {book.title}
+        <h1 className="mb-0.5 line-clamp-1 pr-1 font-medium leading-5">
+          {title}
         </h1>
 
-        {book.authors && (
-          <BookAuthorPublisher
-            authors={book.authors}
-            publisher={book.publisher}
-          />
+        {authors && (
+          <BookAuthorPublisher authors={authors} publisher={publisher} />
         )}
 
-        {fieldAndHosts?.field && <BookField field={fieldAndHosts?.field} />}
+        {fieldAndHosts && fieldAndHosts?.field && (
+          <BookField field={fieldAndHosts?.field} />
+        )}
 
-        <div className="flex items-center gap-x-1">
-          <FiUser className="text-[16px] text-purple2" />
-          <ul className="flex gap-x-2">
-            {fieldAndHosts?.hosts?.map(host => (
-              <li key={host}>
-                <UserImgName userId={host} size="sm" />
-              </li>
-            ))}
-          </ul>
-        </div>
+        {fieldAndHosts && fieldAndHosts?.hosts.length !== 0 && (
+          <div className="flex items-center gap-x-1">
+            <FiUser className="text-[16px] text-purple2" />
+            <ul className="flex gap-x-2">
+              {fieldAndHosts?.hosts?.map(host => (
+                <li key={host}>
+                  <UserImgName userId={host} size="sm" />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {meeting && (
+          <ClubTimePlace
+            time={meeting.time}
+            place={meeting.place}
+            className="mt-2"
+          />
+        )}
       </div>
     </div>
   );

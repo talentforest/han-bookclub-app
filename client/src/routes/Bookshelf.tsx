@@ -1,117 +1,85 @@
-import { useEffect } from 'react';
-
 import { Link, useLocation } from 'react-router-dom';
 
 import { authService } from '@/fbase';
 import { RiSettings2Line } from 'react-icons/ri';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
-import { attendanceSelector } from '@/data/absenceAtom';
-import { completeReadingChallengeState } from '@/data/challengeAtom';
-import { allUsersAtom, currAuthUserAtom } from '@/data/userAtom';
+import { currAuthUserAtom, userDocAtomFamily } from '@/data/userAtom';
 
-import { getDocument } from '@/api';
+import { CHALLENGE, postNameObj } from '@/appConstants';
 
-import { CHALLENGE } from '@/appConstants';
-
-import { thisYearMonthId } from '@/utils';
-
-import { PostTypeName } from '@/types';
+import { SubPostTypeKey } from '@/types';
 
 import MobileHeader from '@/layout/MobileHeader';
 
-import BookshelfPostList from '@/components/bookshelf/BookshelfPostList';
-import UserChallengeBookCard from '@/components/challenge/UserChallengeBookCard';
-import GuideLine from '@/components/common/GuideLine';
+import ChallengeDisplayList from '@/components/bookshelf/ChallengeDisplayList';
+import MyClubDisplayList from '@/components/bookshelf/MyClubDisplayList';
+import UserPostDisplayList from '@/components/bookshelf/UserPostDisplayList';
 import LoopLoading from '@/components/common/LoopLoading';
 import Tag from '@/components/common/Tag';
+import ChevronRightLinkBtn from '@/components/common/button/ChevronRightLinkBtn';
 import Section from '@/components/common/container/Section';
 import UserImg from '@/components/common/user/UserImg';
 
 const Bookshelf = () => {
-  const [challenge, setChallenge] = useRecoilState(
-    completeReadingChallengeState,
-  );
-
-  const { state } = useLocation() as {
-    state: { userId: string };
-  };
-
-  const { absenteeList } = useRecoilValue(attendanceSelector(thisYearMonthId));
+  const { state } = useLocation() as { state: { userId: string } };
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const allUserDocs = useRecoilValue(allUsersAtom);
-
-  const userData = allUserDocs?.find(
-    user => user.id === (state?.userId || uid),
-  );
+  const userData = useRecoilValue(userDocAtomFamily(state?.userId || uid));
 
   const {
-    id,
+    id: userId,
     favoriteBookField,
-    userRecords,
     displayName: username,
     photoURL,
+    hostYearMonthIdList,
   } = userData || {};
-
-  const isCurrentUser = uid === id;
 
   const isAnonymous = authService.currentUser.isAnonymous;
 
+  const isCurrentUser = uid === userId;
   const displayName = isCurrentUser ? '나' : username;
 
-  const isAbsentee = absenteeList?.includes(state?.userId);
-
-  useEffect(() => {
-    if (challenge?.creatorId !== id && id) {
-      getDocument(CHALLENGE, `2024-${id}`, setChallenge);
-    }
-  }, [id]);
-
   return (
-    <>
-      <MobileHeader
-        title={`${displayName}의 책장`}
-        backBtn={!isCurrentUser}
-        backTo="/bookshelf"
-      >
-        {isCurrentUser && (
-          <Link
-            to={!isAnonymous ? '/setting' : ''}
-            onClick={() => {
-              if (isAnonymous) return alert('익명의 방문자입니다!');
-            }}
-          >
-            <RiSettings2Line fontSize={20} />
-          </Link>
-        )}
-      </MobileHeader>
+    Object.keys(userData).length > 0 && (
+      <>
+        <MobileHeader title={`${displayName}의 책장`} backBtn={!isCurrentUser}>
+          {isCurrentUser && (
+            <Link
+              to={!isAnonymous ? '/setting' : ''}
+              onClick={() => {
+                if (isAnonymous) return alert('익명의 방문자입니다!');
+              }}
+            >
+              <RiSettings2Line fontSize={20} />
+            </Link>
+          )}
+        </MobileHeader>
 
-      {userData && (
         <main>
-          <Section>
+          {/* 내 정보 */}
+          <Section className="mb-0">
             <UserImg
               isEditing={false}
               imgUrl={photoURL?.original || (photoURL as unknown as string)}
             />
             <span className="mx-auto text-lg font-medium">{username}</span>
-
-            <div className="mt-3 flex flex-col items-center gap-1">
-              {isAbsentee ? (
-                <Tag text="🔴 이번달 불참" color="red" shape="square" />
-              ) : (
-                <Tag text="✅ 이번달 출석" color="lightGreen" shape="square" />
-              )}
-            </div>
           </Section>
 
-          <Section title={`${displayName}의 독서 분야 취향`}>
+          {/* 독서분야취향 */}
+          <Section className="!pb-4" title={`${displayName}의 독서 분야 취향`}>
             <ul className="flex min-h-14 flex-wrap gap-2">
               {favoriteBookField && favoriteBookField?.length !== 0 ? (
                 favoriteBookField.map(({ id, name }) => (
-                  <Tag text={name} key={id} color="lightBlue" shape="rounded" />
+                  <Tag
+                    text={name}
+                    key={id}
+                    color="lightBlue"
+                    shape="rounded"
+                    className="shadow-card"
+                  />
                 ))
               ) : (
                 <LoopLoading size={100} className="h-[30vh] w-full" />
@@ -119,35 +87,42 @@ const Bookshelf = () => {
             </ul>
           </Section>
 
-          {challenge?.books && (
-            <Section title={`${displayName}의 2024 챌린지 히스토리`}>
-              <ul className="grid grid-cols-2 gap-4 max-sm:flex max-sm:flex-col">
-                {challenge?.books?.map(challengeBook => (
-                  <UserChallengeBookCard
-                    key={challengeBook.title}
-                    challengeBook={challengeBook}
-                    creatorId={challenge.creatorId}
-                    docId={`2024-${challenge.creatorId}`}
-                  />
-                ))}
-              </ul>
-            </Section>
-          )}
-
-          {(['발제문', '정리 기록', '모임 후기'] as PostTypeName[])?.map(
-            postType => (
-              <Section key={postType} title={`${displayName}의 ${postType}`}>
-                <GuideLine text="2022년 6월 이후의 기록이 제공됩니다." />
-                <BookshelfPostList
-                  userRecords={userRecords}
-                  postType={postType}
+          {/* 여기 디스플레이 섹션 */}
+          {Object.entries({
+            myClub: '내가 진행한 모임',
+            [CHALLENGE]: '챌린지',
+            ...postNameObj.subCollection,
+          })?.map(([collName, name]) => (
+            <Section
+              key={collName}
+              className="!pb-8"
+              title={collName === 'myClub' ? name : `${displayName}의 ${name}`}
+              titleBtn={
+                <ChevronRightLinkBtn
+                  to={`/bookshelf/detail${isCurrentUser ? '' : `/${username}`}?type=${collName === 'myClub' ? name : `${displayName}의 ${name}`}`}
+                  className="py-1 pl-6"
+                  state={{ displayName, postTypeKey: collName, userId }}
                 />
-              </Section>
-            ),
-          )}
+              }
+            >
+              {name === '내가 진행한 모임' ? (
+                <MyClubDisplayList
+                  hostYearMonthIdList={hostYearMonthIdList?.slice(0, 1)}
+                />
+              ) : collName === CHALLENGE ? (
+                <ChallengeDisplayList userId={userId} limitNum={1} />
+              ) : (
+                <UserPostDisplayList
+                  userId={userId}
+                  postTypeKey={collName as SubPostTypeKey}
+                  limitNum={1}
+                />
+              )}
+            </Section>
+          ))}
         </main>
-      )}
-    </>
+      </>
+    )
   );
 };
 

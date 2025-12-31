@@ -38,7 +38,7 @@ export default function RecommendedBookModal({
           title={title}
           thumbnail={thumbnail}
           url={url}
-          className="float-left mb-2 mr-4 w-20"
+          className="float-left mb-2 ml-2 mr-4 mt-1.5 w-[70px]"
         />
 
         <h4 className="text-lg">
@@ -54,19 +54,12 @@ export default function RecommendedBookModal({
           dangerouslySetInnerHTML={{ __html: text }}
           className="mt-2 whitespace-pre-wrap break-all"
         />
-        {(clubBook || recommendedBookDetail.title) && (
+
+        {clubBook && (
           <>
             <h3 className="mt-6 text-sm text-gray1">추천책이 나왔던 모임책</h3>
             {recommendedBookDetail.recommendedBook && (
-              <FooterBookCard
-                book={
-                  clubBook || {
-                    title: recommendedBookDetail.title,
-                    thumbnail: recommendedBookDetail.thumbnail,
-                  }
-                }
-                className="h-14"
-              />
+              <FooterBookCard book={clubBook} className="h-14" />
             )}
           </>
         )}

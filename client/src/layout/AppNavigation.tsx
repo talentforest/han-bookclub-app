@@ -63,7 +63,7 @@ export default function AppNavigation({ type }: { type: 'top' | 'bottom' }) {
       to: '/bookshelf',
       icon: <FiUser className={`${iconClassName}`} />,
       onClick: blockLinkAndAlertJoinMember,
-      active: pathname === '/bookshelf',
+      active: pathname === '/bookshelf' || pathname === '/bookshelf/detail',
     },
   ];
 

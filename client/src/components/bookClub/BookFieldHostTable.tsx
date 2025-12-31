@@ -49,8 +49,10 @@ const BookFieldHostTable = ({
     ? ['월', '독서분야', '발제자']
     : ['독서분야', '발제자'];
 
-  const onEditClick = (month?: number) => {
-    showModal({ element: <FieldHostEditModal year={year} month={month} /> });
+  const onEditClick = (monthNum?: number) => {
+    showModal({
+      element: <FieldHostEditModal year={year} monthNum={monthNum} />,
+    });
   };
 
   const rowDataList = Object.entries(thisYearFieldAndHostObj)

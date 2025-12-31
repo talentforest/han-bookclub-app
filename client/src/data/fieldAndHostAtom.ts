@@ -40,3 +40,23 @@ export const fieldAndHostSelector = selectorFamily({
       return fieldAndHostObj[month] || null;
     },
 });
+
+export const hostClubBookListSelector = selectorFamily({
+  key: 'hostClubBookListSelector',
+  get:
+    ({ uid, year }: { uid: string; year: string }) =>
+    ({ get }) => {
+      const fieldAndHostObj = get(fieldAndHostAtomFamily(year)) as FieldAndHost;
+
+      const list = Object.entries(fieldAndHostObj)?.map(
+        ([key, value]: [string, MonthlyFieldAndHost]) => ({
+          ...value,
+          month: +key.slice(0, -1),
+        }),
+      );
+
+      const myList = list?.filter(item => item.hosts?.includes(uid));
+
+      return myList || null;
+    },
+});

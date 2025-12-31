@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import { Link } from 'react-router-dom';
 
 import { authService } from '@/fbase';
@@ -10,6 +12,8 @@ import { DEVELOPER_EMAIL } from '@/appConstants';
 
 import { useAlertAskJoin } from '@/hooks';
 
+import { thisYear } from '@/utils';
+
 import MobileHeader from '@/layout/MobileHeader';
 
 import LogOutBtn from '@/components/common/button/LogOutBtn';
@@ -20,14 +24,23 @@ const Setting = () => {
 
   const { blockLinkAndAlertJoinMember } = useAlertAskJoin('see');
 
-  const settings = [
+  const settings: {
+    auth: boolean;
+    name: string;
+    list: {
+      to: string;
+      name: string;
+      children?: ReactNode;
+      state?: any;
+    }[];
+  }[] = [
     {
       auth: !authService.currentUser.isAnonymous,
       name: '사용자 설정',
       list: [
         { to: 'edit-profile', name: '프로필 정보' },
         { to: 'edit-password', name: '비밀번호 변경' },
-        { to: 'absence', name: '모임불참' },
+        { to: 'absence', name: '모임불참', state: { year: thisYear } },
         { to: 'notification', name: '알림' },
       ],
     },
@@ -57,13 +70,13 @@ const Setting = () => {
       <main>
         {settings.map(({ name, list, auth }) =>
           auth ? (
-            <Section className="!pb-8">
+            <Section key={name} className="!pb-8">
               <h4 className="block pb-1 text-sm font-medium text-green1 max-md:text-sm">
                 {name}
               </h4>
 
               <ul className="divide-y divide-gray3">
-                {list.map(({ to, name, children }) => (
+                {list.map(({ to, name, children, state }) => (
                   <li key={to} className="py-2.5">
                     {children ? (
                       children
@@ -71,6 +84,7 @@ const Setting = () => {
                       <Link
                         to={to}
                         className="text-[15px]"
+                        state={state}
                         onClick={blockLinkAndAlertJoinMember}
                       >
                         {name}

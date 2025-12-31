@@ -1,13 +1,19 @@
-import { postTypeObj } from '@/appConstants';
+import { postNameObj } from '@/appConstants';
 
 import { BaseBookData } from '@/types/book';
 
 export type PostPermission = 'see' | 'edit' | 'register' | 'write';
 
-export type PostType = typeof postTypeObj;
-export type PostTypeKey = keyof PostType;
-export type PostTypeName = PostType[keyof PostType]['name'];
-export type PostTypeCollName = PostType[keyof PostType]['collName'];
+// 아래로 변경
+export type PostName = typeof postNameObj;
+
+export type SubPostTypeKey = keyof PostName['subCollection'];
+export type SubPostTypeValue = PostName['subCollection'][SubPostTypeKey];
+
+export type PostTypeKey = keyof PostName['collection'] | SubPostTypeKey;
+export type PostTypeValue =
+  | PostName['collection'][keyof PostName['collection']]
+  | SubPostTypeValue;
 
 export type UserPost = {
   id?: string;
@@ -20,9 +26,7 @@ export type UserPost = {
   likes?: number;
   likeUsers?: string[];
   isAnonymous?: boolean;
-
-  title?: string; // clubBook 타이틀
-  thumbnail?: string; // clubBook 썸네일
+  yearMonthId?: string;
 };
 
 export type PenaltyPostType = {

@@ -78,7 +78,7 @@ const UserImg = ({ isEditing, setNewUserImgUrl, imgUrl }: UserImgProps) => {
         src={beforeOnChange ? imgUrl || basePhoto : previewUrl}
         alt="프로필 이미지"
         onContextMenu={event => event.preventDefault()}
-        className={`size-52 min-h-52 min-w-52 rounded-full bg-white object-cover shadow-card max-sm:size-40`}
+        className={`size-48 min-h-48 min-w-48 rounded-full bg-white object-cover shadow-card max-sm:size-40`}
       />
 
       {isEditing && <ImageInput onImageChange={onProfileImgChange} />}

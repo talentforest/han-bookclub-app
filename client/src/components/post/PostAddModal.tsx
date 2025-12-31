@@ -11,14 +11,14 @@ import { useAddDoc, useHandleModal, useSendPushNotification } from '@/hooks';
 
 import { getFbRouteOfPost, thisYearMonthId } from '@/utils';
 
-import { PostTypeName, UserPost } from '@/types';
+import { SubPostTypeValue, UserPost } from '@/types';
 
 import Modal from '@/components/common/Modal';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import QuillEditor from '@/components/common/editor/QuillEditor';
 
 interface PostAddModalProps {
-  postType: PostTypeName;
+  postType: SubPostTypeValue;
 }
 
 const PostAddModal = ({ postType }: PostAddModalProps) => {
@@ -56,8 +56,11 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
 
     try {
       await onAddDocSubmit(event);
+
       onDataChange({ text: '' });
+
       await sendPostPushNotification(postType);
+
       hideModal();
     } catch (error) {
       window.alert('등록 중 오류가 발생했습니다.');

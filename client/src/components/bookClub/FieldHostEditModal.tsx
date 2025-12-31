@@ -7,25 +7,25 @@ import SelectField from '@/components/common/input/SelectField';
 import SelectHosts from '@/components/common/input/SelectHosts';
 
 interface FieldHostEditModalProps {
-  month: number;
+  monthNum: number;
   year: string;
 }
 
 export default function FieldHostEditModal({
   year,
-  month,
+  monthNum,
 }: FieldHostEditModalProps) {
   const {
     errorMsg,
     onSubmit,
     selectedValues,
     setSelectedValues, //
-  } = useHandleFieldHost({ year, monthKey: `${month}월` });
+  } = useHandleFieldHost({ year, monthKey: `${monthNum}월` });
 
   const { hosts, field, detail } = selectedValues;
 
   return (
-    <Modal title={`${month}월 독서분야와 발제자 수정하기`}>
+    <Modal title={`${monthNum}월 독서분야와 발제자 수정하기`}>
       <form onSubmit={onSubmit} className="flex flex-col gap-y-4">
         <SelectField
           field={field}

@@ -91,7 +91,7 @@ export default function PostListDetail() {
       <main>
         {document && (
           <BasicBookCard
-            bookClub={monthlyBookClub}
+            clubBook={monthlyBookClub.book}
             fieldAndHosts={fieldAndHosts}
           />
         )}

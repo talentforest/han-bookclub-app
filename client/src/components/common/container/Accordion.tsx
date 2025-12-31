@@ -26,7 +26,7 @@ export default function Accordion({
   const toggleDetails = () => setIsOpen(prev => !prev);
 
   return (
-    <li className={`h-fit rounded-xl bg-white shadow-card ${className}`}>
+    <div className={`h-fit rounded-xl bg-white shadow-card ${className}`}>
       <div className="flex w-full items-center pl-4">
         {headerChildren ? (
           headerChildren
@@ -50,6 +50,6 @@ export default function Accordion({
       >
         {children}
       </div>
-    </li>
+    </div>
   );
 }

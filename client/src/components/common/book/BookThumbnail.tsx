@@ -34,7 +34,7 @@ export default function BookThumbnail({
   return (
     <>
       {thumbnail && (
-        <div className={`relative ${className}`}>
+        <div className={`relative h-fit ${className}`}>
           <img
             className={`size-full ${commonClassName} `}
             src={thumbnail}
@@ -51,7 +51,7 @@ export default function BookThumbnail({
 
       {!thumbnail && (
         <div
-          className={`flex items-center justify-center bg-gray4 ${commonClassName} ${className}`}
+          className={`flex h-fit items-center justify-center bg-gray4 ${commonClassName} ${className}`}
         >
           {iconName ? (
             icon[iconName]

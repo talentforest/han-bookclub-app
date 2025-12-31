@@ -2,7 +2,7 @@ import { useRecoilValue } from 'recoil';
 
 import { currAuthUserAtom } from '@/data/userAtom';
 
-import { Collection, PostTypeName, SubCollection, UserPost } from '@/types';
+import { Collection, PostTypeValue, SubCollection, UserPost } from '@/types';
 
 import CreatorBox from '@/components/common/user/CreatorBox';
 import PostHandleBtns from '@/components/post/PostHandleBtns';
@@ -10,7 +10,7 @@ import PostHandleBtns from '@/components/post/PostHandleBtns';
 interface PostHeaderProps {
   collName: Collection | SubCollection;
   post: UserPost;
-  postType?: PostTypeName;
+  postType?: PostTypeValue;
 }
 
 export default function PostHeader({

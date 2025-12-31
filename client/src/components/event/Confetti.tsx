@@ -20,7 +20,7 @@ export default function Confetti({
   marqueeText,
 }: ConfettiProps) {
   return (
-    <div className={`relative flex w-full flex-col py-6 ${className}`}>
+    <div className={`relative flex w-full flex-col pt-8 ${className}`}>
       <img
         src={`${import.meta.env.BASE_URL}/confetti.png`}
         alt="컨페티"

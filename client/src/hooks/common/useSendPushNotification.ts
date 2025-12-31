@@ -8,10 +8,15 @@ import { currAuthUserAtom } from '@/data/userAtom';
 
 import { thisMonth } from '@/utils';
 
-import { NotificationData, PostTypeName, UserFcm } from '@/types';
+import {
+  NotificationData,
+  PostTypeValue,
+  SubPostTypeValue,
+  UserFcm,
+} from '@/types';
 
 type PushNotificationObj = {
-  [key in PostTypeName]: {
+  [key in PostTypeValue]: {
     title: string;
     body: string;
     subPath: string;
@@ -103,7 +108,7 @@ export const useSendPushNotification = () => {
   /** 현재 유저를 제외한 전체 유저에게 "게시물" 등록 푸시 알림 보내기 함수 */
   // 다음달로 넘어갔는데 알림을 클릭하는 경우
   const sendPostPushNotification = async (
-    type: PostTypeName,
+    type: SubPostTypeValue,
     yearMonthId?: string,
   ) => {
     setIsPending(true);
@@ -116,7 +121,7 @@ export const useSendPushNotification = () => {
       const month = +yearMonthId?.slice(-2) || +thisMonth;
 
       const postPushNotificationObj: {
-        [key in PostTypeName]: {
+        [key in PostTypeValue]: {
           title: string;
           body: string;
           subPath: string;
@@ -168,7 +173,7 @@ export const useSendPushNotification = () => {
     }
   };
 
-  const getNotificationObj = (type: PostTypeName, yearMonthId?: string) => {
+  const getNotificationObj = (type: PostTypeValue, yearMonthId?: string) => {
     const month = +yearMonthId?.slice(-2) || +thisMonth;
     const monthSegment = yearMonthId ? `/${yearMonthId}` : '';
 
@@ -209,11 +214,11 @@ export const useSendPushNotification = () => {
   };
 
   const sendTestToMe: (
-    postType: PostTypeName,
+    postType: SubPostTypeValue,
     yearMonthId?: string,
   ) => Promise<{
     result: 'success' | 'fail';
-  }> = async (postType: PostTypeName, yearMonthId?: string) => {
+  }> = async (postType: SubPostTypeValue, yearMonthId?: string) => {
     setIsPending(true);
 
     try {

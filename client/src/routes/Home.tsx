@@ -37,23 +37,23 @@ const Home = () => {
     {
       name: `${thisYear} 월별 독서분야`,
       onClick: () => navigate('/monthlyinfo', { state: 'fieldAndHost' }),
-      color: 'lightBlue' as const,
+      color: 'blue' as const,
     },
     {
       name: `${thisYear} 챌린지`,
       onClick: () => navigate('/challenge'),
-      color: 'lightBlue' as const,
+      color: 'blue' as const,
     },
     {
       name: `${thisYear} 모임불참`,
       onClick: () => navigate('/monthlyinfo', { state: 'absence' }),
-      color: 'lightBlue' as const,
+      color: 'blue' as const,
     },
-    // {
-    //   name: '연말결산',
-    //   onClick: () => navigate('/yearClosingEvent'),
-    //   color: 'blue' as const,
-    // },
+    {
+      name: `${thisYear} 연말결산`,
+      onClick: () => navigate('/yearClosingEvent'),
+      color: 'blue' as const,
+    },
     {
       name: `${thisYear} 페널티`,
       onClick: () => navigate('/monthlyinfo', { state: 'absence' }),
@@ -89,8 +89,11 @@ const Home = () => {
           ))}
         </Section>
 
-        <Section title="한페이지 멤버들이 소개했던 책">
-          <RecommendedBookSwiperContainer maxLength={5} />
+        <Section
+          title="한페이지 멤버들이 소개했던 책"
+          titleBtn={<ChevronRightLinkBtn to="/recommendedBooks" />}
+        >
+          <RecommendedBookSwiperContainer limitNum={5} />
         </Section>
 
         <Section title="모임책 투표함">

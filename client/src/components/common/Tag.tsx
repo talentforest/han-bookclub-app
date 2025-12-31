@@ -32,7 +32,7 @@ export default function Tag({
     lightBlue: 'bg-blue4 text-blue2',
     yellow: 'bg-yellow-100 text-yellow-600',
     purple: 'bg-purple4 text-purple-700',
-    green: 'bg-green3 text-green1',
+    green: 'bg-green2 text-white',
     red: 'bg-pointCoral text-white',
   };
 
@@ -47,14 +47,14 @@ export default function Tag({
       onClick={onClick}
       className={`${shapeStyle[shape]} ${bgColor[color]} flex h-fit min-h-6 w-fit min-w-6 items-center gap-1 rounded-2xl px-4 py-2.5 text-sm ${className}`}
     >
-      <span>{text && text}</span>
+      <span className="tracking-tight">{text && text}</span>
       {children && children}
     </button>
   ) : (
     <div
       className={`min-w-fit text-sm ${shapeStyle[shape]} ${bgColor[color]} flex h-fit min-h-6 w-fit min-w-6 items-center gap-1 rounded-2xl px-4 py-2.5 ${className}`}
     >
-      <span>{text && text}</span>
+      <span className="tracking-tight">{text && text}</span>
       {children && children}
     </div>
   );

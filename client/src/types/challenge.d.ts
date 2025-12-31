@@ -4,7 +4,7 @@ import { BaseBookData } from '@/types/book';
 export type CompleteReadingChallengeBook = {
   currentPage: number;
   wholePage: number;
-} & Book;
+} & BaseBookData;
 
 export type CompleteReadingChallenge = {
   id?: string;

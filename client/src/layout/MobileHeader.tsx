@@ -13,6 +13,7 @@ interface MobileHeaderProps {
   children?: ReactNode;
   backTo?: string;
   className?: string;
+  state?: any;
 }
 
 export default function MobileHeader({
@@ -22,11 +23,12 @@ export default function MobileHeader({
   children,
   backTo,
   className,
+  state,
 }: MobileHeaderProps) {
   const navigate = useNavigate();
 
   const onClick = () => {
-    backTo ? navigate(backTo) : navigate(-1);
+    backTo ? navigate(backTo, { state }) : navigate(-1);
   };
 
   return (

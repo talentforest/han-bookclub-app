@@ -11,12 +11,14 @@ import { modalListState } from '@/data/modalAtom';
 import { useHandleModal } from '@/hooks';
 
 import Bookshelf from '@/routes/Bookshelf';
+import BookshelfDetail from '@/routes/BookshelfDetail';
 import Challenge from '@/routes/Challenge';
 import ClubDetail from '@/routes/ClubDetail';
 import Home from '@/routes/Home';
 import LogIn from '@/routes/LogIn';
 import MonthlyClubInfo from '@/routes/MonthlyClubInfo';
 import PreviousClub from '@/routes/PreviousClub';
+import RecommendedBookDetail from '@/routes/RecommendedBookDetail';
 import Search from '@/routes/Search';
 import Setting from '@/routes/Setting';
 import Vote from '@/routes/Vote';
@@ -57,6 +59,10 @@ function Router({ isLoggedIn }: RouterProps) {
           <Routes>
             <Route path="/" element={<Home />} />
 
+            <Route
+              path="/recommendedBooks"
+              element={<RecommendedBookDetail />}
+            />
             <Route path="/monthlyinfo" element={<MonthlyClubInfo />} />
             <Route path="/challenge" element={<Challenge />} />
             <Route path="/yearClosingEvent" element={<YearClosingDetail />} />
@@ -78,6 +84,10 @@ function Router({ isLoggedIn }: RouterProps) {
             <Route path="/vote/:id" element={<VoteDetail />} />
 
             <Route path="/bookshelf/:username?" element={<Bookshelf />} />
+            <Route
+              path="/bookshelf/detail/:username?"
+              element={<BookshelfDetail />}
+            />
 
             <Route path="/setting" element={<Setting />} />
             <Route path="/setting/absence" element={<Absence />} />

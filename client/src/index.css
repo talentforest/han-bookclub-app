@@ -54,7 +54,7 @@
 
 @layer base {
   body {
-    @apply font-SUITE;
+    @apply bg-[#f8f8f8] font-SUITE;
     > div {
       .header {
         @apply mx-auto w-full bg-[#f8f8f8] px-20 max-sm:px-5;
@@ -283,7 +283,7 @@
       transition-timing-function: linear !important;
     }
     .swiper-slide {
-      @apply mt-auto flex items-center justify-center px-1 py-2;
+      @apply mb-auto flex items-center justify-center px-1 py-2;
     }
     /* .sample-slider .swiper-wrapper {
       transition-timing-function: linear;

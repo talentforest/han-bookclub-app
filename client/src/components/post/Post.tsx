@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
 
-import { Collection, PostTypeName, SubCollection, UserPost } from '@/types';
+import { Collection, PostTypeValue, SubCollection, UserPost } from '@/types';
 
 import EditorContent from '@/components/common/editor/EditorContent';
 import PostHeader from '@/components/post/PostHeader';
 
 interface PostProps {
-  type: PostTypeName;
+  type: PostTypeValue;
   post: UserPost;
   collName?: Collection | SubCollection;
   className?: string;

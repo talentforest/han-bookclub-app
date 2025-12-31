@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { dbService } from '@/fbase';
-import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { deleteDoc, doc } from 'firebase/firestore';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 
@@ -44,49 +44,8 @@ export const useDeleteDoc = ({ collName, docId }: UseDeleteDocProps) => {
     if (!confirm) return;
 
     await deleteDoc(docRef);
-    updateUserData();
+
     hideModal();
-  };
-
-  const updateUserData = async () => {
-    const userDataRef = doc(dbService, USER, uid);
-
-    const { reviews, subjects, recommendedBooks, hostReviews, sentences } =
-      userExtraData.userRecords;
-
-    if (collName.includes('Reviews')) {
-      const filteredArr = reviews.filter(item => item.docId !== docRef.id);
-      await updateDoc(userDataRef, {
-        'userRecords.reviews': filteredArr,
-      });
-    }
-    if (collName.includes('Subjects')) {
-      const filteredArr = subjects.filter(item => item.docId !== docRef.id);
-      await updateDoc(userDataRef, {
-        'userRecords.subjects': filteredArr,
-      });
-    }
-    if (collName.includes('Recommended')) {
-      const filteredArr = recommendedBooks.filter(
-        item => item.docId !== docRef.id,
-      );
-      await updateDoc(userDataRef, {
-        'userRecords.recommendedBooks': filteredArr,
-      });
-    }
-    if (collName.includes('HostReview')) {
-      const filteredArr = hostReviews.filter(item => item.docId !== docRef.id);
-      await updateDoc(userDataRef, {
-        'userRecords.hostReviews': filteredArr,
-      });
-    }
-
-    if (collName.includes('Sentence-2024')) {
-      const filteredArr = sentences.filter(item => item.docId !== docRef.id);
-      await updateDoc(userDataRef, {
-        'userRecords.sentences': filteredArr,
-      });
-    }
   };
 
   return {

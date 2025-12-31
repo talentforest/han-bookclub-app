@@ -58,12 +58,15 @@ export const useHandleFieldHost = ({
 
     if (anonymous) return alertAskJoinMember();
 
-    const hasError = handleErrorMsg(errorMsgObj);
-    if (hasError) return;
+    try {
+      const hasError = handleErrorMsg(errorMsgObj);
+      if (hasError) return;
 
-    const newMonthData = { [monthKey]: selectedValues };
-
-    await updateDoc(fbDoc, newMonthData);
+      const newMonthData = { [monthKey]: selectedValues };
+      await updateDoc(fbDoc, newMonthData);
+    } catch (error) {
+      console.log(error);
+    }
 
     hideModal();
   };

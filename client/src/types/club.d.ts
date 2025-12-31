@@ -123,7 +123,15 @@ export type DetailPageHeaderTitle =
   | '알림'
   | '프로필 정보'
   | '비밀번호 변경'
-  | '탈퇴';
+  | '탈퇴'
+  | SectionTitle
+  | '추천책 보기';
+
+export type SectionTitle =
+  | '내가 진행한 모임'
+  | '나의 발제문'
+  | '나의 정리 기록'
+  | '나의 모임 후기';
 
 export type NotLogInPage = '계정 생성' | '비밀번호 찾기';
 

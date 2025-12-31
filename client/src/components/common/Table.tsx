@@ -19,7 +19,7 @@ interface TableProps {
   labels: Label[];
   rowDataList: TableRecord[];
   isEditable: boolean;
-  onEditClick?: (month: number) => void;
+  onEditClick?: (monthNum: number) => void;
 }
 
 export default function Table({

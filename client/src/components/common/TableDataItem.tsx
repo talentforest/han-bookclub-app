@@ -81,6 +81,7 @@ export default function TableDataItem({
                     key={userId}
                     userId={userId as string}
                     className={`!${colorStyle.text[color]}`}
+                    size="sm"
                   />
                 ),
               )

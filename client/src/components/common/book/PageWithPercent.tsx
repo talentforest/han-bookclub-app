@@ -13,10 +13,9 @@ export default function PageWithPercent({
 
   return (
     <span
-      className={`text-sm font-medium tracking-tighter ${percentNum === 100 ? 'text-green2' : 'text-pointCoral'}`}
+      className={`pt-2 text-sm font-medium tracking-tighter ${percentNum === 100 ? 'text-green1' : 'text-pointCoral'}`}
     >
-      {percentNum === 100 ? '🎊' : '❗️'} {currentPage} / {wholePage} (
-      {percentNum}
+      {currentPage} / {wholePage} ({percentNum}
       %)
     </span>
   );

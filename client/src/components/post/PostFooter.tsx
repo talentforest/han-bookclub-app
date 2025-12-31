@@ -20,7 +20,7 @@ export default function PostFooter({
   return (
     <footer className="mt-4 flex items-center justify-between">
       <span className="min-w-fit text-sm text-gray1">
-        {formatDate(createdAt)}
+        {formatDate(createdAt, 'yyyy.M.d. a h:mm')}
       </span>
 
       {footerType === 'likes' && (

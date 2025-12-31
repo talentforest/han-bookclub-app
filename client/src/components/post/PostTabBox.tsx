@@ -16,7 +16,7 @@ import { useAlertAskJoin } from '@/hooks';
 
 import { getFbRouteOfPost } from '@/utils';
 
-import { PostTypeName, UserPost } from '@/types';
+import { SubPostTypeValue, UserPost } from '@/types';
 
 import ChevronRightLinkBtn from '@/components/common/button/ChevronRightLinkBtn';
 import PlusIconWithTextLink from '@/components/common/button/PlusIconLinkBtn';
@@ -27,7 +27,7 @@ interface PostTabBoxProps {
   yearMonthId: string;
 }
 
-type TabPostTypeValue = Extract<PostTypeName, '발제문' | '정리 기록'>;
+type TabPostTypeValue = Extract<SubPostTypeValue, '발제문' | '정리 기록'>;
 
 const swiperOptions = {
   spaceBetween: 8,
@@ -115,7 +115,7 @@ export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
                       state={{ postId: post.id }}
                       to={linkTo}
                       onClick={blockLinkAndAlertJoinMember}
-                      className="bg-purple4 w-fit self-end rounded-xl px-4 py-3 !text-[15px] text-purple2 shadow-card"
+                      className="w-fit self-end rounded-xl bg-purple4 px-4 py-3 !text-[15px] text-purple2 shadow-card"
                     />
                   </div>
                 </SwiperSlide>

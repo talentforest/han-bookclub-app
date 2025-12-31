@@ -53,15 +53,6 @@ export const currAuthUserAtom = atom<FirebaseAuthUser | null>({
   ],
 });
 
-// 나의 문서정보
-// const currentUidSelector = selector({
-//   key: 'currentUidSelector',
-//   get: ({ get }) => {
-//     const authUser = get(currAuthUserAtom);
-//     return authUser?.uid ?? null;
-//   },
-// });
-
 // 다른 유저의 문서정보
 export const userDocAtomFamily = atomFamily<UserProfile | null, string>({
   key: `user/${v4}`,

@@ -1,13 +1,13 @@
 import { useEditDoc } from '@/hooks';
 
-import { Collection, PostTypeName, SubCollection, UserPost } from '@/types';
+import { Collection, PostTypeValue, SubCollection, UserPost } from '@/types';
 
 import Modal from '@/components/common/Modal';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import QuillEditor from '@/components/common/editor/QuillEditor';
 
 interface PostEditModalProps {
-  postType: PostTypeName;
+  postType: PostTypeValue;
   post: UserPost;
   collName: Collection | SubCollection;
 }

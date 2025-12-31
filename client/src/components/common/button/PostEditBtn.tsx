@@ -2,13 +2,13 @@ import { FiEdit } from 'react-icons/fi';
 
 import { useHandleModal } from '@/hooks';
 
-import { Collection, PostTypeName, SubCollection, UserPost } from '@/types';
+import { Collection, PostTypeValue, SubCollection, UserPost } from '@/types';
 
 import PostEditModal from '@/components/post/PostEditModal';
 
 interface PostEditBtnProps {
   collName: Collection | SubCollection;
-  postType: PostTypeName;
+  postType: PostTypeValue;
   post: UserPost;
 }
 

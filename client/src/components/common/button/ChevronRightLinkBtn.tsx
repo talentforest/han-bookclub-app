@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 
+import { FaChevronRight } from 'react-icons/fa';
 import { FiChevronRight } from 'react-icons/fi';
 
 interface ChevronRightLinkBtnProps<T> {
@@ -21,11 +22,17 @@ export default function ChevronRightLinkBtn<T>({
     <Link
       to={to}
       state={state}
-      className={`mt-3 flex items-center justify-end gap-1 text-sm text-gray1 ${className}`}
+      className={`flex items-center justify-end gap-1 text-gray1 ${className}`}
       onClick={onClick}
     >
-      {title && <span className="font-medium">{title}</span>}
-      <FiChevronRight className="" />
+      {title && (
+        <>
+          <span className="text-sm font-medium">{title}</span>
+          <FiChevronRight className="" />
+        </>
+      )}
+
+      {!title && <FaChevronRight className="" />}
     </Link>
   );
 }

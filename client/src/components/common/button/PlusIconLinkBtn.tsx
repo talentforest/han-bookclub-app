@@ -2,12 +2,16 @@ import { Link } from 'react-router-dom';
 
 import { FiPlus } from 'react-icons/fi';
 
-import { PostTypeName } from '@/types';
+import { SubCollectionPostType } from '@/types';
 
 interface PlusIconWithTextLinkProps {
   to: string;
   name: string;
-  state?: { id?: string; postType?: PostTypeName; voteDocId?: number };
+  state?: {
+    id?: string;
+    postType?: SubCollectionPostType['name'];
+    voteDocId?: number;
+  };
 }
 
 export default function PlusIconWithTextLink({

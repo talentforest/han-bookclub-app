@@ -27,29 +27,15 @@ export const ABSENCE_MEMBERS = 'AbsenceMembers' as const;
 export const MEETING_PLACE = 'MeetingPlace' as const;
 export const PENALTY = 'Penalty' as const;
 
-export const postTypeObj = {
-  subjects: {
-    name: '발제문',
-    collName: SUBJECTS,
+export const postNameObj = {
+  subCollection: {
+    [SUBJECTS]: '발제문',
+    [HOST_REVIEW]: '정리 기록',
+    [RECOMMENDED_BOOKS]: '추천책',
+    [REVIEWS]: '모임 후기',
   },
-  hostReviews: {
-    name: '정리 기록',
-    collName: HOST_REVIEW,
-  },
-  reviews: {
-    name: '모임 후기',
-    collName: REVIEWS,
-  },
-  recommendedBooks: {
-    name: '추천책',
-    collName: RECOMMENDED_BOOKS,
-  },
-  challenge: {
-    name: '챌린지',
-    collName: CHALLENGE,
-  },
-  sentences: {
-    name: '공유하고 싶은 문구',
-    collName: SENTENCES2024,
+  collection: {
+    [CHALLENGE]: '챌린지',
+    [SENTENCES2024]: '공유하고 싶은 문구',
   },
 } as const;

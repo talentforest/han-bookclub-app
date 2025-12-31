@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
 
-import { FaQuoteLeft } from 'react-icons/fa';
-
 import { useHandleModal } from '@/hooks';
 
 import { SubjectEventResult } from '@/types';
@@ -11,6 +9,7 @@ import BookThumbnail from '@/components/common/book/BookThumbnail';
 import EditBtn from '@/components/common/button/EditBtn';
 import BestSubjectModal from '@/components/event/BestSubjectModal';
 import Confetti from '@/components/event/Confetti';
+import QuoteArticle from '@/components/post/QuoteArticle';
 
 interface BestSubjectListProps {
   subjects?: SubjectEventResult[];
@@ -35,38 +34,31 @@ export default function BestSubjectList({ subjects }: BestSubjectListProps) {
     <div className="flex flex-col items-center justify-center">
       <Confetti title="최고의 발제문" />
 
-      <ul className="z-10 flex flex-col gap-y-4">
+      <ul className="z-10 flex flex-col divide-y-2 divide-dotted [&>li:first-child]:!pt-0">
         {subjects.length > 0 &&
-          subjects?.map(
-            ({ bestSubject, clubBook, yearMonthId, rank }, index) => (
-              <li
-                key={clubBook.title}
-                className={`flex flex-col items-center shadow-card ${subjects.length === index + 1 ? '' : 'border-b-2 border-dotted pb-4'}`}
-              >
-                <div className="mb-3 flex w-full items-center justify-between gap-x-3">
+          subjects?.map(({ bestSubject, clubBook, yearMonthId, rank }) => (
+            <li key={rank} className="py-3">
+              {clubBook && (
+                <div className="mb-2 flex w-full items-center justify-between gap-x-3">
                   <FooterBookCard
                     book={clubBook}
-                    className="text-white [&>div>img]:!shadow-white [&>div>span]:text-white"
+                    className="text-white [&>div>img]:!shadow-sm [&>div>img]:!shadow-white [&>div>span]:text-white"
                   />
 
-                  <div className="flex aspect-square size-14 flex-col items-center justify-center rounded-full bg-purple4">
-                    <span className="font-GiantsInline text-xs leading-4 text-purple2">
-                      Rank
-                    </span>
-                    <span className="font-GiantsInline text-lg leading-5 text-purple1">
-                      {rank}
-                    </span>
-                  </div>
+                  {rank && (
+                    <div className="flex aspect-square size-14 flex-col items-center justify-center rounded-full bg-purple4">
+                      <span className="font-GiantsInline text-xs leading-4 text-purple2">
+                        Rank
+                      </span>
+                      <span className="font-GiantsInline text-lg leading-5 text-purple1">
+                        {rank}
+                      </span>
+                    </div>
+                  )}
                 </div>
+              )}
 
-                <p>
-                  <FaQuoteLeft className="float-left mr-3 size-12 text-purple3" />
-                  <span
-                    className="text-white"
-                    dangerouslySetInnerHTML={{ __html: bestSubject }}
-                  />
-                </p>
-
+              <QuoteArticle subject={bestSubject} isDark>
                 <div className="flex w-full items-center">
                   <EditBtn
                     className="text-white"
@@ -81,9 +73,9 @@ export default function BestSubjectList({ subjects }: BestSubjectListProps) {
                     전체 발제문 보기
                   </Link>
                 </div>
-              </li>
-            ),
-          )}
+              </QuoteArticle>
+            </li>
+          ))}
       </ul>
 
       <div className="z-10 mt-4 grid grid-cols-2 gap-4">

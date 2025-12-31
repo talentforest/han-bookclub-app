@@ -31,7 +31,6 @@ export default function MonthBookCard({
     monthClubInfo?.book || {};
 
   const { pathname } = useLocation();
-  console.log(title, yearMonthId, thisYearMonthId);
 
   return (
     <div

@@ -44,8 +44,6 @@ export default function MonthBookClub({ yearMonthId }: MonthBookClubProps) {
     },
   ];
 
-  console.log(yearMonthId);
-
   return (
     <>
       {monthlyClub ? (
