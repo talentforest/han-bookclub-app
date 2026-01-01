@@ -9,12 +9,11 @@ import { clubByMonthSelector } from '@/data/clubAtom';
 
 import { useGetClubByYear, useHandleChallenge } from '@/hooks';
 
-import { nextYear, thisYear } from '@/utils';
+import { thisYear } from '@/utils';
 
 import MobileHeader from '@/layout/MobileHeader';
 
 import AbsenceRankList from '@/components/absence/AbsenceRankList';
-import BookFieldHostTable from '@/components/bookClub/BookFieldHostTable';
 import ChallengeUserRankCard from '@/components/challenge/ChallengeUserRankCard';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import SquareBtn from '@/components/common/button/SquareBtn';
@@ -57,11 +56,11 @@ const swiperOptions = {
 export default function YearClosingDetail() {
   const [currTab, setCurrTab] = useState('개근상');
 
-  const { meeting } = useRecoilValue(clubByMonthSelector(`${thisYear}-12`));
+  const { meeting } = useRecoilValue(clubByMonthSelector('2025-12'));
 
-  const { clubBookListByYear } = useGetClubByYear();
+  const { clubBookListByYear } = useGetClubByYear('2025');
 
-  const { userRankList } = useHandleChallenge();
+  const { userRankList } = useHandleChallenge('2025');
 
   const findCurrContent = useMemo(() => {
     const contentList = meeting.eventMonth.contents.filter(
@@ -77,7 +76,7 @@ export default function YearClosingDetail() {
     return contentList.find(content => content.title.includes('독서생활을'));
   }, [meeting]);
 
-  const contentObj: {
+  const initialContentObj: {
     [key in string]: {
       name: string;
       result: ReactNode;
@@ -196,20 +195,21 @@ export default function YearClosingDetail() {
           </SwiperContainer>
         </div>
 
-        {/* 여러 탭 */}
         <ul className="mb-5 mt-24 flex flex-wrap gap-1.5">
-          {Object.entries(contentObj).map(content => (
+          {Object.entries(initialContentObj).map(content => (
             <li key={content[0]}>
               <SquareBtn
                 name={content[1].name}
                 handleClick={() => setCurrTab(content[0])}
-                className={`rounded-t-xl !px-3 !text-sm tracking-tighter ${currTab.includes(content[0]) ? '!bg-darkGray font-bold !text-white' : '!bg-gray2 !text-darkGray'}`}
+                className={`rounded-t-xl !px-3 !text-sm tracking-tighter ${currTab.includes(content[0]) ? '!bg-[#4d4d4d] !font-bold !text-white' : '!bg-gray4 !text-gray1'}`}
               />
             </li>
           ))}
         </ul>
 
-        <Section className="min-h-72">{contentObj[currTab]?.result}</Section>
+        <Section className="min-h-72">
+          {initialContentObj[currTab]?.result}
+        </Section>
 
         <Section
           title="독서생활을 돌아보는 질문"
@@ -218,13 +218,6 @@ export default function YearClosingDetail() {
           <ReadingLifeQuestionList
             questionList={questionList.result.readingLifeQuestions}
           />
-        </Section>
-
-        <Section
-          title={`${nextYear}년 독서분야와 발제자`}
-          className={'!mt-4 [&>h3]:text-white'}
-        >
-          <BookFieldHostTable year={nextYear} isMonth isEditable color="dark" />
         </Section>
       </main>
     </>

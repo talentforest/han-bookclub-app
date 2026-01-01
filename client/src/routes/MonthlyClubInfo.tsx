@@ -9,7 +9,6 @@ import MobileHeader from '@/layout/MobileHeader';
 import AbsenceMemberTable from '@/components/absence/AbsenceMemberTable';
 import BookFieldHostTable from '@/components/bookClub/BookFieldHostTable';
 import ChevronRightLinkBtn from '@/components/common/button/ChevronRightLinkBtn';
-import Section from '@/components/common/container/Section';
 
 export default function MonthlyClubInfo() {
   const { state } = useLocation() as {
@@ -25,11 +24,11 @@ export default function MonthlyClubInfo() {
 
   return (
     <>
-      <MobileHeader title={`${name} 정보`} backBtn />
+      <MobileHeader title={`${thisYear}년 ${name} 정보`} backBtn />
 
       <main>
         {name === '모임불참' && (
-          <Section title={`2025년 모임불참`}>
+          <>
             <AbsenceMemberTable year="2025" isMonth />
 
             <ChevronRightLinkBtn
@@ -38,13 +37,11 @@ export default function MonthlyClubInfo() {
               state={{ year: '2025' }}
               className="pt-3"
             />
-          </Section>
+          </>
         )}
 
         {name === '월별 독서분야' && (
-          <Section title={`${thisYear}년 월별 독서분야와 발제자`}>
-            <BookFieldHostTable year={thisYear} isEditable isMonth />
-          </Section>
+          <BookFieldHostTable year={thisYear} isEditable isMonth />
         )}
       </main>
     </>

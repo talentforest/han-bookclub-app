@@ -5,11 +5,11 @@ import { useParams } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { absenceAtom, attendanceSelector } from '@/data/absenceAtom';
-import { clubByMonthSelector, clubByYearAtom } from '@/data/clubAtom';
+import { clubByMonthSelector } from '@/data/clubAtom';
 
-import { getCollection, getDocument } from '@/api';
+import { getDocument } from '@/api';
 
-import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
+import { ABSENCE_MEMBERS } from '@/appConstants';
 
 import { existDocObj, formatDate, thisYear, thisYearMonthId } from '@/utils';
 
@@ -41,15 +41,8 @@ const ClubDetail = () => {
   const setAbsenceList = useSetRecoilState(absenceAtom(thisYear));
 
   const monthlyBookClub = useRecoilValue(clubByMonthSelector(yearMonthId));
-  const setThisYearClub = useSetRecoilState(clubByYearAtom);
 
   const isEventMonth = monthlyBookClub?.meeting?.eventMonth;
-
-  useEffect(() => {
-    if (isThisMonthClubDetail) {
-      getCollection(BOOKCLUB_THIS_YEAR, setThisYearClub);
-    }
-  }, [isThisMonthClubDetail]);
 
   useEffect(() => {
     getDocument(`BookClub-${year}`, ABSENCE_MEMBERS, setAbsenceList);

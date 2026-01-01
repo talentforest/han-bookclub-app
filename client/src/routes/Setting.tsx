@@ -53,6 +53,11 @@ const Setting = () => {
       ],
     },
     {
+      auth: !authService.currentUser.isAnonymous,
+      name: '모임 규칙',
+      list: [{ to: 'bookclub-rules', name: '모임 규칙' }],
+    },
+    {
       auth: email === DEVELOPER_EMAIL,
       name: '개발자도구',
       list: [{ to: 'developer', name: '알림보내기' }],

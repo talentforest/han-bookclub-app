@@ -124,6 +124,7 @@ export type DetailPageHeaderTitle =
   | '프로필 정보'
   | '비밀번호 변경'
   | '탈퇴'
+  | '모임 규칙'
   | SectionTitle
   | '추천책 보기';
 

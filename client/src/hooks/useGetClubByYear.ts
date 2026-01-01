@@ -1,41 +1,26 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
-import { clubByYearAtom } from '@/data/clubAtom';
-
-import { getCollection } from '@/api';
-
-import { thisYear } from '@/utils';
+import { clubListByYearAtom } from '@/data/clubAtom';
 
 import { BaseBookData } from '@/types';
 
-export const useGetClubByYear = () => {
-  const [selectedYear, setSelectedYear] = useState(thisYear);
+export const useGetClubByYear = (year: string) => {
+  const [selectedYear, setSelectedYear] = useState(year);
 
-  const [clubByYear, setClubByYear] = useRecoilState(clubByYearAtom);
-
-  useEffect(() => {
-    getCollection(`BookClub-${selectedYear}`, setClubByYear);
-  }, [selectedYear]);
+  const clubByYear = useRecoilValue(clubListByYearAtom(selectedYear));
 
   const clubBookListByYear: (BaseBookData & { yearMonthId: string })[] =
     useMemo(() => {
       return clubByYear
-        .filter(item => item?.book)
+        ?.filter(item => item?.book)
         .filter(({ book }) => book.thumbnail !== '')
         .map(
           ({
             book: { title, url, publisher, authors, thumbnail },
             id: yearMonthId,
-          }) => ({
-            title,
-            url,
-            publisher,
-            authors,
-            thumbnail,
-            yearMonthId,
-          }),
+          }) => ({ title, url, publisher, authors, thumbnail, yearMonthId }),
         );
     }, [clubByYear]);
 

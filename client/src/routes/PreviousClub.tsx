@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { useGetClubByYear } from '@/hooks';
 
-import { thisYearMonthId } from '@/utils';
+import { thisYear, thisYearMonthId } from '@/utils';
 
 import MobileHeader from '@/layout/MobileHeader';
 
@@ -15,10 +15,11 @@ import EmptyCard from '@/components/common/container/EmptyCard';
 import Section from '@/components/common/container/Section';
 
 function PreviousClub() {
-  const { clubByYear, selectedYear, setSelectedYear } = useGetClubByYear();
+  const { clubByYear, selectedYear, setSelectedYear } =
+    useGetClubByYear(thisYear);
 
   const prevClubList = useMemo(() => {
-    return clubByYear.filter(
+    return clubByYear?.filter(
       club => new Date(club.id).getTime() < new Date(thisYearMonthId).getTime(),
     );
   }, [clubByYear]);
@@ -35,14 +36,14 @@ function PreviousClub() {
         />
 
         <Section title={`${selectedYear}년의 한페이지`} className="!mt-10">
-          {prevClubList.length !== 0 ? (
+          {prevClubList?.length !== 0 ? (
             <ul className="grid grid-cols-4 gap-4 max-md:grid-cols-3 max-sm:mt-2 max-sm:flex max-sm:flex-col [&>div]:col-span-4">
-              {prevClubList.map(club => (
+              {prevClubList?.map(club => (
                 <Link
                   key={club.id}
                   to={`/bookclub${thisYearMonthId === club.id ? '' : `/${club.id}`}`}
                 >
-                  {club.meeting.eventMonth ? (
+                  {club?.meeting?.eventMonth ? (
                     <MonthEventCard yearMonthId={club.id} />
                   ) : (
                     <MonthBookCard yearMonthId={club.id} />
@@ -51,7 +52,7 @@ function PreviousClub() {
               ))}
             </ul>
           ) : (
-            <EmptyCard text="독서모임에 아직 등록된 책이 없습니다." />
+            <EmptyCard text="독서모임에 등록된 책이 없습니다" />
           )}
         </Section>
       </main>

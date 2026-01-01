@@ -46,7 +46,7 @@ export default function BestSubjectModal({
 
   const { hideModal } = useHandleModal();
 
-  const { clubBookListByYear } = useGetClubByYear();
+  const { clubBookListByYear } = useGetClubByYear('2025');
 
   const { editedData, setEditedData, onEditSubmitClick } =
     useEditDoc<EventContentUpdateRoute>({

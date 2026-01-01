@@ -7,9 +7,7 @@ import { allUsersAtom } from '@/data/userAtom';
 
 import { getDocument } from '@/api';
 
-import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
-
-import { thisYear } from '@/utils';
+import { ABSENCE_MEMBERS } from '@/appConstants';
 
 import Confetti from '@/components/event/Confetti';
 import RankItem from '@/components/event/RankItem';
@@ -20,7 +18,7 @@ export default function AbsenceRankList() {
   const usersDoc = useRecoilValue(allUsersAtom);
 
   const [absenceMonthList, setAbsenceList] = useRecoilState(
-    absenceAtom(thisYear),
+    absenceAtom('2025'),
   );
 
   const getMatchRankList: (rankFrom: number, rankTo: number) => AbsenceRank[] =
@@ -96,7 +94,7 @@ export default function AbsenceRankList() {
     );
 
   useEffect(() => {
-    getDocument(BOOKCLUB_THIS_YEAR, ABSENCE_MEMBERS, setAbsenceList);
+    getDocument('BookClub-2025', ABSENCE_MEMBERS, setAbsenceList);
   }, []);
 
   const userIdList = getMatchRankList(1, 1).map(rank => Object.keys(rank)[0]);

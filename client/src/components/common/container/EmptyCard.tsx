@@ -19,7 +19,7 @@ export default function EmptyCard({
 }: EmptyContainerProps) {
   return (
     <div className="flex h-full min-h-[200px] w-full flex-col items-center justify-center gap-5 rounded-card bg-white p-4 shadow-card max-md:h-[200px]">
-      <span className="text-sm text-gray1">{text}</span>
+      <span className="text-sm text-gray2">{text}</span>
       {onCreateClick && (
         <SquareBtn
           name={createBtnTitle}

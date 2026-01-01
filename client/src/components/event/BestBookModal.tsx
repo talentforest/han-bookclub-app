@@ -26,7 +26,7 @@ export default function BestBookModal({
 
   const { hideModal } = useHandleModal();
 
-  const { clubBookListByYear } = useGetClubByYear();
+  const { clubBookListByYear } = useGetClubByYear('2025');
 
   const { onEditSubmitClick } = useEditDoc({
     collName: `${BOOKCLUB_THIS_YEAR}`,

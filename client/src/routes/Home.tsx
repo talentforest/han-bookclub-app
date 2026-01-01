@@ -1,14 +1,4 @@
-import { useEffect } from 'react';
-
 import { useNavigate } from 'react-router-dom';
-
-import { useSetRecoilState } from 'recoil';
-
-import { clubByNextYearAtom, clubByYearAtom } from '@/data/clubAtom';
-
-import { getCollection } from '@/api';
-
-import { BOOKCLUB_NEXT_YEAR, BOOKCLUB_THIS_YEAR } from '@/appConstants';
 
 import { nextMonth, nextYearMonthId, thisYear, thisYearMonthId } from '@/utils';
 
@@ -25,38 +15,33 @@ import RecommendedBookSwiperContainer from '@/components/post/recommendedBooks/R
 const Home = () => {
   const navigate = useNavigate();
 
-  const setThisYearClub = useSetRecoilState(clubByYearAtom);
-  const setNextYearClub = useSetRecoilState(clubByNextYearAtom);
-
-  useEffect(() => {
-    getCollection(BOOKCLUB_THIS_YEAR, setThisYearClub);
-    getCollection(BOOKCLUB_NEXT_YEAR, setNextYearClub);
-  }, []);
-
   const buttonList = [
     {
       name: `${thisYear} 월별 독서분야`,
       onClick: () => navigate('/monthlyinfo', { state: 'fieldAndHost' }),
       color: 'blue' as const,
     },
-    {
-      name: `${thisYear} 챌린지`,
-      onClick: () => navigate('/challenge'),
-      color: 'blue' as const,
-    },
+    // {
+    //   name: `${thisYear} 챌린지`,
+    //   onClick: () => navigate('/challenge'),
+    //   color: 'blue' as const,
+    // },
     {
       name: `${thisYear} 모임불참`,
       onClick: () => navigate('/monthlyinfo', { state: 'absence' }),
       color: 'blue' as const,
     },
     {
-      name: `${thisYear} 연말결산`,
+      name: `2025 연말결산`,
       onClick: () => navigate('/yearClosingEvent'),
       color: 'blue' as const,
     },
     {
       name: `${thisYear} 페널티`,
-      onClick: () => navigate('/monthlyinfo', { state: 'absence' }),
+      onClick: () => {
+        return alert('아직 준비중입니다!');
+        // navigate('/monthlyinfo', { state: 'absence' });
+      },
       color: 'gray' as const,
     },
   ];

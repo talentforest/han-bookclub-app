@@ -32,6 +32,7 @@ import ResetPasswordEmail from '@/components/auth/ResetPasswordEmail';
 import ScrollToTop from '@/components/common/ScrollToTop';
 import PostListDetail from '@/components/post/PostListDetail';
 import Absence from '@/components/setting/Absence';
+import BookClubRules from '@/components/setting/BookClubRules';
 import ChangePassword from '@/components/setting/ChangePassword';
 import DeleteAccount from '@/components/setting/DeleteAccount';
 import Developer from '@/components/setting/Developer';
@@ -95,6 +96,7 @@ function Router({ isLoggedIn }: RouterProps) {
             <Route path="/setting/edit-password" element={<ChangePassword />} />
             <Route path="/setting/delete-account" element={<DeleteAccount />} />
             <Route path="/setting/developer" element={<Developer />} />
+            <Route path="/setting/bookclub-rules" element={<BookClubRules />} />
             <Route
               path="/setting/notification"
               element={<NotificationSetting />}

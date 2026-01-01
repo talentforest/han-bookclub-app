@@ -11,11 +11,9 @@ import { getCollection } from '@/api';
 
 import { CHALLENGE } from '@/appConstants';
 
-import { thisYear } from '@/utils';
-
 import { BaseBookData, BookWithRank, UserRank } from '@/types';
 
-export const useHandleChallenge = () => {
+export const useHandleChallenge = (year: string) => {
   const memberList = useRecoilValue(allUsersAtom);
 
   const [userChallengeList, setUserChallengeList] = useRecoilState(
@@ -27,7 +25,7 @@ export const useHandleChallenge = () => {
       getCollection(
         CHALLENGE,
         setUserChallengeList,
-        where('__name__', '>=', `${thisYear}-`),
+        where('__name__', '>=', `${year}-`),
       );
     }
   }, []);

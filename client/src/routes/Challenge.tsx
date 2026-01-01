@@ -29,13 +29,13 @@ export default function Challenge() {
 
   const { showModal } = useHandleModal();
 
-  const { bookWithRankList, userRankList } = useHandleChallenge();
+  const { bookWithRankList, userRankList } = useHandleChallenge(thisYear);
 
   const {
     selectedYear,
     setSelectedYear,
     clubBookListByYear, //
-  } = useGetClubByYear();
+  } = useGetClubByYear(thisYear);
 
   const recommendedBookCollNameList = useMemo(() => {
     const monthList =
