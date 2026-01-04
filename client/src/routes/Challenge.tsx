@@ -29,7 +29,7 @@ export default function Challenge() {
 
   const { showModal } = useHandleModal();
 
-  const { bookWithRankList, userRankList } = useHandleChallenge(thisYear);
+  const { getBookRankList, userRankList } = useHandleChallenge(thisYear);
 
   const {
     selectedYear,
@@ -53,7 +53,7 @@ export default function Challenge() {
     reason?: string,
     recommendedUser?: string,
   ) => {
-    const challengeBook = bookWithRankList.find(
+    const challengeBook = getBookRankList().find(
       ({ title }) => title === book.title,
     );
 
@@ -70,6 +70,8 @@ export default function Challenge() {
       ),
     });
   };
+
+  console.log(getBookRankList());
 
   return (
     <>
@@ -105,21 +107,21 @@ export default function Challenge() {
           </div>
         </div>
 
-        {bookWithRankList && bookWithRankList?.length > 0 && (
+        {/* {bookRankList && bookRankList?.length > 0 && (
           <Section
             className="!mb-10 !mt-16 flex"
             title="🔥현재 가장 여러 번 다시 읽은 책은?"
           >
             <ul className="mt-2 grid grid-cols-8 gap-4 max-md:grid-cols-6 max-sm:grid-cols-4">
-              {bookWithRankList.map(bookWithRank => (
+              {bookRankList.map(bookRank => (
                 <ChallengeBookRankCard
-                  key={bookWithRank.title}
-                  bookWithRank={bookWithRank}
+                  key={bookRank.title}
+                  bookRank={bookRank}
                 />
               ))}
             </ul>
           </Section>
-        )}
+        )} */}
 
         <Section className="!mt-10" title="🙋🏻현재 멤버별 챌린지 현황">
           {userRankList?.length !== 0 && (

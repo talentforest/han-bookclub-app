@@ -2,7 +2,7 @@ import Select from 'react-select';
 
 import { useRecoilValue } from 'recoil';
 
-import { allUsersAtom } from '@/data/userAtom';
+import { userListAtom } from '@/data/userAtom';
 
 import ErrorMsg from '@/components/common/ErrorMsg';
 import Label from '@/components/common/input/Label';
@@ -27,7 +27,7 @@ export default function SelectHosts({
   onChange,
   errorMsg,
 }: SelectHostsProps) {
-  const usersDoc = useRecoilValue(allUsersAtom);
+  const { data: usersDoc } = useRecoilValue(userListAtom);
 
   const hostOptions = [...usersDoc, noHost].map(host => {
     return { value: host.id, label: host.displayName };

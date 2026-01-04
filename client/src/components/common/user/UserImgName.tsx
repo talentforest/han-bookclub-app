@@ -1,15 +1,11 @@
-import { MouseEvent, useEffect } from 'react';
+import { MouseEvent } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import { basePhotoAtom } from '@/data/clubAtom';
-import { allUsersAtom, currAuthUserAtom } from '@/data/userAtom';
-
-import { getCollection } from '@/api';
-
-import { USER } from '@/appConstants';
+import { currAuthUserAtom, userListAtom } from '@/data/userAtom';
 
 interface UserImgNameProps {
   userId: string;
@@ -28,20 +24,13 @@ export default function UserImgName({
 
   const basePhoto = useRecoilValue(basePhotoAtom);
 
-  const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersAtom);
+  const { data: allUserDocs } = useRecoilValue(userListAtom);
 
   const user = allUserDocs?.find(({ id }) => id === userId);
-
-  useEffect(() => {
-    if (allUserDocs?.length === 0) {
-      getCollection(USER, setAllUserDocs);
-    }
-  }, [userId, allUserDocs, setAllUserDocs]);
 
   const onContextMenu = (e: MouseEvent<HTMLImageElement>) => {
     e.preventDefault();
     e.stopPropagation();
-
     return false;
   };
 

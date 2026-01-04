@@ -1,25 +1,37 @@
-import { v4 } from 'uuid';
+import { where } from 'firebase/firestore';
 
-import { atom } from 'recoil';
+import { atomFamily } from 'recoil';
 
-import {
-  ChallengeSentence,
-  CompleteReadingChallenge,
-  RereadingChallenge,
-} from '@/types';
+import { getCollection } from '@/api';
 
-export const rereadingChallengeAtom = atom<RereadingChallenge[] | null>({
-  key: `rereadingChallenge/${v4()}`,
-  default: null,
+import { CHALLENGE, isLoadingStatus } from '@/appConstants';
+
+import { Challenge, LoadableStatus } from '@/types';
+
+export const challengeAtomFamily = atomFamily<
+  LoadableStatus<Challenge[]>,
+  string
+>({
+  key: 'challengeAtomFamily',
+  default: isLoadingStatus,
+  effects: (year: string) => [
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get') return;
+      getCollection(CHALLENGE, setSelf, where('__name__', '>=', `${year}-`));
+    },
+  ],
 });
 
-export const completeReadingChallengeState =
-  atom<CompleteReadingChallenge | null>({
-    key: `completeReadingChallenge/${v4()}`,
-    default: null,
-  });
-
-export const sentencesState = atom<ChallengeSentence[] | null>({
-  key: `sentences/${v4()}`,
-  default: null,
+export const challengeListByUserAtomFamily = atomFamily<
+  LoadableStatus<Challenge[]>,
+  string
+>({
+  key: 'challengeListByUserAtomFamily',
+  default: isLoadingStatus,
+  effects: (uid: string) => [
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get' || !uid) return;
+      getCollection(CHALLENGE, setSelf, where('creatorId', '==', uid));
+    },
+  ],
 });

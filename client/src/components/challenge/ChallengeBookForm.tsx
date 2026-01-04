@@ -5,15 +5,15 @@ import { doc, setDoc } from 'firebase/firestore';
 
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { bookDescState, searchListAtom } from '@/data/bookAtom';
-import { completeReadingChallengeState } from '@/data/challengeAtom';
+import { bookDescAtom, searchListAtom } from '@/data/bookAtom';
+import { challengeAtomFamily } from '@/data/challengeAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
 import { CHALLENGE } from '@/appConstants';
 
 import { useAlertAskJoin, useHandleModal } from '@/hooks';
 
-import { formatDate } from '@/utils';
+import { formatDate, thisYear } from '@/utils';
 
 import { CompleteReadingChallenge } from '@/types';
 
@@ -25,9 +25,9 @@ import Input from '@/components/common/input/Input';
 export default function ChallengeBookForm() {
   const setSearchList = useSetRecoilState(searchListAtom);
 
-  const userChallenge = useRecoilValue(completeReadingChallengeState);
+  const { data: userChallenge } = useRecoilValue(challengeAtomFamily(thisYear));
 
-  const bookDesc = useRecoilValue(bookDescState);
+  const bookDesc = useRecoilValue(bookDescAtom);
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
@@ -67,27 +67,6 @@ export default function ChallengeBookForm() {
         '현재 페이지수가 전체 페이지 수보다 많을 수 없습니다. 다시 한번 확인해주세요!',
       );
     }
-
-    const alreayExistBook = findMyChallengeBooks?.books?.find(
-      book => book.title === title,
-    );
-
-    if (alreayExistBook) {
-      return alert('이미 똑같은 책이 존재하고 있어요.');
-    }
-
-    const challengeDoc: CompleteReadingChallenge = findMyChallengeBooks
-      ? {
-          ...findMyChallengeBooks,
-          books: [...findMyChallengeBooks.books, { ...bookDesc, ...pageNums }],
-        }
-      : {
-          createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
-          creatorId: uid,
-          books: [{ ...bookDesc, ...pageNums }],
-        };
-
-    await setDoc(doc(dbService, CHALLENGE, uid), challengeDoc);
 
     setSearchList([]);
 

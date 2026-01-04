@@ -5,7 +5,7 @@ import { monthlyClubInfo } from '@/appConstants';
 import { BaseBookData } from '@/types/book';
 
 export type MonthlyBookClub = {
-  id?: string;
+  docId?: string;
   creatorId: string;
   createdAt: string;
   book?: BaseBookData;
@@ -64,7 +64,7 @@ export type EventContentUpdateRoute = AddPrefixToKeys<
 >;
 
 export type MonthlyAbsenceMembers = {
-  month: number;
+  month?: number;
   breakMembers: string[];
   onceAbsenceMembers: string[];
 };

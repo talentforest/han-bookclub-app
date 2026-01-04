@@ -1,30 +1,23 @@
-import { v4 } from 'uuid';
-
 import { atomFamily, selectorFamily } from 'recoil';
 
-import { allUsersAtom } from '@/data/userAtom';
+import { userListAtom } from '@/data/userAtom';
 
 import { getDocument } from '@/api';
 
-import { ABSENCE_MEMBERS } from '@/appConstants';
+import { ABSENCE_MEMBERS, isLoadingStatus } from '@/appConstants';
 
-import { MonthlyAbsenceMembers } from '@/types';
+import { LoadableStatus, MonthlyAbsenceMembers } from '@/types';
 
 export const absenceAtom = atomFamily<
-  {
-    id: string;
-    absenceMembers: MonthlyAbsenceMembers[];
-  },
-  string | null
+  LoadableStatus<{ [month: string]: MonthlyAbsenceMembers }>,
+  string
 >({
-  key: `absence/${v4()}`,
-  default: null,
+  key: 'absenceAtom',
+  default: isLoadingStatus,
   effects: (year: string) => [
-    ({ setSelf }) => {
-      const fetchData = async () => {
-        getDocument(`BookClub-${year}`, ABSENCE_MEMBERS, setSelf);
-      };
-      fetchData();
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get') return;
+      getDocument(`BookClub-${year}`, ABSENCE_MEMBERS, setSelf);
     },
   ],
 });
@@ -34,28 +27,28 @@ export const attendanceSelector = selectorFamily({
   get:
     (yearMonthId: string) =>
     ({ get }) => {
-      const year = +yearMonthId.slice(0, 4);
-      const month = +yearMonthId.slice(-2);
+      const year = yearMonthId.slice(0, 4);
+      const month = yearMonthId.slice(-2);
 
-      const allMemberList = get(allUsersAtom);
-      const absenceData = get(absenceAtom(`${year}`));
+      const allMemberList = get(userListAtom);
+      const absenceData = get(absenceAtom(year));
 
-      if (!absenceData?.absenceMembers) {
+      if (!absenceData?.data) {
         return { absenteeList: null, participantList: null };
       }
 
-      const absenceList = absenceData?.absenceMembers;
+      const absenceListObj = absenceData?.data;
 
-      const absence = absenceList.find(({ month: mon }) => month === mon);
+      const absence = absenceListObj[`${month}월`];
 
       const absenteeList = [
         ...(absence?.breakMembers || []),
         ...(absence?.onceAbsenceMembers || []),
       ];
 
-      const participantList = allMemberList
+      const participantList = allMemberList.data
         .filter(({ membershipJoinTime: time }) => {
-          const clubYearMonthId = new Date(year, month - 1);
+          const clubYearMonthId = new Date(+year, +month - 1);
           return new Date(time).getTime() < clubYearMonthId.getTime();
         })
         .filter(member => !absenteeList.includes(member.id))

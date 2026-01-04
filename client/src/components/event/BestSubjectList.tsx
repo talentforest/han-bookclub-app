@@ -12,10 +12,14 @@ import Confetti from '@/components/event/Confetti';
 import QuoteArticle from '@/components/post/QuoteArticle';
 
 interface BestSubjectListProps {
+  year: string;
   subjects?: SubjectEventResult[];
 }
 
-export default function BestSubjectList({ subjects }: BestSubjectListProps) {
+export default function BestSubjectList({
+  year,
+  subjects,
+}: BestSubjectListProps) {
   const { showModal } = useHandleModal();
 
   const onHandleModalClick = ({
@@ -26,7 +30,9 @@ export default function BestSubjectList({ subjects }: BestSubjectListProps) {
     isEditing?: boolean;
   }) => {
     showModal({
-      element: <BestSubjectModal rank={rank} isEditing={isEditing} />,
+      element: (
+        <BestSubjectModal year={year} rank={rank} isEditing={isEditing} />
+      ),
     });
   };
 

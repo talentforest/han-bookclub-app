@@ -1,11 +1,9 @@
-import { v4 } from 'uuid';
-
 import { atom } from 'recoil';
 
 import { BaseBookData, BookData } from '@/types';
 
 export const recommendedBookAtom = atom<BaseBookData>({
-  key: `recommendedBook/${v4()}`,
+  key: 'recommendedBookAtom',
   default: {
     thumbnail: '',
     title: '',
@@ -15,12 +13,12 @@ export const recommendedBookAtom = atom<BaseBookData>({
   },
 });
 
-export const bookDescState = atom<BaseBookData>({
-  key: `bookDesc${v4()}`,
+export const bookDescAtom = atom<BaseBookData>({
+  key: 'bookDescAtom',
   default: null,
 });
 
 export const searchListAtom = atom<BookData[]>({
-  key: `searchList${v4()}`,
+  key: 'searchListAtom',
   default: [],
 });

@@ -5,7 +5,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
-import { hostReviewState, subjectsState } from '@/data/documentsAtom';
+import { hostReviewListAtom, subjectListAtom } from '@/data/documentsAtom';
 import { fieldAndHostSelector } from '@/data/fieldAndHostAtom';
 
 import { getCollection } from '@/api';
@@ -35,12 +35,15 @@ export default function PostListDetail() {
   const params = useParams();
   const yearMonthId = params?.id ?? thisYearMonthId;
 
-  const monthlyBookClub = useRecoilValue(clubByMonthSelector(yearMonthId));
+  const { data: monthlyBookClub } = useRecoilValue(
+    clubByMonthSelector(yearMonthId),
+  );
   const fieldAndHosts = useRecoilValue(fieldAndHostSelector(yearMonthId));
 
-  const [hostReviews, setHostReviews] = useRecoilState(hostReviewState);
+  const [{ data: hostReviewList }, setHostReviews] =
+    useRecoilState(hostReviewListAtom);
 
-  const [subjects, setSubjects] = useRecoilState(subjectsState);
+  const [{ data: subjectList }, setSubjects] = useRecoilState(subjectListAtom);
 
   const { pathname, state } = useLocation() as LocationState;
 
@@ -66,11 +69,11 @@ export default function PostListDetail() {
 
   const postInfo = {
     발제문: {
-      postList: subjects,
+      postList: subjectList,
       collName: subjectCollName,
     },
     '정리 기록': {
-      postList: hostReviews,
+      postList: hostReviewList,
       collName: hostReviewCollName,
     },
   };
@@ -78,7 +81,7 @@ export default function PostListDetail() {
   const { postList, collName } = postInfo[postType];
 
   const currPostList = postId
-    ? postList?.filter(post => post.id === postId)
+    ? postList?.filter(post => post.docId === postId)
     : postList;
 
   return (
@@ -111,7 +114,7 @@ export default function PostListDetail() {
         ) : (
           currPostList?.length !== 0 &&
           currPostList.map((post, index) => (
-            <Fragment key={post.id}>
+            <Fragment key={post.docId}>
               <Post
                 type={postType}
                 post={post}

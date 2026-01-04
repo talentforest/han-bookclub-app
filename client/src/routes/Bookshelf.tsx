@@ -5,7 +5,7 @@ import { RiSettings2Line } from 'react-icons/ri';
 
 import { useRecoilValue } from 'recoil';
 
-import { currAuthUserAtom, userDocAtomFamily } from '@/data/userAtom';
+import { currAuthUserAtom, userAtomFamily } from '@/data/userAtom';
 
 import { CHALLENGE, postNameObj } from '@/appConstants';
 
@@ -27,7 +27,9 @@ const Bookshelf = () => {
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const userData = useRecoilValue(userDocAtomFamily(state?.userId || uid));
+  const { status, data: userData } = useRecoilValue(
+    userAtomFamily(state?.userId || uid),
+  );
 
   const {
     id: userId,
@@ -43,7 +45,7 @@ const Bookshelf = () => {
   const displayName = isCurrentUser ? '나' : username;
 
   return (
-    Object.keys(userData).length > 0 && (
+    status === 'loaded' && (
       <>
         <MobileHeader title={`${displayName}의 책장`} backBtn={!isCurrentUser}>
           {isCurrentUser && (

@@ -15,7 +15,9 @@ interface MonthBookClubProps {
 }
 
 export default function MonthBookClub({ yearMonthId }: MonthBookClubProps) {
-  const monthlyClub = useRecoilValue(clubByMonthSelector(yearMonthId));
+  const { data: monthlyClub, status } = useRecoilValue(
+    clubByMonthSelector(yearMonthId),
+  );
 
   const fieldAndHosts = useRecoilValue(fieldAndHostSelector(yearMonthId));
 
@@ -23,7 +25,7 @@ export default function MonthBookClub({ yearMonthId }: MonthBookClubProps) {
 
   const navigate = useNavigate();
 
-  const infoList = monthlyClub && [
+  const labelList = monthlyClub && [
     {
       label: '모임시간' as const,
       value: monthlyClub.meeting?.time,
@@ -35,48 +37,49 @@ export default function MonthBookClub({ yearMonthId }: MonthBookClubProps) {
       editable: true && pathname === '/bookclub',
     },
     {
-      label: monthlyClub.meeting.eventMonth
+      label: monthlyClub.meeting?.eventMonth
         ? ('진행자' as const)
         : ('발제자' as const),
-      value: monthlyClub.meeting.eventMonth
-        ? monthlyClub.meeting.eventMonth?.hosts
+      value: monthlyClub.meeting?.eventMonth
+        ? monthlyClub.meeting?.eventMonth?.hosts
         : fieldAndHosts?.hosts,
     },
   ];
 
   return (
     <>
-      {monthlyClub ? (
-        <div className="grid grid-cols-2 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">
-          {monthlyClub?.book ? (
-            <MonthBookCard yearMonthId={monthlyClub.id} />
-          ) : (
-            <MonthEventCard yearMonthId={yearMonthId} />
-          )}
+      {status === 'loaded' &&
+        (monthlyClub ? (
+          <div className="grid grid-cols-2 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">
+            {monthlyClub.book ? (
+              <MonthBookCard yearMonthId={yearMonthId} />
+            ) : (
+              <MonthEventCard yearMonthId={yearMonthId} />
+            )}
 
-          <ul className="col-span-1 flex flex-col gap-3">
-            {infoList.map(({ label, value }) => (
-              <li key={label}>
-                <LabelWithValueCard
-                  label={label}
-                  value={value}
-                  editable={false}
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <EmptyCard
-          text="아직 등록된 이번달 모임책이 없어요."
-          createBtnTitle="이번달 모임책 등록하기"
-          onCreateClick={() =>
-            navigate('/search', {
-              state: { registerYearMonth: yearMonthId },
-            })
-          }
-        />
-      )}
+            <ul className="col-span-1 flex flex-col gap-3">
+              {labelList.map(({ label, value }) => (
+                <li key={label}>
+                  <LabelWithValueCard
+                    label={label}
+                    value={value}
+                    editable={false}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <EmptyCard
+            text="아직 등록된 이번달 모임책이 없어요."
+            createBtnTitle="이번달 모임책 등록하기"
+            onCreateClick={() =>
+              navigate('/search', {
+                state: { registerYearMonth: yearMonthId },
+              })
+            }
+          />
+        ))}
     </>
   );
 }

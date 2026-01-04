@@ -1,20 +1,20 @@
-import { v4 } from 'uuid';
-
 import { atom } from 'recoil';
 
-import { UserPost } from '@/types';
+import { isLoadingStatus } from '@/appConstants';
 
-export const subjectsState = atom<UserPost[]>({
-  key: `subjectDocs/${v4()}`,
-  default: null,
+import { LoadableStatus, UserPost } from '@/types';
+
+export const subjectListAtom = atom<LoadableStatus<UserPost[]>>({
+  key: 'subjectListAtom',
+  default: isLoadingStatus,
 });
 
-export const hostReviewState = atom<UserPost[]>({
-  key: `hostReviews/${v4()}`,
-  default: null,
+export const hostReviewListAtom = atom<LoadableStatus<UserPost[]>>({
+  key: 'hostReviewListAtom',
+  default: isLoadingStatus,
 });
 
-export const meetingReviewsState = atom<UserPost[]>({
-  key: `meetingReviewDocs/${v4()}`,
-  default: [],
+export const meetingReviewListAtom = atom<LoadableStatus<UserPost[]>>({
+  key: 'meetingReviewListAtom',
+  default: isLoadingStatus,
 });

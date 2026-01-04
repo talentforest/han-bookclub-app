@@ -19,7 +19,7 @@ const PostHandleBtns = ({
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       <PostEditBtn collName={collName} post={post} postType={postType} />
-      <PostDeleteBtn docId={post.id} collName={collName} />
+      <PostDeleteBtn docId={post.docId} collName={collName} />
     </div>
   );
 };

@@ -20,7 +20,8 @@ function PreviousClub() {
 
   const prevClubList = useMemo(() => {
     return clubByYear?.filter(
-      club => new Date(club.id).getTime() < new Date(thisYearMonthId).getTime(),
+      club =>
+        new Date(club.docId).getTime() < new Date(thisYearMonthId).getTime(),
     );
   }, [clubByYear]);
 
@@ -40,13 +41,13 @@ function PreviousClub() {
             <ul className="grid grid-cols-4 gap-4 max-md:grid-cols-3 max-sm:mt-2 max-sm:flex max-sm:flex-col [&>div]:col-span-4">
               {prevClubList?.map(club => (
                 <Link
-                  key={club.id}
-                  to={`/bookclub${thisYearMonthId === club.id ? '' : `/${club.id}`}`}
+                  key={club.docId}
+                  to={`/bookclub${thisYearMonthId === club.docId ? '' : `/${club.docId}`}`}
                 >
                   {club?.meeting?.eventMonth ? (
-                    <MonthEventCard yearMonthId={club.id} />
+                    <MonthEventCard yearMonthId={club.docId} />
                   ) : (
-                    <MonthBookCard yearMonthId={club.id} />
+                    <MonthBookCard yearMonthId={club.docId} />
                   )}
                 </Link>
               ))}

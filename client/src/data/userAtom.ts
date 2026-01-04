@@ -1,31 +1,19 @@
 import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
-import { v4 } from 'uuid';
 
 import { atom, atomFamily } from 'recoil';
 
 import { getCollection, getDocument } from '@/api';
 
-import { USER } from '@/appConstants';
+import { USER, isLoadingStatus } from '@/appConstants';
 
-import { FirebaseAuthUser, UserProfile } from '@/types';
-
-const auth = getAuth();
-
-export const allUsersAtom = atom<UserProfile[]>({
-  key: `allUsers/${v4}`,
-  default: [],
-  effects: [
-    ({ setSelf }) => {
-      getCollection(USER, setSelf);
-    },
-  ],
-});
+import { FirebaseAuthUser, LoadableStatus, UserProfile } from '@/types';
 
 export const currAuthUserAtom = atom<FirebaseAuthUser | null>({
-  key: `currUser/${v4}`,
+  key: 'currAuthUserAtom',
   default: null,
   effects: [
     ({ setSelf }) => {
+      const auth = getAuth();
       const unsubscribe = onAuthStateChanged(auth, user => {
         if (user) {
           const { uid, email, displayName, photoURL } = user;
@@ -53,15 +41,25 @@ export const currAuthUserAtom = atom<FirebaseAuthUser | null>({
   ],
 });
 
+export const userListAtom = atom<LoadableStatus<UserProfile[]>>({
+  key: 'userListAtom',
+  default: isLoadingStatus,
+  effects: [
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get') return;
+      getCollection(USER, setSelf);
+    },
+  ],
+});
+
 // 다른 유저의 문서정보
-export const userDocAtomFamily = atomFamily<UserProfile | null, string>({
-  key: `user/${v4}`,
-  default: {} as UserProfile,
+export const userAtomFamily = atomFamily<LoadableStatus<UserProfile>, string>({
+  key: 'userAtomFamily',
+  default: isLoadingStatus,
   effects: (uid: string) => [
-    ({ setSelf }) => {
-      if (uid) {
-        getDocument(USER, uid, setSelf); // UID별 데이터 가져오기
-      }
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get' || !uid) return;
+      getDocument(USER, uid, setSelf);
     },
   ],
 });

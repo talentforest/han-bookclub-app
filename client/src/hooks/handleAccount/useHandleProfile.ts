@@ -7,7 +7,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 import { useRecoilState } from 'recoil';
 
-import { currAuthUserAtom, userDocAtomFamily } from '@/data/userAtom';
+import { currAuthUserAtom, userAtomFamily } from '@/data/userAtom';
 
 import { USER } from '@/appConstants';
 
@@ -23,7 +23,7 @@ export const useHandleProfile = () => {
 
   const [{ uid, displayName }, setUserData] = useRecoilState(currAuthUserAtom);
 
-  const [userDoc, setUserDoc] = useRecoilState(userDocAtomFamily(uid));
+  const [{ data: userDoc }, setUserDoc] = useRecoilState(userAtomFamily(uid));
 
   const [newUserImgUrl, setNewUserImgUrl] = useState<ProfileImgFiles | null>(
     null,
@@ -120,7 +120,7 @@ export const useHandleProfile = () => {
     }
     setUserDoc(prevArr => ({
       ...prevArr,
-      favoriteBookField: prevArr.favoriteBookField.filter(
+      favoriteBookField: prevArr.data.favoriteBookField.filter(
         (ele: ClubBookField) => ele.id !== id,
       ),
     }));

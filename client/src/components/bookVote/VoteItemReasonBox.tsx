@@ -20,7 +20,7 @@ export default function VoteItemReasonBox({
             </span>
 
             {selectReason ? (
-              <p>{selectReason}</p>
+              <p className="break-all">{selectReason}</p>
             ) : (
               <span>정보가 없습니다.</span>
             )}

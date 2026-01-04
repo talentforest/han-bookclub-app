@@ -106,7 +106,7 @@ export default function Table({
                 {'breakMembers' in record && (
                   <TableDataItem
                     isMulti
-                    label="모임정지멤버"
+                    label="정지멤버"
                     data={record.breakMembers}
                     color={color}
                   />
@@ -120,7 +120,7 @@ export default function Table({
                 )}
                 {'breakMonth' in record && (
                   <TableDataItem
-                    label="모임정지"
+                    label="정지"
                     data={record.breakMonth}
                     color={color}
                   />

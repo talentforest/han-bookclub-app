@@ -34,7 +34,9 @@ export default function ReadingLifeQuestionModal({
 }: ReadingLifeQuestionModalProps) {
   const currUser = useRecoilValue(currAuthUserAtom);
 
-  const { meeting } = useRecoilValue(clubByMonthSelector(`${thisYear}-12`));
+  const {
+    data: { meeting },
+  } = useRecoilValue(clubByMonthSelector(`${thisYear}-12`));
 
   const { onEditSubmit, setEditedData, editedData } =
     useEditDoc<EventContentUpdateRoute>({

@@ -6,7 +6,7 @@ import { SwiperSlide } from 'swiper/react';
 
 import { useRecoilState } from 'recoil';
 
-import { hostReviewState, subjectsState } from '@/data/documentsAtom';
+import { hostReviewListAtom, subjectListAtom } from '@/data/documentsAtom';
 
 import { getCollection } from '@/api';
 
@@ -39,8 +39,11 @@ const swiperOptions = {
 
 export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
   const [currTab, setCurrTab] = useState<TabPostTypeValue>('발제문');
-  const [hostReviewList, setHostReviewList] = useRecoilState(hostReviewState);
-  const [subjectList, setSubjectList] = useRecoilState(subjectsState);
+
+  const [{ data: hostReviewList }, setHostReviewList] =
+    useRecoilState(hostReviewListAtom);
+  const [{ data: subjectList }, setSubjectList] =
+    useRecoilState(subjectListAtom);
 
   useEffect(() => {
     getCollection(
@@ -98,7 +101,7 @@ export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
             <SwiperContainer options={swiperOptions}>
               {postList?.map((post, index) => (
                 <SwiperSlide
-                  key={post.id}
+                  key={post.docId}
                   className={`!mt-0 min-h-fit !py-0 ${postList.length === 1 ? 'w-full' : 'max-w-[70vw]'}`}
                 >
                   <div className="mx-auto flex w-full flex-col rounded-xl bg-white p-3">
@@ -112,10 +115,10 @@ export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
                     </span>
                     <ChevronRightLinkBtn
                       title="더보기"
-                      state={{ postId: post.id }}
+                      state={{ postId: post.docId }}
                       to={linkTo}
                       onClick={blockLinkAndAlertJoinMember}
-                      className="w-fit self-end rounded-xl bg-purple4 px-4 py-3 !text-[15px] text-purple2 shadow-card"
+                      className="mt-3 w-fit self-end rounded-xl bg-purple4 px-4 py-3 !text-[15px] text-purple2 shadow-card"
                     />
                   </div>
                 </SwiperSlide>
@@ -126,7 +129,7 @@ export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
               title={`전체 ${currTab} 보기`}
               to={linkTo}
               onClick={blockLinkAndAlertJoinMember}
-              className="w-fit self-end px-2 !text-[15px] text-blue-500"
+              className="mt-3 w-fit self-end px-2 !text-[15px] text-blue-500"
             />
           </>
         ) : (

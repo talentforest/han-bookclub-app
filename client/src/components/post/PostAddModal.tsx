@@ -22,21 +22,23 @@ interface PostAddModalProps {
 }
 
 const PostAddModal = ({ postType }: PostAddModalProps) => {
-  const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
+  const { data: thisMonthClub } = useRecoilValue(
+    clubByMonthSelector(thisYearMonthId),
+  );
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const { sendPostPushNotification, isPending } = useSendPushNotification();
 
   const {
-    id,
+    docId: yearMonthId,
     book: { thumbnail, title, url, publisher, authors },
   } = thisMonthClub;
 
   const collName =
     postType === '발제문'
-      ? getFbRouteOfPost(id, SUBJECTS)
-      : getFbRouteOfPost(id, HOST_REVIEW);
+      ? getFbRouteOfPost(yearMonthId, SUBJECTS)
+      : getFbRouteOfPost(yearMonthId, HOST_REVIEW);
 
   const initialDocData = {
     text: '',

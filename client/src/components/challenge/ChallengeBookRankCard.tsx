@@ -1,25 +1,24 @@
-// import { PiMedalFill } from 'react-icons/pi';
 import { useHandleModal } from '@/hooks';
 
-import { BookWithRank } from '@/types';
+import { BookRank } from '@/types';
 
 import ChallengeRankedBookModal from '@/components/challenge/ChallengeRankedBookModal';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 
 interface ChallengeBookRankCardProps {
-  bookWithRank: BookWithRank;
+  bookRank: BookRank;
 }
 
 export default function ChallengeBookRankCard({
-  bookWithRank,
+  bookRank,
 }: ChallengeBookRankCardProps) {
-  const { title, thumbnail } = bookWithRank;
+  const { title, thumbnail } = bookRank;
 
   const { showModal } = useHandleModal();
 
   const onClick = () => {
     showModal({
-      element: <ChallengeRankedBookModal bookWithRank={bookWithRank} />,
+      element: <ChallengeRankedBookModal bookRank={bookRank} />,
     });
   };
 

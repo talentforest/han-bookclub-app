@@ -1,6 +1,8 @@
+import { ClubBookField } from '@/types/club';
 import { FirebaseAuthUser } from '@/types/firebase';
 
 export type UserProfile = {
+  docId?: string;
   id?: string;
   name: string;
   favoriteBookField: ClubBookField[];

@@ -6,15 +6,16 @@ import { clubByMonthSelector } from '@/data/clubAtom';
 
 import { getCollection } from '@/api';
 
-import { BOOKCLUB_THIS_YEAR, SUBJECTS } from '@/appConstants';
+import { SUBJECTS, isLoadingStatus } from '@/appConstants';
 
 import { useEditDoc, useGetClubByYear, useHandleModal } from '@/hooks';
 
-import { getFbRouteOfPost, thisYear } from '@/utils';
+import { getFbRouteOfPost } from '@/utils';
 
 import {
   BaseBookData,
   EventContentUpdateRoute,
+  LoadableStatus,
   SubjectEventResult,
   UserPost,
 } from '@/types';
@@ -28,21 +29,22 @@ import EditorContent from '@/components/common/editor/EditorContent';
 import Input from '@/components/common/input/Input';
 
 interface BestSubjectModalProps {
+  year: string;
   rank: number;
   isEditing?: boolean;
 }
 
 export default function BestSubjectModal({
+  year,
   rank,
   isEditing,
 }: BestSubjectModalProps) {
   const [currStep, setCurrStep] = useState(1);
 
-  const [subjectList, setSubjectList] = useState<UserPost[]>([]);
+  const [{ status, data: subjectList }, setSubjectList] =
+    useState<LoadableStatus<UserPost[]>>(isLoadingStatus);
 
-  const ref = useRef<HTMLInputElement>(null);
-
-  const { meeting } = useRecoilValue(clubByMonthSelector(`${thisYear}-12`));
+  const { data: club } = useRecoilValue(clubByMonthSelector(`${year}-12`));
 
   const { hideModal } = useHandleModal();
 
@@ -50,14 +52,16 @@ export default function BestSubjectModal({
 
   const { editedData, setEditedData, onEditSubmitClick } =
     useEditDoc<EventContentUpdateRoute>({
-      collName: `${BOOKCLUB_THIS_YEAR}`,
-      docId: `${thisYear}-12`,
+      collName: `BookClub-${year}`,
+      docId: `${year}-12`,
       dataToUpdate: { 'meeting.eventMonth.contents': [] },
     });
 
   const currBook = editedData['meeting.eventMonth.contents']
     .find(content => content.title.includes('최고의 모임책'))
     ?.result.subjects.find(subject => subject.rank === rank);
+
+  const ref = useRef<HTMLInputElement>(null);
 
   const onBestSubjectStep = ({
     step,
@@ -77,7 +81,7 @@ export default function BestSubjectModal({
       bestSubject: '',
     };
 
-    const newContents = meeting?.eventMonth?.contents.map(content => {
+    const newContents = club?.meeting?.eventMonth?.contents.map(content => {
       if (!content.title.includes('최고의 모임책과 발제문')) return content;
       return {
         ...content,
@@ -96,10 +100,12 @@ export default function BestSubjectModal({
   };
 
   const onBestSubjectSubmit = () => {
+    if (!subjectList || !subjectList.length) return;
+
     const bestSubject =
       subjectList[0].text
-        .split('📍')
-        .find(subject => subject.includes(ref?.current?.value)) || '';
+        ?.split('📍')
+        ?.find(subject => subject.includes(ref?.current?.value)) || '';
 
     const newContents = editedData['meeting.eventMonth.contents'].map(
       content => {
@@ -120,12 +126,13 @@ export default function BestSubjectModal({
     );
 
     onEditSubmitClick({ 'meeting.eventMonth.contents': newContents });
+    alert('최고의 발제문이 선정되었습니다!');
 
     hideModal();
   };
 
   useEffect(() => {
-    if (currBook) {
+    if (currBook?.yearMonthId) {
       getCollection(
         getFbRouteOfPost(currBook.yearMonthId, SUBJECTS),
         setSubjectList,
@@ -161,7 +168,7 @@ export default function BestSubjectModal({
         </>
       )}
 
-      {currStep === 2 && (
+      {currStep === 2 && status === 'loaded' && (
         <>
           <Input
             ref={ref}
@@ -170,13 +177,18 @@ export default function BestSubjectModal({
             className="mb-3"
           />
           <div className="mb-4 overflow-scroll rounded-xl border border-gray3 bg-[#f5f5f5] p-3 scrollbar-hide">
-            {subjectList.map(subject => (
-              <EditorContent key={subject.id} text={subject.text} />
-            ))}
+            {subjectList.length === 0 ? (
+              <span className="text-gray2">발제문 없음</span>
+            ) : (
+              subjectList?.map(subject => (
+                <EditorContent key={subject.docId} text={subject.text} />
+              ))
+            )}
           </div>
 
           <div className="flex items-center">
             {currBook?.clubBook && <FooterBookCard book={currBook?.clubBook} />}
+
             <SquareBtn
               name="선택하기"
               color="purple"

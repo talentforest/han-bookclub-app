@@ -18,4 +18,6 @@ export type BookVoteItem = {
 export type BookVoteItemsByMember = {
   votedItem: { id: number; title: string }[];
   createdAt: string;
+  id?: string;
+  docId?: string;
 };

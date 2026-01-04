@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useRecoilState } from 'recoil';
 
-import { meetingReviewsState } from '@/data/documentsAtom';
+import { meetingReviewListAtom } from '@/data/documentsAtom';
 
 import { getCollection } from '@/api';
 
@@ -22,8 +22,8 @@ interface MeetingReviewListProps {
 const MeetingReviewList = ({
   yearMonthId = thisYearMonthId,
 }: MeetingReviewListProps) => {
-  const [meetingReviews, setMeetingReviews] =
-    useRecoilState(meetingReviewsState);
+  const [{ status, data: meetingReviewList }, setMeetingReviews] =
+    useRecoilState(meetingReviewListAtom);
 
   const collName = getFbRouteOfPost(yearMonthId, REVIEWS);
 
@@ -34,38 +34,40 @@ const MeetingReviewList = ({
   const isThisMonthDetail = yearMonthId === thisYearMonthId;
 
   return (
-    <div
-      className={`${!isThisMonthDetail && meetingReviews.length === 0 ? 'columns-1' : 'columns-2'} max-sm:columns-1`}
-    >
-      {isThisMonthDetail && <MeetingReviewForm docMonth={yearMonthId} />}
+    status === 'loaded' && (
+      <div
+        className={`${!isThisMonthDetail && meetingReviewList.length === 0 ? 'columns-1' : 'columns-2'} max-sm:columns-1`}
+      >
+        {isThisMonthDetail && <MeetingReviewForm docMonth={yearMonthId} />}
 
-      {meetingReviews?.length !== 0 ? (
-        <ul>
-          {meetingReviews?.map(meetingReview => (
-            <li
-              className="mb-6 flex w-full break-inside-avoid flex-col gap-4"
-              key={meetingReview.id}
-            >
-              <Post
-                type="모임 후기"
-                post={meetingReview}
-                collName={collName}
-                className="rounded-2xl bg-white p-4 shadow-card"
+        {meetingReviewList?.length !== 0 ? (
+          <ul>
+            {meetingReviewList?.map(meetingReview => (
+              <li
+                className="mb-6 flex w-full break-inside-avoid flex-col gap-4"
+                key={meetingReview.docId}
               >
-                <PostFooter
-                  createdAt={meetingReview.createdAt}
-                  footerType="likes"
+                <Post
+                  type="모임 후기"
                   post={meetingReview}
                   collName={collName}
-                />
-              </Post>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <EmptyCard text="작성된 모임 후기가 없습니다." />
-      )}
-    </div>
+                  className="rounded-2xl bg-white p-4 shadow-card"
+                >
+                  <PostFooter
+                    createdAt={meetingReview.createdAt}
+                    footerType="likes"
+                    post={meetingReview}
+                    collName={collName}
+                  />
+                </Post>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <EmptyCard text="작성된 모임 후기가 없습니다." />
+        )}
+      </div>
+    )
   );
 };
 

@@ -7,3 +7,4 @@ export * from '@/types/user';
 export * from '@/types/club';
 export * from '@/types/vote';
 export * from '@/types/fcm';
+export * from '@/types/loadable';

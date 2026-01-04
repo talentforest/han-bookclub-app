@@ -22,7 +22,7 @@ export default function FieldHostEditModal({
     setSelectedValues, //
   } = useHandleFieldHost({ year, monthKey: `${monthNum}월` });
 
-  const { hosts, field, detail } = selectedValues;
+  const { hosts, field, detail } = selectedValues || {};
 
   return (
     <Modal title={`${monthNum}월 독서분야와 발제자 수정하기`}>

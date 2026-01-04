@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { allUsersAtom, currAuthUserAtom } from '@/data/userAtom';
+import { currAuthUserAtom, userListAtom } from '@/data/userAtom';
 
 import { getCollection } from '@/api';
 
@@ -27,7 +27,7 @@ const UserName = ({
 }: UserNameProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const [allUserDocs, setAllUserDocs] = useRecoilState(allUsersAtom);
+  const [allUserDocs, setAllUserDocs] = useRecoilState(userListAtom);
 
   const user = allUserDocs.find(({ id }) => id === userId);
 

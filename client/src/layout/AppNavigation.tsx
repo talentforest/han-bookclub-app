@@ -73,7 +73,7 @@ export default function AppNavigation({ type }: { type: 'top' | 'bottom' }) {
         !pathname.includes('create_account') &&
         pathname !== '/login' && (
           <nav
-            className={`header flex items-center justify-between px-4 pb-12 pt-8 max-sm:hidden ${pathname === '/yearClosingEvent' ? '!bg-black !text-white' : ''}`}
+            className={`header flex items-center justify-between px-4 pb-12 pt-8 max-sm:hidden ${pathname.includes('/yearClosingEvent') ? '!bg-black !text-white' : ''}`}
           >
             <Link to="/" className="flex items-center gap-1">
               <LogoImg className="size-6" />
@@ -85,7 +85,7 @@ export default function AppNavigation({ type }: { type: 'top' | 'bottom' }) {
                 <li key={to}>
                   <Link to={to} state={state} onClick={onClick}>
                     <span
-                      className={`${active ? `${pathname === '/yearClosingEvent' ? 'font-semibold !text-white' : 'font-semibold text-text'}` : `${pathname === '/yearClosingEvent' ? 'text-gray3' : 'text-gray1'}`}`}
+                      className={`${active ? `${pathname.includes('/yearClosingEvent') ? 'font-semibold !text-white' : 'font-semibold text-text'}` : `${pathname.includes('/yearClosingEvent') ? 'text-gray3' : 'text-gray1'}`}`}
                     >
                       {name}
                     </span>
@@ -100,7 +100,7 @@ export default function AppNavigation({ type }: { type: 'top' | 'bottom' }) {
         pathname !== '/login' &&
         !pathname.includes('setting') && (
           <nav
-            className={`fixed bottom-0 left-0 z-10 hidden w-full rounded-t-2xl py-3.5 shadow-card max-sm:block ${pathname === '/yearClosingEvent' ? '!bg-black !text-white' : 'bg-white'}`}
+            className={`fixed bottom-0 left-0 z-10 hidden w-full rounded-t-2xl py-3.5 shadow-card max-sm:block ${pathname.includes('/yearClosingEvent') ? '!bg-black !text-white' : 'bg-white'}`}
           >
             <ul className="flex justify-evenly">
               {navigationList.map(

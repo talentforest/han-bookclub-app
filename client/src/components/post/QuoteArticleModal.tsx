@@ -45,7 +45,7 @@ export default function QuoteArticleModal({
       ) : (
         <SwiperContainer options={options}>
           {postList.map((post, index) => (
-            <SwiperSlide key={post.id} className="!h-full !pb-6 !pt-0">
+            <SwiperSlide key={post.docId} className="!h-full !pb-6 !pt-0">
               <Post post={post} index={`${index + 1} / ${postList.length}`} />
             </SwiperSlide>
           ))}

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useSetRecoilState } from 'recoil';
 
-import { bookDescState, recommendedBookAtom } from '@/data/bookAtom';
+import { bookDescAtom, recommendedBookAtom } from '@/data/bookAtom';
 
 import { useSearchBook } from '@/hooks';
 
@@ -23,7 +23,7 @@ export default function SearchedBookPostAddModal({
 }: SearchedBookPostAddModalProps) {
   const setMyRecommendBook = useSetRecoilState(recommendedBookAtom);
 
-  const setBookDesc = useSetRecoilState(bookDescState);
+  const setBookDesc = useSetRecoilState(bookDescAtom);
 
   const [currStep, setCurrStep] = useState(1);
 

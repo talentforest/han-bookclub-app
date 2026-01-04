@@ -2,7 +2,7 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 
 import { useRecoilValue } from 'recoil';
 
-import { userDocAtomFamily } from '@/data/userAtom';
+import { userAtomFamily } from '@/data/userAtom';
 
 import { CHALLENGE } from '@/appConstants';
 
@@ -28,7 +28,7 @@ export default function BookshelfDetail() {
     state: { displayName, userId, postTypeKey },
   } = useLocation() as { state: StateProps };
 
-  const userData = useRecoilValue(userDocAtomFamily(userId));
+  const userData = useRecoilValue(userAtomFamily(userId));
 
   const { hostYearMonthIdList } = userData || {};
 

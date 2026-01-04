@@ -51,7 +51,9 @@ export default function EventMeetingModal({
     isEditing: boolean;
   }>({ id: '', isEditing: false });
 
-  const monthlyBookClub = useRecoilValue(clubByMonthSelector(yearMonthId));
+  const { data: monthlyBookClub } = useRecoilValue(
+    clubByMonthSelector(yearMonthId),
+  );
 
   const year = +yearMonthId.slice(0, 4);
   const month = +yearMonthId.slice(-2);

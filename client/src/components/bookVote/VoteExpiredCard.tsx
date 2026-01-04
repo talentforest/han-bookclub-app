@@ -1,17 +1,11 @@
-import { useEffect, useState } from 'react';
-
 import { Link } from 'react-router-dom';
 
 import { FiChevronRight } from 'react-icons/fi';
 import { MdOutlineHowToVote } from 'react-icons/md';
 
-import { getCollection } from '@/api';
-
-import { BOOK_VOTE, VOTED_ITEMS } from '@/appConstants';
-
 import { cutLetter } from '@/utils';
 
-import { BookVote, BookVoteItemsByMember } from '@/types';
+import { BookVote } from '@/types';
 
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import UserImgName from '@/components/common/user/UserImgName';
@@ -21,20 +15,7 @@ interface VoteExpiredCardProps {
 }
 
 export default function VoteExpiredCard({ vote }: VoteExpiredCardProps) {
-  const [votedItemsByMember, setVotedItemsMyMember] = useState<
-    BookVoteItemsByMember[]
-  >([]);
-
   const { voteItems, title, id, createdAt, creatorId } = vote;
-
-  useEffect(() => {
-    if (!votedItemsByMember?.length) {
-      getCollection(
-        `${BOOK_VOTE}/VoteId-${id}/${VOTED_ITEMS}`,
-        setVotedItemsMyMember,
-      );
-    }
-  }, []);
 
   return (
     <div className="group relative flex w-full flex-col justify-between rounded-card bg-white bg-opacity-65 p-4 opacity-70 shadow-card">
@@ -61,7 +42,6 @@ export default function VoteExpiredCard({ vote }: VoteExpiredCardProps) {
 
       <Link
         to={`/vote/${id}`}
-        state={{ docId: id }}
         aria-label="상세보기"
         className="absolute right-4 top-[40%] flex size-12 items-center justify-center rounded-full border bg-blue1 opacity-20 group-hover:opacity-100"
       >

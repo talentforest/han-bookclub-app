@@ -1,62 +1,46 @@
-import { v4 } from 'uuid';
-
 import { atomFamily, selectorFamily } from 'recoil';
 
 import { getDocument } from '@/api';
 
-import { BOOK_FIELD_AND_HOST } from '@/appConstants';
+import { BOOK_FIELD_AND_HOST, isLoadingStatus } from '@/appConstants';
 
-import { MonthlyFieldAndHost } from '@/types';
+import { LoadableStatus, MonthlyFieldAndHost } from '@/types';
 
 interface FieldAndHost {
   [key: string]: MonthlyFieldAndHost;
 }
 
-export const fieldAndHostAtomFamily = atomFamily<FieldAndHost | null, string>({
-  key: `fieldAndHostAtomFamily/${v4}`,
-  default: {} as FieldAndHost,
+export const fieldAndHostAtomFamily = atomFamily<
+  LoadableStatus<FieldAndHost>,
+  string
+>({
+  key: 'fieldAndHostAtomFamily',
+  default: isLoadingStatus,
   effects: (year: string) => [
-    ({ setSelf }) => {
-      const fetchData = async () => {
-        getDocument(`BookClub-${year}`, BOOK_FIELD_AND_HOST, setSelf);
-      };
-
-      fetchData();
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get') return;
+      getDocument(`BookClub-${year}`, BOOK_FIELD_AND_HOST, setSelf);
     },
   ],
 });
 
-export const fieldAndHostSelector = selectorFamily({
+export const fieldAndHostSelector = selectorFamily<
+  MonthlyFieldAndHost | null,
+  string
+>({
   key: 'fieldAndHostSelector',
   get:
     (yearMonthId: string) =>
     ({ get }) => {
       const year = yearMonthId.slice(0, 4);
-
       const fieldAndHostObj = get(fieldAndHostAtomFamily(year));
+
+      if (fieldAndHostObj.status === 'isLoading' || !fieldAndHostObj.data) {
+        return null;
+      }
 
       const month = `${+yearMonthId.slice(-2)}월`;
 
-      return fieldAndHostObj[month] || null;
-    },
-});
-
-export const hostClubBookListSelector = selectorFamily({
-  key: 'hostClubBookListSelector',
-  get:
-    ({ uid, year }: { uid: string; year: string }) =>
-    ({ get }) => {
-      const fieldAndHostObj = get(fieldAndHostAtomFamily(year)) as FieldAndHost;
-
-      const list = Object.entries(fieldAndHostObj)?.map(
-        ([key, value]: [string, MonthlyFieldAndHost]) => ({
-          ...value,
-          month: +key.slice(0, -1),
-        }),
-      );
-
-      const myList = list?.filter(item => item.hosts?.includes(uid));
-
-      return myList || null;
+      return fieldAndHostObj.data[month];
     },
 });

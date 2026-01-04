@@ -40,7 +40,7 @@ const Setting = () => {
       list: [
         { to: 'edit-profile', name: '프로필 정보' },
         { to: 'edit-password', name: '비밀번호 변경' },
-        { to: 'absence', name: '모임불참', state: { year: thisYear } },
+        { to: 'myAbsenceMonth', name: '모임불참', state: { year: thisYear } },
         { to: 'notification', name: '알림' },
       ],
     },

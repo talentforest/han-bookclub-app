@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -8,9 +8,7 @@ import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { useRecoilValue } from 'recoil';
 
 import { currAuthUserAtom } from '@/data/userAtom';
-import { initialBookVote } from '@/data/voteAtom';
-
-import { getCollection, getDocument } from '@/api';
+import { bookVoteAtomFamily, voteMemberListAtomFamily } from '@/data/voteAtom';
 
 import { BOOK_VOTE, VOTED_ITEMS } from '@/appConstants';
 
@@ -18,18 +16,23 @@ import { useAlertAskJoin } from '@/hooks';
 
 import { formatDate, getVoteCountsById } from '@/utils';
 
-import { BookVote, BookVoteItemsByMember } from '@/types';
+import { BookVoteItemsByMember } from '@/types';
 
 interface UseHandleVotingProps {
-  docId: string;
+  voteId: string;
 }
 
-export const useHandleVoting = ({ docId }: UseHandleVotingProps) => {
+export const useHandleVoting = ({ voteId }: UseHandleVotingProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const [currentVote, setCurrentVote] = useState<BookVote>(initialBookVote);
+  const { data: currentVote } = useRecoilValue(bookVoteAtomFamily(voteId));
+
+  const { data: votedItemsByMember } = useRecoilValue(
+    voteMemberListAtomFamily(voteId),
+  );
+
   const [selectedVoteItems, setSelectedVoteItems] = useState([]);
-  const [votedItemsByMember, setVotedItemsByMember] = useState([]);
+
   const [isRevote, setIsRevoting] = useState(false);
 
   const onToggleRevoteClick = () => setIsRevoting(prev => !prev);
@@ -38,23 +41,11 @@ export const useHandleVoting = ({ docId }: UseHandleVotingProps) => {
 
   const { anonymous, alertAskJoinMember } = useAlertAskJoin('see');
 
-  useEffect(() => {
-    if (docId && currentVote.id === '') {
-      getDocument(BOOK_VOTE, `VoteId-${docId}`, setCurrentVote);
-    }
-    if (currentVote.id) {
-      getCollection(
-        `${BOOK_VOTE}/VoteId-${currentVote.id}/${VOTED_ITEMS}`,
-        setVotedItemsByMember,
-      );
-    }
-  }, [docId, currentVote.id, setVotedItemsByMember]);
-
   const onVoteDeleteClick = async () => {
     const confirm = window.confirm('정말로 삭제하시겠어요?');
 
     if (confirm) {
-      const currentVoteRef = doc(dbService, BOOK_VOTE, `VoteId-${docId}`);
+      const currentVoteRef = doc(dbService, BOOK_VOTE, `VoteId-${voteId}`);
       await deleteDoc(currentVoteRef);
       navigate(-1);
     }
@@ -112,7 +103,7 @@ export const useHandleVoting = ({ docId }: UseHandleVotingProps) => {
 
   // 항목별 투표수
   const voteCountsById = getVoteCountsById(
-    currentVote.voteItems,
+    currentVote?.voteItems,
     votedItemsByMember,
   );
 

@@ -14,9 +14,9 @@ export type Label =
   | '독서분야'
   | '발제자'
   | '일회불참멤버'
-  | '모임정지멤버'
+  | '정지멤버'
   | '일회불참'
-  | '모임정지';
+  | '정지';
 
 interface TableDataItemProps {
   isMulti?: boolean;
@@ -102,13 +102,13 @@ export default function TableDataItem({
             </td>
           )}
 
-          {(label === '모임정지' || label === '일회불참') && (
+          {(label === '정지' || label === '일회불참') && (
             <td className={`${commonTdClassName}`}>
-              {data ? (label === '모임정지' ? '🔴' : '🟠') : ''}
+              {data ? (label === '정지' ? '🔴' : '🟠') : ''}
             </td>
           )}
 
-          {label !== '월' && label !== '모임정지' && label !== '일회불참' && (
+          {label !== '월' && label !== '정지' && label !== '일회불참' && (
             <td
               className={`${commonTdClassName} flex items-center justify-center ${colorStyle.text[color]}`}
             >

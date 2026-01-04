@@ -25,7 +25,7 @@ export default function PostEditModal({
       updatedAt: post?.updatedAt || '',
     },
     collName,
-    docId: post.id,
+    docId: post.docId,
   });
 
   const onEditedTextChange = (text: string) => {

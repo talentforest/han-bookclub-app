@@ -1,73 +1,78 @@
 import { useState } from 'react';
 
 import { dbService } from '@/fbase';
-import { doc, updateDoc } from 'firebase/firestore';
+import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import { absenceAtom } from '@/data/absenceAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
-import { ABSENCE_MEMBERS, BOOKCLUB_THIS_YEAR } from '@/appConstants';
+import { ABSENCE_MEMBERS } from '@/appConstants';
 
 import { useHandleModal } from '@/hooks';
 
-import { UserAbsence } from '@/types';
-
-const initialAbsence: UserAbsence = {
-  month: 1,
-  breakMonth: false,
-  onceAbsenceMonth: false,
-};
-
-export const useHandleAbsence = (year: string) => {
+export const useHandleAbsence = (year: string, monthNum: number) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const [absenceList, setAbsenceList] = useRecoilState(absenceAtom(year));
+  const { data: absenceMonthListObj } = useRecoilValue(absenceAtom(year));
 
-  const [selectedValues, setSelectedValues] = useState(initialAbsence);
+  const monthKey = `${monthNum}월`;
+  const { breakMembers, onceAbsenceMembers } = absenceMonthListObj[monthKey];
 
-  const fbDoc = doc(dbService, BOOKCLUB_THIS_YEAR, ABSENCE_MEMBERS);
+  const isBreakMonth = !!breakMembers.find(id => id === uid);
+  const isOnceAbsenceMonth = !!onceAbsenceMembers.find(id => id === uid);
 
-  const handleMember = (member: string[], checked: boolean) => {
-    if (checked) {
-      return member.includes(uid) ? member : [...member, uid];
-    }
-    return member.filter(member => member !== uid);
-  };
+  const [values, setValues] = useState({ isBreakMonth, isOnceAbsenceMonth });
 
   const { hideModal } = useHandleModal();
 
-  const onSubmit = async (
-    event: React.FormEvent<HTMLFormElement>,
-    month: number,
-  ) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const { onceAbsenceMonth, breakMonth } = selectedValues;
+    try {
+      const fbDoc = doc(dbService, `BookClub-${year}`, ABSENCE_MEMBERS);
 
-    const editedList = absenceList.absenceMembers.map(absence => {
-      const { breakMembers, onceAbsenceMembers } = absence;
+      const {
+        isBreakMonth: currIsBreakMonth,
+        isOnceAbsenceMonth: currIsOnceAbsenceMonth,
+      } = values;
 
-      const editedObj = {
-        ...absence,
-        breakMembers: handleMember(breakMembers, breakMonth),
-        onceAbsenceMembers: handleMember(onceAbsenceMembers, onceAbsenceMonth),
-      };
+      if (currIsBreakMonth && isBreakMonth) return;
+      if (currIsOnceAbsenceMonth && isOnceAbsenceMonth) return;
 
-      return absence.month === month ? editedObj : absence;
-    });
+      await updateDoc(fbDoc, {
+        [`${monthKey}.breakMembers`]: currIsBreakMonth
+          ? arrayUnion(uid)
+          : arrayRemove(uid),
+        [`${monthKey}.onceAbsenceMembers`]: currIsOnceAbsenceMonth
+          ? arrayUnion(uid)
+          : arrayRemove(uid),
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      hideModal();
+    }
+  };
 
-    const newList = { ...absenceList, absenceMembers: editedList };
-    setAbsenceList(newList);
+  const checkedBoxHandler = (type: '모임 일회 불참' | '모임 정지') => {
+    const key = type === '모임 정지' ? 'isBreakMonth' : 'isOnceAbsenceMonth';
+    const anotherKey =
+      type === '모임 정지' ? 'isOnceAbsenceMonth' : 'isBreakMonth';
 
-    await updateDoc(fbDoc, { absenceMembers: editedList });
-    hideModal();
+    setValues(prev => ({
+      ...prev,
+      [key]:
+        type === '모임 정지' ? !prev.isBreakMonth : !prev.isOnceAbsenceMonth,
+      [anotherKey]: false,
+    }));
   };
 
   return {
     onSubmit,
-    selectedValues,
-    setSelectedValues,
+    values,
+    setValues,
+    checkedBoxHandler,
   };
 };

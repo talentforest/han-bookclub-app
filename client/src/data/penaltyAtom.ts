@@ -1,20 +1,18 @@
-import { v4 } from 'uuid';
-
 import { atom, selector } from 'recoil';
 
-import { UserPenalty } from '@/types';
+import { isLoadingStatus } from '@/appConstants';
 
-export const penaltyDocState = atom<UserPenalty>({
-  key: `penaltyDoc/${v4()}`,
-  default: {} as UserPenalty,
+import { LoadableStatus, UserPenalty } from '@/types';
+
+export const penaltyAtom = atom<LoadableStatus<UserPenalty>>({
+  key: 'penaltyAtom',
+  default: isLoadingStatus,
 });
 
-export const usersPenaltyList = selector({
-  key: `userPenaltyList/${v4()}`,
+export const userPenaltyAtom = selector({
+  key: 'userPenaltyAtom',
   get: ({ get }) => {
-    const penaltyDoc = get(penaltyDocState);
-    const { createdAt, id: docId, ...rest } = penaltyDoc;
-    return Object.entries(rest) //
-      .map(([key, value]) => ({ [key]: value }));
+    const penaltyDoc = get(penaltyAtom);
+    return penaltyDoc;
   },
 });

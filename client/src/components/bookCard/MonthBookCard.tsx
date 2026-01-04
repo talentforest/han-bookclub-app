@@ -21,14 +21,13 @@ export default function MonthBookCard({
   yearMonthId,
   className = '',
 }: MonthBookCardProps) {
-  const monthClubInfo = useRecoilValue(clubByMonthSelector(yearMonthId));
+  const { data: club } = useRecoilValue(clubByMonthSelector(yearMonthId));
 
   const fieldAndHost = useRecoilValue(fieldAndHostSelector(yearMonthId));
 
   const month = +yearMonthId?.slice(-2);
 
-  const { title, thumbnail, authors, publisher, url } =
-    monthClubInfo?.book || {};
+  const { title, thumbnail, authors, publisher, url } = club?.book || {};
 
   const { pathname } = useLocation();
 

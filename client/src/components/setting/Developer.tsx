@@ -5,19 +5,19 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
-import { currUserFcmState } from '@/data/fcmAtom';
+import { currUserFcmAtom } from '@/data/fcmAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
 import { getCollection } from '@/api';
 
-import { FCM_NOTIFICATION } from '@/appConstants';
+import { FCM_NOTIFICATION, isLoadingStatus } from '@/appConstants';
 import { DEVELOPER_EMAIL } from '@/appConstants/account';
 
 import { useSendPushNotification } from '@/hooks';
 
 import { getDDay, thisMonth, thisYear, thisYearMonthId } from '@/utils';
 
-import { NotificationData, UserFcm } from '@/types';
+import { LoadableStatus, NotificationData, UserFcm } from '@/types';
 
 import MobileHeader from '@/layout/MobileHeader';
 
@@ -28,11 +28,14 @@ import UserImgName from '@/components/common/user/UserImgName';
 export default function Developer() {
   const { email } = useRecoilValue(currAuthUserAtom);
 
-  const currUserFcm = useRecoilValue(currUserFcmState);
+  const { data: currUserFcm } = useRecoilValue(currUserFcmAtom);
 
-  const thisMonthClub = useRecoilValue(clubByMonthSelector(thisYearMonthId));
+  const { data: thisMonthClub } = useRecoilValue(
+    clubByMonthSelector(thisYearMonthId),
+  );
 
-  const [userFcmList, setUserFcmList] = useState<UserFcm[]>([]);
+  const [{ data: userFcmList }, setUserFcmList] =
+    useState<LoadableStatus<UserFcm[]>>(isLoadingStatus);
 
   const {
     sendPushNotificationToUser,

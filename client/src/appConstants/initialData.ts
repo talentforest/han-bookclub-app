@@ -1,13 +1,5 @@
-import { MonthlyAbsenceMembers } from '@/types';
-
-export const initialAbsenseMembersData: {
-  absenceMembers: MonthlyAbsenceMembers[];
-} = {
-  absenceMembers: Array.from({ length: 12 }, (_, index) => {
-    return {
-      month: index + 1,
-      breakMembers: [],
-      onceAbsenceMembers: [],
-    } as MonthlyAbsenceMembers;
-  }),
+export const getInitialDataObjByMonth = <T>(initialData: T) => {
+  return Object.fromEntries(
+    Array.from({ length: 12 }, (_, i) => [`${i + 1}월`, initialData]),
+  );
 };

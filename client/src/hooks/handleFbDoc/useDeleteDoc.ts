@@ -5,7 +5,7 @@ import { deleteDoc, doc } from 'firebase/firestore';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { currAuthUserAtom, userDocAtomFamily } from '@/data/userAtom';
+import { currAuthUserAtom, userAtomFamily } from '@/data/userAtom';
 
 import { getDocument } from '@/api';
 
@@ -25,9 +25,7 @@ interface UseDeleteDocProps {
 export const useDeleteDoc = ({ collName, docId }: UseDeleteDocProps) => {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const [userExtraData, setUserExtraData] = useRecoilState(
-    userDocAtomFamily(uid),
-  );
+  const [userExtraData, setUserExtraData] = useRecoilState(userAtomFamily(uid));
 
   const docRef = doc(dbService, collName, docId);
 

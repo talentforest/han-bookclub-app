@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 
 import { authService, dbService } from '@/fbase';
-import { collection, doc, setDoc, updateDoc } from 'firebase/firestore';
+import { collection, doc, setDoc } from 'firebase/firestore';
 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { recommendedBookAtom } from '@/data/bookAtom';
-import { currAuthUserAtom, userDocAtomFamily } from '@/data/userAtom';
+import { currAuthUserAtom, userAtomFamily } from '@/data/userAtom';
 
 import { getDocument } from '@/api';
 
@@ -14,9 +14,9 @@ import { USER } from '@/appConstants';
 
 import { useAlertAskJoin } from '@/hooks';
 
-import { existDocObj, formatDate, thisYearMonthId } from '@/utils';
+import { existDocObj, formatDate } from '@/utils';
 
-import { Collection, SubCollection, UserRecordId } from '@/types';
+import { Collection, SubCollection } from '@/types';
 
 interface UseAddDocProps<T> {
   collName: Collection | SubCollection;
@@ -31,9 +31,7 @@ export const useAddDoc = <T extends { [key in string]: any }>({
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const [userExtraData, setUserExtraData] = useRecoilState(
-    userDocAtomFamily(uid),
-  );
+  const [userExtraData, setUserExtraData] = useRecoilState(userAtomFamily(uid));
   const setMyRecommendBook = useSetRecoilState(recommendedBookAtom);
 
   const { alertAskJoinMember } = useAlertAskJoin('write');
@@ -57,13 +55,6 @@ export const useAddDoc = <T extends { [key in string]: any }>({
         createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
       });
 
-      const newUserDocId = {
-        monthId: thisYearMonthId,
-        docId: docRef.id,
-      };
-
-      updateUserData(newUserDocId);
-
       if (newDocData?.recommendedBook) {
         setMyRecommendBook({
           thumbnail: '',
@@ -75,52 +66,6 @@ export const useAddDoc = <T extends { [key in string]: any }>({
       }
     } catch (error) {
       console.error('Error adding document:', error);
-    }
-  };
-
-  const updateUserData = async (newUserDocId: UserRecordId) => {
-    const userDataRef = doc(dbService, USER, uid);
-
-    if (collName.includes('Sentence')) {
-      await updateDoc(userDataRef, {
-        'userRecords.sentences': [
-          ...(userExtraData?.userRecords?.sentences ?? []),
-          newUserDocId,
-        ],
-      });
-    }
-
-    if (collName.includes('Reviews')) {
-      await updateDoc(userDataRef, {
-        'userRecords.reviews': [
-          ...(userExtraData?.userRecords?.reviews ?? []),
-          newUserDocId,
-        ],
-      });
-    }
-    if (collName.includes('Subjects')) {
-      await updateDoc(userDataRef, {
-        'userRecords.subjects': [
-          ...(userExtraData?.userRecords?.subjects ?? []),
-          newUserDocId,
-        ],
-      });
-    }
-    if (collName.includes('RecommendedBooks')) {
-      await updateDoc(userDataRef, {
-        'userRecords.recommendedBooks': [
-          ...(userExtraData?.userRecords?.recommendedBooks ?? []),
-          { monthId: thisYearMonthId, docId: docRef.id },
-        ],
-      });
-    }
-    if (collName.includes('HostReview')) {
-      await updateDoc(userDataRef, {
-        'userRecords.hostReviews': [
-          ...(userExtraData?.userRecords?.hostReviews ?? []),
-          newUserDocId,
-        ],
-      });
     }
   };
 

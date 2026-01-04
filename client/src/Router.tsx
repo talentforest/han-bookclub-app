@@ -31,12 +31,12 @@ import CreateAccount from '@/components/auth/CreateAccount';
 import ResetPasswordEmail from '@/components/auth/ResetPasswordEmail';
 import ScrollToTop from '@/components/common/ScrollToTop';
 import PostListDetail from '@/components/post/PostListDetail';
-import Absence from '@/components/setting/Absence';
 import BookClubRules from '@/components/setting/BookClubRules';
 import ChangePassword from '@/components/setting/ChangePassword';
 import DeleteAccount from '@/components/setting/DeleteAccount';
 import Developer from '@/components/setting/Developer';
 import EditProfile from '@/components/setting/EditProfile';
+import MyAbsenceMonth from '@/components/setting/MyAbsenceMonth';
 import NotificationSetting from '@/components/setting/NotificationSetting';
 
 interface RouterProps {
@@ -66,7 +66,10 @@ function Router({ isLoggedIn }: RouterProps) {
             />
             <Route path="/monthlyinfo" element={<MonthlyClubInfo />} />
             <Route path="/challenge" element={<Challenge />} />
-            <Route path="/yearClosingEvent" element={<YearClosingDetail />} />
+            <Route
+              path="/yearClosingEvent/:id?"
+              element={<YearClosingDetail />}
+            />
             <Route path="/search" element={<Search />} />
 
             <Route path="/previous-bookclub" element={<PreviousClub />} />
@@ -91,7 +94,10 @@ function Router({ isLoggedIn }: RouterProps) {
             />
 
             <Route path="/setting" element={<Setting />} />
-            <Route path="/setting/absence" element={<Absence />} />
+            <Route
+              path="/setting/myAbsenceMonth"
+              element={<MyAbsenceMonth />}
+            />
             <Route path="/setting/edit-profile" element={<EditProfile />} />
             <Route path="/setting/edit-password" element={<ChangePassword />} />
             <Route path="/setting/delete-account" element={<DeleteAccount />} />

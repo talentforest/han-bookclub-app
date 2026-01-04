@@ -1,14 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
-import { orderBy, where } from 'firebase/firestore';
-
-import { getCollection } from '@/api';
-
-import { CHALLENGE } from '@/appConstants';
-
-import { CompleteReadingChallenge } from '@/types';
+import { challengeListByUserAtomFamily } from '@/data/challengeAtom';
 
 import UserChallengeBookCard from '@/components/challenge/UserChallengeBookCard';
+import GuideLine from '@/components/common/GuideLine';
 
 interface ChallengeDisplayListProps {
   userId: string;
@@ -19,54 +14,61 @@ export default function ChallengeDisplayList({
   userId,
   limitNum,
 }: ChallengeDisplayListProps) {
-  const [challengeListByYear, setChallengeListByYear] = useState<
-    CompleteReadingChallenge[]
-  >([]);
+  const { status, data: challengeListByYear } = useRecoilValue(
+    challengeListByUserAtomFamily(userId),
+  );
 
-  useEffect(() => {
-    getCollection(
-      CHALLENGE,
-      setChallengeListByYear,
-      where('creatorId', '==', userId),
-      orderBy('createdAt', 'asc'),
-    );
-  }, []);
+  const { creatorId, docId, ...rest } = challengeListByYear?.[0] || {};
 
-  return limitNum === 1 ? (
-    challengeListByYear[0] ? (
-      <UserChallengeBookCard
-        key={challengeListByYear[0].books[0].title}
-        challengeBook={challengeListByYear[0].books[0]}
-        creatorId={challengeListByYear[0].creatorId}
-        docId={challengeListByYear[0].id}
-      />
-    ) : (
-      <></>
-    )
-  ) : (
-    <ul className="grid grid-cols-2 gap-4 max-sm:flex max-sm:flex-col">
-      {challengeListByYear?.slice(0, limitNum).map(challengeByYear => (
-        <li key={challengeByYear.id}>
-          {limitNum !== 1 && (
-            <h3 className="mb-2 ml-1.5 font-medium text-blue1">
-              {challengeByYear.id.slice(0, 4)}년
-            </h3>
-          )}
+  const yearGuideLine = {
+    2024: '최소 700페이지 이상의 도서를 정해 한해동안 완독합니다!',
+    2025: '한해동안 모임책이나 추천책을 완독합니다!',
+  };
 
-          <ul className="grid grid-cols-1 gap-y-3">
-            {challengeByYear.books
-              ?.slice(0, limitNum)
-              ?.map(challengeBook => (
-                <UserChallengeBookCard
-                  key={challengeBook.title}
-                  challengeBook={challengeBook}
-                  creatorId={challengeByYear.creatorId}
-                  docId={challengeListByYear[0].id}
-                />
+  return (
+    status === 'loaded' && (
+      <>
+        {limitNum === 1 && (
+          <UserChallengeBookCard
+            key={challengeListByYear[0].docId}
+            challengeBook={Object.values(rest)[0]}
+            creatorId={challengeListByYear[0].creatorId}
+            docId={challengeListByYear[0].docId}
+          />
+        )}
+
+        {(!limitNum || limitNum > 1) && (
+          <ul className="flex flex-col divide-y-2 divide-dotted [&>li:first-child]:pt-0 [&>li:last-child]:pb-0">
+            {challengeListByYear
+              .slice(0, limitNum)
+              .map(({ creatorId, docId, ...rest }) => (
+                <li key={docId} className="py-6">
+                  <h1 className="pb-1 pl-1 font-medium text-blue1">
+                    {docId.slice(0, 4)}년 챌린지
+                  </h1>
+
+                  <GuideLine
+                    text={yearGuideLine[+docId.slice(0, 4) as 2025 | 2024]}
+                  />
+
+                  <ul className="grid grid-cols-2 gap-4 max-sm:flex max-sm:flex-col">
+                    {Object.entries(rest)
+                      .slice(0, limitNum)
+                      .map(([key, challengeBook]) => (
+                        <li key={key}>
+                          <UserChallengeBookCard
+                            challengeBook={challengeBook}
+                            creatorId={creatorId}
+                            docId={docId}
+                          />
+                        </li>
+                      ))}
+                  </ul>
+                </li>
               ))}
           </ul>
-        </li>
-      ))}
-    </ul>
+        )}
+      </>
+    )
   );
 }

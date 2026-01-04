@@ -33,7 +33,7 @@ const Home = () => {
     },
     {
       name: `2025 연말결산`,
-      onClick: () => navigate('/yearClosingEvent'),
+      onClick: () => navigate('/yearClosingEvent/2025'),
       color: 'blue' as const,
     },
     {
@@ -58,11 +58,15 @@ const Home = () => {
         <Section title="다음달 모임책">
           <MonthBookClub yearMonthId={nextYearMonthId} />
           {+nextMonth === 12 && (
-            <ChevronRightLinkBtn to={'/bookclub/2025-12'} title="자세히보기" />
+            <ChevronRightLinkBtn
+              className="mt-3"
+              to={`/bookclub/${thisYear}-12`}
+              title="자세히보기"
+            />
           )}
         </Section>
 
-        <Section className="!my-28 grid w-full grid-cols-4 gap-4 max-sm:my-20 max-sm:grid-cols-2 max-sm:gap-2.5">
+        <Section className="!my-10 grid w-full grid-cols-4 gap-4 max-sm:my-20 max-sm:grid-cols-2 max-sm:gap-2.5">
           {buttonList.map(({ name, onClick, color }) => (
             <SquareBtn
               key={name}

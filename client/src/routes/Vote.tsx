@@ -1,18 +1,10 @@
-import { useEffect } from 'react';
-
 import { FiPlusCircle } from 'react-icons/fi';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
-import { bookVotesState } from '@/data/voteAtom';
-
-import { getCollection } from '@/api';
-
-import { BOOK_VOTE } from '@/appConstants';
+import { bookVotesSelector } from '@/data/voteAtom';
 
 import { useHandleModal } from '@/hooks';
-
-import { todayWithHyphen } from '@/utils';
 
 import MobileHeader from '@/layout/MobileHeader';
 
@@ -23,23 +15,10 @@ import EmptyCard from '@/components/common/container/EmptyCard';
 import Section from '@/components/common/container/Section';
 
 const Vote = () => {
-  const [bookVotes, setBookVotes] = useRecoilState(bookVotesState);
+  const progressVotes = useRecoilValue(bookVotesSelector('progress'));
+  const expiredVote = useRecoilValue(bookVotesSelector('expired'));
 
   const { showModal } = useHandleModal();
-
-  useEffect(() => {
-    if (!bookVotes?.length) {
-      getCollection(BOOK_VOTE, setBookVotes);
-    }
-  }, []);
-
-  const progressVotes = bookVotes?.filter(
-    item => item.deadline >= todayWithHyphen,
-  );
-
-  const expiredVote = bookVotes?.filter(
-    item => item.deadline < todayWithHyphen,
-  );
 
   return (
     <>

@@ -16,7 +16,7 @@ export type PostTypeValue =
   | SubPostTypeValue;
 
 export type UserPost = {
-  id?: string;
+  docId?: string;
   text: string;
   creatorId: string;
   createdAt: string;

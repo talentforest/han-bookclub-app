@@ -1,5 +1,7 @@
 import { ReactNode, useMemo, useState } from 'react';
 
+import { useParams } from 'react-router-dom';
+
 import { FaBook, FaBookReader, FaStar } from 'react-icons/fa';
 import { SwiperSlide } from 'swiper/react';
 
@@ -54,27 +56,37 @@ const swiperOptions = {
 };
 
 export default function YearClosingDetail() {
+  const { id } = useParams();
+
+  const year = id || thisYear;
+
+  const { status, data: club } = useRecoilValue(
+    clubByMonthSelector(`${year}-12`),
+  );
+
   const [currTab, setCurrTab] = useState('개근상');
 
-  const { meeting } = useRecoilValue(clubByMonthSelector('2025-12'));
+  const { clubBookListByYear } = useGetClubByYear(year);
 
-  const { clubBookListByYear } = useGetClubByYear('2025');
-
-  const { userRankList } = useHandleChallenge('2025');
+  const { getUserRankList, challengeStatus } = useHandleChallenge(year);
 
   const findCurrContent = useMemo(() => {
-    const contentList = meeting.eventMonth.contents.filter(
+    if (!club?.meeting?.eventMonth) return null;
+
+    const contentList = club.meeting.eventMonth.contents.filter(
       content => content.result,
     );
-    return contentList.find(content => content.title.includes(currTab));
-  }, [currTab, meeting]);
+    return contentList?.find(content => content.title.includes(currTab));
+  }, [currTab, club?.meeting]);
 
   const questionList = useMemo(() => {
-    const contentList = meeting.eventMonth.contents.filter(
+    if (!club?.meeting?.eventMonth) return null;
+
+    const contentList = club.meeting.eventMonth.contents.filter(
       content => content.result,
     );
-    return contentList.find(content => content.title.includes('독서생활을'));
-  }, [meeting]);
+    return contentList?.find(content => content.title.includes('독서생활을'));
+  }, [club?.meeting]);
 
   const initialContentObj: {
     [key in string]: {
@@ -84,7 +96,7 @@ export default function YearClosingDetail() {
   } = {
     개근상: {
       name: '독서모임 개근상',
-      result: <AbsenceRankList />,
+      result: <AbsenceRankList year={year} />,
     },
     챌린지: {
       name: '재독 챌린지',
@@ -93,14 +105,12 @@ export default function YearClosingDetail() {
           <Confetti
             title="우수 멤버"
             marqueeText="우수 멤버로 선정된 것을 축하합니다!"
-            userIdList={
-              userRankList
-                .filter(({ rank }) => rank === 1)
-                .map(user => user.creatorId) || []
-            }
+            userIdList={getUserRankList()
+              ?.filter(({ rank }) => rank === 1)
+              ?.map(user => user.creatorId)}
           />
           <ul className="mt-3 grid grid-cols-3 gap-3 max-md:grid-cols-2 max-sm:flex max-sm:flex-col">
-            {userRankList.map(userRank => (
+            {getUserRankList()?.map(userRank => (
               <ChallengeUserRankCard
                 key={userRank.creatorId}
                 userRank={userRank}
@@ -113,112 +123,130 @@ export default function YearClosingDetail() {
     },
     모임책: {
       name: '최고의 모임책',
-      result: <BestBookList books={findCurrContent.result.books} />,
+      result: (
+        <BestBookList
+          year={year}
+          books={findCurrContent?.result?.books || []}
+        />
+      ),
     },
     발제문: {
       name: '최고의 발제문',
-      result: <BestSubjectList subjects={findCurrContent.result.subjects} />,
+      result: (
+        <BestSubjectList
+          year={year}
+          subjects={findCurrContent?.result?.subjects || []}
+        />
+      ),
     },
   };
 
   return (
     <>
       <MobileHeader
-        title={`${thisYear}년 독서모임 연말결산`}
+        title={`${year}년 독서모임 연말결산`}
         backBtn
         className="!bg-black !text-white"
       />
 
       <main className="overflow-hidden bg-black pb-40 pt-4">
-        <div className="relative mb-3 rounded-2xl bg-[#2a2a2a] px-4 py-6 shadow-card">
-          <h2 className="font-RomanticGumi leading-5 text-white">
-            <span className="mr-0.5 text-3xl tracking-[-0.1em] text-purple2">
-              {thisYear}
-            </span>
-            년에는 독서모임에서
-            <br />
-            <span className="text-3xl tracking-[-0.1em] text-pointCoral">
-              {clubBookListByYear.length}
-            </span>
-            권의 책을 진행했어요.
-          </h2>
-
-          <ul className="mt-6 flex flex-col gap-y-1">
-            {[
-              {
-                title: '올해 진행한 책',
-                anwser: `${clubBookListByYear.length}권`,
-                icon: <FaBook className="mb-0.5 min-w-fit text-blue4" />,
-              },
-              {
-                title: '올해 추천된 책',
-                anwser: `12권`,
-                icon: <FaStar className="mb-0.5 min-w-fit text-blue4" />,
-              },
-              {
-                title: '올해 챌린저',
-                anwser: `${userRankList.filter(user => user.totalRereadingCounts).length}명`,
-                icon: <FaBookReader className="mb-0.5 min-w-fit text-white" />,
-              },
-            ].map(({ anwser, title, icon }) => (
-              <li key={title} className="flex items-center">
-                {icon}
-                <h4 className="ml-1 mr-2 min-w-40 font-RomanticGumi text-[15px] font-medium tracking-tighter text-white">
-                  {title}
-                  <div className="border border-dotted" />
-                </h4>
-                <span className="font-RomanticGumi text-[15px] font-semibold tracking-tighter text-white">
-                  {anwser}
+        {status === 'loaded' && challengeStatus === 'loaded' && (
+          <>
+            <div className="relative mb-3 rounded-2xl bg-[#2a2a2a] px-4 py-6 shadow-card">
+              <h2 className="font-RomanticGumi leading-5 text-white">
+                <span className="mr-0.5 text-3xl tracking-[-0.1em] text-purple2">
+                  {year}
                 </span>
-              </li>
-            ))}
-          </ul>
+                년에는 독서모임에서
+                <br />
+                <span className="text-3xl tracking-[-0.1em] text-pointCoral">
+                  {clubBookListByYear?.length}
+                </span>
+                권의 책을 진행했어요.
+              </h2>
 
-          <img
-            src={`${import.meta.env.VITE_PUBLIC_URL}/books.png`}
-            alt="책 3D 이미지"
-            className="absolute right-0 top-2 w-[35%]"
-          />
-        </div>
+              <ul className="mt-6 flex flex-col gap-y-1">
+                {[
+                  {
+                    title: '올해 진행한 책',
+                    anwser: `${clubBookListByYear.length}권`,
+                    icon: <FaBook className="mb-0.5 min-w-fit text-blue4" />,
+                  },
+                  {
+                    title: '올해 추천된 책',
+                    anwser: `12권`,
+                    icon: <FaStar className="mb-0.5 min-w-fit text-blue4" />,
+                  },
+                  {
+                    title: '올해 챌린저',
+                    anwser: `${getUserRankList().filter(user => user.total).length}명`,
+                    icon: (
+                      <FaBookReader className="mb-0.5 min-w-fit text-white" />
+                    ),
+                  },
+                ].map(({ anwser, title, icon }) => (
+                  <li key={title} className="flex items-center">
+                    {icon}
+                    <h4 className="ml-1 mr-2 min-w-40 font-RomanticGumi text-[15px] font-medium tracking-tighter text-white">
+                      {title}
+                      <div className="border border-dotted" />
+                    </h4>
+                    <span className="font-RomanticGumi text-[15px] font-semibold tracking-tighter text-white">
+                      {anwser}
+                    </span>
+                  </li>
+                ))}
+              </ul>
 
-        <div className="max-sm:-mx-5">
-          <SwiperContainer options={swiperOptions}>
-            {clubBookListByYear.map(book => (
-              <SwiperSlide key={book.title}>
-                <BookThumbnail
-                  title={book.title}
-                  thumbnail={book.thumbnail}
-                  className="w-[82px] shadow-md shadow-white"
-                />
-              </SwiperSlide>
-            ))}
-          </SwiperContainer>
-        </div>
-
-        <ul className="mb-5 mt-24 flex flex-wrap gap-1.5">
-          {Object.entries(initialContentObj).map(content => (
-            <li key={content[0]}>
-              <SquareBtn
-                name={content[1].name}
-                handleClick={() => setCurrTab(content[0])}
-                className={`rounded-t-xl !px-3 !text-sm tracking-tighter ${currTab.includes(content[0]) ? '!bg-[#4d4d4d] !font-bold !text-white' : '!bg-gray4 !text-gray1'}`}
+              <img
+                src={`${import.meta.env.VITE_PUBLIC_URL}/books.png`}
+                alt="책 3D 이미지"
+                className="absolute right-0 top-2 w-[35%]"
               />
-            </li>
-          ))}
-        </ul>
+            </div>
 
-        <Section className="min-h-72">
-          {initialContentObj[currTab]?.result}
-        </Section>
+            <div className="max-sm:-mx-5">
+              <SwiperContainer options={swiperOptions}>
+                {clubBookListByYear.map(book => (
+                  <SwiperSlide key={book.title}>
+                    <BookThumbnail
+                      title={book.title}
+                      thumbnail={book.thumbnail}
+                      className="w-[70px] shadow-book shadow-white"
+                    />
+                  </SwiperSlide>
+                ))}
+              </SwiperContainer>
+            </div>
 
-        <Section
-          title="독서생활을 돌아보는 질문"
-          className={'!mt-4 [&>h3]:text-white'}
-        >
-          <ReadingLifeQuestionList
-            questionList={questionList.result.readingLifeQuestions}
-          />
-        </Section>
+            <ul className="mb-5 mt-24 flex flex-wrap gap-1.5">
+              {Object.entries(initialContentObj).map(content => (
+                <li key={content[0]}>
+                  <SquareBtn
+                    name={content[1].name}
+                    handleClick={() => setCurrTab(content[0])}
+                    className={`rounded-t-xl !px-3 !text-sm tracking-tighter ${currTab.includes(content[0]) ? '!bg-[#4d4d4d] !font-bold !text-white' : '!bg-gray4 !text-gray1'}`}
+                  />
+                </li>
+              ))}
+            </ul>
+
+            <Section className="min-h-72">
+              {initialContentObj[currTab]?.result}
+            </Section>
+
+            <Section
+              title="독서생활을 돌아보는 질문"
+              className={'!mt-4 [&>h3]:text-white'}
+            >
+              {questionList?.result && (
+                <ReadingLifeQuestionList
+                  questionList={questionList?.result?.readingLifeQuestions}
+                />
+              )}
+            </Section>
+          </>
+        )}
       </main>
     </>
   );

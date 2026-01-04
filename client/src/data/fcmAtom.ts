@@ -1,6 +1,8 @@
-import { v4 } from 'uuid';
-
 import { atom } from 'recoil';
+
+import { isLoadingStatus } from '@/appConstants';
+
+import { LoadableStatus } from '@/types';
 
 interface FcmDocument {
   id?: string;
@@ -9,12 +11,7 @@ interface FcmDocument {
   tokens?: string[];
 }
 
-export const currUserFcmState = atom<FcmDocument>({
-  key: `currUserFcm/${v4()}`,
-  default: null,
-});
-
-export const notificationState = atom<NotificationPermission>({
-  key: `notification/${v4()}`,
-  default: 'default',
+export const currUserFcmAtom = atom<LoadableStatus<FcmDocument>>({
+  key: 'currUserFcmAtom',
+  default: isLoadingStatus,
 });

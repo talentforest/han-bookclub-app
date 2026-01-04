@@ -10,43 +10,50 @@ import {
   where,
 } from 'firebase/firestore';
 
-import { USER } from '@/appConstants';
+import { USER, loadedStatus } from '@/appConstants';
+
+import { LoadableStatus } from '@/types';
 
 export function getDocument<T>(
   coll: string,
   docId: string,
-  setState: (docState: T) => void,
+  setState: (docState: LoadableStatus<T>) => void,
 ) {
   const listener = onSnapshot(doc(dbService, coll, docId), doc => {
-    setState({ id: doc.id, ...doc.data() } as unknown as T);
+    setState({
+      ...loadedStatus,
+      data: doc.exists() ? (doc.data() as T) : null,
+    });
   });
-  unsubscribe(listener);
+
+  return listener;
 }
 
 export async function getSubCollectionGroup<T>(
   coll: string,
-  setState: (arr: T[]) => void,
+  setState: (arr: LoadableStatus<T[]>) => void,
   ...constraints: QueryConstraint[]
 ) {
   const q = query(collectionGroup(dbService, coll), ...constraints);
 
   const listener = onSnapshot(q, querySnapshot => {
-    const newArray = querySnapshot.docs.map(doc => {
+    const newDataArray = querySnapshot.docs.map(doc => {
       return {
-        id: doc.id,
+        docId: doc.id,
         yearMonthId: doc.ref.parent.parent.id,
         ...doc.data(),
-      } as unknown as T;
+      } as T;
     });
-    setState(newArray);
+
+    setState({ ...loadedStatus, data: newDataArray });
   });
 
-  unsubscribe(listener);
+  return listener;
 }
 
 export function getCollection<T>(
   coll: string,
-  setState: (arr: T[]) => void,
+  setState: (arr: LoadableStatus<T[]>) => void,
   ...constraints: QueryConstraint[]
 ) {
   const collRef = collection(dbService, coll);
@@ -59,12 +66,12 @@ export function getCollection<T>(
 
   const listener = onSnapshot(queryRef, querySnapshot => {
     const newArray = querySnapshot.docs.map(doc => {
-      return { id: doc.id, ...doc.data() } as unknown as T;
+      return { docId: doc.id, ...doc.data() } as T;
     });
-    setState(newArray);
+    setState({ ...loadedStatus, data: newArray });
   });
 
-  unsubscribe(listener);
+  return listener;
 }
 
 export function unsubscribe(listener: () => void) {

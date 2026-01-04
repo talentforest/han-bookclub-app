@@ -1,4 +1,4 @@
-import { BookWithRank } from '@/types';
+import { BookRank } from '@/types';
 
 import Modal from '@/components/common/Modal';
 import Tag from '@/components/common/Tag';
@@ -7,21 +7,21 @@ import BookThumbnail from '@/components/common/book/BookThumbnail';
 import UserImgName from '@/components/common/user/UserImgName';
 
 interface ChallengeRankedBookModalProps {
-  bookWithRank: BookWithRank;
+  bookRank: BookRank;
 }
 
 export default function ChallengeRankedBookModal({
-  bookWithRank,
+  bookRank,
 }: ChallengeRankedBookModalProps) {
   const {
-    counts,
-    readers,
+    readerList,
+    total,
     title,
     thumbnail,
     authors,
     publisher,
     impressionList,
-  } = bookWithRank;
+  } = bookRank;
 
   return (
     <Modal title="많이 재독한 책">
@@ -36,13 +36,13 @@ export default function ChallengeRankedBookModal({
           <BookAuthorPublisher authors={authors} publisher={publisher} />
           <div className="mt-2 flex gap-1">
             <Tag
-              text={`📚총 ${counts}번 재독중`}
+              text={`📚총 ${total}번 재독중`}
               color="yellow"
               shape="rounded"
               className="!px-3 !py-1 text-sm"
             />
             <Tag
-              text={`🙋🏻${readers}명이 재독중`}
+              text={`🙋🏻${readerList.length}명이 재독중`}
               color="lightBlue"
               shape="rounded"
               className="!px-3 !py-1 text-sm"

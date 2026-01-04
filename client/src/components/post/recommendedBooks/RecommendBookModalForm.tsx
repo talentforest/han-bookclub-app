@@ -16,7 +16,9 @@ import FooterBookCard from '@/components/bookCard/FooterBookCard';
 import SquareBtn from '@/components/common/button/SquareBtn';
 
 export default function RecommendBookModalForm() {
-  const { book } = useRecoilValue(clubByMonthSelector(thisYearMonthId));
+  const {
+    data: { book },
+  } = useRecoilValue(clubByMonthSelector(thisYearMonthId));
 
   const recommendedBook = useRecoilValue(recommendedBookAtom);
 

@@ -45,7 +45,6 @@ const VoteProgressCard = ({ voteDetail }: VoteProgressCardProps) => {
         <DDay hyphenDate={deadline} isDateMark={false} />
         <Link
           to={`/vote/${id}`}
-          state={{ docId: id }}
           className="flex items-center justify-end gap-0.5 py-0.5"
         >
           <span className="text-sm font-semibold text-gray1">

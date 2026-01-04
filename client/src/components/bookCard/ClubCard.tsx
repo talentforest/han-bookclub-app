@@ -17,7 +17,7 @@ export default function ClubCard({ club }: ClubCardProps) {
     >
       <div className="mr-4 flex w-full flex-col justify-between">
         <h1 className="line-clamp-1 font-semibold tracking-tighter text-blue2">
-          {formatDate(club.id, 'yyyy년 M월')} |{' '}
+          {formatDate(club.docId, 'yyyy년 M월')} |{' '}
           <span className="font-medium text-purple2">{club.book.title}</span>
         </h1>
 
@@ -37,7 +37,7 @@ export default function ClubCard({ club }: ClubCardProps) {
       />
 
       <ChevronRightLinkBtn
-        to={`/bookclub/${club.id}`}
+        to={`/bookclub/${club.docId}`}
         className="absolute right-4 top-[35%] flex size-12 items-center justify-center rounded-full border bg-blue1 opacity-20 group-hover:opacity-100"
       />
     </div>

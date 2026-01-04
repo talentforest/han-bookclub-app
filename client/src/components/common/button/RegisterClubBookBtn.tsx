@@ -22,7 +22,7 @@ const RegisterClubBookBtn = ({
   searchedBook,
   registerYearMonth,
 }: RegisterClubBookBtnProps) => {
-  const monthlyBookClub = useRecoilValue(
+  const { data: monthlyBookClub } = useRecoilValue(
     clubByMonthSelector(registerYearMonth),
   );
 

@@ -1,141 +1,160 @@
-import { useEffect, useMemo } from 'react';
+import { useRecoilValue } from 'recoil';
 
-import { where } from 'firebase/firestore';
+import { challengeAtomFamily } from '@/data/challengeAtom';
+import { userListAtom } from '@/data/userAtom';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
-
-import { rereadingChallengeAtom } from '@/data/challengeAtom';
-import { allUsersAtom } from '@/data/userAtom';
-
-import { getCollection } from '@/api';
-
-import { CHALLENGE } from '@/appConstants';
-
-import { BaseBookData, BookWithRank, UserRank } from '@/types';
+import {
+  BaseBookData,
+  BookImpression,
+  BookRank,
+  ChallengeBookValue,
+  UserRank,
+} from '@/types';
 
 export const useHandleChallenge = (year: string) => {
-  const memberList = useRecoilValue(allUsersAtom);
-
-  const [userChallengeList, setUserChallengeList] = useRecoilState(
-    rereadingChallengeAtom,
+  const { status: challengeStatus, data: userChallengeList } = useRecoilValue(
+    challengeAtomFamily(year),
   );
 
-  useEffect(() => {
-    if (!userChallengeList) {
-      getCollection(
-        CHALLENGE,
-        setUserChallengeList,
-        where('__name__', '>=', `${year}-`),
-      );
-    }
-  }, []);
+  const { data: memberList } = useRecoilValue(userListAtom);
 
   // 책 순위
-  const bookWithRankList: BookWithRank[] = useMemo(() => {
-    if (!userChallengeList) return null;
+  const getBookRankList = (): BookRank[] => {
+    if (!userChallengeList) return;
+    const map = new Map<
+      string,
+      Omit<BookRank, 'rank'> // rank는 마지막에 부여
+    >();
 
-    const usersBookList = userChallengeList
-      .map(item => {
-        const { creatorId, id, ...rest } = item;
+    for (const ch of userChallengeList) {
+      const creatorId = ch.creatorId;
 
-        return Object.entries(rest).map(
-          ([_, { book, counts, impressionList }]) => {
-            return {
-              ...book,
-              counts,
-              id,
-              impressionList: impressionList.map(item => ({
-                ...item,
-                creatorId,
-              })),
-            };
-          },
-        );
-      })
-      .flat();
+      for (const [key, value] of Object.entries(ch)) {
+        if (key === 'docId' || key === 'creatorId') continue;
+        if (!isChallengeBookValue(value)) continue;
 
-    return Object.values(
-      usersBookList.reduce<Record<string, BookWithRank>>((acc, book) => {
-        const { title, counts, impressionList } = book;
+        const { book, counts, impressionList } = value;
+        const title = book.title;
 
-        if (!acc[title]) {
-          acc[title] = { ...book, readers: 1 };
+        const impressionsWithCreator: BookImpression[] = (
+          impressionList ?? []
+        ).map(impression => ({ ...impression, creatorId }));
+
+        const existing = map.get(title);
+
+        if (!existing) {
+          map.set(title, {
+            ...book,
+            total: counts ?? 0,
+            readerList: creatorId ? [creatorId] : [],
+            impressionList: impressionsWithCreator,
+          });
         } else {
-          acc[title].counts += counts;
-          acc[title].readers += 1;
-          acc[title].impressionList = [
-            ...(acc[title].impressionList ?? []),
-            ...impressionList,
-          ];
-        }
+          existing.total += counts ?? 0;
 
-        return acc;
-      }, {}),
-    ).sort((a, b) => {
-      return b.counts + b.readers - (a.counts + a.readers);
+          // readerList 중복 방지
+          if (creatorId && !existing.readerList.includes(creatorId)) {
+            existing.readerList.push(creatorId);
+          }
+
+          existing.impressionList.push(...impressionsWithCreator);
+        }
+      }
+    }
+
+    // 정렬 기준: total DESC (동점이면 안정정렬용 title)
+    const sorted = Array.from(map.values()).sort((a, b) => {
+      if (b.total !== a.total) return b.total - a.total;
+      return a.title.localeCompare(b.title);
     });
-  }, [userChallengeList]);
+
+    // rank 부여: 1,1,3 방식
+    let prevTotal: number | null = null;
+    let currentRank = 0;
+
+    return sorted.map((item, idx) => {
+      if (prevTotal === null || item.total !== prevTotal) {
+        currentRank = idx + 1;
+        prevTotal = item.total;
+      }
+      return { ...item, rank: currentRank };
+    });
+  };
+
+  const isChallengeBookValue = (
+    value: unknown,
+  ): value is ChallengeBookValue => {
+    if (!value || typeof value !== 'object') return false;
+
+    const v = value as any;
+    return (
+      v.book &&
+      typeof v.book === 'object' &&
+      typeof v.counts === 'number' &&
+      Array.isArray(v.impressionList)
+    );
+  };
 
   // 유저 순위
-  const userRankList: UserRank[] = useMemo(() => {
-    const memberChallengeList = memberList.map(({ id }) => {
-      const matched = userChallengeList?.find(
-        ({ creatorId }) => creatorId === id,
-      );
-      return matched || { id, creatorId: id };
-    });
+  const getUserRankList = (): UserRank[] => {
+    if (!userChallengeList || !memberList) return [];
+    // userChallengeList가 없으면 전원 0점으로 처리
+    const challengeMap = new Map(
+      (userChallengeList ?? []).map(ch => [ch.creatorId, ch]),
+    );
 
-    const usersWithCounts = memberChallengeList
-      .map(user => {
-        const rereadingBookList: ({ counts: number } & BaseBookData)[] =
-          Object.entries(user)
-            .filter(([key]) => key !== 'id' && key !== 'creatorId')
-            .map(([_, value]: any) => ({
-              ...value.book,
-              counts: value.counts,
-            }));
+    const base: Omit<UserRank, 'rank'>[] = memberList.map(m => {
+      const creatorId = m.docId;
+      const ch = challengeMap.get(creatorId);
 
-        const totalScore = rereadingBookList.reduce(
-          (acc, cur) => acc + cur.counts,
-          0,
-        );
-
+      if (!ch) {
         return {
-          creatorId: user.creatorId,
-          totalScore,
-          rereadingBookList,
+          creatorId,
+          total: 0,
+          bookList: [],
         };
-      })
-      .sort((a, b) => b.totalScore - a.totalScore);
-
-    // rank 계산 (동점자 처리)
-    let rank = 0;
-    let prevScore: number | null = null;
-    let prevRank = 0;
-
-    return usersWithCounts.map((user, idx) => {
-      const { rereadingBookList, creatorId, totalScore } = user;
-
-      if (prevScore === totalScore) {
-        rank = prevRank;
-      } else {
-        rank = idx + 1;
       }
 
-      prevScore = totalScore;
-      prevRank = rank;
+      let total = 0;
+      const bookList: BaseBookData[] = [];
 
-      const totalRereadingCounts = rereadingBookList.reduce(
-        (acc, { counts }) => acc + counts,
-        0,
-      );
+      for (const [key, value] of Object.entries(ch)) {
+        if (key === 'docId' || key === 'creatorId') continue;
+        if (!isChallengeBookValue(value)) continue;
 
-      return { creatorId, rank, rereadingBookList, totalRereadingCounts };
+        total += value.counts ?? 0;
+        bookList.push(value.book);
+      }
+
+      return {
+        creatorId,
+        total,
+        bookList,
+      };
     });
-  }, [userChallengeList]);
+
+    // 정렬: total DESC, 안정정렬 creatorId
+    base.sort((a, b) => {
+      if (b.total !== a.total) return b.total - a.total;
+      return a.creatorId.localeCompare(b.creatorId);
+    });
+
+    // rank: 1,1,3 방식
+    let prevTotal: number | null = null;
+    let currentRank = 0;
+
+    return base.map((item, idx) => {
+      if (prevTotal === null || item.total !== prevTotal) {
+        currentRank = idx + 1;
+        prevTotal = item.total;
+      }
+      return { ...item, rank: currentRank };
+    });
+  };
 
   return {
-    bookWithRankList,
-    userRankList,
+    getBookRankList,
+    getUserRankList,
+    challengeStatus,
   };
 };

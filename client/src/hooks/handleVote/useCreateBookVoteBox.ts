@@ -6,7 +6,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import { useRecoilValue } from 'recoil';
 
 import { currAuthUserAtom } from '@/data/userAtom';
-import { bookVotesState, initialBookVoteItem } from '@/data/voteAtom';
+import { bookVoteListAtom, initialBookVoteItem } from '@/data/voteAtom';
 
 import { BOOK_VOTE } from '@/appConstants';
 
@@ -23,7 +23,7 @@ import { BookVote, BookVoteItem } from '@/types';
 export const useCreateBookVoteBox = () => {
   const { uid } = useRecoilValue(currAuthUserAtom);
 
-  const bookVotes = useRecoilValue(bookVotesState);
+  const { data: bookVotes } = useRecoilValue(bookVoteListAtom);
 
   const allVotesLength = bookVotes.length;
 

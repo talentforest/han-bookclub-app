@@ -1,11 +1,6 @@
 /** 챌린지 관련 타입 */
 import { BaseBookData } from '@/types/book';
 
-export type CompleteReadingChallengeBook = {
-  currentPage: number;
-  wholePage: number;
-} & BaseBookData;
-
 export type CompleteReadingChallenge = {
   id?: string;
   createdAt: string;
@@ -13,19 +8,50 @@ export type CompleteReadingChallenge = {
   books: CompleteReadingChallengeBook[];
 };
 
-export type RereadingChallenge = {
-  id: string;
+export type Challenge = {
+  docId: string;
   creatorId: string;
-  [key: string]: {
-    yearMonthId: string;
-    book: Omit<BaseBookData, 'url'>;
-    impressionList: {
-      id: number;
-      text: string;
-      createdAt: string;
-    }[];
-    counts: number;
-  };
+  [bookTitle: string]: ChallengeBook;
+};
+
+export type ChallengeBook = {
+  book: BaseBookData;
+  currentPage?: number;
+  wholePage?: number;
+  readingTimeList: string[];
+  impressionList: {
+    id: number;
+    text: string;
+    createdAt: string;
+  }[];
+  createdAt: string;
+};
+
+export type BookImpression = {
+  id: number;
+  text: string;
+  createdAt: string;
+  creatorId: string;
+};
+
+export type ChallengeBookValue = {
+  book: BaseBookData;
+  counts: number;
+  impressionList: { id: number; text: string; createdAt: string }[];
+};
+
+export type BookRank = BaseBookData & {
+  rank: number;
+  total: number;
+  readerList: string[];
+  impressionList: BookImpression[];
+};
+
+export type UserRank = {
+  rank: number;
+  total: number;
+  creatorId: string;
+  bookList: BaseBookData[];
 };
 
 export type ChallengeSentence = {
@@ -38,22 +64,4 @@ export type ChallengeSentence = {
   page: number;
   likeUsers?: string[];
   likes?: number;
-};
-
-export type BookWithRank = Omit<BaseBookData, 'url'> & {
-  counts: number;
-  readers: number;
-  impressionList: {
-    id: number;
-    text: string;
-    createdAt: string;
-    creatorId: string;
-  }[];
-};
-
-export type UserRank = {
-  creatorId: string;
-  rank: number;
-  rereadingBookList: ({ counts: number } & Omit<BaseBookData, 'url'>)[];
-  totalRereadingCounts: number;
 };

@@ -5,7 +5,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { penaltyDocState } from '@/data/penaltyAtom';
+import { penaltyAtom } from '@/data/penaltyAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
 import { getDocument } from '@/api';
@@ -23,7 +23,7 @@ import {
 import { ClubMonth, OverduePenaltyMonths, PenaltyPostType } from '@/types';
 
 export const useHandlePenalty = (createdAt?: number) => {
-  const [penaltyDoc, setPenaltyDoc] = useRecoilState(penaltyDocState);
+  const [{ data: penaltyDoc }, setPenaltyDoc] = useRecoilState(penaltyAtom);
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 

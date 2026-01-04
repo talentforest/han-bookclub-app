@@ -10,16 +10,16 @@ import Tag from '@/components/common/Tag';
 
 interface MonthEventCardProps {
   yearMonthId: string;
-
   className?: string;
 }
 
 export default function MonthEventCard({
   yearMonthId,
-
   className = '',
 }: MonthEventCardProps) {
-  const monthClubInfo = useRecoilValue(clubByMonthSelector(yearMonthId));
+  const { data: monthClubInfo } = useRecoilValue(
+    clubByMonthSelector(yearMonthId),
+  );
 
   const month = +yearMonthId.slice(-2);
 
@@ -39,11 +39,11 @@ export default function MonthEventCard({
       )}
 
       <h1 className="mb-1.5 line-clamp-2 w-full text-lg font-medium leading-6">
-        {monthClubInfo.meeting.eventMonth.title}
+        {monthClubInfo?.meeting?.eventMonth.title}
       </h1>
 
       <span className="text-gray1">
-        이벤트 콘텐츠 {monthClubInfo.meeting.eventMonth.contents.length}개
+        이벤트 콘텐츠 {monthClubInfo.meeting?.eventMonth.contents.length}개
       </span>
     </div>
   );

@@ -15,7 +15,7 @@ export default function ChallengeUserRankCard({
   userRank,
   color = 'light',
 }: ChallengeRereadingCardProps) {
-  const { creatorId, rank, rereadingBookList, totalRereadingCounts } = userRank;
+  const { creatorId, rank, bookList, total } = userRank;
 
   return (
     <Accordion
@@ -24,7 +24,7 @@ export default function ChallengeUserRankCard({
         <div className="flex w-full items-center gap-x-2">
           {rank === 1 && <FaMedal className="size-5 text-yellow-300" />}
 
-          {totalRereadingCounts !== 0 && (
+          {total !== 0 && (
             <span
               className={`font-RomanticGumi text-lg font-bold ${color === 'dark' ? 'text-white' : 'text-blue3'}`}
             >
@@ -45,16 +45,16 @@ export default function ChallengeUserRankCard({
           <span
             className={`ml-auto mr-1 font-GiantsInline font-medium ${color === 'dark' ? 'text-yellow-200' : 'text-blue3'}`}
           >
-            {rereadingBookList.length}권
+            {bookList.length}권
           </span>
         </div>
       }
     >
-      <div className="mb-4 flex items-start gap-x-3">
+      <div className="mb-3 flex items-start gap-x-3">
         <ul className="mt-1 w-[85px]">
           {[
-            { key: '총 재독 수', value: `${totalRereadingCounts}회` },
-            { key: '재독한 책', value: `${rereadingBookList.length}권` },
+            { key: '총 재독 수', value: `${total}회` },
+            { key: '재독한 책', value: `${bookList.length}권` },
           ].map(({ key, value }) => (
             <li key={key} className="flex items-center justify-between pb-1">
               <span className="min-w-14 text-sm text-blue4">{key}</span>
@@ -65,14 +65,14 @@ export default function ChallengeUserRankCard({
           ))}
         </ul>
 
-        {rereadingBookList.length !== 0 && (
+        {bookList.length !== 0 && (
           <div className="flex flex-1 gap-x-2.5 overflow-scroll rounded-lg p-2 scrollbar-hide">
-            {rereadingBookList.map(book => (
+            {bookList.map(book => (
               <button key={book.title} type="button" onClick={() => {}}>
                 <BookThumbnail
                   thumbnail={book.thumbnail}
                   title={book.title}
-                  className="w-12 min-w-12"
+                  className="w-12 min-w-12 [&>img]:shadow [&>img]:shadow-white"
                 />
               </button>
             ))}

@@ -5,8 +5,6 @@ import { SwiperSlide } from 'swiper/react';
 
 import { useRecoilState } from 'recoil';
 
-import { sentencesState } from '@/data/challengeAtom';
-
 import { getCollection } from '@/api';
 
 import { SENTENCES2024 } from '@/appConstants';
@@ -42,35 +40,35 @@ const swiperOptions = {
 };
 
 export default function Sentence() {
-  const [sentences, setSentences] = useRecoilState(sentencesState);
+  // const [sentences, setSentences] = useRecoilState(sentencesState);
 
-  useEffect(() => {
-    if (!sentences) {
-      getCollection(SENTENCES2024, setSentences);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!sentences) {
+  //     getCollection(SENTENCES2024, setSentences);
+  //   }
+  // }, []);
 
-  const groupSentences = (by: 'title' | 'createdAt') => {
-    return sentences?.reduce((accByBook: any, sentence) => {
-      const key =
-        by === 'createdAt'
-          ? formatDate(sentence[by], 'yyyy년 M월 d일')
-          : sentence[by];
+  // const groupSentences = (by: 'title' | 'createdAt') => {
+  //   return sentences?.reduce((accByBook: any, sentence) => {
+  //     const key =
+  //       by === 'createdAt'
+  //         ? formatDate(sentence[by], 'yyyy년 M월 d일')
+  //         : sentence[by];
 
-      return {
-        ...accByBook,
-        [key]: [...(accByBook[key] || []), sentence],
-      };
-    }, {});
-  };
+  //     return {
+  //       ...accByBook,
+  //       [key]: [...(accByBook[key] || []), sentence],
+  //     };
+  //   }, {});
+  // };
 
-  const groupedByDate = groupSentences('createdAt');
+  // const groupedByDate = groupSentences('createdAt');
 
-  const dateKeys = Object?.keys(groupedByDate || {});
+  // const dateKeys = Object?.keys(groupedByDate || {});
 
-  const groupedByTitle = groupSentences('title');
+  // const groupedByTitle = groupSentences('title');
 
-  const titleKeys = Object?.keys(groupedByTitle || {});
+  // const titleKeys = Object?.keys(groupedByTitle || {});
 
   return (
     <>
@@ -78,7 +76,7 @@ export default function Sentence() {
 
       <main>
         <Section title="문구가 등록된 책">
-          {titleKeys?.length !== 0 ? (
+          {/* {titleKeys?.length !== 0 ? (
             <div>
               <SwiperContainer options={swiperOptions}>
                 {titleKeys?.map(titleKey => (
@@ -98,7 +96,7 @@ export default function Sentence() {
             </div>
           ) : (
             <span>아직 문구가 등록된 책이 없습니다.</span>
-          )}
+          )} */}
         </Section>
 
         <Section title="날짜별로 전체 문구 보기">

@@ -5,13 +5,17 @@ import { FaChevronRight } from 'react-icons/fa';
 
 import { getSubCollectionGroup } from '@/api';
 
-import { RECOMMENDED_BOOKS, postNameObj } from '@/appConstants';
+import {
+  RECOMMENDED_BOOKS,
+  isLoadingStatus,
+  postNameObj,
+} from '@/appConstants';
 
 import { useHandleModal } from '@/hooks';
 
 import { formatDate } from '@/utils';
 
-import { SubPostTypeKey, UserPost } from '@/types';
+import { LoadableStatus, SubPostTypeKey, UserPost } from '@/types';
 
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
 import QuoteArticle from '@/components/post/QuoteArticle';
@@ -28,7 +32,8 @@ export default function UserPostDisplayList({
   userId,
   limitNum,
 }: UserPostDisplayListProps) {
-  const [postList, setPostList] = useState<UserPost[]>([]);
+  const [{ data: postList }, setPostList] =
+    useState<LoadableStatus<UserPost[]>>(isLoadingStatus);
 
   useEffect(() => {
     getSubCollectionGroup(
@@ -41,7 +46,7 @@ export default function UserPostDisplayList({
   }, []);
 
   const postListByYearMonthId = Object.values(
-    postList.reduce<{ [key: string]: UserPost[] }[]>((acc, curr) => {
+    postList?.reduce<{ [key: string]: UserPost[] }[]>((acc, curr) => {
       const key = curr.yearMonthId;
       const found = acc.find(obj => obj[key]);
 
@@ -51,7 +56,7 @@ export default function UserPostDisplayList({
         acc.push({ [key]: [curr] });
       }
       return acc;
-    }, []),
+    }, []) || {},
   );
 
   const recommendedBooksType = postTypeKey === RECOMMENDED_BOOKS;

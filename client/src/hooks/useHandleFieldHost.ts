@@ -21,14 +21,14 @@ export const useHandleFieldHost = ({
   year,
   monthKey,
 }: UseHandleFieldHostProps) => {
-  const { id, ...fieldAndHostObj } = useRecoilValue(
+  const { status, data: fieldAndHostObj } = useRecoilValue(
     fieldAndHostAtomFamily(year),
   );
 
   const fieldAndHost = fieldAndHostObj[monthKey];
 
   const [selectedValues, setSelectedValues] =
-    useState<MonthlyFieldAndHost | null>(fieldAndHost);
+    useState<MonthlyFieldAndHost>(fieldAndHost);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('edit');
 
@@ -51,8 +51,6 @@ export const useHandleFieldHost = ({
     ],
   };
 
-  const fbDoc = doc(dbService, `BookClub-${year}`, BOOK_FIELD_AND_HOST);
-
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -63,6 +61,7 @@ export const useHandleFieldHost = ({
       if (hasError) return;
 
       const newMonthData = { [monthKey]: selectedValues };
+      const fbDoc = doc(dbService, `BookClub-${year}`, BOOK_FIELD_AND_HOST);
       await updateDoc(fbDoc, newMonthData);
     } catch (error) {
       console.log(error);
@@ -78,5 +77,6 @@ export const useHandleFieldHost = ({
     selectedValues,
     setSelectedValues,
     errorMsg,
+    status,
   };
 };

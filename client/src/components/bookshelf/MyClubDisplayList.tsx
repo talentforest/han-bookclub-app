@@ -11,25 +11,26 @@ interface MyClubDisplayListProps {
 export default function MyClubDisplayList({
   hostYearMonthIdList,
 }: MyClubDisplayListProps) {
-  const hostClubs = useRecoilValue(
+  const { status, data: myClubList } = useRecoilValue(
     clubByYearMonthIdListAtomFamily(hostYearMonthIdList),
   );
 
   return (
     <>
-      {hostClubs?.length > 0 ? (
-        <ul className="grid grid-cols-1 gap-y-3">
-          {hostClubs.map(club => (
-            <li key={club.id}>
-              <ClubCard club={club} />
-            </li>
-          ))}
-        </ul>
-      ) : hostClubs?.length === 1 ? (
-        <ClubCard club={hostClubs[0]} />
-      ) : (
-        <></>
-      )}
+      {status === 'loaded' &&
+        (myClubList?.length > 0 ? (
+          <ul className="grid grid-cols-1 gap-y-3">
+            {myClubList.map(club => (
+              <li key={club.docId}>
+                <ClubCard club={club} />
+              </li>
+            ))}
+          </ul>
+        ) : myClubList?.length === 1 ? (
+          <ClubCard club={myClubList[0]} />
+        ) : (
+          <></>
+        ))}
     </>
   );
 }

@@ -28,11 +28,11 @@ export default function ChevronRightLinkBtn<T>({
       {title && (
         <>
           <span className="text-sm font-medium">{title}</span>
-          <FiChevronRight className="" />
+          <FiChevronRight />
         </>
       )}
 
-      {!title && <FaChevronRight className="" />}
+      {!title && <FaChevronRight />}
     </Link>
   );
 }

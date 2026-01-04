@@ -9,9 +9,10 @@ import Confetti from '@/components/event/Confetti';
 
 interface BestBookListProps {
   books?: BookEventResult[];
+  year: string;
 }
 
-export default function BestBookList({ books }: BestBookListProps) {
+export default function BestBookList({ books, year }: BestBookListProps) {
   const { showModal } = useHandleModal();
 
   const onClick = ({
@@ -22,7 +23,7 @@ export default function BestBookList({ books }: BestBookListProps) {
     isEditing?: boolean;
   }) => {
     showModal({
-      element: <BestBookModal rank={rank} isEditing={isEditing} />,
+      element: <BestBookModal year={year} rank={rank} isEditing={isEditing} />,
     });
   };
 
@@ -50,7 +51,7 @@ export default function BestBookList({ books }: BestBookListProps) {
               iconName="FiPlus"
               title={clubBook ? clubBook.title : undefined}
               thumbnail={clubBook ? clubBook.thumbnail : undefined}
-              className="rotate-x-12 w-[74px] min-w-16 origin-bottom transform bg-white"
+              className="rotate-x-12 w-[74px] min-w-16 origin-bottom transform [&>img]:shadow-white"
             />
           </button>
         )}

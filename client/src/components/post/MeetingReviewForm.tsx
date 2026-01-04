@@ -24,9 +24,9 @@ interface MeetingReviewFormProps {
 const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
   const [isAnonymous, setIsAnonymous] = useState(false);
 
-  const { book: clubBook } = useRecoilValue(
-    clubByMonthSelector(thisYearMonthId),
-  );
+  const {
+    data: { book: clubBook },
+  } = useRecoilValue(clubByMonthSelector(thisYearMonthId));
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 

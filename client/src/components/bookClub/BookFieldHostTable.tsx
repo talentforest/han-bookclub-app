@@ -4,7 +4,7 @@ import { fieldAndHostAtomFamily } from '@/data/fieldAndHostAtom';
 
 import { setDocument } from '@/api';
 
-import { BOOK_FIELD_AND_HOST } from '@/appConstants';
+import { BOOK_FIELD_AND_HOST, getInitialDataObjByMonth } from '@/appConstants';
 
 import { useHandleModal } from '@/hooks';
 
@@ -28,21 +28,20 @@ const BookFieldHostTable = ({
   color = 'lightBlue',
   year,
 }: BookFieldHostTableProps) => {
-  const { id, ...thisYearFieldAndHostObj } = useRecoilValue(
-    fieldAndHostAtomFamily(year),
-  );
+  const { status, data } = useRecoilValue(fieldAndHostAtomFamily(year));
 
   const { showModal } = useHandleModal();
 
   const setInitialBookFieldHostInFb = async () => {
-    const monthlyObj = Object.fromEntries(
-      Array.from({ length: 12 }, (_, i) => [
-        `${i + 1}월`,
-        { detail: '', hosts: [], field: '' } as MonthlyFieldAndHost,
-      ]),
-    );
+    const initialData: MonthlyFieldAndHost = {
+      field: '',
+      hosts: [],
+      detail: '',
+    };
+    const initialObj =
+      getInitialDataObjByMonth<MonthlyFieldAndHost>(initialData);
 
-    setDocument(`BookClub-${year}`, BOOK_FIELD_AND_HOST, monthlyObj);
+    setDocument(`BookClub-${year}`, BOOK_FIELD_AND_HOST, initialObj);
   };
 
   const labels: Label[] = isMonth
@@ -55,7 +54,7 @@ const BookFieldHostTable = ({
     });
   };
 
-  const rowDataList = Object.entries(thisYearFieldAndHostObj)
+  const rowDataList = Object.entries(data)
     .map(([key, value]: [string, MonthlyFieldAndHost]) => ({
       ...value,
       month: +key.slice(0, -1),
@@ -64,21 +63,22 @@ const BookFieldHostTable = ({
 
   return (
     <>
-      {rowDataList.length !== 0 ? (
-        <Table
-          color={color}
-          labels={labels}
-          rowDataList={rowDataList}
-          onEditClick={onEditClick}
-          isEditable={isEditable}
-        />
-      ) : (
-        <EmptyCard
-          text="아직 월별 독서분야와 발제자 정보가 없습니다."
-          createBtnTitle={`${year} 독서분야와 발제자 정보 생성`}
-          onCreateClick={setInitialBookFieldHostInFb}
-        />
-      )}
+      {status === 'loaded' &&
+        (rowDataList.length !== 0 ? (
+          <Table
+            color={color}
+            labels={labels}
+            rowDataList={rowDataList}
+            onEditClick={onEditClick}
+            isEditable={isEditable}
+          />
+        ) : (
+          <EmptyCard
+            text="아직 월별 독서분야와 발제자 정보가 없습니다."
+            createBtnTitle={`${year} 독서분야와 발제자 정보 생성`}
+            onCreateClick={setInitialBookFieldHostInFb}
+          />
+        ))}
     </>
   );
 };

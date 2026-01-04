@@ -29,13 +29,13 @@ export default function MonthlyClubInfo() {
       <main>
         {name === '모임불참' && (
           <>
-            <AbsenceMemberTable year="2025" isMonth />
+            <AbsenceMemberTable year={thisYear} isMonth />
 
             <ChevronRightLinkBtn
               title="나의 불참 설정하러 가기"
-              to="/setting/absence"
-              state={{ year: '2025' }}
-              className="pt-3"
+              to="/setting/myAbsenceMonth"
+              state={{ year: thisYear }}
+              className="pt-5"
             />
           </>
         )}

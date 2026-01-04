@@ -40,7 +40,9 @@ const ClubDetail = () => {
   );
   const setAbsenceList = useSetRecoilState(absenceAtom(thisYear));
 
-  const monthlyBookClub = useRecoilValue(clubByMonthSelector(yearMonthId));
+  const { data: monthlyBookClub } = useRecoilValue(
+    clubByMonthSelector(yearMonthId),
+  );
 
   const isEventMonth = monthlyBookClub?.meeting?.eventMonth;
 
@@ -67,7 +69,7 @@ const ClubDetail = () => {
               <Section
                 title={`${isThisMonthClubDetail ? '이번' : '지난'} 모임 정보`}
               >
-                <MonthBookClub yearMonthId={monthlyBookClub.id} />
+                <MonthBookClub yearMonthId={monthlyBookClub.docId} />
               </Section>
 
               <div className="grid grid-cols-5 gap-x-6 max-sm:flex max-sm:flex-col [&>section:first-child]:col-span-2 [&>section:last-child]:col-span-3">

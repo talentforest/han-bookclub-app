@@ -5,10 +5,10 @@ import { doc, setDoc, updateDoc } from 'firebase/firestore';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { currUserFcmState } from '@/data/fcmAtom';
+import { currUserFcmAtom } from '@/data/fcmAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
-import { FCM_NOTIFICATION } from '@/appConstants';
+import { FCM_NOTIFICATION, loadedStatus } from '@/appConstants';
 
 import { useSendPushNotification } from '@/hooks';
 
@@ -22,7 +22,8 @@ export default function NotificationSetting() {
   const [isActive, setIsActive] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
 
-  const [currUserFcm, setCurrUserFcm] = useRecoilState(currUserFcmState);
+  const [{ data: currUserFcm }, setCurrUserFcm] =
+    useRecoilState(currUserFcmAtom);
 
   const { uid } = useRecoilValue(currAuthUserAtom);
 
@@ -54,7 +55,7 @@ export default function NotificationSetting() {
       await updateDoc(document, defaultFcmData);
     }
 
-    setCurrUserFcm(defaultFcmData);
+    setCurrUserFcm({ ...loadedStatus, data: defaultFcmData });
   };
 
   const onPermitClick = async () => {

@@ -30,7 +30,7 @@ const LikeBtnWithPeopleInfo = ({
     useHandleLike({
       likes: post.likes || 0,
       likeUsers: post.likeUsers || [],
-      docId: post.id,
+      docId: post.docId,
       collName,
     });
 

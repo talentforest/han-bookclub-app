@@ -1,13 +1,12 @@
-import { useEffect } from 'react';
-
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { FiUsers } from 'react-icons/fi';
 
 import { useRecoilValue } from 'recoil';
 
-import { currUserFcmState } from '@/data/fcmAtom';
+import { currUserFcmAtom } from '@/data/fcmAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
+import { bookVoteAtomFamily, voteMemberListAtomFamily } from '@/data/voteAtom';
 
 import { DEVELOPER_EMAIL } from '@/appConstants';
 
@@ -28,27 +27,20 @@ import SquareBtn from '@/components/common/button/SquareBtn';
 import VoteBookItemBtn from '@/components/common/button/VoteBookItemBtn';
 import UserImgName from '@/components/common/user/UserImgName';
 
-type LocationState = {
-  state: { docId: string };
-};
-
 const VoteDetail = () => {
-  const { state } = useLocation() as LocationState;
+  const { id } = useParams();
+
+  const { status: currentVoteStatus, data: currentVote } = useRecoilValue(
+    bookVoteAtomFamily(id),
+  );
+
+  const { status: voteMemberListStatus, data: votedItemsByMember } =
+    useRecoilValue(voteMemberListAtomFamily(id));
 
   const { email } = useRecoilValue(currAuthUserAtom);
-  const currUserFcm = useRecoilValue(currUserFcmState);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!state?.docId) {
-      navigate('/vote');
-    }
-  }, []);
+  const { data: currUserFcm } = useRecoilValue(currUserFcmAtom);
 
   const {
-    currentVote,
-    votedItemsByMember,
     voteCountsById,
     totalVoteCount,
     selectedItem,
@@ -58,7 +50,7 @@ const VoteDetail = () => {
     onVoteDeleteClick,
     isRevote,
     onToggleRevoteClick,
-  } = useHandleVoting({ docId: state?.docId });
+  } = useHandleVoting({ voteId: id });
 
   const {
     sendPushNotificationToUser,
@@ -76,16 +68,17 @@ const VoteDetail = () => {
     return !!highestVoteItemList.find(item => item.title === title);
   };
 
-  const voteDday = getDDay(currentVote.deadline);
+  const voteDday = getDDay(currentVote?.deadline);
 
   return (
-    <>
-      <MobileHeader
-        title={`${isExpiredVote ? '만료된 ' : ''}모임책 투표함`}
-        backBtn
-      />
+    currentVoteStatus === 'loaded' &&
+    voteMemberListStatus === 'loaded' && (
+      <>
+        <MobileHeader
+          title={`${isExpiredVote ? '만료된 ' : ''}모임책 투표함`}
+          backBtn
+        />
 
-      {currentVote?.voteItems && (
         <main>
           <VoteDetailHeader
             vote={currentVote}
@@ -110,7 +103,7 @@ const VoteDetail = () => {
               {voteCountsById.map(({ id, title, voteCount }) => (
                 <div
                   key={id}
-                  className="relative mx-auto mt-2 flex w-2/3 overflow-hidden rounded-xl bg-white px-3 py-1 shadow-sm max-sm:w-full"
+                  className="relative mx-auto mt-2 flex w-2/3 items-center justify-between overflow-hidden rounded-xl bg-white px-3 py-1 shadow-sm max-sm:w-full"
                 >
                   <div
                     style={{
@@ -119,7 +112,7 @@ const VoteDetail = () => {
                     className={`absolute inset-y-0 left-0 z-0 rounded-r-lg ${findHighestVoteItem(title) ? 'bg-blue2' : 'bg-gray3'}`}
                   />
                   <span
-                    className={`z-10 inline-block w-full pt-[1px] text-[15px] ${findHighestVoteItem(title) ? 'font-medium text-white' : 'text-gray2'}`}
+                    className={`z-10 mr-2 inline-block pt-[1px] text-[15px] ${findHighestVoteItem(title) ? 'font-medium text-blue4' : 'text-gray1'}`}
                   >
                     {title}
                   </span>
@@ -185,8 +178,8 @@ const VoteDetail = () => {
 
             <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-2">
               {votedItemsByMember.map(member => (
-                <li key={member.id}>
-                  <UserImgName userId={member.id} />
+                <li key={member.docId}>
+                  <UserImgName userId={member.docId} />
                 </li>
               ))}
             </ul>
@@ -212,8 +205,8 @@ const VoteDetail = () => {
             />
           )}
         </main>
-      )}
-    </>
+      </>
+    )
   );
 };
 

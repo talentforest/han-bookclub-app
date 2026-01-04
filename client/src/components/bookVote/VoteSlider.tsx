@@ -1,51 +1,33 @@
-import { useEffect } from 'react';
-
 import { useNavigate } from 'react-router-dom';
 
 import { SwiperSlide } from 'swiper/react';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
-import { bookVotesState } from '@/data/voteAtom';
-
-import { getCollection } from '@/api';
-
-import { BOOK_VOTE } from '@/appConstants';
-
-import { todayWithHyphen } from '@/utils';
+import { bookVotesSelector } from '@/data/voteAtom';
 
 import VoteProgressCard from '@/components/bookVote/VoteProgressCard';
 import EmptyCard from '@/components/common/container/EmptyCard';
 import SwiperContainer from '@/components/common/container/SwiperContainer';
 
+const swiperOptions = {
+  breakpoints: {
+    1024: {
+      slidesPerView: 3,
+    },
+    800: {
+      slidesPerView: 2,
+    },
+    320: {
+      slidesPerView: 1,
+    },
+  },
+};
+
 const VoteSlider = () => {
-  const [bookVotes, setBookVotes] = useRecoilState(bookVotesState);
-
-  const progressVotes = bookVotes?.filter(
-    vote => vote.deadline >= todayWithHyphen,
-  );
-
-  useEffect(() => {
-    if (!bookVotes?.length) {
-      getCollection(BOOK_VOTE, setBookVotes);
-    }
-  }, []);
+  const progressVotes = useRecoilValue(bookVotesSelector('progress'));
 
   const navigate = useNavigate();
-
-  const swiperOptions = {
-    breakpoints: {
-      1024: {
-        slidesPerView: 3,
-      },
-      800: {
-        slidesPerView: 2,
-      },
-      320: {
-        slidesPerView: 1,
-      },
-    },
-  };
 
   return (
     <>

@@ -1,10 +1,17 @@
-import { v4 } from 'uuid';
+import { atom, atomFamily, selectorFamily } from 'recoil';
 
-import { atom } from 'recoil';
+import { getCollection, getDocument } from '@/api';
 
-import { formatDate } from '@/utils';
+import { BOOK_VOTE, VOTED_ITEMS, isLoadingStatus } from '@/appConstants';
 
-import { BookVote, BookVoteItem } from '@/types';
+import { formatDate, todayWithHyphen } from '@/utils';
+
+import {
+  BookVote,
+  BookVoteItem,
+  BookVoteItemsByMember,
+  LoadableStatus,
+} from '@/types';
 
 export const initialBookVote: BookVote = {
   id: '',
@@ -25,7 +32,58 @@ export const initialBookVoteItem: BookVoteItem = {
   },
 };
 
-export const bookVotesState = atom<BookVote[]>({
-  key: `bookVoteDocs/${v4()}`,
-  default: null,
+export const bookVoteListAtom = atom<LoadableStatus<BookVote[]>>({
+  key: 'bookVoteListAtom',
+  default: isLoadingStatus,
+  effects: [
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get') return;
+      getCollection(BOOK_VOTE, setSelf);
+    },
+  ],
+});
+
+export const bookVoteAtomFamily = atomFamily<LoadableStatus<BookVote>, string>({
+  key: 'bookVoteAtomFamily',
+  default: isLoadingStatus,
+  effects: (voteId: string) => [
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get' || !voteId) return;
+      getDocument(BOOK_VOTE, `VoteId-${voteId}`, setSelf);
+    },
+  ],
+});
+
+export const voteMemberListAtomFamily = atomFamily<
+  LoadableStatus<BookVoteItemsByMember[]>,
+  string
+>({
+  key: 'voteMemberListAtomFamily',
+  default: isLoadingStatus,
+  effects: (voteId: string) => [
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get' || !voteId) return;
+      getCollection(`${BOOK_VOTE}/VoteId-${voteId}/${VOTED_ITEMS}`, setSelf);
+    },
+  ],
+});
+
+export const bookVotesSelector = selectorFamily<
+  BookVote[],
+  'progress' | 'expired'
+>({
+  key: 'bookVotesSelector',
+  get:
+    (type: 'progress' | 'expired') =>
+    ({ get }) => {
+      const { status, data } = get(bookVoteListAtom);
+      if (status === 'isLoading') return [];
+
+      const result = data?.filter(vote => {
+        if (type === 'progress') return vote.deadline >= todayWithHyphen;
+        return vote.deadline < todayWithHyphen;
+      });
+
+      return result;
+    },
 });
