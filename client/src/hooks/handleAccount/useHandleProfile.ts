@@ -33,12 +33,8 @@ export const useHandleProfile = () => {
 
   const refreshUser = () => {
     const user = getAuth().currentUser;
-    setUserData({
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-    });
+    const { uid, email, displayName, photoURL } = user;
+    setUserData({ uid, email, displayName, photoURL });
   };
 
   const userDataRef = doc(dbService, USER, uid);
@@ -75,7 +71,7 @@ export const useHandleProfile = () => {
 
   const updateFavBookField = async () => {
     await updateDoc(userDataRef, {
-      favoriteBookField: Array.from(userDoc.favoriteBookField),
+      favoriteBookField: userDoc.favoriteBookField,
     });
   };
 
@@ -104,25 +100,31 @@ export const useHandleProfile = () => {
   ) => {
     const { name } = event.currentTarget;
     const selectedField = { id, name };
+
     const alreadySelected = userDoc.favoriteBookField.some(
       (item: ClubBookField) => item.id === id,
     );
+
     if (!alreadySelected) {
       const totalArray = [...userDoc.favoriteBookField, selectedField];
       const removeDeduplicationArr = totalArray.filter(
         (arr, index, callback) =>
           index === callback.findIndex(t => t.id === arr.id),
       );
-      return setUserDoc(prevArr => ({
-        ...prevArr,
-        favoriteBookField: removeDeduplicationArr,
+      return setUserDoc(prev => ({
+        status: 'loaded',
+        data: { ...prev.data, favoriteBookField: removeDeduplicationArr },
       }));
     }
-    setUserDoc(prevArr => ({
-      ...prevArr,
-      favoriteBookField: prevArr.data.favoriteBookField.filter(
-        (ele: ClubBookField) => ele.id !== id,
-      ),
+
+    setUserDoc(prev => ({
+      status: 'loaded',
+      data: {
+        ...prev.data,
+        favoriteBookField: prev.data.favoriteBookField.filter(
+          (ele: ClubBookField) => ele.id !== id,
+        ),
+      },
     }));
   };
 
