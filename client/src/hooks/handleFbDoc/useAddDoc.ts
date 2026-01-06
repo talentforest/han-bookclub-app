@@ -1,20 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { authService, dbService } from '@/fbase';
 import { collection, doc, setDoc } from 'firebase/firestore';
 
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
-import { recommendedBookAtom } from '@/data/bookAtom';
-import { currAuthUserAtom, userAtomFamily } from '@/data/userAtom';
+import { initialRecommendedBook, recommendedBookAtom } from '@/data/bookAtom';
 
-import { getDocument } from '@/api';
-
-import { USER } from '@/appConstants';
+import { RECOMMENDED_BOOKS } from '@/appConstants';
 
 import { useAlertAskJoin } from '@/hooks';
 
-import { existDocObj, formatDate } from '@/utils';
+import { formatDate } from '@/utils';
 
 import { Collection, SubCollection } from '@/types';
 
@@ -29,18 +26,9 @@ export const useAddDoc = <T extends { [key in string]: any }>({
 }: UseAddDocProps<T>) => {
   const [newDocData, setNewDocData] = useState<T>(initialDocData);
 
-  const { uid } = useRecoilValue(currAuthUserAtom);
-
-  const [userExtraData, setUserExtraData] = useRecoilState(userAtomFamily(uid));
   const setMyRecommendBook = useSetRecoilState(recommendedBookAtom);
 
   const { alertAskJoinMember } = useAlertAskJoin('write');
-
-  useEffect(() => {
-    if (uid && !existDocObj(userExtraData)) {
-      getDocument(USER, uid, setUserExtraData);
-    }
-  }, [uid]);
 
   const docRef = doc(collection(dbService, collName));
 
@@ -55,15 +43,11 @@ export const useAddDoc = <T extends { [key in string]: any }>({
         createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
       });
 
-      if (newDocData?.recommendedBook) {
-        setMyRecommendBook({
-          thumbnail: '',
-          title: '',
-          authors: [],
-          url: '',
-          publisher: '',
-        });
+      if (collName.includes(RECOMMENDED_BOOKS)) {
+        setMyRecommendBook(initialRecommendedBook);
       }
+
+      setNewDocData(initialDocData);
     } catch (error) {
       console.error('Error adding document:', error);
     }

@@ -30,10 +30,7 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
 
   const { sendPostPushNotification, isPending } = useSendPushNotification();
 
-  const {
-    docId: yearMonthId,
-    book: { thumbnail, title, url, publisher, authors },
-  } = thisMonthClub;
+  const { docId: yearMonthId, book } = thisMonthClub;
 
   const collName =
     postType === '발제문'
@@ -44,7 +41,7 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
     text: '',
     createdAt: '',
     creatorId: uid,
-    clubBook: { title, thumbnail, url, publisher, authors },
+    clubBook: book,
   };
 
   const { onAddDocSubmit, newDocData, onDataChange } = useAddDoc<
@@ -61,6 +58,8 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
 
       onDataChange({ text: '' });
 
+      alert('성공적으로 등록되었습니다.');
+
       await sendPostPushNotification(postType);
 
       hideModal();
@@ -73,7 +72,7 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
     <Modal title={`${postType} 작성하기`}>
       <form
         onSubmit={handleSubmit}
-        className="flex h-[90vh] flex-col overflow-scroll scrollbar-hide"
+        className="flex flex-col overflow-scroll scrollbar-hide"
       >
         <QuillEditor
           placeholder={`${postType}을 작성해주세요`}

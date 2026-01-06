@@ -53,6 +53,7 @@ const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
 
     try {
       await onAddDocSubmit(event);
+      alert('성공적으로 등록되었습니다.');
       onDataChange({ text: '' });
       await sendPostPushNotification('모임 후기');
     } catch (error) {

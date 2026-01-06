@@ -38,7 +38,7 @@ export default function PostListDetail() {
   const params = useParams();
   const yearMonthId = params?.id ?? thisYearMonthId;
 
-  const { data: monthlyBookClub } = useRecoilValue(
+  const { status, data: monthlyBookClub } = useRecoilValue(
     clubByMonthSelector(yearMonthId),
   );
   const fieldAndHosts = useRecoilValue(fieldAndHostSelector(yearMonthId));
@@ -91,55 +91,58 @@ export default function PostListDetail() {
     : postList;
 
   return (
-    <>
-      <MobileHeader
-        title={`${yearMonthId === thisYearMonthId ? '이달' : formatDate(yearMonthId, 'yyyy년 M월')}의 한페이지 ${postType}`}
-        backBtn
-      />
+    status === 'loaded' && (
+      <>
+        <MobileHeader
+          title={`${yearMonthId === thisYearMonthId ? '이달' : formatDate(yearMonthId, 'yyyy년 M월')}의 한페이지 ${postType}`}
+          backBtn
+        />
 
-      <main>
-        {document && (
-          <BasicBookCard
-            clubBook={monthlyBookClub?.book}
-            fieldAndHosts={fieldAndHosts}
-          />
-        )}
+        <main>
+          {document && (
+            <BasicBookCard
+              clubBook={monthlyBookClub?.book}
+              fieldAndHosts={fieldAndHosts}
+            />
+          )}
 
-        {!params?.id && (
-          <SquareBtn
-            type="button"
-            color="blue"
-            name={`${postType} 작성하기`}
-            handleClick={toggleAddPostModal}
-            className="mt-5 w-full !py-3"
-          />
-        )}
+          {!params?.id && (
+            <SquareBtn
+              type="button"
+              color="blue"
+              name={`${postType} 작성하기`}
+              handleClick={toggleAddPostModal}
+              className="mt-5 w-full"
+              size="lg"
+            />
+          )}
 
-        {!postInfo[postType]?.postList ? (
-          <LoopLoading size={150} className="h-[55vh]" />
-        ) : (
-          currPostList?.length !== 0 &&
-          currPostList.map((post, index) => (
-            <Fragment key={post.docId}>
-              <Post
-                type={postType}
-                post={post}
-                collName={collName}
-                className="relative mt-4 max-sm:pb-4"
-              >
-                <PostFooter
-                  createdAt={post.createdAt}
-                  footerType="like"
+          {!postInfo[postType]?.postList ? (
+            <LoopLoading size={150} className="h-[55vh]" />
+          ) : (
+            currPostList?.length !== 0 &&
+            currPostList.map((post, index) => (
+              <Fragment key={post.docId}>
+                <Post
+                  type={postType}
                   post={post}
                   collName={collName}
-                />
-              </Post>
+                  className="relative mt-4 max-sm:pb-4"
+                >
+                  <PostFooter
+                    createdAt={post.createdAt}
+                    footerType="like"
+                    post={post}
+                    collName={collName}
+                  />
+                </Post>
 
-              {currPostList.length - 1 !== index && <DottedDividingLine />}
-            </Fragment>
-          ))
-        )}
-      </main>
-    </>
+                {currPostList.length - 1 !== index && <DottedDividingLine />}
+              </Fragment>
+            ))
+          )}
+        </main>
+      </>
+    )
   );
 }

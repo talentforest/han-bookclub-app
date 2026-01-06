@@ -81,8 +81,8 @@
       border-bottom-right-radius: 10px;
       border-bottom-left-radius: 10px;
       width: 100%;
-      min-height: 45vh;
-      height: 45vh;
+      min-height: 50vh;
+      height: 50vh;
       word-break: break-all;
       font-size: 16px;
     }
@@ -96,6 +96,7 @@
     .ql-editor {
       padding: 8px 10px;
       font-family: 'SUITE';
+      height: 100%;
 
       > h1 {
         font-size: 17px;

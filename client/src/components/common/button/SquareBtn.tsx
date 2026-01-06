@@ -31,7 +31,7 @@ export default function SquareBtn({
   };
 
   const sizeObj: { [size in 'sm' | 'md' | 'lg']: string } = {
-    lg: 'h-14 min-h-14 px-4 text-[17px]',
+    lg: 'h-14 min-h-14 px-4 text-[16px]',
     md: 'h-12 min-h-12 px-4 text-[15px]',
     sm: 'h-9 min-h-4 px-2 text-[13px]',
   };
