@@ -35,7 +35,7 @@ export default function BasicBookCard({
         className="w-24"
       />
 
-      <div className="flex w-full flex-col justify-between">
+      <div className="flex w-full flex-col">
         <h1 className="mb-0.5 line-clamp-1 pr-1 font-medium leading-5">
           {title}
         </h1>

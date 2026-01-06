@@ -1,5 +1,4 @@
 import { initializeApp } from 'firebase/app';
-// import { ReCaptchaV3Provider, initializeAppCheck } from 'firebase/app-check';
 import { getAuth, reauthenticateWithCredential } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import {
@@ -40,11 +39,6 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-
-// const appCheck = initializeAppCheck(app, {
-//   provider: new ReCaptchaV3Provider(import.meta.env.VITE_APP_CHECK_SITE_KEY),
-//   isTokenAutoRefreshEnabled: true,
-// });
 
 export const authService = getAuth();
 export const reauth = reauthenticateWithCredential;

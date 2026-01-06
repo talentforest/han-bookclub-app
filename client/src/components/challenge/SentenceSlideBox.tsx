@@ -4,7 +4,7 @@ import { cutLetter, formatDate } from '@/utils';
 
 import { ChallengeSentence } from '@/types';
 
-import LikeBtnWithPeopleInfo from '@/components/common/LikeBtnWithPeopleInfo';
+import LikeBtn from '@/components/common/LikeBtn';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import EditorContent from '@/components/common/editor/EditorContent';
 import UserImgName from '@/components/common/user/UserImgName';
@@ -37,7 +37,7 @@ export default function SentenceSlideBox({ sentence }: SentenceSlideBoxProps) {
 
       <div>
         <span>{formatDate(createdAt, 'M월 d일 HH:mm')}</span>
-        <LikeBtnWithPeopleInfo post={sentence} />
+        <LikeBtn postLike={sentence} />
       </div>
     </div>
   );

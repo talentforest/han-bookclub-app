@@ -34,12 +34,6 @@ export type BookImpression = {
   creatorId: string;
 };
 
-export type ChallengeBookValue = {
-  book: BaseBookData;
-  counts: number;
-  impressionList: { id: number; text: string; createdAt: string }[];
-};
-
 export type BookRank = BaseBookData & {
   rank: number;
   total: number;
@@ -62,6 +56,8 @@ export type ChallengeSentence = {
   creatorId: string;
   text: string;
   page: number;
-  likeUsers?: string[];
-  likes?: number;
+  like: {
+    counts: number;
+    userList: string[];
+  };
 };

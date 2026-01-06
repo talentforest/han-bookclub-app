@@ -5,7 +5,10 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
-import { hostReviewListAtom, subjectListAtom } from '@/data/documentsAtom';
+import {
+  hostReviewListAtomFamily,
+  subjectListAtomFamily,
+} from '@/data/documentsAtom';
 import { fieldAndHostSelector } from '@/data/fieldAndHostAtom';
 
 import { getCollection } from '@/api';
@@ -40,10 +43,13 @@ export default function PostListDetail() {
   );
   const fieldAndHosts = useRecoilValue(fieldAndHostSelector(yearMonthId));
 
-  const [{ data: hostReviewList }, setHostReviews] =
-    useRecoilState(hostReviewListAtom);
+  const [{ data: hostReviewList }, setHostReviews] = useRecoilState(
+    hostReviewListAtomFamily(yearMonthId),
+  );
 
-  const [{ data: subjectList }, setSubjects] = useRecoilState(subjectListAtom);
+  const [{ data: subjectList }, setSubjects] = useRecoilState(
+    subjectListAtomFamily(yearMonthId),
+  );
 
   const { pathname, state } = useLocation() as LocationState;
 
@@ -94,7 +100,7 @@ export default function PostListDetail() {
       <main>
         {document && (
           <BasicBookCard
-            clubBook={monthlyBookClub.book}
+            clubBook={monthlyBookClub?.book}
             fieldAndHosts={fieldAndHosts}
           />
         )}
@@ -123,7 +129,7 @@ export default function PostListDetail() {
               >
                 <PostFooter
                   createdAt={post.createdAt}
-                  footerType="likes"
+                  footerType="like"
                   post={post}
                   collName={collName}
                 />

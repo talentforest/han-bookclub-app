@@ -29,7 +29,7 @@ export default function BookThumbnail({
     ),
   };
 
-  const commonClassName = 'aspect-[0.68/1] h-fit shadow-book rounded-r-[8%]';
+  const commonClassName = 'aspect-[0.68/1] shadow-book h-fit rounded-r-[8%]';
 
   return (
     <>

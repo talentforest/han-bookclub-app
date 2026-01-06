@@ -1,17 +1,41 @@
-import { atom } from 'recoil';
+import { atom, atomFamily } from 'recoil';
 
-import { isLoadingStatus } from '@/appConstants';
+import { getCollection } from '@/api';
+
+import { HOST_REVIEW, SUBJECTS, isLoadingStatus } from '@/appConstants';
+
+import { getFbRouteOfPost } from '@/utils';
 
 import { LoadableStatus, UserPost } from '@/types';
 
-export const subjectListAtom = atom<LoadableStatus<UserPost[]>>({
-  key: 'subjectListAtom',
+export const subjectListAtomFamily = atomFamily<
+  LoadableStatus<UserPost[]>,
+  string
+>({
+  key: 'subjectListAtomFamily',
   default: isLoadingStatus,
+  effects: (yearMonthId: string) => [
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get') return;
+
+      getCollection(getFbRouteOfPost(yearMonthId, SUBJECTS), setSelf);
+    },
+  ],
 });
 
-export const hostReviewListAtom = atom<LoadableStatus<UserPost[]>>({
-  key: 'hostReviewListAtom',
+export const hostReviewListAtomFamily = atomFamily<
+  LoadableStatus<UserPost[]>,
+  string
+>({
+  key: 'hostReviewListAtomFamily',
   default: isLoadingStatus,
+  effects: (yearMonthId: string) => [
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get') return;
+
+      getCollection(getFbRouteOfPost(yearMonthId, HOST_REVIEW), setSelf);
+    },
+  ],
 });
 
 export const meetingReviewListAtom = atom<LoadableStatus<UserPost[]>>({

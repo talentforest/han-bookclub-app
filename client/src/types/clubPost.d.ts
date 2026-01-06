@@ -23,8 +23,10 @@ export type UserPost = {
   updatedAt?: string;
   clubBook?: BaseBookData;
   recommendedBook?: BaseBookData;
-  likes?: number;
-  likeUsers?: string[];
+  like?: {
+    counts: number;
+    userList?: string[];
+  };
   isAnonymous?: boolean;
   yearMonthId?: string;
 };

@@ -55,7 +55,7 @@ const MeetingReviewList = ({
                 >
                   <PostFooter
                     createdAt={meetingReview.createdAt}
-                    footerType="likes"
+                    footerType="like"
                     post={meetingReview}
                     collName={collName}
                   />

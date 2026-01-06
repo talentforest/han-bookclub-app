@@ -91,7 +91,7 @@ const Post = ({ post, index }: { post: UserPost; index?: string }) => {
         className="!max-h-[50vh] w-full rounded-xl bg-gray-100 p-1.5"
       />
 
-      <PostFooter createdAt={post.createdAt} footerType="likes" post={post} />
+      <PostFooter createdAt={post.createdAt} footerType="like" post={post} />
     </div>
   );
 };

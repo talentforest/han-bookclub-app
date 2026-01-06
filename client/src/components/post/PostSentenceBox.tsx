@@ -8,7 +8,7 @@ import { SENTENCES2024 } from '@/appConstants';
 
 import { ChallengeSentence } from '@/types';
 
-import LikeBtnWithPeopleInfo from '@/components/common/LikeBtnWithPeopleInfo';
+import LikeBtn from '@/components/common/LikeBtn';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
 import EditorContent from '@/components/common/editor/EditorContent';
 import UserImgName from '@/components/common/user/UserImgName';
@@ -47,7 +47,7 @@ export default function PostSentenceBox({ sentence }: PostSentenceBoxProps) {
 
       <div>
         <UserImgName userId={creatorId} />
-        <LikeBtnWithPeopleInfo post={sentence} collName={SENTENCES2024} />
+        <LikeBtn postLike={sentence} collName={SENTENCES2024} />
       </div>
     </div>
   );

@@ -1,20 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { SwiperSlide } from 'swiper/react';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
-import { hostReviewListAtom, subjectListAtom } from '@/data/documentsAtom';
-
-import { getCollection } from '@/api';
-
-import { HOST_REVIEW, SUBJECTS } from '@/appConstants';
+import {
+  hostReviewListAtomFamily,
+  subjectListAtomFamily,
+} from '@/data/documentsAtom';
 
 import { useAlertAskJoin } from '@/hooks';
-
-import { getFbRouteOfPost } from '@/utils';
 
 import { SubPostTypeValue, UserPost } from '@/types';
 
@@ -40,20 +37,15 @@ const swiperOptions = {
 export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
   const [currTab, setCurrTab] = useState<TabPostTypeValue>('발제문');
 
-  const [{ data: hostReviewList }, setHostReviewList] =
-    useRecoilState(hostReviewListAtom);
-  const [{ data: subjectList }, setSubjectList] =
-    useRecoilState(subjectListAtom);
+  const { id: isPreviousClub } = useParams();
 
-  useEffect(() => {
-    getCollection(
-      getFbRouteOfPost(yearMonthId, HOST_REVIEW),
-      setHostReviewList,
-    );
-    getCollection(getFbRouteOfPost(yearMonthId, SUBJECTS), setSubjectList);
-  }, [yearMonthId, subjectList?.length]);
+  const { data: hostReviewList } = useRecoilValue(
+    hostReviewListAtomFamily(yearMonthId),
+  );
 
-  const { pathname } = useLocation();
+  const { data: subjectList } = useRecoilValue(
+    subjectListAtomFamily(yearMonthId),
+  );
 
   const postsInfo: {
     [key in TabPostTypeValue]: {
@@ -134,7 +126,11 @@ export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
           </>
         ) : (
           <>
-            {!pathname.includes('previous-club') ? (
+            {isPreviousClub ? (
+              <span className="text-sm text-blue3">
+                기록된 {currTab}이 없습니다
+              </span>
+            ) : (
               <>
                 <PlusIconWithTextLink
                   to={linkTo}
@@ -144,10 +140,6 @@ export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
                   {access} 작성할 수 있어요
                 </span>
               </>
-            ) : (
-              <span className="text-sm text-blue3">
-                기록된 {currTab}이 없습니다
-              </span>
             )}
           </>
         )}

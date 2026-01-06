@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+
+import { arrayRemove, arrayUnion, increment } from 'firebase/firestore';
 
 import { useRecoilValue } from 'recoil';
 
@@ -8,52 +10,73 @@ import { useEditDoc } from '@/hooks/handleFbDoc/useEditDoc';
 
 import { Collection, SubCollection } from '@/types';
 
+type Like = { counts: number; userList?: string[] };
+
 interface IHandleLikeProps {
-  likes: number;
-  likeUsers: string[];
+  postLike: Like;
   docId: string;
   collName: Collection | SubCollection;
 }
 
+const initialLike: Like = { counts: 0, userList: [] };
+
 export const useHandleLike = ({
-  likes,
-  likeUsers,
+  postLike,
   docId,
   collName,
 }: IHandleLikeProps) => {
-  const [like, setLike] = useState(false);
-
-  const [showLikeUsers, setShowLikeUsers] = useState(false);
-
   const { uid } = useRecoilValue(currAuthUserAtom);
 
   const { onEditSubmitClick } = useEditDoc({ collName, docId });
 
+  const [like, setLike] = useState<Like>(postLike ?? initialLike);
+
+  const isLike = useMemo(() => {
+    return (like.userList ?? []).includes(uid);
+  }, [like.userList, uid]);
+
+  const [showLikeUsers, setShowLikeUsers] = useState(false);
+
+  useEffect(() => {
+    setLike(postLike ?? initialLike);
+  }, [postLike?.counts, postLike?.userList, docId]);
+
   const onLikeClick = async () => {
-    if (!collName) return;
+    if (!collName || !uid) return;
 
-    if (like) {
-      setShowLikeUsers(false);
+    const nextIsLike = !isLike;
+    const inc = nextIsLike ? 1 : -1;
 
+    setLike(prev => {
+      const prevList = prev.userList ?? [];
+      const nextList = nextIsLike
+        ? prevList.includes(uid)
+          ? prevList
+          : [...prevList, uid]
+        : prevList.filter(id => id !== uid);
+
+      return {
+        counts: Math.max(0, (prev.counts ?? 0) + inc),
+        userList: nextList,
+      };
+    });
+
+    try {
       await onEditSubmitClick({
-        likes: likes - 1,
-        likeUsers: likeUsers.filter(likeId => likeId !== uid),
+        'like.counts': increment(inc),
+        'like.userList': nextIsLike ? arrayUnion(uid) : arrayRemove(uid),
       });
-    } else {
-      await onEditSubmitClick({
-        likes: likes + 1,
-        likeUsers: [...likeUsers, uid],
-      });
+    } catch (e) {
+      setLike(postLike ?? initialLike);
+      throw e;
     }
-
-    setLike(prev => !prev);
   };
 
   const toggleShowLikeUsers = () => setShowLikeUsers(prev => !prev);
 
   return {
+    isLike,
     like,
-    setLike,
     onLikeClick,
     showLikeUsers,
     toggleShowLikeUsers,

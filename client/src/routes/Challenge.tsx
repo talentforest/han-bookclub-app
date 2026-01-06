@@ -29,7 +29,7 @@ export default function Challenge() {
 
   const { showModal } = useHandleModal();
 
-  const { getBookRankList, userRankList } = useHandleChallenge(thisYear);
+  const { getBookRankList, getUserRankList } = useHandleChallenge(thisYear);
 
   const {
     selectedYear,
@@ -61,8 +61,8 @@ export default function Challenge() {
       element: (
         <ChallengeRereadingModal
           selectedBook={challengeBook || book}
-          readers={challengeBook?.readers || 0}
-          counts={challengeBook?.counts || 0}
+          readers={challengeBook?.readerList.length || 0}
+          counts={challengeBook?.total || 0}
           reason={reason}
           recommendedUser={recommendedUser}
           yearMonthId={book.yearMonthId}
@@ -70,8 +70,6 @@ export default function Challenge() {
       ),
     });
   };
-
-  console.log(getBookRankList());
 
   return (
     <>
@@ -107,13 +105,13 @@ export default function Challenge() {
           </div>
         </div>
 
-        {/* {bookRankList && bookRankList?.length > 0 && (
+        {getBookRankList() && getBookRankList()?.length > 0 && (
           <Section
             className="!mb-10 !mt-16 flex"
             title="🔥현재 가장 여러 번 다시 읽은 책은?"
           >
             <ul className="mt-2 grid grid-cols-8 gap-4 max-md:grid-cols-6 max-sm:grid-cols-4">
-              {bookRankList.map(bookRank => (
+              {getBookRankList().map(bookRank => (
                 <ChallengeBookRankCard
                   key={bookRank.title}
                   bookRank={bookRank}
@@ -121,13 +119,13 @@ export default function Challenge() {
               ))}
             </ul>
           </Section>
-        )} */}
+        )}
 
         <Section className="!mt-10" title="🙋🏻현재 멤버별 챌린지 현황">
-          {userRankList?.length !== 0 && (
+          {getUserRankList()?.length !== 0 && (
             <>
               <ul className="flex flex-col gap-y-3">
-                {userRankList
+                {getUserRankList()
                   ?.slice(0, showAllUserRank ? undefined : 4)
                   .map(userRank => (
                     <ChallengeUserRankCard
