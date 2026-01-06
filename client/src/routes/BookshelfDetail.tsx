@@ -28,7 +28,7 @@ export default function BookshelfDetail() {
     state: { displayName, userId, postTypeKey },
   } = useLocation() as { state: StateProps };
 
-  const userData = useRecoilValue(userAtomFamily(userId));
+  const { data: userData } = useRecoilValue(userAtomFamily(userId));
 
   const { hostYearMonthIdList } = userData || {};
 

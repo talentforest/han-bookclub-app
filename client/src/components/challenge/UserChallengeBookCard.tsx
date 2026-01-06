@@ -75,7 +75,7 @@ export default function UserChallengeBookCard({
                 <p className="mb-5 mt-2 max-h-[52vh] overflow-scroll scrollbar-hide">
                   {impression.text}
                 </p>
-                <span className="text-sm text-gray1">
+                <span className="text-sm tracking-tight text-gray1">
                   {formatDate(impression.createdAt)}
                 </span>
               </li>

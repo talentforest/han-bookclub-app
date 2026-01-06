@@ -84,15 +84,17 @@ export const clubByMonthSelector = selectorFamily<
  */
 export const clubByYearMonthIdListAtomFamily = atomFamily<
   LoadableStatus<MonthlyBookClub[]>,
-  string[]
+  string
 >({
   key: 'clubByYearMonthIdListAtomFamily',
   default: isLoadingStatus,
-  effects: (yearMonthIdList: string[]) => [
+  effects: (idListString: string) => [
     ({ setSelf, trigger }) => {
       if (trigger !== 'get') return;
 
-      if (!yearMonthIdList || yearMonthIdList.length === 0) return;
+      if (!idListString) return;
+
+      const yearMonthIdList = idListString.split(',');
 
       yearMonthIdList.forEach(yearMonthId => {
         const year = yearMonthId.slice(0, 4);

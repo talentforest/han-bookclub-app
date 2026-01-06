@@ -28,7 +28,7 @@ export const formatDate = (
     | 'M월 d일 EE HH:mm'
     | 'M월 d일 HH:mm'
     | 'yy.M.d'
-    | "yyyy-MM-dd'T'HH:mm:ss" = 'yy년 M월 d일 HH:mm',
+    | "yyyy-MM-dd'T'HH:mm:ss" = 'yyyy.M.d. a h:mm',
 ): string => {
   try {
     const dateToFormat = new Date(date);

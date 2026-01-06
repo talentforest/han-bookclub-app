@@ -1,7 +1,5 @@
 import { SwiperSlide } from 'swiper/react';
 
-import { formatDate } from '@/utils';
-
 import { UserPost } from '@/types';
 
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
@@ -14,6 +12,7 @@ import QuoteArticle from '@/components/post/QuoteArticle';
 interface QuoteArticleModalProps {
   title: string;
   postList: UserPost[];
+  yearMonthId: string;
 }
 
 const options = {
@@ -37,11 +36,12 @@ const options = {
 export default function QuoteArticleModal({
   title,
   postList,
+  yearMonthId,
 }: QuoteArticleModalProps) {
   return (
     <Modal title={title} className="!p-4">
       {postList.length === 1 ? (
-        <Post post={postList[0]} />
+        <Post post={postList[0]} yearMonthId={yearMonthId} />
       ) : (
         <SwiperContainer options={options}>
           {postList.map((post, index) => (
@@ -55,27 +55,27 @@ export default function QuoteArticleModal({
   );
 }
 
-const Post = ({ post, index }: { post: UserPost; index?: string }) => {
+const Post = ({
+  post,
+  index,
+  yearMonthId,
+}: {
+  post: UserPost;
+  index?: string;
+  yearMonthId?: string;
+}) => {
   return (
     <div className={`flex flex-col`}>
       <div className="mb-2 items-start justify-between gap-x-2">
         {post?.clubBook && (
           <FooterBookCard
             book={post?.recommendedBook || post.clubBook}
-            className="mb-1 flex-1"
+            className="flex-1"
+            yearMonthId={yearMonthId}
           />
         )}
 
         <div className="flex items-center justify-between gap-x-0.5">
-          <div className="flex items-center gap-x-0.5">
-            <span className="font-medium tracking-tighter text-blue3">
-              {formatDate(post.yearMonthId, 'yyyy년 M월')} 모임
-            </span>
-            <span className="tracking-tighter text-gray1">
-              {post?.clubBook ? '' : ' | 이벤트'}
-            </span>
-          </div>
-
           {index && (
             <Tag
               text={index}

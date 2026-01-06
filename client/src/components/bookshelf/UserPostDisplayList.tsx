@@ -63,12 +63,13 @@ export default function UserPostDisplayList({
 
   const { showModal } = useHandleModal();
 
-  const toggleModal = (postListByYearMonthId: UserPost[]) => {
+  const toggleModal = (postList: UserPost[], yearMonthId: string) => {
     showModal({
       element: (
         <QuoteArticleModal
           title={`${postNameObj['subCollection'][postTypeKey]}`}
-          postList={postListByYearMonthId}
+          postList={postList}
+          yearMonthId={yearMonthId}
         />
       ),
     });
@@ -83,7 +84,7 @@ export default function UserPostDisplayList({
             <li key={key} className="w-full py-3">
               <button
                 type="button"
-                onClick={() => toggleModal(postList)}
+                onClick={() => toggleModal(postList, key)}
                 className="w-full"
               >
                 {postTypeKey !== 'Reviews' ? (

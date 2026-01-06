@@ -11,8 +11,10 @@ interface MyClubDisplayListProps {
 export default function MyClubDisplayList({
   hostYearMonthIdList,
 }: MyClubDisplayListProps) {
+  const idListToString = hostYearMonthIdList.join(',');
+
   const { status, data: myClubList } = useRecoilValue(
-    clubByYearMonthIdListAtomFamily(hostYearMonthIdList),
+    clubByYearMonthIdListAtomFamily(idListToString),
   );
 
   return (
