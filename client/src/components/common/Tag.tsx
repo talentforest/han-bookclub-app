@@ -47,14 +47,14 @@ export default function Tag({
       onClick={onClick}
       className={`${shapeStyle[shape]} ${bgColor[color]} flex h-fit min-h-6 w-fit min-w-6 items-center gap-1 rounded-2xl px-4 py-2.5 text-sm ${className}`}
     >
-      <span className="tracking-tight">{text && text}</span>
+      <span className="font-medium tracking-tight">{text && text}</span>
       {children && children}
     </button>
   ) : (
     <div
       className={`min-w-fit text-sm ${shapeStyle[shape]} ${bgColor[color]} flex h-fit min-h-6 w-fit min-w-6 items-center gap-1 rounded-2xl px-4 py-2.5 ${className}`}
     >
-      <span className="tracking-tight">{text && text}</span>
+      <span className="font-medium tracking-tight">{text && text}</span>
       {children && children}
     </div>
   );

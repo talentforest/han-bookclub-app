@@ -25,6 +25,8 @@ export default function ChallengeDisplayList({
     2025: '한해동안 모임책이나 추천책을 완독합니다!',
   };
 
+  console.log(Object.entries(rest).slice(0, limitNum));
+
   return (
     status === 'loaded' && (
       <>

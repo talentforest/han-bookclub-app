@@ -26,9 +26,11 @@ export default function QuoteArticle({
       <p
         className={`${isPreview ? 'line-clamp-4' : ''} break-all text-start after:clear-both after:block after:content-['']`}
       >
-        <FaQuoteLeft
-          className={`float-left ml-1.5 mr-2 mt-1.5 block text-purple3 ${isPreview ? 'size-8' : 'size-9'}`}
-        />
+        {!isPreview && (
+          <FaQuoteLeft
+            className={`float-left ml-1.5 mr-2 mt-1.5 block text-purple3`}
+          />
+        )}
         <span
           className={`${isDark ? 'text-white' : ''} text-start`}
           dangerouslySetInnerHTML={{ __html: replacedText }}

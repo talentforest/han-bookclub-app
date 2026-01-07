@@ -1,3 +1,5 @@
+import { orderBy } from 'firebase/firestore';
+
 import { atom, atomFamily, selectorFamily } from 'recoil';
 
 import { getCollection, getDocument } from '@/api';
@@ -38,7 +40,7 @@ export const bookVoteListAtom = atom<LoadableStatus<BookVote[]>>({
   effects: [
     ({ setSelf, trigger }) => {
       if (trigger !== 'get') return;
-      getCollection(BOOK_VOTE, setSelf);
+      getCollection(BOOK_VOTE, setSelf, orderBy('createdAt', 'desc'));
     },
   ],
 });

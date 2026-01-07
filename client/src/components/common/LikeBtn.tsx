@@ -29,6 +29,8 @@ export default function LikeBtn({
     toggleShowLikeUsers,
   } = useHandleLike({ docId, postLike, collName });
 
+  console.log(isLike);
+
   return (
     <div className="relative flex items-center">
       <button
@@ -54,7 +56,7 @@ export default function LikeBtn({
       >
         <FiHeart
           fontSize={14}
-          className={`stroke-red-500 group-disabled:stroke-gray1 ${isLike ? 'fill-red-500' : 'bg-transparent'}`}
+          className={`stroke-red-500 group-disabled:stroke-gray1 ${isLike ? 'fill-red-500 group-disabled:fill-gray1' : 'bg-transparent'}`}
         />
       </button>
 

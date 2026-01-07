@@ -35,7 +35,7 @@ export default function FooterBookCard({
           <div className="flex items-center">
             {yearMonthId && (
               <>
-                <span className="min-w-fit text-sm tracking-tighter text-blue3">
+                <span className="min-w-fit text-sm tracking-tight text-blue3">
                   {formatDate(yearMonthId, 'yyyy년 M월')} 모임
                 </span>
                 <span className="mx-0.5 text-blue3">|</span>

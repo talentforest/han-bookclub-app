@@ -126,7 +126,7 @@ export type DetailPageHeaderTitle =
   | '탈퇴'
   | '모임 규칙'
   | SectionTitle
-  | '추천책 보기';
+  | '전체 추천책';
 
 export type SectionTitle =
   | '내가 진행한 모임'

@@ -84,6 +84,7 @@ export default function UserPostDisplayList({
             <li key={key} className="w-full py-3">
               <button
                 type="button"
+                disabled={limitNum === 1}
                 onClick={() => toggleModal(postList, key)}
                 className="w-full"
               >
@@ -106,10 +107,12 @@ export default function UserPostDisplayList({
                       <span className="line-clamp-1 pr-1 text-sm font-medium text-purple2">
                         {postList[0]?.clubBook?.title || '이벤트'}
                       </span>
-                      <FaChevronRight
-                        size={13}
-                        className="ml-auto text-gray2"
-                      />
+                      {limitNum !== 1 && (
+                        <FaChevronRight
+                          size={13}
+                          className="ml-auto text-gray2"
+                        />
+                      )}
                     </div>
                   </>
                 )}

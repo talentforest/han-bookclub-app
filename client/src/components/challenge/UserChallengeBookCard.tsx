@@ -88,7 +88,7 @@ export default function UserChallengeBookCard({
 
   return (
     <>
-      {wholePage && currentPage && (
+      {Object.keys(challengeBook).includes('wholePage') && (
         <div
           className={`rounded-2xl px-4 pb-3 pt-4 shadow-card ${statusObj[status].style}`}
         >
@@ -106,7 +106,7 @@ export default function UserChallengeBookCard({
             )}
           </div>
 
-          {wholePage && currentPage && (
+          {Object.keys(challengeBook).includes('wholePage') && (
             <>
               <div className="flex items-end justify-between gap-x-1">
                 <PageWithPercent
