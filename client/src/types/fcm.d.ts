@@ -1,5 +1,5 @@
 export type UserFcm = {
-  id: string;
+  docId: string;
   createdAt: string;
   tokens: string[];
   notification: boolean;

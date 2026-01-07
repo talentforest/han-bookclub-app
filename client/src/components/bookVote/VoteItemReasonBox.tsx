@@ -12,7 +12,7 @@ export default function VoteItemReasonBox({
 }: VoteItemReasonBoxProps) {
   return (
     <Accordion title="👀 작성자의 선정 이유 보기" className="my-4">
-      <ul className="mb-4">
+      <ul className="mb-4 grid w-full grid-cols-2 gap-3 max-sm:grid-cols-1">
         {voteItems.map(({ selectReason, id, book }) => (
           <li key={id} className="flex w-full flex-col p-2 max-sm:px-0">
             <span className="mb-2 bg-green3 py-0.5 font-medium">
@@ -28,7 +28,7 @@ export default function VoteItemReasonBox({
             <ExternalLinkBtn
               url={book.url}
               title="책 상세정보 보러가기"
-              className="text-purple2"
+              className="mt-2 p-0 text-purple2"
             />
           </li>
         ))}

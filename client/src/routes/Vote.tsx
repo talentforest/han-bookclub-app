@@ -20,6 +20,8 @@ const Vote = () => {
 
   const { showModal } = useHandleModal();
 
+  const toggleModal = () => showModal({ element: <VoteCreateModal /> });
+
   return (
     <>
       <MobileHeader title="한페이지 투표함" />
@@ -28,10 +30,7 @@ const Vote = () => {
         <Section
           title="진행중인 투표함"
           titleBtn={
-            <button
-              type="button"
-              onClick={() => showModal({ element: <VoteCreateModal /> })}
-            >
+            <button type="button" onClick={toggleModal}>
               <FiPlusCircle className="text-lg text-blue1" />
             </button>
           }

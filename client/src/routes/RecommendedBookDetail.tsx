@@ -70,7 +70,6 @@ export default function RecommendedBookDetail() {
                 <Tag
                   text={`${Object.keys(yearObj)[0]}년의 추천책`}
                   color="lightBlue"
-                  // shape="rounded"
                 />
 
                 <ul className="mt-2 flex flex-col divide-y-2 divide-dotted [&>li:first-child]:pt-0 [&>li:last-child]:pb-0">

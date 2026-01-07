@@ -13,10 +13,10 @@ export default function VoteBookItemBtn({
     <button
       type="button"
       onClick={onVoteItemClick}
-      className="flex w-full flex-col items-center justify-center bg-green1 py-5 text-white"
+      className="mt-auto flex w-full flex-col items-center justify-center bg-blue4 py-4 text-white"
     >
       {selected ? (
-        <FaCheckCircle className="size-5" />
+        <FaCheckCircle className="size-5 text-blue3" />
       ) : (
         <FaCircle className="size-5" />
       )}

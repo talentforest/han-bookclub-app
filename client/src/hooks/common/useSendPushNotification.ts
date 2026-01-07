@@ -45,11 +45,7 @@ export const useSendPushNotification = () => {
     const { title, body, subPath, notification } = notificationData;
     const link = `${import.meta.env.VITE_PUBLIC_URL}${subPath || ''}`;
 
-    const confirm = window?.confirm('정말로 알림을 보내시겠습니까?');
-
     try {
-      if (!confirm) return { result: 'fail' };
-
       if (!userFcm) {
         if (Notification.permission === 'denied') {
           alert(
@@ -91,11 +87,7 @@ export const useSendPushNotification = () => {
   }: Omit<NotificationData, 'notification'>) => {
     setIsPending(true);
 
-    const confirm = window?.confirm('정말로 알림을 보내시겠습니까?');
-
     try {
-      if (!confirm) return { result: 'fail' };
-
       const link = `${import.meta.env.VITE_PUBLIC_URL}${subPath || ''}`;
       await sendMulticast({ title, body, link, uid: currentUserUid });
     } catch (error) {

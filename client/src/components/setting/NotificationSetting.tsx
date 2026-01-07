@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import { authService, dbService, getDeviceToken } from '@/fbase';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
-import { currUserFcmAtom } from '@/data/fcmAtom';
+import { userFcmSelectorFamily } from '@/data/fcmAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
-import { FCM_NOTIFICATION, loadedStatus } from '@/appConstants';
+import { FCM_NOTIFICATION } from '@/appConstants';
 
 import { useSendPushNotification } from '@/hooks';
 
@@ -22,10 +22,9 @@ export default function NotificationSetting() {
   const [isActive, setIsActive] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
 
-  const [{ data: currUserFcm }, setCurrUserFcm] =
-    useRecoilState(currUserFcmAtom);
-
   const { uid } = useRecoilValue(currAuthUserAtom);
+
+  const { data: currUserFcm } = useRecoilValue(userFcmSelectorFamily(uid));
 
   const anonymous = authService.currentUser?.isAnonymous;
 
@@ -55,7 +54,7 @@ export default function NotificationSetting() {
       await updateDoc(document, defaultFcmData);
     }
 
-    setCurrUserFcm({ ...loadedStatus, data: defaultFcmData });
+    // setCurrUserFcm({ ...loadedStatus, data: defaultFcmData });
   };
 
   const onPermitClick = async () => {

@@ -19,7 +19,7 @@ export default function ClubTimePlace({
         <FiCalendar className="mt-[3px] min-w-fit text-[15px] text-gray1" />
         <span className="text-[15px] tracking-tight">
           {!!time
-            ? formatDate(time, 'yyyy.M.d. a HH:mm')
+            ? formatDate(time, 'yyyy.M.d. a h:mm')
             : '정해진 모임 시간이 없습니다.'}
         </span>
       </div>

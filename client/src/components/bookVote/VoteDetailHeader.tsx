@@ -36,10 +36,10 @@ const VoteDetailHeader = ({
         )}
       </div>
 
-      <div className="flex w-full justify-between gap-2">
+      <div className="flex w-full items-center justify-between gap-2">
         <CreatorBox creatorId={creatorId} />
         <span className="text-gray1 max-sm:text-sm">
-          {formatDate(createdAt, 'yyyy.M.d. HH:mm')}
+          {formatDate(createdAt, 'yyyy.M.d. a h:mm')}
         </span>
       </div>
     </header>

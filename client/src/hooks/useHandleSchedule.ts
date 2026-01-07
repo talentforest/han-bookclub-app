@@ -5,13 +5,13 @@ import { doc, updateDoc } from 'firebase/firestore';
 
 import { getDocument, setDocument } from '@/api';
 
-import { MEETING_PLACE, TAG_LIST } from '@/appConstants';
+import { MEETING_PLACE, TAG_LIST, isLoadingStatus } from '@/appConstants';
 
 import { useHandleModal, useSendPushNotification } from '@/hooks';
 
 import { formatDate } from '@/utils';
 
-import { MonthlyBookClub } from '@/types';
+import { LoadableStatus, MonthlyBookClub } from '@/types';
 
 interface SavedPlaceList {
   id: number;
@@ -26,7 +26,8 @@ export const useHandleSchedule = (
 ) => {
   const [currMeeting, setCurrMeeting] = useState(meeting);
 
-  const [savedPlaceList, setSavedPlaceList] = useState<SavedPlaceList>(null);
+  const [{ data: savedPlaceList }, setSavedPlaceList] =
+    useState<LoadableStatus<SavedPlaceList>>(isLoadingStatus);
 
   const { hideModal } = useHandleModal();
 

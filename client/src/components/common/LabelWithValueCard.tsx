@@ -29,7 +29,7 @@ export default function LabelWithValueCard({
 
   const getValue = (label: LabelWithValueCardProps['label']) => {
     if (label === '모임시간')
-      return formatDate(value as string, 'yyyy.M.d. a HH:mm');
+      return formatDate(value as string, 'yyyy.M.d. a h:mm');
 
     if (label === '발제자' || label === '진행자')
       return value.includes('no_host') || value.length === 0

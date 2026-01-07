@@ -45,12 +45,12 @@ const SearchedBookCard = ({ searchedBook }: SearchedBookCardProps) => {
             thumbnail={thumbnail}
             title={title}
             url={url}
-            className="float-left mr-3 w-24"
+            className="float-left mb-1 mr-3 w-[72px]"
           />
 
           <div className="mb-4 h-full [&>div]:text-text">
-            <h1 className="mb-1 text-lg font-medium">
-              {title !== '' ? `《 ${title} 》` : '이벤트'}
+            <h1 className="mb-1 text-lg font-medium leading-6">
+              {title !== '' ? `${title}` : '이벤트'}
             </h1>
 
             {authors && (
@@ -58,16 +58,16 @@ const SearchedBookCard = ({ searchedBook }: SearchedBookCardProps) => {
             )}
 
             {datetime && (
-              <div className="mb-0.5 mt-3">
+              <div className="mt-2">
                 <span className="mr-1 text-gray1">출간일:</span>{' '}
-                {formatDate(datetime, 'yyyy년 M월 d일')}
+                <span>{formatDate(datetime, 'yyyy년 M월 d일')}</span>
               </div>
             )}
 
             {price && (
-              <div className="mb-0.5">
+              <div className="">
                 <span className="mr-1 text-gray1">정가:</span>{' '}
-                {searchedBook.price.toLocaleString()}원
+                <span>{searchedBook.price.toLocaleString()}원</span>
               </div>
             )}
 
@@ -75,7 +75,7 @@ const SearchedBookCard = ({ searchedBook }: SearchedBookCardProps) => {
           </div>
 
           <RegisterClubBookBtn
-            searchedBook={searchedBook}
+            searchedBook={{ thumbnail, title, authors, publisher, url }}
             registerYearMonth={state?.registerYearMonth}
           />
         </div>

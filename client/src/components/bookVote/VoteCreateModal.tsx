@@ -99,7 +99,7 @@ const VoteCreateModal = () => {
             <span className="py-1 pl-1 text-sm font-medium text-blue1">
               투표할 책 등록
             </span>
-            <ul className="flex gap-x-3 overflow-x-scroll py-1 scrollbar-hide">
+            <ul className="flex gap-x-3 overflow-x-scroll px-1 pb-2 pt-1 scrollbar-hide">
               {voteItems.map(({ id, book }) => (
                 <CreateVoteBookCard
                   key={id}
@@ -109,14 +109,16 @@ const VoteCreateModal = () => {
                   onDeleteClick={() => onDeleteVoteItemClick(id)}
                 />
               ))}
-              <button
-                type="button"
-                onClick={onAddVoteItemBtn}
-                disabled={voteItems.length >= 4}
-                className="flex h-[inherit] items-center justify-center px-2 text-blue1 disabled:text-gray2"
-              >
-                <FiPlusCircle className="text-xl" />
-              </button>
+              {voteItems.length < 4 && (
+                <button
+                  type="button"
+                  onClick={onAddVoteItemBtn}
+                  disabled={voteItems.length >= 4}
+                  className="flex h-[inherit] items-center justify-center px-2 text-blue1 disabled:text-gray2"
+                >
+                  <FiPlusCircle className="text-xl" />
+                </button>
+              )}
             </ul>
           </div>
 

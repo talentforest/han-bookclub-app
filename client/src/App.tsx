@@ -7,13 +7,11 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
 
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { currUserFcmAtom } from '@/data/fcmAtom';
+import { userFcmSelectorFamily } from '@/data/fcmAtom';
 import { basePhotoAtom } from '@/data/userAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
-
-import { getDocument } from '@/api';
 
 import { FCM_NOTIFICATION } from '@/appConstants';
 
@@ -26,31 +24,29 @@ function App() {
 
   const [currUser, setCurrUser] = useRecoilState(currAuthUserAtom);
 
-  const [{ data: currUserFcm }, setCurrUserFcm] =
-    useRecoilState(currUserFcmAtom);
+  const { data: currUserFcm } = useRecoilValue(
+    userFcmSelectorFamily(currUser?.uid),
+  );
 
   const setBasePhoto = useSetRecoilState(basePhotoAtom);
 
   const getBasePhoto = async () => {
-    const originalFileRef = ref(
-      storageService,
-      `avatars/한페이지로고.jpeg`,
-    );
-    getDownloadURL(originalFileRef).then(url => {
-      setBasePhoto(url);
-    });
+    const imgName = 'avatars/한페이지로고.jpeg';
+    const originalFileRef = ref(storageService, imgName);
+    const url = await getDownloadURL(originalFileRef);
+    setBasePhoto(url);
   };
 
   useEffect(() => {
     const auth = getAuth();
+
     const unsubscribe = onAuthStateChanged(auth, user => {
-      if (user) {
-        const { uid, displayName, email, photoURL } = user;
-        setCurrUser({ uid, displayName, email, photoURL });
-        getBasePhoto();
-      } else {
-        setCurrUser(null);
-      }
+      if (!user) return setCurrUser(null);
+
+      const { uid, displayName, email, photoURL } = user;
+      setCurrUser({ uid, displayName, email, photoURL });
+      getBasePhoto();
+
       setInit(true);
     });
 
@@ -58,40 +54,33 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (currUser?.uid) {
-      getDocument(FCM_NOTIFICATION, currUser.uid, setCurrUserFcm);
-    }
-  }, [currUser?.uid]);
+    if (init && currUserFcm?.notification === true) {
+      const compareToken = async () => {
+        if (Notification.permission === 'granted') {
+          const token = await getDeviceToken();
 
-  useEffect(() => {
-    if (init) {
-      if (currUserFcm?.notification === true) {
-        const compareToken = async () => {
-          if (Notification.permission === 'granted') {
-            const token = await getDeviceToken();
+          const isExistTokenInDB = currUserFcm?.tokens?.find(
+            fcmToken => fcmToken === token,
+          );
 
-            const isExistTokenInDB = currUserFcm?.tokens?.find(
-              fcmToken => fcmToken === token,
-            );
+          if (isExistTokenInDB) return;
 
-            if (isExistTokenInDB) return;
+          if (!isExistTokenInDB && currUser?.uid) {
+            const document = doc(dbService, FCM_NOTIFICATION, currUser.uid);
 
-            if (!isExistTokenInDB && currUser?.uid) {
-              const document = doc(dbService, FCM_NOTIFICATION, currUser.uid);
-              const fcmData = {
-                createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
-                tokens:
-                  currUserFcm?.tokens?.length !== 0
-                    ? [...currUserFcm?.tokens, token]
-                    : [token],
-              };
-              await updateDoc(document, fcmData);
-            }
+            const fcmData = {
+              updatedAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
+              tokens:
+                currUserFcm?.tokens?.length !== 0
+                  ? [...currUserFcm?.tokens, token]
+                  : [token],
+            };
+            await updateDoc(document, fcmData);
           }
-        };
+        }
+      };
 
-        compareToken();
-      }
+      compareToken();
     }
   }, [currUserFcm]);
 

@@ -29,7 +29,7 @@ const VoteProgressCard = ({ voteDetail }: VoteProgressCardProps) => {
         <UserImgName userId={creatorId} />
       </div>
 
-      <ul className="my-3 flex items-center justify-center gap-x-5">
+      <ul className="my-3 flex items-center justify-center gap-x-3">
         {voteItems.map(({ book: { title, thumbnail }, id }) => (
           <li key={id} className="relative">
             <BookThumbnail

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 import { useSearchBook } from '@/hooks';
 
@@ -10,17 +10,10 @@ import Input from '@/components/common/input/Input';
 import SearchedBookCard from '@/components/search/SearchedBookCard';
 
 const Search = () => {
-  const {
-    onBookQueryChange,
-    searchList,
-    setSearchList, //
-  } = useSearchBook();
-
-  const inputRef = useRef<HTMLInputElement>(null);
+  const { onBookQueryChange, searchList, searchInputRef } = useSearchBook();
 
   useEffect(() => {
-    setSearchList([]);
-    inputRef.current.focus();
+    searchInputRef.current.focus();
   }, []);
 
   return (
@@ -31,7 +24,7 @@ const Search = () => {
         <Section title="책 검색하기">
           <form className="mb-8 flex w-1/2 gap-3 max-sm:mb-4 max-sm:w-full">
             <Input
-              ref={inputRef}
+              ref={searchInputRef}
               placeholder="등록하실 책을 검색해주세요."
               onChange={onBookQueryChange}
               className="flex-1"

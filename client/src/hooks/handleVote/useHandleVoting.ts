@@ -45,9 +45,17 @@ export const useHandleVoting = ({ voteId }: UseHandleVotingProps) => {
     const confirm = window.confirm('정말로 삭제하시겠어요?');
 
     if (confirm) {
+      const currentVoteItemsRef = doc(
+        dbService,
+        `${BOOK_VOTE}/VoteId-${voteId}/${VOTED_ITEMS}`,
+        uid,
+      );
+      await deleteDoc(currentVoteItemsRef);
+
       const currentVoteRef = doc(dbService, BOOK_VOTE, `VoteId-${voteId}`);
       await deleteDoc(currentVoteRef);
-      navigate(-1);
+
+      navigate('/vote');
     }
   };
 
@@ -99,7 +107,7 @@ export const useHandleVoting = ({ voteId }: UseHandleVotingProps) => {
 
   // 내가 투표완료한 항목
   const myVotedItems: BookVoteItemsByMember | undefined =
-    votedItemsByMember?.find(({ id }) => id === uid);
+    votedItemsByMember?.find(({ docId }) => docId === uid);
 
   // 항목별 투표수
   const voteCountsById = getVoteCountsById(

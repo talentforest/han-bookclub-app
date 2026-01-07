@@ -4,7 +4,7 @@ import { FiUsers } from 'react-icons/fi';
 
 import { useRecoilValue } from 'recoil';
 
-import { currUserFcmAtom } from '@/data/fcmAtom';
+import { userFcmSelectorFamily } from '@/data/fcmAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 import { bookVoteAtomFamily, voteMemberListAtomFamily } from '@/data/voteAtom';
 
@@ -37,8 +37,8 @@ const VoteDetail = () => {
   const { status: voteMemberListStatus, data: votedItemsByMember } =
     useRecoilValue(voteMemberListAtomFamily(id));
 
-  const { email } = useRecoilValue(currAuthUserAtom);
-  const { data: currUserFcm } = useRecoilValue(currUserFcmAtom);
+  const { email, uid } = useRecoilValue(currAuthUserAtom);
+  const { data: currUserFcm } = useRecoilValue(userFcmSelectorFamily(uid));
 
   const {
     voteCountsById,
@@ -72,7 +72,8 @@ const VoteDetail = () => {
 
   return (
     currentVoteStatus === 'loaded' &&
-    voteMemberListStatus === 'loaded' && (
+    voteMemberListStatus === 'loaded' &&
+    currentVote?.createdAt && (
       <>
         <MobileHeader
           title={`${isExpiredVote ? '만료된 ' : ''}모임책 투표함`}
@@ -85,13 +86,13 @@ const VoteDetail = () => {
             onVoteDeleteClick={onVoteDeleteClick}
           />
 
-          <VoteItemReasonBox voteItems={currentVote.voteItems} />
+          <VoteItemReasonBox voteItems={currentVote?.voteItems} />
 
           {/* 투표를 완료했거나 만료된 이후 결과 화면 */}
           {isExpiredVote || (myVotedItems && !isRevote) ? (
             <>
-              <ul className="mb-6 mt-2 grid grid-cols-2 gap-4 max-sm:mb-10">
-                {currentVote.voteItems.map(voteItem => (
+              <ul className="mb-8 grid grid-cols-4 gap-4 max-md:grid-cols-3 max-sm:grid-cols-2">
+                {currentVote?.voteItems?.map(voteItem => (
                   <VoteBookItem
                     key={voteItem.id}
                     voteItem={voteItem}
@@ -109,10 +110,10 @@ const VoteDetail = () => {
                     style={{
                       width: `${getPercentageNum(voteCount, totalVoteCount)}%`,
                     }}
-                    className={`absolute inset-y-0 left-0 z-0 rounded-r-lg ${findHighestVoteItem(title) ? 'bg-blue2' : 'bg-gray3'}`}
+                    className={`absolute inset-y-0 left-0 z-0 rounded-r-lg ${findHighestVoteItem(title) ? 'bg-blue3 opacity-50' : 'bg-gray3'}`}
                   />
                   <span
-                    className={`z-10 mr-2 inline-block pt-[1px] text-[15px] ${findHighestVoteItem(title) ? 'font-medium text-blue4' : 'text-gray1'}`}
+                    className={`z-10 mr-2 inline-block pt-[1px] text-[15px] ${findHighestVoteItem(title) ? 'font-medium text-blue2' : 'text-gray1'}`}
                   >
                     {title}
                   </span>
@@ -149,8 +150,8 @@ const VoteDetail = () => {
                 onSubmit={onVotingSubmit}
                 className="mb-10 flex flex-col items-center"
               >
-                <ul className="mb-8 flex flex-wrap items-center gap-4 max-sm:justify-center">
-                  {currentVote.voteItems.map(voteItem => (
+                <ul className="mb-8 grid grid-cols-4 gap-4 max-md:grid-cols-3 max-sm:grid-cols-2">
+                  {currentVote?.voteItems?.map(voteItem => (
                     <VoteBookItem key={voteItem.id} voteItem={voteItem}>
                       <VoteBookItemBtn
                         selected={!!selectedItem(voteItem.id)}
@@ -168,7 +169,7 @@ const VoteDetail = () => {
             </>
           )}
 
-          {!isExpiredVote && <DDay hyphenDate={currentVote.deadline} />}
+          {!isExpiredVote && <DDay hyphenDate={currentVote?.deadline} />}
 
           <div className="mt-10">
             <h4 className="flex items-center gap-2">
@@ -188,8 +189,8 @@ const VoteDetail = () => {
           {email === DEVELOPER_EMAIL && +voteDday >= 0 && (
             <SquareBtn
               className="mt-10"
-              color="blue"
-              name={`투표 임박 알림: ${+voteDday > 0 ? `${voteDday}일` : '오늘 자정'}`}
+              color="lightBlue"
+              name={`개발자용 투표 임박 알림: ${+voteDday > 0 ? `${voteDday}일` : '오늘 자정'}`}
               handleClick={async () => {
                 const notificationData: NotificationData = {
                   title: `🗳️ 투표 임박 알림!`,
