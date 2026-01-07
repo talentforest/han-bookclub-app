@@ -328,7 +328,7 @@
 
     /* 페이지네이션 도트 */
     .swiper-pagination {
-      margin: 20px 0;
+      margin: 10px 0;
       height: 20px;
       display: flex;
       align-items: center;

@@ -28,7 +28,7 @@ export default function QuoteArticle({
       >
         {!isPreview && (
           <FaQuoteLeft
-            className={`float-left ml-1.5 mr-2 mt-1.5 block text-purple3`}
+            className={`float-left ml-1.5 mr-2 mt-1 block size-10 text-purple3`}
           />
         )}
         <span

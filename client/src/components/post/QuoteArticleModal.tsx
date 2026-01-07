@@ -4,7 +4,6 @@ import { UserPost } from '@/types';
 
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
 import Modal from '@/components/common/Modal';
-import Tag from '@/components/common/Tag';
 import SwiperContainer from '@/components/common/container/SwiperContainer';
 import PostFooter from '@/components/post/PostFooter';
 import QuoteArticle from '@/components/post/QuoteArticle';
@@ -29,8 +28,8 @@ const options = {
     },
   },
   navigation: false,
-  pagination: false,
   spaceBetween: 0,
+  scrollbar: false,
 };
 
 export default function QuoteArticleModal({
@@ -44,9 +43,9 @@ export default function QuoteArticleModal({
         <Post post={postList[0]} yearMonthId={yearMonthId} />
       ) : (
         <SwiperContainer options={options}>
-          {postList.map((post, index) => (
-            <SwiperSlide key={post.docId} className="!h-full !pb-6 !pt-0">
-              <Post post={post} index={`${index + 1} / ${postList.length}`} />
+          {postList.map(post => (
+            <SwiperSlide key={post.docId} className="!h-full !py-0">
+              <Post post={post} />
             </SwiperSlide>
           ))}
         </SwiperContainer>
@@ -57,38 +56,24 @@ export default function QuoteArticleModal({
 
 const Post = ({
   post,
-  index,
   yearMonthId,
 }: {
   post: UserPost;
-  index?: string;
   yearMonthId?: string;
 }) => {
   return (
     <div className={`flex flex-col`}>
-      <div className="mb-2 items-start justify-between gap-x-2">
-        {post?.clubBook && (
-          <FooterBookCard
-            book={post?.recommendedBook || post.clubBook}
-            className="flex-1"
-            yearMonthId={yearMonthId}
-          />
-        )}
-
-        <div className="flex items-center justify-between gap-x-0.5">
-          {index && (
-            <Tag
-              text={index}
-              color="yellow"
-              className="!px-2 !py-1 font-medium"
-            />
-          )}
-        </div>
-      </div>
+      {post?.clubBook && (
+        <FooterBookCard
+          book={post?.recommendedBook || post.clubBook}
+          className="mb-1 mt-0 flex-1 pt-0"
+          yearMonthId={yearMonthId}
+        />
+      )}
 
       <QuoteArticle
         subject={post.text}
-        className="!max-h-[50vh] w-full rounded-xl bg-gray-100 p-1.5"
+        className="!max-h-[50vh] min-h-[40vh] w-full rounded-xl bg-gray-100 px-1.5 py-2.5"
       />
 
       <PostFooter createdAt={post.createdAt} footerType="like" post={post} />
