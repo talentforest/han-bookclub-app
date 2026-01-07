@@ -8,6 +8,11 @@ import { USER, isLoadingStatus } from '@/appConstants';
 
 import { FirebaseAuthUser, LoadableStatus, UserProfile } from '@/types';
 
+export const basePhotoAtom = atom<string | null>({
+  key: 'basePhotoAtom',
+  default: null,
+});
+
 export const currAuthUserAtom = atom<FirebaseAuthUser | null>({
   key: 'currAuthUserAtom',
   default: null,

@@ -28,27 +28,23 @@ export const attendanceSelector = selectorFamily({
     (yearMonthId: string) =>
     ({ get }) => {
       const year = yearMonthId.slice(0, 4);
-      const month = yearMonthId.slice(-2);
+      const monthNum = +yearMonthId.slice(-2);
+      const monthKey = `${monthNum}월`;
 
       const allMemberList = get(userListAtom);
-      const absenceData = get(absenceAtom(year));
+      const absence = get(absenceAtom(year));
 
-      if (!absenceData?.data) {
+      if (absence.status === 'isLoading' || absence.data === null) {
         return { absenteeList: null, participantList: null };
       }
 
-      const absenceListObj = absenceData?.data;
+      const { breakMembers, onceAbsenceMembers } = absence.data[monthKey];
 
-      const absence = absenceListObj[`${month}월`];
-
-      const absenteeList = [
-        ...(absence?.breakMembers || []),
-        ...(absence?.onceAbsenceMembers || []),
-      ];
+      const absenteeList = [...breakMembers, ...onceAbsenceMembers];
 
       const participantList = allMemberList.data
         .filter(({ membershipJoinTime: time }) => {
-          const clubYearMonthId = new Date(+year, +month - 1);
+          const clubYearMonthId = new Date(+year, monthNum - 1);
           return new Date(time).getTime() < clubYearMonthId.getTime();
         })
         .filter(member => !absenteeList.includes(member.id))

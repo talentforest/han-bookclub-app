@@ -1,13 +1,19 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { clubListByYearAtom } from '@/data/clubAtom';
+import { clubListByYearAtom, selectedClubYearAtom } from '@/data/clubAtom';
 
 import { BaseBookData } from '@/types';
 
-export const useGetClubByYear = (year: string) => {
-  const [selectedYear, setSelectedYear] = useState(year);
+export const useGetClubByYear = (year?: string) => {
+  const [selectedYear, setSelectedYear] = useRecoilState(selectedClubYearAtom);
+
+  useEffect(() => {
+    if (year) {
+      setSelectedYear(year);
+    }
+  }, []);
 
   const { data: clubByYear } = useRecoilValue(clubListByYearAtom(selectedYear));
 

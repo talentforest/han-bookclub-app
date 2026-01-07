@@ -1,17 +1,11 @@
-import { useEffect } from 'react';
-
 import { useParams } from 'react-router-dom';
 
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
-import { absenceAtom, attendanceSelector } from '@/data/absenceAtom';
+import { attendanceSelector } from '@/data/absenceAtom';
 import { clubByMonthSelector } from '@/data/clubAtom';
 
-import { getDocument } from '@/api';
-
-import { ABSENCE_MEMBERS } from '@/appConstants';
-
-import { formatDate, thisYear, thisYearMonthId } from '@/utils';
+import { formatDate, thisYearMonthId } from '@/utils';
 
 import MobileHeader from '@/layout/MobileHeader';
 
@@ -31,24 +25,18 @@ const ClubDetail = () => {
   const params = useParams();
 
   const yearMonthId = params?.id || thisYearMonthId;
-  const year = yearMonthId.slice(0, 4);
 
   const isThisMonthClubDetail = yearMonthId === thisYearMonthId;
 
   const { absenteeList, participantList } = useRecoilValue(
     attendanceSelector(yearMonthId),
   );
-  const setAbsenceList = useSetRecoilState(absenceAtom(thisYear));
 
   const { data: monthlyBookClub, status } = useRecoilValue(
     clubByMonthSelector(yearMonthId),
   );
 
   const isEventMonth = monthlyBookClub?.meeting?.eventMonth;
-
-  useEffect(() => {
-    getDocument(`BookClub-${year}`, ABSENCE_MEMBERS, setAbsenceList);
-  }, [year]);
 
   return (
     <>

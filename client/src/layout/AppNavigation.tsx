@@ -100,7 +100,7 @@ export default function AppNavigation({ type }: { type: 'top' | 'bottom' }) {
         pathname !== '/login' &&
         !pathname.includes('setting') && (
           <nav
-            className={`fixed bottom-0 left-0 z-10 hidden w-full rounded-t-2xl py-3.5 shadow-card max-sm:block ${pathname.includes('/yearClosingEvent') ? '!bg-black !text-white' : 'bg-white'}`}
+            className={`fixed bottom-0 left-0 z-10 hidden w-full rounded-t-2xl py-[18px] shadow-card max-sm:block ${pathname.includes('/yearClosingEvent') ? '!bg-darkGray !text-white' : 'bg-white'}`}
           >
             <ul className="flex justify-evenly">
               {navigationList.map(

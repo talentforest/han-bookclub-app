@@ -1,10 +1,6 @@
-import { useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 
-import { useRecoilState } from 'recoil';
-
-import { meetingReviewListAtom } from '@/data/documentsAtom';
-
-import { getCollection } from '@/api';
+import { meetingReviewListAtomFamily } from '@/data/documentsAtom';
 
 import { REVIEWS } from '@/appConstants';
 
@@ -22,14 +18,11 @@ interface MeetingReviewListProps {
 const MeetingReviewList = ({
   yearMonthId = thisYearMonthId,
 }: MeetingReviewListProps) => {
-  const [{ status, data: meetingReviewList }, setMeetingReviews] =
-    useRecoilState(meetingReviewListAtom);
-
   const collName = getFbRouteOfPost(yearMonthId, REVIEWS);
 
-  useEffect(() => {
-    getCollection(collName, setMeetingReviews);
-  }, [collName]);
+  const { status, data: meetingReviewList } = useRecoilValue(
+    meetingReviewListAtomFamily(collName),
+  );
 
   const isThisMonthDetail = yearMonthId === thisYearMonthId;
 

@@ -1,24 +1,14 @@
-import { useMemo, useState } from 'react';
-
-import { RECOMMENDED_BOOKS, months } from '@/appConstants';
+import { useState } from 'react';
 
 import { useGetClubByYear, useHandleChallenge, useHandleModal } from '@/hooks';
 
-import {
-  formatDate,
-  getDDay,
-  getFbRouteOfPost,
-  thisMonth,
-  thisYear,
-} from '@/utils';
+import { formatDate, getDDay, thisYear } from '@/utils';
 
 import { BaseBookData } from '@/types';
 
 import MobileHeader from '@/layout/MobileHeader';
 
 import ChallengeBookRankCard from '@/components/challenge/ChallengeBookRankCard';
-import ChallengeRecommendedBookListByMonth from '@/components/challenge/ChallengeRecommendedBookListByMonth';
-import ChallengeRereadingModal from '@/components/challenge/ChallengeRereadingModal';
 import ChallengeUserRankCard from '@/components/challenge/ChallengeUserRankCard';
 import SelectYearBtnList from '@/components/common/SelectYearBtnList';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
@@ -35,18 +25,7 @@ export default function Challenge() {
     selectedYear,
     setSelectedYear,
     clubBookListByYear, //
-  } = useGetClubByYear(thisYear);
-
-  const recommendedBookCollNameList = useMemo(() => {
-    const monthList =
-      selectedYear === thisYear
-        ? months.filter(month => +month <= +thisMonth)
-        : months;
-
-    return monthList.map(month => {
-      return getFbRouteOfPost(`${selectedYear}-${month}`, RECOMMENDED_BOOKS);
-    });
-  }, [selectedYear]);
+  } = useGetClubByYear();
 
   const onChallengeBookClick = (
     book: BaseBookData & { yearMonthId?: string },
@@ -58,16 +37,7 @@ export default function Challenge() {
     );
 
     showModal({
-      element: (
-        <ChallengeRereadingModal
-          selectedBook={challengeBook || book}
-          readers={challengeBook?.readerList.length || 0}
-          counts={challengeBook?.total || 0}
-          reason={reason}
-          recommendedUser={recommendedUser}
-          yearMonthId={book.yearMonthId}
-        />
-      ),
+      element: <></>, // NOTE: 추후 변경
     });
   };
 
@@ -172,13 +142,6 @@ export default function Challenge() {
                   />
                 </button>
               </li>
-            ))}
-            {recommendedBookCollNameList.map(coll => (
-              <ChallengeRecommendedBookListByMonth
-                key={coll}
-                coll={coll}
-                onChallengeBookClick={onChallengeBookClick}
-              />
             ))}
           </ul>
         </Section>

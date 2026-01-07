@@ -61,6 +61,18 @@
       }
       > main {
         @apply relative mx-auto min-h-[90vh] w-full bg-[#f8f8f8] px-20 pb-32 max-sm:px-5;
+        span {
+          @apply tracking-tight;
+        }
+        p {
+          @apply tracking-tight;
+        }
+        input {
+          @apply placeholder:tracking-tight;
+        }
+        textarea {
+          @apply placeholder:tracking-tight;
+        }
       }
     }
     /* ql-editor */

@@ -1,4 +1,4 @@
-import { atom, atomFamily } from 'recoil';
+import { atomFamily } from 'recoil';
 
 import { getCollection } from '@/api';
 
@@ -38,7 +38,17 @@ export const hostReviewListAtomFamily = atomFamily<
   ],
 });
 
-export const meetingReviewListAtom = atom<LoadableStatus<UserPost[]>>({
-  key: 'meetingReviewListAtom',
+export const meetingReviewListAtomFamily = atomFamily<
+  LoadableStatus<UserPost[]>,
+  string
+>({
+  key: 'meetingReviewListAtomFamily',
   default: isLoadingStatus,
+  effects: (collName: string) => [
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get') return;
+
+      getCollection(collName, setSelf);
+    },
+  ],
 });

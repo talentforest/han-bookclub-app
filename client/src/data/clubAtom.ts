@@ -7,16 +7,13 @@ import { getCollection, getDocument } from '@/api';
 
 import { isLoadingStatus, loadedStatus } from '@/appConstants';
 
+import { thisYear } from '@/utils';
+
 import { LoadableStatus, MonthlyBookClub } from '@/types';
 
 const isLoadableStatus = <T>(
   v: DefaultValue | LoadableStatus<T>,
 ): v is LoadableStatus<T> => !(v instanceof DefaultValue);
-
-export const basePhotoAtom = atom<string | null>({
-  key: `basePhotoAtom`,
-  default: null,
-});
 
 /**
  * 특정 연도의 독서모임 리스트를 반환하는 atomFamily
@@ -129,4 +126,9 @@ export const clubByYearMonthIdListAtomFamily = atomFamily<
       });
     },
   ],
+});
+
+export const selectedClubYearAtom = atom<string>({
+  key: 'selectedClubYearAtom',
+  default: thisYear,
 });

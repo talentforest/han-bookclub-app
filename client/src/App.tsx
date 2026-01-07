@@ -9,8 +9,8 @@ import { getDownloadURL, ref } from 'firebase/storage';
 
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { basePhotoAtom } from '@/data/clubAtom';
 import { currUserFcmAtom } from '@/data/fcmAtom';
+import { basePhotoAtom } from '@/data/userAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
 import { getDocument } from '@/api';
@@ -23,9 +23,12 @@ import LoopLoading from '@/components/common/LoopLoading';
 
 function App() {
   const [init, setInit] = useState(false);
+
   const [currUser, setCurrUser] = useRecoilState(currAuthUserAtom);
+
   const [{ data: currUserFcm }, setCurrUserFcm] =
     useRecoilState(currUserFcmAtom);
+
   const setBasePhoto = useSetRecoilState(basePhotoAtom);
 
   const getBasePhoto = async () => {

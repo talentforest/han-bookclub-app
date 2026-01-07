@@ -4,7 +4,7 @@ import imageCompression from 'browser-image-compression';
 
 import { useRecoilValue } from 'recoil';
 
-import { basePhotoAtom } from '@/data/clubAtom';
+import { basePhotoAtom } from '@/data/userAtom';
 
 import { ProfileImgFiles } from '@/hooks/handleAccount/useHandleProfile';
 

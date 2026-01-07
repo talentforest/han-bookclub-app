@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { useGetClubByYear } from '@/hooks';
 
-import { thisYear, thisYearMonthId } from '@/utils';
+import { thisYearMonthId } from '@/utils';
 
 import MobileHeader from '@/layout/MobileHeader';
 
@@ -15,8 +15,7 @@ import EmptyCard from '@/components/common/container/EmptyCard';
 import Section from '@/components/common/container/Section';
 
 function PreviousClub() {
-  const { clubByYear, selectedYear, setSelectedYear } =
-    useGetClubByYear(thisYear);
+  const { clubByYear, selectedYear, setSelectedYear } = useGetClubByYear();
 
   const prevClubList = useMemo(() => {
     return clubByYear?.filter(

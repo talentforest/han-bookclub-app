@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { useRecoilValue } from 'recoil';
 
-import { basePhotoAtom } from '@/data/clubAtom';
+import { basePhotoAtom } from '@/data/userAtom';
 import { currAuthUserAtom, userListAtom } from '@/data/userAtom';
 
 interface UserImgNameProps {
