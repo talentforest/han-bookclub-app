@@ -29,8 +29,6 @@ export default function LikeBtn({
     toggleShowLikeUsers,
   } = useHandleLike({ docId, postLike, collName });
 
-  console.log(isLike);
-
   return (
     <div className="relative flex items-center">
       <button

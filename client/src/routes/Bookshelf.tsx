@@ -84,7 +84,7 @@ const Bookshelf = () => {
                   />
                 ))
               ) : (
-                <LoopLoading size={100} className="h-[30vh] w-full" />
+                <LoopLoading size={120} className="h-[30vh] w-full" />
               )}
             </ul>
           </Section>

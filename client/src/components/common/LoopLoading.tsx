@@ -6,11 +6,11 @@ interface LoopLoadingProps {
 }
 
 export default function LoopLoading({
-  size = 200,
+  size = 120,
   className = '',
 }: LoopLoadingProps) {
   return (
-    <div className={`flex items-center justify-center ${className}`}>
+    <div className={`flex h-screen items-center justify-center ${className}`}>
       <div
         className={`relative flex items-center justify-center rounded-full`}
         style={{ height: `${size}px`, width: `${size}px` }}

@@ -8,6 +8,7 @@ import { fieldAndHostSelector } from '@/data/fieldAndHostAtom';
 import MonthBookCard from '@/components/bookCard/MonthBookCard';
 import MonthEventCard from '@/components/bookCard/MonthEventCard';
 import LabelWithValueCard from '@/components/common/LabelWithValueCard';
+import Skeleton from '@/components/common/Skeleton';
 import EmptyCard from '@/components/common/container/EmptyCard';
 
 interface MonthBookClubProps {
@@ -48,6 +49,17 @@ export default function MonthBookClub({ yearMonthId }: MonthBookClubProps) {
 
   return (
     <>
+      {status === 'isLoading' && (
+        <div className="grid grid-cols-2 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">
+          <Skeleton className="h-[164px]" />
+
+          <div className="col-span-1 flex flex-col gap-3">
+            {[1, 2, 3].map(num => (
+              <Skeleton key={num} />
+            ))}
+          </div>
+        </div>
+      )}
       {status === 'loaded' &&
         (monthlyClub ? (
           <div className="grid grid-cols-2 gap-6 max-sm:flex max-sm:flex-col max-sm:gap-4">

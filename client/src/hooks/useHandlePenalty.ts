@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { dbService } from '@/fbase';
 import { doc, updateDoc } from 'firebase/firestore';
 
@@ -8,12 +6,9 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { penaltyAtom } from '@/data/penaltyAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
-import { getDocument } from '@/api';
-
 import { PENALTY } from '@/appConstants';
 
 import {
-  existDocObj,
   getLastDayOfMonth,
   getSubmitSubjectDate,
   thisMonth,
@@ -23,15 +18,9 @@ import {
 import { ClubMonth, OverduePenaltyMonths, PenaltyPostType } from '@/types';
 
 export const useHandlePenalty = (createdAt?: number) => {
-  const [{ data: penaltyDoc }, setPenaltyDoc] = useRecoilState(penaltyAtom);
+  const [{ data: penaltyDoc }] = useRecoilState(penaltyAtom);
 
   const { uid } = useRecoilValue(currAuthUserAtom);
-
-  useEffect(() => {
-    if (!existDocObj(penaltyDoc)) {
-      getDocument(PENALTY, thisYear, setPenaltyDoc);
-    }
-  }, []);
 
   // 발제문을 기한 내(목요일 자정)에 업로드하지 않을 시 페널티로 모임비(7,000원)이 부과
   const isOverdueSubject = createdAt > getSubmitSubjectDate().getTime();

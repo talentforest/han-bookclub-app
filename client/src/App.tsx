@@ -92,11 +92,7 @@ function App() {
     }
   }, [currUserFcm]);
 
-  return init ? (
-    <Router isLoggedIn={Boolean(currUser)} />
-  ) : (
-    <LoopLoading size={120} className="h-screen" />
-  );
+  return init ? <Router isLoggedIn={Boolean(currUser)} /> : <LoopLoading />;
 }
 
 export default App;
