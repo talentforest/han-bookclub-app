@@ -89,13 +89,14 @@ export const clubByYearMonthIdListAtomFamily = atomFamily<
     ({ setSelf, trigger }) => {
       if (trigger !== 'get') return;
 
-      if (!idListString) return;
+      if (!idListString) {
+        return setSelf({ status: 'loaded', data: [] });
+      }
 
       const yearMonthIdList = idListString.split(',');
 
       yearMonthIdList.forEach(yearMonthId => {
         const year = yearMonthId.slice(0, 4);
-
         getDocument(
           `BookClub-${year}`,
           yearMonthId,

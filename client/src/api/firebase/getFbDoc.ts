@@ -7,19 +7,20 @@ import {
   doc,
   onSnapshot,
   query,
-  where,
 } from 'firebase/firestore';
 
-import { USER, loadedStatus } from '@/appConstants';
+import { loadedStatus } from '@/appConstants';
 
-import { LoadableStatus } from '@/types';
+import { LoadableStatus, SubCollectionSegment } from '@/types';
 
 export function getDocument<T>(
   coll: string,
   docId: string,
   setState: (docState: LoadableStatus<T>) => void,
 ) {
-  const listener = onSnapshot(doc(dbService, coll, docId), doc => {
+  const docRef = doc(dbService, coll, docId);
+
+  const listener = onSnapshot(docRef, doc => {
     setState({
       ...loadedStatus,
       data: doc.exists() ? (doc.data() as T) : null,
@@ -30,13 +31,16 @@ export function getDocument<T>(
 }
 
 export async function getSubCollectionGroup<T>(
-  coll: string,
+  subCollName: SubCollectionSegment,
   setState: (arr: LoadableStatus<T[]>) => void,
   ...constraints: QueryConstraint[]
 ) {
-  const q = query(collectionGroup(dbService, coll), ...constraints);
+  const queryRef = query(
+    collectionGroup(dbService, subCollName),
+    ...constraints,
+  );
 
-  const listener = onSnapshot(q, querySnapshot => {
+  const listener = onSnapshot(queryRef, querySnapshot => {
     const newDataArray = querySnapshot.docs.map(doc => {
       return {
         docId: doc.id,
@@ -57,17 +61,13 @@ export function getCollection<T>(
   ...constraints: QueryConstraint[]
 ) {
   const collRef = collection(dbService, coll);
-
-  const userConstraints = [where('name', '!=', '테스트계정')];
-
-  const con = coll === USER ? userConstraints : [];
-
-  const queryRef = query(collRef, ...con, ...constraints);
+  const queryRef = query(collRef, ...constraints);
 
   const listener = onSnapshot(queryRef, querySnapshot => {
     const newArray = querySnapshot.docs.map(doc => {
       return { docId: doc.id, ...doc.data() } as T;
     });
+
     setState({ ...loadedStatus, data: newArray });
   });
 

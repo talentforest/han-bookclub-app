@@ -105,14 +105,14 @@ export default function ReadingLifeQuestionModal({
   const errorMsgObj = {
     book: [
       {
-        condition: currQuestion.answerType === 'book' && !currMyAnswer.book,
+        condition: currQuestion?.answerType === 'book' && !currMyAnswer?.book,
         error: '책을 선택해주세요.',
       },
     ],
     answer: [
       {
         condition:
-          currQuestion.answerType === 'sentence' && !currMyAnswer.answer,
+          currQuestion?.answerType === 'sentence' && !currMyAnswer?.answer,
         error: '답변을 작성해주세요.',
       },
     ],

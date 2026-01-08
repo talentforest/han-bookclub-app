@@ -26,7 +26,10 @@ export default function ChallengeDisplayList({
   };
 
   return (
-    status === 'loaded' && (
+    status === 'loaded' &&
+    (challengeListByYear.length === 0 ? (
+      <span className="text-gray2">아직 챌린지가 없습니다</span>
+    ) : (
       <>
         {limitNum === 1 && (
           <UserChallengeBookCard
@@ -69,6 +72,6 @@ export default function ChallengeDisplayList({
           </ul>
         )}
       </>
-    )
+    ))
   );
 }

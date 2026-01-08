@@ -67,7 +67,7 @@ export default function UserPostDisplayList({
     showModal({
       element: (
         <QuoteArticleModal
-          title={`${postNameObj['subCollection'][postTypeKey]}`}
+          title={postNameObj['subCollection'][postTypeKey]}
           postList={postList}
           yearMonthId={yearMonthId}
         />
@@ -123,6 +123,8 @@ export default function UserPostDisplayList({
       })}
     </ul>
   ) : (
-    <div className="text-gray2">아직 추천책이 없어요!</div>
+    <div className="text-gray2">
+      아직 {postNameObj['subCollection'][postTypeKey]}이 없습니다
+    </div>
   );
 }

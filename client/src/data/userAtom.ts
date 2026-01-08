@@ -1,4 +1,5 @@
 import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
+import { where } from 'firebase/firestore';
 
 import { atom, atomFamily } from 'recoil';
 
@@ -52,7 +53,12 @@ export const userListAtom = atom<LoadableStatus<UserProfile[]>>({
   effects: [
     ({ setSelf, trigger }) => {
       if (trigger !== 'get') return;
-      getCollection(USER, setSelf);
+      const constraints =
+        process.env.NODE_ENV === 'development'
+          ? []
+          : [where('name', '!=', '테스트계정')];
+
+      getCollection(USER, setSelf, ...constraints);
     },
   ],
 });

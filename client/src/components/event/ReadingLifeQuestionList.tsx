@@ -1,6 +1,3 @@
-import { BiSearch } from 'react-icons/bi';
-import { FiPlusCircle } from 'react-icons/fi';
-
 import { useRecoilValue } from 'recoil';
 
 import { currAuthUserAtom } from '@/data/userAtom';
@@ -8,7 +5,6 @@ import { currAuthUserAtom } from '@/data/userAtom';
 import { ReadingLifeQuestion } from '@/types';
 
 import Accordion from '@/components/common/container/Accordion';
-import UserImgName from '@/components/common/user/UserImgName';
 import UserAnswer from '@/components/event/UserAnswer';
 
 interface ReadingLifeQuestionListProps {
@@ -50,27 +46,12 @@ export default function ReadingLifeQuestionList({
               />
             ))}
 
-            {/* 나의 답변이 없을 때 */}
             {!getHasAnswer(answerList) && (
-              <li className="col-span-2">
-                <button
-                  type="button"
-                  // onClick={() => toggleModal(question, answerType, year)}
-                  className="flex flex-col items-center justify-center rounded-xl border p-4"
-                >
-                  <UserImgName
-                    userId={currUser.uid}
-                    isLink={false}
-                    className="w-fit min-w-fit rounded-lg pb-2 font-medium text-purple3"
-                  />
-
-                  {question.includes('책') ? (
-                    <BiSearch className="size-5 text-gray2" />
-                  ) : (
-                    <FiPlusCircle className="size-5 text-gray2" />
-                  )}
-                </button>
-              </li>
+              <UserAnswer
+                question={question}
+                answerType={answerType}
+                year={year}
+              />
             )}
           </ul>
         </Accordion>
