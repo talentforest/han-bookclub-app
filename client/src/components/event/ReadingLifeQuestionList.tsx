@@ -5,39 +5,22 @@ import { useRecoilValue } from 'recoil';
 
 import { currAuthUserAtom } from '@/data/userAtom';
 
-import { useHandleModal } from '@/hooks';
-
 import { ReadingLifeQuestion } from '@/types';
 
 import Accordion from '@/components/common/container/Accordion';
 import UserImgName from '@/components/common/user/UserImgName';
-import ReadingLifeQuestionModal from '@/components/event/ReadingLifeQuestionModal';
 import UserAnswer from '@/components/event/UserAnswer';
 
 interface ReadingLifeQuestionListProps {
+  year: string;
   questionList: ReadingLifeQuestion[];
 }
 
 export default function ReadingLifeQuestionList({
+  year,
   questionList,
 }: ReadingLifeQuestionListProps) {
   const currUser = useRecoilValue(currAuthUserAtom);
-
-  const { showModal } = useHandleModal();
-
-  const openRereadingLifeQuestionListModal = (
-    questionTitle: string,
-    answerType: ReadingLifeQuestion['answerType'],
-  ) => {
-    showModal({
-      element: (
-        <ReadingLifeQuestionModal
-          questionTitle={questionTitle}
-          answerType={answerType}
-        />
-      ),
-    });
-  };
 
   const getHasAnswer = (answerList: ReadingLifeQuestion['answerList']) => {
     return answerList.find(({ userId }) => userId === currUser.uid);
@@ -50,7 +33,7 @@ export default function ReadingLifeQuestionList({
           key={question}
           title={question}
           initialOpen={true}
-          titleClassName="text-purple3"
+          titleClassName="text-green3"
           className="!bg-transparent !text-white [&>div:first-child]:!pb-0 [&>div]:px-0"
         >
           <ul
@@ -63,6 +46,7 @@ export default function ReadingLifeQuestionList({
                 question={question}
                 answerType={answerType}
                 userAnswer={userAnswer}
+                year={year}
               />
             ))}
 
@@ -71,9 +55,7 @@ export default function ReadingLifeQuestionList({
               <li className="col-span-2">
                 <button
                   type="button"
-                  onClick={() =>
-                    openRereadingLifeQuestionListModal(question, answerType)
-                  }
+                  // onClick={() => toggleModal(question, answerType, year)}
                   className="flex flex-col items-center justify-center rounded-xl border p-4"
                 >
                   <UserImgName

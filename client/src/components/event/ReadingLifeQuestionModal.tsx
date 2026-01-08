@@ -8,56 +8,53 @@ import { useRecoilValue } from 'recoil';
 import { clubByMonthSelector } from '@/data/clubAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
-import { BOOKCLUB_THIS_YEAR } from '@/appConstants';
-
-import { useEditDoc, useSearchBook } from '@/hooks';
-
-import { thisYear } from '@/utils';
+import { useEditDoc, useHandleErrorMsg, useSearchBook } from '@/hooks';
 
 import { EventContentUpdateRoute, ReadingLifeQuestion } from '@/types';
 
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
 import Modal from '@/components/common/Modal';
+import Textarea from '@/components/common/Textarea';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
 import Label from '@/components/common/input/Label';
 import SearchedBookList from '@/components/search/SearchedBookList';
 
 interface ReadingLifeQuestionModalProps {
+  year: string;
   questionTitle: string;
   answerType: ReadingLifeQuestion['answerType'];
 }
 
 export default function ReadingLifeQuestionModal({
+  year,
   questionTitle,
   answerType,
 }: ReadingLifeQuestionModalProps) {
   const currUser = useRecoilValue(currAuthUserAtom);
 
-  const {
-    data: { meeting },
-  } = useRecoilValue(clubByMonthSelector(`${thisYear}-12`));
+  const { data: club } = useRecoilValue(clubByMonthSelector(`${year}-12`));
 
   const { onEditSubmit, setEditedData, editedData } =
     useEditDoc<EventContentUpdateRoute>({
-      collName: BOOKCLUB_THIS_YEAR,
-      docId: `${thisYear}-12`,
+      collName: `BookClub-${year}`,
+      docId: `${year}-12`,
       dataToUpdate: {
-        'meeting.eventMonth.contents': meeting.eventMonth.contents,
+        'meeting.eventMonth.contents': club?.meeting?.eventMonth?.contents,
       },
     });
 
   const currEventContentList = editedData['meeting.eventMonth.contents'];
 
-  const currEventContent = currEventContentList.find(({ title }) =>
+  const currEventContent = currEventContentList?.find(({ title }) =>
     title.includes('독서생활'),
   );
 
-  const currQuestion = currEventContent.result.readingLifeQuestions.find(
+  const currQuestion = currEventContent?.result?.readingLifeQuestions?.find(
     ({ question }) => question === questionTitle,
   );
 
-  const currMyAnswer = currQuestion.answerList.find(
+  const currMyAnswer = currQuestion?.answerList?.find(
     ({ userId }) => userId === currUser.uid,
   );
 
@@ -95,40 +92,61 @@ export default function ReadingLifeQuestionModal({
     setEditedData({ 'meeting.eventMonth.contents': newContents });
   };
 
-  const {
-    onBookQueryChange,
-    searchList,
-    setSearchList, //
-  } = useSearchBook();
+  const { onBookQueryChange, searchList } = useSearchBook();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setSearchList([]);
     inputRef.current?.focus();
-
-    return setSearchList([]);
   }, []);
+
+  const { handleErrorMsg, errorMsg } = useHandleErrorMsg();
+
+  const errorMsgObj = {
+    book: [
+      {
+        condition: currQuestion.answerType === 'book' && !currMyAnswer.book,
+        error: '책을 선택해주세요.',
+      },
+    ],
+    answer: [
+      {
+        condition:
+          currQuestion.answerType === 'sentence' && !currMyAnswer.answer,
+        error: '답변을 작성해주세요.',
+      },
+    ],
+  };
 
   return (
     <Modal title="독서생활을 돌아보는 질문">
       <form
         className="relative flex flex-col overflow-scroll scrollbar-hide"
-        onSubmit={onEditSubmit}
+        onSubmit={e => {
+          e.preventDefault();
+          const hasError = handleErrorMsg(errorMsgObj);
+          if (hasError) return;
+
+          onEditSubmit(e);
+        }}
       >
         <Input
           defaultValue={currQuestion.question}
           readOnly
-          className="!h-14 border-purple3 bg-purple4"
+          className="!h-14 bg-purple4 font-medium"
           placeholder="독서 생활을 돌아보는 질문을 작성해주세요"
         />
         <div className="absolute left-3 top-[55px] h-1 w-[90%] border-t-2 border-dashed border-purple4" />
-        <div className="rounded-xl border border-purple3 bg-purple4 px-3 pb-5 pt-3">
+        <div className="rounded-xl border border-gray1 bg-purple4 px-3 pb-5 pt-3">
           {answerType === 'book' && (
             <>
               {currMyAnswer?.book ? (
                 <div className="mb-4">
-                  <Label htmlFor="내가 고른 책" text="내가 고른 책" />
+                  <Label
+                    htmlFor="내가 고른 책"
+                    text="내가 고른 책"
+                    className="text-purple1"
+                  />
                   <div className="flex items-center justify-between rounded-xl border border-purple2 bg-white px-3 py-2">
                     <FooterBookCard book={currMyAnswer.book} />
                     <button
@@ -159,6 +177,7 @@ export default function ReadingLifeQuestionModal({
                     ref={inputRef}
                     placeholder="등록하실 책을 검색해주세요."
                     onChange={onBookQueryChange}
+                    errorMsg={errorMsg.book}
                   />
                   <SearchedBookList
                     className="!mt-2 mb-4 h-[20vh] rounded-xl bg-white px-4"
@@ -190,10 +209,14 @@ export default function ReadingLifeQuestionModal({
             </>
           )}
 
-          <Input
-            className="border-purple2"
+          <Textarea
+            className="font-medium"
+            labelClassName="text-purple1"
+            errorMsg={errorMsg.answer}
             label={
-              answerType === 'sentence' ? '나의 답변' : '책을 고른 이유 (선택)'
+              answerType === 'sentence'
+                ? '나의 답변'
+                : '책을 고른 이유 (선택작성)'
             }
             value={currMyAnswer?.answer || ''}
             onChange={e => {

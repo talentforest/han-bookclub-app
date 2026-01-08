@@ -73,10 +73,10 @@
           @apply tracking-tight;
         }
         input {
-          @apply placeholder:tracking-tight;
+          @apply tracking-tight placeholder:tracking-tight;
         }
         textarea {
-          @apply placeholder:tracking-tight;
+          @apply tracking-tight placeholder:tracking-tight;
         }
       }
     }

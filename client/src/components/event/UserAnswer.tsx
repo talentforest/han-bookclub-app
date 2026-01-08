@@ -15,12 +15,14 @@ interface UserAnswerProps {
   question: ReadingLifeQuestion['question'];
   answerType: ReadingLifeQuestion['answerType'];
   userAnswer: ReadingLifeQuestion['answerList'][number];
+  year: string;
 }
 
 export default function UserAnswer({
   question,
   answerType,
   userAnswer,
+  year,
 }: UserAnswerProps) {
   const currUser = useRecoilValue(currAuthUserAtom);
 
@@ -35,6 +37,7 @@ export default function UserAnswer({
         <ReadingLifeQuestionModal
           questionTitle={questionTitle}
           answerType={answerType}
+          year={year}
         />
       ),
     });
@@ -43,7 +46,7 @@ export default function UserAnswer({
   const { userId, book, answer } = userAnswer;
 
   return (
-    <li className="bg-darkGray flex flex-col gap-y-2 rounded-xl p-3">
+    <li className="flex flex-col gap-y-2 rounded-xl bg-darkGray p-3">
       <div className="flex w-full items-center justify-between gap-x-1">
         <UserImgName
           isLink={false}
@@ -69,7 +72,7 @@ export default function UserAnswer({
         </span>
       )}
 
-      {answerType === 'book' && (
+      {answerType === 'book' && book && (
         <BookThumbnail
           title={book.title}
           thumbnail={book.thumbnail}

@@ -18,6 +18,7 @@ interface InputProps {
   containerClassName?: string;
   children?: ReactNode;
   tailIconChildren?: ReactNode;
+  labelClassName?: string;
 }
 
 /**
@@ -33,6 +34,7 @@ interface InputProps {
  * @param label input에 대한 라벨을 붙일 때 해당 속성이 존재한다면 자동으로 인풋 상단에 라벨이 붙습니다.
  * @param errorMsg 에러메시지가 존재한다면 인풋 하단에 나타나게 됩니다.
  * @param containerClassName 인풋 컨테이너에 대한 스타일입니다.
+ * @param labelClassName 라벨에 대한 스타일입니다.
  */
 
 const Input = React.forwardRef(function (
@@ -44,6 +46,7 @@ const Input = React.forwardRef(function (
     containerClassName,
     children,
     tailIconChildren,
+    labelClassName,
     ...rest
   }: InputProps & InputHTMLAttributes<HTMLInputElement>,
   ref: ForwardedRef<HTMLInputElement>,
@@ -63,7 +66,7 @@ const Input = React.forwardRef(function (
 
   return (
     <div className={`relative flex w-full flex-col ${containerClassName}`}>
-      {label && <Label text={label} />}
+      {label && <Label text={label} className={labelClassName} />}
 
       {iconName ? (
         <div className="relative w-full">
