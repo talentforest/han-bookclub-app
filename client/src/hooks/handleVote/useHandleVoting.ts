@@ -23,7 +23,9 @@ interface UseHandleVotingProps {
 }
 
 export const useHandleVoting = ({ voteId }: UseHandleVotingProps) => {
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   const { data: currentVote } = useRecoilValue(bookVoteAtomFamily(voteId));
 

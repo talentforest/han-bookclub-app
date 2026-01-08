@@ -26,7 +26,9 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
     clubByMonthSelector(thisYearMonthId),
   );
 
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   const { sendPostPushNotification, isPending } = useSendPushNotification();
 

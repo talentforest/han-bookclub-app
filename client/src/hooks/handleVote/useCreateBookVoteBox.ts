@@ -21,7 +21,9 @@ import { formatDate } from '@/utils';
 import { BookVote, BookVoteItem } from '@/types';
 
 export const useCreateBookVoteBox = () => {
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   const { data: bookVotes } = useRecoilValue(bookVoteListAtom);
 

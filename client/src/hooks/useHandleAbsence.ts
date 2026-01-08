@@ -13,7 +13,9 @@ import { ABSENCE_MEMBERS } from '@/appConstants';
 import { useHandleModal } from '@/hooks';
 
 export const useHandleAbsence = (year: string, monthNum: number) => {
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   const { data: absenceMonthListObj } = useRecoilValue(absenceAtom(year));
 

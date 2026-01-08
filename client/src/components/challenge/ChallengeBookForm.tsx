@@ -29,7 +29,9 @@ export default function ChallengeBookForm() {
 
   const bookDesc = useRecoilValue(bookDescAtom);
 
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   const [pageNums, setPageNums] = useState({
     wholePage: 0,

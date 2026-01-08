@@ -19,7 +19,9 @@ interface PostSentenceBoxProps {
 }
 
 export default function PostSentenceBox({ sentence }: PostSentenceBoxProps) {
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   const { text, thumbnail, title, creatorId, page } = sentence;
 

@@ -4,7 +4,7 @@ import imageCompression from 'browser-image-compression';
 
 import { useRecoilValue } from 'recoil';
 
-import { basePhotoAtom } from '@/data/userAtom';
+import { baseProfileImgAtom } from '@/data/userAtom';
 
 import { ProfileImgFiles } from '@/hooks/handleAccount/useHandleProfile';
 
@@ -20,7 +20,8 @@ const UserImg = ({ isEditing, setNewUserImgUrl, imgUrl }: UserImgProps) => {
   const [beforeOnChange, setBeforeOnChange] = useState(true);
   const [previewUrl, setPreviewUrl] = useState('');
 
-  const basePhoto = useRecoilValue(basePhotoAtom);
+  const { status: isBasePhotoLoading, data: basePhoto } =
+    useRecoilValue(baseProfileImgAtom);
 
   const onProfileImgChange = async (
     event: React.FormEvent<HTMLInputElement>,
@@ -73,16 +74,18 @@ const UserImg = ({ isEditing, setNewUserImgUrl, imgUrl }: UserImgProps) => {
   };
 
   return (
-    <div className="relative m-3 mx-auto flex w-fit items-center justify-center">
-      <img
-        src={beforeOnChange ? imgUrl || basePhoto : previewUrl}
-        alt="프로필 이미지"
-        onContextMenu={event => event.preventDefault()}
-        className={`size-48 min-h-48 min-w-48 rounded-full bg-white object-cover shadow-card max-sm:size-40`}
-      />
+    isBasePhotoLoading === 'loaded' && (
+      <div className="relative m-3 mx-auto flex w-fit items-center justify-center">
+        <img
+          src={beforeOnChange ? imgUrl || basePhoto.baseProfileImg : previewUrl}
+          alt="프로필 이미지"
+          onContextMenu={event => event.preventDefault()}
+          className={`size-48 min-h-48 min-w-48 rounded-full bg-white object-cover shadow-card max-sm:size-40`}
+        />
 
-      {isEditing && <ImageInput onImageChange={onProfileImgChange} />}
-    </div>
+        {isEditing && <ImageInput onImageChange={onProfileImgChange} />}
+      </div>
+    )
   );
 };
 

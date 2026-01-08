@@ -63,7 +63,7 @@ export function getCollection<T>(
   const collRef = collection(dbService, coll);
   const queryRef = query(collRef, ...constraints);
 
-  const listener = onSnapshot(queryRef, querySnapshot => {
+  const unsubscribeSnapshot = onSnapshot(queryRef, querySnapshot => {
     const newArray = querySnapshot.docs.map(doc => {
       return { docId: doc.id, ...doc.data() } as T;
     });
@@ -71,10 +71,10 @@ export function getCollection<T>(
     setState({ ...loadedStatus, data: newArray });
   });
 
-  return listener;
+  return unsubscribeSnapshot;
 }
 
-export function unsubscribe(listener: () => void) {
+export function unsubscribeAuth(listener: () => void) {
   onAuthStateChanged(authService, user => {
     if (user == null) {
       listener();

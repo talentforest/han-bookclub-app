@@ -18,7 +18,9 @@ import Input from '@/components/common/input/Input';
 import UserImg from '@/components/common/user/UserImg';
 
 const EditProfile = () => {
-  const { displayName, email } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { displayName, email },
+  } = useRecoilValue(currAuthUserAtom);
 
   const {
     isEditing,

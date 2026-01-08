@@ -37,7 +37,9 @@ const VoteDetail = () => {
   const { status: voteMemberListStatus, data: votedItemsByMember } =
     useRecoilValue(voteMemberListAtomFamily(id));
 
-  const { email, uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { email, uid },
+  } = useRecoilValue(currAuthUserAtom);
   const { data: currUserFcm } = useRecoilValue(userFcmSelectorFamily(uid));
 
   const {

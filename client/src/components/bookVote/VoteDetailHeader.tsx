@@ -21,7 +21,9 @@ const VoteDetailHeader = ({
 }: VoteDetailHeaderProps) => {
   const { creatorId, createdAt, title } = vote;
 
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   return (
     <header className="flex flex-col items-center justify-between pb-3 max-sm:pb-0 max-sm:pt-3">

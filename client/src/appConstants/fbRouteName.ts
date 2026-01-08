@@ -1,5 +1,7 @@
 import { nextYear, thisYear } from '@/utils';
 
+export const APP_CONSTANT = 'AppConstant';
+
 export const BOOKCLUB_THIS_YEAR = `BookClub-${thisYear}` as const;
 export const BOOKCLUB_NEXT_YEAR = `BookClub-${nextYear}` as const;
 export const BOOKCLUB_2024 = 'BookClub-2024' as const;

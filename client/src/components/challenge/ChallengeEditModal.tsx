@@ -13,10 +13,7 @@ import { useHandleModal, useSendPushNotification } from '@/hooks';
 
 import { formatDate } from '@/utils';
 
-import {
-  CompleteReadingChallenge,
-  CompleteReadingChallengeBook,
-} from '@/types';
+import { CompleteReadingChallenge } from '@/types';
 
 import Modal from '@/components/common/Modal';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
@@ -26,7 +23,7 @@ import Input from '@/components/common/input/Input';
 
 interface ChallengeEditModalProps {
   challenge: CompleteReadingChallenge;
-  currChallengeBook: CompleteReadingChallengeBook;
+  currChallengeBook: any;
   currentPageNum: number;
   setCurrentPageNum: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -38,7 +35,9 @@ export default function ChallengeEditModal({
   setCurrentPageNum,
 }: ChallengeEditModalProps) {
   const { books } = challenge;
-  const { uid, displayName } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid, displayName },
+  } = useRecoilValue(currAuthUserAtom);
 
   const currPageRef = useRef<HTMLInputElement>();
 

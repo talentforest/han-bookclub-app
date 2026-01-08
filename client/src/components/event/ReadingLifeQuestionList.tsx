@@ -16,7 +16,7 @@ export default function ReadingLifeQuestionList({
   year,
   questionList,
 }: ReadingLifeQuestionListProps) {
-  const currUser = useRecoilValue(currAuthUserAtom);
+  const { data: currUser } = useRecoilValue(currAuthUserAtom);
 
   const getHasAnswer = (answerList: ReadingLifeQuestion['answerList']) => {
     return answerList.find(({ userId }) => userId === currUser.uid);

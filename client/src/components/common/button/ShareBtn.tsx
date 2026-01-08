@@ -15,7 +15,9 @@ interface ShareBtnProps {
 }
 
 const ShareBtn = ({ title, description, path, place, time }: ShareBtnProps) => {
-  const { uid, displayName, photoURL } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid, displayName, photoURL },
+  } = useRecoilValue(currAuthUserAtom);
 
   if (!window.Kakao.isInitialized()) {
     window.Kakao.init(import.meta.env.VITE_KAKAO_SHARE_API_KEY);

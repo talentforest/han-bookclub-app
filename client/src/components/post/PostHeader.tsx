@@ -18,7 +18,9 @@ export default function PostHeader({
   post,
   postType,
 }: PostHeaderProps) {
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   const { creatorId, isAnonymous } = post;
 

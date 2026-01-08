@@ -22,7 +22,9 @@ export default function RecommendBookModalForm() {
 
   const recommendedBook = useRecoilValue(recommendedBookAtom);
 
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   const { sendPostPushNotification, isPending } = useSendPushNotification();
 

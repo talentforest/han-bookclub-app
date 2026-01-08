@@ -38,7 +38,9 @@ export default function UserChallengeBookCard({
 
   const [currentPageNum] = useState(currentPage);
 
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   const { pathname } = useLocation();
 

@@ -27,7 +27,7 @@ export default function UserAnswer({
   userAnswer,
   year,
 }: UserAnswerProps) {
-  const currUser = useRecoilValue(currAuthUserAtom);
+  const { data: currUser } = useRecoilValue(currAuthUserAtom);
 
   const { showModal } = useHandleModal();
 

@@ -26,7 +26,9 @@ import Section from '@/components/common/container/Section';
 import UserImgName from '@/components/common/user/UserImgName';
 
 export default function Developer() {
-  const { email, uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { email, uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   const { data: currUserFcm } = useRecoilValue(userFcmSelectorFamily(uid));
 

@@ -28,7 +28,9 @@ const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
     data: { book: clubBook },
   } = useRecoilValue(clubByMonthSelector(thisYearMonthId));
 
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   const collName = getFbRouteOfPost(docMonth, REVIEWS);
 

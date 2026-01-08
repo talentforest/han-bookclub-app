@@ -31,7 +31,7 @@ export default function ReadingLifeQuestionModal({
   questionTitle,
   answerType,
 }: ReadingLifeQuestionModalProps) {
-  const currUser = useRecoilValue(currAuthUserAtom);
+  const { data: currUser } = useRecoilValue(currAuthUserAtom);
 
   const { data: club } = useRecoilValue(clubByMonthSelector(`${year}-12`));
 

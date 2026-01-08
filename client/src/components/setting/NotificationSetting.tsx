@@ -22,7 +22,9 @@ export default function NotificationSetting() {
   const [isActive, setIsActive] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
 
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   const { data: currUserFcm } = useRecoilValue(userFcmSelectorFamily(uid));
 

@@ -26,7 +26,9 @@ type PushNotificationObj = {
 export const useSendPushNotification = () => {
   const [isPending, setIsPending] = useState(false);
 
-  const { uid: currentUserUid, displayName } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid: currentUserUid, displayName },
+  } = useRecoilValue(currAuthUserAtom);
 
   /**
    * 특정 유저에게 푸시 알림 보내기 함수

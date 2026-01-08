@@ -42,7 +42,7 @@ export default function EventMeetingModal({
   title,
   yearMonthId,
 }: MeetingInfoModalProps) {
-  const user = useRecoilValue(currAuthUserAtom);
+  const { data: user } = useRecoilValue(currAuthUserAtom);
 
   const [currStep, setCurrStep] = useState(1);
 

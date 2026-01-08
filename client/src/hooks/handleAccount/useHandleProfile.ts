@@ -21,7 +21,12 @@ export type ProfileImgFiles = {
 export const useHandleProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const [{ uid, displayName }, setUserData] = useRecoilState(currAuthUserAtom);
+  const [
+    {
+      data: { uid, displayName },
+    },
+    setUserData,
+  ] = useRecoilState(currAuthUserAtom);
 
   const [{ data: userDoc }, setUserDoc] = useRecoilState(userAtomFamily(uid));
 
@@ -34,7 +39,10 @@ export const useHandleProfile = () => {
   const refreshUser = () => {
     const user = getAuth().currentUser;
     const { uid, email, displayName, photoURL } = user;
-    setUserData({ uid, email, displayName, photoURL });
+    setUserData({
+      status: 'loaded',
+      data: { uid, email, displayName, photoURL },
+    });
   };
 
   const userDataRef = doc(dbService, USER, uid);

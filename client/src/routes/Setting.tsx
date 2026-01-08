@@ -20,7 +20,9 @@ import LogOutBtn from '@/components/common/button/LogOutBtn';
 import Section from '@/components/common/container/Section';
 
 const Setting = () => {
-  const { email } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { email },
+  } = useRecoilValue(currAuthUserAtom);
 
   const { blockLinkAndAlertJoinMember } = useAlertAskJoin('see');
 
@@ -73,35 +75,34 @@ const Setting = () => {
         backTo={'/bookshelf'}
       />
       <main>
-        {settings.map(({ name, list, auth }) =>
-          auth ? (
-            <Section key={name} className="!pb-8">
-              <h4 className="block pb-1 text-sm font-medium text-green1 max-md:text-sm">
-                {name}
-              </h4>
+        {settings.map(
+          ({ name, list, auth }) =>
+            auth && (
+              <Section key={name} className="!pb-8">
+                <h4 className="block pb-1 text-sm font-medium text-green1 max-md:text-sm">
+                  {name}
+                </h4>
 
-              <ul className="divide-y divide-gray3">
-                {list.map(({ to, name, children, state }) => (
-                  <li key={to} className="py-2.5">
-                    {children ? (
-                      children
-                    ) : (
-                      <Link
-                        to={to}
-                        className="text-[15px]"
-                        state={state}
-                        onClick={blockLinkAndAlertJoinMember}
-                      >
-                        {name}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </Section>
-          ) : (
-            <></>
-          ),
+                <ul className="divide-y divide-gray3">
+                  {list.map(({ to, name, children, state }) => (
+                    <li key={to} className="py-2.5">
+                      {children ? (
+                        children
+                      ) : (
+                        <Link
+                          to={to}
+                          className="text-[15px]"
+                          state={state}
+                          onClick={blockLinkAndAlertJoinMember}
+                        >
+                          {name}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </Section>
+            ),
         )}
       </main>
     </>

@@ -5,39 +5,48 @@ import { atom, atomFamily } from 'recoil';
 
 import { getCollection, getDocument } from '@/api';
 
-import { USER, isLoadingStatus } from '@/appConstants';
+import { APP_CONSTANT, USER, isLoadingStatus } from '@/appConstants';
 
 import { FirebaseAuthUser, LoadableStatus, UserProfile } from '@/types';
 
-export const basePhotoAtom = atom<string | null>({
-  key: 'basePhotoAtom',
-  default: null,
+export const baseProfileImgAtom = atom<
+  LoadableStatus<{ baseProfileImg: string }>
+>({
+  key: 'baseProfileImgAtom',
+  default: isLoadingStatus,
+  effects: [
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get') return;
+      getDocument(APP_CONSTANT, 'photo', setSelf);
+    },
+  ],
 });
 
-export const currAuthUserAtom = atom<FirebaseAuthUser | null>({
+export const currAuthUserAtom = atom<LoadableStatus<FirebaseAuthUser | null>>({
   key: 'currAuthUserAtom',
-  default: null,
+  default: isLoadingStatus,
   effects: [
-    ({ setSelf }) => {
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get') return;
+
       const auth = getAuth();
+
       const unsubscribe = onAuthStateChanged(auth, user => {
-        if (user) {
-          const { uid, email, displayName, photoURL } = user;
+        if (!user) return setSelf({ status: 'loaded', data: null });
 
-          const authUser: Pick<
-            User,
-            'uid' | 'email' | 'displayName' | 'photoURL'
-          > = {
-            uid: uid ?? '',
-            email: email ?? '',
-            displayName: displayName ?? '익명의 방문자',
-            photoURL: photoURL ?? '',
-          };
+        const { uid, email, displayName, photoURL } = user;
 
-          setSelf(authUser);
-        } else {
-          setSelf(null);
-        }
+        const authUser: Pick<
+          User,
+          'uid' | 'email' | 'displayName' | 'photoURL'
+        > = {
+          uid: uid ?? '',
+          email: email ?? '',
+          displayName: displayName ?? '익명의 방문자',
+          photoURL: photoURL ?? '',
+        };
+
+        setSelf({ status: 'loaded', data: authUser });
       });
 
       return () => {

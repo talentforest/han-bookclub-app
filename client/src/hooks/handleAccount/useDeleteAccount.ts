@@ -21,7 +21,9 @@ export const useDeleteAccount = () => {
 
   const [showMessage, setShowMessage] = useState(false);
 
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   const navigate = useNavigate();
 

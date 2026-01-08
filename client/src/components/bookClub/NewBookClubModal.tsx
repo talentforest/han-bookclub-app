@@ -36,7 +36,7 @@ export default function NewBookClubModal({
   yearMonthId,
   registerBook,
 }: MeetingInfoModalProps) {
-  const user = useRecoilValue(currAuthUserAtom);
+  const { data: user } = useRecoilValue(currAuthUserAtom);
 
   const { data: monthlyBookClub } = useRecoilValue(
     clubByMonthSelector(yearMonthId),

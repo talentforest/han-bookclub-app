@@ -25,7 +25,9 @@ import UserImg from '@/components/common/user/UserImg';
 const Bookshelf = () => {
   const { state } = useLocation() as { state: { userId: string } };
 
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   const { status, data: userData } = useRecoilValue(
     userAtomFamily(state?.userId || uid),

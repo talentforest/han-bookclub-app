@@ -20,7 +20,9 @@ import { ClubMonth, OverduePenaltyMonths, PenaltyPostType } from '@/types';
 export const useHandlePenalty = (createdAt?: number) => {
   const [{ data: penaltyDoc }] = useRecoilState(penaltyAtom);
 
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   // 발제문을 기한 내(목요일 자정)에 업로드하지 않을 시 페널티로 모임비(7,000원)이 부과
   const isOverdueSubject = createdAt > getSubmitSubjectDate().getTime();

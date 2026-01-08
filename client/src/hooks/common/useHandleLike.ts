@@ -25,7 +25,9 @@ export const useHandleLike = ({
   docId,
   collName,
 }: IHandleLikeProps) => {
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   const { onEditSubmitClick } = useEditDoc({ collName, docId });
 

@@ -19,7 +19,9 @@ export default function LikeBtn({
   postLike: { docId, like: postLike, creatorId },
   collName,
 }: LikeBtnProps) {
-  const { uid } = useRecoilValue(currAuthUserAtom);
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
 
   const {
     isLike,
