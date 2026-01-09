@@ -1,3 +1,5 @@
+import { where } from 'firebase/firestore';
+
 import { atomFamily } from 'recoil';
 
 import { getCollection } from '@/api';
@@ -18,7 +20,16 @@ export const subjectListAtomFamily = atomFamily<
     ({ setSelf, trigger }) => {
       if (trigger !== 'get') return;
 
-      getCollection(getFbRouteOfPost(yearMonthId, SUBJECTS), setSelf);
+      const constraints =
+        process.env.NODE_ENV === 'development'
+          ? []
+          : [where('creatorId', '!=', 'iFvsDP6KI9PjsvKSNw3qvmwTcxk2')];
+
+      getCollection(
+        getFbRouteOfPost(yearMonthId, SUBJECTS),
+        setSelf,
+        ...constraints,
+      );
     },
   ],
 });
@@ -33,7 +44,16 @@ export const hostReviewListAtomFamily = atomFamily<
     ({ setSelf, trigger }) => {
       if (trigger !== 'get') return;
 
-      getCollection(getFbRouteOfPost(yearMonthId, HOST_REVIEW), setSelf);
+      const constraints =
+        process.env.NODE_ENV === 'development'
+          ? []
+          : [where('creatorId', '!=', 'iFvsDP6KI9PjsvKSNw3qvmwTcxk2')];
+
+      getCollection(
+        getFbRouteOfPost(yearMonthId, HOST_REVIEW),
+        setSelf,
+        ...constraints,
+      );
     },
   ],
 });
@@ -48,7 +68,12 @@ export const meetingReviewListAtomFamily = atomFamily<
     ({ setSelf, trigger }) => {
       if (trigger !== 'get') return;
 
-      getCollection(collName, setSelf);
+      const constraints =
+        process.env.NODE_ENV === 'development'
+          ? []
+          : [where('creatorId', '!=', 'iFvsDP6KI9PjsvKSNw3qvmwTcxk2')];
+
+      getCollection(collName, setSelf, ...constraints);
     },
   ],
 });
