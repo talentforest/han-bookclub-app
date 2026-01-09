@@ -52,7 +52,9 @@ export default function MonthBookCard({
             <BookAuthorPublisher authors={authors} publisher={publisher} />
           )}
 
-          {fieldAndHost?.field && <BookField field={fieldAndHost?.field} />}
+          {fieldAndHost?.field && (
+            <BookField field={fieldAndHost?.field} className="mt-2" />
+          )}
         </div>
       </div>
 

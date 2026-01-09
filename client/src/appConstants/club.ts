@@ -3,4 +3,5 @@ export const monthlyClubInfo = {
   absence: '모임불참',
   challenge: '챌린지',
   yearClosing: '연말결산',
+  penalty: '페널티',
 } as const;

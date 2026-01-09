@@ -11,7 +11,6 @@ export const BOOKCLUB_2021 = 'BookClub-2021' as const;
 
 export const BOOK_VOTE = 'BookVote' as const;
 export const CHALLENGE = 'Challenge' as const;
-export const TAG_LIST = 'TagList' as const;
 export const FCM_NOTIFICATION = 'FCMNotification' as const;
 export const SENTENCES2024 = 'Sentence-2024' as const;
 export const USER = 'User' as const;
@@ -26,7 +25,6 @@ export const SUBJECTS = 'Subjects' as const;
 /** DOC ID */
 export const BOOK_FIELD_AND_HOST = 'BookFieldAndHost' as const;
 export const ABSENCE_MEMBERS = 'AbsenceMembers' as const;
-export const MEETING_PLACE = 'MeetingPlace' as const;
 export const PENALTY = 'Penalty' as const;
 
 export const postNameObj = {

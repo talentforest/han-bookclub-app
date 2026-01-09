@@ -10,14 +10,17 @@ import AbsenceMemberTable from '@/components/absence/AbsenceMemberTable';
 import BookFieldHostTable from '@/components/bookClub/BookFieldHostTable';
 import ChevronRightLinkBtn from '@/components/common/button/ChevronRightLinkBtn';
 
+type InfoType = 'fieldAndHost' | 'absence' | 'penalty';
+
 export default function MonthlyClubInfo() {
   const { state } = useLocation() as {
-    state: 'fieldAndHost' | 'absence';
+    state: InfoType;
   };
 
-  const infoPerType: Pick<MonthlyClubInfoType, 'fieldAndHost' | 'absence'> = {
+  const infoPerType: Pick<MonthlyClubInfoType, InfoType> = {
     fieldAndHost: '월별 독서분야',
     absence: '모임불참',
+    penalty: '페널티',
   };
 
   const name = infoPerType[state];
@@ -43,6 +46,8 @@ export default function MonthlyClubInfo() {
         {name === '월별 독서분야' && (
           <BookFieldHostTable year={thisYear} isEditable isMonth />
         )}
+
+        {name === '페널티' && <BookFieldHostTable year={thisYear} isMonth />}
       </main>
     </>
   );

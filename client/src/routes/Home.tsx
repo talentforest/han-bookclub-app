@@ -39,8 +39,8 @@ const Home = () => {
     {
       name: `${thisYear} 페널티`,
       onClick: () => {
-        return alert('아직 준비중입니다!');
-        // navigate('/monthlyinfo', { state: 'absence' });
+        // return alert('아직 준비중입니다!');
+        navigate('/monthlyinfo', { state: 'penalty' });
       },
       color: 'gray' as const,
     },

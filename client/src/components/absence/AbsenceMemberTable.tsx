@@ -48,6 +48,7 @@ export default function AbsenceMemberTable({
     }))
     .sort((a, b) => a.month - b.month);
 
+  console.log(data);
   return (
     <>
       {status === 'loaded' &&

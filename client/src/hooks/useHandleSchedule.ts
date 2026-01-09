@@ -5,7 +5,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 
 import { getDocument, setDocument } from '@/api';
 
-import { MEETING_PLACE, TAG_LIST, isLoadingStatus } from '@/appConstants';
+import { APP_CONSTANT, isLoadingStatus } from '@/appConstants';
 
 import { useHandleModal, useSendPushNotification } from '@/hooks';
 
@@ -75,7 +75,7 @@ export const useHandleSchedule = (
 
   useEffect(() => {
     if (savedPlaceList?.place?.length !== null) {
-      getDocument(TAG_LIST, MEETING_PLACE, setSavedPlaceList);
+      getDocument(APP_CONSTANT, 'place', setSavedPlaceList);
     }
   }, []);
 
