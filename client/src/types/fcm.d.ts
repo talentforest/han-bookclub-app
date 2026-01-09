@@ -1,8 +1,9 @@
-export type UserFcm = {
-  docId: string;
-  createdAt: string;
-  tokens: string[];
+export type FcmDocument = {
+  docId?: string;
   notification: boolean;
+  tokens: string[];
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type NotificationData = {

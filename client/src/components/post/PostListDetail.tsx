@@ -1,8 +1,8 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment } from 'react';
 
 import { useLocation, useParams } from 'react-router-dom';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
 import {
@@ -10,8 +10,6 @@ import {
   subjectListAtomFamily,
 } from '@/data/documentsAtom';
 import { fieldAndHostSelector } from '@/data/fieldAndHostAtom';
-
-import { getCollection } from '@/api';
 
 import { HOST_REVIEW, SUBJECTS } from '@/appConstants';
 
@@ -43,11 +41,11 @@ export default function PostListDetail() {
   );
   const fieldAndHosts = useRecoilValue(fieldAndHostSelector(yearMonthId));
 
-  const [{ data: hostReviewList }, setHostReviews] = useRecoilState(
+  const { data: hostReviewList } = useRecoilValue(
     hostReviewListAtomFamily(yearMonthId),
   );
 
-  const [{ data: subjectList }, setSubjects] = useRecoilState(
+  const { data: subjectList } = useRecoilValue(
     subjectListAtomFamily(yearMonthId),
   );
 
@@ -55,11 +53,6 @@ export default function PostListDetail() {
 
   const subjectCollName = getFbRouteOfPost(yearMonthId, SUBJECTS);
   const hostReviewCollName = getFbRouteOfPost(yearMonthId, HOST_REVIEW);
-
-  useEffect(() => {
-    getCollection(hostReviewCollName, setHostReviews);
-    getCollection(subjectCollName, setSubjects);
-  }, []);
 
   const { alertAskJoinMember, anonymous } = useAlertAskJoin('write');
 

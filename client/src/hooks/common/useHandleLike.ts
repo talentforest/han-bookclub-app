@@ -51,6 +51,7 @@ export const useHandleLike = ({
 
     setLike(prev => {
       const prevList = prev.userList ?? [];
+
       const nextList = nextIsLike
         ? prevList.includes(uid)
           ? prevList

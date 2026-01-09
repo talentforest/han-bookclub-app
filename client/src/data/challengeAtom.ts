@@ -25,7 +25,7 @@ export const challengeAtomFamily = atomFamily<
       const unsub = getCollection(
         CHALLENGE,
         setSelf,
-        where('__name__', '>=', `${year}-`),
+        ...[where('__name__', '>=', `${year}-`)],
       );
       return () => unsub();
     },
@@ -41,6 +41,7 @@ export const challengeListByUserAtomFamily = atomFamily<
   effects: (uid: string) => [
     ({ setSelf, trigger }) => {
       if (trigger !== 'get') return;
+
       if (!uid) {
         setSelf({ status: 'loaded', data: null });
         return;

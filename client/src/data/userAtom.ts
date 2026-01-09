@@ -1,9 +1,8 @@
 import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
-import { where } from 'firebase/firestore';
 
 import { atom, atomFamily } from 'recoil';
 
-import { getCollection, getDocument } from '@/api';
+import { getCollection, getDocument, testerNameConstraint } from '@/api';
 
 import { APP_CONSTANT, USER, isLoadingStatus } from '@/appConstants';
 
@@ -17,6 +16,7 @@ export const baseProfileImgAtom = atom<
   effects: [
     ({ setSelf, trigger }) => {
       if (trigger !== 'get') return;
+
       getDocument(APP_CONSTANT, 'photo', setSelf);
     },
   ],
@@ -62,12 +62,8 @@ export const userListAtom = atom<LoadableStatus<UserProfile[]>>({
   effects: [
     ({ setSelf, trigger }) => {
       if (trigger !== 'get') return;
-      const constraints =
-        process.env.NODE_ENV === 'development'
-          ? []
-          : [where('name', '!=', '테스트계정')];
 
-      getCollection(USER, setSelf, ...constraints);
+      getCollection(USER, setSelf, ...testerNameConstraint);
     },
   ],
 });
@@ -78,7 +74,13 @@ export const userAtomFamily = atomFamily<LoadableStatus<UserProfile>, string>({
   default: isLoadingStatus,
   effects: (uid: string) => [
     ({ setSelf, trigger }) => {
-      if (trigger !== 'get' || !uid) return;
+      if (trigger !== 'get') return;
+
+      if (!uid) {
+        setSelf({ status: 'loaded', data: null });
+        return;
+      }
+
       getDocument(USER, uid, setSelf);
     },
   ],

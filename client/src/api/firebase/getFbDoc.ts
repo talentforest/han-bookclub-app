@@ -7,9 +7,10 @@ import {
   doc,
   onSnapshot,
   query,
+  where,
 } from 'firebase/firestore';
 
-import { loadedStatus } from '@/appConstants';
+import { developmentMode, loadedStatus, testerUid } from '@/appConstants';
 
 import { LoadableStatus, SubCollectionSegment } from '@/types';
 
@@ -100,3 +101,11 @@ export function subscribeLogout(listener: () => void) {
 
   return unsubAuth;
 }
+
+export const testerNameConstraint = developmentMode
+  ? []
+  : [where('name', '!=', '테스트계정')];
+
+export const testerCreatorIdConstraint = developmentMode
+  ? []
+  : [where('creatorId', '!=', testerUid)];

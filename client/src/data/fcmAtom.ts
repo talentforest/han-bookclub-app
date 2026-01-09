@@ -1,17 +1,21 @@
-import { atomFamily } from 'recoil';
+import { atom, atomFamily } from 'recoil';
 
-import { getDocument } from '@/api';
+import { getCollection, getDocument } from '@/api';
 
 import { FCM_NOTIFICATION, isLoadingStatus } from '@/appConstants';
 
-import { LoadableStatus } from '@/types';
+import { FcmDocument, LoadableStatus } from '@/types';
 
-interface FcmDocument {
-  docId?: string;
-  notification?: boolean;
-  createdAt?: string;
-  tokens?: string[];
-}
+export const userFcmListAtom = atom<LoadableStatus<FcmDocument[]>>({
+  key: 'userFcmListAtom',
+  default: isLoadingStatus,
+  effects: [
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get') return;
+      getCollection(FCM_NOTIFICATION, setSelf);
+    },
+  ],
+});
 
 export const userFcmAtomFamily = atomFamily<
   LoadableStatus<FcmDocument>,

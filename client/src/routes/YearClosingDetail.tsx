@@ -93,7 +93,7 @@ export default function YearClosingDetail() {
 
         const contentList = club.meeting.eventMonth.contents
           .filter(content => content.result)
-          ?.find(content => content.title.includes(name));
+          .find(content => content.title.includes(name));
 
         return contentList.result;
       },

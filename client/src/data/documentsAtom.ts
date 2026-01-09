@@ -1,10 +1,20 @@
-import { where } from 'firebase/firestore';
+import { limit } from 'firebase/firestore';
 
 import { atomFamily } from 'recoil';
 
-import { getCollection } from '@/api';
+import {
+  getCollection,
+  getSubCollectionGroup,
+  testerCreatorIdConstraint,
+} from '@/api';
 
-import { HOST_REVIEW, SUBJECTS, isLoadingStatus } from '@/appConstants';
+import {
+  HOST_REVIEW,
+  RECOMMENDED_BOOKS,
+  SUBJECTS,
+  isLoadingStatus,
+  loadedStatus,
+} from '@/appConstants';
 
 import { getFbRouteOfPost } from '@/utils';
 
@@ -20,15 +30,15 @@ export const subjectListAtomFamily = atomFamily<
     ({ setSelf, trigger }) => {
       if (trigger !== 'get') return;
 
-      const constraints =
-        process.env.NODE_ENV === 'development'
-          ? []
-          : [where('creatorId', '!=', 'iFvsDP6KI9PjsvKSNw3qvmwTcxk2')];
+      if (!yearMonthId) {
+        setSelf({ ...loadedStatus, data: null });
+        return;
+      }
 
       getCollection(
         getFbRouteOfPost(yearMonthId, SUBJECTS),
         setSelf,
-        ...constraints,
+        ...testerCreatorIdConstraint,
       );
     },
   ],
@@ -44,15 +54,15 @@ export const hostReviewListAtomFamily = atomFamily<
     ({ setSelf, trigger }) => {
       if (trigger !== 'get') return;
 
-      const constraints =
-        process.env.NODE_ENV === 'development'
-          ? []
-          : [where('creatorId', '!=', 'iFvsDP6KI9PjsvKSNw3qvmwTcxk2')];
+      if (!yearMonthId) {
+        setSelf({ ...loadedStatus, data: null });
+        return;
+      }
 
       getCollection(
         getFbRouteOfPost(yearMonthId, HOST_REVIEW),
         setSelf,
-        ...constraints,
+        ...testerCreatorIdConstraint,
       );
     },
   ],
@@ -68,12 +78,64 @@ export const meetingReviewListAtomFamily = atomFamily<
     ({ setSelf, trigger }) => {
       if (trigger !== 'get') return;
 
-      const constraints =
-        process.env.NODE_ENV === 'development'
-          ? []
-          : [where('creatorId', '!=', 'iFvsDP6KI9PjsvKSNw3qvmwTcxk2')];
+      if (!collName) {
+        setSelf({ ...loadedStatus, data: null });
+        return;
+      }
 
-      getCollection(collName, setSelf, ...constraints);
+      getCollection(collName, setSelf, ...testerCreatorIdConstraint);
+    },
+  ],
+});
+
+export const recommendedBookListAtomFamily = atomFamily<
+  LoadableStatus<UserPost[]>,
+  string
+>({
+  key: 'recommendedBookListAtomFamily',
+  default: isLoadingStatus,
+  effects: (yearMonthId: string) => [
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get') return;
+
+      if (yearMonthId) {
+        const year = yearMonthId.slice(0, 4);
+
+        getCollection(
+          `BookClub-${year}/${yearMonthId}/${RECOMMENDED_BOOKS}`,
+          setSelf,
+          ...testerCreatorIdConstraint,
+        );
+      } else {
+        getSubCollectionGroup(
+          RECOMMENDED_BOOKS,
+          setSelf,
+          ...[...testerCreatorIdConstraint, limit(5)],
+        );
+      }
+    },
+  ],
+});
+
+export const bestSubjectListAtomFamily = atomFamily<
+  LoadableStatus<UserPost[]>,
+  string
+>({
+  key: 'bestSubjectListAtomFamily',
+  default: isLoadingStatus,
+  effects: (yearMonthId: string) => [
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get') return;
+
+      if (!yearMonthId) {
+        setSelf({ status: 'loaded', data: null });
+      }
+
+      getCollection(
+        getFbRouteOfPost(yearMonthId, SUBJECTS),
+        setSelf,
+        ...testerCreatorIdConstraint,
+      );
     },
   ],
 });

@@ -9,6 +9,8 @@ import {
 import { getMessaging, getToken } from 'firebase/messaging';
 import { getStorage } from 'firebase/storage';
 
+import { developmentMode } from '@/appConstants';
+
 interface NotificationData {
   title: string;
   body: string;
@@ -47,7 +49,7 @@ export const storageService = getStorage();
 const messaging = getMessaging(app);
 const functions = getFunctions();
 
-if (process.env.NODE_ENV === 'development') {
+if (developmentMode) {
   connectFunctionsEmulator(functions, 'localhost', 5001);
 }
 

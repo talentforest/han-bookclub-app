@@ -4,6 +4,8 @@ import { useRecoilValue } from 'recoil';
 
 import { currAuthUserAtom } from '@/data/userAtom';
 
+import { developmentMode, testerUid } from '@/appConstants';
+
 import { useHandleLike } from '@/hooks';
 
 import { Collection, SubCollection, UserPost } from '@/types';
@@ -31,13 +33,22 @@ export default function LikeBtn({
     toggleShowLikeUsers,
   } = useHandleLike({ docId, postLike, collName });
 
+  const excludeTesterUserList = developmentMode
+    ? userList
+    : userList.filter(userId => userId !== testerUid);
+
+  const excludeTesterCounts =
+    developmentMode || !userList.includes(testerUid)
+      ? counts
+      : userList.includes(testerUid);
+
   return (
     <div className="relative flex items-center">
       <button
         type="button"
         onClick={toggleShowLikeUsers}
         className="group p-1 disabled:text-gray2"
-        disabled={!counts || counts === 0}
+        disabled={!excludeTesterCounts || excludeTesterCounts === 0}
       >
         {showLikeUsers ? (
           <FiChevronUp className="group:text-gray1" />
@@ -46,7 +57,9 @@ export default function LikeBtn({
         )}
       </button>
 
-      <span className="text-sm tracking-tighter">{counts || 0}명이 좋아요</span>
+      <span className="text-sm tracking-tighter">
+        {excludeTesterCounts || 0}명이 좋아요
+      </span>
 
       <button
         type="button"
@@ -64,7 +77,7 @@ export default function LikeBtn({
         <div className="absolute bottom-7 right-0 rounded-xl border bg-white p-3">
           <h4 className="mb-2 min-w-20 text-sm text-gray1">좋아한 멤버</h4>
           <ul className="flex w-full flex-wrap gap-x-2 gap-y-1">
-            {userList?.map(user => (
+            {excludeTesterUserList?.map(user => (
               <li key={user}>
                 <UserImgName userId={user} />
               </li>

@@ -9,10 +9,10 @@ import { currAuthUserAtom } from '@/data/userAtom';
 import { thisMonth } from '@/utils';
 
 import {
+  FcmDocument,
   NotificationData,
   PostTypeValue,
   SubPostTypeValue,
-  UserFcm,
 } from '@/types';
 
 type PushNotificationObj = {
@@ -38,10 +38,10 @@ export const useSendPushNotification = () => {
    */
   const sendPushNotificationToUser: (
     notificationData: NotificationData,
-    userFcm?: UserFcm,
+    userFcm?: FcmDocument,
   ) => Promise<{
     result: 'success' | 'fail';
-  }> = async (notificationData: NotificationData, userFcm?: UserFcm) => {
+  }> = async (notificationData: NotificationData, userFcm?: FcmDocument) => {
     setIsPending(true);
 
     const { title, body, subPath, notification } = notificationData;

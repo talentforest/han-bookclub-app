@@ -1,23 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
-
-import { getCollection } from '@/api';
-
-import { SUBJECTS, isLoadingStatus } from '@/appConstants';
+import { bestSubjectListAtomFamily } from '@/data/documentsAtom';
 
 import { useEditDoc, useGetClubByYear, useHandleModal } from '@/hooks';
-
-import { getFbRouteOfPost } from '@/utils';
 
 import {
   BaseBookData,
   EventContentUpdateRoute,
-  LoadableStatus,
   SubjectEventResult,
-  UserPost,
 } from '@/types';
 
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
@@ -41,9 +34,6 @@ export default function BestSubjectModal({
 }: BestSubjectModalProps) {
   const [currStep, setCurrStep] = useState(1);
 
-  const [{ status, data: subjectList }, setSubjectList] =
-    useState<LoadableStatus<UserPost[]>>(isLoadingStatus);
-
   const { data: club } = useRecoilValue(clubByMonthSelector(`${year}-12`));
 
   const { hideModal } = useHandleModal();
@@ -60,6 +50,10 @@ export default function BestSubjectModal({
   const currBook = editedData['meeting.eventMonth.contents']
     .find(content => content.title.includes('최고의 모임책'))
     ?.result.subjects.find(subject => subject.rank === rank);
+
+  const { status, data: subjectList } = useRecoilValue(
+    bestSubjectListAtomFamily(currBook?.yearMonthId),
+  );
 
   const ref = useRef<HTMLInputElement>(null);
 
@@ -130,15 +124,6 @@ export default function BestSubjectModal({
 
     hideModal();
   };
-
-  useEffect(() => {
-    if (currBook?.yearMonthId) {
-      getCollection(
-        getFbRouteOfPost(currBook.yearMonthId, SUBJECTS),
-        setSubjectList,
-      );
-    }
-  }, [currBook]);
 
   return (
     <Modal

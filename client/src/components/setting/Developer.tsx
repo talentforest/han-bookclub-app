@@ -1,23 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
 import { useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
-import { userFcmAtomFamily } from '@/data/fcmAtom';
+import { userFcmAtomFamily, userFcmListAtom } from '@/data/fcmAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
-import { getCollection } from '@/api';
-
-import { FCM_NOTIFICATION, isLoadingStatus } from '@/appConstants';
 import { DEVELOPER_EMAIL } from '@/appConstants/account';
 
 import { useSendPushNotification } from '@/hooks';
 
 import { getDDay, thisMonth, thisYear, thisYearMonthId } from '@/utils';
 
-import { LoadableStatus, NotificationData, UserFcm } from '@/types';
+import { NotificationData } from '@/types';
 
 import MobileHeader from '@/layout/MobileHeader';
 
@@ -36,8 +33,8 @@ export default function Developer() {
     clubByMonthSelector(thisYearMonthId),
   );
 
-  const [{ data: userFcmList, status: fcmStatus }, setUserFcmList] =
-    useState<LoadableStatus<UserFcm[]>>(isLoadingStatus);
+  const { data: userFcmList, status: fcmStatus } =
+    useRecoilValue(userFcmListAtom);
 
   const {
     sendPushNotificationToUser,
@@ -51,7 +48,6 @@ export default function Developer() {
     if (email !== DEVELOPER_EMAIL) {
       navigate(-1);
     }
-    getCollection(FCM_NOTIFICATION, setUserFcmList);
   }, []);
 
   const meetingDDay = getDDay(thisMonthClub?.meeting?.time);

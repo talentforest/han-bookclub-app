@@ -1,11 +1,8 @@
-import { useEffect, useState } from 'react';
-
-import { limit } from 'firebase/firestore';
 import { SwiperSlide } from 'swiper/react';
 
-import { getCollection, getSubCollectionGroup } from '@/api';
+import { useRecoilValue } from 'recoil';
 
-import { RECOMMENDED_BOOKS, isLoadingStatus } from '@/appConstants';
+import { recommendedBookListAtomFamily } from '@/data/documentsAtom';
 
 import { LoadableStatus, UserPost } from '@/types';
 
@@ -14,7 +11,6 @@ import SwiperContainer from '@/components/common/container/SwiperContainer';
 import PostRecommendedBookCard from '@/components/post/recommendedBooks/PostRecommendedBookCard';
 
 interface RecommendedBookSwiperContainerProps {
-  limitNum?: number;
   yearMonthId?: string;
 }
 
@@ -37,24 +33,11 @@ const swiperOptions = {
 };
 
 export default function RecommendedBookSwiperContainer({
-  limitNum,
   yearMonthId,
 }: RecommendedBookSwiperContainerProps) {
-  const [{ data: bookList, status }, setBookList] =
-    useState<LoadableStatus<UserPost[]>>(isLoadingStatus);
-
-  const year = yearMonthId?.slice(0, 4);
-
-  useEffect(() => {
-    if (yearMonthId) {
-      getCollection(
-        `BookClub-${year}/${yearMonthId}/${RECOMMENDED_BOOKS}`,
-        setBookList,
-      );
-    } else {
-      getSubCollectionGroup(RECOMMENDED_BOOKS, setBookList, limit(limitNum));
-    }
-  }, [yearMonthId]);
+  const { data: bookList, status } = useRecoilValue<LoadableStatus<UserPost[]>>(
+    recommendedBookListAtomFamily(yearMonthId),
+  );
 
   return (
     status === 'loaded' &&
