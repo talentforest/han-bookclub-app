@@ -7,7 +7,6 @@ import {
   doc,
   onSnapshot,
   query,
-  where,
 } from 'firebase/firestore';
 
 import { loadedStatus } from '@/appConstants';
@@ -34,19 +33,15 @@ export function getDocument<T>(
   };
 }
 
-const testUser = [where('creatorId', '!=', 'iFvsDP6KI9PjsvKSNw3qvmwTcxk2')];
-
 export async function getSubCollectionGroup<T>(
   subCollName: SubCollectionSegment,
   setState: (arr: LoadableStatus<T[]>) => void,
   ...constraints: QueryConstraint[]
 ) {
-  const con =
-    process.env.NODE_ENV === 'development'
-      ? [...constraints]
-      : [...constraints, ...testUser];
-
-  const queryRef = query(collectionGroup(dbService, subCollName), ...con);
+  const queryRef = query(
+    collectionGroup(dbService, subCollName),
+    ...constraints,
+  );
 
   const unsubscribeSnapshot = onSnapshot(queryRef, querySnapshot => {
     const newDataArray = querySnapshot.docs.map(doc => {
@@ -71,13 +66,8 @@ export function getCollection<T>(
   setState: (arr: LoadableStatus<T[]>) => void,
   ...constraints: QueryConstraint[]
 ) {
-  const con =
-    process.env.NODE_ENV === 'development'
-      ? [...constraints]
-      : [...constraints, ...testUser];
-
   const collRef = collection(dbService, coll);
-  const queryRef = query(collRef, ...con);
+  const queryRef = query(collRef, ...constraints);
 
   const unsubscribeSnapshot = onSnapshot(
     queryRef,
