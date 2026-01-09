@@ -7,6 +7,7 @@ import {
   doc,
   onSnapshot,
   query,
+  where,
 } from 'firebase/firestore';
 
 import { loadedStatus } from '@/appConstants';
@@ -20,27 +21,34 @@ export function getDocument<T>(
 ) {
   const docRef = doc(dbService, coll, docId);
 
-  const listener = onSnapshot(docRef, doc => {
+  const unsubscribeSnapshot = onSnapshot(docRef, doc => {
     setState({
       ...loadedStatus,
       data: doc.exists() ? (doc.data() as T) : null,
     });
   });
 
-  return listener;
+  return () => {
+    unsubscribeSnapshot();
+    subscribeLogout(unsubscribeSnapshot);
+  };
 }
+
+const testUser = [where('creatorId', '!=', 'iFvsDP6KI9PjsvKSNw3qvmwTcxk2')];
 
 export async function getSubCollectionGroup<T>(
   subCollName: SubCollectionSegment,
   setState: (arr: LoadableStatus<T[]>) => void,
   ...constraints: QueryConstraint[]
 ) {
-  const queryRef = query(
-    collectionGroup(dbService, subCollName),
-    ...constraints,
-  );
+  const con =
+    process.env.NODE_ENV === 'development'
+      ? [...constraints]
+      : [...constraints, ...testUser];
 
-  const listener = onSnapshot(queryRef, querySnapshot => {
+  const queryRef = query(collectionGroup(dbService, subCollName), ...con);
+
+  const unsubscribeSnapshot = onSnapshot(queryRef, querySnapshot => {
     const newDataArray = querySnapshot.docs.map(doc => {
       return {
         docId: doc.id,
@@ -52,7 +60,10 @@ export async function getSubCollectionGroup<T>(
     setState({ ...loadedStatus, data: newDataArray });
   });
 
-  return listener;
+  return () => {
+    unsubscribeSnapshot();
+    subscribeLogout(unsubscribeSnapshot);
+  };
 }
 
 export function getCollection<T>(
@@ -60,24 +71,42 @@ export function getCollection<T>(
   setState: (arr: LoadableStatus<T[]>) => void,
   ...constraints: QueryConstraint[]
 ) {
+  const con =
+    process.env.NODE_ENV === 'development'
+      ? [...constraints]
+      : [...constraints, ...testUser];
+
   const collRef = collection(dbService, coll);
-  const queryRef = query(collRef, ...constraints);
+  const queryRef = query(collRef, ...con);
 
-  const unsubscribeSnapshot = onSnapshot(queryRef, querySnapshot => {
-    const newArray = querySnapshot.docs.map(doc => {
-      return { docId: doc.id, ...doc.data() } as T;
-    });
+  const unsubscribeSnapshot = onSnapshot(
+    queryRef,
+    querySnapshot => {
+      const newArray = querySnapshot.docs.map(doc => {
+        return { docId: doc.id, ...doc.data() } as T;
+      });
 
-    setState({ ...loadedStatus, data: newArray });
-  });
+      setState({ ...loadedStatus, data: newArray });
+    },
+    error => {
+      console.warn(`[SUB ${coll}] onSnapshot ERROR`, {
+        coll,
+        code: (error as any).code,
+        message: error.message,
+      });
+    },
+  );
 
-  return unsubscribeSnapshot;
+  return () => {
+    unsubscribeSnapshot();
+    subscribeLogout(unsubscribeSnapshot);
+  };
 }
 
-export function unsubscribeAuth(listener: () => void) {
-  onAuthStateChanged(authService, user => {
-    if (user == null) {
-      listener();
-    }
+export function subscribeLogout(listener: () => void) {
+  const unsubAuth = onAuthStateChanged(authService, user => {
+    if (user == null) listener();
   });
+
+  return unsubAuth;
 }

@@ -7,7 +7,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 
 import { useRecoilValue } from 'recoil';
 
-import { userFcmSelectorFamily } from '@/data/fcmAtom';
+import { userFcmAtomFamily } from '@/data/fcmAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
 import { FCM_NOTIFICATION } from '@/appConstants';
@@ -21,7 +21,7 @@ function App() {
     useRecoilValue(currAuthUserAtom);
 
   const { status: isCurrFcmLoading, data: currUserFcm } = useRecoilValue(
-    userFcmSelectorFamily(currUser?.uid),
+    userFcmAtomFamily(currUser?.uid),
   );
 
   useEffect(() => {
@@ -53,7 +53,7 @@ function App() {
 
       compareToken();
     }
-  }, [isCurrFcmLoading, currUserFcm.notification, currUser?.uid]);
+  }, [isCurrFcmLoading, currUserFcm?.notification, currUser?.uid]);
 
   return isCurrAuthLoading === 'loaded' && isCurrFcmLoading === 'loaded' ? (
     <Router isLoggedIn={Boolean(currUser)} />

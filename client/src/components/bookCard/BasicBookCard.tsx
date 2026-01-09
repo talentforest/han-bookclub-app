@@ -1,5 +1,3 @@
-import { FiUser } from 'react-icons/fi';
-
 import { BaseBookData, MonthlyBookClub, MonthlyFieldAndHost } from '@/types';
 
 import ClubTimePlace from '@/components/common/ClubTimePlace';
@@ -32,7 +30,7 @@ export default function BasicBookCard({
         title={title}
         iconName={title.includes('이벤트') ? 'MdEventAvailable' : undefined}
         url={url}
-        className="w-24"
+        className="w-16"
       />
 
       <div className="flex w-full flex-col">
@@ -44,20 +42,19 @@ export default function BasicBookCard({
           <BookAuthorPublisher authors={authors} publisher={publisher} />
         )}
 
-        {fieldAndHosts && fieldAndHosts?.field && (
-          <BookField field={fieldAndHosts?.field} />
-        )}
+        {fieldAndHosts && (
+          <div className="mt-2 flex items-center justify-start gap-x-2">
+            {fieldAndHosts?.field && <BookField field={fieldAndHosts?.field} />}
 
-        {fieldAndHosts && fieldAndHosts?.hosts.length !== 0 && (
-          <div className="flex items-center gap-x-1">
-            <FiUser className="text-[16px] text-purple2" />
-            <ul className="flex gap-x-2">
-              {fieldAndHosts?.hosts?.map(host => (
-                <li key={host}>
-                  <UserImgName userId={host} size="sm" />
-                </li>
-              ))}
-            </ul>
+            {fieldAndHosts?.hosts.length !== 0 && (
+              <ul className="flex gap-x-2">
+                {fieldAndHosts?.hosts?.map(host => (
+                  <li key={host}>
+                    <UserImgName userId={host} size="sm" />
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         )}
 

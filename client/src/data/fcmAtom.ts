@@ -1,12 +1,8 @@
-import { atom, selectorFamily } from 'recoil';
+import { atomFamily } from 'recoil';
 
-import { getCollection } from '@/api';
+import { getDocument } from '@/api';
 
-import {
-  FCM_NOTIFICATION,
-  isLoadingStatus,
-  loadedStatus,
-} from '@/appConstants';
+import { FCM_NOTIFICATION, isLoadingStatus } from '@/appConstants';
 
 import { LoadableStatus } from '@/types';
 
@@ -17,29 +13,22 @@ interface FcmDocument {
   tokens?: string[];
 }
 
-export const userFcmListAtom = atom<LoadableStatus<FcmDocument[]>>({
-  key: 'userFcmListAtom',
-  default: isLoadingStatus,
-  effects: [
-    ({ setSelf, trigger }) => {
-      if (trigger !== 'get') return;
-      getCollection(FCM_NOTIFICATION, setSelf);
-    },
-  ],
-});
-
-export const userFcmSelectorFamily = selectorFamily<
+export const userFcmAtomFamily = atomFamily<
   LoadableStatus<FcmDocument>,
   string
 >({
-  key: 'userFcmSelectorFamily',
-  get:
-    (userId: string) =>
-    ({ get }) => {
-      const { data: userFcmList, status } = get(userFcmListAtom);
-      if (status === 'isLoading' || !userId) return isLoadingStatus;
-      const data = userFcmList?.find(({ docId }) => docId === userId);
+  key: 'userFcmAtomFamily',
+  default: isLoadingStatus,
+  effects: (uid: string) => [
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get') return;
 
-      return { ...loadedStatus, data: data || null };
+      if (!uid) {
+        setSelf({ status: 'loaded', data: null });
+        return;
+      }
+
+      getDocument(FCM_NOTIFICATION, uid, setSelf);
     },
+  ],
 });

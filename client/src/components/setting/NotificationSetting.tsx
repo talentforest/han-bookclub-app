@@ -5,7 +5,7 @@ import { doc, setDoc, updateDoc } from 'firebase/firestore';
 
 import { useRecoilValue } from 'recoil';
 
-import { userFcmSelectorFamily } from '@/data/fcmAtom';
+import { userFcmAtomFamily } from '@/data/fcmAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
 import { FCM_NOTIFICATION } from '@/appConstants';
@@ -26,7 +26,7 @@ export default function NotificationSetting() {
     data: { uid },
   } = useRecoilValue(currAuthUserAtom);
 
-  const { data: currUserFcm } = useRecoilValue(userFcmSelectorFamily(uid));
+  const { data: currUserFcm } = useRecoilValue(userFcmAtomFamily(uid));
 
   const anonymous = authService.currentUser?.isAnonymous;
 

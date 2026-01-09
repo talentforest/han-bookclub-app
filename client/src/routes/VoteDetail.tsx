@@ -4,7 +4,7 @@ import { FiUsers } from 'react-icons/fi';
 
 import { useRecoilValue } from 'recoil';
 
-import { userFcmSelectorFamily } from '@/data/fcmAtom';
+import { userFcmAtomFamily } from '@/data/fcmAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 import { bookVoteAtomFamily, voteMemberListAtomFamily } from '@/data/voteAtom';
 
@@ -40,7 +40,7 @@ const VoteDetail = () => {
   const {
     data: { email, uid },
   } = useRecoilValue(currAuthUserAtom);
-  const { data: currUserFcm } = useRecoilValue(userFcmSelectorFamily(uid));
+  const { data: currUserFcm } = useRecoilValue(userFcmAtomFamily(uid));
 
   const {
     voteCountsById,

@@ -17,7 +17,17 @@ export const challengeAtomFamily = atomFamily<
   effects: (year: string) => [
     ({ setSelf, trigger }) => {
       if (trigger !== 'get') return;
-      getCollection(CHALLENGE, setSelf, where('__name__', '>=', `${year}-`));
+      if (!year) {
+        setSelf({ status: 'loaded', data: null });
+        return;
+      }
+
+      const unsub = getCollection(
+        CHALLENGE,
+        setSelf,
+        where('__name__', '>=', `${year}-`),
+      );
+      return () => unsub();
     },
   ],
 });
@@ -30,8 +40,18 @@ export const challengeListByUserAtomFamily = atomFamily<
   default: isLoadingStatus,
   effects: (uid: string) => [
     ({ setSelf, trigger }) => {
-      if (trigger !== 'get' || !uid) return;
-      getCollection(CHALLENGE, setSelf, where('creatorId', '==', uid));
+      if (trigger !== 'get') return;
+      if (!uid) {
+        setSelf({ status: 'loaded', data: null });
+        return;
+      }
+      const unsub = getCollection(
+        CHALLENGE,
+        setSelf,
+        where('creatorId', '==', uid),
+      );
+
+      return () => unsub();
     },
   ],
 });

@@ -67,7 +67,7 @@ function Router({ isLoggedIn }: RouterProps) {
             <Route path="/monthlyinfo" element={<MonthlyClubInfo />} />
             <Route path="/challenge" element={<Challenge />} />
             <Route
-              path="/yearClosingEvent/:id?"
+              path="/yearClosingEvent/:id"
               element={<YearClosingDetail />}
             />
             <Route path="/search" element={<Search />} />
@@ -94,10 +94,7 @@ function Router({ isLoggedIn }: RouterProps) {
             />
 
             <Route path="/setting" element={<Setting />} />
-            <Route
-              path="/setting/myAbsenceMonth"
-              element={<MyAbsenceMonth />}
-            />
+            <Route path="/setting/absence" element={<MyAbsenceMonth />} />
             <Route path="/setting/edit-profile" element={<EditProfile />} />
             <Route path="/setting/edit-password" element={<ChangePassword />} />
             <Route path="/setting/delete-account" element={<DeleteAccount />} />

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
-import { userFcmSelectorFamily } from '@/data/fcmAtom';
+import { userFcmAtomFamily } from '@/data/fcmAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
 import { getCollection } from '@/api';
@@ -30,7 +30,7 @@ export default function Developer() {
     data: { email, uid },
   } = useRecoilValue(currAuthUserAtom);
 
-  const { data: currUserFcm } = useRecoilValue(userFcmSelectorFamily(uid));
+  const { data: currUserFcm } = useRecoilValue(userFcmAtomFamily(uid));
 
   const { data: thisMonthClub, status } = useRecoilValue(
     clubByMonthSelector(thisYearMonthId),
