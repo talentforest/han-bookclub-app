@@ -128,14 +128,16 @@ export const bestSubjectListAtomFamily = atomFamily<
       if (trigger !== 'get') return;
 
       if (!yearMonthId) {
-        setSelf({ status: 'loaded', data: null });
+        setSelf({ status: 'loaded', data: [] });
       }
 
-      getCollection(
-        getFbRouteOfPost(yearMonthId, SUBJECTS),
-        setSelf,
-        ...testerCreatorIdConstraint,
-      );
+      if (yearMonthId) {
+        getCollection(
+          getFbRouteOfPost(yearMonthId, SUBJECTS),
+          setSelf,
+          ...testerCreatorIdConstraint,
+        );
+      }
     },
   ],
 });

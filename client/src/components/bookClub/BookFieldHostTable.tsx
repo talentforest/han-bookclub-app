@@ -54,7 +54,7 @@ const BookFieldHostTable = ({
     });
   };
 
-  const rowDataList = Object.entries(data)
+  const rowDataList = Object.entries(data || {})
     .map(([key, value]: [string, MonthlyFieldAndHost]) => ({
       ...value,
       month: +key.slice(0, -1),

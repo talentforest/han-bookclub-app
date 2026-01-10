@@ -41,7 +41,6 @@ const Setting = () => {
       name: '사용자 설정',
       list: [
         { to: 'edit-profile', name: '프로필 정보' },
-        { to: 'edit-password', name: '비밀번호 변경' },
         { to: 'myAbsenceMonth', name: '모임불참', state: { year: thisYear } },
         { to: 'notification', name: '알림' },
       ],
@@ -50,6 +49,7 @@ const Setting = () => {
       auth: !authService.currentUser.isAnonymous,
       name: '인증',
       list: [
+        { to: 'edit-password', name: '비밀번호 변경' },
         { to: '', name: '로그아웃', children: <LogOutBtn /> },
         { to: 'delete-account', name: '탈퇴' },
       ],

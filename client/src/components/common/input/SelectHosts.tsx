@@ -27,32 +27,36 @@ export default function SelectHosts({
   onChange,
   errorMsg,
 }: SelectHostsProps) {
-  const { data: usersDoc } = useRecoilValue(userListAtom);
+  const { status, data: usersDoc } = useRecoilValue(userListAtom);
 
-  const hostOptions = [...usersDoc, noHost].map(host => {
-    return { value: host.id, label: host.displayName };
-  });
+  const hostOptions = usersDoc
+    ? [...usersDoc, noHost].map(host => {
+        return { value: host.id, label: host.displayName };
+      })
+    : [];
 
   const currentHost = hostOptions.filter(({ value }) =>
     selectedHosts?.includes(value),
   );
 
   return (
-    <div className="flex flex-col">
-      <Label text={label} />
-      <Select
-        className="h-12 shadow-none shadow-purple2 focus-within:border-pointCoral [&>div:nth-child(3)]:h-full [&>div:nth-child(3)]:rounded-xl [&>div:nth-child(3)]:border-gray1"
-        menuPosition="fixed"
-        name="host"
-        placeholder={`${label}를 선택해주세요`}
-        defaultValue={!!currentHost.length ? [...currentHost] : []}
-        isMulti
-        options={hostOptions}
-        isClearable={false}
-        isSearchable={false}
-        onChange={value => onChange(value as any)}
-      />
-      {errorMsg && <ErrorMsg msg={errorMsg} />}
-    </div>
+    status === 'loaded' && (
+      <div className="flex flex-col">
+        <Label text={label} />
+        <Select
+          className="h-12 shadow-none shadow-purple2 focus-within:border-pointCoral [&>div:nth-child(3)]:h-full [&>div:nth-child(3)]:rounded-xl [&>div:nth-child(3)]:border-gray1"
+          menuPosition="fixed"
+          name="host"
+          placeholder={`${label}를 선택해주세요`}
+          defaultValue={!!currentHost.length ? [...currentHost] : []}
+          isMulti
+          options={hostOptions}
+          isClearable={false}
+          isSearchable={false}
+          onChange={value => onChange(value as any)}
+        />
+        {errorMsg && <ErrorMsg msg={errorMsg} />}
+      </div>
+    )
   );
 }

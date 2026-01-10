@@ -5,7 +5,12 @@ import { useRecoilValue } from 'recoil';
 
 import { absenceAtom } from '@/data/absenceAtom';
 
-import { ABSENCE_MEMBERS, getInitialDataObjByMonth } from '@/appConstants';
+import {
+  ABSENCE_MEMBERS,
+  developmentMode,
+  getInitialDataObjByMonth,
+  testerUid,
+} from '@/appConstants';
 
 import { MonthlyAbsenceMembers } from '@/types';
 
@@ -43,12 +48,16 @@ export default function AbsenceMemberTable({
 
   const rowDataList = Object.entries(data || {})
     .map(([key, value]: [string, MonthlyAbsenceMembers]) => ({
-      ...value,
+      onceAbsenceMembers: developmentMode
+        ? value.onceAbsenceMembers
+        : value.onceAbsenceMembers.filter(uid => uid !== testerUid),
+      breakMembers: developmentMode
+        ? value.breakMembers
+        : value.breakMembers.filter(uid => uid !== testerUid),
       month: +key.slice(0, -1),
     }))
     .sort((a, b) => a.month - b.month);
 
-  console.log(data);
   return (
     <>
       {status === 'loaded' &&

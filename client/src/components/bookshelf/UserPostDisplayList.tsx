@@ -6,7 +6,10 @@ import { FaChevronRight } from 'react-icons/fa';
 import { getSubCollectionGroup } from '@/api';
 
 import {
+  HOST_REVIEW,
   RECOMMENDED_BOOKS,
+  REVIEWS,
+  SUBJECTS,
   isLoadingStatus,
   postNameObj,
 } from '@/appConstants';
@@ -32,7 +35,7 @@ export default function UserPostDisplayList({
   userId,
   limitNum,
 }: UserPostDisplayListProps) {
-  const [{ data: postList }, setPostList] =
+  const [{ data: postListByYear }, setPostList] =
     useState<LoadableStatus<UserPost[]>>(isLoadingStatus);
 
   useEffect(() => {
@@ -46,7 +49,7 @@ export default function UserPostDisplayList({
   }, []);
 
   const postListByYearMonthId = Object.values(
-    postList?.reduce<{ [key: string]: UserPost[] }[]>((acc, curr) => {
+    postListByYear?.reduce<{ [key: string]: UserPost[] }[]>((acc, curr) => {
       const key = curr.yearMonthId;
       const found = acc.find(obj => obj[key]);
 
@@ -59,8 +62,6 @@ export default function UserPostDisplayList({
     }, []) || {},
   );
 
-  const recommendedBooksType = postTypeKey === RECOMMENDED_BOOKS;
-
   const { showModal } = useHandleModal();
 
   const toggleModal = (postList: UserPost[], yearMonthId: string) => {
@@ -70,53 +71,85 @@ export default function UserPostDisplayList({
           title={postNameObj['subCollection'][postTypeKey]}
           postList={postList}
           yearMonthId={yearMonthId}
+          collName={`BookClub-${yearMonthId.slice(0, 4)}/${yearMonthId}/${postTypeKey}`}
         />
       ),
     });
   };
 
+  const displayList = {
+    [SUBJECTS]: (postList: UserPost[]) => (
+      <button
+        type="button"
+        disabled={limitNum === 1}
+        onClick={() => toggleModal(postList, postList[0].yearMonthId)}
+        className="w-full"
+      >
+        <FooterBookCard book={postList[0].clubBook} />
+      </button>
+    ),
+
+    [HOST_REVIEW]: (postList: UserPost[]) => (
+      <button
+        type="button"
+        disabled={limitNum === 1}
+        onClick={() => toggleModal(postList, postList[0].yearMonthId)}
+        className="w-full"
+      >
+        <FooterBookCard book={postList[0].clubBook} />
+      </button>
+    ),
+
+    [RECOMMENDED_BOOKS]: (postList: UserPost[]) => (
+      <ul className="grid grid-cols-1 divide-y-2 divide-dotted [&>li:first-child]:pt-0 [&>li:last-child]:pb-0">
+        {postList.map(post => (
+          <li key={post.docId} className="w-full py-2">
+            <button
+              type="button"
+              disabled={limitNum === 1}
+              onClick={() => toggleModal([post], post.yearMonthId)}
+              className="w-full"
+            >
+              <FooterBookCard book={post.recommendedBook} />
+            </button>
+          </li>
+        ))}
+      </ul>
+    ),
+
+    [REVIEWS]: (postList: UserPost[]) => (
+      <button
+        type="button"
+        disabled={limitNum === 1}
+        onClick={() => toggleModal(postList, postList[0].yearMonthId)}
+        className="w-full"
+      >
+        <QuoteArticle isPreview subject={postList[0].text} />
+
+        <div className="mt-2 flex w-full items-center">
+          <span className="line-clamp-1 min-w-fit pr-1 text-sm font-medium text-blue3">
+            {formatDate(postList[0].yearMonthId, 'yyyy년 M월')} |
+          </span>
+          <span className="line-clamp-1 pr-1 text-sm font-medium text-purple2">
+            {postList[0]?.clubBook?.title || '이벤트'}
+          </span>
+          {limitNum !== 1 && (
+            <FaChevronRight size={13} className="ml-auto text-gray2" />
+          )}
+        </div>
+      </button>
+    ),
+  };
+
   return postListByYearMonthId?.length > 0 ? (
     <ul className="grid grid-cols-1 divide-y-2 divide-dotted [&>li:first-child]:pt-0 [&>li:last-child]:pb-0">
       {postListByYearMonthId?.map(obj => {
-        const [key, postList] = Object.entries(obj)[0];
+        const [yearMonthId, postList] = Object.entries(obj)[0];
+
         return (
           postList?.length > 0 && (
-            <li key={key} className="w-full py-3">
-              <button
-                type="button"
-                disabled={limitNum === 1}
-                onClick={() => toggleModal(postList, key)}
-                className="w-full"
-              >
-                {postTypeKey !== 'Reviews' ? (
-                  <FooterBookCard
-                    book={
-                      recommendedBooksType
-                        ? postList[0].recommendedBook
-                        : postList[0].clubBook
-                    }
-                  />
-                ) : (
-                  <>
-                    <QuoteArticle isPreview subject={postList[0].text} />
-
-                    <div className="mt-2 flex w-full items-center">
-                      <span className="line-clamp-1 min-w-fit pr-1 text-sm font-medium text-blue3">
-                        {formatDate(postList[0].yearMonthId, 'yyyy년 M월')} |
-                      </span>
-                      <span className="line-clamp-1 pr-1 text-sm font-medium text-purple2">
-                        {postList[0]?.clubBook?.title || '이벤트'}
-                      </span>
-                      {limitNum !== 1 && (
-                        <FaChevronRight
-                          size={13}
-                          className="ml-auto text-gray2"
-                        />
-                      )}
-                    </div>
-                  </>
-                )}
-              </button>
+            <li key={yearMonthId} className="w-full py-2">
+              {displayList[postTypeKey](postList)}
             </li>
           )
         );

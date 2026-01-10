@@ -1,6 +1,6 @@
 import { SwiperSlide } from 'swiper/react';
 
-import { UserPost } from '@/types';
+import { SubCollection, UserPost } from '@/types';
 
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
 import Modal from '@/components/common/Modal';
@@ -12,6 +12,7 @@ interface QuoteArticleModalProps {
   title: string;
   postList: UserPost[];
   yearMonthId: string;
+  collName: SubCollection;
 }
 
 const options = {
@@ -36,16 +37,21 @@ export default function QuoteArticleModal({
   title,
   postList,
   yearMonthId,
+  collName,
 }: QuoteArticleModalProps) {
   return (
     <Modal title={title} className="!p-4">
       {postList.length === 1 ? (
-        <Post post={postList[0]} yearMonthId={yearMonthId} />
+        <Post
+          post={postList[0]}
+          yearMonthId={yearMonthId}
+          collName={collName}
+        />
       ) : (
         <SwiperContainer options={options}>
           {postList.map(post => (
             <SwiperSlide key={post.docId} className="!h-full !py-0">
-              <Post post={post} />
+              <Post post={post} collName={collName} />
             </SwiperSlide>
           ))}
         </SwiperContainer>
@@ -57,12 +63,14 @@ export default function QuoteArticleModal({
 const Post = ({
   post,
   yearMonthId,
+  collName,
 }: {
   post: UserPost;
+  collName?: SubCollection;
   yearMonthId?: string;
 }) => {
   return (
-    <div className={`flex flex-col`}>
+    <div className={`flex w-full flex-col`}>
       {post?.clubBook && (
         <FooterBookCard
           book={post?.recommendedBook || post.clubBook}
@@ -76,7 +84,12 @@ const Post = ({
         className="!max-h-[50vh] min-h-[40vh] w-full rounded-xl bg-gray-100 px-1.5 py-2.5"
       />
 
-      <PostFooter createdAt={post.createdAt} footerType="like" post={post} />
+      <PostFooter
+        createdAt={post.createdAt}
+        footerType="like"
+        post={post}
+        collName={collName}
+      />
     </div>
   );
 };

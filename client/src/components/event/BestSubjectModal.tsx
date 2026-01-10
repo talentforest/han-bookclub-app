@@ -44,15 +44,17 @@ export default function BestSubjectModal({
     useEditDoc<EventContentUpdateRoute>({
       collName: `BookClub-${year}`,
       docId: `${year}-12`,
-      dataToUpdate: { 'meeting.eventMonth.contents': [] },
+      dataToUpdate: {
+        'meeting.eventMonth.contents': club.meeting.eventMonth.contents,
+      },
     });
 
-  const currBook = editedData['meeting.eventMonth.contents']
-    .find(content => content.title.includes('최고의 모임책'))
+  const selectedBook = editedData['meeting.eventMonth.contents']
+    .find(content => content.title.includes('최고의 모임책과 발제문'))
     ?.result.subjects.find(subject => subject.rank === rank);
 
   const { status, data: subjectList } = useRecoilValue(
-    bestSubjectListAtomFamily(currBook?.yearMonthId),
+    bestSubjectListAtomFamily(selectedBook?.yearMonthId),
   );
 
   const ref = useRef<HTMLInputElement>(null);
@@ -172,7 +174,9 @@ export default function BestSubjectModal({
           </div>
 
           <div className="flex items-center">
-            {currBook?.clubBook && <FooterBookCard book={currBook?.clubBook} />}
+            {selectedBook?.clubBook && (
+              <FooterBookCard book={selectedBook?.clubBook} />
+            )}
 
             <SquareBtn
               name="선택하기"

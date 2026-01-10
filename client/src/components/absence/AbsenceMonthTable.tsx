@@ -1,8 +1,11 @@
 import { useRecoilValue } from 'recoil';
 
 import { absenceAtom } from '@/data/absenceAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
 
 import { useHandleModal } from '@/hooks';
+
+import { MonthlyAbsenceMembers } from '@/types';
 
 import AbsenceForm from '@/components/absence/AbsenceForm';
 import LoopLoading from '@/components/common/LoopLoading';
@@ -16,9 +19,14 @@ interface AbsenceMonthTableProps {
 export default function AbsenceMonthTable({ year }: AbsenceMonthTableProps) {
   const { status, data } = useRecoilValue(absenceAtom(year));
 
+  const {
+    data: { uid },
+  } = useRecoilValue(currAuthUserAtom);
+
   const rowDataList = Object.entries(data || {})
-    .map(([key, value]: [string, any]) => ({
-      ...value,
+    .map(([key, value]: [string, MonthlyAbsenceMembers]) => ({
+      onceAbsenceMonth: value.onceAbsenceMembers.includes(uid),
+      breakMonth: value.breakMembers.includes(uid),
       month: +key.slice(0, -1),
     }))
     .sort((a, b) => a.month - b.month);

@@ -4,6 +4,7 @@ import FooterBookCard from '@/components/bookCard/FooterBookCard';
 import Modal from '@/components/common/Modal';
 import BookAuthorPublisher from '@/components/common/book/BookAuthorPublisher';
 import BookThumbnail from '@/components/common/book/BookThumbnail';
+import EditorContent from '@/components/common/editor/EditorContent';
 import UserImgName from '@/components/common/user/UserImgName';
 import PostFooter from '@/components/post/PostFooter';
 import PostHeader from '@/components/post/PostHeader';
@@ -48,10 +49,8 @@ export default function RecommendedBookModal({
         <h3 className="mt-1 flex items-center border-t-2 border-dotted border-gray3 pt-2 tracking-tight">
           <UserImgName userId={creatorId} isLink={false} />의 추천 이유
         </h3>
-        <p
-          dangerouslySetInnerHTML={{ __html: text }}
-          className="mt-2 whitespace-pre-wrap break-all tracking-tight"
-        />
+
+        <EditorContent text={text} className="mt-2" />
 
         {clubBook && (
           <>
