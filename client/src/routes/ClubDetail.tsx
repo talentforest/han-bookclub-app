@@ -61,18 +61,18 @@ const ClubDetail = () => {
                 </Section>
 
                 <div className="grid grid-cols-5 gap-x-6 max-sm:flex max-sm:flex-col [&>section:first-child]:col-span-2 [&>section:last-child]:col-span-3">
-                  {absenteeList && (
+                  {absenteeList && participantList && (
                     <Section
                       title={`${isThisMonthClubDetail ? '이번' : '지난'} 참석 정보`}
                     >
                       <div className="flex flex-col gap-4">
                         <MemberListCard
-                          title={`참석 멤버 ${participantList.length}명`}
-                          memberList={participantList}
+                          title={`참석 멤버 ${participantList?.length}명`}
+                          memberList={participantList || []}
                         />
                         <MemberListCard
-                          title={`불참 멤버 ${absenteeList.length}명`}
-                          memberList={absenteeList}
+                          title={`불참 멤버 ${absenteeList?.length}명`}
+                          memberList={absenteeList || []}
                         />
                       </div>
                     </Section>

@@ -34,7 +34,12 @@ export const attendanceSelector = selectorFamily({
       const allMemberList = get(userListAtom);
       const absence = get(absenceAtom(year));
 
-      if (absence.status === 'isLoading' || absence.data === null) {
+      if (
+        !yearMonthId ||
+        absence.status === 'isLoading' ||
+        absence.data === null ||
+        allMemberList.data === null
+      ) {
         return { absenteeList: null, participantList: null };
       }
 
