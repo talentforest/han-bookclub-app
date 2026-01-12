@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { BiCheckCircle } from 'react-icons/bi';
 
 import { useRecoilValue } from 'recoil';
@@ -22,8 +20,6 @@ interface MeetingReviewFormProps {
 }
 
 const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
-  const [isAnonymous, setIsAnonymous] = useState(false);
-
   const {
     data: { book: clubBook },
   } = useRecoilValue(clubByMonthSelector(thisYearMonthId));
@@ -39,7 +35,7 @@ const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
     createdAt: '',
     creatorId: uid,
     clubBook: clubBook || null,
-    isAnonymous,
+    isAnonymous: false,
   };
 
   const { onAddDocSubmit, onDataChange, newDocData } = useAddDoc<
@@ -56,7 +52,6 @@ const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
     try {
       await onAddDocSubmit(event);
       alert('성공적으로 등록되었습니다.');
-      onDataChange({ text: '' });
       await sendPostPushNotification('모임 후기');
     } catch (error) {
       window.alert('모임 후기 등록 중 문제가 발생했습니다. 다시 시도해주세요.');
@@ -81,8 +76,10 @@ const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
         <div className="flex items-end">
           <button
             type="button"
-            className={`flex items-center ${isAnonymous ? 'text-blue3' : 'text-gray2'} py-1`}
-            onClick={() => setIsAnonymous(prev => !prev)}
+            className={`flex items-center ${newDocData.isAnonymous ? 'text-blue3' : 'text-gray2'} py-1`}
+            onClick={() =>
+              onDataChange({ isAnonymous: !newDocData.isAnonymous })
+            }
           >
             <BiCheckCircle />
             <span className="pl-1">익명으로 작성하기</span>
