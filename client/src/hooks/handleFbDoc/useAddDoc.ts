@@ -38,16 +38,19 @@ export const useAddDoc = <T extends { [key in string]: any }>({
     try {
       if (newDocData.text.length === 0) return;
 
+      const createdAt = formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
+
       await setDoc(docRef, {
         ...newDocData,
-        createdAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
+        createdAt,
       });
 
       if (collName.includes(RECOMMENDED_BOOKS)) {
         setMyRecommendBook(initialRecommendedBook);
       }
 
-      setNewDocData(initialDocData);
+      // setNewDocData(initialDocData);
+      return { postId: docRef.id, createdAt };
     } catch (error) {
       console.error('Error adding document:', error);
     }

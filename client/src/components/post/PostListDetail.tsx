@@ -58,7 +58,7 @@ export default function PostListDetail() {
 
   const { showModal } = useHandleModal();
 
-  const postType = pathname.includes('host-review') ? '정리 기록' : '발제문';
+  const postType = pathname.includes('host-review') ? HOST_REVIEW : SUBJECTS;
   const postId = state?.postId ?? '';
 
   const toggleAddPostModal = () => {
@@ -67,17 +67,19 @@ export default function PostListDetail() {
   };
 
   const postInfo = {
-    발제문: {
+    [SUBJECTS]: {
+      postName: '발제문' as const,
       postList: subjectList,
       collName: subjectCollName,
     },
-    '정리 기록': {
+    [HOST_REVIEW]: {
+      postName: '정리 기록' as const,
       postList: hostReviewList,
       collName: hostReviewCollName,
     },
   };
 
-  const { postList, collName } = postInfo[postType];
+  const { postList, collName, postName } = postInfo[postType];
 
   const currPostList = postId
     ? postList?.filter(post => post.docId === postId)
@@ -87,7 +89,7 @@ export default function PostListDetail() {
     status === 'loaded' && (
       <>
         <MobileHeader
-          title={`${yearMonthId === thisYearMonthId ? '이달' : formatDate(yearMonthId, 'yyyy년 M월')}의 한페이지 ${postType}`}
+          title={`${yearMonthId === thisYearMonthId ? '이달' : formatDate(yearMonthId, 'yyyy년 M월')}의 한페이지 ${name}`}
           backBtn
         />
 
@@ -103,7 +105,7 @@ export default function PostListDetail() {
             <SquareBtn
               type="button"
               color="blue"
-              name={`${postType} 작성하기`}
+              name={`${postName} 작성하기`}
               handleClick={toggleAddPostModal}
               className="mt-5 w-full"
               size="lg"
@@ -117,7 +119,7 @@ export default function PostListDetail() {
             currPostList.map((post, index) => (
               <Fragment key={post.docId}>
                 <Post
-                  type={postType}
+                  type={postName}
                   post={post}
                   collName={collName}
                   className="relative mt-4 max-sm:pb-4"

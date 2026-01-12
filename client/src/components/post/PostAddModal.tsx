@@ -5,20 +5,27 @@ import { useRecoilValue } from 'recoil';
 import { clubByMonthSelector } from '@/data/clubAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
-import { HOST_REVIEW, SUBJECTS } from '@/appConstants';
+import { HOST_REVIEW, SUBJECTS, postNameObj } from '@/appConstants';
 
-import { useAddDoc, useHandleModal, useSendPushNotification } from '@/hooks';
+import {
+  useAddDoc,
+  useHandleModal,
+  useHandlePenalty,
+  useSendPushNotification,
+} from '@/hooks';
 
 import { getFbRouteOfPost, thisYearMonthId } from '@/utils';
 
-import { SubPostTypeValue, UserPost } from '@/types';
+import { PenaltyType, PostTypeKey, UserPost } from '@/types';
 
 import Modal from '@/components/common/Modal';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import QuillEditor from '@/components/common/editor/QuillEditor';
 
+type PostType = Extract<PostTypeKey, typeof SUBJECTS | typeof HOST_REVIEW>;
+
 interface PostAddModalProps {
-  postType: SubPostTypeValue;
+  postType: PostType;
 }
 
 const PostAddModal = ({ postType }: PostAddModalProps) => {
@@ -32,12 +39,13 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
 
   const { sendPostPushNotification, isPending } = useSendPushNotification();
 
+  const { penaltyCheck, updatePenalty } = useHandlePenalty();
+
   const { docId: yearMonthId, book } = thisMonthClub;
 
-  const collName =
-    postType === '발제문'
-      ? getFbRouteOfPost(yearMonthId, SUBJECTS)
-      : getFbRouteOfPost(yearMonthId, HOST_REVIEW);
+  const postName = postNameObj.subCollection[postType];
+
+  const collName = getFbRouteOfPost(yearMonthId, postType);
 
   const initialDocData = {
     text: '',
@@ -52,17 +60,32 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
 
   const { hideModal } = useHandleModal();
 
+  const penaltyByTypeObj: {
+    [postType in PostType]: PenaltyType;
+  } = {
+    [SUBJECTS]: 'LATE_SUBJECT',
+    [HOST_REVIEW]: 'LATE_HOST_REVIEW',
+  };
+
+  const penaltyType = penaltyByTypeObj[postType];
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    if (newDocData.text === '') return;
+    event.preventDefault();
+
+    const { text } = newDocData;
+    if (text === '') return;
 
     try {
-      await onAddDocSubmit(event);
-
-      onDataChange({ text: '' });
+      const { postId, createdAt } = await onAddDocSubmit(event);
 
       alert('성공적으로 등록되었습니다.');
 
-      await sendPostPushNotification(postType);
+      const penalty = penaltyCheck(penaltyType, createdAt);
+      if (penalty.isOverdue) {
+        updatePenalty({ penaltyType, postId, createdAt });
+      }
+
+      await sendPostPushNotification(postName);
 
       hideModal();
     } catch (error) {
@@ -71,13 +94,13 @@ const PostAddModal = ({ postType }: PostAddModalProps) => {
   };
 
   return (
-    <Modal title={`${postType} 작성하기`}>
+    <Modal title={`${postName} 작성하기`}>
       <form
         onSubmit={handleSubmit}
         className="flex flex-col overflow-scroll scrollbar-hide"
       >
         <QuillEditor
-          placeholder={`${postType}을 작성해주세요`}
+          placeholder={`${postName}을 작성해주세요`}
           text={newDocData.text}
           setText={text => onDataChange({ text })}
         />

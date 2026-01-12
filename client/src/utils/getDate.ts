@@ -74,7 +74,7 @@ export function getThirdSunday(
 
 /**
  * 📍발제문 페널티
- * -모임일 2일 전(목요일) 23:59 기한
+ * -모임일 2일 전(목요일) 23:59:59 기한
  */
 export function getSubjectDeadline(meetingDate: string): Date {
   const d = new Date(meetingDate);
@@ -88,7 +88,7 @@ export function getSubjectDeadline(meetingDate: string): Date {
 
 /**
  * 📍불참후기/정리기록 페널티
- * -월 마지막날 23:59 기한
+ * -월 마지막날 23:59:59 기한
  */
 export function getLastDayOfMonth(year = +thisYear, month = +thisMonth): Date {
   const date = new Date(year, month, 1);

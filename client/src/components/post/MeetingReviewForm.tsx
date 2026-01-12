@@ -2,12 +2,13 @@ import { BiCheckCircle } from 'react-icons/bi';
 
 import { useRecoilValue } from 'recoil';
 
+import { absenceAtom } from '@/data/absenceAtom';
 import { clubByMonthSelector } from '@/data/clubAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
 import { REVIEWS } from '@/appConstants';
 
-import { useAddDoc, useSendPushNotification } from '@/hooks';
+import { useAddDoc, useHandlePenalty, useSendPushNotification } from '@/hooks';
 
 import { getFbRouteOfPost, thisYearMonthId } from '@/utils';
 
@@ -16,10 +17,10 @@ import { UserPost } from '@/types';
 import SquareBtn from '@/components/common/button/SquareBtn';
 
 interface MeetingReviewFormProps {
-  docMonth: string;
+  yearMonthId: string;
 }
 
-const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
+const MeetingReviewForm = ({ yearMonthId }: MeetingReviewFormProps) => {
   const {
     data: { book: clubBook },
   } = useRecoilValue(clubByMonthSelector(thisYearMonthId));
@@ -28,7 +29,13 @@ const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
     data: { uid },
   } = useRecoilValue(currAuthUserAtom);
 
-  const collName = getFbRouteOfPost(docMonth, REVIEWS);
+  const year = yearMonthId.slice(0, 4);
+
+  const { data: absence } = useRecoilValue(absenceAtom(year));
+
+  const absenceInfo = absence[`${+yearMonthId.slice(-2)}월`];
+
+  const collName = getFbRouteOfPost(yearMonthId, REVIEWS);
 
   const initialDocData = {
     text: '',
@@ -37,6 +44,8 @@ const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
     clubBook: clubBook || null,
     isAnonymous: false,
   };
+
+  const { penaltyCheck, updatePenalty } = useHandlePenalty();
 
   const { onAddDocSubmit, onDataChange, newDocData } = useAddDoc<
     Partial<UserPost>
@@ -50,8 +59,16 @@ const MeetingReviewForm = ({ docMonth }: MeetingReviewFormProps) => {
     if (newDocData.text === '') return;
 
     try {
-      await onAddDocSubmit(event);
+      const { createdAt, postId } = await onAddDocSubmit(event);
       alert('성공적으로 등록되었습니다.');
+
+      if (absenceInfo?.onceAbsenceMembers?.includes(uid)) {
+        const penalty = penaltyCheck('LATE_REVIEW', createdAt);
+        if (penalty.isOverdue) {
+          updatePenalty({ penaltyType: 'LATE_REVIEW', postId, createdAt });
+        }
+      }
+
       await sendPostPushNotification('모임 후기');
     } catch (error) {
       window.alert('모임 후기 등록 중 문제가 발생했습니다. 다시 시도해주세요.');

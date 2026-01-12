@@ -31,7 +31,7 @@ const MeetingReviewList = ({
       <div
         className={`${!isThisMonthDetail && meetingReviewList.length === 0 ? 'columns-1' : 'columns-2'} max-sm:columns-1`}
       >
-        {isThisMonthDetail && <MeetingReviewForm docMonth={yearMonthId} />}
+        {isThisMonthDetail && <MeetingReviewForm yearMonthId={yearMonthId} />}
 
         {meetingReviewList?.length !== 0 ? (
           <ul>
