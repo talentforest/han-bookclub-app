@@ -9,6 +9,7 @@ import MobileHeader from '@/layout/MobileHeader';
 import AbsenceMemberTable from '@/components/absence/AbsenceMemberTable';
 import BookFieldHostTable from '@/components/bookClub/BookFieldHostTable';
 import ChevronRightLinkBtn from '@/components/common/button/ChevronRightLinkBtn';
+import PenaltyInfo from '@/components/penalty/PenaltyInfo';
 
 type InfoType = 'fieldAndHost' | 'absence' | 'penalty';
 
@@ -47,7 +48,7 @@ export default function MonthlyClubInfo() {
           <BookFieldHostTable year={thisYear} isEditable isMonth />
         )}
 
-        {name === '페널티' && <BookFieldHostTable year={thisYear} isMonth />}
+        {name === '페널티' && <PenaltyInfo year={thisYear} />}
       </main>
     </>
   );

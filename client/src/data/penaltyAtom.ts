@@ -1,18 +1,21 @@
-import { atom, selector } from 'recoil';
+import { atomFamily } from 'recoil';
 
-import { isLoadingStatus } from '@/appConstants';
+import { getDocument } from '@/api';
 
-import { LoadableStatus, UserPenalty } from '@/types';
+import { PENALTY, isLoadingStatus } from '@/appConstants';
 
-export const penaltyAtom = atom<LoadableStatus<UserPenalty>>({
-  key: 'penaltyAtom',
+import { LoadableStatus, Penalty } from '@/types';
+
+export const penaltyAtomFamily = atomFamily<LoadableStatus<Penalty>, string>({
+  key: 'penaltyAtomFamily',
   default: isLoadingStatus,
-});
+  effects: (year: string) => [
+    ({ setSelf, trigger }) => {
+      if (trigger !== 'get') return;
 
-export const userPenaltyAtom = selector({
-  key: 'userPenaltyAtom',
-  get: ({ get }) => {
-    const penaltyDoc = get(penaltyAtom);
-    return penaltyDoc;
-  },
+      if (!year) return setSelf({ status: 'loaded', data: null });
+
+      getDocument(`BookClub-${year}`, PENALTY, setSelf);
+    },
+  ],
 });

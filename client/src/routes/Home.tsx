@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
+import { developmentMode } from '@/appConstants';
+
 import { nextMonth, nextYearMonthId, thisYear, thisYearMonthId } from '@/utils';
 
 import Footer from '@/layout/Footer';
@@ -39,8 +41,9 @@ const Home = () => {
     {
       name: `${thisYear} 페널티`,
       onClick: () => {
-        return alert('아직 준비중입니다!');
-        // navigate('/monthlyinfo', { state: 'penalty' });
+        developmentMode
+          ? navigate('/monthlyinfo', { state: 'penalty' })
+          : alert('아직 준비중입니다!');
       },
       color: 'gray' as const,
     },

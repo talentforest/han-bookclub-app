@@ -12,6 +12,7 @@ export const formatDate = (
     | 'dd'
     | 'HH:mm'
     | 'yyyy.M.d. a h:mm'
+    | 'yy.M.d. EEEE a h:mm:ss'
     | 'yy.M.d'
     | 'yyyy년 M월'
     | 'yyyy년 M월 d일'
@@ -50,7 +51,10 @@ const getNextYearMonthId = () => {
   return formatDate(date, 'yyyy-MM');
 };
 
-// 모임 날짜: 매달 셋째주 일요일 구하기
+/**
+ * 📍모임일
+ * -매월 셋째주 일요일
+ */
 export function getThirdSunday(
   year = +thisYear,
   month = +thisMonth,
@@ -68,22 +72,28 @@ export function getThirdSunday(
   return date;
 }
 
-// ✅ 발제문 작성 기한: 모임 전주 목요일 자정까지
-export function getSubmitSubjectDate(
-  year = +thisYear,
-  month = +thisMonth,
-): Date {
-  const date: Date = getThirdSunday(year, month);
-  date.setDate(date.getDate() - 2);
+/**
+ * 📍발제문 페널티
+ * -모임일 2일 전(목요일) 23:59 기한
+ */
+export function getSubjectDeadline(meetingDate: string): Date {
+  const d = new Date(meetingDate);
+  const date = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+
+  date.setDate(date.getDate() - 3);
+  date.setHours(23, 59, 59, 0);
+
   return date;
 }
 
-// ✅ 발제자의 정리 기록 => 매달 마지막 요일 자정
-// ✅ 모임 불참 후기 => 매달 마지막 요일 자정
+/**
+ * 📍불참후기/정리기록 페널티
+ * -월 마지막날 23:59 기한
+ */
 export function getLastDayOfMonth(year = +thisYear, month = +thisMonth): Date {
   const date = new Date(year, month, 1);
   date.setDate(date.getDate() - 1);
-  date.setHours(0, 0, 0, 0);
+  date.setHours(23, 59, 59, 0);
   return date;
 }
 
