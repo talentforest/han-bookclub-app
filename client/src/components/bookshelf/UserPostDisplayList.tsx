@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react';
 import { limit, orderBy, where } from 'firebase/firestore';
 import { FaChevronRight } from 'react-icons/fa';
 
+import { useRecoilValue } from 'recoil';
+
+import { currAuthUserAtom } from '@/data/userAtom';
+
 import { getSubCollectionGroup } from '@/api';
 
 import {
@@ -35,6 +39,8 @@ export default function UserPostDisplayList({
   userId,
   limitNum,
 }: UserPostDisplayListProps) {
+  const { data: currUser } = useRecoilValue(currAuthUserAtom);
+
   const [{ data: postListByYear }, setPostList] =
     useState<LoadableStatus<UserPost[]>>(isLoadingStatus);
 
@@ -117,28 +123,30 @@ export default function UserPostDisplayList({
       </ul>
     ),
 
-    [REVIEWS]: (postList: UserPost[]) => (
-      <button
-        type="button"
-        disabled={limitNum === 1}
-        onClick={() => toggleModal(postList, postList[0].yearMonthId)}
-        className="w-full"
-      >
-        <QuoteArticle isPreview subject={postList[0].text} />
+    [REVIEWS]: (postList: UserPost[]) => {
+      return (
+        <button
+          type="button"
+          disabled={limitNum === 1}
+          onClick={() => toggleModal(postList, postList[0].yearMonthId)}
+          className="w-full"
+        >
+          <QuoteArticle isPreview subject={postList[0].text} />
 
-        <div className="mt-2 flex w-full items-center">
-          <span className="line-clamp-1 min-w-fit pr-1 text-sm font-medium text-blue3">
-            {formatDate(postList[0].yearMonthId, 'yyyy년 M월')} |
-          </span>
-          <span className="line-clamp-1 pr-1 text-sm font-medium text-purple2">
-            {postList[0]?.clubBook?.title || '이벤트'}
-          </span>
-          {limitNum !== 1 && (
-            <FaChevronRight size={13} className="ml-auto text-gray2" />
-          )}
-        </div>
-      </button>
-    ),
+          <div className="mt-2 flex w-full items-center">
+            <span className="line-clamp-1 min-w-fit pr-1 text-sm font-medium text-blue3">
+              {formatDate(postList[0].yearMonthId, 'yyyy년 M월')} |
+            </span>
+            <span className="line-clamp-1 pr-1 text-sm font-medium text-purple2">
+              {postList[0]?.clubBook?.title || '이벤트'}
+            </span>
+            {limitNum !== 1 && (
+              <FaChevronRight size={13} className="ml-auto text-gray2" />
+            )}
+          </div>
+        </button>
+      );
+    },
   };
 
   return postListByYearMonthId?.length > 0 ? (
@@ -146,10 +154,13 @@ export default function UserPostDisplayList({
       {postListByYearMonthId?.map(obj => {
         const [yearMonthId, postList] = Object.entries(obj)[0];
 
+        const filterAnonymousList = postList.filter(post => !post.isAnonymous);
+        const list = currUser.uid === userId ? postList : filterAnonymousList;
+
         return (
-          postList?.length > 0 && (
+          list?.length > 0 && (
             <li key={yearMonthId} className="w-full py-2">
-              {displayList[postTypeKey](postList)}
+              {displayList[postTypeKey](list)}
             </li>
           )
         );

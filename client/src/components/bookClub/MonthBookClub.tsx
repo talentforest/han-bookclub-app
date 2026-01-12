@@ -83,8 +83,8 @@ export default function MonthBookClub({ yearMonthId }: MonthBookClubProps) {
           </div>
         ) : (
           <EmptyCard
-            text="아직 등록된 이번달 모임책이 없어요."
-            createBtnTitle="이번달 모임책 등록하기"
+            text="아직 등록된 모임책이 없어요."
+            createBtnTitle="모임책 등록하기"
             onCreateClick={() =>
               navigate('/search', {
                 state: { registerYearMonth: yearMonthId },

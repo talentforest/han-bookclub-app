@@ -10,7 +10,6 @@ import { useHandleModal } from '@/hooks';
 import { ReadingLifeQuestion } from '@/types';
 
 import BookThumbnail from '@/components/common/book/BookThumbnail';
-import EditBtn from '@/components/common/button/EditBtn';
 import UserImgName from '@/components/common/user/UserImgName';
 import ReadingLifeQuestionModal from '@/components/event/ReadingLifeQuestionModal';
 
@@ -31,7 +30,7 @@ export default function UserAnswer({
 
   const { showModal } = useHandleModal();
 
-  const openRereadingLifeQuestionListModal = (
+  const toggleModal = (
     questionTitle: string,
     answerType: ReadingLifeQuestion['answerType'],
   ) => {
@@ -41,6 +40,7 @@ export default function UserAnswer({
           questionTitle={questionTitle}
           answerType={answerType}
           year={year}
+          userAnswer={userAnswer}
         />
       ),
     });
@@ -51,47 +51,41 @@ export default function UserAnswer({
   return (
     <>
       {userAnswer ? (
-        <li className="flex flex-col gap-y-2 rounded-xl bg-darkGray p-3">
-          <div className="flex w-full items-center justify-between gap-x-1">
+        <li>
+          <button
+            type="button"
+            className="flex flex-col gap-y-2 rounded-xl bg-darkGray p-2.5"
+            onClick={() => toggleModal(question, answerType)}
+          >
             <UserImgName
               isLink={false}
               userId={userId}
               size="sm"
-              className="line-clamp-1 font-medium"
+              className="line-clamp-1 w-fit font-medium"
             />
-            {userId === currUser.uid && (
-              <EditBtn
-                className="!size-[22px] min-h-[22px] min-w-[22px] text-gray2"
-                onClick={() =>
-                  openRereadingLifeQuestionListModal(question, answerType)
-                }
+
+            {answerType === 'sentence' && (
+              <span
+                className={`w-fit break-words font-medium tracking-tight text-purple3`}
+              >
+                {answer}
+              </span>
+            )}
+
+            {answerType === 'book' && book && (
+              <BookThumbnail
+                title={book.title}
+                thumbnail={book.thumbnail}
+                className="mx-auto mb-1 w-[90%] [&>img]:!shadow-sm [&>img]:!shadow-gray1"
               />
             )}
-          </div>
-
-          {answerType === 'sentence' && (
-            <span
-              className={`w-fit break-words font-medium tracking-tight text-purple3`}
-            >
-              {answer}
-            </span>
-          )}
-
-          {answerType === 'book' && book && (
-            <BookThumbnail
-              title={book.title}
-              thumbnail={book.thumbnail}
-              className="mx-auto mb-1 w-[90%] [&>img]:!shadow-sm [&>img]:!shadow-gray1"
-            />
-          )}
+          </button>
         </li>
       ) : (
         <li className="col-span-2">
           <button
             type="button"
-            onClick={() =>
-              openRereadingLifeQuestionListModal(question, answerType)
-            }
+            onClick={() => toggleModal(question, answerType)}
             className="flex flex-col items-center justify-center rounded-xl border border-gray1 p-3"
           >
             <UserImgName
