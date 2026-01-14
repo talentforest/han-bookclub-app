@@ -4,6 +4,8 @@ import { authService } from '@/fbase';
 
 import { useLogIn } from '@/hooks';
 
+import MobileHeader from '@/layout/MobileHeader';
+
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
 
@@ -26,6 +28,8 @@ const LogIn = ({ isLoggedIn }: LoginProps) => {
 
   return (
     <>
+      {isLoggedIn && <MobileHeader title="뒤로가기" backBtn />}
+
       <main className="m-auto flex h-screen flex-col items-center justify-center !p-0 px-4">
         <header className="flex w-full max-w-[200px] flex-col items-center max-sm:w-[90%]">
           <img

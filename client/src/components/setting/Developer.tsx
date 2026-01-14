@@ -121,7 +121,7 @@ export default function Developer() {
                 <li key={userFcm.docId}>
                   <SquareBtn
                     color="blue"
-                    name="에게 알림"
+                    name={` (토큰:${userFcm.tokens.length}개)`}
                     handleClick={async () => {
                       const confirm =
                         window?.confirm('정말로 알림을 보내시겠습니까?');

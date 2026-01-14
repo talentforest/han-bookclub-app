@@ -234,7 +234,7 @@ export default function YearClosingDetail() {
                       <BookThumbnail
                         title={book.title}
                         thumbnail={book.thumbnail}
-                        className="w-[70px] shadow-book shadow-white"
+                        className="w-[70px] [&>img]:shadow-md [&>img]:shadow-white"
                       />
                     </SwiperSlide>
                   ))}

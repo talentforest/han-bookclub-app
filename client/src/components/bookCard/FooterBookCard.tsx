@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import { formatDate } from '@/utils';
 
 import { BaseBookData } from '@/types';
@@ -9,12 +11,14 @@ interface FooterBookCardProps {
   book: Partial<BaseBookData>;
   className?: string;
   yearMonthId?: string;
+  children?: ReactNode;
 }
 
 export default function FooterBookCard({
   book,
   className,
   yearMonthId,
+  children,
 }: FooterBookCardProps) {
   const { authors, publisher, thumbnail, title } = book;
 
@@ -45,6 +49,8 @@ export default function FooterBookCard({
           </div>
         )}
       </div>
+
+      {children}
     </div>
   );
 }

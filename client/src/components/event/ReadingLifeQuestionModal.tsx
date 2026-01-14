@@ -13,6 +13,7 @@ import { useEditDoc, useHandleErrorMsg, useSearchBook } from '@/hooks';
 import { EventContentUpdateRoute, ReadingLifeQuestion } from '@/types';
 
 import FooterBookCard from '@/components/bookCard/FooterBookCard';
+import ExternalLinkBtn from '@/components/common/ExternalLinkBtn';
 import Modal from '@/components/common/Modal';
 import Textarea from '@/components/common/Textarea';
 import SquareBtn from '@/components/common/button/SquareBtn';
@@ -123,9 +124,31 @@ export default function ReadingLifeQuestionModal({
 
   return (
     <Modal title="독서생활을 돌아보는 질문">
-      {userAnswer.userId === currUser.uid ? (
+      {userAnswer && (
+        <div className="flex flex-col gap-y-3">
+          <FooterBookCard book={userAnswer.book}>
+            <ExternalLinkBtn
+              url={userAnswer.book.url}
+              className="mt-auto text-purple2"
+            />
+          </FooterBookCard>
+
+          {userAnswer.answer && (
+            <div>
+              <Label
+                text="책을 고른 이유"
+                htmlFor="책을 고른 이유"
+                className="!ml-0 !pl-0 text-purple2"
+              />
+              <EditorContent text={userAnswer.answer} />
+            </div>
+          )}
+        </div>
+      )}
+
+      {!userAnswer && (
         <form
-          className="relative flex flex-col overflow-scroll scrollbar-hide"
+          className="flex flex-col overflow-scroll scrollbar-hide"
           onSubmit={e => {
             e.preventDefault();
             const hasError = handleErrorMsg(errorMsgObj);
@@ -134,14 +157,8 @@ export default function ReadingLifeQuestionModal({
             onEditSubmit(e);
           }}
         >
-          <Input
-            defaultValue={currQuestion.question}
-            readOnly
-            className="!h-14 bg-purple4 font-medium"
-            placeholder="독서 생활을 돌아보는 질문을 작성해주세요"
-          />
-          <div className="absolute left-3 top-[55px] h-1 w-[90%] border-t-2 border-dashed border-purple4" />
-          <div className="rounded-xl border border-gray1 bg-purple4 px-3 pb-5 pt-3">
+          <h3 className="mb-2 tracking-tight">{currQuestion.question}</h3>
+          <div className="relative overflow-scroll rounded-xl border border-gray1 bg-purple4 px-3 pb-5 pt-3 scrollbar-hide">
             {answerType === 'book' && (
               <>
                 {currMyAnswer?.book ? (
@@ -215,7 +232,6 @@ export default function ReadingLifeQuestionModal({
 
             <Textarea
               className="font-medium"
-              labelClassName="text-purple1"
               errorMsg={errorMsg.answer}
               label={
                 answerType === 'sentence'
@@ -254,19 +270,6 @@ export default function ReadingLifeQuestionModal({
             size="md"
           />
         </form>
-      ) : (
-        <div className="flex flex-col gap-y-3">
-          <FooterBookCard book={userAnswer.book} />
-
-          <div>
-            <Label
-              text="책을 고른 이유"
-              htmlFor="책을 고른 이유"
-              className="!ml-0 !pl-0 text-purple2"
-            />
-            <EditorContent text={userAnswer.answer} />
-          </div>
-        </div>
       )}
     </Modal>
   );

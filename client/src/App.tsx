@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+
 import './index.css';
-import Router from '@/Router';
 import { dbService, getDeviceToken } from '@/fbase';
-import { doc, updateDoc } from 'firebase/firestore';
+import { arrayUnion, doc, setDoc } from 'firebase/firestore';
 
 import { useRecoilValue } from 'recoil';
 
@@ -13,6 +14,9 @@ import { currAuthUserAtom } from '@/data/userAtom';
 import { FCM_NOTIFICATION } from '@/appConstants';
 
 import { formatDate } from '@/utils';
+
+import loginRoutes from '@/routes/loginRoutes';
+import mainRoutes from '@/routes/mainRoutes';
 
 import LoopLoading from '@/components/common/LoopLoading';
 
@@ -24,39 +28,45 @@ function App() {
     userFcmAtomFamily(currUser?.uid),
   );
 
+  const router = createBrowserRouter(
+    Boolean(currUser) ? mainRoutes : loginRoutes,
+    {
+      basename: '/han-bookclub-app',
+    },
+  );
+
   useEffect(() => {
-    if (isCurrFcmLoading === 'loaded' && currUserFcm?.notification === true) {
-      const compareToken = async () => {
-        if (Notification.permission === 'granted') {
-          const token = await getDeviceToken();
+    if (isCurrFcmLoading !== 'loaded') return;
+    if (currUserFcm?.notification !== true) return;
+    if (!currUser?.uid) return;
+    if (!('Notification' in window)) return;
 
-          const isExistTokenInDB = currUserFcm?.tokens?.find(
-            fcmToken => fcmToken === token,
-          );
+    const compareToken = async () => {
+      if (Notification.permission !== 'granted') return;
+      try {
+        const token = await getDeviceToken();
+        if (!token) return;
 
-          if (isExistTokenInDB) return;
+        const documentRef = doc(dbService, FCM_NOTIFICATION, currUser.uid);
 
-          if (!isExistTokenInDB && currUser?.uid) {
-            const document = doc(dbService, FCM_NOTIFICATION, currUser.uid);
+        await setDoc(
+          documentRef,
+          {
+            updatedAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
+            tokens: arrayUnion(token),
+          },
+          { merge: true },
+        );
+      } catch (error) {
+        console.error('compareToken failed', error);
+      }
+    };
 
-            const fcmData = {
-              updatedAt: formatDate(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
-              tokens:
-                currUserFcm?.tokens?.length !== 0
-                  ? [...currUserFcm?.tokens, token]
-                  : [token],
-            };
-            await updateDoc(document, fcmData);
-          }
-        }
-      };
-
-      compareToken();
-    }
+    compareToken();
   }, [isCurrFcmLoading, currUserFcm?.notification, currUser?.uid]);
 
   return isCurrAuthLoading === 'loaded' && isCurrFcmLoading === 'loaded' ? (
-    <Router isLoggedIn={Boolean(currUser)} />
+    <RouterProvider router={router} />
   ) : (
     <LoopLoading />
   );
