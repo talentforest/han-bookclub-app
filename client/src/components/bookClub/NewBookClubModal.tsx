@@ -24,7 +24,7 @@ import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
 
 interface MeetingInfoModalProps {
-  title: string;
+  title: '모임시간' | '모임장소';
   yearMonthId: string;
   currentValue?: Partial<MonthlyBookClub['meeting']>;
   registerBook?: MonthlyBookClub['book'];
@@ -89,11 +89,8 @@ export default function NewBookClubModal({
         };
 
         await onNewBookClubSubmit(newBookClub);
-        alert(`${monthNum}월 독서모임 정보가 등록되었습니다!`);
       } else {
-        const updatedMeeting = { meeting: currMeeting };
-        await onMeetingEdit(updatedMeeting);
-        alert(`${monthNum}월 독서모임 정보가 변경되었습니다!`);
+        await onMeetingEdit({ meeting: currMeeting }, title);
       }
 
       hideModal();
@@ -106,7 +103,12 @@ export default function NewBookClubModal({
   };
 
   return (
-    <Modal title={title} className="max-w-96 max-sm:mt-[30%]">
+    <Modal
+      title={`${monthNum}월 ${
+        !monthlyBookClub?.meeting ? `독서모임 등록하기` : `${title} 변경하기`
+      }`}
+      className="max-w-96 max-sm:mt-[30%]"
+    >
       <form onSubmit={onSubmit} className="flex flex-col gap-y-3">
         {'time' in currentValue && (
           <CustomDatePicker

@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
 import { fieldAndHostSelector } from '@/data/fieldAndHostAtom';
+import { currAuthUserAtom } from '@/data/userAtom';
 
 import MonthBookCard from '@/components/bookCard/MonthBookCard';
 import MonthEventCard from '@/components/bookCard/MonthEventCard';
@@ -19,6 +20,8 @@ export default function MonthBookClub({ yearMonthId }: MonthBookClubProps) {
   const { data: monthlyClub, status } = useRecoilValue(
     clubByMonthSelector(yearMonthId),
   );
+
+  const { data: currUser } = useRecoilValue(currAuthUserAtom);
 
   const fieldAndHosts = useRecoilValue(fieldAndHostSelector(yearMonthId));
 
@@ -75,7 +78,11 @@ export default function MonthBookClub({ yearMonthId }: MonthBookClubProps) {
                   <LabelWithValueCard
                     label={label}
                     value={value}
-                    editable={false}
+                    yearMonthId={yearMonthId}
+                    editable={
+                      label !== '발제자' &&
+                      fieldAndHosts?.hosts?.includes(currUser.uid)
+                    }
                   />
                 </li>
               ))}

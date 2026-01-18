@@ -38,6 +38,7 @@ export const useHandleSchedule = (
 
   const onMeetingEdit = async (
     editedValue: Pick<MonthlyBookClub, 'meeting'>,
+    editType: '모임시간' | '모임장소',
   ) => {
     const document = doc(dbService, collName, yearMonthId);
 
@@ -50,7 +51,7 @@ export const useHandleSchedule = (
 
     await updateDoc(document, editedValue);
 
-    alert(`${monthNum}월 독서모임 정보가 변경되었습니다!`);
+    alert(`${monthNum}월 ${editType} 정보가 변경되었습니다!`);
 
     await sendPushNotificationToAllUser({
       title: `☕️${monthNum}월 독서모임 변경 안내`,

@@ -73,13 +73,11 @@ export default function PenaltyInfo({ year }: PenaltyTableProps) {
           <LabelWithValueCard
             label="모임비총합"
             value={`￦${totalPenalty('totalFee').toLocaleString('ko')}원`}
-            editable={false}
             titleClassName="!text-green1 min-w-24"
           />
           <LabelWithValueCard
             label="추가 발제"
             value={`${totalPenalty('totalSubject')}개`}
-            editable={false}
             titleClassName="!text-green1 min-w-24 "
           />
         </div>

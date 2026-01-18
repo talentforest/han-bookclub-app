@@ -9,31 +9,43 @@ import { PiPiggyBankBold } from 'react-icons/pi';
 
 import { useHandleModal } from '@/hooks';
 
-import { formatDate, thisYearMonthId } from '@/utils';
+import { formatDate } from '@/utils';
 
 import NewBookClubModal from '@/components/bookClub/NewBookClubModal';
 import UserImgName from '@/components/common/user/UserImgName';
 
+type BasicField = '모임시간' | '모임장소';
+type ExtraField = '진행자' | '발제자' | '모임비총합' | '추가 발제';
+
 interface LabelWithValueCardProps {
-  label:
-    | '모임장소'
-    | '모임시간'
-    | '발제자'
-    | '진행자'
-    | '모임비총합'
-    | '추가 발제';
+  label: BasicField | ExtraField;
   value: string[] | string;
-  editable: boolean;
   titleClassName?: string;
+  editable?: boolean;
+  yearMonthId?: string;
 }
 
 export default function LabelWithValueCard({
   label,
   value,
-  editable,
+  yearMonthId,
   titleClassName,
+  editable,
 }: LabelWithValueCardProps) {
   const { showModal } = useHandleModal();
+
+  const onEditClick = () =>
+    showModal({
+      element: typeof value === 'string' && (
+        <NewBookClubModal
+          title={label as BasicField}
+          yearMonthId={yearMonthId}
+          currentValue={
+            label === '모임시간' ? { time: value } : { place: value }
+          }
+        />
+      ),
+    });
 
   const icon = {
     모임장소: <FiMapPin className="inline" />,
@@ -58,19 +70,6 @@ export default function LabelWithValueCard({
     return value;
   };
 
-  const onEditClick = () =>
-    showModal({
-      element: typeof value === 'string' && (
-        <NewBookClubModal
-          title={label}
-          currentValue={
-            label === '모임시간' ? { time: value } : { place: value }
-          }
-          yearMonthId={thisYearMonthId}
-        />
-      ),
-    });
-
   return (
     <>
       <div className="relative flex h-full items-center gap-x-2 overflow-hidden rounded-card bg-white px-4 py-3 shadow-card max-sm:px-4">
@@ -87,13 +86,13 @@ export default function LabelWithValueCard({
 
         {!value && <span className="text-gray2">정보가 아직 없어요</span>}
 
-        {editable && (
+        {editable && yearMonthId && (
           <button
             type="button"
             onClick={onEditClick}
             className="absolute bottom-0 right-0 p-3"
           >
-            <FiEdit3 stroke="#aaa" size={16} />
+            <FiEdit3 className="text-gray2" />
           </button>
         )}
       </div>
