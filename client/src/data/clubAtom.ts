@@ -95,27 +95,24 @@ export const clubByYearMonthIdListAtomFamily = atomFamily<
 
       const yearMonthIdList = idListString.split(',');
 
-      yearMonthIdList.forEach(yearMonthId => {
+      yearMonthIdList.forEach(async yearMonthId => {
         const year = yearMonthId.slice(0, 4);
         getDocument(
           `BookClub-${year}`,
           yearMonthId,
           (newParam: LoadableStatus<MonthlyBookClub>) => {
             setSelf(prev => {
-              // prev가 없거나 로딩이면, 일단 loaded로 전환하면서 시작
               const prevList =
                 isLoadableStatus(prev) && prev.status === 'loaded'
                   ? prev.data
                   : [];
 
-              // 문서가 없으면(=null) 그냥 기존 유지(또는 정책적으로 빈 배열 반환)
               if (newParam.status !== 'loaded' || !newParam.data) {
                 return { status: 'loaded', data: prevList };
               }
 
               const nextItem = { docId: yearMonthId, ...newParam.data };
 
-              // 중복 방지(같은 docId 다시 들어오면 교체)
               const nextList = prevList.some(x => x.docId === yearMonthId)
                 ? prevList.map(x => (x.docId === yearMonthId ? nextItem : x))
                 : [...prevList, nextItem];
