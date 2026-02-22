@@ -75,7 +75,8 @@ const VoteDetail = () => {
   return (
     currentVoteStatus === 'loaded' &&
     voteMemberListStatus === 'loaded' &&
-    currentVote?.createdAt && (
+    currentVote?.createdAt &&
+    currentVote.deadline && (
       <>
         <MobileHeader
           title={`${isExpiredVote ? '만료된 ' : ''}모임책 투표함`}
