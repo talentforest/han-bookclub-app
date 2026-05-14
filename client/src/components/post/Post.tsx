@@ -2,8 +2,8 @@ import { ReactNode } from 'react';
 
 import { Collection, PostTypeValue, SubCollection, UserPost } from '@/types';
 
-import EditorContent from '@/components/common/editor/EditorContent';
 import PostHeader from '@/components/post/PostHeader';
+import ReactQuill from 'react-quill';
 
 interface PostProps {
   type: PostTypeValue;
@@ -27,7 +27,14 @@ export default function Post({
       className={`flex min-h-[80px] w-full flex-col gap-2.5 ${className}`}
     >
       <PostHeader collName={collName} post={post} postType={type} />
-      <EditorContent text={text} />
+
+      <ReactQuill
+        value={text}
+        readOnly
+        theme="bubble"
+        modules={{ toolbar: false }}
+      />
+   
       {children}
     </article>
   );

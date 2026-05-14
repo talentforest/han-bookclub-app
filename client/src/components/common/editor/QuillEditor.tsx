@@ -31,7 +31,8 @@ const QuillEditor = ({ placeholder, text, setText }: QuillEditorProps) => {
       onChange={setText}
       modules={modules}
       placeholder={placeholder}
-      className="mb-2 w-full rounded-xl bg-white scrollbar-hide"
+      className="mb-2 editor  w-full border rounded-xl bg-white scrollbar-hide"
+      
     />
   );
 };

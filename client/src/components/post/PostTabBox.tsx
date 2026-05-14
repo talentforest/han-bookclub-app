@@ -99,8 +99,8 @@ export default function PostTabBox({ yearMonthId }: PostTabBoxProps) {
                   <div className="mx-auto flex w-full flex-col rounded-xl bg-white p-3">
                     <Post
                       type={currTab}
-                      post={post}
-                      className="relative [&>p]:line-clamp-[6]"
+                      post={{...post, text: `${post.text.slice(0, 450)}...`}}
+                      className="relative"
                     />
                     <span className="absolute right-4 top-3 text-sm text-gray1">
                       {index + 1} / {postList.length}
