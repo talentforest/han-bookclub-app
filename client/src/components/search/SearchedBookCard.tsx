@@ -48,7 +48,7 @@ const SearchedBookCard = ({ searchedBook }: SearchedBookCardProps) => {
             className="float-left mb-1 mr-3 w-[72px]"
           />
 
-          <div className="mb-4 h-full [&>div]:text-text">
+          <div className="mb-4 [&>div]:text-text">
             <h1 className="mb-1 text-lg font-medium leading-6">
               {title !== '' ? `${title}` : '이벤트'}
             </h1>

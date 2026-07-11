@@ -24,7 +24,7 @@ import SquareBtn from '@/components/common/button/SquareBtn';
 import Input from '@/components/common/input/Input';
 
 interface MeetingInfoModalProps {
-  title: '모임시간' | '모임장소';
+  title?: '모임시간' | '모임장소';
   yearMonthId: string;
   currentValue?: Partial<MonthlyBookClub['meeting']>;
   registerBook?: MonthlyBookClub['book'];

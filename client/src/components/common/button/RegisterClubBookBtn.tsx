@@ -34,7 +34,7 @@ const RegisterClubBookBtn = ({
   const { showModal } = useHandleModal();
 
   const defaultMeeting = {
-    place: '카페 느티',
+    place: '전태일기념관',
     time: formatDate(
       getThirdSunday(yearNum, monthNum, 11, 0),
       "yyyy-MM-dd'T'HH:mm:ss",
@@ -45,7 +45,6 @@ const RegisterClubBookBtn = ({
     showModal({
       element: (
         <NewBookClubModal
-          title={`${monthNum}월 독서모임 정보`}
           currentValue={defaultMeeting}
           yearMonthId={registerYearMonth}
           registerBook={searchedBook}
