@@ -6,7 +6,7 @@ import {
   getFunctions,
   httpsCallable,
 } from 'firebase/functions';
-import { getMessaging, getToken } from 'firebase/messaging';
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { getStorage } from 'firebase/storage';
 
 import { developmentMode } from '@/appConstants';
@@ -47,11 +47,32 @@ export const reauth = reauthenticateWithCredential;
 export const dbService = getFirestore();
 export const storageService = getStorage();
 const messaging = getMessaging(app);
-const functions = getFunctions();
 
-if (developmentMode) {
-  connectFunctionsEmulator(functions, 'localhost', 5001);
-}
+const functions = getFunctions(app, 'us-central1');
+
+// if (developmentMode) {
+//   connectFunctionsEmulator(functions, 'localhost', 5001);
+// }
+
+export const subscribeForegroundNotification = () => {
+  return onMessage(messaging, async payload => {
+    if (Notification.permission !== 'granted') {
+      return;
+    }
+
+    const registration = await navigator.serviceWorker.ready;
+
+    await registration.showNotification(
+      payload.notification?.title ?? payload.data?.title ?? '새 알림',
+      {
+        body: payload.notification?.body ?? payload.data?.body ?? '',
+        data: {
+          link: payload.data?.link,
+        },
+      },
+    );
+  });
+};
 
 export const getDeviceToken = async () => {
   return getToken(messaging, {

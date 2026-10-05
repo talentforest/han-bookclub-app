@@ -3,7 +3,11 @@ import { useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import './index.css';
-import { dbService, getDeviceToken } from '@/fbase';
+import {
+  dbService,
+  getDeviceToken,
+  subscribeForegroundNotification,
+} from '@/fbase';
 import { arrayUnion, doc, setDoc } from 'firebase/firestore';
 
 import { useRecoilValue } from 'recoil';
@@ -64,6 +68,12 @@ function App() {
 
     compareToken();
   }, [isCurrFcmLoading, currUserFcm?.notification, currUser?.uid]);
+
+  useEffect(() => {
+    const unsubscribe = subscribeForegroundNotification();
+
+    return unsubscribe;
+  }, []);
 
   return isCurrAuthLoading === 'loaded' && isCurrFcmLoading === 'loaded' ? (
     <RouterProvider router={router} />
