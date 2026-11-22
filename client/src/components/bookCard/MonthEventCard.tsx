@@ -39,7 +39,7 @@ export default function MonthEventCard({
       )}
 
       <h1 className="mb-1.5 line-clamp-2 w-full text-lg font-medium leading-6">
-        {monthClubInfo?.meeting?.eventMonth.title}
+        {monthClubInfo?.meeting?.eventMonth?.title}
       </h1>
 
       <span className="text-gray1">

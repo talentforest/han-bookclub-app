@@ -1,15 +1,24 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { LuChevronRight } from 'react-icons/lu';
+
 import { useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
 import { fieldAndHostSelector } from '@/data/fieldAndHostAtom';
 import { currAuthUserAtom } from '@/data/userAtom';
 
+import { useHandleModal } from '@/hooks';
+
+import { formatDate, getThirdSunday, thisYear } from '@/utils';
+
 import MonthBookCard from '@/components/bookCard/MonthBookCard';
 import MonthEventCard from '@/components/bookCard/MonthEventCard';
+import EventMeetingModal from '@/components/bookClub/EventMeetingModal';
+import NewBookClubModal from '@/components/bookClub/NewBookClubModal';
 import LabelWithValueCard from '@/components/common/LabelWithValueCard';
 import Skeleton from '@/components/common/Skeleton';
+import SquareBtn from '@/components/common/button/SquareBtn';
 import EmptyCard from '@/components/common/container/EmptyCard';
 
 interface MonthBookClubProps {
@@ -49,6 +58,19 @@ export default function MonthBookClub({ yearMonthId }: MonthBookClubProps) {
         : fieldAndHosts?.hosts,
     },
   ];
+
+  const { showModal } = useHandleModal();
+
+  const onBtnClick = async () => {
+    showModal({
+      element: (
+        <EventMeetingModal
+          title={`${thisYear}년 연말결산 모임`}
+          yearMonthId={yearMonthId}
+        />
+      ),
+    });
+  };
 
   return (
     <>
@@ -97,7 +119,21 @@ export default function MonthBookClub({ yearMonthId }: MonthBookClubProps) {
                 state: { registerYearMonth: yearMonthId },
               })
             }
-          />
+          >
+            {yearMonthId.slice(-2) === '12' ? (
+              <button
+                type="button"
+                onClick={onBtnClick}
+                className={`rounded-lg border disabled:bg-gray4 disabled:text-gray2 max-sm:px-4`}
+              >
+                <span className="text-sm font-medium tracking-tight">
+                  연말 이벤트 등록하기
+                </span>
+              </button>
+            ) : (
+              <></>
+            )}
+          </EmptyCard>
         ))}
     </>
   );

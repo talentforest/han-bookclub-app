@@ -59,13 +59,13 @@ export default function EventMeetingModal({
   const month = +yearMonthId.slice(-2);
 
   const initialEventMeeting: MonthlyBookClub['meeting'] = {
-    place: '카페 느티',
+    place: '',
     time: formatDate(
-      getThirdSunday(year, month, 11, 0),
+      getThirdSunday(year, month, 12, 0),
       "yyyy-MM-dd'T'HH:mm:ss",
     ),
     eventMonth: {
-      title: '',
+      title,
       contents: [
         { id: v4(), title: `${year}년 재독 챌린지 결과` },
         { id: v4(), title: `${year}년 가장 멋진 발제문은?` },
@@ -100,12 +100,6 @@ export default function EventMeetingModal({
       {
         condition: currStep === 1 && place === '',
         error: '장소를 작성해주세요.',
-      },
-    ],
-    eventTitle: [
-      {
-        condition: currStep === 1 && eventMonth.title === '',
-        error: '이벤트 제목을 작성해주세요.',
       },
     ],
     hosts: [
@@ -150,7 +144,7 @@ export default function EventMeetingModal({
 
     await setDocument(collName, yearMonthId, eventMonthlyBookClub);
 
-    alert(`${monthNum}월 독서모임 정보가 등록되었습니다!`);
+    alert(`${monthNum}월 모임정보가 등록되었습니다!`);
 
     await sendPushNotificationToAllUser({
       title: `☕️${currMeeting.eventMonth.title} 등록 안내`,
@@ -209,21 +203,6 @@ export default function EventMeetingModal({
       >
         {currStep === 1 && (
           <>
-            <Input
-              label="이벤트 제목"
-              placeholder="이벤트달의 제목을 작성해주세요."
-              value={eventMonth.title}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                onMeetingChange({
-                  eventMonth: {
-                    ...eventMonth,
-                    title: event.target.value,
-                  },
-                });
-              }}
-              errorMsg={errorMsg?.eventTitle}
-            />
-
             <CustomDatePicker
               id="모임시간"
               label="모임시간"
