@@ -2,14 +2,18 @@ import { useNavigate } from 'react-router-dom';
 
 import { developmentMode } from '@/appConstants';
 
+import { useHandleModal } from '@/hooks';
+
 import { nextMonth, nextYearMonthId, thisYear, thisYearMonthId } from '@/utils';
 
 import Footer from '@/layout/Footer';
 import MobileHeader from '@/layout/MobileHeader';
 
+import EventMeetingModal from '@/components/bookClub/EventMeetingModal';
 import MonthBookClub from '@/components/bookClub/MonthBookClub';
 import VoteSlider from '@/components/bookVote/VoteSlider';
 import ChevronRightLinkBtn from '@/components/common/button/ChevronRightLinkBtn';
+import EditBtn from '@/components/common/button/EditBtn';
 import SquareBtn from '@/components/common/button/SquareBtn';
 import Section from '@/components/common/container/Section';
 import RecommendedBookSwiperContainer from '@/components/post/recommendedBooks/RecommendedBookSwiperContainer';
@@ -49,6 +53,19 @@ const Home = () => {
     },
   ];
 
+  const { showModal } = useHandleModal();
+
+  const onEditClick = async () => {
+    showModal({
+      element: (
+        <EventMeetingModal
+          title={`${thisYear}년 연말모임`}
+          yearMonthId={nextYearMonthId}
+        />
+      ),
+    });
+  };
+
   return (
     <>
       <MobileHeader title="독서모임 한페이지" />
@@ -58,7 +75,12 @@ const Home = () => {
           <MonthBookClub yearMonthId={thisYearMonthId} />
         </Section>
 
-        <Section title="다음달 모임책">
+        <Section
+          title="다음달 모임책"
+          titleBtn={
+            +nextMonth === 12 ? <EditBtn onClick={onEditClick} /> : <></>
+          }
+        >
           <MonthBookClub yearMonthId={nextYearMonthId} />
           {+nextMonth === 12 && (
             <ChevronRightLinkBtn

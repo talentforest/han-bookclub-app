@@ -75,9 +75,11 @@ export default function EventMeetingModal({
     },
   };
 
-  const bookClubSchedule = monthlyBookClub
-    ? { ...monthlyBookClub.meeting, ...initialEventMeeting }
-    : (initialEventMeeting as MonthlyBookClub['meeting']);
+  const bookClubSchedule = monthlyBookClub.meeting
+    ? monthlyBookClub.meeting
+    : initialEventMeeting;
+
+  console.log(bookClubSchedule);
 
   const { currMeeting, onMeetingChange, savedPlaceList } = useHandleSchedule(
     bookClubSchedule,
@@ -196,7 +198,10 @@ export default function EventMeetingModal({
   };
 
   return (
-    <Modal title={title} className="max-w-96">
+    <Modal
+      title={`${title} 정보 ${monthlyBookClub ? '변경' : '등록'}`}
+      className="max-w-96"
+    >
       <form
         onSubmit={onSubmit}
         className="flex flex-col gap-y-3 overflow-y-scroll scrollbar-hide"
@@ -248,7 +253,7 @@ export default function EventMeetingModal({
           <>
             <SelectHosts
               label="이벤트 진행자"
-              selectedHosts={initialEventMeeting.eventMonth.hosts}
+              selectedHosts={currMeeting.eventMonth.hosts}
               onChange={value => {
                 const hosts = value.map(({ value }) => value);
                 onMeetingChange({ eventMonth: { ...eventMonth, hosts } });
@@ -285,7 +290,7 @@ export default function EventMeetingModal({
                         }}
                         errorMsg={title === '' && errorMsg.contents}
                         tailIconChildren={
-                          <div className="absolute right-3 top-[15px] flex items-center gap-2">
+                          <div className="absolute right-3 top-[15px] flex items-center gap-4">
                             {!isEditingInput(id) ? (
                               <FiEdit3
                                 onClick={() => {

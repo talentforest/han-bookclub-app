@@ -1,7 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { LuChevronRight } from 'react-icons/lu';
-
 import { useRecoilValue } from 'recoil';
 
 import { clubByMonthSelector } from '@/data/clubAtom';
@@ -10,15 +8,13 @@ import { currAuthUserAtom } from '@/data/userAtom';
 
 import { useHandleModal } from '@/hooks';
 
-import { formatDate, getThirdSunday, thisYear } from '@/utils';
+import { thisYear } from '@/utils';
 
 import MonthBookCard from '@/components/bookCard/MonthBookCard';
 import MonthEventCard from '@/components/bookCard/MonthEventCard';
 import EventMeetingModal from '@/components/bookClub/EventMeetingModal';
-import NewBookClubModal from '@/components/bookClub/NewBookClubModal';
 import LabelWithValueCard from '@/components/common/LabelWithValueCard';
 import Skeleton from '@/components/common/Skeleton';
-import SquareBtn from '@/components/common/button/SquareBtn';
 import EmptyCard from '@/components/common/container/EmptyCard';
 
 interface MonthBookClubProps {
